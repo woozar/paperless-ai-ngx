@@ -1,0 +1,90 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Application Settings
+model Settings {
+  id              String   @id @default("default")
+  paperlessUrl    String?
+  paperlessToken  String?
+  aiProvider      String?  // openai | google | anthropic
+  aiApiKey        String?
+  aiModel         String?
+  scanInterval    String   @default("*/30 * * * *") // cron expression
+  autoProcess     Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+// Track processed documents
+model ProcessedDocument {
+  id              String   @id @default(cuid())
+  paperlessId     Int      @unique
+  title           String
+  processedAt     DateTime @default(now())
+  aiProvider      String
+  tokensUsed      Int      @default(0)
+
+  // Store what was changed
+  changes         Json?
+
+  // Original values before processing
+  originalTitle         String?
+  originalCorrespondent String?
+  originalDocumentType  String?
+  originalTags          String[] @default([])
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([paperlessId])
+  @@index([processedAt])
+}
+
+// Processing queue for scheduled tasks
+model ProcessingQueue {
+  id              String   @id @default(cuid())
+  paperlessId     Int      @unique
+  status          String   @default("pending") // pending | processing | completed | failed
+  priority        Int      @default(0)
+  attempts        Int      @default(0)
+  lastError       String?
+  scheduledFor    DateTime @default(now())
+  startedAt       DateTime?
+  completedAt     DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([status, scheduledFor])
+  @@index([paperlessId])
+}
+
+// AI Usage metrics for cost tracking
+model AiUsageMetric {
+  id              String   @id @default(cuid())
+  provider        String
+  model           String
+  promptTokens    Int
+  completionTokens Int
+  totalTokens     Int
+  estimatedCost   Float?
+  documentId      Int?
+  createdAt       DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([provider])
+}
+
+// User sessions (simple auth)
+model User {
+  id              String   @id @default(cuid())
+  username        String   @unique
+  passwordHash    String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}

@@ -1,0 +1,75 @@
+{
+  "common": {
+    "appName": "Paperless AI",
+    "loading": "Laden...",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "search": "Suchen",
+    "settings": "Einstellungen",
+    "dashboard": "Dashboard",
+    "documents": "Dokumente"
+  },
+  "home": {
+    "title": "Willkommen bei Paperless AI",
+    "description": "KI-gestützte Dokumentenverarbeitung für deine Paperless-ngx Instanz",
+    "autoProcessing": {
+      "title": "Automatische Verarbeitung",
+      "description": "Analysiere und tagge deine Dokumente automatisch mit KI",
+      "content": "Konfiguriere automatische Dokumentenverarbeitung mit anpassbaren Regeln und KI-Anbietern."
+    },
+    "documentQueue": {
+      "title": "Dokument-Warteschlange",
+      "description": "{count, plural, =0 {Keine Dokumente ausstehend} one {1 Dokument ausstehend} other {# Dokumente ausstehend}}",
+      "content": "Sieh und verwalte Dokumente, die auf Verarbeitung warten."
+    },
+    "configuration": {
+      "title": "Konfiguration",
+      "setupRequired": "Einrichtung erforderlich",
+      "configured": "Konfiguriert",
+      "completeSetup": "Einrichtung abschließen"
+    }
+  },
+  "setup": {
+    "title": "Einrichtung",
+    "description": "Konfiguriere deine Paperless AI Instanz",
+    "paperless": {
+      "title": "Paperless-ngx Verbindung",
+      "url": "Paperless URL",
+      "urlPlaceholder": "https://paperless.example.com",
+      "token": "API Token",
+      "tokenPlaceholder": "Dein Paperless API Token",
+      "testConnection": "Verbindung testen",
+      "connectionSuccess": "Verbindung erfolgreich!",
+      "connectionError": "Verbindung fehlgeschlagen. Bitte überprüfe deine Einstellungen."
+    },
+    "ai": {
+      "title": "KI-Anbieter",
+      "provider": "Anbieter",
+      "apiKey": "API-Schlüssel",
+      "model": "Modell",
+      "selectProvider": "Wähle einen Anbieter"
+    },
+    "processing": {
+      "title": "Verarbeitungseinstellungen",
+      "autoProcess": "Automatische Verarbeitung aktivieren",
+      "scanInterval": "Scan-Intervall (Cron-Ausdruck)",
+      "scanIntervalHelp": "Wie oft nach neuen Dokumenten gesucht werden soll"
+    }
+  },
+  "documents": {
+    "title": "Dokumente",
+    "noDocuments": "Keine Dokumente gefunden",
+    "processing": "Verarbeitung...",
+    "processed": "Verarbeitet",
+    "pending": "Ausstehend",
+    "failed": "Fehlgeschlagen"
+  },
+  "errors": {
+    "generic": "Ein Fehler ist aufgetreten",
+    "notFound": "Nicht gefunden",
+    "unauthorized": "Nicht autorisiert",
+    "connectionFailed": "Verbindung fehlgeschlagen"
+  }
+}

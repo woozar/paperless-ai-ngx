@@ -1,0 +1,75 @@
+{
+  "common": {
+    "appName": "Paperless AI",
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "search": "Search",
+    "settings": "Settings",
+    "dashboard": "Dashboard",
+    "documents": "Documents"
+  },
+  "home": {
+    "title": "Welcome to Paperless AI",
+    "description": "AI-powered document processing for your Paperless-ngx instance",
+    "autoProcessing": {
+      "title": "Auto Processing",
+      "description": "Automatically analyze and tag your documents using AI",
+      "content": "Configure automatic document processing with customizable rules and AI providers."
+    },
+    "documentQueue": {
+      "title": "Document Queue",
+      "description": "{count, plural, =0 {No documents pending} one {1 document pending} other {# documents pending}}",
+      "content": "View and manage documents waiting to be processed."
+    },
+    "configuration": {
+      "title": "Configuration",
+      "setupRequired": "Setup required",
+      "configured": "Configured",
+      "completeSetup": "Complete Setup"
+    }
+  },
+  "setup": {
+    "title": "Setup",
+    "description": "Configure your Paperless AI instance",
+    "paperless": {
+      "title": "Paperless-ngx Connection",
+      "url": "Paperless URL",
+      "urlPlaceholder": "https://paperless.example.com",
+      "token": "API Token",
+      "tokenPlaceholder": "Your Paperless API token",
+      "testConnection": "Test Connection",
+      "connectionSuccess": "Connection successful!",
+      "connectionError": "Connection failed. Please check your settings."
+    },
+    "ai": {
+      "title": "AI Provider",
+      "provider": "Provider",
+      "apiKey": "API Key",
+      "model": "Model",
+      "selectProvider": "Select a provider"
+    },
+    "processing": {
+      "title": "Processing Settings",
+      "autoProcess": "Enable automatic processing",
+      "scanInterval": "Scan interval (cron expression)",
+      "scanIntervalHelp": "How often to check for new documents"
+    }
+  },
+  "documents": {
+    "title": "Documents",
+    "noDocuments": "No documents found",
+    "processing": "Processing...",
+    "processed": "Processed",
+    "pending": "Pending",
+    "failed": "Failed"
+  },
+  "errors": {
+    "generic": "An error occurred",
+    "notFound": "Not found",
+    "unauthorized": "Unauthorized",
+    "connectionFailed": "Connection failed"
+  }
+}
