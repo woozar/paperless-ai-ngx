@@ -55,8 +55,10 @@ export class PaperlessClient {
     if (params?.page_size) searchParams.set('page_size', String(params.page_size));
     if (params?.search) searchParams.set('search', params.search);
     if (params?.tags__id__in) searchParams.set('tags__id__in', params.tags__id__in.join(','));
-    if (params?.correspondent__id) searchParams.set('correspondent__id', String(params.correspondent__id));
-    if (params?.document_type__id) searchParams.set('document_type__id', String(params.document_type__id));
+    if (params?.correspondent__id)
+      searchParams.set('correspondent__id', String(params.correspondent__id));
+    if (params?.document_type__id)
+      searchParams.set('document_type__id', String(params.document_type__id));
 
     const query = searchParams.toString();
     return this.fetch<PaperlessPaginatedResponse<PaperlessDocument>>(
@@ -119,7 +121,9 @@ export class PaperlessClient {
 
   // Correspondents
   async getCorrespondents(): Promise<PaperlessPaginatedResponse<PaperlessCorrespondent>> {
-    return this.fetch<PaperlessPaginatedResponse<PaperlessCorrespondent>>('/correspondents/?page_size=9999');
+    return this.fetch<PaperlessPaginatedResponse<PaperlessCorrespondent>>(
+      '/correspondents/?page_size=9999'
+    );
   }
 
   async searchCorrespondents(query: string): Promise<PaperlessCorrespondent[]> {
@@ -141,7 +145,9 @@ export class PaperlessClient {
 
   // Document Types
   async getDocumentTypes(): Promise<PaperlessPaginatedResponse<PaperlessDocumentType>> {
-    return this.fetch<PaperlessPaginatedResponse<PaperlessDocumentType>>('/document_types/?page_size=9999');
+    return this.fetch<PaperlessPaginatedResponse<PaperlessDocumentType>>(
+      '/document_types/?page_size=9999'
+    );
   }
 
   async searchDocumentTypes(query: string): Promise<PaperlessDocumentType[]> {

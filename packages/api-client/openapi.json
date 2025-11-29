@@ -1,0 +1,658 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Paperless AI API",
+    "version": "1.0.0",
+    "description": "API for Paperless AI document processing"
+  },
+  "servers": [
+    {
+      "url": "/api",
+      "description": "API Server"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "LoginRequest": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "minLength": 1
+          },
+          "password": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": ["username", "password"]
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string"
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "username": {
+                "type": "string"
+              },
+              "role": {
+                "type": "string",
+                "enum": ["DEFAULT", "ADMIN"]
+              },
+              "mustChangePassword": {
+                "type": "boolean"
+              }
+            },
+            "required": ["id", "username", "role", "mustChangePassword"]
+          }
+        },
+        "required": ["token", "user"]
+      },
+      "ChangePasswordRequest": {
+        "type": "object",
+        "properties": {
+          "currentPassword": {
+            "type": "string",
+            "minLength": 1
+          },
+          "newPassword": {
+            "type": "string",
+            "minLength": 8
+          }
+        },
+        "required": ["currentPassword", "newPassword"]
+      },
+      "CurrentUser": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": ["DEFAULT", "ADMIN"]
+          },
+          "mustChangePassword": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": ["id", "username", "role", "mustChangePassword", "createdAt"]
+      },
+      "UserRole": {
+        "type": "string",
+        "enum": ["DEFAULT", "ADMIN"]
+      },
+      "UserListItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "role": {
+            "$ref": "#/components/schemas/UserRole"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "mustChangePassword": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "username",
+          "role",
+          "isActive",
+          "mustChangePassword",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "UserListResponse": {
+        "type": "object",
+        "properties": {
+          "users": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserListItem"
+            }
+          },
+          "total": {
+            "type": "number"
+          }
+        },
+        "required": ["users", "total"]
+      },
+      "CreateUserRequest": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 50,
+            "pattern": "^[a-zA-Z0-9_-]+$"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 8
+          },
+          "role": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/UserRole"
+              },
+              {
+                "default": "DEFAULT"
+              }
+            ]
+          }
+        },
+        "required": ["username", "password"]
+      },
+      "UpdateUserRequest": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 50,
+            "pattern": "^[a-zA-Z0-9_-]+$"
+          },
+          "role": {
+            "$ref": "#/components/schemas/UserRole"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "resetPassword": {
+            "type": "string",
+            "minLength": 8
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "params": {
+            "type": "object",
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "string",
+                  "format": "date"
+                }
+              ]
+            }
+          }
+        },
+        "required": ["error", "message"]
+      },
+      "SuccessResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "enum": [true]
+          }
+        },
+        "required": ["success"]
+      }
+    },
+    "parameters": {}
+  },
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "summary": "Login with username and password",
+        "tags": ["Auth"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "summary": "Logout and invalidate session",
+        "tags": ["Auth"],
+        "responses": {
+          "200": {
+            "description": "Logout successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/change-password": {
+      "post": {
+        "summary": "Change current user password",
+        "tags": ["Auth"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePasswordRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Password changed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/me": {
+      "get": {
+        "summary": "Get current authenticated user",
+        "tags": ["Auth"],
+        "responses": {
+          "200": {
+            "description": "Current user info",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrentUser"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "summary": "List all users (Admin only)",
+        "tags": ["Users"],
+        "responses": {
+          "200": {
+            "description": "List of users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new user (Admin only)",
+        "tags": ["Users"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserListItem"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "summary": "Get user by ID (Admin only)",
+        "tags": ["Users"],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserListItem"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update user (Admin only)",
+        "tags": ["Users"],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserListItem"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete user (Admin only)",
+        "tags": ["Users"],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "User deleted"
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "webhooks": {}
+}

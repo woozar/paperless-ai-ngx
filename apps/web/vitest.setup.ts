@@ -1,4 +1,7 @@
-import '@testing-library/jest-dom/vitest';
+import * as matchers from '@testing-library/jest-dom/matchers';
+import { expect } from 'vitest';
+
+expect.extend(matchers);
 import { cleanup } from '@testing-library/react';
 import { afterEach, vi } from 'vitest';
 
@@ -6,13 +9,6 @@ import { afterEach, vi } from 'vitest';
 afterEach(() => {
   cleanup();
 });
-
-// Mock next-intl
-vi.mock('next-intl', () => ({
-  useTranslations: () => (key: string) => key,
-  useLocale: () => 'en',
-  NextIntlClientProvider: ({ children }: { children: React.ReactNode }) => children,
-}));
 
 // Mock next/navigation
 vi.mock('next/navigation', () => ({

@@ -13,9 +13,26 @@
     "check-types": {
       "dependsOn": ["^check-types"]
     },
+    "test": {
+      "dependsOn": ["^build"],
+      "outputs": ["coverage/**"]
+    },
+    "test:coverage": {
+      "dependsOn": ["^build"],
+      "outputs": ["coverage/**"]
+    },
     "dev": {
       "cache": false,
       "persistent": true
+    },
+    "db:generate": {
+      "cache": false
+    },
+    "db:migrate": {
+      "cache": false
+    },
+    "db:push": {
+      "cache": false
     }
   }
 }

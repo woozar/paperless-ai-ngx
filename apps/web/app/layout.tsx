@@ -3,6 +3,8 @@ import localFont from 'next/font/local';
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
 import { ThemeProvider } from '@/components/theme-provider';
+import { AuthProvider } from '@/components/auth-provider';
+import { ToastProvider } from '@/components/toast-provider';
 import './globals.css';
 
 const geistSans = localFont({
@@ -15,7 +17,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: 'Paperless AI',
+  title: 'Paperless AI ngx',
   description: 'AI-powered document processing for Paperless-ngx',
 };
 
@@ -37,7 +39,8 @@ export default async function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            {children}
+            <AuthProvider>{children}</AuthProvider>
+            <ToastProvider />
           </ThemeProvider>
         </NextIntlClientProvider>
       </body>

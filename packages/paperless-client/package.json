@@ -11,9 +11,7 @@
   },
   "scripts": {
     "lint": "eslint --max-warnings 0",
-    "check-types": "tsc --noEmit",
-    "test": "vitest run",
-    "test:watch": "vitest"
+    "check-types": "tsc --noEmit"
   },
   "dependencies": {
     "@repo/types": "workspace:*"
@@ -21,7 +19,6 @@
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
-    "typescript": "5.9.2",
-    "vitest": "^3.2.4"
+    "typescript": "5.9.2"
   }
 }

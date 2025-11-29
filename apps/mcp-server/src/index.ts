@@ -2,10 +2,7 @@
 
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
-import {
-  CallToolRequestSchema,
-  ListToolsRequestSchema,
-} from '@modelcontextprotocol/sdk/types.js';
+import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
 import { z } from 'zod';
 import { PaperlessClient } from '@repo/paperless-client';
 
@@ -18,9 +15,7 @@ let client: PaperlessClient | null = null;
 function getClient(): PaperlessClient {
   if (!client) {
     if (!PAPERLESS_URL || !PAPERLESS_TOKEN) {
-      throw new Error(
-        'PAPERLESS_URL and PAPERLESS_TOKEN environment variables are required'
-      );
+      throw new Error('PAPERLESS_URL and PAPERLESS_TOKEN environment variables are required');
     }
     client = new PaperlessClient({
       baseUrl: PAPERLESS_URL,
