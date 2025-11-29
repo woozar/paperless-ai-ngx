@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { render, screen, waitFor, act } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { AuthProvider, useAuth } from './auth-provider';
 
@@ -52,7 +52,7 @@ describe('AuthProvider', () => {
     vi.restoreAllMocks();
   });
 
-  it('provides initial unauthenticated state', async () => {
+  it('provides initial unauthenticated state and redirects to login', async () => {
     render(
       <AuthProvider>
         <TestConsumer />
@@ -65,10 +65,12 @@ describe('AuthProvider', () => {
 
     expect(screen.getByTestId('authenticated')).toHaveTextContent('no');
     expect(screen.getByTestId('username')).toHaveTextContent('none');
+    expect(mockPush).toHaveBeenCalledWith('/login');
   });
 
   it('login sets user and stores token', async () => {
     const user = userEvent.setup({ delay: null });
+    mockPathname.mockReturnValue('/login'); // On login page to avoid redirect
 
     render(
       <AuthProvider>
@@ -91,6 +93,7 @@ describe('AuthProvider', () => {
   it('logout clears user and redirects to login', async () => {
     const user = userEvent.setup({ delay: null });
     (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValue({ ok: true });
+    mockPathname.mockReturnValue('/login'); // Start on login page
 
     render(
       <AuthProvider>
@@ -105,6 +108,7 @@ describe('AuthProvider', () => {
     await user.click(screen.getByText('Login'));
     expect(screen.getByTestId('authenticated')).toHaveTextContent('yes');
 
+    mockPathname.mockReturnValue('/'); // Now on a protected page
     await user.click(screen.getByText('Logout'));
 
     await waitFor(() => {
@@ -116,6 +120,7 @@ describe('AuthProvider', () => {
 
   it('updateUser updates user state', async () => {
     const user = userEvent.setup({ delay: null });
+    mockPathname.mockReturnValue('/login'); // On login page to avoid redirect
 
     render(
       <AuthProvider>
@@ -198,7 +203,7 @@ describe('AuthProvider', () => {
     });
   });
 
-  it('clears auth when API returns invalid token', async () => {
+  it('clears auth when API returns invalid token and redirects to login', async () => {
     localStorage.setItem('auth_token', 'expired-token');
     localStorage.setItem(
       'auth_user',
@@ -224,10 +229,11 @@ describe('AuthProvider', () => {
     // Initially shows stored user, then clears after refresh
     await waitFor(() => {
       expect(localStorage.getItem('auth_token')).toBeNull();
+      expect(mockPush).toHaveBeenCalledWith('/login');
     });
   });
 
-  it('handles fetch error during refresh gracefully', async () => {
+  it('handles fetch error during refresh gracefully and redirects to login', async () => {
     localStorage.setItem('auth_token', 'token');
     localStorage.setItem(
       'auth_user',
@@ -253,10 +259,11 @@ describe('AuthProvider', () => {
     // User should be cleared after fetch error
     await waitFor(() => {
       expect(screen.getByTestId('authenticated')).toHaveTextContent('no');
+      expect(mockPush).toHaveBeenCalledWith('/login');
     });
   });
 
-  it('handles invalid JSON in localStorage gracefully', async () => {
+  it('handles invalid JSON in localStorage gracefully and redirects to login', async () => {
     localStorage.setItem('auth_token', 'token');
     localStorage.setItem('auth_user', 'invalid-json');
 
@@ -270,13 +277,15 @@ describe('AuthProvider', () => {
       expect(screen.getByTestId('loading')).toHaveTextContent('ready');
     });
 
-    // Should clear invalid data
+    // Should clear invalid data and redirect
     expect(localStorage.getItem('auth_user')).toBeNull();
+    expect(mockPush).toHaveBeenCalledWith('/login');
   });
 
   it('handles logout fetch error gracefully', async () => {
     const user = userEvent.setup({ delay: null });
     (global.fetch as ReturnType<typeof vi.fn>).mockRejectedValue(new Error('Network error'));
+    mockPathname.mockReturnValue('/login'); // Start on login page
 
     render(
       <AuthProvider>
@@ -291,6 +300,7 @@ describe('AuthProvider', () => {
     await user.click(screen.getByText('Login'));
     expect(screen.getByTestId('authenticated')).toHaveTextContent('yes');
 
+    mockPathname.mockReturnValue('/'); // Now on a protected page
     await user.click(screen.getByText('Logout'));
 
     // Should still logout even if API call fails
@@ -365,6 +375,8 @@ describe('AuthProvider', () => {
   });
 
   it('updateUser does nothing when user is null', async () => {
+    mockPathname.mockReturnValue('/login'); // On login page to avoid redirect
+
     render(
       <AuthProvider>
         <TestConsumer />
