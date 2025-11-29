@@ -24,7 +24,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const AUTH_EXEMPT_PATHS = ['/login'];
+const AUTH_EXEMPT_PATHS = new Set(['/login']);
 const CHANGE_PASSWORD_PATH = '/change-password';
 
 function setCookie(name: string, value: string, days: number) {
@@ -134,12 +134,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     initAuth();
   }, [refreshUser]);
 
-  // Handle mustChangePassword redirect
+  // Handle authentication redirects
   useEffect(() => {
     if (isLoading) return;
 
-    const isExemptPath = AUTH_EXEMPT_PATHS.includes(pathname);
+    const isExemptPath = AUTH_EXEMPT_PATHS.has(pathname);
     const isChangePasswordPath = pathname === CHANGE_PASSWORD_PATH;
+
+    // If not authenticated and not on exempt path, redirect to login
+    if (!user && !isExemptPath) {
+      router.push('/login');
+      return;
+    }
 
     // If user must change password and is not on change-password page, redirect
     if (user?.mustChangePassword && !isChangePasswordPath && !isExemptPath) {
