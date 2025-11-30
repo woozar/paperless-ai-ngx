@@ -19,6 +19,7 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: 'Paperless AI ngx',
   description: 'AI-powered document processing for Paperless-ngx',
+  icons: { icon: '/logo.webp' },
 };
 
 export default async function RootLayout({
