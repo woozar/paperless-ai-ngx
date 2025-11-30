@@ -138,6 +138,14 @@ describe('CreateUserRequestSchema', () => {
     });
     expect(result.success).toBe(false);
   });
+
+  it('rejects username with only whitespace', () => {
+    const result = CreateUserRequestSchema.safeParse({
+      username: '        ',
+      password: 'password123',
+    });
+    expect(result.success).toBe(false);
+  });
 });
 
 describe('UpdateUserRequestSchema', () => {
@@ -195,5 +203,12 @@ describe('UpdateUserRequestSchema', () => {
       isActive: true,
     });
     expect(result.success).toBe(true);
+  });
+
+  it('rejects username with only whitespace in update', () => {
+    const result = UpdateUserRequestSchema.safeParse({
+      username: '        ',
+    });
+    expect(result.success).toBe(false);
   });
 });
