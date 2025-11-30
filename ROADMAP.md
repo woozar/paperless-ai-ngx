@@ -10,22 +10,6 @@
 - [x] Paperless-ngx API Client Package
 - [x] MCP Server (HTTP Transport)
 
-## Phase 2: Docker & Testing Setup
-
-- [ ] Docker Compose for Production (app + postgres + mcp-server)
-- [ ] Dockerfile for Web App
-- [ ] Dockerfile for MCP Server
-- [x] Configure Vitest Unit/Integration Tests
-- [ ] Playwright E2E Tests Setup
-  - [ ] Implement E2E tests based on USER-STORIES.md
-  - [ ] Test fixtures for user data (testuser, blockeduser, admin)
-  - [ ] Each User Story = 1 E2E Test
-- [ ] docker-compose.test.yml for E2E Tests
-- [ ] GitHub Actions CI/CD Pipeline
-- [x] SonarQube Integration for static code analysis
-  - [x] Shell script for analysis (`scripts/sonar-analysis.sh`)
-  - [x] Uses ENV: `SONAR_SERVER`, `SONAR_KEY`, `SONAR_TOKEN`
-
 ## Phase 3: Authentication & User Management
 
 ### Backend Infrastructure
@@ -74,21 +58,8 @@
 - [x] Centralize API error responses in `ApiResponses` with translation keys
 - [x] Update `ErrorResponseSchema` to use `params` for translation parameters
 - [x] Migrate all API routes to use centralized error responses
-- [ ] Define translation keys in i18n files (de/en):
-  - [ ] `error.unauthorized`
-  - [ ] `error.invalidCredentials`
-  - [ ] `error.accountSuspended`
-  - [ ] `error.forbidden`
-  - [ ] `error.userNotFound`
-  - [ ] `error.invalidPasswordFormat`
-  - [ ] `error.invalidUsernameOrPassword`
-  - [ ] `error.currentPasswordIncorrect`
-  - [ ] `error.usernameExists` (with `{username}` parameter support)
-  - [ ] `error.serverError`
-  - [ ] `error.applicationNotConfigured`
-  - [ ] `error.lastAdmin`
-  - [ ] `error.cannotDeleteSelf`
-  - [ ] `error.invalidRequest`
+- [x] Define all error translation keys in i18n files (de/en)
+- [x] Implement `useErrorDisplay` hook for consistent toast notifications
 
 ### Toast Notification System
 
@@ -98,14 +69,6 @@
 - [x] Toast types: Success (auto-dismiss), Error (longer duration), Info, Warning
 - [x] Integration with all CRUD operations (Create, Update, Delete users)
 - [x] Proper positioning and stacking of multiple toasts
-
-### Setup Wizard Page (`/setup`)
-
-- [ ] Enter Paperless-ngx URL + Token
-- [ ] Connection test
-- [ ] Select AI Provider (OpenAI, Google, Anthropic)
-- [ ] Enter API Key
-- [ ] Select model
 
 ### Settings System
 
@@ -127,16 +90,79 @@
 
 ### Sharing & Permissions
 
-- [x] Owner + Sharing Model in Prisma Schema for: PaperlessInstance, AiAccess, AiBot
+- [x] Owner + Sharing Model in Prisma Schema for: PaperlessInstance, AiProvider, AiBot
 - [x] Permission Levels Enum: READ, WRITE, ADMIN
   - READ: Read only
   - WRITE: Read and edit
   - ADMIN: Read, edit, and reshare
-- [x] Join Tables: UserPaperlessInstanceAccess, UserAiAccessAccess, UserAiBotAccess
+- [x] Join Tables: UserPaperlessInstanceAccess, UserAiProviderAccess, UserAiBotAccess
 - [ ] UI: Sharing UI only visible when `security.sharing.mode = advanced`
 - [ ] UI: Explanation of permission levels in Share Modal (especially ADMIN/Resharing)
 
-## Phase 4: Dashboard & Document Processing
+## Phase 3a: Object Management UI
+
+### Infrastructure
+
+- [x] Encryption utilities for API tokens/keys (AES-256-GCM)
+- [x] Rename AiAccess to AiProvider in Prisma schema
+- [x] Database migration
+- [x] ENV variable documentation (ENCRYPTION_KEY)
+
+### PaperlessInstance Management
+
+- [ ] API Routes with encryption (GET, POST, PATCH, DELETE)
+- [ ] Admin page `/admin/paperless-instances`
+- [ ] Create/Edit/Delete Dialogs
+- [ ] Warning on Delete with document count
+- [ ] 100% Test Coverage
+- [ ] i18n (de/en)
+
+### AiProvider Management (renamed from AiAccess)
+
+- [ ] API Routes with encryption
+- [ ] Admin page `/admin/ai-providers`
+- [ ] Provider dropdown (openai, anthropic, ollama, google, custom)
+- [ ] Conditional baseUrl field
+- [ ] Prevent delete when referenced by AiBots
+- [ ] 100% Test Coverage
+- [ ] i18n (de/en)
+
+### AiBot Management
+
+- [ ] API Routes
+- [ ] Admin page `/admin/ai-bots`
+- [ ] AiProvider dropdown (only user's own providers)
+- [ ] "No providers available" handling
+- [ ] 100% Test Coverage
+- [ ] i18n (de/en)
+
+## Phase 3b: Setup Wizard
+
+- [ ] Setup page (`/setup`)
+- [ ] Paperless-ngx URL + Token entry
+- [ ] Connection test
+- [ ] AI Provider selection (OpenAI, Google, Anthropic)
+- [ ] API Key entry
+- [ ] Model selection
+- [ ] Step-by-step creation of PaperlessInstance, AiProvider, AiBot
+
+## Phase 4: Docker & Testing Setup
+
+- [ ] Docker Compose for Production (app + postgres + mcp-server)
+- [ ] Dockerfile for Web App
+- [ ] Dockerfile for MCP Server
+- [x] Configure Vitest Unit/Integration Tests
+- [ ] Playwright E2E Tests Setup
+  - [ ] Implement E2E tests based on USER-STORIES.md
+  - [ ] Test fixtures for user data (testuser, blockeduser, admin)
+  - [ ] Each User Story = 1 E2E Test
+- [ ] docker-compose.test.yml for E2E Tests
+- [ ] GitHub Actions CI/CD Pipeline
+- [x] SonarQube Integration for static code analysis
+  - [x] Shell script for analysis (`scripts/sonar-analysis.sh`)
+  - [x] Uses ENV: `SONAR_SERVER`, `SONAR_KEY`, `SONAR_TOKEN`
+
+## Phase 5: Dashboard & Document Processing
 
 - [ ] Dashboard Page (`/dashboard`)
   - [ ] Processing statistics
@@ -160,7 +186,7 @@
   - [ ] AI analysis result
   - [ ] Confirm/reject changes
 
-## Phase 5: AI Document Analysis
+## Phase 6: AI Document Analysis
 
 - [ ] AI Service Integration (Vercel AI SDK)
   - [ ] OpenAI Provider
@@ -175,7 +201,7 @@
 - [ ] Paperless-ngx Update API
 - [ ] Token Usage Tracking
 
-## Phase 6: Scheduled Processing
+## Phase 7: Scheduled Processing
 
 - [ ] node-cron Integration
 - [ ] Configurable scan intervals
@@ -183,7 +209,7 @@
 - [ ] Processing Queue Management
 - [ ] Retry logic on errors
 
-## Phase 7: RAG / Chat Feature
+## Phase 8: RAG / Chat Feature
 
 - [ ] Document Indexing Service
 - [ ] Vector Store Integration (optional)
@@ -191,7 +217,7 @@
 - [ ] Semantic Document Search
 - [ ] Context-aware Q&A
 
-## Phase 8: Advanced Features
+## Phase 9: Advanced Features
 
 - [ ] Configure custom prompts
 - [ ] Rules Engine (which documents to process)
@@ -200,7 +226,7 @@
 - [ ] Multi-User Support
 - [ ] API for external integrations
 
-## Phase 9: Polish & Release
+## Phase 10: Polish & Release
 
 - [ ] Error Handling & Logging
 - [ ] Performance Optimization
@@ -228,7 +254,8 @@
 
 ## Next Steps (Priority)
 
-1. **Docker Compose Setup** - So the app is production-ready deployable
-2. **Setup Wizard** - So users can configure Paperless + AI
-3. **Dashboard with real functionality** - Display documents
-4. **AI Analysis** - Implement core feature
+1. **Object Management UI** (Phase 3a) - Implement management pages for PaperlessInstance, AiProvider, AiBot
+2. **Setup Wizard** (Phase 3b) - Step-by-step wizard to create instances, providers, and bots
+3. **Docker Compose Setup** (Phase 4) - Make the app production-ready deployable
+4. **Dashboard** (Phase 5) - Display documents and processing statistics
+5. **AI Analysis** (Phase 6) - Implement core document analysis feature

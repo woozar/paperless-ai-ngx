@@ -28,10 +28,10 @@ export type User = $Result.DefaultSelection<Prisma.$UserPayload>;
 export type UserPaperlessInstanceAccess =
   $Result.DefaultSelection<Prisma.$UserPaperlessInstanceAccessPayload>;
 /**
- * Model UserAiAccessAccess
+ * Model UserAiProviderAccess
  *
  */
-export type UserAiAccessAccess = $Result.DefaultSelection<Prisma.$UserAiAccessAccessPayload>;
+export type UserAiProviderAccess = $Result.DefaultSelection<Prisma.$UserAiProviderAccessPayload>;
 /**
  * Model UserAiBotAccess
  *
@@ -43,10 +43,10 @@ export type UserAiBotAccess = $Result.DefaultSelection<Prisma.$UserAiBotAccessPa
  */
 export type PaperlessInstance = $Result.DefaultSelection<Prisma.$PaperlessInstancePayload>;
 /**
- * Model AiAccess
+ * Model AiProvider
  *
  */
-export type AiAccess = $Result.DefaultSelection<Prisma.$AiAccessPayload>;
+export type AiProvider = $Result.DefaultSelection<Prisma.$AiProviderPayload>;
 /**
  * Model AiBot
  *
@@ -277,14 +277,14 @@ export class PrismaClient<
   >;
 
   /**
-   * `prisma.userAiAccessAccess`: Exposes CRUD operations for the **UserAiAccessAccess** model.
+   * `prisma.userAiProviderAccess`: Exposes CRUD operations for the **UserAiProviderAccess** model.
    * Example usage:
    * ```ts
-   * // Fetch zero or more UserAiAccessAccesses
-   * const userAiAccessAccesses = await prisma.userAiAccessAccess.findMany()
+   * // Fetch zero or more UserAiProviderAccesses
+   * const userAiProviderAccesses = await prisma.userAiProviderAccess.findMany()
    * ```
    */
-  get userAiAccessAccess(): Prisma.UserAiAccessAccessDelegate<ExtArgs, ClientOptions>;
+  get userAiProviderAccess(): Prisma.UserAiProviderAccessDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.userAiBotAccess`: Exposes CRUD operations for the **UserAiBotAccess** model.
@@ -307,14 +307,14 @@ export class PrismaClient<
   get paperlessInstance(): Prisma.PaperlessInstanceDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.aiAccess`: Exposes CRUD operations for the **AiAccess** model.
+   * `prisma.aiProvider`: Exposes CRUD operations for the **AiProvider** model.
    * Example usage:
    * ```ts
-   * // Fetch zero or more AiAccesses
-   * const aiAccesses = await prisma.aiAccess.findMany()
+   * // Fetch zero or more AiProviders
+   * const aiProviders = await prisma.aiProvider.findMany()
    * ```
    */
-  get aiAccess(): Prisma.AiAccessDelegate<ExtArgs, ClientOptions>;
+  get aiProvider(): Prisma.AiProviderDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.aiBot`: Exposes CRUD operations for the **AiBot** model.
@@ -786,10 +786,10 @@ export namespace Prisma {
     Setting: 'Setting';
     User: 'User';
     UserPaperlessInstanceAccess: 'UserPaperlessInstanceAccess';
-    UserAiAccessAccess: 'UserAiAccessAccess';
+    UserAiProviderAccess: 'UserAiProviderAccess';
     UserAiBotAccess: 'UserAiBotAccess';
     PaperlessInstance: 'PaperlessInstance';
-    AiAccess: 'AiAccess';
+    AiProvider: 'AiProvider';
     AiBot: 'AiBot';
     ProcessedDocument: 'ProcessedDocument';
     ProcessingQueue: 'ProcessingQueue';
@@ -818,10 +818,10 @@ export namespace Prisma {
         | 'setting'
         | 'user'
         | 'userPaperlessInstanceAccess'
-        | 'userAiAccessAccess'
+        | 'userAiProviderAccess'
         | 'userAiBotAccess'
         | 'paperlessInstance'
-        | 'aiAccess'
+        | 'aiProvider'
         | 'aiBot'
         | 'processedDocument'
         | 'processingQueue'
@@ -1051,77 +1051,77 @@ export namespace Prisma {
           };
         };
       };
-      UserAiAccessAccess: {
-        payload: Prisma.$UserAiAccessAccessPayload<ExtArgs>;
-        fields: Prisma.UserAiAccessAccessFieldRefs;
+      UserAiProviderAccess: {
+        payload: Prisma.$UserAiProviderAccessPayload<ExtArgs>;
+        fields: Prisma.UserAiProviderAccessFieldRefs;
         operations: {
           findUnique: {
-            args: Prisma.UserAiAccessAccessFindUniqueArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$UserAiAccessAccessPayload> | null;
+            args: Prisma.UserAiProviderAccessFindUniqueArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$UserAiProviderAccessPayload> | null;
           };
           findUniqueOrThrow: {
-            args: Prisma.UserAiAccessAccessFindUniqueOrThrowArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$UserAiAccessAccessPayload>;
+            args: Prisma.UserAiProviderAccessFindUniqueOrThrowArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$UserAiProviderAccessPayload>;
           };
           findFirst: {
-            args: Prisma.UserAiAccessAccessFindFirstArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$UserAiAccessAccessPayload> | null;
+            args: Prisma.UserAiProviderAccessFindFirstArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$UserAiProviderAccessPayload> | null;
           };
           findFirstOrThrow: {
-            args: Prisma.UserAiAccessAccessFindFirstOrThrowArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$UserAiAccessAccessPayload>;
+            args: Prisma.UserAiProviderAccessFindFirstOrThrowArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$UserAiProviderAccessPayload>;
           };
           findMany: {
-            args: Prisma.UserAiAccessAccessFindManyArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$UserAiAccessAccessPayload>[];
+            args: Prisma.UserAiProviderAccessFindManyArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$UserAiProviderAccessPayload>[];
           };
           create: {
-            args: Prisma.UserAiAccessAccessCreateArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$UserAiAccessAccessPayload>;
+            args: Prisma.UserAiProviderAccessCreateArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$UserAiProviderAccessPayload>;
           };
           createMany: {
-            args: Prisma.UserAiAccessAccessCreateManyArgs<ExtArgs>;
+            args: Prisma.UserAiProviderAccessCreateManyArgs<ExtArgs>;
             result: BatchPayload;
           };
           createManyAndReturn: {
-            args: Prisma.UserAiAccessAccessCreateManyAndReturnArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$UserAiAccessAccessPayload>[];
+            args: Prisma.UserAiProviderAccessCreateManyAndReturnArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$UserAiProviderAccessPayload>[];
           };
           delete: {
-            args: Prisma.UserAiAccessAccessDeleteArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$UserAiAccessAccessPayload>;
+            args: Prisma.UserAiProviderAccessDeleteArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$UserAiProviderAccessPayload>;
           };
           update: {
-            args: Prisma.UserAiAccessAccessUpdateArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$UserAiAccessAccessPayload>;
+            args: Prisma.UserAiProviderAccessUpdateArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$UserAiProviderAccessPayload>;
           };
           deleteMany: {
-            args: Prisma.UserAiAccessAccessDeleteManyArgs<ExtArgs>;
+            args: Prisma.UserAiProviderAccessDeleteManyArgs<ExtArgs>;
             result: BatchPayload;
           };
           updateMany: {
-            args: Prisma.UserAiAccessAccessUpdateManyArgs<ExtArgs>;
+            args: Prisma.UserAiProviderAccessUpdateManyArgs<ExtArgs>;
             result: BatchPayload;
           };
           updateManyAndReturn: {
-            args: Prisma.UserAiAccessAccessUpdateManyAndReturnArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$UserAiAccessAccessPayload>[];
+            args: Prisma.UserAiProviderAccessUpdateManyAndReturnArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$UserAiProviderAccessPayload>[];
           };
           upsert: {
-            args: Prisma.UserAiAccessAccessUpsertArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$UserAiAccessAccessPayload>;
+            args: Prisma.UserAiProviderAccessUpsertArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$UserAiProviderAccessPayload>;
           };
           aggregate: {
-            args: Prisma.UserAiAccessAccessAggregateArgs<ExtArgs>;
-            result: $Utils.Optional<AggregateUserAiAccessAccess>;
+            args: Prisma.UserAiProviderAccessAggregateArgs<ExtArgs>;
+            result: $Utils.Optional<AggregateUserAiProviderAccess>;
           };
           groupBy: {
-            args: Prisma.UserAiAccessAccessGroupByArgs<ExtArgs>;
-            result: $Utils.Optional<UserAiAccessAccessGroupByOutputType>[];
+            args: Prisma.UserAiProviderAccessGroupByArgs<ExtArgs>;
+            result: $Utils.Optional<UserAiProviderAccessGroupByOutputType>[];
           };
           count: {
-            args: Prisma.UserAiAccessAccessCountArgs<ExtArgs>;
-            result: $Utils.Optional<UserAiAccessAccessCountAggregateOutputType> | number;
+            args: Prisma.UserAiProviderAccessCountArgs<ExtArgs>;
+            result: $Utils.Optional<UserAiProviderAccessCountAggregateOutputType> | number;
           };
         };
       };
@@ -1273,77 +1273,77 @@ export namespace Prisma {
           };
         };
       };
-      AiAccess: {
-        payload: Prisma.$AiAccessPayload<ExtArgs>;
-        fields: Prisma.AiAccessFieldRefs;
+      AiProvider: {
+        payload: Prisma.$AiProviderPayload<ExtArgs>;
+        fields: Prisma.AiProviderFieldRefs;
         operations: {
           findUnique: {
-            args: Prisma.AiAccessFindUniqueArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$AiAccessPayload> | null;
+            args: Prisma.AiProviderFindUniqueArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$AiProviderPayload> | null;
           };
           findUniqueOrThrow: {
-            args: Prisma.AiAccessFindUniqueOrThrowArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$AiAccessPayload>;
+            args: Prisma.AiProviderFindUniqueOrThrowArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$AiProviderPayload>;
           };
           findFirst: {
-            args: Prisma.AiAccessFindFirstArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$AiAccessPayload> | null;
+            args: Prisma.AiProviderFindFirstArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$AiProviderPayload> | null;
           };
           findFirstOrThrow: {
-            args: Prisma.AiAccessFindFirstOrThrowArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$AiAccessPayload>;
+            args: Prisma.AiProviderFindFirstOrThrowArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$AiProviderPayload>;
           };
           findMany: {
-            args: Prisma.AiAccessFindManyArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$AiAccessPayload>[];
+            args: Prisma.AiProviderFindManyArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$AiProviderPayload>[];
           };
           create: {
-            args: Prisma.AiAccessCreateArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$AiAccessPayload>;
+            args: Prisma.AiProviderCreateArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$AiProviderPayload>;
           };
           createMany: {
-            args: Prisma.AiAccessCreateManyArgs<ExtArgs>;
+            args: Prisma.AiProviderCreateManyArgs<ExtArgs>;
             result: BatchPayload;
           };
           createManyAndReturn: {
-            args: Prisma.AiAccessCreateManyAndReturnArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$AiAccessPayload>[];
+            args: Prisma.AiProviderCreateManyAndReturnArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$AiProviderPayload>[];
           };
           delete: {
-            args: Prisma.AiAccessDeleteArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$AiAccessPayload>;
+            args: Prisma.AiProviderDeleteArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$AiProviderPayload>;
           };
           update: {
-            args: Prisma.AiAccessUpdateArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$AiAccessPayload>;
+            args: Prisma.AiProviderUpdateArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$AiProviderPayload>;
           };
           deleteMany: {
-            args: Prisma.AiAccessDeleteManyArgs<ExtArgs>;
+            args: Prisma.AiProviderDeleteManyArgs<ExtArgs>;
             result: BatchPayload;
           };
           updateMany: {
-            args: Prisma.AiAccessUpdateManyArgs<ExtArgs>;
+            args: Prisma.AiProviderUpdateManyArgs<ExtArgs>;
             result: BatchPayload;
           };
           updateManyAndReturn: {
-            args: Prisma.AiAccessUpdateManyAndReturnArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$AiAccessPayload>[];
+            args: Prisma.AiProviderUpdateManyAndReturnArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$AiProviderPayload>[];
           };
           upsert: {
-            args: Prisma.AiAccessUpsertArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$AiAccessPayload>;
+            args: Prisma.AiProviderUpsertArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$AiProviderPayload>;
           };
           aggregate: {
-            args: Prisma.AiAccessAggregateArgs<ExtArgs>;
-            result: $Utils.Optional<AggregateAiAccess>;
+            args: Prisma.AiProviderAggregateArgs<ExtArgs>;
+            result: $Utils.Optional<AggregateAiProvider>;
           };
           groupBy: {
-            args: Prisma.AiAccessGroupByArgs<ExtArgs>;
-            result: $Utils.Optional<AiAccessGroupByOutputType>[];
+            args: Prisma.AiProviderGroupByArgs<ExtArgs>;
+            result: $Utils.Optional<AiProviderGroupByOutputType>[];
           };
           count: {
-            args: Prisma.AiAccessCountArgs<ExtArgs>;
-            result: $Utils.Optional<AiAccessCountAggregateOutputType> | number;
+            args: Prisma.AiProviderCountArgs<ExtArgs>;
+            result: $Utils.Optional<AiProviderCountAggregateOutputType> | number;
           };
         };
       };
@@ -1742,10 +1742,10 @@ export namespace Prisma {
     setting?: SettingOmit;
     user?: UserOmit;
     userPaperlessInstanceAccess?: UserPaperlessInstanceAccessOmit;
-    userAiAccessAccess?: UserAiAccessAccessOmit;
+    userAiProviderAccess?: UserAiProviderAccessOmit;
     userAiBotAccess?: UserAiBotAccessOmit;
     paperlessInstance?: PaperlessInstanceOmit;
-    aiAccess?: AiAccessOmit;
+    aiProvider?: AiProviderOmit;
     aiBot?: AiBotOmit;
     processedDocument?: ProcessedDocumentOmit;
     processingQueue?: ProcessingQueueOmit;
@@ -1826,10 +1826,10 @@ export namespace Prisma {
 
   export type UserCountOutputType = {
     ownedPaperlessInstances: number;
-    ownedAiAccesses: number;
+    ownedAiProviders: number;
     ownedAiBots: number;
     sharedPaperlessInstances: number;
-    sharedAiAccesses: number;
+    sharedAiProviders: number;
     sharedAiBots: number;
     aiUsageMetrics: number;
   };
@@ -1838,10 +1838,10 @@ export namespace Prisma {
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     ownedPaperlessInstances?: boolean | UserCountOutputTypeCountOwnedPaperlessInstancesArgs;
-    ownedAiAccesses?: boolean | UserCountOutputTypeCountOwnedAiAccessesArgs;
+    ownedAiProviders?: boolean | UserCountOutputTypeCountOwnedAiProvidersArgs;
     ownedAiBots?: boolean | UserCountOutputTypeCountOwnedAiBotsArgs;
     sharedPaperlessInstances?: boolean | UserCountOutputTypeCountSharedPaperlessInstancesArgs;
-    sharedAiAccesses?: boolean | UserCountOutputTypeCountSharedAiAccessesArgs;
+    sharedAiProviders?: boolean | UserCountOutputTypeCountSharedAiProvidersArgs;
     sharedAiBots?: boolean | UserCountOutputTypeCountSharedAiBotsArgs;
     aiUsageMetrics?: boolean | UserCountOutputTypeCountAiUsageMetricsArgs;
   };
@@ -1871,10 +1871,10 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountOwnedAiAccessesArgs<
+  export type UserCountOutputTypeCountOwnedAiProvidersArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
-    where?: AiAccessWhereInput;
+    where?: AiProviderWhereInput;
   };
 
   /**
@@ -1898,10 +1898,10 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountSharedAiAccessesArgs<
+  export type UserCountOutputTypeCountSharedAiProvidersArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
-    where?: UserAiAccessAccessWhereInput;
+    where?: UserAiProviderAccessWhereInput;
   };
 
   /**
@@ -1981,47 +1981,47 @@ export namespace Prisma {
   };
 
   /**
-   * Count Type AiAccessCountOutputType
+   * Count Type AiProviderCountOutputType
    */
 
-  export type AiAccessCountOutputType = {
+  export type AiProviderCountOutputType = {
     sharedWith: number;
     bots: number;
   };
 
-  export type AiAccessCountOutputTypeSelect<
+  export type AiProviderCountOutputTypeSelect<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
-    sharedWith?: boolean | AiAccessCountOutputTypeCountSharedWithArgs;
-    bots?: boolean | AiAccessCountOutputTypeCountBotsArgs;
+    sharedWith?: boolean | AiProviderCountOutputTypeCountSharedWithArgs;
+    bots?: boolean | AiProviderCountOutputTypeCountBotsArgs;
   };
 
   // Custom InputTypes
   /**
-   * AiAccessCountOutputType without action
+   * AiProviderCountOutputType without action
    */
-  export type AiAccessCountOutputTypeDefaultArgs<
+  export type AiProviderCountOutputTypeDefaultArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Select specific fields to fetch from the AiAccessCountOutputType
+     * Select specific fields to fetch from the AiProviderCountOutputType
      */
-    select?: AiAccessCountOutputTypeSelect<ExtArgs> | null;
+    select?: AiProviderCountOutputTypeSelect<ExtArgs> | null;
   };
 
   /**
-   * AiAccessCountOutputType without action
+   * AiProviderCountOutputType without action
    */
-  export type AiAccessCountOutputTypeCountSharedWithArgs<
+  export type AiProviderCountOutputTypeCountSharedWithArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
-    where?: UserAiAccessAccessWhereInput;
+    where?: UserAiProviderAccessWhereInput;
   };
 
   /**
-   * AiAccessCountOutputType without action
+   * AiProviderCountOutputType without action
    */
-  export type AiAccessCountOutputTypeCountBotsArgs<
+  export type AiProviderCountOutputTypeCountBotsArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     where?: AiBotWhereInput;
@@ -3388,10 +3388,10 @@ export namespace Prisma {
         createdAt?: boolean;
         updatedAt?: boolean;
         ownedPaperlessInstances?: boolean | User$ownedPaperlessInstancesArgs<ExtArgs>;
-        ownedAiAccesses?: boolean | User$ownedAiAccessesArgs<ExtArgs>;
+        ownedAiProviders?: boolean | User$ownedAiProvidersArgs<ExtArgs>;
         ownedAiBots?: boolean | User$ownedAiBotsArgs<ExtArgs>;
         sharedPaperlessInstances?: boolean | User$sharedPaperlessInstancesArgs<ExtArgs>;
-        sharedAiAccesses?: boolean | User$sharedAiAccessesArgs<ExtArgs>;
+        sharedAiProviders?: boolean | User$sharedAiProvidersArgs<ExtArgs>;
         sharedAiBots?: boolean | User$sharedAiBotsArgs<ExtArgs>;
         aiUsageMetrics?: boolean | User$aiUsageMetricsArgs<ExtArgs>;
         _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>;
@@ -3456,10 +3456,10 @@ export namespace Prisma {
     >;
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     ownedPaperlessInstances?: boolean | User$ownedPaperlessInstancesArgs<ExtArgs>;
-    ownedAiAccesses?: boolean | User$ownedAiAccessesArgs<ExtArgs>;
+    ownedAiProviders?: boolean | User$ownedAiProvidersArgs<ExtArgs>;
     ownedAiBots?: boolean | User$ownedAiBotsArgs<ExtArgs>;
     sharedPaperlessInstances?: boolean | User$sharedPaperlessInstancesArgs<ExtArgs>;
-    sharedAiAccesses?: boolean | User$sharedAiAccessesArgs<ExtArgs>;
+    sharedAiProviders?: boolean | User$sharedAiProvidersArgs<ExtArgs>;
     sharedAiBots?: boolean | User$sharedAiBotsArgs<ExtArgs>;
     aiUsageMetrics?: boolean | User$aiUsageMetricsArgs<ExtArgs>;
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>;
@@ -3475,10 +3475,10 @@ export namespace Prisma {
     name: 'User';
     objects: {
       ownedPaperlessInstances: Prisma.$PaperlessInstancePayload<ExtArgs>[];
-      ownedAiAccesses: Prisma.$AiAccessPayload<ExtArgs>[];
+      ownedAiProviders: Prisma.$AiProviderPayload<ExtArgs>[];
       ownedAiBots: Prisma.$AiBotPayload<ExtArgs>[];
       sharedPaperlessInstances: Prisma.$UserPaperlessInstanceAccessPayload<ExtArgs>[];
-      sharedAiAccesses: Prisma.$UserAiAccessAccessPayload<ExtArgs>[];
+      sharedAiProviders: Prisma.$UserAiProviderAccessPayload<ExtArgs>[];
       sharedAiBots: Prisma.$UserAiBotAccessPayload<ExtArgs>[];
       aiUsageMetrics: Prisma.$AiUsageMetricPayload<ExtArgs>[];
     };
@@ -3981,10 +3981,10 @@ export namespace Prisma {
         >
       | Null
     >;
-    ownedAiAccesses<T extends User$ownedAiAccessesArgs<ExtArgs> = {}>(
-      args?: Subset<T, User$ownedAiAccessesArgs<ExtArgs>>
+    ownedAiProviders<T extends User$ownedAiProvidersArgs<ExtArgs> = {}>(
+      args?: Subset<T, User$ownedAiProvidersArgs<ExtArgs>>
     ): Prisma.PrismaPromise<
-      $Result.GetResult<Prisma.$AiAccessPayload<ExtArgs>, T, 'findMany', GlobalOmitOptions> | Null
+      $Result.GetResult<Prisma.$AiProviderPayload<ExtArgs>, T, 'findMany', GlobalOmitOptions> | Null
     >;
     ownedAiBots<T extends User$ownedAiBotsArgs<ExtArgs> = {}>(
       args?: Subset<T, User$ownedAiBotsArgs<ExtArgs>>
@@ -4002,11 +4002,11 @@ export namespace Prisma {
         >
       | Null
     >;
-    sharedAiAccesses<T extends User$sharedAiAccessesArgs<ExtArgs> = {}>(
-      args?: Subset<T, User$sharedAiAccessesArgs<ExtArgs>>
+    sharedAiProviders<T extends User$sharedAiProvidersArgs<ExtArgs> = {}>(
+      args?: Subset<T, User$sharedAiProvidersArgs<ExtArgs>>
     ): Prisma.PrismaPromise<
       | $Result.GetResult<
-          Prisma.$UserAiAccessAccessPayload<ExtArgs>,
+          Prisma.$UserAiProviderAccessPayload<ExtArgs>,
           T,
           'findMany',
           GlobalOmitOptions
@@ -4498,29 +4498,29 @@ export namespace Prisma {
   };
 
   /**
-   * User.ownedAiAccesses
+   * User.ownedAiProviders
    */
-  export type User$ownedAiAccessesArgs<
+  export type User$ownedAiProvidersArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Select specific fields to fetch from the AiAccess
+     * Select specific fields to fetch from the AiProvider
      */
-    select?: AiAccessSelect<ExtArgs> | null;
+    select?: AiProviderSelect<ExtArgs> | null;
     /**
-     * Omit specific fields from the AiAccess
+     * Omit specific fields from the AiProvider
      */
-    omit?: AiAccessOmit<ExtArgs> | null;
+    omit?: AiProviderOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AiAccessInclude<ExtArgs> | null;
-    where?: AiAccessWhereInput;
-    orderBy?: AiAccessOrderByWithRelationInput | AiAccessOrderByWithRelationInput[];
-    cursor?: AiAccessWhereUniqueInput;
+    include?: AiProviderInclude<ExtArgs> | null;
+    where?: AiProviderWhereInput;
+    orderBy?: AiProviderOrderByWithRelationInput | AiProviderOrderByWithRelationInput[];
+    cursor?: AiProviderWhereUniqueInput;
     take?: number;
     skip?: number;
-    distinct?: AiAccessScalarFieldEnum | AiAccessScalarFieldEnum[];
+    distinct?: AiProviderScalarFieldEnum | AiProviderScalarFieldEnum[];
   };
 
   /**
@@ -4580,31 +4580,31 @@ export namespace Prisma {
   };
 
   /**
-   * User.sharedAiAccesses
+   * User.sharedAiProviders
    */
-  export type User$sharedAiAccessesArgs<
+  export type User$sharedAiProvidersArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Select specific fields to fetch from the UserAiAccessAccess
+     * Select specific fields to fetch from the UserAiProviderAccess
      */
-    select?: UserAiAccessAccessSelect<ExtArgs> | null;
+    select?: UserAiProviderAccessSelect<ExtArgs> | null;
     /**
-     * Omit specific fields from the UserAiAccessAccess
+     * Omit specific fields from the UserAiProviderAccess
      */
-    omit?: UserAiAccessAccessOmit<ExtArgs> | null;
+    omit?: UserAiProviderAccessOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: UserAiAccessAccessInclude<ExtArgs> | null;
-    where?: UserAiAccessAccessWhereInput;
+    include?: UserAiProviderAccessInclude<ExtArgs> | null;
+    where?: UserAiProviderAccessWhereInput;
     orderBy?:
-      | UserAiAccessAccessOrderByWithRelationInput
-      | UserAiAccessAccessOrderByWithRelationInput[];
-    cursor?: UserAiAccessAccessWhereUniqueInput;
+      | UserAiProviderAccessOrderByWithRelationInput
+      | UserAiProviderAccessOrderByWithRelationInput[];
+    cursor?: UserAiProviderAccessWhereUniqueInput;
     take?: number;
     skip?: number;
-    distinct?: UserAiAccessAccessScalarFieldEnum | UserAiAccessAccessScalarFieldEnum[];
+    distinct?: UserAiProviderAccessScalarFieldEnum | UserAiProviderAccessScalarFieldEnum[];
   };
 
   /**
@@ -6003,299 +6003,299 @@ export namespace Prisma {
   };
 
   /**
-   * Model UserAiAccessAccess
+   * Model UserAiProviderAccess
    */
 
-  export type AggregateUserAiAccessAccess = {
-    _count: UserAiAccessAccessCountAggregateOutputType | null;
-    _min: UserAiAccessAccessMinAggregateOutputType | null;
-    _max: UserAiAccessAccessMaxAggregateOutputType | null;
+  export type AggregateUserAiProviderAccess = {
+    _count: UserAiProviderAccessCountAggregateOutputType | null;
+    _min: UserAiProviderAccessMinAggregateOutputType | null;
+    _max: UserAiProviderAccessMaxAggregateOutputType | null;
   };
 
-  export type UserAiAccessAccessMinAggregateOutputType = {
+  export type UserAiProviderAccessMinAggregateOutputType = {
     id: string | null;
     userId: string | null;
-    aiAccessId: string | null;
+    aiProviderId: string | null;
     permission: $Enums.Permission | null;
     createdAt: Date | null;
   };
 
-  export type UserAiAccessAccessMaxAggregateOutputType = {
+  export type UserAiProviderAccessMaxAggregateOutputType = {
     id: string | null;
     userId: string | null;
-    aiAccessId: string | null;
+    aiProviderId: string | null;
     permission: $Enums.Permission | null;
     createdAt: Date | null;
   };
 
-  export type UserAiAccessAccessCountAggregateOutputType = {
+  export type UserAiProviderAccessCountAggregateOutputType = {
     id: number;
     userId: number;
-    aiAccessId: number;
+    aiProviderId: number;
     permission: number;
     createdAt: number;
     _all: number;
   };
 
-  export type UserAiAccessAccessMinAggregateInputType = {
+  export type UserAiProviderAccessMinAggregateInputType = {
     id?: true;
     userId?: true;
-    aiAccessId?: true;
+    aiProviderId?: true;
     permission?: true;
     createdAt?: true;
   };
 
-  export type UserAiAccessAccessMaxAggregateInputType = {
+  export type UserAiProviderAccessMaxAggregateInputType = {
     id?: true;
     userId?: true;
-    aiAccessId?: true;
+    aiProviderId?: true;
     permission?: true;
     createdAt?: true;
   };
 
-  export type UserAiAccessAccessCountAggregateInputType = {
+  export type UserAiProviderAccessCountAggregateInputType = {
     id?: true;
     userId?: true;
-    aiAccessId?: true;
+    aiProviderId?: true;
     permission?: true;
     createdAt?: true;
     _all?: true;
   };
 
-  export type UserAiAccessAccessAggregateArgs<
+  export type UserAiProviderAccessAggregateArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Filter which UserAiAccessAccess to aggregate.
+     * Filter which UserAiProviderAccess to aggregate.
      */
-    where?: UserAiAccessAccessWhereInput;
+    where?: UserAiProviderAccessWhereInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      *
-     * Determine the order of UserAiAccessAccesses to fetch.
+     * Determine the order of UserAiProviderAccesses to fetch.
      */
     orderBy?:
-      | UserAiAccessAccessOrderByWithRelationInput
-      | UserAiAccessAccessOrderByWithRelationInput[];
+      | UserAiProviderAccessOrderByWithRelationInput
+      | UserAiProviderAccessOrderByWithRelationInput[];
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      *
      * Sets the start position
      */
-    cursor?: UserAiAccessAccessWhereUniqueInput;
+    cursor?: UserAiProviderAccessWhereUniqueInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      *
-     * Take `±n` UserAiAccessAccesses from the position of the cursor.
+     * Take `±n` UserAiProviderAccesses from the position of the cursor.
      */
     take?: number;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      *
-     * Skip the first `n` UserAiAccessAccesses.
+     * Skip the first `n` UserAiProviderAccesses.
      */
     skip?: number;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      *
-     * Count returned UserAiAccessAccesses
+     * Count returned UserAiProviderAccesses
      **/
-    _count?: true | UserAiAccessAccessCountAggregateInputType;
+    _count?: true | UserAiProviderAccessCountAggregateInputType;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      *
      * Select which fields to find the minimum value
      **/
-    _min?: UserAiAccessAccessMinAggregateInputType;
+    _min?: UserAiProviderAccessMinAggregateInputType;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      *
      * Select which fields to find the maximum value
      **/
-    _max?: UserAiAccessAccessMaxAggregateInputType;
+    _max?: UserAiProviderAccessMaxAggregateInputType;
   };
 
-  export type GetUserAiAccessAccessAggregateType<T extends UserAiAccessAccessAggregateArgs> = {
-    [P in keyof T & keyof AggregateUserAiAccessAccess]: P extends '_count' | 'count'
+  export type GetUserAiProviderAccessAggregateType<T extends UserAiProviderAccessAggregateArgs> = {
+    [P in keyof T & keyof AggregateUserAiProviderAccess]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateUserAiAccessAccess[P]>
-      : GetScalarType<T[P], AggregateUserAiAccessAccess[P]>;
+        : GetScalarType<T[P], AggregateUserAiProviderAccess[P]>
+      : GetScalarType<T[P], AggregateUserAiProviderAccess[P]>;
   };
 
-  export type UserAiAccessAccessGroupByArgs<
+  export type UserAiProviderAccessGroupByArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
-    where?: UserAiAccessAccessWhereInput;
+    where?: UserAiProviderAccessWhereInput;
     orderBy?:
-      | UserAiAccessAccessOrderByWithAggregationInput
-      | UserAiAccessAccessOrderByWithAggregationInput[];
-    by: UserAiAccessAccessScalarFieldEnum[] | UserAiAccessAccessScalarFieldEnum;
-    having?: UserAiAccessAccessScalarWhereWithAggregatesInput;
+      | UserAiProviderAccessOrderByWithAggregationInput
+      | UserAiProviderAccessOrderByWithAggregationInput[];
+    by: UserAiProviderAccessScalarFieldEnum[] | UserAiProviderAccessScalarFieldEnum;
+    having?: UserAiProviderAccessScalarWhereWithAggregatesInput;
     take?: number;
     skip?: number;
-    _count?: UserAiAccessAccessCountAggregateInputType | true;
-    _min?: UserAiAccessAccessMinAggregateInputType;
-    _max?: UserAiAccessAccessMaxAggregateInputType;
+    _count?: UserAiProviderAccessCountAggregateInputType | true;
+    _min?: UserAiProviderAccessMinAggregateInputType;
+    _max?: UserAiProviderAccessMaxAggregateInputType;
   };
 
-  export type UserAiAccessAccessGroupByOutputType = {
+  export type UserAiProviderAccessGroupByOutputType = {
     id: string;
     userId: string;
-    aiAccessId: string;
+    aiProviderId: string;
     permission: $Enums.Permission;
     createdAt: Date;
-    _count: UserAiAccessAccessCountAggregateOutputType | null;
-    _min: UserAiAccessAccessMinAggregateOutputType | null;
-    _max: UserAiAccessAccessMaxAggregateOutputType | null;
+    _count: UserAiProviderAccessCountAggregateOutputType | null;
+    _min: UserAiProviderAccessMinAggregateOutputType | null;
+    _max: UserAiProviderAccessMaxAggregateOutputType | null;
   };
 
-  type GetUserAiAccessAccessGroupByPayload<T extends UserAiAccessAccessGroupByArgs> =
+  type GetUserAiProviderAccessGroupByPayload<T extends UserAiProviderAccessGroupByArgs> =
     Prisma.PrismaPromise<
       Array<
-        PickEnumerable<UserAiAccessAccessGroupByOutputType, T['by']> & {
-          [P in keyof T & keyof UserAiAccessAccessGroupByOutputType]: P extends '_count'
+        PickEnumerable<UserAiProviderAccessGroupByOutputType, T['by']> & {
+          [P in keyof T & keyof UserAiProviderAccessGroupByOutputType]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], UserAiAccessAccessGroupByOutputType[P]>
-            : GetScalarType<T[P], UserAiAccessAccessGroupByOutputType[P]>;
+              : GetScalarType<T[P], UserAiProviderAccessGroupByOutputType[P]>
+            : GetScalarType<T[P], UserAiProviderAccessGroupByOutputType[P]>;
         }
       >
     >;
 
-  export type UserAiAccessAccessSelect<
+  export type UserAiProviderAccessSelect<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = $Extensions.GetSelect<
     {
       id?: boolean;
       userId?: boolean;
-      aiAccessId?: boolean;
+      aiProviderId?: boolean;
       permission?: boolean;
       createdAt?: boolean;
       user?: boolean | UserDefaultArgs<ExtArgs>;
-      aiAccess?: boolean | AiAccessDefaultArgs<ExtArgs>;
+      aiProvider?: boolean | AiProviderDefaultArgs<ExtArgs>;
     },
-    ExtArgs['result']['userAiAccessAccess']
+    ExtArgs['result']['userAiProviderAccess']
   >;
 
-  export type UserAiAccessAccessSelectCreateManyAndReturn<
+  export type UserAiProviderAccessSelectCreateManyAndReturn<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = $Extensions.GetSelect<
     {
       id?: boolean;
       userId?: boolean;
-      aiAccessId?: boolean;
+      aiProviderId?: boolean;
       permission?: boolean;
       createdAt?: boolean;
       user?: boolean | UserDefaultArgs<ExtArgs>;
-      aiAccess?: boolean | AiAccessDefaultArgs<ExtArgs>;
+      aiProvider?: boolean | AiProviderDefaultArgs<ExtArgs>;
     },
-    ExtArgs['result']['userAiAccessAccess']
+    ExtArgs['result']['userAiProviderAccess']
   >;
 
-  export type UserAiAccessAccessSelectUpdateManyAndReturn<
+  export type UserAiProviderAccessSelectUpdateManyAndReturn<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = $Extensions.GetSelect<
     {
       id?: boolean;
       userId?: boolean;
-      aiAccessId?: boolean;
+      aiProviderId?: boolean;
       permission?: boolean;
       createdAt?: boolean;
       user?: boolean | UserDefaultArgs<ExtArgs>;
-      aiAccess?: boolean | AiAccessDefaultArgs<ExtArgs>;
+      aiProvider?: boolean | AiProviderDefaultArgs<ExtArgs>;
     },
-    ExtArgs['result']['userAiAccessAccess']
+    ExtArgs['result']['userAiProviderAccess']
   >;
 
-  export type UserAiAccessAccessSelectScalar = {
+  export type UserAiProviderAccessSelectScalar = {
     id?: boolean;
     userId?: boolean;
-    aiAccessId?: boolean;
+    aiProviderId?: boolean;
     permission?: boolean;
     createdAt?: boolean;
   };
 
-  export type UserAiAccessAccessOmit<
+  export type UserAiProviderAccessOmit<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = $Extensions.GetOmit<
-    'id' | 'userId' | 'aiAccessId' | 'permission' | 'createdAt',
-    ExtArgs['result']['userAiAccessAccess']
+    'id' | 'userId' | 'aiProviderId' | 'permission' | 'createdAt',
+    ExtArgs['result']['userAiProviderAccess']
   >;
-  export type UserAiAccessAccessInclude<
+  export type UserAiProviderAccessInclude<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     user?: boolean | UserDefaultArgs<ExtArgs>;
-    aiAccess?: boolean | AiAccessDefaultArgs<ExtArgs>;
+    aiProvider?: boolean | AiProviderDefaultArgs<ExtArgs>;
   };
-  export type UserAiAccessAccessIncludeCreateManyAndReturn<
+  export type UserAiProviderAccessIncludeCreateManyAndReturn<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     user?: boolean | UserDefaultArgs<ExtArgs>;
-    aiAccess?: boolean | AiAccessDefaultArgs<ExtArgs>;
+    aiProvider?: boolean | AiProviderDefaultArgs<ExtArgs>;
   };
-  export type UserAiAccessAccessIncludeUpdateManyAndReturn<
+  export type UserAiProviderAccessIncludeUpdateManyAndReturn<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     user?: boolean | UserDefaultArgs<ExtArgs>;
-    aiAccess?: boolean | AiAccessDefaultArgs<ExtArgs>;
+    aiProvider?: boolean | AiProviderDefaultArgs<ExtArgs>;
   };
 
-  export type $UserAiAccessAccessPayload<
+  export type $UserAiProviderAccessPayload<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
-    name: 'UserAiAccessAccess';
+    name: 'UserAiProviderAccess';
     objects: {
       user: Prisma.$UserPayload<ExtArgs>;
-      aiAccess: Prisma.$AiAccessPayload<ExtArgs>;
+      aiProvider: Prisma.$AiProviderPayload<ExtArgs>;
     };
     scalars: $Extensions.GetPayloadResult<
       {
         id: string;
         userId: string;
-        aiAccessId: string;
+        aiProviderId: string;
         permission: $Enums.Permission;
         createdAt: Date;
       },
-      ExtArgs['result']['userAiAccessAccess']
+      ExtArgs['result']['userAiProviderAccess']
     >;
     composites: {};
   };
 
-  type UserAiAccessAccessGetPayload<
-    S extends boolean | null | undefined | UserAiAccessAccessDefaultArgs,
-  > = $Result.GetResult<Prisma.$UserAiAccessAccessPayload, S>;
+  type UserAiProviderAccessGetPayload<
+    S extends boolean | null | undefined | UserAiProviderAccessDefaultArgs,
+  > = $Result.GetResult<Prisma.$UserAiProviderAccessPayload, S>;
 
-  type UserAiAccessAccessCountArgs<
+  type UserAiProviderAccessCountArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = Omit<UserAiAccessAccessFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-    select?: UserAiAccessAccessCountAggregateInputType | true;
+  > = Omit<UserAiProviderAccessFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+    select?: UserAiProviderAccessCountAggregateInputType | true;
   };
 
-  export interface UserAiAccessAccessDelegate<
+  export interface UserAiProviderAccessDelegate<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
     GlobalOmitOptions = {},
   > {
     [K: symbol]: {
-      types: Prisma.TypeMap<ExtArgs>['model']['UserAiAccessAccess'];
-      meta: { name: 'UserAiAccessAccess' };
+      types: Prisma.TypeMap<ExtArgs>['model']['UserAiProviderAccess'];
+      meta: { name: 'UserAiProviderAccess' };
     };
     /**
-     * Find zero or one UserAiAccessAccess that matches the filter.
-     * @param {UserAiAccessAccessFindUniqueArgs} args - Arguments to find a UserAiAccessAccess
+     * Find zero or one UserAiProviderAccess that matches the filter.
+     * @param {UserAiProviderAccessFindUniqueArgs} args - Arguments to find a UserAiProviderAccess
      * @example
-     * // Get one UserAiAccessAccess
-     * const userAiAccessAccess = await prisma.userAiAccessAccess.findUnique({
+     * // Get one UserAiProviderAccess
+     * const userAiProviderAccess = await prisma.userAiProviderAccess.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends UserAiAccessAccessFindUniqueArgs>(
-      args: SelectSubset<T, UserAiAccessAccessFindUniqueArgs<ExtArgs>>
-    ): Prisma__UserAiAccessAccessClient<
+    findUnique<T extends UserAiProviderAccessFindUniqueArgs>(
+      args: SelectSubset<T, UserAiProviderAccessFindUniqueArgs<ExtArgs>>
+    ): Prisma__UserAiProviderAccessClient<
       $Result.GetResult<
-        Prisma.$UserAiAccessAccessPayload<ExtArgs>,
+        Prisma.$UserAiProviderAccessPayload<ExtArgs>,
         T,
         'findUnique',
         GlobalOmitOptions
@@ -6306,22 +6306,22 @@ export namespace Prisma {
     >;
 
     /**
-     * Find one UserAiAccessAccess that matches the filter or throw an error with `error.code='P2025'`
+     * Find one UserAiProviderAccess that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {UserAiAccessAccessFindUniqueOrThrowArgs} args - Arguments to find a UserAiAccessAccess
+     * @param {UserAiProviderAccessFindUniqueOrThrowArgs} args - Arguments to find a UserAiProviderAccess
      * @example
-     * // Get one UserAiAccessAccess
-     * const userAiAccessAccess = await prisma.userAiAccessAccess.findUniqueOrThrow({
+     * // Get one UserAiProviderAccess
+     * const userAiProviderAccess = await prisma.userAiProviderAccess.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends UserAiAccessAccessFindUniqueOrThrowArgs>(
-      args: SelectSubset<T, UserAiAccessAccessFindUniqueOrThrowArgs<ExtArgs>>
-    ): Prisma__UserAiAccessAccessClient<
+    findUniqueOrThrow<T extends UserAiProviderAccessFindUniqueOrThrowArgs>(
+      args: SelectSubset<T, UserAiProviderAccessFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__UserAiProviderAccessClient<
       $Result.GetResult<
-        Prisma.$UserAiAccessAccessPayload<ExtArgs>,
+        Prisma.$UserAiProviderAccessPayload<ExtArgs>,
         T,
         'findUniqueOrThrow',
         GlobalOmitOptions
@@ -6332,23 +6332,23 @@ export namespace Prisma {
     >;
 
     /**
-     * Find the first UserAiAccessAccess that matches the filter.
+     * Find the first UserAiProviderAccess that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserAiAccessAccessFindFirstArgs} args - Arguments to find a UserAiAccessAccess
+     * @param {UserAiProviderAccessFindFirstArgs} args - Arguments to find a UserAiProviderAccess
      * @example
-     * // Get one UserAiAccessAccess
-     * const userAiAccessAccess = await prisma.userAiAccessAccess.findFirst({
+     * // Get one UserAiProviderAccess
+     * const userAiProviderAccess = await prisma.userAiProviderAccess.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends UserAiAccessAccessFindFirstArgs>(
-      args?: SelectSubset<T, UserAiAccessAccessFindFirstArgs<ExtArgs>>
-    ): Prisma__UserAiAccessAccessClient<
+    findFirst<T extends UserAiProviderAccessFindFirstArgs>(
+      args?: SelectSubset<T, UserAiProviderAccessFindFirstArgs<ExtArgs>>
+    ): Prisma__UserAiProviderAccessClient<
       $Result.GetResult<
-        Prisma.$UserAiAccessAccessPayload<ExtArgs>,
+        Prisma.$UserAiProviderAccessPayload<ExtArgs>,
         T,
         'findFirst',
         GlobalOmitOptions
@@ -6359,24 +6359,24 @@ export namespace Prisma {
     >;
 
     /**
-     * Find the first UserAiAccessAccess that matches the filter or
+     * Find the first UserAiProviderAccess that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserAiAccessAccessFindFirstOrThrowArgs} args - Arguments to find a UserAiAccessAccess
+     * @param {UserAiProviderAccessFindFirstOrThrowArgs} args - Arguments to find a UserAiProviderAccess
      * @example
-     * // Get one UserAiAccessAccess
-     * const userAiAccessAccess = await prisma.userAiAccessAccess.findFirstOrThrow({
+     * // Get one UserAiProviderAccess
+     * const userAiProviderAccess = await prisma.userAiProviderAccess.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends UserAiAccessAccessFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, UserAiAccessAccessFindFirstOrThrowArgs<ExtArgs>>
-    ): Prisma__UserAiAccessAccessClient<
+    findFirstOrThrow<T extends UserAiProviderAccessFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, UserAiProviderAccessFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__UserAiProviderAccessClient<
       $Result.GetResult<
-        Prisma.$UserAiAccessAccessPayload<ExtArgs>,
+        Prisma.$UserAiProviderAccessPayload<ExtArgs>,
         T,
         'findFirstOrThrow',
         GlobalOmitOptions
@@ -6387,26 +6387,26 @@ export namespace Prisma {
     >;
 
     /**
-     * Find zero or more UserAiAccessAccesses that matches the filter.
+     * Find zero or more UserAiProviderAccesses that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserAiAccessAccessFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {UserAiProviderAccessFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all UserAiAccessAccesses
-     * const userAiAccessAccesses = await prisma.userAiAccessAccess.findMany()
+     * // Get all UserAiProviderAccesses
+     * const userAiProviderAccesses = await prisma.userAiProviderAccess.findMany()
      *
-     * // Get first 10 UserAiAccessAccesses
-     * const userAiAccessAccesses = await prisma.userAiAccessAccess.findMany({ take: 10 })
+     * // Get first 10 UserAiProviderAccesses
+     * const userAiProviderAccesses = await prisma.userAiProviderAccess.findMany({ take: 10 })
      *
      * // Only select the `id`
-     * const userAiAccessAccessWithIdOnly = await prisma.userAiAccessAccess.findMany({ select: { id: true } })
+     * const userAiProviderAccessWithIdOnly = await prisma.userAiProviderAccess.findMany({ select: { id: true } })
      *
      */
-    findMany<T extends UserAiAccessAccessFindManyArgs>(
-      args?: SelectSubset<T, UserAiAccessAccessFindManyArgs<ExtArgs>>
+    findMany<T extends UserAiProviderAccessFindManyArgs>(
+      args?: SelectSubset<T, UserAiProviderAccessFindManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<
       $Result.GetResult<
-        Prisma.$UserAiAccessAccessPayload<ExtArgs>,
+        Prisma.$UserAiProviderAccessPayload<ExtArgs>,
         T,
         'findMany',
         GlobalOmitOptions
@@ -6414,55 +6414,60 @@ export namespace Prisma {
     >;
 
     /**
-     * Create a UserAiAccessAccess.
-     * @param {UserAiAccessAccessCreateArgs} args - Arguments to create a UserAiAccessAccess.
+     * Create a UserAiProviderAccess.
+     * @param {UserAiProviderAccessCreateArgs} args - Arguments to create a UserAiProviderAccess.
      * @example
-     * // Create one UserAiAccessAccess
-     * const UserAiAccessAccess = await prisma.userAiAccessAccess.create({
+     * // Create one UserAiProviderAccess
+     * const UserAiProviderAccess = await prisma.userAiProviderAccess.create({
      *   data: {
-     *     // ... data to create a UserAiAccessAccess
+     *     // ... data to create a UserAiProviderAccess
      *   }
      * })
      *
      */
-    create<T extends UserAiAccessAccessCreateArgs>(
-      args: SelectSubset<T, UserAiAccessAccessCreateArgs<ExtArgs>>
-    ): Prisma__UserAiAccessAccessClient<
-      $Result.GetResult<Prisma.$UserAiAccessAccessPayload<ExtArgs>, T, 'create', GlobalOmitOptions>,
+    create<T extends UserAiProviderAccessCreateArgs>(
+      args: SelectSubset<T, UserAiProviderAccessCreateArgs<ExtArgs>>
+    ): Prisma__UserAiProviderAccessClient<
+      $Result.GetResult<
+        Prisma.$UserAiProviderAccessPayload<ExtArgs>,
+        T,
+        'create',
+        GlobalOmitOptions
+      >,
       never,
       ExtArgs,
       GlobalOmitOptions
     >;
 
     /**
-     * Create many UserAiAccessAccesses.
-     * @param {UserAiAccessAccessCreateManyArgs} args - Arguments to create many UserAiAccessAccesses.
+     * Create many UserAiProviderAccesses.
+     * @param {UserAiProviderAccessCreateManyArgs} args - Arguments to create many UserAiProviderAccesses.
      * @example
-     * // Create many UserAiAccessAccesses
-     * const userAiAccessAccess = await prisma.userAiAccessAccess.createMany({
+     * // Create many UserAiProviderAccesses
+     * const userAiProviderAccess = await prisma.userAiProviderAccess.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *
      */
-    createMany<T extends UserAiAccessAccessCreateManyArgs>(
-      args?: SelectSubset<T, UserAiAccessAccessCreateManyArgs<ExtArgs>>
+    createMany<T extends UserAiProviderAccessCreateManyArgs>(
+      args?: SelectSubset<T, UserAiProviderAccessCreateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
-     * Create many UserAiAccessAccesses and returns the data saved in the database.
-     * @param {UserAiAccessAccessCreateManyAndReturnArgs} args - Arguments to create many UserAiAccessAccesses.
+     * Create many UserAiProviderAccesses and returns the data saved in the database.
+     * @param {UserAiProviderAccessCreateManyAndReturnArgs} args - Arguments to create many UserAiProviderAccesses.
      * @example
-     * // Create many UserAiAccessAccesses
-     * const userAiAccessAccess = await prisma.userAiAccessAccess.createManyAndReturn({
+     * // Create many UserAiProviderAccesses
+     * const userAiProviderAccess = await prisma.userAiProviderAccess.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *
-     * // Create many UserAiAccessAccesses and only return the `id`
-     * const userAiAccessAccessWithIdOnly = await prisma.userAiAccessAccess.createManyAndReturn({
+     * // Create many UserAiProviderAccesses and only return the `id`
+     * const userAiProviderAccessWithIdOnly = await prisma.userAiProviderAccess.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -6472,11 +6477,11 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      *
      */
-    createManyAndReturn<T extends UserAiAccessAccessCreateManyAndReturnArgs>(
-      args?: SelectSubset<T, UserAiAccessAccessCreateManyAndReturnArgs<ExtArgs>>
+    createManyAndReturn<T extends UserAiProviderAccessCreateManyAndReturnArgs>(
+      args?: SelectSubset<T, UserAiProviderAccessCreateManyAndReturnArgs<ExtArgs>>
     ): Prisma.PrismaPromise<
       $Result.GetResult<
-        Prisma.$UserAiAccessAccessPayload<ExtArgs>,
+        Prisma.$UserAiProviderAccessPayload<ExtArgs>,
         T,
         'createManyAndReturn',
         GlobalOmitOptions
@@ -6484,32 +6489,37 @@ export namespace Prisma {
     >;
 
     /**
-     * Delete a UserAiAccessAccess.
-     * @param {UserAiAccessAccessDeleteArgs} args - Arguments to delete one UserAiAccessAccess.
+     * Delete a UserAiProviderAccess.
+     * @param {UserAiProviderAccessDeleteArgs} args - Arguments to delete one UserAiProviderAccess.
      * @example
-     * // Delete one UserAiAccessAccess
-     * const UserAiAccessAccess = await prisma.userAiAccessAccess.delete({
+     * // Delete one UserAiProviderAccess
+     * const UserAiProviderAccess = await prisma.userAiProviderAccess.delete({
      *   where: {
-     *     // ... filter to delete one UserAiAccessAccess
+     *     // ... filter to delete one UserAiProviderAccess
      *   }
      * })
      *
      */
-    delete<T extends UserAiAccessAccessDeleteArgs>(
-      args: SelectSubset<T, UserAiAccessAccessDeleteArgs<ExtArgs>>
-    ): Prisma__UserAiAccessAccessClient<
-      $Result.GetResult<Prisma.$UserAiAccessAccessPayload<ExtArgs>, T, 'delete', GlobalOmitOptions>,
+    delete<T extends UserAiProviderAccessDeleteArgs>(
+      args: SelectSubset<T, UserAiProviderAccessDeleteArgs<ExtArgs>>
+    ): Prisma__UserAiProviderAccessClient<
+      $Result.GetResult<
+        Prisma.$UserAiProviderAccessPayload<ExtArgs>,
+        T,
+        'delete',
+        GlobalOmitOptions
+      >,
       never,
       ExtArgs,
       GlobalOmitOptions
     >;
 
     /**
-     * Update one UserAiAccessAccess.
-     * @param {UserAiAccessAccessUpdateArgs} args - Arguments to update one UserAiAccessAccess.
+     * Update one UserAiProviderAccess.
+     * @param {UserAiProviderAccessUpdateArgs} args - Arguments to update one UserAiProviderAccess.
      * @example
-     * // Update one UserAiAccessAccess
-     * const userAiAccessAccess = await prisma.userAiAccessAccess.update({
+     * // Update one UserAiProviderAccess
+     * const userAiProviderAccess = await prisma.userAiProviderAccess.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -6519,39 +6529,44 @@ export namespace Prisma {
      * })
      *
      */
-    update<T extends UserAiAccessAccessUpdateArgs>(
-      args: SelectSubset<T, UserAiAccessAccessUpdateArgs<ExtArgs>>
-    ): Prisma__UserAiAccessAccessClient<
-      $Result.GetResult<Prisma.$UserAiAccessAccessPayload<ExtArgs>, T, 'update', GlobalOmitOptions>,
+    update<T extends UserAiProviderAccessUpdateArgs>(
+      args: SelectSubset<T, UserAiProviderAccessUpdateArgs<ExtArgs>>
+    ): Prisma__UserAiProviderAccessClient<
+      $Result.GetResult<
+        Prisma.$UserAiProviderAccessPayload<ExtArgs>,
+        T,
+        'update',
+        GlobalOmitOptions
+      >,
       never,
       ExtArgs,
       GlobalOmitOptions
     >;
 
     /**
-     * Delete zero or more UserAiAccessAccesses.
-     * @param {UserAiAccessAccessDeleteManyArgs} args - Arguments to filter UserAiAccessAccesses to delete.
+     * Delete zero or more UserAiProviderAccesses.
+     * @param {UserAiProviderAccessDeleteManyArgs} args - Arguments to filter UserAiProviderAccesses to delete.
      * @example
-     * // Delete a few UserAiAccessAccesses
-     * const { count } = await prisma.userAiAccessAccess.deleteMany({
+     * // Delete a few UserAiProviderAccesses
+     * const { count } = await prisma.userAiProviderAccess.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      *
      */
-    deleteMany<T extends UserAiAccessAccessDeleteManyArgs>(
-      args?: SelectSubset<T, UserAiAccessAccessDeleteManyArgs<ExtArgs>>
+    deleteMany<T extends UserAiProviderAccessDeleteManyArgs>(
+      args?: SelectSubset<T, UserAiProviderAccessDeleteManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
-     * Update zero or more UserAiAccessAccesses.
+     * Update zero or more UserAiProviderAccesses.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserAiAccessAccessUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {UserAiProviderAccessUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many UserAiAccessAccesses
-     * const userAiAccessAccess = await prisma.userAiAccessAccess.updateMany({
+     * // Update many UserAiProviderAccesses
+     * const userAiProviderAccess = await prisma.userAiProviderAccess.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -6561,16 +6576,16 @@ export namespace Prisma {
      * })
      *
      */
-    updateMany<T extends UserAiAccessAccessUpdateManyArgs>(
-      args: SelectSubset<T, UserAiAccessAccessUpdateManyArgs<ExtArgs>>
+    updateMany<T extends UserAiProviderAccessUpdateManyArgs>(
+      args: SelectSubset<T, UserAiProviderAccessUpdateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
-     * Update zero or more UserAiAccessAccesses and returns the data updated in the database.
-     * @param {UserAiAccessAccessUpdateManyAndReturnArgs} args - Arguments to update many UserAiAccessAccesses.
+     * Update zero or more UserAiProviderAccesses and returns the data updated in the database.
+     * @param {UserAiProviderAccessUpdateManyAndReturnArgs} args - Arguments to update many UserAiProviderAccesses.
      * @example
-     * // Update many UserAiAccessAccesses
-     * const userAiAccessAccess = await prisma.userAiAccessAccess.updateManyAndReturn({
+     * // Update many UserAiProviderAccesses
+     * const userAiProviderAccess = await prisma.userAiProviderAccess.updateManyAndReturn({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -6579,8 +6594,8 @@ export namespace Prisma {
      *   ]
      * })
      *
-     * // Update zero or more UserAiAccessAccesses and only return the `id`
-     * const userAiAccessAccessWithIdOnly = await prisma.userAiAccessAccess.updateManyAndReturn({
+     * // Update zero or more UserAiProviderAccesses and only return the `id`
+     * const userAiProviderAccessWithIdOnly = await prisma.userAiProviderAccess.updateManyAndReturn({
      *   select: { id: true },
      *   where: {
      *     // ... provide filter here
@@ -6593,11 +6608,11 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      *
      */
-    updateManyAndReturn<T extends UserAiAccessAccessUpdateManyAndReturnArgs>(
-      args: SelectSubset<T, UserAiAccessAccessUpdateManyAndReturnArgs<ExtArgs>>
+    updateManyAndReturn<T extends UserAiProviderAccessUpdateManyAndReturnArgs>(
+      args: SelectSubset<T, UserAiProviderAccessUpdateManyAndReturnArgs<ExtArgs>>
     ): Prisma.PrismaPromise<
       $Result.GetResult<
-        Prisma.$UserAiAccessAccessPayload<ExtArgs>,
+        Prisma.$UserAiProviderAccessPayload<ExtArgs>,
         T,
         'updateManyAndReturn',
         GlobalOmitOptions
@@ -6605,59 +6620,64 @@ export namespace Prisma {
     >;
 
     /**
-     * Create or update one UserAiAccessAccess.
-     * @param {UserAiAccessAccessUpsertArgs} args - Arguments to update or create a UserAiAccessAccess.
+     * Create or update one UserAiProviderAccess.
+     * @param {UserAiProviderAccessUpsertArgs} args - Arguments to update or create a UserAiProviderAccess.
      * @example
-     * // Update or create a UserAiAccessAccess
-     * const userAiAccessAccess = await prisma.userAiAccessAccess.upsert({
+     * // Update or create a UserAiProviderAccess
+     * const userAiProviderAccess = await prisma.userAiProviderAccess.upsert({
      *   create: {
-     *     // ... data to create a UserAiAccessAccess
+     *     // ... data to create a UserAiProviderAccess
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the UserAiAccessAccess we want to update
+     *     // ... the filter for the UserAiProviderAccess we want to update
      *   }
      * })
      */
-    upsert<T extends UserAiAccessAccessUpsertArgs>(
-      args: SelectSubset<T, UserAiAccessAccessUpsertArgs<ExtArgs>>
-    ): Prisma__UserAiAccessAccessClient<
-      $Result.GetResult<Prisma.$UserAiAccessAccessPayload<ExtArgs>, T, 'upsert', GlobalOmitOptions>,
+    upsert<T extends UserAiProviderAccessUpsertArgs>(
+      args: SelectSubset<T, UserAiProviderAccessUpsertArgs<ExtArgs>>
+    ): Prisma__UserAiProviderAccessClient<
+      $Result.GetResult<
+        Prisma.$UserAiProviderAccessPayload<ExtArgs>,
+        T,
+        'upsert',
+        GlobalOmitOptions
+      >,
       never,
       ExtArgs,
       GlobalOmitOptions
     >;
 
     /**
-     * Count the number of UserAiAccessAccesses.
+     * Count the number of UserAiProviderAccesses.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserAiAccessAccessCountArgs} args - Arguments to filter UserAiAccessAccesses to count.
+     * @param {UserAiProviderAccessCountArgs} args - Arguments to filter UserAiProviderAccesses to count.
      * @example
-     * // Count the number of UserAiAccessAccesses
-     * const count = await prisma.userAiAccessAccess.count({
+     * // Count the number of UserAiProviderAccesses
+     * const count = await prisma.userAiProviderAccess.count({
      *   where: {
-     *     // ... the filter for the UserAiAccessAccesses we want to count
+     *     // ... the filter for the UserAiProviderAccesses we want to count
      *   }
      * })
      **/
-    count<T extends UserAiAccessAccessCountArgs>(
-      args?: Subset<T, UserAiAccessAccessCountArgs>
+    count<T extends UserAiProviderAccessCountArgs>(
+      args?: Subset<T, UserAiProviderAccessCountArgs>
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], UserAiAccessAccessCountAggregateOutputType>
+          : GetScalarType<T['select'], UserAiProviderAccessCountAggregateOutputType>
         : number
     >;
 
     /**
-     * Allows you to perform aggregations operations on a UserAiAccessAccess.
+     * Allows you to perform aggregations operations on a UserAiProviderAccess.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserAiAccessAccessAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {UserAiProviderAccessAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -6677,15 +6697,15 @@ export namespace Prisma {
      *   take: 10,
      * })
      **/
-    aggregate<T extends UserAiAccessAccessAggregateArgs>(
-      args: Subset<T, UserAiAccessAccessAggregateArgs>
-    ): Prisma.PrismaPromise<GetUserAiAccessAccessAggregateType<T>>;
+    aggregate<T extends UserAiProviderAccessAggregateArgs>(
+      args: Subset<T, UserAiProviderAccessAggregateArgs>
+    ): Prisma.PrismaPromise<GetUserAiProviderAccessAggregateType<T>>;
 
     /**
-     * Group by UserAiAccessAccess.
+     * Group by UserAiProviderAccess.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserAiAccessAccessGroupByArgs} args - Group by arguments.
+     * @param {UserAiProviderAccessGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -6700,11 +6720,11 @@ export namespace Prisma {
      *
      **/
     groupBy<
-      T extends UserAiAccessAccessGroupByArgs,
+      T extends UserAiProviderAccessGroupByArgs,
       HasSelectOrTake extends Or<Extends<'skip', Keys<T>>, Extends<'take', Keys<T>>>,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: UserAiAccessAccessGroupByArgs['orderBy'] }
-        : { orderBy?: UserAiAccessAccessGroupByArgs['orderBy'] },
+        ? { orderBy: UserAiProviderAccessGroupByArgs['orderBy'] }
+        : { orderBy?: UserAiProviderAccessGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -6749,23 +6769,23 @@ export namespace Prisma {
                       : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
                   }[OrderFields],
     >(
-      args: SubsetIntersection<T, UserAiAccessAccessGroupByArgs, OrderByArg> & InputErrors
+      args: SubsetIntersection<T, UserAiProviderAccessGroupByArgs, OrderByArg> & InputErrors
     ): {} extends InputErrors
-      ? GetUserAiAccessAccessGroupByPayload<T>
+      ? GetUserAiProviderAccessGroupByPayload<T>
       : Prisma.PrismaPromise<InputErrors>;
     /**
-     * Fields of the UserAiAccessAccess model
+     * Fields of the UserAiProviderAccess model
      */
-    readonly fields: UserAiAccessAccessFieldRefs;
+    readonly fields: UserAiProviderAccessFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for UserAiAccessAccess.
+   * The delegate class that acts as a "Promise-like" for UserAiProviderAccess.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__UserAiAccessAccessClient<
+  export interface Prisma__UserAiProviderAccessClient<
     T,
     Null = never,
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
@@ -6781,11 +6801,11 @@ export namespace Prisma {
       ExtArgs,
       GlobalOmitOptions
     >;
-    aiAccess<T extends AiAccessDefaultArgs<ExtArgs> = {}>(
-      args?: Subset<T, AiAccessDefaultArgs<ExtArgs>>
-    ): Prisma__AiAccessClient<
+    aiProvider<T extends AiProviderDefaultArgs<ExtArgs> = {}>(
+      args?: Subset<T, AiProviderDefaultArgs<ExtArgs>>
+    ): Prisma__AiProviderClient<
       | $Result.GetResult<
-          Prisma.$AiAccessPayload<ExtArgs>,
+          Prisma.$AiProviderPayload<ExtArgs>,
           T,
           'findUniqueOrThrow',
           GlobalOmitOptions
@@ -6823,466 +6843,466 @@ export namespace Prisma {
   }
 
   /**
-   * Fields of the UserAiAccessAccess model
+   * Fields of the UserAiProviderAccess model
    */
-  interface UserAiAccessAccessFieldRefs {
-    readonly id: FieldRef<'UserAiAccessAccess', 'String'>;
-    readonly userId: FieldRef<'UserAiAccessAccess', 'String'>;
-    readonly aiAccessId: FieldRef<'UserAiAccessAccess', 'String'>;
-    readonly permission: FieldRef<'UserAiAccessAccess', 'Permission'>;
-    readonly createdAt: FieldRef<'UserAiAccessAccess', 'DateTime'>;
+  interface UserAiProviderAccessFieldRefs {
+    readonly id: FieldRef<'UserAiProviderAccess', 'String'>;
+    readonly userId: FieldRef<'UserAiProviderAccess', 'String'>;
+    readonly aiProviderId: FieldRef<'UserAiProviderAccess', 'String'>;
+    readonly permission: FieldRef<'UserAiProviderAccess', 'Permission'>;
+    readonly createdAt: FieldRef<'UserAiProviderAccess', 'DateTime'>;
   }
 
   // Custom InputTypes
   /**
-   * UserAiAccessAccess findUnique
+   * UserAiProviderAccess findUnique
    */
-  export type UserAiAccessAccessFindUniqueArgs<
+  export type UserAiProviderAccessFindUniqueArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Select specific fields to fetch from the UserAiAccessAccess
+     * Select specific fields to fetch from the UserAiProviderAccess
      */
-    select?: UserAiAccessAccessSelect<ExtArgs> | null;
+    select?: UserAiProviderAccessSelect<ExtArgs> | null;
     /**
-     * Omit specific fields from the UserAiAccessAccess
+     * Omit specific fields from the UserAiProviderAccess
      */
-    omit?: UserAiAccessAccessOmit<ExtArgs> | null;
+    omit?: UserAiProviderAccessOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: UserAiAccessAccessInclude<ExtArgs> | null;
+    include?: UserAiProviderAccessInclude<ExtArgs> | null;
     /**
-     * Filter, which UserAiAccessAccess to fetch.
+     * Filter, which UserAiProviderAccess to fetch.
      */
-    where: UserAiAccessAccessWhereUniqueInput;
+    where: UserAiProviderAccessWhereUniqueInput;
   };
 
   /**
-   * UserAiAccessAccess findUniqueOrThrow
+   * UserAiProviderAccess findUniqueOrThrow
    */
-  export type UserAiAccessAccessFindUniqueOrThrowArgs<
+  export type UserAiProviderAccessFindUniqueOrThrowArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Select specific fields to fetch from the UserAiAccessAccess
+     * Select specific fields to fetch from the UserAiProviderAccess
      */
-    select?: UserAiAccessAccessSelect<ExtArgs> | null;
+    select?: UserAiProviderAccessSelect<ExtArgs> | null;
     /**
-     * Omit specific fields from the UserAiAccessAccess
+     * Omit specific fields from the UserAiProviderAccess
      */
-    omit?: UserAiAccessAccessOmit<ExtArgs> | null;
+    omit?: UserAiProviderAccessOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: UserAiAccessAccessInclude<ExtArgs> | null;
+    include?: UserAiProviderAccessInclude<ExtArgs> | null;
     /**
-     * Filter, which UserAiAccessAccess to fetch.
+     * Filter, which UserAiProviderAccess to fetch.
      */
-    where: UserAiAccessAccessWhereUniqueInput;
+    where: UserAiProviderAccessWhereUniqueInput;
   };
 
   /**
-   * UserAiAccessAccess findFirst
+   * UserAiProviderAccess findFirst
    */
-  export type UserAiAccessAccessFindFirstArgs<
+  export type UserAiProviderAccessFindFirstArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Select specific fields to fetch from the UserAiAccessAccess
+     * Select specific fields to fetch from the UserAiProviderAccess
      */
-    select?: UserAiAccessAccessSelect<ExtArgs> | null;
+    select?: UserAiProviderAccessSelect<ExtArgs> | null;
     /**
-     * Omit specific fields from the UserAiAccessAccess
+     * Omit specific fields from the UserAiProviderAccess
      */
-    omit?: UserAiAccessAccessOmit<ExtArgs> | null;
+    omit?: UserAiProviderAccessOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: UserAiAccessAccessInclude<ExtArgs> | null;
+    include?: UserAiProviderAccessInclude<ExtArgs> | null;
     /**
-     * Filter, which UserAiAccessAccess to fetch.
+     * Filter, which UserAiProviderAccess to fetch.
      */
-    where?: UserAiAccessAccessWhereInput;
+    where?: UserAiProviderAccessWhereInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      *
-     * Determine the order of UserAiAccessAccesses to fetch.
+     * Determine the order of UserAiProviderAccesses to fetch.
      */
     orderBy?:
-      | UserAiAccessAccessOrderByWithRelationInput
-      | UserAiAccessAccessOrderByWithRelationInput[];
+      | UserAiProviderAccessOrderByWithRelationInput
+      | UserAiProviderAccessOrderByWithRelationInput[];
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      *
-     * Sets the position for searching for UserAiAccessAccesses.
+     * Sets the position for searching for UserAiProviderAccesses.
      */
-    cursor?: UserAiAccessAccessWhereUniqueInput;
+    cursor?: UserAiProviderAccessWhereUniqueInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      *
-     * Take `±n` UserAiAccessAccesses from the position of the cursor.
+     * Take `±n` UserAiProviderAccesses from the position of the cursor.
      */
     take?: number;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      *
-     * Skip the first `n` UserAiAccessAccesses.
+     * Skip the first `n` UserAiProviderAccesses.
      */
     skip?: number;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      *
-     * Filter by unique combinations of UserAiAccessAccesses.
+     * Filter by unique combinations of UserAiProviderAccesses.
      */
-    distinct?: UserAiAccessAccessScalarFieldEnum | UserAiAccessAccessScalarFieldEnum[];
+    distinct?: UserAiProviderAccessScalarFieldEnum | UserAiProviderAccessScalarFieldEnum[];
   };
 
   /**
-   * UserAiAccessAccess findFirstOrThrow
+   * UserAiProviderAccess findFirstOrThrow
    */
-  export type UserAiAccessAccessFindFirstOrThrowArgs<
+  export type UserAiProviderAccessFindFirstOrThrowArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Select specific fields to fetch from the UserAiAccessAccess
+     * Select specific fields to fetch from the UserAiProviderAccess
      */
-    select?: UserAiAccessAccessSelect<ExtArgs> | null;
+    select?: UserAiProviderAccessSelect<ExtArgs> | null;
     /**
-     * Omit specific fields from the UserAiAccessAccess
+     * Omit specific fields from the UserAiProviderAccess
      */
-    omit?: UserAiAccessAccessOmit<ExtArgs> | null;
+    omit?: UserAiProviderAccessOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: UserAiAccessAccessInclude<ExtArgs> | null;
+    include?: UserAiProviderAccessInclude<ExtArgs> | null;
     /**
-     * Filter, which UserAiAccessAccess to fetch.
+     * Filter, which UserAiProviderAccess to fetch.
      */
-    where?: UserAiAccessAccessWhereInput;
+    where?: UserAiProviderAccessWhereInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      *
-     * Determine the order of UserAiAccessAccesses to fetch.
+     * Determine the order of UserAiProviderAccesses to fetch.
      */
     orderBy?:
-      | UserAiAccessAccessOrderByWithRelationInput
-      | UserAiAccessAccessOrderByWithRelationInput[];
+      | UserAiProviderAccessOrderByWithRelationInput
+      | UserAiProviderAccessOrderByWithRelationInput[];
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      *
-     * Sets the position for searching for UserAiAccessAccesses.
+     * Sets the position for searching for UserAiProviderAccesses.
      */
-    cursor?: UserAiAccessAccessWhereUniqueInput;
+    cursor?: UserAiProviderAccessWhereUniqueInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      *
-     * Take `±n` UserAiAccessAccesses from the position of the cursor.
+     * Take `±n` UserAiProviderAccesses from the position of the cursor.
      */
     take?: number;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      *
-     * Skip the first `n` UserAiAccessAccesses.
+     * Skip the first `n` UserAiProviderAccesses.
      */
     skip?: number;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      *
-     * Filter by unique combinations of UserAiAccessAccesses.
+     * Filter by unique combinations of UserAiProviderAccesses.
      */
-    distinct?: UserAiAccessAccessScalarFieldEnum | UserAiAccessAccessScalarFieldEnum[];
+    distinct?: UserAiProviderAccessScalarFieldEnum | UserAiProviderAccessScalarFieldEnum[];
   };
 
   /**
-   * UserAiAccessAccess findMany
+   * UserAiProviderAccess findMany
    */
-  export type UserAiAccessAccessFindManyArgs<
+  export type UserAiProviderAccessFindManyArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Select specific fields to fetch from the UserAiAccessAccess
+     * Select specific fields to fetch from the UserAiProviderAccess
      */
-    select?: UserAiAccessAccessSelect<ExtArgs> | null;
+    select?: UserAiProviderAccessSelect<ExtArgs> | null;
     /**
-     * Omit specific fields from the UserAiAccessAccess
+     * Omit specific fields from the UserAiProviderAccess
      */
-    omit?: UserAiAccessAccessOmit<ExtArgs> | null;
+    omit?: UserAiProviderAccessOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: UserAiAccessAccessInclude<ExtArgs> | null;
+    include?: UserAiProviderAccessInclude<ExtArgs> | null;
     /**
-     * Filter, which UserAiAccessAccesses to fetch.
+     * Filter, which UserAiProviderAccesses to fetch.
      */
-    where?: UserAiAccessAccessWhereInput;
+    where?: UserAiProviderAccessWhereInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      *
-     * Determine the order of UserAiAccessAccesses to fetch.
+     * Determine the order of UserAiProviderAccesses to fetch.
      */
     orderBy?:
-      | UserAiAccessAccessOrderByWithRelationInput
-      | UserAiAccessAccessOrderByWithRelationInput[];
+      | UserAiProviderAccessOrderByWithRelationInput
+      | UserAiProviderAccessOrderByWithRelationInput[];
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      *
-     * Sets the position for listing UserAiAccessAccesses.
+     * Sets the position for listing UserAiProviderAccesses.
      */
-    cursor?: UserAiAccessAccessWhereUniqueInput;
+    cursor?: UserAiProviderAccessWhereUniqueInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      *
-     * Take `±n` UserAiAccessAccesses from the position of the cursor.
+     * Take `±n` UserAiProviderAccesses from the position of the cursor.
      */
     take?: number;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      *
-     * Skip the first `n` UserAiAccessAccesses.
+     * Skip the first `n` UserAiProviderAccesses.
      */
     skip?: number;
-    distinct?: UserAiAccessAccessScalarFieldEnum | UserAiAccessAccessScalarFieldEnum[];
+    distinct?: UserAiProviderAccessScalarFieldEnum | UserAiProviderAccessScalarFieldEnum[];
   };
 
   /**
-   * UserAiAccessAccess create
+   * UserAiProviderAccess create
    */
-  export type UserAiAccessAccessCreateArgs<
+  export type UserAiProviderAccessCreateArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Select specific fields to fetch from the UserAiAccessAccess
+     * Select specific fields to fetch from the UserAiProviderAccess
      */
-    select?: UserAiAccessAccessSelect<ExtArgs> | null;
+    select?: UserAiProviderAccessSelect<ExtArgs> | null;
     /**
-     * Omit specific fields from the UserAiAccessAccess
+     * Omit specific fields from the UserAiProviderAccess
      */
-    omit?: UserAiAccessAccessOmit<ExtArgs> | null;
+    omit?: UserAiProviderAccessOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: UserAiAccessAccessInclude<ExtArgs> | null;
+    include?: UserAiProviderAccessInclude<ExtArgs> | null;
     /**
-     * The data needed to create a UserAiAccessAccess.
+     * The data needed to create a UserAiProviderAccess.
      */
-    data: XOR<UserAiAccessAccessCreateInput, UserAiAccessAccessUncheckedCreateInput>;
+    data: XOR<UserAiProviderAccessCreateInput, UserAiProviderAccessUncheckedCreateInput>;
   };
 
   /**
-   * UserAiAccessAccess createMany
+   * UserAiProviderAccess createMany
    */
-  export type UserAiAccessAccessCreateManyArgs<
+  export type UserAiProviderAccessCreateManyArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * The data used to create many UserAiAccessAccesses.
+     * The data used to create many UserAiProviderAccesses.
      */
-    data: UserAiAccessAccessCreateManyInput | UserAiAccessAccessCreateManyInput[];
+    data: UserAiProviderAccessCreateManyInput | UserAiProviderAccessCreateManyInput[];
     skipDuplicates?: boolean;
   };
 
   /**
-   * UserAiAccessAccess createManyAndReturn
+   * UserAiProviderAccess createManyAndReturn
    */
-  export type UserAiAccessAccessCreateManyAndReturnArgs<
+  export type UserAiProviderAccessCreateManyAndReturnArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Select specific fields to fetch from the UserAiAccessAccess
+     * Select specific fields to fetch from the UserAiProviderAccess
      */
-    select?: UserAiAccessAccessSelectCreateManyAndReturn<ExtArgs> | null;
+    select?: UserAiProviderAccessSelectCreateManyAndReturn<ExtArgs> | null;
     /**
-     * Omit specific fields from the UserAiAccessAccess
+     * Omit specific fields from the UserAiProviderAccess
      */
-    omit?: UserAiAccessAccessOmit<ExtArgs> | null;
+    omit?: UserAiProviderAccessOmit<ExtArgs> | null;
     /**
-     * The data used to create many UserAiAccessAccesses.
+     * The data used to create many UserAiProviderAccesses.
      */
-    data: UserAiAccessAccessCreateManyInput | UserAiAccessAccessCreateManyInput[];
+    data: UserAiProviderAccessCreateManyInput | UserAiProviderAccessCreateManyInput[];
     skipDuplicates?: boolean;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: UserAiAccessAccessIncludeCreateManyAndReturn<ExtArgs> | null;
+    include?: UserAiProviderAccessIncludeCreateManyAndReturn<ExtArgs> | null;
   };
 
   /**
-   * UserAiAccessAccess update
+   * UserAiProviderAccess update
    */
-  export type UserAiAccessAccessUpdateArgs<
+  export type UserAiProviderAccessUpdateArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Select specific fields to fetch from the UserAiAccessAccess
+     * Select specific fields to fetch from the UserAiProviderAccess
      */
-    select?: UserAiAccessAccessSelect<ExtArgs> | null;
+    select?: UserAiProviderAccessSelect<ExtArgs> | null;
     /**
-     * Omit specific fields from the UserAiAccessAccess
+     * Omit specific fields from the UserAiProviderAccess
      */
-    omit?: UserAiAccessAccessOmit<ExtArgs> | null;
+    omit?: UserAiProviderAccessOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: UserAiAccessAccessInclude<ExtArgs> | null;
+    include?: UserAiProviderAccessInclude<ExtArgs> | null;
     /**
-     * The data needed to update a UserAiAccessAccess.
+     * The data needed to update a UserAiProviderAccess.
      */
-    data: XOR<UserAiAccessAccessUpdateInput, UserAiAccessAccessUncheckedUpdateInput>;
+    data: XOR<UserAiProviderAccessUpdateInput, UserAiProviderAccessUncheckedUpdateInput>;
     /**
-     * Choose, which UserAiAccessAccess to update.
+     * Choose, which UserAiProviderAccess to update.
      */
-    where: UserAiAccessAccessWhereUniqueInput;
+    where: UserAiProviderAccessWhereUniqueInput;
   };
 
   /**
-   * UserAiAccessAccess updateMany
+   * UserAiProviderAccess updateMany
    */
-  export type UserAiAccessAccessUpdateManyArgs<
+  export type UserAiProviderAccessUpdateManyArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * The data used to update UserAiAccessAccesses.
+     * The data used to update UserAiProviderAccesses.
      */
     data: XOR<
-      UserAiAccessAccessUpdateManyMutationInput,
-      UserAiAccessAccessUncheckedUpdateManyInput
+      UserAiProviderAccessUpdateManyMutationInput,
+      UserAiProviderAccessUncheckedUpdateManyInput
     >;
     /**
-     * Filter which UserAiAccessAccesses to update
+     * Filter which UserAiProviderAccesses to update
      */
-    where?: UserAiAccessAccessWhereInput;
+    where?: UserAiProviderAccessWhereInput;
     /**
-     * Limit how many UserAiAccessAccesses to update.
+     * Limit how many UserAiProviderAccesses to update.
      */
     limit?: number;
   };
 
   /**
-   * UserAiAccessAccess updateManyAndReturn
+   * UserAiProviderAccess updateManyAndReturn
    */
-  export type UserAiAccessAccessUpdateManyAndReturnArgs<
+  export type UserAiProviderAccessUpdateManyAndReturnArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Select specific fields to fetch from the UserAiAccessAccess
+     * Select specific fields to fetch from the UserAiProviderAccess
      */
-    select?: UserAiAccessAccessSelectUpdateManyAndReturn<ExtArgs> | null;
+    select?: UserAiProviderAccessSelectUpdateManyAndReturn<ExtArgs> | null;
     /**
-     * Omit specific fields from the UserAiAccessAccess
+     * Omit specific fields from the UserAiProviderAccess
      */
-    omit?: UserAiAccessAccessOmit<ExtArgs> | null;
+    omit?: UserAiProviderAccessOmit<ExtArgs> | null;
     /**
-     * The data used to update UserAiAccessAccesses.
+     * The data used to update UserAiProviderAccesses.
      */
     data: XOR<
-      UserAiAccessAccessUpdateManyMutationInput,
-      UserAiAccessAccessUncheckedUpdateManyInput
+      UserAiProviderAccessUpdateManyMutationInput,
+      UserAiProviderAccessUncheckedUpdateManyInput
     >;
     /**
-     * Filter which UserAiAccessAccesses to update
+     * Filter which UserAiProviderAccesses to update
      */
-    where?: UserAiAccessAccessWhereInput;
+    where?: UserAiProviderAccessWhereInput;
     /**
-     * Limit how many UserAiAccessAccesses to update.
+     * Limit how many UserAiProviderAccesses to update.
      */
     limit?: number;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: UserAiAccessAccessIncludeUpdateManyAndReturn<ExtArgs> | null;
+    include?: UserAiProviderAccessIncludeUpdateManyAndReturn<ExtArgs> | null;
   };
 
   /**
-   * UserAiAccessAccess upsert
+   * UserAiProviderAccess upsert
    */
-  export type UserAiAccessAccessUpsertArgs<
+  export type UserAiProviderAccessUpsertArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Select specific fields to fetch from the UserAiAccessAccess
+     * Select specific fields to fetch from the UserAiProviderAccess
      */
-    select?: UserAiAccessAccessSelect<ExtArgs> | null;
+    select?: UserAiProviderAccessSelect<ExtArgs> | null;
     /**
-     * Omit specific fields from the UserAiAccessAccess
+     * Omit specific fields from the UserAiProviderAccess
      */
-    omit?: UserAiAccessAccessOmit<ExtArgs> | null;
+    omit?: UserAiProviderAccessOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: UserAiAccessAccessInclude<ExtArgs> | null;
+    include?: UserAiProviderAccessInclude<ExtArgs> | null;
     /**
-     * The filter to search for the UserAiAccessAccess to update in case it exists.
+     * The filter to search for the UserAiProviderAccess to update in case it exists.
      */
-    where: UserAiAccessAccessWhereUniqueInput;
+    where: UserAiProviderAccessWhereUniqueInput;
     /**
-     * In case the UserAiAccessAccess found by the `where` argument doesn't exist, create a new UserAiAccessAccess with this data.
+     * In case the UserAiProviderAccess found by the `where` argument doesn't exist, create a new UserAiProviderAccess with this data.
      */
-    create: XOR<UserAiAccessAccessCreateInput, UserAiAccessAccessUncheckedCreateInput>;
+    create: XOR<UserAiProviderAccessCreateInput, UserAiProviderAccessUncheckedCreateInput>;
     /**
-     * In case the UserAiAccessAccess was found with the provided `where` argument, update it with this data.
+     * In case the UserAiProviderAccess was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<UserAiAccessAccessUpdateInput, UserAiAccessAccessUncheckedUpdateInput>;
+    update: XOR<UserAiProviderAccessUpdateInput, UserAiProviderAccessUncheckedUpdateInput>;
   };
 
   /**
-   * UserAiAccessAccess delete
+   * UserAiProviderAccess delete
    */
-  export type UserAiAccessAccessDeleteArgs<
+  export type UserAiProviderAccessDeleteArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Select specific fields to fetch from the UserAiAccessAccess
+     * Select specific fields to fetch from the UserAiProviderAccess
      */
-    select?: UserAiAccessAccessSelect<ExtArgs> | null;
+    select?: UserAiProviderAccessSelect<ExtArgs> | null;
     /**
-     * Omit specific fields from the UserAiAccessAccess
+     * Omit specific fields from the UserAiProviderAccess
      */
-    omit?: UserAiAccessAccessOmit<ExtArgs> | null;
+    omit?: UserAiProviderAccessOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: UserAiAccessAccessInclude<ExtArgs> | null;
+    include?: UserAiProviderAccessInclude<ExtArgs> | null;
     /**
-     * Filter which UserAiAccessAccess to delete.
+     * Filter which UserAiProviderAccess to delete.
      */
-    where: UserAiAccessAccessWhereUniqueInput;
+    where: UserAiProviderAccessWhereUniqueInput;
   };
 
   /**
-   * UserAiAccessAccess deleteMany
+   * UserAiProviderAccess deleteMany
    */
-  export type UserAiAccessAccessDeleteManyArgs<
+  export type UserAiProviderAccessDeleteManyArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Filter which UserAiAccessAccesses to delete
+     * Filter which UserAiProviderAccesses to delete
      */
-    where?: UserAiAccessAccessWhereInput;
+    where?: UserAiProviderAccessWhereInput;
     /**
-     * Limit how many UserAiAccessAccesses to delete.
+     * Limit how many UserAiProviderAccesses to delete.
      */
     limit?: number;
   };
 
   /**
-   * UserAiAccessAccess without action
+   * UserAiProviderAccess without action
    */
-  export type UserAiAccessAccessDefaultArgs<
+  export type UserAiProviderAccessDefaultArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Select specific fields to fetch from the UserAiAccessAccess
+     * Select specific fields to fetch from the UserAiProviderAccess
      */
-    select?: UserAiAccessAccessSelect<ExtArgs> | null;
+    select?: UserAiProviderAccessSelect<ExtArgs> | null;
     /**
-     * Omit specific fields from the UserAiAccessAccess
+     * Omit specific fields from the UserAiProviderAccess
      */
-    omit?: UserAiAccessAccessOmit<ExtArgs> | null;
+    omit?: UserAiProviderAccessOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: UserAiAccessAccessInclude<ExtArgs> | null;
+    include?: UserAiProviderAccessInclude<ExtArgs> | null;
   };
 
   /**
@@ -9958,16 +9978,16 @@ export namespace Prisma {
   };
 
   /**
-   * Model AiAccess
+   * Model AiProvider
    */
 
-  export type AggregateAiAccess = {
-    _count: AiAccessCountAggregateOutputType | null;
-    _min: AiAccessMinAggregateOutputType | null;
-    _max: AiAccessMaxAggregateOutputType | null;
+  export type AggregateAiProvider = {
+    _count: AiProviderCountAggregateOutputType | null;
+    _min: AiProviderMinAggregateOutputType | null;
+    _max: AiProviderMaxAggregateOutputType | null;
   };
 
-  export type AiAccessMinAggregateOutputType = {
+  export type AiProviderMinAggregateOutputType = {
     id: string | null;
     name: string | null;
     provider: string | null;
@@ -9980,7 +10000,7 @@ export namespace Prisma {
     ownerId: string | null;
   };
 
-  export type AiAccessMaxAggregateOutputType = {
+  export type AiProviderMaxAggregateOutputType = {
     id: string | null;
     name: string | null;
     provider: string | null;
@@ -9993,7 +10013,7 @@ export namespace Prisma {
     ownerId: string | null;
   };
 
-  export type AiAccessCountAggregateOutputType = {
+  export type AiProviderCountAggregateOutputType = {
     id: number;
     name: number;
     provider: number;
@@ -10007,7 +10027,7 @@ export namespace Prisma {
     _all: number;
   };
 
-  export type AiAccessMinAggregateInputType = {
+  export type AiProviderMinAggregateInputType = {
     id?: true;
     name?: true;
     provider?: true;
@@ -10020,7 +10040,7 @@ export namespace Prisma {
     ownerId?: true;
   };
 
-  export type AiAccessMaxAggregateInputType = {
+  export type AiProviderMaxAggregateInputType = {
     id?: true;
     name?: true;
     provider?: true;
@@ -10033,7 +10053,7 @@ export namespace Prisma {
     ownerId?: true;
   };
 
-  export type AiAccessCountAggregateInputType = {
+  export type AiProviderCountAggregateInputType = {
     id?: true;
     name?: true;
     provider?: true;
@@ -10047,80 +10067,80 @@ export namespace Prisma {
     _all?: true;
   };
 
-  export type AiAccessAggregateArgs<
+  export type AiProviderAggregateArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Filter which AiAccess to aggregate.
+     * Filter which AiProvider to aggregate.
      */
-    where?: AiAccessWhereInput;
+    where?: AiProviderWhereInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      *
-     * Determine the order of AiAccesses to fetch.
+     * Determine the order of AiProviders to fetch.
      */
-    orderBy?: AiAccessOrderByWithRelationInput | AiAccessOrderByWithRelationInput[];
+    orderBy?: AiProviderOrderByWithRelationInput | AiProviderOrderByWithRelationInput[];
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      *
      * Sets the start position
      */
-    cursor?: AiAccessWhereUniqueInput;
+    cursor?: AiProviderWhereUniqueInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      *
-     * Take `±n` AiAccesses from the position of the cursor.
+     * Take `±n` AiProviders from the position of the cursor.
      */
     take?: number;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      *
-     * Skip the first `n` AiAccesses.
+     * Skip the first `n` AiProviders.
      */
     skip?: number;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      *
-     * Count returned AiAccesses
+     * Count returned AiProviders
      **/
-    _count?: true | AiAccessCountAggregateInputType;
+    _count?: true | AiProviderCountAggregateInputType;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      *
      * Select which fields to find the minimum value
      **/
-    _min?: AiAccessMinAggregateInputType;
+    _min?: AiProviderMinAggregateInputType;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      *
      * Select which fields to find the maximum value
      **/
-    _max?: AiAccessMaxAggregateInputType;
+    _max?: AiProviderMaxAggregateInputType;
   };
 
-  export type GetAiAccessAggregateType<T extends AiAccessAggregateArgs> = {
-    [P in keyof T & keyof AggregateAiAccess]: P extends '_count' | 'count'
+  export type GetAiProviderAggregateType<T extends AiProviderAggregateArgs> = {
+    [P in keyof T & keyof AggregateAiProvider]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateAiAccess[P]>
-      : GetScalarType<T[P], AggregateAiAccess[P]>;
+        : GetScalarType<T[P], AggregateAiProvider[P]>
+      : GetScalarType<T[P], AggregateAiProvider[P]>;
   };
 
-  export type AiAccessGroupByArgs<
+  export type AiProviderGroupByArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
-    where?: AiAccessWhereInput;
-    orderBy?: AiAccessOrderByWithAggregationInput | AiAccessOrderByWithAggregationInput[];
-    by: AiAccessScalarFieldEnum[] | AiAccessScalarFieldEnum;
-    having?: AiAccessScalarWhereWithAggregatesInput;
+    where?: AiProviderWhereInput;
+    orderBy?: AiProviderOrderByWithAggregationInput | AiProviderOrderByWithAggregationInput[];
+    by: AiProviderScalarFieldEnum[] | AiProviderScalarFieldEnum;
+    having?: AiProviderScalarWhereWithAggregatesInput;
     take?: number;
     skip?: number;
-    _count?: AiAccessCountAggregateInputType | true;
-    _min?: AiAccessMinAggregateInputType;
-    _max?: AiAccessMaxAggregateInputType;
+    _count?: AiProviderCountAggregateInputType | true;
+    _min?: AiProviderMinAggregateInputType;
+    _max?: AiProviderMaxAggregateInputType;
   };
 
-  export type AiAccessGroupByOutputType = {
+  export type AiProviderGroupByOutputType = {
     id: string;
     name: string;
     provider: string;
@@ -10131,24 +10151,24 @@ export namespace Prisma {
     createdAt: Date;
     updatedAt: Date;
     ownerId: string;
-    _count: AiAccessCountAggregateOutputType | null;
-    _min: AiAccessMinAggregateOutputType | null;
-    _max: AiAccessMaxAggregateOutputType | null;
+    _count: AiProviderCountAggregateOutputType | null;
+    _min: AiProviderMinAggregateOutputType | null;
+    _max: AiProviderMaxAggregateOutputType | null;
   };
 
-  type GetAiAccessGroupByPayload<T extends AiAccessGroupByArgs> = Prisma.PrismaPromise<
+  type GetAiProviderGroupByPayload<T extends AiProviderGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<AiAccessGroupByOutputType, T['by']> & {
-        [P in keyof T & keyof AiAccessGroupByOutputType]: P extends '_count'
+      PickEnumerable<AiProviderGroupByOutputType, T['by']> & {
+        [P in keyof T & keyof AiProviderGroupByOutputType]: P extends '_count'
           ? T[P] extends boolean
             ? number
-            : GetScalarType<T[P], AiAccessGroupByOutputType[P]>
-          : GetScalarType<T[P], AiAccessGroupByOutputType[P]>;
+            : GetScalarType<T[P], AiProviderGroupByOutputType[P]>
+          : GetScalarType<T[P], AiProviderGroupByOutputType[P]>;
       }
     >
   >;
 
-  export type AiAccessSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+  export type AiProviderSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
     $Extensions.GetSelect<
       {
         id?: boolean;
@@ -10162,14 +10182,14 @@ export namespace Prisma {
         updatedAt?: boolean;
         ownerId?: boolean;
         owner?: boolean | UserDefaultArgs<ExtArgs>;
-        sharedWith?: boolean | AiAccess$sharedWithArgs<ExtArgs>;
-        bots?: boolean | AiAccess$botsArgs<ExtArgs>;
-        _count?: boolean | AiAccessCountOutputTypeDefaultArgs<ExtArgs>;
+        sharedWith?: boolean | AiProvider$sharedWithArgs<ExtArgs>;
+        bots?: boolean | AiProvider$botsArgs<ExtArgs>;
+        _count?: boolean | AiProviderCountOutputTypeDefaultArgs<ExtArgs>;
       },
-      ExtArgs['result']['aiAccess']
+      ExtArgs['result']['aiProvider']
     >;
 
-  export type AiAccessSelectCreateManyAndReturn<
+  export type AiProviderSelectCreateManyAndReturn<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = $Extensions.GetSelect<
     {
@@ -10185,10 +10205,10 @@ export namespace Prisma {
       ownerId?: boolean;
       owner?: boolean | UserDefaultArgs<ExtArgs>;
     },
-    ExtArgs['result']['aiAccess']
+    ExtArgs['result']['aiProvider']
   >;
 
-  export type AiAccessSelectUpdateManyAndReturn<
+  export type AiProviderSelectUpdateManyAndReturn<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = $Extensions.GetSelect<
     {
@@ -10204,10 +10224,10 @@ export namespace Prisma {
       ownerId?: boolean;
       owner?: boolean | UserDefaultArgs<ExtArgs>;
     },
-    ExtArgs['result']['aiAccess']
+    ExtArgs['result']['aiProvider']
   >;
 
-  export type AiAccessSelectScalar = {
+  export type AiProviderSelectScalar = {
     id?: boolean;
     name?: boolean;
     provider?: boolean;
@@ -10220,7 +10240,7 @@ export namespace Prisma {
     ownerId?: boolean;
   };
 
-  export type AiAccessOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+  export type AiProviderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
     $Extensions.GetOmit<
       | 'id'
       | 'name'
@@ -10232,86 +10252,86 @@ export namespace Prisma {
       | 'createdAt'
       | 'updatedAt'
       | 'ownerId',
-      ExtArgs['result']['aiAccess']
+      ExtArgs['result']['aiProvider']
     >;
-  export type AiAccessInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    {
-      owner?: boolean | UserDefaultArgs<ExtArgs>;
-      sharedWith?: boolean | AiAccess$sharedWithArgs<ExtArgs>;
-      bots?: boolean | AiAccess$botsArgs<ExtArgs>;
-      _count?: boolean | AiAccessCountOutputTypeDefaultArgs<ExtArgs>;
-    };
-  export type AiAccessIncludeCreateManyAndReturn<
+  export type AiProviderInclude<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    owner?: boolean | UserDefaultArgs<ExtArgs>;
+    sharedWith?: boolean | AiProvider$sharedWithArgs<ExtArgs>;
+    bots?: boolean | AiProvider$botsArgs<ExtArgs>;
+    _count?: boolean | AiProviderCountOutputTypeDefaultArgs<ExtArgs>;
+  };
+  export type AiProviderIncludeCreateManyAndReturn<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     owner?: boolean | UserDefaultArgs<ExtArgs>;
   };
-  export type AiAccessIncludeUpdateManyAndReturn<
+  export type AiProviderIncludeUpdateManyAndReturn<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     owner?: boolean | UserDefaultArgs<ExtArgs>;
   };
 
-  export type $AiAccessPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    {
-      name: 'AiAccess';
-      objects: {
-        owner: Prisma.$UserPayload<ExtArgs>;
-        sharedWith: Prisma.$UserAiAccessAccessPayload<ExtArgs>[];
-        bots: Prisma.$AiBotPayload<ExtArgs>[];
-      };
-      scalars: $Extensions.GetPayloadResult<
-        {
-          id: string;
-          name: string;
-          provider: string;
-          model: string;
-          apiKey: string;
-          baseUrl: string | null;
-          isActive: boolean;
-          createdAt: Date;
-          updatedAt: Date;
-          ownerId: string;
-        },
-        ExtArgs['result']['aiAccess']
-      >;
-      composites: {};
+  export type $AiProviderPayload<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    name: 'AiProvider';
+    objects: {
+      owner: Prisma.$UserPayload<ExtArgs>;
+      sharedWith: Prisma.$UserAiProviderAccessPayload<ExtArgs>[];
+      bots: Prisma.$AiBotPayload<ExtArgs>[];
     };
-
-  type AiAccessGetPayload<S extends boolean | null | undefined | AiAccessDefaultArgs> =
-    $Result.GetResult<Prisma.$AiAccessPayload, S>;
-
-  type AiAccessCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = Omit<
-    AiAccessFindManyArgs,
-    'select' | 'include' | 'distinct' | 'omit'
-  > & {
-    select?: AiAccessCountAggregateInputType | true;
+    scalars: $Extensions.GetPayloadResult<
+      {
+        id: string;
+        name: string;
+        provider: string;
+        model: string;
+        apiKey: string;
+        baseUrl: string | null;
+        isActive: boolean;
+        createdAt: Date;
+        updatedAt: Date;
+        ownerId: string;
+      },
+      ExtArgs['result']['aiProvider']
+    >;
+    composites: {};
   };
 
-  export interface AiAccessDelegate<
+  type AiProviderGetPayload<S extends boolean | null | undefined | AiProviderDefaultArgs> =
+    $Result.GetResult<Prisma.$AiProviderPayload, S>;
+
+  type AiProviderCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AiProviderFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AiProviderCountAggregateInputType | true;
+    };
+
+  export interface AiProviderDelegate<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
     GlobalOmitOptions = {},
   > {
     [K: symbol]: {
-      types: Prisma.TypeMap<ExtArgs>['model']['AiAccess'];
-      meta: { name: 'AiAccess' };
+      types: Prisma.TypeMap<ExtArgs>['model']['AiProvider'];
+      meta: { name: 'AiProvider' };
     };
     /**
-     * Find zero or one AiAccess that matches the filter.
-     * @param {AiAccessFindUniqueArgs} args - Arguments to find a AiAccess
+     * Find zero or one AiProvider that matches the filter.
+     * @param {AiProviderFindUniqueArgs} args - Arguments to find a AiProvider
      * @example
-     * // Get one AiAccess
-     * const aiAccess = await prisma.aiAccess.findUnique({
+     * // Get one AiProvider
+     * const aiProvider = await prisma.aiProvider.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends AiAccessFindUniqueArgs>(
-      args: SelectSubset<T, AiAccessFindUniqueArgs<ExtArgs>>
-    ): Prisma__AiAccessClient<
+    findUnique<T extends AiProviderFindUniqueArgs>(
+      args: SelectSubset<T, AiProviderFindUniqueArgs<ExtArgs>>
+    ): Prisma__AiProviderClient<
       $Result.GetResult<
-        Prisma.$AiAccessPayload<ExtArgs>,
+        Prisma.$AiProviderPayload<ExtArgs>,
         T,
         'findUnique',
         GlobalOmitOptions
@@ -10322,22 +10342,22 @@ export namespace Prisma {
     >;
 
     /**
-     * Find one AiAccess that matches the filter or throw an error with `error.code='P2025'`
+     * Find one AiProvider that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {AiAccessFindUniqueOrThrowArgs} args - Arguments to find a AiAccess
+     * @param {AiProviderFindUniqueOrThrowArgs} args - Arguments to find a AiProvider
      * @example
-     * // Get one AiAccess
-     * const aiAccess = await prisma.aiAccess.findUniqueOrThrow({
+     * // Get one AiProvider
+     * const aiProvider = await prisma.aiProvider.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends AiAccessFindUniqueOrThrowArgs>(
-      args: SelectSubset<T, AiAccessFindUniqueOrThrowArgs<ExtArgs>>
-    ): Prisma__AiAccessClient<
+    findUniqueOrThrow<T extends AiProviderFindUniqueOrThrowArgs>(
+      args: SelectSubset<T, AiProviderFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__AiProviderClient<
       $Result.GetResult<
-        Prisma.$AiAccessPayload<ExtArgs>,
+        Prisma.$AiProviderPayload<ExtArgs>,
         T,
         'findUniqueOrThrow',
         GlobalOmitOptions
@@ -10348,122 +10368,132 @@ export namespace Prisma {
     >;
 
     /**
-     * Find the first AiAccess that matches the filter.
+     * Find the first AiProvider that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AiAccessFindFirstArgs} args - Arguments to find a AiAccess
+     * @param {AiProviderFindFirstArgs} args - Arguments to find a AiProvider
      * @example
-     * // Get one AiAccess
-     * const aiAccess = await prisma.aiAccess.findFirst({
+     * // Get one AiProvider
+     * const aiProvider = await prisma.aiProvider.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends AiAccessFindFirstArgs>(
-      args?: SelectSubset<T, AiAccessFindFirstArgs<ExtArgs>>
-    ): Prisma__AiAccessClient<
-      $Result.GetResult<Prisma.$AiAccessPayload<ExtArgs>, T, 'findFirst', GlobalOmitOptions> | null,
+    findFirst<T extends AiProviderFindFirstArgs>(
+      args?: SelectSubset<T, AiProviderFindFirstArgs<ExtArgs>>
+    ): Prisma__AiProviderClient<
+      $Result.GetResult<
+        Prisma.$AiProviderPayload<ExtArgs>,
+        T,
+        'findFirst',
+        GlobalOmitOptions
+      > | null,
       null,
       ExtArgs,
       GlobalOmitOptions
     >;
 
     /**
-     * Find the first AiAccess that matches the filter or
+     * Find the first AiProvider that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AiAccessFindFirstOrThrowArgs} args - Arguments to find a AiAccess
+     * @param {AiProviderFindFirstOrThrowArgs} args - Arguments to find a AiProvider
      * @example
-     * // Get one AiAccess
-     * const aiAccess = await prisma.aiAccess.findFirstOrThrow({
+     * // Get one AiProvider
+     * const aiProvider = await prisma.aiProvider.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends AiAccessFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, AiAccessFindFirstOrThrowArgs<ExtArgs>>
-    ): Prisma__AiAccessClient<
-      $Result.GetResult<Prisma.$AiAccessPayload<ExtArgs>, T, 'findFirstOrThrow', GlobalOmitOptions>,
+    findFirstOrThrow<T extends AiProviderFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, AiProviderFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__AiProviderClient<
+      $Result.GetResult<
+        Prisma.$AiProviderPayload<ExtArgs>,
+        T,
+        'findFirstOrThrow',
+        GlobalOmitOptions
+      >,
       never,
       ExtArgs,
       GlobalOmitOptions
     >;
 
     /**
-     * Find zero or more AiAccesses that matches the filter.
+     * Find zero or more AiProviders that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AiAccessFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {AiProviderFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all AiAccesses
-     * const aiAccesses = await prisma.aiAccess.findMany()
+     * // Get all AiProviders
+     * const aiProviders = await prisma.aiProvider.findMany()
      *
-     * // Get first 10 AiAccesses
-     * const aiAccesses = await prisma.aiAccess.findMany({ take: 10 })
+     * // Get first 10 AiProviders
+     * const aiProviders = await prisma.aiProvider.findMany({ take: 10 })
      *
      * // Only select the `id`
-     * const aiAccessWithIdOnly = await prisma.aiAccess.findMany({ select: { id: true } })
+     * const aiProviderWithIdOnly = await prisma.aiProvider.findMany({ select: { id: true } })
      *
      */
-    findMany<T extends AiAccessFindManyArgs>(
-      args?: SelectSubset<T, AiAccessFindManyArgs<ExtArgs>>
+    findMany<T extends AiProviderFindManyArgs>(
+      args?: SelectSubset<T, AiProviderFindManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<
-      $Result.GetResult<Prisma.$AiAccessPayload<ExtArgs>, T, 'findMany', GlobalOmitOptions>
+      $Result.GetResult<Prisma.$AiProviderPayload<ExtArgs>, T, 'findMany', GlobalOmitOptions>
     >;
 
     /**
-     * Create a AiAccess.
-     * @param {AiAccessCreateArgs} args - Arguments to create a AiAccess.
+     * Create a AiProvider.
+     * @param {AiProviderCreateArgs} args - Arguments to create a AiProvider.
      * @example
-     * // Create one AiAccess
-     * const AiAccess = await prisma.aiAccess.create({
+     * // Create one AiProvider
+     * const AiProvider = await prisma.aiProvider.create({
      *   data: {
-     *     // ... data to create a AiAccess
+     *     // ... data to create a AiProvider
      *   }
      * })
      *
      */
-    create<T extends AiAccessCreateArgs>(
-      args: SelectSubset<T, AiAccessCreateArgs<ExtArgs>>
-    ): Prisma__AiAccessClient<
-      $Result.GetResult<Prisma.$AiAccessPayload<ExtArgs>, T, 'create', GlobalOmitOptions>,
+    create<T extends AiProviderCreateArgs>(
+      args: SelectSubset<T, AiProviderCreateArgs<ExtArgs>>
+    ): Prisma__AiProviderClient<
+      $Result.GetResult<Prisma.$AiProviderPayload<ExtArgs>, T, 'create', GlobalOmitOptions>,
       never,
       ExtArgs,
       GlobalOmitOptions
     >;
 
     /**
-     * Create many AiAccesses.
-     * @param {AiAccessCreateManyArgs} args - Arguments to create many AiAccesses.
+     * Create many AiProviders.
+     * @param {AiProviderCreateManyArgs} args - Arguments to create many AiProviders.
      * @example
-     * // Create many AiAccesses
-     * const aiAccess = await prisma.aiAccess.createMany({
+     * // Create many AiProviders
+     * const aiProvider = await prisma.aiProvider.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *
      */
-    createMany<T extends AiAccessCreateManyArgs>(
-      args?: SelectSubset<T, AiAccessCreateManyArgs<ExtArgs>>
+    createMany<T extends AiProviderCreateManyArgs>(
+      args?: SelectSubset<T, AiProviderCreateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
-     * Create many AiAccesses and returns the data saved in the database.
-     * @param {AiAccessCreateManyAndReturnArgs} args - Arguments to create many AiAccesses.
+     * Create many AiProviders and returns the data saved in the database.
+     * @param {AiProviderCreateManyAndReturnArgs} args - Arguments to create many AiProviders.
      * @example
-     * // Create many AiAccesses
-     * const aiAccess = await prisma.aiAccess.createManyAndReturn({
+     * // Create many AiProviders
+     * const aiProvider = await prisma.aiProvider.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *
-     * // Create many AiAccesses and only return the `id`
-     * const aiAccessWithIdOnly = await prisma.aiAccess.createManyAndReturn({
+     * // Create many AiProviders and only return the `id`
+     * const aiProviderWithIdOnly = await prisma.aiProvider.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -10473,11 +10503,11 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      *
      */
-    createManyAndReturn<T extends AiAccessCreateManyAndReturnArgs>(
-      args?: SelectSubset<T, AiAccessCreateManyAndReturnArgs<ExtArgs>>
+    createManyAndReturn<T extends AiProviderCreateManyAndReturnArgs>(
+      args?: SelectSubset<T, AiProviderCreateManyAndReturnArgs<ExtArgs>>
     ): Prisma.PrismaPromise<
       $Result.GetResult<
-        Prisma.$AiAccessPayload<ExtArgs>,
+        Prisma.$AiProviderPayload<ExtArgs>,
         T,
         'createManyAndReturn',
         GlobalOmitOptions
@@ -10485,32 +10515,32 @@ export namespace Prisma {
     >;
 
     /**
-     * Delete a AiAccess.
-     * @param {AiAccessDeleteArgs} args - Arguments to delete one AiAccess.
+     * Delete a AiProvider.
+     * @param {AiProviderDeleteArgs} args - Arguments to delete one AiProvider.
      * @example
-     * // Delete one AiAccess
-     * const AiAccess = await prisma.aiAccess.delete({
+     * // Delete one AiProvider
+     * const AiProvider = await prisma.aiProvider.delete({
      *   where: {
-     *     // ... filter to delete one AiAccess
+     *     // ... filter to delete one AiProvider
      *   }
      * })
      *
      */
-    delete<T extends AiAccessDeleteArgs>(
-      args: SelectSubset<T, AiAccessDeleteArgs<ExtArgs>>
-    ): Prisma__AiAccessClient<
-      $Result.GetResult<Prisma.$AiAccessPayload<ExtArgs>, T, 'delete', GlobalOmitOptions>,
+    delete<T extends AiProviderDeleteArgs>(
+      args: SelectSubset<T, AiProviderDeleteArgs<ExtArgs>>
+    ): Prisma__AiProviderClient<
+      $Result.GetResult<Prisma.$AiProviderPayload<ExtArgs>, T, 'delete', GlobalOmitOptions>,
       never,
       ExtArgs,
       GlobalOmitOptions
     >;
 
     /**
-     * Update one AiAccess.
-     * @param {AiAccessUpdateArgs} args - Arguments to update one AiAccess.
+     * Update one AiProvider.
+     * @param {AiProviderUpdateArgs} args - Arguments to update one AiProvider.
      * @example
-     * // Update one AiAccess
-     * const aiAccess = await prisma.aiAccess.update({
+     * // Update one AiProvider
+     * const aiProvider = await prisma.aiProvider.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -10520,39 +10550,39 @@ export namespace Prisma {
      * })
      *
      */
-    update<T extends AiAccessUpdateArgs>(
-      args: SelectSubset<T, AiAccessUpdateArgs<ExtArgs>>
-    ): Prisma__AiAccessClient<
-      $Result.GetResult<Prisma.$AiAccessPayload<ExtArgs>, T, 'update', GlobalOmitOptions>,
+    update<T extends AiProviderUpdateArgs>(
+      args: SelectSubset<T, AiProviderUpdateArgs<ExtArgs>>
+    ): Prisma__AiProviderClient<
+      $Result.GetResult<Prisma.$AiProviderPayload<ExtArgs>, T, 'update', GlobalOmitOptions>,
       never,
       ExtArgs,
       GlobalOmitOptions
     >;
 
     /**
-     * Delete zero or more AiAccesses.
-     * @param {AiAccessDeleteManyArgs} args - Arguments to filter AiAccesses to delete.
+     * Delete zero or more AiProviders.
+     * @param {AiProviderDeleteManyArgs} args - Arguments to filter AiProviders to delete.
      * @example
-     * // Delete a few AiAccesses
-     * const { count } = await prisma.aiAccess.deleteMany({
+     * // Delete a few AiProviders
+     * const { count } = await prisma.aiProvider.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      *
      */
-    deleteMany<T extends AiAccessDeleteManyArgs>(
-      args?: SelectSubset<T, AiAccessDeleteManyArgs<ExtArgs>>
+    deleteMany<T extends AiProviderDeleteManyArgs>(
+      args?: SelectSubset<T, AiProviderDeleteManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
-     * Update zero or more AiAccesses.
+     * Update zero or more AiProviders.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AiAccessUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {AiProviderUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many AiAccesses
-     * const aiAccess = await prisma.aiAccess.updateMany({
+     * // Update many AiProviders
+     * const aiProvider = await prisma.aiProvider.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -10562,16 +10592,16 @@ export namespace Prisma {
      * })
      *
      */
-    updateMany<T extends AiAccessUpdateManyArgs>(
-      args: SelectSubset<T, AiAccessUpdateManyArgs<ExtArgs>>
+    updateMany<T extends AiProviderUpdateManyArgs>(
+      args: SelectSubset<T, AiProviderUpdateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
-     * Update zero or more AiAccesses and returns the data updated in the database.
-     * @param {AiAccessUpdateManyAndReturnArgs} args - Arguments to update many AiAccesses.
+     * Update zero or more AiProviders and returns the data updated in the database.
+     * @param {AiProviderUpdateManyAndReturnArgs} args - Arguments to update many AiProviders.
      * @example
-     * // Update many AiAccesses
-     * const aiAccess = await prisma.aiAccess.updateManyAndReturn({
+     * // Update many AiProviders
+     * const aiProvider = await prisma.aiProvider.updateManyAndReturn({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -10580,8 +10610,8 @@ export namespace Prisma {
      *   ]
      * })
      *
-     * // Update zero or more AiAccesses and only return the `id`
-     * const aiAccessWithIdOnly = await prisma.aiAccess.updateManyAndReturn({
+     * // Update zero or more AiProviders and only return the `id`
+     * const aiProviderWithIdOnly = await prisma.aiProvider.updateManyAndReturn({
      *   select: { id: true },
      *   where: {
      *     // ... provide filter here
@@ -10594,11 +10624,11 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      *
      */
-    updateManyAndReturn<T extends AiAccessUpdateManyAndReturnArgs>(
-      args: SelectSubset<T, AiAccessUpdateManyAndReturnArgs<ExtArgs>>
+    updateManyAndReturn<T extends AiProviderUpdateManyAndReturnArgs>(
+      args: SelectSubset<T, AiProviderUpdateManyAndReturnArgs<ExtArgs>>
     ): Prisma.PrismaPromise<
       $Result.GetResult<
-        Prisma.$AiAccessPayload<ExtArgs>,
+        Prisma.$AiProviderPayload<ExtArgs>,
         T,
         'updateManyAndReturn',
         GlobalOmitOptions
@@ -10606,59 +10636,59 @@ export namespace Prisma {
     >;
 
     /**
-     * Create or update one AiAccess.
-     * @param {AiAccessUpsertArgs} args - Arguments to update or create a AiAccess.
+     * Create or update one AiProvider.
+     * @param {AiProviderUpsertArgs} args - Arguments to update or create a AiProvider.
      * @example
-     * // Update or create a AiAccess
-     * const aiAccess = await prisma.aiAccess.upsert({
+     * // Update or create a AiProvider
+     * const aiProvider = await prisma.aiProvider.upsert({
      *   create: {
-     *     // ... data to create a AiAccess
+     *     // ... data to create a AiProvider
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the AiAccess we want to update
+     *     // ... the filter for the AiProvider we want to update
      *   }
      * })
      */
-    upsert<T extends AiAccessUpsertArgs>(
-      args: SelectSubset<T, AiAccessUpsertArgs<ExtArgs>>
-    ): Prisma__AiAccessClient<
-      $Result.GetResult<Prisma.$AiAccessPayload<ExtArgs>, T, 'upsert', GlobalOmitOptions>,
+    upsert<T extends AiProviderUpsertArgs>(
+      args: SelectSubset<T, AiProviderUpsertArgs<ExtArgs>>
+    ): Prisma__AiProviderClient<
+      $Result.GetResult<Prisma.$AiProviderPayload<ExtArgs>, T, 'upsert', GlobalOmitOptions>,
       never,
       ExtArgs,
       GlobalOmitOptions
     >;
 
     /**
-     * Count the number of AiAccesses.
+     * Count the number of AiProviders.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AiAccessCountArgs} args - Arguments to filter AiAccesses to count.
+     * @param {AiProviderCountArgs} args - Arguments to filter AiProviders to count.
      * @example
-     * // Count the number of AiAccesses
-     * const count = await prisma.aiAccess.count({
+     * // Count the number of AiProviders
+     * const count = await prisma.aiProvider.count({
      *   where: {
-     *     // ... the filter for the AiAccesses we want to count
+     *     // ... the filter for the AiProviders we want to count
      *   }
      * })
      **/
-    count<T extends AiAccessCountArgs>(
-      args?: Subset<T, AiAccessCountArgs>
+    count<T extends AiProviderCountArgs>(
+      args?: Subset<T, AiProviderCountArgs>
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], AiAccessCountAggregateOutputType>
+          : GetScalarType<T['select'], AiProviderCountAggregateOutputType>
         : number
     >;
 
     /**
-     * Allows you to perform aggregations operations on a AiAccess.
+     * Allows you to perform aggregations operations on a AiProvider.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AiAccessAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {AiProviderAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -10678,15 +10708,15 @@ export namespace Prisma {
      *   take: 10,
      * })
      **/
-    aggregate<T extends AiAccessAggregateArgs>(
-      args: Subset<T, AiAccessAggregateArgs>
-    ): Prisma.PrismaPromise<GetAiAccessAggregateType<T>>;
+    aggregate<T extends AiProviderAggregateArgs>(
+      args: Subset<T, AiProviderAggregateArgs>
+    ): Prisma.PrismaPromise<GetAiProviderAggregateType<T>>;
 
     /**
-     * Group by AiAccess.
+     * Group by AiProvider.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AiAccessGroupByArgs} args - Group by arguments.
+     * @param {AiProviderGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -10701,11 +10731,11 @@ export namespace Prisma {
      *
      **/
     groupBy<
-      T extends AiAccessGroupByArgs,
+      T extends AiProviderGroupByArgs,
       HasSelectOrTake extends Or<Extends<'skip', Keys<T>>, Extends<'take', Keys<T>>>,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: AiAccessGroupByArgs['orderBy'] }
-        : { orderBy?: AiAccessGroupByArgs['orderBy'] },
+        ? { orderBy: AiProviderGroupByArgs['orderBy'] }
+        : { orderBy?: AiProviderGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -10750,21 +10780,21 @@ export namespace Prisma {
                       : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
                   }[OrderFields],
     >(
-      args: SubsetIntersection<T, AiAccessGroupByArgs, OrderByArg> & InputErrors
-    ): {} extends InputErrors ? GetAiAccessGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>;
+      args: SubsetIntersection<T, AiProviderGroupByArgs, OrderByArg> & InputErrors
+    ): {} extends InputErrors ? GetAiProviderGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>;
     /**
-     * Fields of the AiAccess model
+     * Fields of the AiProvider model
      */
-    readonly fields: AiAccessFieldRefs;
+    readonly fields: AiProviderFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for AiAccess.
+   * The delegate class that acts as a "Promise-like" for AiProvider.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__AiAccessClient<
+  export interface Prisma__AiProviderClient<
     T,
     Null = never,
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
@@ -10780,19 +10810,19 @@ export namespace Prisma {
       ExtArgs,
       GlobalOmitOptions
     >;
-    sharedWith<T extends AiAccess$sharedWithArgs<ExtArgs> = {}>(
-      args?: Subset<T, AiAccess$sharedWithArgs<ExtArgs>>
+    sharedWith<T extends AiProvider$sharedWithArgs<ExtArgs> = {}>(
+      args?: Subset<T, AiProvider$sharedWithArgs<ExtArgs>>
     ): Prisma.PrismaPromise<
       | $Result.GetResult<
-          Prisma.$UserAiAccessAccessPayload<ExtArgs>,
+          Prisma.$UserAiProviderAccessPayload<ExtArgs>,
           T,
           'findMany',
           GlobalOmitOptions
         >
       | Null
     >;
-    bots<T extends AiAccess$botsArgs<ExtArgs> = {}>(
-      args?: Subset<T, AiAccess$botsArgs<ExtArgs>>
+    bots<T extends AiProvider$botsArgs<ExtArgs> = {}>(
+      args?: Subset<T, AiProvider$botsArgs<ExtArgs>>
     ): Prisma.PrismaPromise<
       $Result.GetResult<Prisma.$AiBotPayload<ExtArgs>, T, 'findMany', GlobalOmitOptions> | Null
     >;
@@ -10824,473 +10854,473 @@ export namespace Prisma {
   }
 
   /**
-   * Fields of the AiAccess model
+   * Fields of the AiProvider model
    */
-  interface AiAccessFieldRefs {
-    readonly id: FieldRef<'AiAccess', 'String'>;
-    readonly name: FieldRef<'AiAccess', 'String'>;
-    readonly provider: FieldRef<'AiAccess', 'String'>;
-    readonly model: FieldRef<'AiAccess', 'String'>;
-    readonly apiKey: FieldRef<'AiAccess', 'String'>;
-    readonly baseUrl: FieldRef<'AiAccess', 'String'>;
-    readonly isActive: FieldRef<'AiAccess', 'Boolean'>;
-    readonly createdAt: FieldRef<'AiAccess', 'DateTime'>;
-    readonly updatedAt: FieldRef<'AiAccess', 'DateTime'>;
-    readonly ownerId: FieldRef<'AiAccess', 'String'>;
+  interface AiProviderFieldRefs {
+    readonly id: FieldRef<'AiProvider', 'String'>;
+    readonly name: FieldRef<'AiProvider', 'String'>;
+    readonly provider: FieldRef<'AiProvider', 'String'>;
+    readonly model: FieldRef<'AiProvider', 'String'>;
+    readonly apiKey: FieldRef<'AiProvider', 'String'>;
+    readonly baseUrl: FieldRef<'AiProvider', 'String'>;
+    readonly isActive: FieldRef<'AiProvider', 'Boolean'>;
+    readonly createdAt: FieldRef<'AiProvider', 'DateTime'>;
+    readonly updatedAt: FieldRef<'AiProvider', 'DateTime'>;
+    readonly ownerId: FieldRef<'AiProvider', 'String'>;
   }
 
   // Custom InputTypes
   /**
-   * AiAccess findUnique
+   * AiProvider findUnique
    */
-  export type AiAccessFindUniqueArgs<
+  export type AiProviderFindUniqueArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Select specific fields to fetch from the AiAccess
+     * Select specific fields to fetch from the AiProvider
      */
-    select?: AiAccessSelect<ExtArgs> | null;
+    select?: AiProviderSelect<ExtArgs> | null;
     /**
-     * Omit specific fields from the AiAccess
+     * Omit specific fields from the AiProvider
      */
-    omit?: AiAccessOmit<ExtArgs> | null;
+    omit?: AiProviderOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AiAccessInclude<ExtArgs> | null;
+    include?: AiProviderInclude<ExtArgs> | null;
     /**
-     * Filter, which AiAccess to fetch.
+     * Filter, which AiProvider to fetch.
      */
-    where: AiAccessWhereUniqueInput;
+    where: AiProviderWhereUniqueInput;
   };
 
   /**
-   * AiAccess findUniqueOrThrow
+   * AiProvider findUniqueOrThrow
    */
-  export type AiAccessFindUniqueOrThrowArgs<
+  export type AiProviderFindUniqueOrThrowArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Select specific fields to fetch from the AiAccess
+     * Select specific fields to fetch from the AiProvider
      */
-    select?: AiAccessSelect<ExtArgs> | null;
+    select?: AiProviderSelect<ExtArgs> | null;
     /**
-     * Omit specific fields from the AiAccess
+     * Omit specific fields from the AiProvider
      */
-    omit?: AiAccessOmit<ExtArgs> | null;
+    omit?: AiProviderOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AiAccessInclude<ExtArgs> | null;
+    include?: AiProviderInclude<ExtArgs> | null;
     /**
-     * Filter, which AiAccess to fetch.
+     * Filter, which AiProvider to fetch.
      */
-    where: AiAccessWhereUniqueInput;
+    where: AiProviderWhereUniqueInput;
   };
 
   /**
-   * AiAccess findFirst
+   * AiProvider findFirst
    */
-  export type AiAccessFindFirstArgs<
+  export type AiProviderFindFirstArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Select specific fields to fetch from the AiAccess
+     * Select specific fields to fetch from the AiProvider
      */
-    select?: AiAccessSelect<ExtArgs> | null;
+    select?: AiProviderSelect<ExtArgs> | null;
     /**
-     * Omit specific fields from the AiAccess
+     * Omit specific fields from the AiProvider
      */
-    omit?: AiAccessOmit<ExtArgs> | null;
+    omit?: AiProviderOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AiAccessInclude<ExtArgs> | null;
+    include?: AiProviderInclude<ExtArgs> | null;
     /**
-     * Filter, which AiAccess to fetch.
+     * Filter, which AiProvider to fetch.
      */
-    where?: AiAccessWhereInput;
+    where?: AiProviderWhereInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      *
-     * Determine the order of AiAccesses to fetch.
+     * Determine the order of AiProviders to fetch.
      */
-    orderBy?: AiAccessOrderByWithRelationInput | AiAccessOrderByWithRelationInput[];
+    orderBy?: AiProviderOrderByWithRelationInput | AiProviderOrderByWithRelationInput[];
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      *
-     * Sets the position for searching for AiAccesses.
+     * Sets the position for searching for AiProviders.
      */
-    cursor?: AiAccessWhereUniqueInput;
+    cursor?: AiProviderWhereUniqueInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      *
-     * Take `±n` AiAccesses from the position of the cursor.
+     * Take `±n` AiProviders from the position of the cursor.
      */
     take?: number;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      *
-     * Skip the first `n` AiAccesses.
+     * Skip the first `n` AiProviders.
      */
     skip?: number;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      *
-     * Filter by unique combinations of AiAccesses.
+     * Filter by unique combinations of AiProviders.
      */
-    distinct?: AiAccessScalarFieldEnum | AiAccessScalarFieldEnum[];
+    distinct?: AiProviderScalarFieldEnum | AiProviderScalarFieldEnum[];
   };
 
   /**
-   * AiAccess findFirstOrThrow
+   * AiProvider findFirstOrThrow
    */
-  export type AiAccessFindFirstOrThrowArgs<
+  export type AiProviderFindFirstOrThrowArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Select specific fields to fetch from the AiAccess
+     * Select specific fields to fetch from the AiProvider
      */
-    select?: AiAccessSelect<ExtArgs> | null;
+    select?: AiProviderSelect<ExtArgs> | null;
     /**
-     * Omit specific fields from the AiAccess
+     * Omit specific fields from the AiProvider
      */
-    omit?: AiAccessOmit<ExtArgs> | null;
+    omit?: AiProviderOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AiAccessInclude<ExtArgs> | null;
+    include?: AiProviderInclude<ExtArgs> | null;
     /**
-     * Filter, which AiAccess to fetch.
+     * Filter, which AiProvider to fetch.
      */
-    where?: AiAccessWhereInput;
+    where?: AiProviderWhereInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      *
-     * Determine the order of AiAccesses to fetch.
+     * Determine the order of AiProviders to fetch.
      */
-    orderBy?: AiAccessOrderByWithRelationInput | AiAccessOrderByWithRelationInput[];
+    orderBy?: AiProviderOrderByWithRelationInput | AiProviderOrderByWithRelationInput[];
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      *
-     * Sets the position for searching for AiAccesses.
+     * Sets the position for searching for AiProviders.
      */
-    cursor?: AiAccessWhereUniqueInput;
+    cursor?: AiProviderWhereUniqueInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      *
-     * Take `±n` AiAccesses from the position of the cursor.
+     * Take `±n` AiProviders from the position of the cursor.
      */
     take?: number;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      *
-     * Skip the first `n` AiAccesses.
+     * Skip the first `n` AiProviders.
      */
     skip?: number;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      *
-     * Filter by unique combinations of AiAccesses.
+     * Filter by unique combinations of AiProviders.
      */
-    distinct?: AiAccessScalarFieldEnum | AiAccessScalarFieldEnum[];
+    distinct?: AiProviderScalarFieldEnum | AiProviderScalarFieldEnum[];
   };
 
   /**
-   * AiAccess findMany
+   * AiProvider findMany
    */
-  export type AiAccessFindManyArgs<
+  export type AiProviderFindManyArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Select specific fields to fetch from the AiAccess
+     * Select specific fields to fetch from the AiProvider
      */
-    select?: AiAccessSelect<ExtArgs> | null;
+    select?: AiProviderSelect<ExtArgs> | null;
     /**
-     * Omit specific fields from the AiAccess
+     * Omit specific fields from the AiProvider
      */
-    omit?: AiAccessOmit<ExtArgs> | null;
+    omit?: AiProviderOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AiAccessInclude<ExtArgs> | null;
+    include?: AiProviderInclude<ExtArgs> | null;
     /**
-     * Filter, which AiAccesses to fetch.
+     * Filter, which AiProviders to fetch.
      */
-    where?: AiAccessWhereInput;
+    where?: AiProviderWhereInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      *
-     * Determine the order of AiAccesses to fetch.
+     * Determine the order of AiProviders to fetch.
      */
-    orderBy?: AiAccessOrderByWithRelationInput | AiAccessOrderByWithRelationInput[];
+    orderBy?: AiProviderOrderByWithRelationInput | AiProviderOrderByWithRelationInput[];
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      *
-     * Sets the position for listing AiAccesses.
+     * Sets the position for listing AiProviders.
      */
-    cursor?: AiAccessWhereUniqueInput;
+    cursor?: AiProviderWhereUniqueInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      *
-     * Take `±n` AiAccesses from the position of the cursor.
+     * Take `±n` AiProviders from the position of the cursor.
      */
     take?: number;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      *
-     * Skip the first `n` AiAccesses.
+     * Skip the first `n` AiProviders.
      */
     skip?: number;
-    distinct?: AiAccessScalarFieldEnum | AiAccessScalarFieldEnum[];
+    distinct?: AiProviderScalarFieldEnum | AiProviderScalarFieldEnum[];
   };
 
   /**
-   * AiAccess create
+   * AiProvider create
    */
-  export type AiAccessCreateArgs<
+  export type AiProviderCreateArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Select specific fields to fetch from the AiAccess
+     * Select specific fields to fetch from the AiProvider
      */
-    select?: AiAccessSelect<ExtArgs> | null;
+    select?: AiProviderSelect<ExtArgs> | null;
     /**
-     * Omit specific fields from the AiAccess
+     * Omit specific fields from the AiProvider
      */
-    omit?: AiAccessOmit<ExtArgs> | null;
+    omit?: AiProviderOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AiAccessInclude<ExtArgs> | null;
+    include?: AiProviderInclude<ExtArgs> | null;
     /**
-     * The data needed to create a AiAccess.
+     * The data needed to create a AiProvider.
      */
-    data: XOR<AiAccessCreateInput, AiAccessUncheckedCreateInput>;
+    data: XOR<AiProviderCreateInput, AiProviderUncheckedCreateInput>;
   };
 
   /**
-   * AiAccess createMany
+   * AiProvider createMany
    */
-  export type AiAccessCreateManyArgs<
+  export type AiProviderCreateManyArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * The data used to create many AiAccesses.
+     * The data used to create many AiProviders.
      */
-    data: AiAccessCreateManyInput | AiAccessCreateManyInput[];
+    data: AiProviderCreateManyInput | AiProviderCreateManyInput[];
     skipDuplicates?: boolean;
   };
 
   /**
-   * AiAccess createManyAndReturn
+   * AiProvider createManyAndReturn
    */
-  export type AiAccessCreateManyAndReturnArgs<
+  export type AiProviderCreateManyAndReturnArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Select specific fields to fetch from the AiAccess
+     * Select specific fields to fetch from the AiProvider
      */
-    select?: AiAccessSelectCreateManyAndReturn<ExtArgs> | null;
+    select?: AiProviderSelectCreateManyAndReturn<ExtArgs> | null;
     /**
-     * Omit specific fields from the AiAccess
+     * Omit specific fields from the AiProvider
      */
-    omit?: AiAccessOmit<ExtArgs> | null;
+    omit?: AiProviderOmit<ExtArgs> | null;
     /**
-     * The data used to create many AiAccesses.
+     * The data used to create many AiProviders.
      */
-    data: AiAccessCreateManyInput | AiAccessCreateManyInput[];
+    data: AiProviderCreateManyInput | AiProviderCreateManyInput[];
     skipDuplicates?: boolean;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AiAccessIncludeCreateManyAndReturn<ExtArgs> | null;
+    include?: AiProviderIncludeCreateManyAndReturn<ExtArgs> | null;
   };
 
   /**
-   * AiAccess update
+   * AiProvider update
    */
-  export type AiAccessUpdateArgs<
+  export type AiProviderUpdateArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Select specific fields to fetch from the AiAccess
+     * Select specific fields to fetch from the AiProvider
      */
-    select?: AiAccessSelect<ExtArgs> | null;
+    select?: AiProviderSelect<ExtArgs> | null;
     /**
-     * Omit specific fields from the AiAccess
+     * Omit specific fields from the AiProvider
      */
-    omit?: AiAccessOmit<ExtArgs> | null;
+    omit?: AiProviderOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AiAccessInclude<ExtArgs> | null;
+    include?: AiProviderInclude<ExtArgs> | null;
     /**
-     * The data needed to update a AiAccess.
+     * The data needed to update a AiProvider.
      */
-    data: XOR<AiAccessUpdateInput, AiAccessUncheckedUpdateInput>;
+    data: XOR<AiProviderUpdateInput, AiProviderUncheckedUpdateInput>;
     /**
-     * Choose, which AiAccess to update.
+     * Choose, which AiProvider to update.
      */
-    where: AiAccessWhereUniqueInput;
+    where: AiProviderWhereUniqueInput;
   };
 
   /**
-   * AiAccess updateMany
+   * AiProvider updateMany
    */
-  export type AiAccessUpdateManyArgs<
+  export type AiProviderUpdateManyArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * The data used to update AiAccesses.
+     * The data used to update AiProviders.
      */
-    data: XOR<AiAccessUpdateManyMutationInput, AiAccessUncheckedUpdateManyInput>;
+    data: XOR<AiProviderUpdateManyMutationInput, AiProviderUncheckedUpdateManyInput>;
     /**
-     * Filter which AiAccesses to update
+     * Filter which AiProviders to update
      */
-    where?: AiAccessWhereInput;
+    where?: AiProviderWhereInput;
     /**
-     * Limit how many AiAccesses to update.
+     * Limit how many AiProviders to update.
      */
     limit?: number;
   };
 
   /**
-   * AiAccess updateManyAndReturn
+   * AiProvider updateManyAndReturn
    */
-  export type AiAccessUpdateManyAndReturnArgs<
+  export type AiProviderUpdateManyAndReturnArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Select specific fields to fetch from the AiAccess
+     * Select specific fields to fetch from the AiProvider
      */
-    select?: AiAccessSelectUpdateManyAndReturn<ExtArgs> | null;
+    select?: AiProviderSelectUpdateManyAndReturn<ExtArgs> | null;
     /**
-     * Omit specific fields from the AiAccess
+     * Omit specific fields from the AiProvider
      */
-    omit?: AiAccessOmit<ExtArgs> | null;
+    omit?: AiProviderOmit<ExtArgs> | null;
     /**
-     * The data used to update AiAccesses.
+     * The data used to update AiProviders.
      */
-    data: XOR<AiAccessUpdateManyMutationInput, AiAccessUncheckedUpdateManyInput>;
+    data: XOR<AiProviderUpdateManyMutationInput, AiProviderUncheckedUpdateManyInput>;
     /**
-     * Filter which AiAccesses to update
+     * Filter which AiProviders to update
      */
-    where?: AiAccessWhereInput;
+    where?: AiProviderWhereInput;
     /**
-     * Limit how many AiAccesses to update.
+     * Limit how many AiProviders to update.
      */
     limit?: number;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AiAccessIncludeUpdateManyAndReturn<ExtArgs> | null;
+    include?: AiProviderIncludeUpdateManyAndReturn<ExtArgs> | null;
   };
 
   /**
-   * AiAccess upsert
+   * AiProvider upsert
    */
-  export type AiAccessUpsertArgs<
+  export type AiProviderUpsertArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Select specific fields to fetch from the AiAccess
+     * Select specific fields to fetch from the AiProvider
      */
-    select?: AiAccessSelect<ExtArgs> | null;
+    select?: AiProviderSelect<ExtArgs> | null;
     /**
-     * Omit specific fields from the AiAccess
+     * Omit specific fields from the AiProvider
      */
-    omit?: AiAccessOmit<ExtArgs> | null;
+    omit?: AiProviderOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AiAccessInclude<ExtArgs> | null;
+    include?: AiProviderInclude<ExtArgs> | null;
     /**
-     * The filter to search for the AiAccess to update in case it exists.
+     * The filter to search for the AiProvider to update in case it exists.
      */
-    where: AiAccessWhereUniqueInput;
+    where: AiProviderWhereUniqueInput;
     /**
-     * In case the AiAccess found by the `where` argument doesn't exist, create a new AiAccess with this data.
+     * In case the AiProvider found by the `where` argument doesn't exist, create a new AiProvider with this data.
      */
-    create: XOR<AiAccessCreateInput, AiAccessUncheckedCreateInput>;
+    create: XOR<AiProviderCreateInput, AiProviderUncheckedCreateInput>;
     /**
-     * In case the AiAccess was found with the provided `where` argument, update it with this data.
+     * In case the AiProvider was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<AiAccessUpdateInput, AiAccessUncheckedUpdateInput>;
+    update: XOR<AiProviderUpdateInput, AiProviderUncheckedUpdateInput>;
   };
 
   /**
-   * AiAccess delete
+   * AiProvider delete
    */
-  export type AiAccessDeleteArgs<
+  export type AiProviderDeleteArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Select specific fields to fetch from the AiAccess
+     * Select specific fields to fetch from the AiProvider
      */
-    select?: AiAccessSelect<ExtArgs> | null;
+    select?: AiProviderSelect<ExtArgs> | null;
     /**
-     * Omit specific fields from the AiAccess
+     * Omit specific fields from the AiProvider
      */
-    omit?: AiAccessOmit<ExtArgs> | null;
+    omit?: AiProviderOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AiAccessInclude<ExtArgs> | null;
+    include?: AiProviderInclude<ExtArgs> | null;
     /**
-     * Filter which AiAccess to delete.
+     * Filter which AiProvider to delete.
      */
-    where: AiAccessWhereUniqueInput;
+    where: AiProviderWhereUniqueInput;
   };
 
   /**
-   * AiAccess deleteMany
+   * AiProvider deleteMany
    */
-  export type AiAccessDeleteManyArgs<
+  export type AiProviderDeleteManyArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Filter which AiAccesses to delete
+     * Filter which AiProviders to delete
      */
-    where?: AiAccessWhereInput;
+    where?: AiProviderWhereInput;
     /**
-     * Limit how many AiAccesses to delete.
+     * Limit how many AiProviders to delete.
      */
     limit?: number;
   };
 
   /**
-   * AiAccess.sharedWith
+   * AiProvider.sharedWith
    */
-  export type AiAccess$sharedWithArgs<
+  export type AiProvider$sharedWithArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Select specific fields to fetch from the UserAiAccessAccess
+     * Select specific fields to fetch from the UserAiProviderAccess
      */
-    select?: UserAiAccessAccessSelect<ExtArgs> | null;
+    select?: UserAiProviderAccessSelect<ExtArgs> | null;
     /**
-     * Omit specific fields from the UserAiAccessAccess
+     * Omit specific fields from the UserAiProviderAccess
      */
-    omit?: UserAiAccessAccessOmit<ExtArgs> | null;
+    omit?: UserAiProviderAccessOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: UserAiAccessAccessInclude<ExtArgs> | null;
-    where?: UserAiAccessAccessWhereInput;
+    include?: UserAiProviderAccessInclude<ExtArgs> | null;
+    where?: UserAiProviderAccessWhereInput;
     orderBy?:
-      | UserAiAccessAccessOrderByWithRelationInput
-      | UserAiAccessAccessOrderByWithRelationInput[];
-    cursor?: UserAiAccessAccessWhereUniqueInput;
+      | UserAiProviderAccessOrderByWithRelationInput
+      | UserAiProviderAccessOrderByWithRelationInput[];
+    cursor?: UserAiProviderAccessWhereUniqueInput;
     take?: number;
     skip?: number;
-    distinct?: UserAiAccessAccessScalarFieldEnum | UserAiAccessAccessScalarFieldEnum[];
+    distinct?: UserAiProviderAccessScalarFieldEnum | UserAiProviderAccessScalarFieldEnum[];
   };
 
   /**
-   * AiAccess.bots
+   * AiProvider.bots
    */
-  export type AiAccess$botsArgs<
+  export type AiProvider$botsArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
@@ -11314,23 +11344,23 @@ export namespace Prisma {
   };
 
   /**
-   * AiAccess without action
+   * AiProvider without action
    */
-  export type AiAccessDefaultArgs<
+  export type AiProviderDefaultArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Select specific fields to fetch from the AiAccess
+     * Select specific fields to fetch from the AiProvider
      */
-    select?: AiAccessSelect<ExtArgs> | null;
+    select?: AiProviderSelect<ExtArgs> | null;
     /**
-     * Omit specific fields from the AiAccess
+     * Omit specific fields from the AiProvider
      */
-    omit?: AiAccessOmit<ExtArgs> | null;
+    omit?: AiProviderOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AiAccessInclude<ExtArgs> | null;
+    include?: AiProviderInclude<ExtArgs> | null;
   };
 
   /**
@@ -11351,7 +11381,7 @@ export namespace Prisma {
     createdAt: Date | null;
     updatedAt: Date | null;
     ownerId: string | null;
-    aiAccessId: string | null;
+    aiProviderId: string | null;
   };
 
   export type AiBotMaxAggregateOutputType = {
@@ -11362,7 +11392,7 @@ export namespace Prisma {
     createdAt: Date | null;
     updatedAt: Date | null;
     ownerId: string | null;
-    aiAccessId: string | null;
+    aiProviderId: string | null;
   };
 
   export type AiBotCountAggregateOutputType = {
@@ -11373,7 +11403,7 @@ export namespace Prisma {
     createdAt: number;
     updatedAt: number;
     ownerId: number;
-    aiAccessId: number;
+    aiProviderId: number;
     _all: number;
   };
 
@@ -11385,7 +11415,7 @@ export namespace Prisma {
     createdAt?: true;
     updatedAt?: true;
     ownerId?: true;
-    aiAccessId?: true;
+    aiProviderId?: true;
   };
 
   export type AiBotMaxAggregateInputType = {
@@ -11396,7 +11426,7 @@ export namespace Prisma {
     createdAt?: true;
     updatedAt?: true;
     ownerId?: true;
-    aiAccessId?: true;
+    aiProviderId?: true;
   };
 
   export type AiBotCountAggregateInputType = {
@@ -11407,7 +11437,7 @@ export namespace Prisma {
     createdAt?: true;
     updatedAt?: true;
     ownerId?: true;
-    aiAccessId?: true;
+    aiProviderId?: true;
     _all?: true;
   };
 
@@ -11491,7 +11521,7 @@ export namespace Prisma {
     createdAt: Date;
     updatedAt: Date;
     ownerId: string;
-    aiAccessId: string;
+    aiProviderId: string;
     _count: AiBotCountAggregateOutputType | null;
     _min: AiBotMinAggregateOutputType | null;
     _max: AiBotMaxAggregateOutputType | null;
@@ -11519,9 +11549,9 @@ export namespace Prisma {
         createdAt?: boolean;
         updatedAt?: boolean;
         ownerId?: boolean;
-        aiAccessId?: boolean;
+        aiProviderId?: boolean;
         owner?: boolean | UserDefaultArgs<ExtArgs>;
-        aiAccess?: boolean | AiAccessDefaultArgs<ExtArgs>;
+        aiProvider?: boolean | AiProviderDefaultArgs<ExtArgs>;
         sharedWith?: boolean | AiBot$sharedWithArgs<ExtArgs>;
         aiUsageMetrics?: boolean | AiBot$aiUsageMetricsArgs<ExtArgs>;
         _count?: boolean | AiBotCountOutputTypeDefaultArgs<ExtArgs>;
@@ -11540,9 +11570,9 @@ export namespace Prisma {
       createdAt?: boolean;
       updatedAt?: boolean;
       ownerId?: boolean;
-      aiAccessId?: boolean;
+      aiProviderId?: boolean;
       owner?: boolean | UserDefaultArgs<ExtArgs>;
-      aiAccess?: boolean | AiAccessDefaultArgs<ExtArgs>;
+      aiProvider?: boolean | AiProviderDefaultArgs<ExtArgs>;
     },
     ExtArgs['result']['aiBot']
   >;
@@ -11558,9 +11588,9 @@ export namespace Prisma {
       createdAt?: boolean;
       updatedAt?: boolean;
       ownerId?: boolean;
-      aiAccessId?: boolean;
+      aiProviderId?: boolean;
       owner?: boolean | UserDefaultArgs<ExtArgs>;
-      aiAccess?: boolean | AiAccessDefaultArgs<ExtArgs>;
+      aiProvider?: boolean | AiProviderDefaultArgs<ExtArgs>;
     },
     ExtArgs['result']['aiBot']
   >;
@@ -11573,7 +11603,7 @@ export namespace Prisma {
     createdAt?: boolean;
     updatedAt?: boolean;
     ownerId?: boolean;
-    aiAccessId?: boolean;
+    aiProviderId?: boolean;
   };
 
   export type AiBotOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
@@ -11585,12 +11615,12 @@ export namespace Prisma {
       | 'createdAt'
       | 'updatedAt'
       | 'ownerId'
-      | 'aiAccessId',
+      | 'aiProviderId',
       ExtArgs['result']['aiBot']
     >;
   export type AiBotInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     owner?: boolean | UserDefaultArgs<ExtArgs>;
-    aiAccess?: boolean | AiAccessDefaultArgs<ExtArgs>;
+    aiProvider?: boolean | AiProviderDefaultArgs<ExtArgs>;
     sharedWith?: boolean | AiBot$sharedWithArgs<ExtArgs>;
     aiUsageMetrics?: boolean | AiBot$aiUsageMetricsArgs<ExtArgs>;
     _count?: boolean | AiBotCountOutputTypeDefaultArgs<ExtArgs>;
@@ -11599,20 +11629,20 @@ export namespace Prisma {
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     owner?: boolean | UserDefaultArgs<ExtArgs>;
-    aiAccess?: boolean | AiAccessDefaultArgs<ExtArgs>;
+    aiProvider?: boolean | AiProviderDefaultArgs<ExtArgs>;
   };
   export type AiBotIncludeUpdateManyAndReturn<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     owner?: boolean | UserDefaultArgs<ExtArgs>;
-    aiAccess?: boolean | AiAccessDefaultArgs<ExtArgs>;
+    aiProvider?: boolean | AiProviderDefaultArgs<ExtArgs>;
   };
 
   export type $AiBotPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: 'AiBot';
     objects: {
       owner: Prisma.$UserPayload<ExtArgs>;
-      aiAccess: Prisma.$AiAccessPayload<ExtArgs>;
+      aiProvider: Prisma.$AiProviderPayload<ExtArgs>;
       sharedWith: Prisma.$UserAiBotAccessPayload<ExtArgs>[];
       aiUsageMetrics: Prisma.$AiUsageMetricPayload<ExtArgs>[];
     };
@@ -11625,7 +11655,7 @@ export namespace Prisma {
         createdAt: Date;
         updatedAt: Date;
         ownerId: string;
-        aiAccessId: string;
+        aiProviderId: string;
       },
       ExtArgs['result']['aiBot']
     >;
@@ -12113,11 +12143,11 @@ export namespace Prisma {
       ExtArgs,
       GlobalOmitOptions
     >;
-    aiAccess<T extends AiAccessDefaultArgs<ExtArgs> = {}>(
-      args?: Subset<T, AiAccessDefaultArgs<ExtArgs>>
-    ): Prisma__AiAccessClient<
+    aiProvider<T extends AiProviderDefaultArgs<ExtArgs> = {}>(
+      args?: Subset<T, AiProviderDefaultArgs<ExtArgs>>
+    ): Prisma__AiProviderClient<
       | $Result.GetResult<
-          Prisma.$AiAccessPayload<ExtArgs>,
+          Prisma.$AiProviderPayload<ExtArgs>,
           T,
           'findUniqueOrThrow',
           GlobalOmitOptions
@@ -12177,7 +12207,7 @@ export namespace Prisma {
     readonly createdAt: FieldRef<'AiBot', 'DateTime'>;
     readonly updatedAt: FieldRef<'AiBot', 'DateTime'>;
     readonly ownerId: FieldRef<'AiBot', 'String'>;
-    readonly aiAccessId: FieldRef<'AiBot', 'String'>;
+    readonly aiProviderId: FieldRef<'AiBot', 'String'>;
   }
 
   // Custom InputTypes
@@ -16940,16 +16970,16 @@ export namespace Prisma {
   export type UserPaperlessInstanceAccessScalarFieldEnum =
     (typeof UserPaperlessInstanceAccessScalarFieldEnum)[keyof typeof UserPaperlessInstanceAccessScalarFieldEnum];
 
-  export const UserAiAccessAccessScalarFieldEnum: {
+  export const UserAiProviderAccessScalarFieldEnum: {
     id: 'id';
     userId: 'userId';
-    aiAccessId: 'aiAccessId';
+    aiProviderId: 'aiProviderId';
     permission: 'permission';
     createdAt: 'createdAt';
   };
 
-  export type UserAiAccessAccessScalarFieldEnum =
-    (typeof UserAiAccessAccessScalarFieldEnum)[keyof typeof UserAiAccessAccessScalarFieldEnum];
+  export type UserAiProviderAccessScalarFieldEnum =
+    (typeof UserAiProviderAccessScalarFieldEnum)[keyof typeof UserAiProviderAccessScalarFieldEnum];
 
   export const UserAiBotAccessScalarFieldEnum: {
     id: 'id';
@@ -16976,7 +17006,7 @@ export namespace Prisma {
   export type PaperlessInstanceScalarFieldEnum =
     (typeof PaperlessInstanceScalarFieldEnum)[keyof typeof PaperlessInstanceScalarFieldEnum];
 
-  export const AiAccessScalarFieldEnum: {
+  export const AiProviderScalarFieldEnum: {
     id: 'id';
     name: 'name';
     provider: 'provider';
@@ -16989,8 +17019,8 @@ export namespace Prisma {
     ownerId: 'ownerId';
   };
 
-  export type AiAccessScalarFieldEnum =
-    (typeof AiAccessScalarFieldEnum)[keyof typeof AiAccessScalarFieldEnum];
+  export type AiProviderScalarFieldEnum =
+    (typeof AiProviderScalarFieldEnum)[keyof typeof AiProviderScalarFieldEnum];
 
   export const AiBotScalarFieldEnum: {
     id: 'id';
@@ -17000,7 +17030,7 @@ export namespace Prisma {
     createdAt: 'createdAt';
     updatedAt: 'updatedAt';
     ownerId: 'ownerId';
-    aiAccessId: 'aiAccessId';
+    aiProviderId: 'aiProviderId';
   };
 
   export type AiBotScalarFieldEnum =
@@ -17259,10 +17289,10 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<'User'> | Date | string;
     updatedAt?: DateTimeFilter<'User'> | Date | string;
     ownedPaperlessInstances?: PaperlessInstanceListRelationFilter;
-    ownedAiAccesses?: AiAccessListRelationFilter;
+    ownedAiProviders?: AiProviderListRelationFilter;
     ownedAiBots?: AiBotListRelationFilter;
     sharedPaperlessInstances?: UserPaperlessInstanceAccessListRelationFilter;
-    sharedAiAccesses?: UserAiAccessAccessListRelationFilter;
+    sharedAiProviders?: UserAiProviderAccessListRelationFilter;
     sharedAiBots?: UserAiBotAccessListRelationFilter;
     aiUsageMetrics?: AiUsageMetricListRelationFilter;
   };
@@ -17277,10 +17307,10 @@ export namespace Prisma {
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
     ownedPaperlessInstances?: PaperlessInstanceOrderByRelationAggregateInput;
-    ownedAiAccesses?: AiAccessOrderByRelationAggregateInput;
+    ownedAiProviders?: AiProviderOrderByRelationAggregateInput;
     ownedAiBots?: AiBotOrderByRelationAggregateInput;
     sharedPaperlessInstances?: UserPaperlessInstanceAccessOrderByRelationAggregateInput;
-    sharedAiAccesses?: UserAiAccessAccessOrderByRelationAggregateInput;
+    sharedAiProviders?: UserAiProviderAccessOrderByRelationAggregateInput;
     sharedAiBots?: UserAiBotAccessOrderByRelationAggregateInput;
     aiUsageMetrics?: AiUsageMetricOrderByRelationAggregateInput;
   };
@@ -17299,10 +17329,10 @@ export namespace Prisma {
       createdAt?: DateTimeFilter<'User'> | Date | string;
       updatedAt?: DateTimeFilter<'User'> | Date | string;
       ownedPaperlessInstances?: PaperlessInstanceListRelationFilter;
-      ownedAiAccesses?: AiAccessListRelationFilter;
+      ownedAiProviders?: AiProviderListRelationFilter;
       ownedAiBots?: AiBotListRelationFilter;
       sharedPaperlessInstances?: UserPaperlessInstanceAccessListRelationFilter;
-      sharedAiAccesses?: UserAiAccessAccessListRelationFilter;
+      sharedAiProviders?: UserAiProviderAccessListRelationFilter;
       sharedAiBots?: UserAiBotAccessListRelationFilter;
       aiUsageMetrics?: AiUsageMetricListRelationFilter;
     },
@@ -17405,70 +17435,70 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<'UserPaperlessInstanceAccess'> | Date | string;
   };
 
-  export type UserAiAccessAccessWhereInput = {
-    AND?: UserAiAccessAccessWhereInput | UserAiAccessAccessWhereInput[];
-    OR?: UserAiAccessAccessWhereInput[];
-    NOT?: UserAiAccessAccessWhereInput | UserAiAccessAccessWhereInput[];
-    id?: StringFilter<'UserAiAccessAccess'> | string;
-    userId?: StringFilter<'UserAiAccessAccess'> | string;
-    aiAccessId?: StringFilter<'UserAiAccessAccess'> | string;
-    permission?: EnumPermissionFilter<'UserAiAccessAccess'> | $Enums.Permission;
-    createdAt?: DateTimeFilter<'UserAiAccessAccess'> | Date | string;
+  export type UserAiProviderAccessWhereInput = {
+    AND?: UserAiProviderAccessWhereInput | UserAiProviderAccessWhereInput[];
+    OR?: UserAiProviderAccessWhereInput[];
+    NOT?: UserAiProviderAccessWhereInput | UserAiProviderAccessWhereInput[];
+    id?: StringFilter<'UserAiProviderAccess'> | string;
+    userId?: StringFilter<'UserAiProviderAccess'> | string;
+    aiProviderId?: StringFilter<'UserAiProviderAccess'> | string;
+    permission?: EnumPermissionFilter<'UserAiProviderAccess'> | $Enums.Permission;
+    createdAt?: DateTimeFilter<'UserAiProviderAccess'> | Date | string;
     user?: XOR<UserScalarRelationFilter, UserWhereInput>;
-    aiAccess?: XOR<AiAccessScalarRelationFilter, AiAccessWhereInput>;
+    aiProvider?: XOR<AiProviderScalarRelationFilter, AiProviderWhereInput>;
   };
 
-  export type UserAiAccessAccessOrderByWithRelationInput = {
+  export type UserAiProviderAccessOrderByWithRelationInput = {
     id?: SortOrder;
     userId?: SortOrder;
-    aiAccessId?: SortOrder;
+    aiProviderId?: SortOrder;
     permission?: SortOrder;
     createdAt?: SortOrder;
     user?: UserOrderByWithRelationInput;
-    aiAccess?: AiAccessOrderByWithRelationInput;
+    aiProvider?: AiProviderOrderByWithRelationInput;
   };
 
-  export type UserAiAccessAccessWhereUniqueInput = Prisma.AtLeast<
+  export type UserAiProviderAccessWhereUniqueInput = Prisma.AtLeast<
     {
       id?: string;
-      userId_aiAccessId?: UserAiAccessAccessUserIdAiAccessIdCompoundUniqueInput;
-      AND?: UserAiAccessAccessWhereInput | UserAiAccessAccessWhereInput[];
-      OR?: UserAiAccessAccessWhereInput[];
-      NOT?: UserAiAccessAccessWhereInput | UserAiAccessAccessWhereInput[];
-      userId?: StringFilter<'UserAiAccessAccess'> | string;
-      aiAccessId?: StringFilter<'UserAiAccessAccess'> | string;
-      permission?: EnumPermissionFilter<'UserAiAccessAccess'> | $Enums.Permission;
-      createdAt?: DateTimeFilter<'UserAiAccessAccess'> | Date | string;
+      userId_aiProviderId?: UserAiProviderAccessUserIdAiProviderIdCompoundUniqueInput;
+      AND?: UserAiProviderAccessWhereInput | UserAiProviderAccessWhereInput[];
+      OR?: UserAiProviderAccessWhereInput[];
+      NOT?: UserAiProviderAccessWhereInput | UserAiProviderAccessWhereInput[];
+      userId?: StringFilter<'UserAiProviderAccess'> | string;
+      aiProviderId?: StringFilter<'UserAiProviderAccess'> | string;
+      permission?: EnumPermissionFilter<'UserAiProviderAccess'> | $Enums.Permission;
+      createdAt?: DateTimeFilter<'UserAiProviderAccess'> | Date | string;
       user?: XOR<UserScalarRelationFilter, UserWhereInput>;
-      aiAccess?: XOR<AiAccessScalarRelationFilter, AiAccessWhereInput>;
+      aiProvider?: XOR<AiProviderScalarRelationFilter, AiProviderWhereInput>;
     },
-    'id' | 'userId_aiAccessId'
+    'id' | 'userId_aiProviderId'
   >;
 
-  export type UserAiAccessAccessOrderByWithAggregationInput = {
+  export type UserAiProviderAccessOrderByWithAggregationInput = {
     id?: SortOrder;
     userId?: SortOrder;
-    aiAccessId?: SortOrder;
+    aiProviderId?: SortOrder;
     permission?: SortOrder;
     createdAt?: SortOrder;
-    _count?: UserAiAccessAccessCountOrderByAggregateInput;
-    _max?: UserAiAccessAccessMaxOrderByAggregateInput;
-    _min?: UserAiAccessAccessMinOrderByAggregateInput;
+    _count?: UserAiProviderAccessCountOrderByAggregateInput;
+    _max?: UserAiProviderAccessMaxOrderByAggregateInput;
+    _min?: UserAiProviderAccessMinOrderByAggregateInput;
   };
 
-  export type UserAiAccessAccessScalarWhereWithAggregatesInput = {
+  export type UserAiProviderAccessScalarWhereWithAggregatesInput = {
     AND?:
-      | UserAiAccessAccessScalarWhereWithAggregatesInput
-      | UserAiAccessAccessScalarWhereWithAggregatesInput[];
-    OR?: UserAiAccessAccessScalarWhereWithAggregatesInput[];
+      | UserAiProviderAccessScalarWhereWithAggregatesInput
+      | UserAiProviderAccessScalarWhereWithAggregatesInput[];
+    OR?: UserAiProviderAccessScalarWhereWithAggregatesInput[];
     NOT?:
-      | UserAiAccessAccessScalarWhereWithAggregatesInput
-      | UserAiAccessAccessScalarWhereWithAggregatesInput[];
-    id?: StringWithAggregatesFilter<'UserAiAccessAccess'> | string;
-    userId?: StringWithAggregatesFilter<'UserAiAccessAccess'> | string;
-    aiAccessId?: StringWithAggregatesFilter<'UserAiAccessAccess'> | string;
-    permission?: EnumPermissionWithAggregatesFilter<'UserAiAccessAccess'> | $Enums.Permission;
-    createdAt?: DateTimeWithAggregatesFilter<'UserAiAccessAccess'> | Date | string;
+      | UserAiProviderAccessScalarWhereWithAggregatesInput
+      | UserAiProviderAccessScalarWhereWithAggregatesInput[];
+    id?: StringWithAggregatesFilter<'UserAiProviderAccess'> | string;
+    userId?: StringWithAggregatesFilter<'UserAiProviderAccess'> | string;
+    aiProviderId?: StringWithAggregatesFilter<'UserAiProviderAccess'> | string;
+    permission?: EnumPermissionWithAggregatesFilter<'UserAiProviderAccess'> | $Enums.Permission;
+    createdAt?: DateTimeWithAggregatesFilter<'UserAiProviderAccess'> | Date | string;
   };
 
   export type UserAiBotAccessWhereInput = {
@@ -17624,26 +17654,26 @@ export namespace Prisma {
     ownerId?: StringWithAggregatesFilter<'PaperlessInstance'> | string;
   };
 
-  export type AiAccessWhereInput = {
-    AND?: AiAccessWhereInput | AiAccessWhereInput[];
-    OR?: AiAccessWhereInput[];
-    NOT?: AiAccessWhereInput | AiAccessWhereInput[];
-    id?: StringFilter<'AiAccess'> | string;
-    name?: StringFilter<'AiAccess'> | string;
-    provider?: StringFilter<'AiAccess'> | string;
-    model?: StringFilter<'AiAccess'> | string;
-    apiKey?: StringFilter<'AiAccess'> | string;
-    baseUrl?: StringNullableFilter<'AiAccess'> | string | null;
-    isActive?: BoolFilter<'AiAccess'> | boolean;
-    createdAt?: DateTimeFilter<'AiAccess'> | Date | string;
-    updatedAt?: DateTimeFilter<'AiAccess'> | Date | string;
-    ownerId?: StringFilter<'AiAccess'> | string;
+  export type AiProviderWhereInput = {
+    AND?: AiProviderWhereInput | AiProviderWhereInput[];
+    OR?: AiProviderWhereInput[];
+    NOT?: AiProviderWhereInput | AiProviderWhereInput[];
+    id?: StringFilter<'AiProvider'> | string;
+    name?: StringFilter<'AiProvider'> | string;
+    provider?: StringFilter<'AiProvider'> | string;
+    model?: StringFilter<'AiProvider'> | string;
+    apiKey?: StringFilter<'AiProvider'> | string;
+    baseUrl?: StringNullableFilter<'AiProvider'> | string | null;
+    isActive?: BoolFilter<'AiProvider'> | boolean;
+    createdAt?: DateTimeFilter<'AiProvider'> | Date | string;
+    updatedAt?: DateTimeFilter<'AiProvider'> | Date | string;
+    ownerId?: StringFilter<'AiProvider'> | string;
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>;
-    sharedWith?: UserAiAccessAccessListRelationFilter;
+    sharedWith?: UserAiProviderAccessListRelationFilter;
     bots?: AiBotListRelationFilter;
   };
 
-  export type AiAccessOrderByWithRelationInput = {
+  export type AiProviderOrderByWithRelationInput = {
     id?: SortOrder;
     name?: SortOrder;
     provider?: SortOrder;
@@ -17655,34 +17685,34 @@ export namespace Prisma {
     updatedAt?: SortOrder;
     ownerId?: SortOrder;
     owner?: UserOrderByWithRelationInput;
-    sharedWith?: UserAiAccessAccessOrderByRelationAggregateInput;
+    sharedWith?: UserAiProviderAccessOrderByRelationAggregateInput;
     bots?: AiBotOrderByRelationAggregateInput;
   };
 
-  export type AiAccessWhereUniqueInput = Prisma.AtLeast<
+  export type AiProviderWhereUniqueInput = Prisma.AtLeast<
     {
       id?: string;
-      ownerId_name?: AiAccessOwnerIdNameCompoundUniqueInput;
-      AND?: AiAccessWhereInput | AiAccessWhereInput[];
-      OR?: AiAccessWhereInput[];
-      NOT?: AiAccessWhereInput | AiAccessWhereInput[];
-      name?: StringFilter<'AiAccess'> | string;
-      provider?: StringFilter<'AiAccess'> | string;
-      model?: StringFilter<'AiAccess'> | string;
-      apiKey?: StringFilter<'AiAccess'> | string;
-      baseUrl?: StringNullableFilter<'AiAccess'> | string | null;
-      isActive?: BoolFilter<'AiAccess'> | boolean;
-      createdAt?: DateTimeFilter<'AiAccess'> | Date | string;
-      updatedAt?: DateTimeFilter<'AiAccess'> | Date | string;
-      ownerId?: StringFilter<'AiAccess'> | string;
+      ownerId_name?: AiProviderOwnerIdNameCompoundUniqueInput;
+      AND?: AiProviderWhereInput | AiProviderWhereInput[];
+      OR?: AiProviderWhereInput[];
+      NOT?: AiProviderWhereInput | AiProviderWhereInput[];
+      name?: StringFilter<'AiProvider'> | string;
+      provider?: StringFilter<'AiProvider'> | string;
+      model?: StringFilter<'AiProvider'> | string;
+      apiKey?: StringFilter<'AiProvider'> | string;
+      baseUrl?: StringNullableFilter<'AiProvider'> | string | null;
+      isActive?: BoolFilter<'AiProvider'> | boolean;
+      createdAt?: DateTimeFilter<'AiProvider'> | Date | string;
+      updatedAt?: DateTimeFilter<'AiProvider'> | Date | string;
+      ownerId?: StringFilter<'AiProvider'> | string;
       owner?: XOR<UserScalarRelationFilter, UserWhereInput>;
-      sharedWith?: UserAiAccessAccessListRelationFilter;
+      sharedWith?: UserAiProviderAccessListRelationFilter;
       bots?: AiBotListRelationFilter;
     },
     'id' | 'ownerId_name'
   >;
 
-  export type AiAccessOrderByWithAggregationInput = {
+  export type AiProviderOrderByWithAggregationInput = {
     id?: SortOrder;
     name?: SortOrder;
     provider?: SortOrder;
@@ -17693,25 +17723,25 @@ export namespace Prisma {
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
     ownerId?: SortOrder;
-    _count?: AiAccessCountOrderByAggregateInput;
-    _max?: AiAccessMaxOrderByAggregateInput;
-    _min?: AiAccessMinOrderByAggregateInput;
+    _count?: AiProviderCountOrderByAggregateInput;
+    _max?: AiProviderMaxOrderByAggregateInput;
+    _min?: AiProviderMinOrderByAggregateInput;
   };
 
-  export type AiAccessScalarWhereWithAggregatesInput = {
-    AND?: AiAccessScalarWhereWithAggregatesInput | AiAccessScalarWhereWithAggregatesInput[];
-    OR?: AiAccessScalarWhereWithAggregatesInput[];
-    NOT?: AiAccessScalarWhereWithAggregatesInput | AiAccessScalarWhereWithAggregatesInput[];
-    id?: StringWithAggregatesFilter<'AiAccess'> | string;
-    name?: StringWithAggregatesFilter<'AiAccess'> | string;
-    provider?: StringWithAggregatesFilter<'AiAccess'> | string;
-    model?: StringWithAggregatesFilter<'AiAccess'> | string;
-    apiKey?: StringWithAggregatesFilter<'AiAccess'> | string;
-    baseUrl?: StringNullableWithAggregatesFilter<'AiAccess'> | string | null;
-    isActive?: BoolWithAggregatesFilter<'AiAccess'> | boolean;
-    createdAt?: DateTimeWithAggregatesFilter<'AiAccess'> | Date | string;
-    updatedAt?: DateTimeWithAggregatesFilter<'AiAccess'> | Date | string;
-    ownerId?: StringWithAggregatesFilter<'AiAccess'> | string;
+  export type AiProviderScalarWhereWithAggregatesInput = {
+    AND?: AiProviderScalarWhereWithAggregatesInput | AiProviderScalarWhereWithAggregatesInput[];
+    OR?: AiProviderScalarWhereWithAggregatesInput[];
+    NOT?: AiProviderScalarWhereWithAggregatesInput | AiProviderScalarWhereWithAggregatesInput[];
+    id?: StringWithAggregatesFilter<'AiProvider'> | string;
+    name?: StringWithAggregatesFilter<'AiProvider'> | string;
+    provider?: StringWithAggregatesFilter<'AiProvider'> | string;
+    model?: StringWithAggregatesFilter<'AiProvider'> | string;
+    apiKey?: StringWithAggregatesFilter<'AiProvider'> | string;
+    baseUrl?: StringNullableWithAggregatesFilter<'AiProvider'> | string | null;
+    isActive?: BoolWithAggregatesFilter<'AiProvider'> | boolean;
+    createdAt?: DateTimeWithAggregatesFilter<'AiProvider'> | Date | string;
+    updatedAt?: DateTimeWithAggregatesFilter<'AiProvider'> | Date | string;
+    ownerId?: StringWithAggregatesFilter<'AiProvider'> | string;
   };
 
   export type AiBotWhereInput = {
@@ -17725,9 +17755,9 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<'AiBot'> | Date | string;
     updatedAt?: DateTimeFilter<'AiBot'> | Date | string;
     ownerId?: StringFilter<'AiBot'> | string;
-    aiAccessId?: StringFilter<'AiBot'> | string;
+    aiProviderId?: StringFilter<'AiBot'> | string;
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>;
-    aiAccess?: XOR<AiAccessScalarRelationFilter, AiAccessWhereInput>;
+    aiProvider?: XOR<AiProviderScalarRelationFilter, AiProviderWhereInput>;
     sharedWith?: UserAiBotAccessListRelationFilter;
     aiUsageMetrics?: AiUsageMetricListRelationFilter;
   };
@@ -17740,9 +17770,9 @@ export namespace Prisma {
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
     ownerId?: SortOrder;
-    aiAccessId?: SortOrder;
+    aiProviderId?: SortOrder;
     owner?: UserOrderByWithRelationInput;
-    aiAccess?: AiAccessOrderByWithRelationInput;
+    aiProvider?: AiProviderOrderByWithRelationInput;
     sharedWith?: UserAiBotAccessOrderByRelationAggregateInput;
     aiUsageMetrics?: AiUsageMetricOrderByRelationAggregateInput;
   };
@@ -17760,9 +17790,9 @@ export namespace Prisma {
       createdAt?: DateTimeFilter<'AiBot'> | Date | string;
       updatedAt?: DateTimeFilter<'AiBot'> | Date | string;
       ownerId?: StringFilter<'AiBot'> | string;
-      aiAccessId?: StringFilter<'AiBot'> | string;
+      aiProviderId?: StringFilter<'AiBot'> | string;
       owner?: XOR<UserScalarRelationFilter, UserWhereInput>;
-      aiAccess?: XOR<AiAccessScalarRelationFilter, AiAccessWhereInput>;
+      aiProvider?: XOR<AiProviderScalarRelationFilter, AiProviderWhereInput>;
       sharedWith?: UserAiBotAccessListRelationFilter;
       aiUsageMetrics?: AiUsageMetricListRelationFilter;
     },
@@ -17777,7 +17807,7 @@ export namespace Prisma {
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
     ownerId?: SortOrder;
-    aiAccessId?: SortOrder;
+    aiProviderId?: SortOrder;
     _count?: AiBotCountOrderByAggregateInput;
     _max?: AiBotMaxOrderByAggregateInput;
     _min?: AiBotMinOrderByAggregateInput;
@@ -17794,7 +17824,7 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<'AiBot'> | Date | string;
     updatedAt?: DateTimeWithAggregatesFilter<'AiBot'> | Date | string;
     ownerId?: StringWithAggregatesFilter<'AiBot'> | string;
-    aiAccessId?: StringWithAggregatesFilter<'AiBot'> | string;
+    aiProviderId?: StringWithAggregatesFilter<'AiBot'> | string;
   };
 
   export type ProcessedDocumentWhereInput = {
@@ -18163,10 +18193,10 @@ export namespace Prisma {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownedPaperlessInstances?: PaperlessInstanceCreateNestedManyWithoutOwnerInput;
-    ownedAiAccesses?: AiAccessCreateNestedManyWithoutOwnerInput;
+    ownedAiProviders?: AiProviderCreateNestedManyWithoutOwnerInput;
     ownedAiBots?: AiBotCreateNestedManyWithoutOwnerInput;
     sharedPaperlessInstances?: UserPaperlessInstanceAccessCreateNestedManyWithoutUserInput;
-    sharedAiAccesses?: UserAiAccessAccessCreateNestedManyWithoutUserInput;
+    sharedAiProviders?: UserAiProviderAccessCreateNestedManyWithoutUserInput;
     sharedAiBots?: UserAiBotAccessCreateNestedManyWithoutUserInput;
     aiUsageMetrics?: AiUsageMetricCreateNestedManyWithoutUserInput;
   };
@@ -18181,10 +18211,10 @@ export namespace Prisma {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownedPaperlessInstances?: PaperlessInstanceUncheckedCreateNestedManyWithoutOwnerInput;
-    ownedAiAccesses?: AiAccessUncheckedCreateNestedManyWithoutOwnerInput;
+    ownedAiProviders?: AiProviderUncheckedCreateNestedManyWithoutOwnerInput;
     ownedAiBots?: AiBotUncheckedCreateNestedManyWithoutOwnerInput;
     sharedPaperlessInstances?: UserPaperlessInstanceAccessUncheckedCreateNestedManyWithoutUserInput;
-    sharedAiAccesses?: UserAiAccessAccessUncheckedCreateNestedManyWithoutUserInput;
+    sharedAiProviders?: UserAiProviderAccessUncheckedCreateNestedManyWithoutUserInput;
     sharedAiBots?: UserAiBotAccessUncheckedCreateNestedManyWithoutUserInput;
     aiUsageMetrics?: AiUsageMetricUncheckedCreateNestedManyWithoutUserInput;
   };
@@ -18199,10 +18229,10 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownedPaperlessInstances?: PaperlessInstanceUpdateManyWithoutOwnerNestedInput;
-    ownedAiAccesses?: AiAccessUpdateManyWithoutOwnerNestedInput;
+    ownedAiProviders?: AiProviderUpdateManyWithoutOwnerNestedInput;
     ownedAiBots?: AiBotUpdateManyWithoutOwnerNestedInput;
     sharedPaperlessInstances?: UserPaperlessInstanceAccessUpdateManyWithoutUserNestedInput;
-    sharedAiAccesses?: UserAiAccessAccessUpdateManyWithoutUserNestedInput;
+    sharedAiProviders?: UserAiProviderAccessUpdateManyWithoutUserNestedInput;
     sharedAiBots?: UserAiBotAccessUpdateManyWithoutUserNestedInput;
     aiUsageMetrics?: AiUsageMetricUpdateManyWithoutUserNestedInput;
   };
@@ -18217,10 +18247,10 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownedPaperlessInstances?: PaperlessInstanceUncheckedUpdateManyWithoutOwnerNestedInput;
-    ownedAiAccesses?: AiAccessUncheckedUpdateManyWithoutOwnerNestedInput;
+    ownedAiProviders?: AiProviderUncheckedUpdateManyWithoutOwnerNestedInput;
     ownedAiBots?: AiBotUncheckedUpdateManyWithoutOwnerNestedInput;
     sharedPaperlessInstances?: UserPaperlessInstanceAccessUncheckedUpdateManyWithoutUserNestedInput;
-    sharedAiAccesses?: UserAiAccessAccessUncheckedUpdateManyWithoutUserNestedInput;
+    sharedAiProviders?: UserAiProviderAccessUncheckedUpdateManyWithoutUserNestedInput;
     sharedAiBots?: UserAiBotAccessUncheckedUpdateManyWithoutUserNestedInput;
     aiUsageMetrics?: AiUsageMetricUncheckedUpdateManyWithoutUserNestedInput;
   };
@@ -18312,56 +18342,56 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
   };
 
-  export type UserAiAccessAccessCreateInput = {
+  export type UserAiProviderAccessCreateInput = {
     id?: string;
     permission?: $Enums.Permission;
     createdAt?: Date | string;
-    user: UserCreateNestedOneWithoutSharedAiAccessesInput;
-    aiAccess: AiAccessCreateNestedOneWithoutSharedWithInput;
+    user: UserCreateNestedOneWithoutSharedAiProvidersInput;
+    aiProvider: AiProviderCreateNestedOneWithoutSharedWithInput;
   };
 
-  export type UserAiAccessAccessUncheckedCreateInput = {
-    id?: string;
-    userId: string;
-    aiAccessId: string;
-    permission?: $Enums.Permission;
-    createdAt?: Date | string;
-  };
-
-  export type UserAiAccessAccessUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string;
-    permission?: EnumPermissionFieldUpdateOperationsInput | $Enums.Permission;
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    user?: UserUpdateOneRequiredWithoutSharedAiAccessesNestedInput;
-    aiAccess?: AiAccessUpdateOneRequiredWithoutSharedWithNestedInput;
-  };
-
-  export type UserAiAccessAccessUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string;
-    userId?: StringFieldUpdateOperationsInput | string;
-    aiAccessId?: StringFieldUpdateOperationsInput | string;
-    permission?: EnumPermissionFieldUpdateOperationsInput | $Enums.Permission;
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-  };
-
-  export type UserAiAccessAccessCreateManyInput = {
+  export type UserAiProviderAccessUncheckedCreateInput = {
     id?: string;
     userId: string;
-    aiAccessId: string;
+    aiProviderId: string;
     permission?: $Enums.Permission;
     createdAt?: Date | string;
   };
 
-  export type UserAiAccessAccessUpdateManyMutationInput = {
+  export type UserAiProviderAccessUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    permission?: EnumPermissionFieldUpdateOperationsInput | $Enums.Permission;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    user?: UserUpdateOneRequiredWithoutSharedAiProvidersNestedInput;
+    aiProvider?: AiProviderUpdateOneRequiredWithoutSharedWithNestedInput;
+  };
+
+  export type UserAiProviderAccessUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    userId?: StringFieldUpdateOperationsInput | string;
+    aiProviderId?: StringFieldUpdateOperationsInput | string;
+    permission?: EnumPermissionFieldUpdateOperationsInput | $Enums.Permission;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+  };
+
+  export type UserAiProviderAccessCreateManyInput = {
+    id?: string;
+    userId: string;
+    aiProviderId: string;
+    permission?: $Enums.Permission;
+    createdAt?: Date | string;
+  };
+
+  export type UserAiProviderAccessUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string;
     permission?: EnumPermissionFieldUpdateOperationsInput | $Enums.Permission;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
   };
 
-  export type UserAiAccessAccessUncheckedUpdateManyInput = {
+  export type UserAiProviderAccessUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string;
     userId?: StringFieldUpdateOperationsInput | string;
-    aiAccessId?: StringFieldUpdateOperationsInput | string;
+    aiProviderId?: StringFieldUpdateOperationsInput | string;
     permission?: EnumPermissionFieldUpdateOperationsInput | $Enums.Permission;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
   };
@@ -18508,7 +18538,7 @@ export namespace Prisma {
     ownerId?: StringFieldUpdateOperationsInput | string;
   };
 
-  export type AiAccessCreateInput = {
+  export type AiProviderCreateInput = {
     id?: string;
     name: string;
     provider: string;
@@ -18518,12 +18548,12 @@ export namespace Prisma {
     isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
-    owner: UserCreateNestedOneWithoutOwnedAiAccessesInput;
-    sharedWith?: UserAiAccessAccessCreateNestedManyWithoutAiAccessInput;
-    bots?: AiBotCreateNestedManyWithoutAiAccessInput;
+    owner: UserCreateNestedOneWithoutOwnedAiProvidersInput;
+    sharedWith?: UserAiProviderAccessCreateNestedManyWithoutAiProviderInput;
+    bots?: AiBotCreateNestedManyWithoutAiProviderInput;
   };
 
-  export type AiAccessUncheckedCreateInput = {
+  export type AiProviderUncheckedCreateInput = {
     id?: string;
     name: string;
     provider: string;
@@ -18534,11 +18564,11 @@ export namespace Prisma {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownerId: string;
-    sharedWith?: UserAiAccessAccessUncheckedCreateNestedManyWithoutAiAccessInput;
-    bots?: AiBotUncheckedCreateNestedManyWithoutAiAccessInput;
+    sharedWith?: UserAiProviderAccessUncheckedCreateNestedManyWithoutAiProviderInput;
+    bots?: AiBotUncheckedCreateNestedManyWithoutAiProviderInput;
   };
 
-  export type AiAccessUpdateInput = {
+  export type AiProviderUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     provider?: StringFieldUpdateOperationsInput | string;
@@ -18548,12 +18578,12 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    owner?: UserUpdateOneRequiredWithoutOwnedAiAccessesNestedInput;
-    sharedWith?: UserAiAccessAccessUpdateManyWithoutAiAccessNestedInput;
-    bots?: AiBotUpdateManyWithoutAiAccessNestedInput;
+    owner?: UserUpdateOneRequiredWithoutOwnedAiProvidersNestedInput;
+    sharedWith?: UserAiProviderAccessUpdateManyWithoutAiProviderNestedInput;
+    bots?: AiBotUpdateManyWithoutAiProviderNestedInput;
   };
 
-  export type AiAccessUncheckedUpdateInput = {
+  export type AiProviderUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     provider?: StringFieldUpdateOperationsInput | string;
@@ -18564,11 +18594,11 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownerId?: StringFieldUpdateOperationsInput | string;
-    sharedWith?: UserAiAccessAccessUncheckedUpdateManyWithoutAiAccessNestedInput;
-    bots?: AiBotUncheckedUpdateManyWithoutAiAccessNestedInput;
+    sharedWith?: UserAiProviderAccessUncheckedUpdateManyWithoutAiProviderNestedInput;
+    bots?: AiBotUncheckedUpdateManyWithoutAiProviderNestedInput;
   };
 
-  export type AiAccessCreateManyInput = {
+  export type AiProviderCreateManyInput = {
     id?: string;
     name: string;
     provider: string;
@@ -18581,7 +18611,7 @@ export namespace Prisma {
     ownerId: string;
   };
 
-  export type AiAccessUpdateManyMutationInput = {
+  export type AiProviderUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     provider?: StringFieldUpdateOperationsInput | string;
@@ -18593,7 +18623,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
   };
 
-  export type AiAccessUncheckedUpdateManyInput = {
+  export type AiProviderUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     provider?: StringFieldUpdateOperationsInput | string;
@@ -18614,7 +18644,7 @@ export namespace Prisma {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     owner: UserCreateNestedOneWithoutOwnedAiBotsInput;
-    aiAccess: AiAccessCreateNestedOneWithoutBotsInput;
+    aiProvider: AiProviderCreateNestedOneWithoutBotsInput;
     sharedWith?: UserAiBotAccessCreateNestedManyWithoutAiBotInput;
     aiUsageMetrics?: AiUsageMetricCreateNestedManyWithoutAiBotInput;
   };
@@ -18627,7 +18657,7 @@ export namespace Prisma {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownerId: string;
-    aiAccessId: string;
+    aiProviderId: string;
     sharedWith?: UserAiBotAccessUncheckedCreateNestedManyWithoutAiBotInput;
     aiUsageMetrics?: AiUsageMetricUncheckedCreateNestedManyWithoutAiBotInput;
   };
@@ -18640,7 +18670,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     owner?: UserUpdateOneRequiredWithoutOwnedAiBotsNestedInput;
-    aiAccess?: AiAccessUpdateOneRequiredWithoutBotsNestedInput;
+    aiProvider?: AiProviderUpdateOneRequiredWithoutBotsNestedInput;
     sharedWith?: UserAiBotAccessUpdateManyWithoutAiBotNestedInput;
     aiUsageMetrics?: AiUsageMetricUpdateManyWithoutAiBotNestedInput;
   };
@@ -18653,7 +18683,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownerId?: StringFieldUpdateOperationsInput | string;
-    aiAccessId?: StringFieldUpdateOperationsInput | string;
+    aiProviderId?: StringFieldUpdateOperationsInput | string;
     sharedWith?: UserAiBotAccessUncheckedUpdateManyWithoutAiBotNestedInput;
     aiUsageMetrics?: AiUsageMetricUncheckedUpdateManyWithoutAiBotNestedInput;
   };
@@ -18666,7 +18696,7 @@ export namespace Prisma {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownerId: string;
-    aiAccessId: string;
+    aiProviderId: string;
   };
 
   export type AiBotUpdateManyMutationInput = {
@@ -18686,7 +18716,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownerId?: StringFieldUpdateOperationsInput | string;
-    aiAccessId?: StringFieldUpdateOperationsInput | string;
+    aiProviderId?: StringFieldUpdateOperationsInput | string;
   };
 
   export type ProcessedDocumentCreateInput = {
@@ -19104,10 +19134,10 @@ export namespace Prisma {
     none?: PaperlessInstanceWhereInput;
   };
 
-  export type AiAccessListRelationFilter = {
-    every?: AiAccessWhereInput;
-    some?: AiAccessWhereInput;
-    none?: AiAccessWhereInput;
+  export type AiProviderListRelationFilter = {
+    every?: AiProviderWhereInput;
+    some?: AiProviderWhereInput;
+    none?: AiProviderWhereInput;
   };
 
   export type AiBotListRelationFilter = {
@@ -19122,10 +19152,10 @@ export namespace Prisma {
     none?: UserPaperlessInstanceAccessWhereInput;
   };
 
-  export type UserAiAccessAccessListRelationFilter = {
-    every?: UserAiAccessAccessWhereInput;
-    some?: UserAiAccessAccessWhereInput;
-    none?: UserAiAccessAccessWhereInput;
+  export type UserAiProviderAccessListRelationFilter = {
+    every?: UserAiProviderAccessWhereInput;
+    some?: UserAiProviderAccessWhereInput;
+    none?: UserAiProviderAccessWhereInput;
   };
 
   export type UserAiBotAccessListRelationFilter = {
@@ -19144,7 +19174,7 @@ export namespace Prisma {
     _count?: SortOrder;
   };
 
-  export type AiAccessOrderByRelationAggregateInput = {
+  export type AiProviderOrderByRelationAggregateInput = {
     _count?: SortOrder;
   };
 
@@ -19156,7 +19186,7 @@ export namespace Prisma {
     _count?: SortOrder;
   };
 
-  export type UserAiAccessAccessOrderByRelationAggregateInput = {
+  export type UserAiProviderAccessOrderByRelationAggregateInput = {
     _count?: SortOrder;
   };
 
@@ -19275,36 +19305,36 @@ export namespace Prisma {
     _max?: NestedEnumPermissionFilter<$PrismaModel>;
   };
 
-  export type AiAccessScalarRelationFilter = {
-    is?: AiAccessWhereInput;
-    isNot?: AiAccessWhereInput;
+  export type AiProviderScalarRelationFilter = {
+    is?: AiProviderWhereInput;
+    isNot?: AiProviderWhereInput;
   };
 
-  export type UserAiAccessAccessUserIdAiAccessIdCompoundUniqueInput = {
+  export type UserAiProviderAccessUserIdAiProviderIdCompoundUniqueInput = {
     userId: string;
-    aiAccessId: string;
+    aiProviderId: string;
   };
 
-  export type UserAiAccessAccessCountOrderByAggregateInput = {
+  export type UserAiProviderAccessCountOrderByAggregateInput = {
     id?: SortOrder;
     userId?: SortOrder;
-    aiAccessId?: SortOrder;
+    aiProviderId?: SortOrder;
     permission?: SortOrder;
     createdAt?: SortOrder;
   };
 
-  export type UserAiAccessAccessMaxOrderByAggregateInput = {
+  export type UserAiProviderAccessMaxOrderByAggregateInput = {
     id?: SortOrder;
     userId?: SortOrder;
-    aiAccessId?: SortOrder;
+    aiProviderId?: SortOrder;
     permission?: SortOrder;
     createdAt?: SortOrder;
   };
 
-  export type UserAiAccessAccessMinOrderByAggregateInput = {
+  export type UserAiProviderAccessMinOrderByAggregateInput = {
     id?: SortOrder;
     userId?: SortOrder;
-    aiAccessId?: SortOrder;
+    aiProviderId?: SortOrder;
     permission?: SortOrder;
     createdAt?: SortOrder;
   };
@@ -19421,12 +19451,12 @@ export namespace Prisma {
     nulls?: NullsOrder;
   };
 
-  export type AiAccessOwnerIdNameCompoundUniqueInput = {
+  export type AiProviderOwnerIdNameCompoundUniqueInput = {
     ownerId: string;
     name: string;
   };
 
-  export type AiAccessCountOrderByAggregateInput = {
+  export type AiProviderCountOrderByAggregateInput = {
     id?: SortOrder;
     name?: SortOrder;
     provider?: SortOrder;
@@ -19439,7 +19469,7 @@ export namespace Prisma {
     ownerId?: SortOrder;
   };
 
-  export type AiAccessMaxOrderByAggregateInput = {
+  export type AiProviderMaxOrderByAggregateInput = {
     id?: SortOrder;
     name?: SortOrder;
     provider?: SortOrder;
@@ -19452,7 +19482,7 @@ export namespace Prisma {
     ownerId?: SortOrder;
   };
 
-  export type AiAccessMinOrderByAggregateInput = {
+  export type AiProviderMinOrderByAggregateInput = {
     id?: SortOrder;
     name?: SortOrder;
     provider?: SortOrder;
@@ -19496,7 +19526,7 @@ export namespace Prisma {
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
     ownerId?: SortOrder;
-    aiAccessId?: SortOrder;
+    aiProviderId?: SortOrder;
   };
 
   export type AiBotMaxOrderByAggregateInput = {
@@ -19507,7 +19537,7 @@ export namespace Prisma {
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
     ownerId?: SortOrder;
-    aiAccessId?: SortOrder;
+    aiProviderId?: SortOrder;
   };
 
   export type AiBotMinOrderByAggregateInput = {
@@ -19518,7 +19548,7 @@ export namespace Prisma {
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
     ownerId?: SortOrder;
-    aiAccessId?: SortOrder;
+    aiProviderId?: SortOrder;
   };
 
   export type IntFilter<$PrismaModel = never> = {
@@ -19900,16 +19930,16 @@ export namespace Prisma {
     connect?: PaperlessInstanceWhereUniqueInput | PaperlessInstanceWhereUniqueInput[];
   };
 
-  export type AiAccessCreateNestedManyWithoutOwnerInput = {
+  export type AiProviderCreateNestedManyWithoutOwnerInput = {
     create?:
-      | XOR<AiAccessCreateWithoutOwnerInput, AiAccessUncheckedCreateWithoutOwnerInput>
-      | AiAccessCreateWithoutOwnerInput[]
-      | AiAccessUncheckedCreateWithoutOwnerInput[];
+      | XOR<AiProviderCreateWithoutOwnerInput, AiProviderUncheckedCreateWithoutOwnerInput>
+      | AiProviderCreateWithoutOwnerInput[]
+      | AiProviderUncheckedCreateWithoutOwnerInput[];
     connectOrCreate?:
-      | AiAccessCreateOrConnectWithoutOwnerInput
-      | AiAccessCreateOrConnectWithoutOwnerInput[];
-    createMany?: AiAccessCreateManyOwnerInputEnvelope;
-    connect?: AiAccessWhereUniqueInput | AiAccessWhereUniqueInput[];
+      | AiProviderCreateOrConnectWithoutOwnerInput
+      | AiProviderCreateOrConnectWithoutOwnerInput[];
+    createMany?: AiProviderCreateManyOwnerInputEnvelope;
+    connect?: AiProviderWhereUniqueInput | AiProviderWhereUniqueInput[];
   };
 
   export type AiBotCreateNestedManyWithoutOwnerInput = {
@@ -19941,19 +19971,19 @@ export namespace Prisma {
       | UserPaperlessInstanceAccessWhereUniqueInput[];
   };
 
-  export type UserAiAccessAccessCreateNestedManyWithoutUserInput = {
+  export type UserAiProviderAccessCreateNestedManyWithoutUserInput = {
     create?:
       | XOR<
-          UserAiAccessAccessCreateWithoutUserInput,
-          UserAiAccessAccessUncheckedCreateWithoutUserInput
+          UserAiProviderAccessCreateWithoutUserInput,
+          UserAiProviderAccessUncheckedCreateWithoutUserInput
         >
-      | UserAiAccessAccessCreateWithoutUserInput[]
-      | UserAiAccessAccessUncheckedCreateWithoutUserInput[];
+      | UserAiProviderAccessCreateWithoutUserInput[]
+      | UserAiProviderAccessUncheckedCreateWithoutUserInput[];
     connectOrCreate?:
-      | UserAiAccessAccessCreateOrConnectWithoutUserInput
-      | UserAiAccessAccessCreateOrConnectWithoutUserInput[];
-    createMany?: UserAiAccessAccessCreateManyUserInputEnvelope;
-    connect?: UserAiAccessAccessWhereUniqueInput | UserAiAccessAccessWhereUniqueInput[];
+      | UserAiProviderAccessCreateOrConnectWithoutUserInput
+      | UserAiProviderAccessCreateOrConnectWithoutUserInput[];
+    createMany?: UserAiProviderAccessCreateManyUserInputEnvelope;
+    connect?: UserAiProviderAccessWhereUniqueInput | UserAiProviderAccessWhereUniqueInput[];
   };
 
   export type UserAiBotAccessCreateNestedManyWithoutUserInput = {
@@ -19995,16 +20025,16 @@ export namespace Prisma {
     connect?: PaperlessInstanceWhereUniqueInput | PaperlessInstanceWhereUniqueInput[];
   };
 
-  export type AiAccessUncheckedCreateNestedManyWithoutOwnerInput = {
+  export type AiProviderUncheckedCreateNestedManyWithoutOwnerInput = {
     create?:
-      | XOR<AiAccessCreateWithoutOwnerInput, AiAccessUncheckedCreateWithoutOwnerInput>
-      | AiAccessCreateWithoutOwnerInput[]
-      | AiAccessUncheckedCreateWithoutOwnerInput[];
+      | XOR<AiProviderCreateWithoutOwnerInput, AiProviderUncheckedCreateWithoutOwnerInput>
+      | AiProviderCreateWithoutOwnerInput[]
+      | AiProviderUncheckedCreateWithoutOwnerInput[];
     connectOrCreate?:
-      | AiAccessCreateOrConnectWithoutOwnerInput
-      | AiAccessCreateOrConnectWithoutOwnerInput[];
-    createMany?: AiAccessCreateManyOwnerInputEnvelope;
-    connect?: AiAccessWhereUniqueInput | AiAccessWhereUniqueInput[];
+      | AiProviderCreateOrConnectWithoutOwnerInput
+      | AiProviderCreateOrConnectWithoutOwnerInput[];
+    createMany?: AiProviderCreateManyOwnerInputEnvelope;
+    connect?: AiProviderWhereUniqueInput | AiProviderWhereUniqueInput[];
   };
 
   export type AiBotUncheckedCreateNestedManyWithoutOwnerInput = {
@@ -20036,19 +20066,19 @@ export namespace Prisma {
       | UserPaperlessInstanceAccessWhereUniqueInput[];
   };
 
-  export type UserAiAccessAccessUncheckedCreateNestedManyWithoutUserInput = {
+  export type UserAiProviderAccessUncheckedCreateNestedManyWithoutUserInput = {
     create?:
       | XOR<
-          UserAiAccessAccessCreateWithoutUserInput,
-          UserAiAccessAccessUncheckedCreateWithoutUserInput
+          UserAiProviderAccessCreateWithoutUserInput,
+          UserAiProviderAccessUncheckedCreateWithoutUserInput
         >
-      | UserAiAccessAccessCreateWithoutUserInput[]
-      | UserAiAccessAccessUncheckedCreateWithoutUserInput[];
+      | UserAiProviderAccessCreateWithoutUserInput[]
+      | UserAiProviderAccessUncheckedCreateWithoutUserInput[];
     connectOrCreate?:
-      | UserAiAccessAccessCreateOrConnectWithoutUserInput
-      | UserAiAccessAccessCreateOrConnectWithoutUserInput[];
-    createMany?: UserAiAccessAccessCreateManyUserInputEnvelope;
-    connect?: UserAiAccessAccessWhereUniqueInput | UserAiAccessAccessWhereUniqueInput[];
+      | UserAiProviderAccessCreateOrConnectWithoutUserInput
+      | UserAiProviderAccessCreateOrConnectWithoutUserInput[];
+    createMany?: UserAiProviderAccessCreateManyUserInputEnvelope;
+    connect?: UserAiProviderAccessWhereUniqueInput | UserAiProviderAccessWhereUniqueInput[];
   };
 
   export type UserAiBotAccessUncheckedCreateNestedManyWithoutUserInput = {
@@ -20111,29 +20141,29 @@ export namespace Prisma {
     deleteMany?: PaperlessInstanceScalarWhereInput | PaperlessInstanceScalarWhereInput[];
   };
 
-  export type AiAccessUpdateManyWithoutOwnerNestedInput = {
+  export type AiProviderUpdateManyWithoutOwnerNestedInput = {
     create?:
-      | XOR<AiAccessCreateWithoutOwnerInput, AiAccessUncheckedCreateWithoutOwnerInput>
-      | AiAccessCreateWithoutOwnerInput[]
-      | AiAccessUncheckedCreateWithoutOwnerInput[];
+      | XOR<AiProviderCreateWithoutOwnerInput, AiProviderUncheckedCreateWithoutOwnerInput>
+      | AiProviderCreateWithoutOwnerInput[]
+      | AiProviderUncheckedCreateWithoutOwnerInput[];
     connectOrCreate?:
-      | AiAccessCreateOrConnectWithoutOwnerInput
-      | AiAccessCreateOrConnectWithoutOwnerInput[];
+      | AiProviderCreateOrConnectWithoutOwnerInput
+      | AiProviderCreateOrConnectWithoutOwnerInput[];
     upsert?:
-      | AiAccessUpsertWithWhereUniqueWithoutOwnerInput
-      | AiAccessUpsertWithWhereUniqueWithoutOwnerInput[];
-    createMany?: AiAccessCreateManyOwnerInputEnvelope;
-    set?: AiAccessWhereUniqueInput | AiAccessWhereUniqueInput[];
-    disconnect?: AiAccessWhereUniqueInput | AiAccessWhereUniqueInput[];
-    delete?: AiAccessWhereUniqueInput | AiAccessWhereUniqueInput[];
-    connect?: AiAccessWhereUniqueInput | AiAccessWhereUniqueInput[];
+      | AiProviderUpsertWithWhereUniqueWithoutOwnerInput
+      | AiProviderUpsertWithWhereUniqueWithoutOwnerInput[];
+    createMany?: AiProviderCreateManyOwnerInputEnvelope;
+    set?: AiProviderWhereUniqueInput | AiProviderWhereUniqueInput[];
+    disconnect?: AiProviderWhereUniqueInput | AiProviderWhereUniqueInput[];
+    delete?: AiProviderWhereUniqueInput | AiProviderWhereUniqueInput[];
+    connect?: AiProviderWhereUniqueInput | AiProviderWhereUniqueInput[];
     update?:
-      | AiAccessUpdateWithWhereUniqueWithoutOwnerInput
-      | AiAccessUpdateWithWhereUniqueWithoutOwnerInput[];
+      | AiProviderUpdateWithWhereUniqueWithoutOwnerInput
+      | AiProviderUpdateWithWhereUniqueWithoutOwnerInput[];
     updateMany?:
-      | AiAccessUpdateManyWithWhereWithoutOwnerInput
-      | AiAccessUpdateManyWithWhereWithoutOwnerInput[];
-    deleteMany?: AiAccessScalarWhereInput | AiAccessScalarWhereInput[];
+      | AiProviderUpdateManyWithWhereWithoutOwnerInput
+      | AiProviderUpdateManyWithWhereWithoutOwnerInput[];
+    deleteMany?: AiProviderScalarWhereInput | AiProviderScalarWhereInput[];
   };
 
   export type AiBotUpdateManyWithoutOwnerNestedInput = {
@@ -20199,32 +20229,32 @@ export namespace Prisma {
       | UserPaperlessInstanceAccessScalarWhereInput[];
   };
 
-  export type UserAiAccessAccessUpdateManyWithoutUserNestedInput = {
+  export type UserAiProviderAccessUpdateManyWithoutUserNestedInput = {
     create?:
       | XOR<
-          UserAiAccessAccessCreateWithoutUserInput,
-          UserAiAccessAccessUncheckedCreateWithoutUserInput
+          UserAiProviderAccessCreateWithoutUserInput,
+          UserAiProviderAccessUncheckedCreateWithoutUserInput
         >
-      | UserAiAccessAccessCreateWithoutUserInput[]
-      | UserAiAccessAccessUncheckedCreateWithoutUserInput[];
+      | UserAiProviderAccessCreateWithoutUserInput[]
+      | UserAiProviderAccessUncheckedCreateWithoutUserInput[];
     connectOrCreate?:
-      | UserAiAccessAccessCreateOrConnectWithoutUserInput
-      | UserAiAccessAccessCreateOrConnectWithoutUserInput[];
+      | UserAiProviderAccessCreateOrConnectWithoutUserInput
+      | UserAiProviderAccessCreateOrConnectWithoutUserInput[];
     upsert?:
-      | UserAiAccessAccessUpsertWithWhereUniqueWithoutUserInput
-      | UserAiAccessAccessUpsertWithWhereUniqueWithoutUserInput[];
-    createMany?: UserAiAccessAccessCreateManyUserInputEnvelope;
-    set?: UserAiAccessAccessWhereUniqueInput | UserAiAccessAccessWhereUniqueInput[];
-    disconnect?: UserAiAccessAccessWhereUniqueInput | UserAiAccessAccessWhereUniqueInput[];
-    delete?: UserAiAccessAccessWhereUniqueInput | UserAiAccessAccessWhereUniqueInput[];
-    connect?: UserAiAccessAccessWhereUniqueInput | UserAiAccessAccessWhereUniqueInput[];
+      | UserAiProviderAccessUpsertWithWhereUniqueWithoutUserInput
+      | UserAiProviderAccessUpsertWithWhereUniqueWithoutUserInput[];
+    createMany?: UserAiProviderAccessCreateManyUserInputEnvelope;
+    set?: UserAiProviderAccessWhereUniqueInput | UserAiProviderAccessWhereUniqueInput[];
+    disconnect?: UserAiProviderAccessWhereUniqueInput | UserAiProviderAccessWhereUniqueInput[];
+    delete?: UserAiProviderAccessWhereUniqueInput | UserAiProviderAccessWhereUniqueInput[];
+    connect?: UserAiProviderAccessWhereUniqueInput | UserAiProviderAccessWhereUniqueInput[];
     update?:
-      | UserAiAccessAccessUpdateWithWhereUniqueWithoutUserInput
-      | UserAiAccessAccessUpdateWithWhereUniqueWithoutUserInput[];
+      | UserAiProviderAccessUpdateWithWhereUniqueWithoutUserInput
+      | UserAiProviderAccessUpdateWithWhereUniqueWithoutUserInput[];
     updateMany?:
-      | UserAiAccessAccessUpdateManyWithWhereWithoutUserInput
-      | UserAiAccessAccessUpdateManyWithWhereWithoutUserInput[];
-    deleteMany?: UserAiAccessAccessScalarWhereInput | UserAiAccessAccessScalarWhereInput[];
+      | UserAiProviderAccessUpdateManyWithWhereWithoutUserInput
+      | UserAiProviderAccessUpdateManyWithWhereWithoutUserInput[];
+    deleteMany?: UserAiProviderAccessScalarWhereInput | UserAiProviderAccessScalarWhereInput[];
   };
 
   export type UserAiBotAccessUpdateManyWithoutUserNestedInput = {
@@ -20305,29 +20335,29 @@ export namespace Prisma {
     deleteMany?: PaperlessInstanceScalarWhereInput | PaperlessInstanceScalarWhereInput[];
   };
 
-  export type AiAccessUncheckedUpdateManyWithoutOwnerNestedInput = {
+  export type AiProviderUncheckedUpdateManyWithoutOwnerNestedInput = {
     create?:
-      | XOR<AiAccessCreateWithoutOwnerInput, AiAccessUncheckedCreateWithoutOwnerInput>
-      | AiAccessCreateWithoutOwnerInput[]
-      | AiAccessUncheckedCreateWithoutOwnerInput[];
+      | XOR<AiProviderCreateWithoutOwnerInput, AiProviderUncheckedCreateWithoutOwnerInput>
+      | AiProviderCreateWithoutOwnerInput[]
+      | AiProviderUncheckedCreateWithoutOwnerInput[];
     connectOrCreate?:
-      | AiAccessCreateOrConnectWithoutOwnerInput
-      | AiAccessCreateOrConnectWithoutOwnerInput[];
+      | AiProviderCreateOrConnectWithoutOwnerInput
+      | AiProviderCreateOrConnectWithoutOwnerInput[];
     upsert?:
-      | AiAccessUpsertWithWhereUniqueWithoutOwnerInput
-      | AiAccessUpsertWithWhereUniqueWithoutOwnerInput[];
-    createMany?: AiAccessCreateManyOwnerInputEnvelope;
-    set?: AiAccessWhereUniqueInput | AiAccessWhereUniqueInput[];
-    disconnect?: AiAccessWhereUniqueInput | AiAccessWhereUniqueInput[];
-    delete?: AiAccessWhereUniqueInput | AiAccessWhereUniqueInput[];
-    connect?: AiAccessWhereUniqueInput | AiAccessWhereUniqueInput[];
+      | AiProviderUpsertWithWhereUniqueWithoutOwnerInput
+      | AiProviderUpsertWithWhereUniqueWithoutOwnerInput[];
+    createMany?: AiProviderCreateManyOwnerInputEnvelope;
+    set?: AiProviderWhereUniqueInput | AiProviderWhereUniqueInput[];
+    disconnect?: AiProviderWhereUniqueInput | AiProviderWhereUniqueInput[];
+    delete?: AiProviderWhereUniqueInput | AiProviderWhereUniqueInput[];
+    connect?: AiProviderWhereUniqueInput | AiProviderWhereUniqueInput[];
     update?:
-      | AiAccessUpdateWithWhereUniqueWithoutOwnerInput
-      | AiAccessUpdateWithWhereUniqueWithoutOwnerInput[];
+      | AiProviderUpdateWithWhereUniqueWithoutOwnerInput
+      | AiProviderUpdateWithWhereUniqueWithoutOwnerInput[];
     updateMany?:
-      | AiAccessUpdateManyWithWhereWithoutOwnerInput
-      | AiAccessUpdateManyWithWhereWithoutOwnerInput[];
-    deleteMany?: AiAccessScalarWhereInput | AiAccessScalarWhereInput[];
+      | AiProviderUpdateManyWithWhereWithoutOwnerInput
+      | AiProviderUpdateManyWithWhereWithoutOwnerInput[];
+    deleteMany?: AiProviderScalarWhereInput | AiProviderScalarWhereInput[];
   };
 
   export type AiBotUncheckedUpdateManyWithoutOwnerNestedInput = {
@@ -20393,32 +20423,32 @@ export namespace Prisma {
       | UserPaperlessInstanceAccessScalarWhereInput[];
   };
 
-  export type UserAiAccessAccessUncheckedUpdateManyWithoutUserNestedInput = {
+  export type UserAiProviderAccessUncheckedUpdateManyWithoutUserNestedInput = {
     create?:
       | XOR<
-          UserAiAccessAccessCreateWithoutUserInput,
-          UserAiAccessAccessUncheckedCreateWithoutUserInput
+          UserAiProviderAccessCreateWithoutUserInput,
+          UserAiProviderAccessUncheckedCreateWithoutUserInput
         >
-      | UserAiAccessAccessCreateWithoutUserInput[]
-      | UserAiAccessAccessUncheckedCreateWithoutUserInput[];
+      | UserAiProviderAccessCreateWithoutUserInput[]
+      | UserAiProviderAccessUncheckedCreateWithoutUserInput[];
     connectOrCreate?:
-      | UserAiAccessAccessCreateOrConnectWithoutUserInput
-      | UserAiAccessAccessCreateOrConnectWithoutUserInput[];
+      | UserAiProviderAccessCreateOrConnectWithoutUserInput
+      | UserAiProviderAccessCreateOrConnectWithoutUserInput[];
     upsert?:
-      | UserAiAccessAccessUpsertWithWhereUniqueWithoutUserInput
-      | UserAiAccessAccessUpsertWithWhereUniqueWithoutUserInput[];
-    createMany?: UserAiAccessAccessCreateManyUserInputEnvelope;
-    set?: UserAiAccessAccessWhereUniqueInput | UserAiAccessAccessWhereUniqueInput[];
-    disconnect?: UserAiAccessAccessWhereUniqueInput | UserAiAccessAccessWhereUniqueInput[];
-    delete?: UserAiAccessAccessWhereUniqueInput | UserAiAccessAccessWhereUniqueInput[];
-    connect?: UserAiAccessAccessWhereUniqueInput | UserAiAccessAccessWhereUniqueInput[];
+      | UserAiProviderAccessUpsertWithWhereUniqueWithoutUserInput
+      | UserAiProviderAccessUpsertWithWhereUniqueWithoutUserInput[];
+    createMany?: UserAiProviderAccessCreateManyUserInputEnvelope;
+    set?: UserAiProviderAccessWhereUniqueInput | UserAiProviderAccessWhereUniqueInput[];
+    disconnect?: UserAiProviderAccessWhereUniqueInput | UserAiProviderAccessWhereUniqueInput[];
+    delete?: UserAiProviderAccessWhereUniqueInput | UserAiProviderAccessWhereUniqueInput[];
+    connect?: UserAiProviderAccessWhereUniqueInput | UserAiProviderAccessWhereUniqueInput[];
     update?:
-      | UserAiAccessAccessUpdateWithWhereUniqueWithoutUserInput
-      | UserAiAccessAccessUpdateWithWhereUniqueWithoutUserInput[];
+      | UserAiProviderAccessUpdateWithWhereUniqueWithoutUserInput
+      | UserAiProviderAccessUpdateWithWhereUniqueWithoutUserInput[];
     updateMany?:
-      | UserAiAccessAccessUpdateManyWithWhereWithoutUserInput
-      | UserAiAccessAccessUpdateManyWithWhereWithoutUserInput[];
-    deleteMany?: UserAiAccessAccessScalarWhereInput | UserAiAccessAccessScalarWhereInput[];
+      | UserAiProviderAccessUpdateManyWithWhereWithoutUserInput
+      | UserAiProviderAccessUpdateManyWithWhereWithoutUserInput[];
+    deleteMany?: UserAiProviderAccessScalarWhereInput | UserAiProviderAccessScalarWhereInput[];
   };
 
   export type UserAiBotAccessUncheckedUpdateManyWithoutUserNestedInput = {
@@ -20527,52 +20557,55 @@ export namespace Prisma {
     >;
   };
 
-  export type UserCreateNestedOneWithoutSharedAiAccessesInput = {
+  export type UserCreateNestedOneWithoutSharedAiProvidersInput = {
     create?: XOR<
-      UserCreateWithoutSharedAiAccessesInput,
-      UserUncheckedCreateWithoutSharedAiAccessesInput
+      UserCreateWithoutSharedAiProvidersInput,
+      UserUncheckedCreateWithoutSharedAiProvidersInput
     >;
-    connectOrCreate?: UserCreateOrConnectWithoutSharedAiAccessesInput;
+    connectOrCreate?: UserCreateOrConnectWithoutSharedAiProvidersInput;
     connect?: UserWhereUniqueInput;
   };
 
-  export type AiAccessCreateNestedOneWithoutSharedWithInput = {
+  export type AiProviderCreateNestedOneWithoutSharedWithInput = {
     create?: XOR<
-      AiAccessCreateWithoutSharedWithInput,
-      AiAccessUncheckedCreateWithoutSharedWithInput
+      AiProviderCreateWithoutSharedWithInput,
+      AiProviderUncheckedCreateWithoutSharedWithInput
     >;
-    connectOrCreate?: AiAccessCreateOrConnectWithoutSharedWithInput;
-    connect?: AiAccessWhereUniqueInput;
+    connectOrCreate?: AiProviderCreateOrConnectWithoutSharedWithInput;
+    connect?: AiProviderWhereUniqueInput;
   };
 
-  export type UserUpdateOneRequiredWithoutSharedAiAccessesNestedInput = {
+  export type UserUpdateOneRequiredWithoutSharedAiProvidersNestedInput = {
     create?: XOR<
-      UserCreateWithoutSharedAiAccessesInput,
-      UserUncheckedCreateWithoutSharedAiAccessesInput
+      UserCreateWithoutSharedAiProvidersInput,
+      UserUncheckedCreateWithoutSharedAiProvidersInput
     >;
-    connectOrCreate?: UserCreateOrConnectWithoutSharedAiAccessesInput;
-    upsert?: UserUpsertWithoutSharedAiAccessesInput;
+    connectOrCreate?: UserCreateOrConnectWithoutSharedAiProvidersInput;
+    upsert?: UserUpsertWithoutSharedAiProvidersInput;
     connect?: UserWhereUniqueInput;
     update?: XOR<
       XOR<
-        UserUpdateToOneWithWhereWithoutSharedAiAccessesInput,
-        UserUpdateWithoutSharedAiAccessesInput
+        UserUpdateToOneWithWhereWithoutSharedAiProvidersInput,
+        UserUpdateWithoutSharedAiProvidersInput
       >,
-      UserUncheckedUpdateWithoutSharedAiAccessesInput
+      UserUncheckedUpdateWithoutSharedAiProvidersInput
     >;
   };
 
-  export type AiAccessUpdateOneRequiredWithoutSharedWithNestedInput = {
+  export type AiProviderUpdateOneRequiredWithoutSharedWithNestedInput = {
     create?: XOR<
-      AiAccessCreateWithoutSharedWithInput,
-      AiAccessUncheckedCreateWithoutSharedWithInput
+      AiProviderCreateWithoutSharedWithInput,
+      AiProviderUncheckedCreateWithoutSharedWithInput
     >;
-    connectOrCreate?: AiAccessCreateOrConnectWithoutSharedWithInput;
-    upsert?: AiAccessUpsertWithoutSharedWithInput;
-    connect?: AiAccessWhereUniqueInput;
+    connectOrCreate?: AiProviderCreateOrConnectWithoutSharedWithInput;
+    upsert?: AiProviderUpsertWithoutSharedWithInput;
+    connect?: AiProviderWhereUniqueInput;
     update?: XOR<
-      XOR<AiAccessUpdateToOneWithWhereWithoutSharedWithInput, AiAccessUpdateWithoutSharedWithInput>,
-      AiAccessUncheckedUpdateWithoutSharedWithInput
+      XOR<
+        AiProviderUpdateToOneWithWhereWithoutSharedWithInput,
+        AiProviderUpdateWithoutSharedWithInput
+      >,
+      AiProviderUncheckedUpdateWithoutSharedWithInput
     >;
   };
 
@@ -20918,66 +20951,66 @@ export namespace Prisma {
     deleteMany?: ProcessingQueueScalarWhereInput | ProcessingQueueScalarWhereInput[];
   };
 
-  export type UserCreateNestedOneWithoutOwnedAiAccessesInput = {
+  export type UserCreateNestedOneWithoutOwnedAiProvidersInput = {
     create?: XOR<
-      UserCreateWithoutOwnedAiAccessesInput,
-      UserUncheckedCreateWithoutOwnedAiAccessesInput
+      UserCreateWithoutOwnedAiProvidersInput,
+      UserUncheckedCreateWithoutOwnedAiProvidersInput
     >;
-    connectOrCreate?: UserCreateOrConnectWithoutOwnedAiAccessesInput;
+    connectOrCreate?: UserCreateOrConnectWithoutOwnedAiProvidersInput;
     connect?: UserWhereUniqueInput;
   };
 
-  export type UserAiAccessAccessCreateNestedManyWithoutAiAccessInput = {
+  export type UserAiProviderAccessCreateNestedManyWithoutAiProviderInput = {
     create?:
       | XOR<
-          UserAiAccessAccessCreateWithoutAiAccessInput,
-          UserAiAccessAccessUncheckedCreateWithoutAiAccessInput
+          UserAiProviderAccessCreateWithoutAiProviderInput,
+          UserAiProviderAccessUncheckedCreateWithoutAiProviderInput
         >
-      | UserAiAccessAccessCreateWithoutAiAccessInput[]
-      | UserAiAccessAccessUncheckedCreateWithoutAiAccessInput[];
+      | UserAiProviderAccessCreateWithoutAiProviderInput[]
+      | UserAiProviderAccessUncheckedCreateWithoutAiProviderInput[];
     connectOrCreate?:
-      | UserAiAccessAccessCreateOrConnectWithoutAiAccessInput
-      | UserAiAccessAccessCreateOrConnectWithoutAiAccessInput[];
-    createMany?: UserAiAccessAccessCreateManyAiAccessInputEnvelope;
-    connect?: UserAiAccessAccessWhereUniqueInput | UserAiAccessAccessWhereUniqueInput[];
+      | UserAiProviderAccessCreateOrConnectWithoutAiProviderInput
+      | UserAiProviderAccessCreateOrConnectWithoutAiProviderInput[];
+    createMany?: UserAiProviderAccessCreateManyAiProviderInputEnvelope;
+    connect?: UserAiProviderAccessWhereUniqueInput | UserAiProviderAccessWhereUniqueInput[];
   };
 
-  export type AiBotCreateNestedManyWithoutAiAccessInput = {
+  export type AiBotCreateNestedManyWithoutAiProviderInput = {
     create?:
-      | XOR<AiBotCreateWithoutAiAccessInput, AiBotUncheckedCreateWithoutAiAccessInput>
-      | AiBotCreateWithoutAiAccessInput[]
-      | AiBotUncheckedCreateWithoutAiAccessInput[];
+      | XOR<AiBotCreateWithoutAiProviderInput, AiBotUncheckedCreateWithoutAiProviderInput>
+      | AiBotCreateWithoutAiProviderInput[]
+      | AiBotUncheckedCreateWithoutAiProviderInput[];
     connectOrCreate?:
-      | AiBotCreateOrConnectWithoutAiAccessInput
-      | AiBotCreateOrConnectWithoutAiAccessInput[];
-    createMany?: AiBotCreateManyAiAccessInputEnvelope;
+      | AiBotCreateOrConnectWithoutAiProviderInput
+      | AiBotCreateOrConnectWithoutAiProviderInput[];
+    createMany?: AiBotCreateManyAiProviderInputEnvelope;
     connect?: AiBotWhereUniqueInput | AiBotWhereUniqueInput[];
   };
 
-  export type UserAiAccessAccessUncheckedCreateNestedManyWithoutAiAccessInput = {
+  export type UserAiProviderAccessUncheckedCreateNestedManyWithoutAiProviderInput = {
     create?:
       | XOR<
-          UserAiAccessAccessCreateWithoutAiAccessInput,
-          UserAiAccessAccessUncheckedCreateWithoutAiAccessInput
+          UserAiProviderAccessCreateWithoutAiProviderInput,
+          UserAiProviderAccessUncheckedCreateWithoutAiProviderInput
         >
-      | UserAiAccessAccessCreateWithoutAiAccessInput[]
-      | UserAiAccessAccessUncheckedCreateWithoutAiAccessInput[];
+      | UserAiProviderAccessCreateWithoutAiProviderInput[]
+      | UserAiProviderAccessUncheckedCreateWithoutAiProviderInput[];
     connectOrCreate?:
-      | UserAiAccessAccessCreateOrConnectWithoutAiAccessInput
-      | UserAiAccessAccessCreateOrConnectWithoutAiAccessInput[];
-    createMany?: UserAiAccessAccessCreateManyAiAccessInputEnvelope;
-    connect?: UserAiAccessAccessWhereUniqueInput | UserAiAccessAccessWhereUniqueInput[];
+      | UserAiProviderAccessCreateOrConnectWithoutAiProviderInput
+      | UserAiProviderAccessCreateOrConnectWithoutAiProviderInput[];
+    createMany?: UserAiProviderAccessCreateManyAiProviderInputEnvelope;
+    connect?: UserAiProviderAccessWhereUniqueInput | UserAiProviderAccessWhereUniqueInput[];
   };
 
-  export type AiBotUncheckedCreateNestedManyWithoutAiAccessInput = {
+  export type AiBotUncheckedCreateNestedManyWithoutAiProviderInput = {
     create?:
-      | XOR<AiBotCreateWithoutAiAccessInput, AiBotUncheckedCreateWithoutAiAccessInput>
-      | AiBotCreateWithoutAiAccessInput[]
-      | AiBotUncheckedCreateWithoutAiAccessInput[];
+      | XOR<AiBotCreateWithoutAiProviderInput, AiBotUncheckedCreateWithoutAiProviderInput>
+      | AiBotCreateWithoutAiProviderInput[]
+      | AiBotUncheckedCreateWithoutAiProviderInput[];
     connectOrCreate?:
-      | AiBotCreateOrConnectWithoutAiAccessInput
-      | AiBotCreateOrConnectWithoutAiAccessInput[];
-    createMany?: AiBotCreateManyAiAccessInputEnvelope;
+      | AiBotCreateOrConnectWithoutAiProviderInput
+      | AiBotCreateOrConnectWithoutAiProviderInput[];
+    createMany?: AiBotCreateManyAiProviderInputEnvelope;
     connect?: AiBotWhereUniqueInput | AiBotWhereUniqueInput[];
   };
 
@@ -20985,126 +21018,126 @@ export namespace Prisma {
     set?: string | null;
   };
 
-  export type UserUpdateOneRequiredWithoutOwnedAiAccessesNestedInput = {
+  export type UserUpdateOneRequiredWithoutOwnedAiProvidersNestedInput = {
     create?: XOR<
-      UserCreateWithoutOwnedAiAccessesInput,
-      UserUncheckedCreateWithoutOwnedAiAccessesInput
+      UserCreateWithoutOwnedAiProvidersInput,
+      UserUncheckedCreateWithoutOwnedAiProvidersInput
     >;
-    connectOrCreate?: UserCreateOrConnectWithoutOwnedAiAccessesInput;
-    upsert?: UserUpsertWithoutOwnedAiAccessesInput;
+    connectOrCreate?: UserCreateOrConnectWithoutOwnedAiProvidersInput;
+    upsert?: UserUpsertWithoutOwnedAiProvidersInput;
     connect?: UserWhereUniqueInput;
     update?: XOR<
       XOR<
-        UserUpdateToOneWithWhereWithoutOwnedAiAccessesInput,
-        UserUpdateWithoutOwnedAiAccessesInput
+        UserUpdateToOneWithWhereWithoutOwnedAiProvidersInput,
+        UserUpdateWithoutOwnedAiProvidersInput
       >,
-      UserUncheckedUpdateWithoutOwnedAiAccessesInput
+      UserUncheckedUpdateWithoutOwnedAiProvidersInput
     >;
   };
 
-  export type UserAiAccessAccessUpdateManyWithoutAiAccessNestedInput = {
+  export type UserAiProviderAccessUpdateManyWithoutAiProviderNestedInput = {
     create?:
       | XOR<
-          UserAiAccessAccessCreateWithoutAiAccessInput,
-          UserAiAccessAccessUncheckedCreateWithoutAiAccessInput
+          UserAiProviderAccessCreateWithoutAiProviderInput,
+          UserAiProviderAccessUncheckedCreateWithoutAiProviderInput
         >
-      | UserAiAccessAccessCreateWithoutAiAccessInput[]
-      | UserAiAccessAccessUncheckedCreateWithoutAiAccessInput[];
+      | UserAiProviderAccessCreateWithoutAiProviderInput[]
+      | UserAiProviderAccessUncheckedCreateWithoutAiProviderInput[];
     connectOrCreate?:
-      | UserAiAccessAccessCreateOrConnectWithoutAiAccessInput
-      | UserAiAccessAccessCreateOrConnectWithoutAiAccessInput[];
+      | UserAiProviderAccessCreateOrConnectWithoutAiProviderInput
+      | UserAiProviderAccessCreateOrConnectWithoutAiProviderInput[];
     upsert?:
-      | UserAiAccessAccessUpsertWithWhereUniqueWithoutAiAccessInput
-      | UserAiAccessAccessUpsertWithWhereUniqueWithoutAiAccessInput[];
-    createMany?: UserAiAccessAccessCreateManyAiAccessInputEnvelope;
-    set?: UserAiAccessAccessWhereUniqueInput | UserAiAccessAccessWhereUniqueInput[];
-    disconnect?: UserAiAccessAccessWhereUniqueInput | UserAiAccessAccessWhereUniqueInput[];
-    delete?: UserAiAccessAccessWhereUniqueInput | UserAiAccessAccessWhereUniqueInput[];
-    connect?: UserAiAccessAccessWhereUniqueInput | UserAiAccessAccessWhereUniqueInput[];
+      | UserAiProviderAccessUpsertWithWhereUniqueWithoutAiProviderInput
+      | UserAiProviderAccessUpsertWithWhereUniqueWithoutAiProviderInput[];
+    createMany?: UserAiProviderAccessCreateManyAiProviderInputEnvelope;
+    set?: UserAiProviderAccessWhereUniqueInput | UserAiProviderAccessWhereUniqueInput[];
+    disconnect?: UserAiProviderAccessWhereUniqueInput | UserAiProviderAccessWhereUniqueInput[];
+    delete?: UserAiProviderAccessWhereUniqueInput | UserAiProviderAccessWhereUniqueInput[];
+    connect?: UserAiProviderAccessWhereUniqueInput | UserAiProviderAccessWhereUniqueInput[];
     update?:
-      | UserAiAccessAccessUpdateWithWhereUniqueWithoutAiAccessInput
-      | UserAiAccessAccessUpdateWithWhereUniqueWithoutAiAccessInput[];
+      | UserAiProviderAccessUpdateWithWhereUniqueWithoutAiProviderInput
+      | UserAiProviderAccessUpdateWithWhereUniqueWithoutAiProviderInput[];
     updateMany?:
-      | UserAiAccessAccessUpdateManyWithWhereWithoutAiAccessInput
-      | UserAiAccessAccessUpdateManyWithWhereWithoutAiAccessInput[];
-    deleteMany?: UserAiAccessAccessScalarWhereInput | UserAiAccessAccessScalarWhereInput[];
+      | UserAiProviderAccessUpdateManyWithWhereWithoutAiProviderInput
+      | UserAiProviderAccessUpdateManyWithWhereWithoutAiProviderInput[];
+    deleteMany?: UserAiProviderAccessScalarWhereInput | UserAiProviderAccessScalarWhereInput[];
   };
 
-  export type AiBotUpdateManyWithoutAiAccessNestedInput = {
+  export type AiBotUpdateManyWithoutAiProviderNestedInput = {
     create?:
-      | XOR<AiBotCreateWithoutAiAccessInput, AiBotUncheckedCreateWithoutAiAccessInput>
-      | AiBotCreateWithoutAiAccessInput[]
-      | AiBotUncheckedCreateWithoutAiAccessInput[];
+      | XOR<AiBotCreateWithoutAiProviderInput, AiBotUncheckedCreateWithoutAiProviderInput>
+      | AiBotCreateWithoutAiProviderInput[]
+      | AiBotUncheckedCreateWithoutAiProviderInput[];
     connectOrCreate?:
-      | AiBotCreateOrConnectWithoutAiAccessInput
-      | AiBotCreateOrConnectWithoutAiAccessInput[];
+      | AiBotCreateOrConnectWithoutAiProviderInput
+      | AiBotCreateOrConnectWithoutAiProviderInput[];
     upsert?:
-      | AiBotUpsertWithWhereUniqueWithoutAiAccessInput
-      | AiBotUpsertWithWhereUniqueWithoutAiAccessInput[];
-    createMany?: AiBotCreateManyAiAccessInputEnvelope;
+      | AiBotUpsertWithWhereUniqueWithoutAiProviderInput
+      | AiBotUpsertWithWhereUniqueWithoutAiProviderInput[];
+    createMany?: AiBotCreateManyAiProviderInputEnvelope;
     set?: AiBotWhereUniqueInput | AiBotWhereUniqueInput[];
     disconnect?: AiBotWhereUniqueInput | AiBotWhereUniqueInput[];
     delete?: AiBotWhereUniqueInput | AiBotWhereUniqueInput[];
     connect?: AiBotWhereUniqueInput | AiBotWhereUniqueInput[];
     update?:
-      | AiBotUpdateWithWhereUniqueWithoutAiAccessInput
-      | AiBotUpdateWithWhereUniqueWithoutAiAccessInput[];
+      | AiBotUpdateWithWhereUniqueWithoutAiProviderInput
+      | AiBotUpdateWithWhereUniqueWithoutAiProviderInput[];
     updateMany?:
-      | AiBotUpdateManyWithWhereWithoutAiAccessInput
-      | AiBotUpdateManyWithWhereWithoutAiAccessInput[];
+      | AiBotUpdateManyWithWhereWithoutAiProviderInput
+      | AiBotUpdateManyWithWhereWithoutAiProviderInput[];
     deleteMany?: AiBotScalarWhereInput | AiBotScalarWhereInput[];
   };
 
-  export type UserAiAccessAccessUncheckedUpdateManyWithoutAiAccessNestedInput = {
+  export type UserAiProviderAccessUncheckedUpdateManyWithoutAiProviderNestedInput = {
     create?:
       | XOR<
-          UserAiAccessAccessCreateWithoutAiAccessInput,
-          UserAiAccessAccessUncheckedCreateWithoutAiAccessInput
+          UserAiProviderAccessCreateWithoutAiProviderInput,
+          UserAiProviderAccessUncheckedCreateWithoutAiProviderInput
         >
-      | UserAiAccessAccessCreateWithoutAiAccessInput[]
-      | UserAiAccessAccessUncheckedCreateWithoutAiAccessInput[];
+      | UserAiProviderAccessCreateWithoutAiProviderInput[]
+      | UserAiProviderAccessUncheckedCreateWithoutAiProviderInput[];
     connectOrCreate?:
-      | UserAiAccessAccessCreateOrConnectWithoutAiAccessInput
-      | UserAiAccessAccessCreateOrConnectWithoutAiAccessInput[];
+      | UserAiProviderAccessCreateOrConnectWithoutAiProviderInput
+      | UserAiProviderAccessCreateOrConnectWithoutAiProviderInput[];
     upsert?:
-      | UserAiAccessAccessUpsertWithWhereUniqueWithoutAiAccessInput
-      | UserAiAccessAccessUpsertWithWhereUniqueWithoutAiAccessInput[];
-    createMany?: UserAiAccessAccessCreateManyAiAccessInputEnvelope;
-    set?: UserAiAccessAccessWhereUniqueInput | UserAiAccessAccessWhereUniqueInput[];
-    disconnect?: UserAiAccessAccessWhereUniqueInput | UserAiAccessAccessWhereUniqueInput[];
-    delete?: UserAiAccessAccessWhereUniqueInput | UserAiAccessAccessWhereUniqueInput[];
-    connect?: UserAiAccessAccessWhereUniqueInput | UserAiAccessAccessWhereUniqueInput[];
+      | UserAiProviderAccessUpsertWithWhereUniqueWithoutAiProviderInput
+      | UserAiProviderAccessUpsertWithWhereUniqueWithoutAiProviderInput[];
+    createMany?: UserAiProviderAccessCreateManyAiProviderInputEnvelope;
+    set?: UserAiProviderAccessWhereUniqueInput | UserAiProviderAccessWhereUniqueInput[];
+    disconnect?: UserAiProviderAccessWhereUniqueInput | UserAiProviderAccessWhereUniqueInput[];
+    delete?: UserAiProviderAccessWhereUniqueInput | UserAiProviderAccessWhereUniqueInput[];
+    connect?: UserAiProviderAccessWhereUniqueInput | UserAiProviderAccessWhereUniqueInput[];
     update?:
-      | UserAiAccessAccessUpdateWithWhereUniqueWithoutAiAccessInput
-      | UserAiAccessAccessUpdateWithWhereUniqueWithoutAiAccessInput[];
+      | UserAiProviderAccessUpdateWithWhereUniqueWithoutAiProviderInput
+      | UserAiProviderAccessUpdateWithWhereUniqueWithoutAiProviderInput[];
     updateMany?:
-      | UserAiAccessAccessUpdateManyWithWhereWithoutAiAccessInput
-      | UserAiAccessAccessUpdateManyWithWhereWithoutAiAccessInput[];
-    deleteMany?: UserAiAccessAccessScalarWhereInput | UserAiAccessAccessScalarWhereInput[];
+      | UserAiProviderAccessUpdateManyWithWhereWithoutAiProviderInput
+      | UserAiProviderAccessUpdateManyWithWhereWithoutAiProviderInput[];
+    deleteMany?: UserAiProviderAccessScalarWhereInput | UserAiProviderAccessScalarWhereInput[];
   };
 
-  export type AiBotUncheckedUpdateManyWithoutAiAccessNestedInput = {
+  export type AiBotUncheckedUpdateManyWithoutAiProviderNestedInput = {
     create?:
-      | XOR<AiBotCreateWithoutAiAccessInput, AiBotUncheckedCreateWithoutAiAccessInput>
-      | AiBotCreateWithoutAiAccessInput[]
-      | AiBotUncheckedCreateWithoutAiAccessInput[];
+      | XOR<AiBotCreateWithoutAiProviderInput, AiBotUncheckedCreateWithoutAiProviderInput>
+      | AiBotCreateWithoutAiProviderInput[]
+      | AiBotUncheckedCreateWithoutAiProviderInput[];
     connectOrCreate?:
-      | AiBotCreateOrConnectWithoutAiAccessInput
-      | AiBotCreateOrConnectWithoutAiAccessInput[];
+      | AiBotCreateOrConnectWithoutAiProviderInput
+      | AiBotCreateOrConnectWithoutAiProviderInput[];
     upsert?:
-      | AiBotUpsertWithWhereUniqueWithoutAiAccessInput
-      | AiBotUpsertWithWhereUniqueWithoutAiAccessInput[];
-    createMany?: AiBotCreateManyAiAccessInputEnvelope;
+      | AiBotUpsertWithWhereUniqueWithoutAiProviderInput
+      | AiBotUpsertWithWhereUniqueWithoutAiProviderInput[];
+    createMany?: AiBotCreateManyAiProviderInputEnvelope;
     set?: AiBotWhereUniqueInput | AiBotWhereUniqueInput[];
     disconnect?: AiBotWhereUniqueInput | AiBotWhereUniqueInput[];
     delete?: AiBotWhereUniqueInput | AiBotWhereUniqueInput[];
     connect?: AiBotWhereUniqueInput | AiBotWhereUniqueInput[];
     update?:
-      | AiBotUpdateWithWhereUniqueWithoutAiAccessInput
-      | AiBotUpdateWithWhereUniqueWithoutAiAccessInput[];
+      | AiBotUpdateWithWhereUniqueWithoutAiProviderInput
+      | AiBotUpdateWithWhereUniqueWithoutAiProviderInput[];
     updateMany?:
-      | AiBotUpdateManyWithWhereWithoutAiAccessInput
-      | AiBotUpdateManyWithWhereWithoutAiAccessInput[];
+      | AiBotUpdateManyWithWhereWithoutAiProviderInput
+      | AiBotUpdateManyWithWhereWithoutAiProviderInput[];
     deleteMany?: AiBotScalarWhereInput | AiBotScalarWhereInput[];
   };
 
@@ -21114,10 +21147,10 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput;
   };
 
-  export type AiAccessCreateNestedOneWithoutBotsInput = {
-    create?: XOR<AiAccessCreateWithoutBotsInput, AiAccessUncheckedCreateWithoutBotsInput>;
-    connectOrCreate?: AiAccessCreateOrConnectWithoutBotsInput;
-    connect?: AiAccessWhereUniqueInput;
+  export type AiProviderCreateNestedOneWithoutBotsInput = {
+    create?: XOR<AiProviderCreateWithoutBotsInput, AiProviderUncheckedCreateWithoutBotsInput>;
+    connectOrCreate?: AiProviderCreateOrConnectWithoutBotsInput;
+    connect?: AiProviderWhereUniqueInput;
   };
 
   export type UserAiBotAccessCreateNestedManyWithoutAiBotInput = {
@@ -21179,14 +21212,14 @@ export namespace Prisma {
     >;
   };
 
-  export type AiAccessUpdateOneRequiredWithoutBotsNestedInput = {
-    create?: XOR<AiAccessCreateWithoutBotsInput, AiAccessUncheckedCreateWithoutBotsInput>;
-    connectOrCreate?: AiAccessCreateOrConnectWithoutBotsInput;
-    upsert?: AiAccessUpsertWithoutBotsInput;
-    connect?: AiAccessWhereUniqueInput;
+  export type AiProviderUpdateOneRequiredWithoutBotsNestedInput = {
+    create?: XOR<AiProviderCreateWithoutBotsInput, AiProviderUncheckedCreateWithoutBotsInput>;
+    connectOrCreate?: AiProviderCreateOrConnectWithoutBotsInput;
+    upsert?: AiProviderUpsertWithoutBotsInput;
+    connect?: AiProviderWhereUniqueInput;
     update?: XOR<
-      XOR<AiAccessUpdateToOneWithWhereWithoutBotsInput, AiAccessUpdateWithoutBotsInput>,
-      AiAccessUncheckedUpdateWithoutBotsInput
+      XOR<AiProviderUpdateToOneWithWhereWithoutBotsInput, AiProviderUpdateWithoutBotsInput>,
+      AiProviderUncheckedUpdateWithoutBotsInput
     >;
   };
 
@@ -21746,7 +21779,7 @@ export namespace Prisma {
     skipDuplicates?: boolean;
   };
 
-  export type AiAccessCreateWithoutOwnerInput = {
+  export type AiProviderCreateWithoutOwnerInput = {
     id?: string;
     name: string;
     provider: string;
@@ -21756,11 +21789,11 @@ export namespace Prisma {
     isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
-    sharedWith?: UserAiAccessAccessCreateNestedManyWithoutAiAccessInput;
-    bots?: AiBotCreateNestedManyWithoutAiAccessInput;
+    sharedWith?: UserAiProviderAccessCreateNestedManyWithoutAiProviderInput;
+    bots?: AiBotCreateNestedManyWithoutAiProviderInput;
   };
 
-  export type AiAccessUncheckedCreateWithoutOwnerInput = {
+  export type AiProviderUncheckedCreateWithoutOwnerInput = {
     id?: string;
     name: string;
     provider: string;
@@ -21770,17 +21803,17 @@ export namespace Prisma {
     isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
-    sharedWith?: UserAiAccessAccessUncheckedCreateNestedManyWithoutAiAccessInput;
-    bots?: AiBotUncheckedCreateNestedManyWithoutAiAccessInput;
+    sharedWith?: UserAiProviderAccessUncheckedCreateNestedManyWithoutAiProviderInput;
+    bots?: AiBotUncheckedCreateNestedManyWithoutAiProviderInput;
   };
 
-  export type AiAccessCreateOrConnectWithoutOwnerInput = {
-    where: AiAccessWhereUniqueInput;
-    create: XOR<AiAccessCreateWithoutOwnerInput, AiAccessUncheckedCreateWithoutOwnerInput>;
+  export type AiProviderCreateOrConnectWithoutOwnerInput = {
+    where: AiProviderWhereUniqueInput;
+    create: XOR<AiProviderCreateWithoutOwnerInput, AiProviderUncheckedCreateWithoutOwnerInput>;
   };
 
-  export type AiAccessCreateManyOwnerInputEnvelope = {
-    data: AiAccessCreateManyOwnerInput | AiAccessCreateManyOwnerInput[];
+  export type AiProviderCreateManyOwnerInputEnvelope = {
+    data: AiProviderCreateManyOwnerInput | AiProviderCreateManyOwnerInput[];
     skipDuplicates?: boolean;
   };
 
@@ -21791,7 +21824,7 @@ export namespace Prisma {
     isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
-    aiAccess: AiAccessCreateNestedOneWithoutBotsInput;
+    aiProvider: AiProviderCreateNestedOneWithoutBotsInput;
     sharedWith?: UserAiBotAccessCreateNestedManyWithoutAiBotInput;
     aiUsageMetrics?: AiUsageMetricCreateNestedManyWithoutAiBotInput;
   };
@@ -21803,7 +21836,7 @@ export namespace Prisma {
     isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
-    aiAccessId: string;
+    aiProviderId: string;
     sharedWith?: UserAiBotAccessUncheckedCreateNestedManyWithoutAiBotInput;
     aiUsageMetrics?: AiUsageMetricUncheckedCreateNestedManyWithoutAiBotInput;
   };
@@ -21847,30 +21880,30 @@ export namespace Prisma {
     skipDuplicates?: boolean;
   };
 
-  export type UserAiAccessAccessCreateWithoutUserInput = {
+  export type UserAiProviderAccessCreateWithoutUserInput = {
     id?: string;
     permission?: $Enums.Permission;
     createdAt?: Date | string;
-    aiAccess: AiAccessCreateNestedOneWithoutSharedWithInput;
+    aiProvider: AiProviderCreateNestedOneWithoutSharedWithInput;
   };
 
-  export type UserAiAccessAccessUncheckedCreateWithoutUserInput = {
+  export type UserAiProviderAccessUncheckedCreateWithoutUserInput = {
     id?: string;
-    aiAccessId: string;
+    aiProviderId: string;
     permission?: $Enums.Permission;
     createdAt?: Date | string;
   };
 
-  export type UserAiAccessAccessCreateOrConnectWithoutUserInput = {
-    where: UserAiAccessAccessWhereUniqueInput;
+  export type UserAiProviderAccessCreateOrConnectWithoutUserInput = {
+    where: UserAiProviderAccessWhereUniqueInput;
     create: XOR<
-      UserAiAccessAccessCreateWithoutUserInput,
-      UserAiAccessAccessUncheckedCreateWithoutUserInput
+      UserAiProviderAccessCreateWithoutUserInput,
+      UserAiProviderAccessUncheckedCreateWithoutUserInput
     >;
   };
 
-  export type UserAiAccessAccessCreateManyUserInputEnvelope = {
-    data: UserAiAccessAccessCreateManyUserInput | UserAiAccessAccessCreateManyUserInput[];
+  export type UserAiProviderAccessCreateManyUserInputEnvelope = {
+    data: UserAiProviderAccessCreateManyUserInput | UserAiProviderAccessCreateManyUserInput[];
     skipDuplicates?: boolean;
   };
 
@@ -21979,36 +22012,36 @@ export namespace Prisma {
     ownerId?: StringFilter<'PaperlessInstance'> | string;
   };
 
-  export type AiAccessUpsertWithWhereUniqueWithoutOwnerInput = {
-    where: AiAccessWhereUniqueInput;
-    update: XOR<AiAccessUpdateWithoutOwnerInput, AiAccessUncheckedUpdateWithoutOwnerInput>;
-    create: XOR<AiAccessCreateWithoutOwnerInput, AiAccessUncheckedCreateWithoutOwnerInput>;
+  export type AiProviderUpsertWithWhereUniqueWithoutOwnerInput = {
+    where: AiProviderWhereUniqueInput;
+    update: XOR<AiProviderUpdateWithoutOwnerInput, AiProviderUncheckedUpdateWithoutOwnerInput>;
+    create: XOR<AiProviderCreateWithoutOwnerInput, AiProviderUncheckedCreateWithoutOwnerInput>;
   };
 
-  export type AiAccessUpdateWithWhereUniqueWithoutOwnerInput = {
-    where: AiAccessWhereUniqueInput;
-    data: XOR<AiAccessUpdateWithoutOwnerInput, AiAccessUncheckedUpdateWithoutOwnerInput>;
+  export type AiProviderUpdateWithWhereUniqueWithoutOwnerInput = {
+    where: AiProviderWhereUniqueInput;
+    data: XOR<AiProviderUpdateWithoutOwnerInput, AiProviderUncheckedUpdateWithoutOwnerInput>;
   };
 
-  export type AiAccessUpdateManyWithWhereWithoutOwnerInput = {
-    where: AiAccessScalarWhereInput;
-    data: XOR<AiAccessUpdateManyMutationInput, AiAccessUncheckedUpdateManyWithoutOwnerInput>;
+  export type AiProviderUpdateManyWithWhereWithoutOwnerInput = {
+    where: AiProviderScalarWhereInput;
+    data: XOR<AiProviderUpdateManyMutationInput, AiProviderUncheckedUpdateManyWithoutOwnerInput>;
   };
 
-  export type AiAccessScalarWhereInput = {
-    AND?: AiAccessScalarWhereInput | AiAccessScalarWhereInput[];
-    OR?: AiAccessScalarWhereInput[];
-    NOT?: AiAccessScalarWhereInput | AiAccessScalarWhereInput[];
-    id?: StringFilter<'AiAccess'> | string;
-    name?: StringFilter<'AiAccess'> | string;
-    provider?: StringFilter<'AiAccess'> | string;
-    model?: StringFilter<'AiAccess'> | string;
-    apiKey?: StringFilter<'AiAccess'> | string;
-    baseUrl?: StringNullableFilter<'AiAccess'> | string | null;
-    isActive?: BoolFilter<'AiAccess'> | boolean;
-    createdAt?: DateTimeFilter<'AiAccess'> | Date | string;
-    updatedAt?: DateTimeFilter<'AiAccess'> | Date | string;
-    ownerId?: StringFilter<'AiAccess'> | string;
+  export type AiProviderScalarWhereInput = {
+    AND?: AiProviderScalarWhereInput | AiProviderScalarWhereInput[];
+    OR?: AiProviderScalarWhereInput[];
+    NOT?: AiProviderScalarWhereInput | AiProviderScalarWhereInput[];
+    id?: StringFilter<'AiProvider'> | string;
+    name?: StringFilter<'AiProvider'> | string;
+    provider?: StringFilter<'AiProvider'> | string;
+    model?: StringFilter<'AiProvider'> | string;
+    apiKey?: StringFilter<'AiProvider'> | string;
+    baseUrl?: StringNullableFilter<'AiProvider'> | string | null;
+    isActive?: BoolFilter<'AiProvider'> | boolean;
+    createdAt?: DateTimeFilter<'AiProvider'> | Date | string;
+    updatedAt?: DateTimeFilter<'AiProvider'> | Date | string;
+    ownerId?: StringFilter<'AiProvider'> | string;
   };
 
   export type AiBotUpsertWithWhereUniqueWithoutOwnerInput = {
@@ -22038,7 +22071,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<'AiBot'> | Date | string;
     updatedAt?: DateTimeFilter<'AiBot'> | Date | string;
     ownerId?: StringFilter<'AiBot'> | string;
-    aiAccessId?: StringFilter<'AiBot'> | string;
+    aiProviderId?: StringFilter<'AiBot'> | string;
   };
 
   export type UserPaperlessInstanceAccessUpsertWithWhereUniqueWithoutUserInput = {
@@ -22084,43 +22117,43 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<'UserPaperlessInstanceAccess'> | Date | string;
   };
 
-  export type UserAiAccessAccessUpsertWithWhereUniqueWithoutUserInput = {
-    where: UserAiAccessAccessWhereUniqueInput;
+  export type UserAiProviderAccessUpsertWithWhereUniqueWithoutUserInput = {
+    where: UserAiProviderAccessWhereUniqueInput;
     update: XOR<
-      UserAiAccessAccessUpdateWithoutUserInput,
-      UserAiAccessAccessUncheckedUpdateWithoutUserInput
+      UserAiProviderAccessUpdateWithoutUserInput,
+      UserAiProviderAccessUncheckedUpdateWithoutUserInput
     >;
     create: XOR<
-      UserAiAccessAccessCreateWithoutUserInput,
-      UserAiAccessAccessUncheckedCreateWithoutUserInput
+      UserAiProviderAccessCreateWithoutUserInput,
+      UserAiProviderAccessUncheckedCreateWithoutUserInput
     >;
   };
 
-  export type UserAiAccessAccessUpdateWithWhereUniqueWithoutUserInput = {
-    where: UserAiAccessAccessWhereUniqueInput;
+  export type UserAiProviderAccessUpdateWithWhereUniqueWithoutUserInput = {
+    where: UserAiProviderAccessWhereUniqueInput;
     data: XOR<
-      UserAiAccessAccessUpdateWithoutUserInput,
-      UserAiAccessAccessUncheckedUpdateWithoutUserInput
+      UserAiProviderAccessUpdateWithoutUserInput,
+      UserAiProviderAccessUncheckedUpdateWithoutUserInput
     >;
   };
 
-  export type UserAiAccessAccessUpdateManyWithWhereWithoutUserInput = {
-    where: UserAiAccessAccessScalarWhereInput;
+  export type UserAiProviderAccessUpdateManyWithWhereWithoutUserInput = {
+    where: UserAiProviderAccessScalarWhereInput;
     data: XOR<
-      UserAiAccessAccessUpdateManyMutationInput,
-      UserAiAccessAccessUncheckedUpdateManyWithoutUserInput
+      UserAiProviderAccessUpdateManyMutationInput,
+      UserAiProviderAccessUncheckedUpdateManyWithoutUserInput
     >;
   };
 
-  export type UserAiAccessAccessScalarWhereInput = {
-    AND?: UserAiAccessAccessScalarWhereInput | UserAiAccessAccessScalarWhereInput[];
-    OR?: UserAiAccessAccessScalarWhereInput[];
-    NOT?: UserAiAccessAccessScalarWhereInput | UserAiAccessAccessScalarWhereInput[];
-    id?: StringFilter<'UserAiAccessAccess'> | string;
-    userId?: StringFilter<'UserAiAccessAccess'> | string;
-    aiAccessId?: StringFilter<'UserAiAccessAccess'> | string;
-    permission?: EnumPermissionFilter<'UserAiAccessAccess'> | $Enums.Permission;
-    createdAt?: DateTimeFilter<'UserAiAccessAccess'> | Date | string;
+  export type UserAiProviderAccessScalarWhereInput = {
+    AND?: UserAiProviderAccessScalarWhereInput | UserAiProviderAccessScalarWhereInput[];
+    OR?: UserAiProviderAccessScalarWhereInput[];
+    NOT?: UserAiProviderAccessScalarWhereInput | UserAiProviderAccessScalarWhereInput[];
+    id?: StringFilter<'UserAiProviderAccess'> | string;
+    userId?: StringFilter<'UserAiProviderAccess'> | string;
+    aiProviderId?: StringFilter<'UserAiProviderAccess'> | string;
+    permission?: EnumPermissionFilter<'UserAiProviderAccess'> | $Enums.Permission;
+    createdAt?: DateTimeFilter<'UserAiProviderAccess'> | Date | string;
   };
 
   export type UserAiBotAccessUpsertWithWhereUniqueWithoutUserInput = {
@@ -22208,9 +22241,9 @@ export namespace Prisma {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownedPaperlessInstances?: PaperlessInstanceCreateNestedManyWithoutOwnerInput;
-    ownedAiAccesses?: AiAccessCreateNestedManyWithoutOwnerInput;
+    ownedAiProviders?: AiProviderCreateNestedManyWithoutOwnerInput;
     ownedAiBots?: AiBotCreateNestedManyWithoutOwnerInput;
-    sharedAiAccesses?: UserAiAccessAccessCreateNestedManyWithoutUserInput;
+    sharedAiProviders?: UserAiProviderAccessCreateNestedManyWithoutUserInput;
     sharedAiBots?: UserAiBotAccessCreateNestedManyWithoutUserInput;
     aiUsageMetrics?: AiUsageMetricCreateNestedManyWithoutUserInput;
   };
@@ -22225,9 +22258,9 @@ export namespace Prisma {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownedPaperlessInstances?: PaperlessInstanceUncheckedCreateNestedManyWithoutOwnerInput;
-    ownedAiAccesses?: AiAccessUncheckedCreateNestedManyWithoutOwnerInput;
+    ownedAiProviders?: AiProviderUncheckedCreateNestedManyWithoutOwnerInput;
     ownedAiBots?: AiBotUncheckedCreateNestedManyWithoutOwnerInput;
-    sharedAiAccesses?: UserAiAccessAccessUncheckedCreateNestedManyWithoutUserInput;
+    sharedAiProviders?: UserAiProviderAccessUncheckedCreateNestedManyWithoutUserInput;
     sharedAiBots?: UserAiBotAccessUncheckedCreateNestedManyWithoutUserInput;
     aiUsageMetrics?: AiUsageMetricUncheckedCreateNestedManyWithoutUserInput;
   };
@@ -22304,9 +22337,9 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownedPaperlessInstances?: PaperlessInstanceUpdateManyWithoutOwnerNestedInput;
-    ownedAiAccesses?: AiAccessUpdateManyWithoutOwnerNestedInput;
+    ownedAiProviders?: AiProviderUpdateManyWithoutOwnerNestedInput;
     ownedAiBots?: AiBotUpdateManyWithoutOwnerNestedInput;
-    sharedAiAccesses?: UserAiAccessAccessUpdateManyWithoutUserNestedInput;
+    sharedAiProviders?: UserAiProviderAccessUpdateManyWithoutUserNestedInput;
     sharedAiBots?: UserAiBotAccessUpdateManyWithoutUserNestedInput;
     aiUsageMetrics?: AiUsageMetricUpdateManyWithoutUserNestedInput;
   };
@@ -22321,9 +22354,9 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownedPaperlessInstances?: PaperlessInstanceUncheckedUpdateManyWithoutOwnerNestedInput;
-    ownedAiAccesses?: AiAccessUncheckedUpdateManyWithoutOwnerNestedInput;
+    ownedAiProviders?: AiProviderUncheckedUpdateManyWithoutOwnerNestedInput;
     ownedAiBots?: AiBotUncheckedUpdateManyWithoutOwnerNestedInput;
-    sharedAiAccesses?: UserAiAccessAccessUncheckedUpdateManyWithoutUserNestedInput;
+    sharedAiProviders?: UserAiProviderAccessUncheckedUpdateManyWithoutUserNestedInput;
     sharedAiBots?: UserAiBotAccessUncheckedUpdateManyWithoutUserNestedInput;
     aiUsageMetrics?: AiUsageMetricUncheckedUpdateManyWithoutUserNestedInput;
   };
@@ -22374,7 +22407,7 @@ export namespace Prisma {
     processingQueue?: ProcessingQueueUncheckedUpdateManyWithoutPaperlessInstanceNestedInput;
   };
 
-  export type UserCreateWithoutSharedAiAccessesInput = {
+  export type UserCreateWithoutSharedAiProvidersInput = {
     id?: string;
     username: string;
     passwordHash: string;
@@ -22384,14 +22417,14 @@ export namespace Prisma {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownedPaperlessInstances?: PaperlessInstanceCreateNestedManyWithoutOwnerInput;
-    ownedAiAccesses?: AiAccessCreateNestedManyWithoutOwnerInput;
+    ownedAiProviders?: AiProviderCreateNestedManyWithoutOwnerInput;
     ownedAiBots?: AiBotCreateNestedManyWithoutOwnerInput;
     sharedPaperlessInstances?: UserPaperlessInstanceAccessCreateNestedManyWithoutUserInput;
     sharedAiBots?: UserAiBotAccessCreateNestedManyWithoutUserInput;
     aiUsageMetrics?: AiUsageMetricCreateNestedManyWithoutUserInput;
   };
 
-  export type UserUncheckedCreateWithoutSharedAiAccessesInput = {
+  export type UserUncheckedCreateWithoutSharedAiProvidersInput = {
     id?: string;
     username: string;
     passwordHash: string;
@@ -22401,22 +22434,22 @@ export namespace Prisma {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownedPaperlessInstances?: PaperlessInstanceUncheckedCreateNestedManyWithoutOwnerInput;
-    ownedAiAccesses?: AiAccessUncheckedCreateNestedManyWithoutOwnerInput;
+    ownedAiProviders?: AiProviderUncheckedCreateNestedManyWithoutOwnerInput;
     ownedAiBots?: AiBotUncheckedCreateNestedManyWithoutOwnerInput;
     sharedPaperlessInstances?: UserPaperlessInstanceAccessUncheckedCreateNestedManyWithoutUserInput;
     sharedAiBots?: UserAiBotAccessUncheckedCreateNestedManyWithoutUserInput;
     aiUsageMetrics?: AiUsageMetricUncheckedCreateNestedManyWithoutUserInput;
   };
 
-  export type UserCreateOrConnectWithoutSharedAiAccessesInput = {
+  export type UserCreateOrConnectWithoutSharedAiProvidersInput = {
     where: UserWhereUniqueInput;
     create: XOR<
-      UserCreateWithoutSharedAiAccessesInput,
-      UserUncheckedCreateWithoutSharedAiAccessesInput
+      UserCreateWithoutSharedAiProvidersInput,
+      UserUncheckedCreateWithoutSharedAiProvidersInput
     >;
   };
 
-  export type AiAccessCreateWithoutSharedWithInput = {
+  export type AiProviderCreateWithoutSharedWithInput = {
     id?: string;
     name: string;
     provider: string;
@@ -22426,11 +22459,11 @@ export namespace Prisma {
     isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
-    owner: UserCreateNestedOneWithoutOwnedAiAccessesInput;
-    bots?: AiBotCreateNestedManyWithoutAiAccessInput;
+    owner: UserCreateNestedOneWithoutOwnedAiProvidersInput;
+    bots?: AiBotCreateNestedManyWithoutAiProviderInput;
   };
 
-  export type AiAccessUncheckedCreateWithoutSharedWithInput = {
+  export type AiProviderUncheckedCreateWithoutSharedWithInput = {
     id?: string;
     name: string;
     provider: string;
@@ -22441,38 +22474,38 @@ export namespace Prisma {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownerId: string;
-    bots?: AiBotUncheckedCreateNestedManyWithoutAiAccessInput;
+    bots?: AiBotUncheckedCreateNestedManyWithoutAiProviderInput;
   };
 
-  export type AiAccessCreateOrConnectWithoutSharedWithInput = {
-    where: AiAccessWhereUniqueInput;
+  export type AiProviderCreateOrConnectWithoutSharedWithInput = {
+    where: AiProviderWhereUniqueInput;
     create: XOR<
-      AiAccessCreateWithoutSharedWithInput,
-      AiAccessUncheckedCreateWithoutSharedWithInput
+      AiProviderCreateWithoutSharedWithInput,
+      AiProviderUncheckedCreateWithoutSharedWithInput
     >;
   };
 
-  export type UserUpsertWithoutSharedAiAccessesInput = {
+  export type UserUpsertWithoutSharedAiProvidersInput = {
     update: XOR<
-      UserUpdateWithoutSharedAiAccessesInput,
-      UserUncheckedUpdateWithoutSharedAiAccessesInput
+      UserUpdateWithoutSharedAiProvidersInput,
+      UserUncheckedUpdateWithoutSharedAiProvidersInput
     >;
     create: XOR<
-      UserCreateWithoutSharedAiAccessesInput,
-      UserUncheckedCreateWithoutSharedAiAccessesInput
+      UserCreateWithoutSharedAiProvidersInput,
+      UserUncheckedCreateWithoutSharedAiProvidersInput
     >;
     where?: UserWhereInput;
   };
 
-  export type UserUpdateToOneWithWhereWithoutSharedAiAccessesInput = {
+  export type UserUpdateToOneWithWhereWithoutSharedAiProvidersInput = {
     where?: UserWhereInput;
     data: XOR<
-      UserUpdateWithoutSharedAiAccessesInput,
-      UserUncheckedUpdateWithoutSharedAiAccessesInput
+      UserUpdateWithoutSharedAiProvidersInput,
+      UserUncheckedUpdateWithoutSharedAiProvidersInput
     >;
   };
 
-  export type UserUpdateWithoutSharedAiAccessesInput = {
+  export type UserUpdateWithoutSharedAiProvidersInput = {
     id?: StringFieldUpdateOperationsInput | string;
     username?: StringFieldUpdateOperationsInput | string;
     passwordHash?: StringFieldUpdateOperationsInput | string;
@@ -22482,14 +22515,14 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownedPaperlessInstances?: PaperlessInstanceUpdateManyWithoutOwnerNestedInput;
-    ownedAiAccesses?: AiAccessUpdateManyWithoutOwnerNestedInput;
+    ownedAiProviders?: AiProviderUpdateManyWithoutOwnerNestedInput;
     ownedAiBots?: AiBotUpdateManyWithoutOwnerNestedInput;
     sharedPaperlessInstances?: UserPaperlessInstanceAccessUpdateManyWithoutUserNestedInput;
     sharedAiBots?: UserAiBotAccessUpdateManyWithoutUserNestedInput;
     aiUsageMetrics?: AiUsageMetricUpdateManyWithoutUserNestedInput;
   };
 
-  export type UserUncheckedUpdateWithoutSharedAiAccessesInput = {
+  export type UserUncheckedUpdateWithoutSharedAiProvidersInput = {
     id?: StringFieldUpdateOperationsInput | string;
     username?: StringFieldUpdateOperationsInput | string;
     passwordHash?: StringFieldUpdateOperationsInput | string;
@@ -22499,31 +22532,34 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownedPaperlessInstances?: PaperlessInstanceUncheckedUpdateManyWithoutOwnerNestedInput;
-    ownedAiAccesses?: AiAccessUncheckedUpdateManyWithoutOwnerNestedInput;
+    ownedAiProviders?: AiProviderUncheckedUpdateManyWithoutOwnerNestedInput;
     ownedAiBots?: AiBotUncheckedUpdateManyWithoutOwnerNestedInput;
     sharedPaperlessInstances?: UserPaperlessInstanceAccessUncheckedUpdateManyWithoutUserNestedInput;
     sharedAiBots?: UserAiBotAccessUncheckedUpdateManyWithoutUserNestedInput;
     aiUsageMetrics?: AiUsageMetricUncheckedUpdateManyWithoutUserNestedInput;
   };
 
-  export type AiAccessUpsertWithoutSharedWithInput = {
+  export type AiProviderUpsertWithoutSharedWithInput = {
     update: XOR<
-      AiAccessUpdateWithoutSharedWithInput,
-      AiAccessUncheckedUpdateWithoutSharedWithInput
+      AiProviderUpdateWithoutSharedWithInput,
+      AiProviderUncheckedUpdateWithoutSharedWithInput
     >;
     create: XOR<
-      AiAccessCreateWithoutSharedWithInput,
-      AiAccessUncheckedCreateWithoutSharedWithInput
+      AiProviderCreateWithoutSharedWithInput,
+      AiProviderUncheckedCreateWithoutSharedWithInput
     >;
-    where?: AiAccessWhereInput;
+    where?: AiProviderWhereInput;
   };
 
-  export type AiAccessUpdateToOneWithWhereWithoutSharedWithInput = {
-    where?: AiAccessWhereInput;
-    data: XOR<AiAccessUpdateWithoutSharedWithInput, AiAccessUncheckedUpdateWithoutSharedWithInput>;
+  export type AiProviderUpdateToOneWithWhereWithoutSharedWithInput = {
+    where?: AiProviderWhereInput;
+    data: XOR<
+      AiProviderUpdateWithoutSharedWithInput,
+      AiProviderUncheckedUpdateWithoutSharedWithInput
+    >;
   };
 
-  export type AiAccessUpdateWithoutSharedWithInput = {
+  export type AiProviderUpdateWithoutSharedWithInput = {
     id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     provider?: StringFieldUpdateOperationsInput | string;
@@ -22533,11 +22569,11 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    owner?: UserUpdateOneRequiredWithoutOwnedAiAccessesNestedInput;
-    bots?: AiBotUpdateManyWithoutAiAccessNestedInput;
+    owner?: UserUpdateOneRequiredWithoutOwnedAiProvidersNestedInput;
+    bots?: AiBotUpdateManyWithoutAiProviderNestedInput;
   };
 
-  export type AiAccessUncheckedUpdateWithoutSharedWithInput = {
+  export type AiProviderUncheckedUpdateWithoutSharedWithInput = {
     id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     provider?: StringFieldUpdateOperationsInput | string;
@@ -22548,7 +22584,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownerId?: StringFieldUpdateOperationsInput | string;
-    bots?: AiBotUncheckedUpdateManyWithoutAiAccessNestedInput;
+    bots?: AiBotUncheckedUpdateManyWithoutAiProviderNestedInput;
   };
 
   export type UserCreateWithoutSharedAiBotsInput = {
@@ -22561,10 +22597,10 @@ export namespace Prisma {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownedPaperlessInstances?: PaperlessInstanceCreateNestedManyWithoutOwnerInput;
-    ownedAiAccesses?: AiAccessCreateNestedManyWithoutOwnerInput;
+    ownedAiProviders?: AiProviderCreateNestedManyWithoutOwnerInput;
     ownedAiBots?: AiBotCreateNestedManyWithoutOwnerInput;
     sharedPaperlessInstances?: UserPaperlessInstanceAccessCreateNestedManyWithoutUserInput;
-    sharedAiAccesses?: UserAiAccessAccessCreateNestedManyWithoutUserInput;
+    sharedAiProviders?: UserAiProviderAccessCreateNestedManyWithoutUserInput;
     aiUsageMetrics?: AiUsageMetricCreateNestedManyWithoutUserInput;
   };
 
@@ -22578,10 +22614,10 @@ export namespace Prisma {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownedPaperlessInstances?: PaperlessInstanceUncheckedCreateNestedManyWithoutOwnerInput;
-    ownedAiAccesses?: AiAccessUncheckedCreateNestedManyWithoutOwnerInput;
+    ownedAiProviders?: AiProviderUncheckedCreateNestedManyWithoutOwnerInput;
     ownedAiBots?: AiBotUncheckedCreateNestedManyWithoutOwnerInput;
     sharedPaperlessInstances?: UserPaperlessInstanceAccessUncheckedCreateNestedManyWithoutUserInput;
-    sharedAiAccesses?: UserAiAccessAccessUncheckedCreateNestedManyWithoutUserInput;
+    sharedAiProviders?: UserAiProviderAccessUncheckedCreateNestedManyWithoutUserInput;
     aiUsageMetrics?: AiUsageMetricUncheckedCreateNestedManyWithoutUserInput;
   };
 
@@ -22598,7 +22634,7 @@ export namespace Prisma {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     owner: UserCreateNestedOneWithoutOwnedAiBotsInput;
-    aiAccess: AiAccessCreateNestedOneWithoutBotsInput;
+    aiProvider: AiProviderCreateNestedOneWithoutBotsInput;
     aiUsageMetrics?: AiUsageMetricCreateNestedManyWithoutAiBotInput;
   };
 
@@ -22610,7 +22646,7 @@ export namespace Prisma {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownerId: string;
-    aiAccessId: string;
+    aiProviderId: string;
     aiUsageMetrics?: AiUsageMetricUncheckedCreateNestedManyWithoutAiBotInput;
   };
 
@@ -22640,10 +22676,10 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownedPaperlessInstances?: PaperlessInstanceUpdateManyWithoutOwnerNestedInput;
-    ownedAiAccesses?: AiAccessUpdateManyWithoutOwnerNestedInput;
+    ownedAiProviders?: AiProviderUpdateManyWithoutOwnerNestedInput;
     ownedAiBots?: AiBotUpdateManyWithoutOwnerNestedInput;
     sharedPaperlessInstances?: UserPaperlessInstanceAccessUpdateManyWithoutUserNestedInput;
-    sharedAiAccesses?: UserAiAccessAccessUpdateManyWithoutUserNestedInput;
+    sharedAiProviders?: UserAiProviderAccessUpdateManyWithoutUserNestedInput;
     aiUsageMetrics?: AiUsageMetricUpdateManyWithoutUserNestedInput;
   };
 
@@ -22657,10 +22693,10 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownedPaperlessInstances?: PaperlessInstanceUncheckedUpdateManyWithoutOwnerNestedInput;
-    ownedAiAccesses?: AiAccessUncheckedUpdateManyWithoutOwnerNestedInput;
+    ownedAiProviders?: AiProviderUncheckedUpdateManyWithoutOwnerNestedInput;
     ownedAiBots?: AiBotUncheckedUpdateManyWithoutOwnerNestedInput;
     sharedPaperlessInstances?: UserPaperlessInstanceAccessUncheckedUpdateManyWithoutUserNestedInput;
-    sharedAiAccesses?: UserAiAccessAccessUncheckedUpdateManyWithoutUserNestedInput;
+    sharedAiProviders?: UserAiProviderAccessUncheckedUpdateManyWithoutUserNestedInput;
     aiUsageMetrics?: AiUsageMetricUncheckedUpdateManyWithoutUserNestedInput;
   };
 
@@ -22683,7 +22719,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     owner?: UserUpdateOneRequiredWithoutOwnedAiBotsNestedInput;
-    aiAccess?: AiAccessUpdateOneRequiredWithoutBotsNestedInput;
+    aiProvider?: AiProviderUpdateOneRequiredWithoutBotsNestedInput;
     aiUsageMetrics?: AiUsageMetricUpdateManyWithoutAiBotNestedInput;
   };
 
@@ -22695,7 +22731,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownerId?: StringFieldUpdateOperationsInput | string;
-    aiAccessId?: StringFieldUpdateOperationsInput | string;
+    aiProviderId?: StringFieldUpdateOperationsInput | string;
     aiUsageMetrics?: AiUsageMetricUncheckedUpdateManyWithoutAiBotNestedInput;
   };
 
@@ -22708,10 +22744,10 @@ export namespace Prisma {
     isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
-    ownedAiAccesses?: AiAccessCreateNestedManyWithoutOwnerInput;
+    ownedAiProviders?: AiProviderCreateNestedManyWithoutOwnerInput;
     ownedAiBots?: AiBotCreateNestedManyWithoutOwnerInput;
     sharedPaperlessInstances?: UserPaperlessInstanceAccessCreateNestedManyWithoutUserInput;
-    sharedAiAccesses?: UserAiAccessAccessCreateNestedManyWithoutUserInput;
+    sharedAiProviders?: UserAiProviderAccessCreateNestedManyWithoutUserInput;
     sharedAiBots?: UserAiBotAccessCreateNestedManyWithoutUserInput;
     aiUsageMetrics?: AiUsageMetricCreateNestedManyWithoutUserInput;
   };
@@ -22725,10 +22761,10 @@ export namespace Prisma {
     isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
-    ownedAiAccesses?: AiAccessUncheckedCreateNestedManyWithoutOwnerInput;
+    ownedAiProviders?: AiProviderUncheckedCreateNestedManyWithoutOwnerInput;
     ownedAiBots?: AiBotUncheckedCreateNestedManyWithoutOwnerInput;
     sharedPaperlessInstances?: UserPaperlessInstanceAccessUncheckedCreateNestedManyWithoutUserInput;
-    sharedAiAccesses?: UserAiAccessAccessUncheckedCreateNestedManyWithoutUserInput;
+    sharedAiProviders?: UserAiProviderAccessUncheckedCreateNestedManyWithoutUserInput;
     sharedAiBots?: UserAiBotAccessUncheckedCreateNestedManyWithoutUserInput;
     aiUsageMetrics?: AiUsageMetricUncheckedCreateNestedManyWithoutUserInput;
   };
@@ -22889,10 +22925,10 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    ownedAiAccesses?: AiAccessUpdateManyWithoutOwnerNestedInput;
+    ownedAiProviders?: AiProviderUpdateManyWithoutOwnerNestedInput;
     ownedAiBots?: AiBotUpdateManyWithoutOwnerNestedInput;
     sharedPaperlessInstances?: UserPaperlessInstanceAccessUpdateManyWithoutUserNestedInput;
-    sharedAiAccesses?: UserAiAccessAccessUpdateManyWithoutUserNestedInput;
+    sharedAiProviders?: UserAiProviderAccessUpdateManyWithoutUserNestedInput;
     sharedAiBots?: UserAiBotAccessUpdateManyWithoutUserNestedInput;
     aiUsageMetrics?: AiUsageMetricUpdateManyWithoutUserNestedInput;
   };
@@ -22906,10 +22942,10 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    ownedAiAccesses?: AiAccessUncheckedUpdateManyWithoutOwnerNestedInput;
+    ownedAiProviders?: AiProviderUncheckedUpdateManyWithoutOwnerNestedInput;
     ownedAiBots?: AiBotUncheckedUpdateManyWithoutOwnerNestedInput;
     sharedPaperlessInstances?: UserPaperlessInstanceAccessUncheckedUpdateManyWithoutUserNestedInput;
-    sharedAiAccesses?: UserAiAccessAccessUncheckedUpdateManyWithoutUserNestedInput;
+    sharedAiProviders?: UserAiProviderAccessUncheckedUpdateManyWithoutUserNestedInput;
     sharedAiBots?: UserAiBotAccessUncheckedUpdateManyWithoutUserNestedInput;
     aiUsageMetrics?: AiUsageMetricUncheckedUpdateManyWithoutUserNestedInput;
   };
@@ -23036,7 +23072,7 @@ export namespace Prisma {
     paperlessInstanceId?: StringFilter<'ProcessingQueue'> | string;
   };
 
-  export type UserCreateWithoutOwnedAiAccessesInput = {
+  export type UserCreateWithoutOwnedAiProvidersInput = {
     id?: string;
     username: string;
     passwordHash: string;
@@ -23048,12 +23084,12 @@ export namespace Prisma {
     ownedPaperlessInstances?: PaperlessInstanceCreateNestedManyWithoutOwnerInput;
     ownedAiBots?: AiBotCreateNestedManyWithoutOwnerInput;
     sharedPaperlessInstances?: UserPaperlessInstanceAccessCreateNestedManyWithoutUserInput;
-    sharedAiAccesses?: UserAiAccessAccessCreateNestedManyWithoutUserInput;
+    sharedAiProviders?: UserAiProviderAccessCreateNestedManyWithoutUserInput;
     sharedAiBots?: UserAiBotAccessCreateNestedManyWithoutUserInput;
     aiUsageMetrics?: AiUsageMetricCreateNestedManyWithoutUserInput;
   };
 
-  export type UserUncheckedCreateWithoutOwnedAiAccessesInput = {
+  export type UserUncheckedCreateWithoutOwnedAiProvidersInput = {
     id?: string;
     username: string;
     passwordHash: string;
@@ -23065,47 +23101,49 @@ export namespace Prisma {
     ownedPaperlessInstances?: PaperlessInstanceUncheckedCreateNestedManyWithoutOwnerInput;
     ownedAiBots?: AiBotUncheckedCreateNestedManyWithoutOwnerInput;
     sharedPaperlessInstances?: UserPaperlessInstanceAccessUncheckedCreateNestedManyWithoutUserInput;
-    sharedAiAccesses?: UserAiAccessAccessUncheckedCreateNestedManyWithoutUserInput;
+    sharedAiProviders?: UserAiProviderAccessUncheckedCreateNestedManyWithoutUserInput;
     sharedAiBots?: UserAiBotAccessUncheckedCreateNestedManyWithoutUserInput;
     aiUsageMetrics?: AiUsageMetricUncheckedCreateNestedManyWithoutUserInput;
   };
 
-  export type UserCreateOrConnectWithoutOwnedAiAccessesInput = {
+  export type UserCreateOrConnectWithoutOwnedAiProvidersInput = {
     where: UserWhereUniqueInput;
     create: XOR<
-      UserCreateWithoutOwnedAiAccessesInput,
-      UserUncheckedCreateWithoutOwnedAiAccessesInput
+      UserCreateWithoutOwnedAiProvidersInput,
+      UserUncheckedCreateWithoutOwnedAiProvidersInput
     >;
   };
 
-  export type UserAiAccessAccessCreateWithoutAiAccessInput = {
+  export type UserAiProviderAccessCreateWithoutAiProviderInput = {
     id?: string;
     permission?: $Enums.Permission;
     createdAt?: Date | string;
-    user: UserCreateNestedOneWithoutSharedAiAccessesInput;
+    user: UserCreateNestedOneWithoutSharedAiProvidersInput;
   };
 
-  export type UserAiAccessAccessUncheckedCreateWithoutAiAccessInput = {
+  export type UserAiProviderAccessUncheckedCreateWithoutAiProviderInput = {
     id?: string;
     userId: string;
     permission?: $Enums.Permission;
     createdAt?: Date | string;
   };
 
-  export type UserAiAccessAccessCreateOrConnectWithoutAiAccessInput = {
-    where: UserAiAccessAccessWhereUniqueInput;
+  export type UserAiProviderAccessCreateOrConnectWithoutAiProviderInput = {
+    where: UserAiProviderAccessWhereUniqueInput;
     create: XOR<
-      UserAiAccessAccessCreateWithoutAiAccessInput,
-      UserAiAccessAccessUncheckedCreateWithoutAiAccessInput
+      UserAiProviderAccessCreateWithoutAiProviderInput,
+      UserAiProviderAccessUncheckedCreateWithoutAiProviderInput
     >;
   };
 
-  export type UserAiAccessAccessCreateManyAiAccessInputEnvelope = {
-    data: UserAiAccessAccessCreateManyAiAccessInput | UserAiAccessAccessCreateManyAiAccessInput[];
+  export type UserAiProviderAccessCreateManyAiProviderInputEnvelope = {
+    data:
+      | UserAiProviderAccessCreateManyAiProviderInput
+      | UserAiProviderAccessCreateManyAiProviderInput[];
     skipDuplicates?: boolean;
   };
 
-  export type AiBotCreateWithoutAiAccessInput = {
+  export type AiBotCreateWithoutAiProviderInput = {
     id?: string;
     name: string;
     systemPrompt: string;
@@ -23117,7 +23155,7 @@ export namespace Prisma {
     aiUsageMetrics?: AiUsageMetricCreateNestedManyWithoutAiBotInput;
   };
 
-  export type AiBotUncheckedCreateWithoutAiAccessInput = {
+  export type AiBotUncheckedCreateWithoutAiProviderInput = {
     id?: string;
     name: string;
     systemPrompt: string;
@@ -23129,37 +23167,37 @@ export namespace Prisma {
     aiUsageMetrics?: AiUsageMetricUncheckedCreateNestedManyWithoutAiBotInput;
   };
 
-  export type AiBotCreateOrConnectWithoutAiAccessInput = {
+  export type AiBotCreateOrConnectWithoutAiProviderInput = {
     where: AiBotWhereUniqueInput;
-    create: XOR<AiBotCreateWithoutAiAccessInput, AiBotUncheckedCreateWithoutAiAccessInput>;
+    create: XOR<AiBotCreateWithoutAiProviderInput, AiBotUncheckedCreateWithoutAiProviderInput>;
   };
 
-  export type AiBotCreateManyAiAccessInputEnvelope = {
-    data: AiBotCreateManyAiAccessInput | AiBotCreateManyAiAccessInput[];
+  export type AiBotCreateManyAiProviderInputEnvelope = {
+    data: AiBotCreateManyAiProviderInput | AiBotCreateManyAiProviderInput[];
     skipDuplicates?: boolean;
   };
 
-  export type UserUpsertWithoutOwnedAiAccessesInput = {
+  export type UserUpsertWithoutOwnedAiProvidersInput = {
     update: XOR<
-      UserUpdateWithoutOwnedAiAccessesInput,
-      UserUncheckedUpdateWithoutOwnedAiAccessesInput
+      UserUpdateWithoutOwnedAiProvidersInput,
+      UserUncheckedUpdateWithoutOwnedAiProvidersInput
     >;
     create: XOR<
-      UserCreateWithoutOwnedAiAccessesInput,
-      UserUncheckedCreateWithoutOwnedAiAccessesInput
+      UserCreateWithoutOwnedAiProvidersInput,
+      UserUncheckedCreateWithoutOwnedAiProvidersInput
     >;
     where?: UserWhereInput;
   };
 
-  export type UserUpdateToOneWithWhereWithoutOwnedAiAccessesInput = {
+  export type UserUpdateToOneWithWhereWithoutOwnedAiProvidersInput = {
     where?: UserWhereInput;
     data: XOR<
-      UserUpdateWithoutOwnedAiAccessesInput,
-      UserUncheckedUpdateWithoutOwnedAiAccessesInput
+      UserUpdateWithoutOwnedAiProvidersInput,
+      UserUncheckedUpdateWithoutOwnedAiProvidersInput
     >;
   };
 
-  export type UserUpdateWithoutOwnedAiAccessesInput = {
+  export type UserUpdateWithoutOwnedAiProvidersInput = {
     id?: StringFieldUpdateOperationsInput | string;
     username?: StringFieldUpdateOperationsInput | string;
     passwordHash?: StringFieldUpdateOperationsInput | string;
@@ -23171,12 +23209,12 @@ export namespace Prisma {
     ownedPaperlessInstances?: PaperlessInstanceUpdateManyWithoutOwnerNestedInput;
     ownedAiBots?: AiBotUpdateManyWithoutOwnerNestedInput;
     sharedPaperlessInstances?: UserPaperlessInstanceAccessUpdateManyWithoutUserNestedInput;
-    sharedAiAccesses?: UserAiAccessAccessUpdateManyWithoutUserNestedInput;
+    sharedAiProviders?: UserAiProviderAccessUpdateManyWithoutUserNestedInput;
     sharedAiBots?: UserAiBotAccessUpdateManyWithoutUserNestedInput;
     aiUsageMetrics?: AiUsageMetricUpdateManyWithoutUserNestedInput;
   };
 
-  export type UserUncheckedUpdateWithoutOwnedAiAccessesInput = {
+  export type UserUncheckedUpdateWithoutOwnedAiProvidersInput = {
     id?: StringFieldUpdateOperationsInput | string;
     username?: StringFieldUpdateOperationsInput | string;
     passwordHash?: StringFieldUpdateOperationsInput | string;
@@ -23188,53 +23226,53 @@ export namespace Prisma {
     ownedPaperlessInstances?: PaperlessInstanceUncheckedUpdateManyWithoutOwnerNestedInput;
     ownedAiBots?: AiBotUncheckedUpdateManyWithoutOwnerNestedInput;
     sharedPaperlessInstances?: UserPaperlessInstanceAccessUncheckedUpdateManyWithoutUserNestedInput;
-    sharedAiAccesses?: UserAiAccessAccessUncheckedUpdateManyWithoutUserNestedInput;
+    sharedAiProviders?: UserAiProviderAccessUncheckedUpdateManyWithoutUserNestedInput;
     sharedAiBots?: UserAiBotAccessUncheckedUpdateManyWithoutUserNestedInput;
     aiUsageMetrics?: AiUsageMetricUncheckedUpdateManyWithoutUserNestedInput;
   };
 
-  export type UserAiAccessAccessUpsertWithWhereUniqueWithoutAiAccessInput = {
-    where: UserAiAccessAccessWhereUniqueInput;
+  export type UserAiProviderAccessUpsertWithWhereUniqueWithoutAiProviderInput = {
+    where: UserAiProviderAccessWhereUniqueInput;
     update: XOR<
-      UserAiAccessAccessUpdateWithoutAiAccessInput,
-      UserAiAccessAccessUncheckedUpdateWithoutAiAccessInput
+      UserAiProviderAccessUpdateWithoutAiProviderInput,
+      UserAiProviderAccessUncheckedUpdateWithoutAiProviderInput
     >;
     create: XOR<
-      UserAiAccessAccessCreateWithoutAiAccessInput,
-      UserAiAccessAccessUncheckedCreateWithoutAiAccessInput
+      UserAiProviderAccessCreateWithoutAiProviderInput,
+      UserAiProviderAccessUncheckedCreateWithoutAiProviderInput
     >;
   };
 
-  export type UserAiAccessAccessUpdateWithWhereUniqueWithoutAiAccessInput = {
-    where: UserAiAccessAccessWhereUniqueInput;
+  export type UserAiProviderAccessUpdateWithWhereUniqueWithoutAiProviderInput = {
+    where: UserAiProviderAccessWhereUniqueInput;
     data: XOR<
-      UserAiAccessAccessUpdateWithoutAiAccessInput,
-      UserAiAccessAccessUncheckedUpdateWithoutAiAccessInput
+      UserAiProviderAccessUpdateWithoutAiProviderInput,
+      UserAiProviderAccessUncheckedUpdateWithoutAiProviderInput
     >;
   };
 
-  export type UserAiAccessAccessUpdateManyWithWhereWithoutAiAccessInput = {
-    where: UserAiAccessAccessScalarWhereInput;
+  export type UserAiProviderAccessUpdateManyWithWhereWithoutAiProviderInput = {
+    where: UserAiProviderAccessScalarWhereInput;
     data: XOR<
-      UserAiAccessAccessUpdateManyMutationInput,
-      UserAiAccessAccessUncheckedUpdateManyWithoutAiAccessInput
+      UserAiProviderAccessUpdateManyMutationInput,
+      UserAiProviderAccessUncheckedUpdateManyWithoutAiProviderInput
     >;
   };
 
-  export type AiBotUpsertWithWhereUniqueWithoutAiAccessInput = {
+  export type AiBotUpsertWithWhereUniqueWithoutAiProviderInput = {
     where: AiBotWhereUniqueInput;
-    update: XOR<AiBotUpdateWithoutAiAccessInput, AiBotUncheckedUpdateWithoutAiAccessInput>;
-    create: XOR<AiBotCreateWithoutAiAccessInput, AiBotUncheckedCreateWithoutAiAccessInput>;
+    update: XOR<AiBotUpdateWithoutAiProviderInput, AiBotUncheckedUpdateWithoutAiProviderInput>;
+    create: XOR<AiBotCreateWithoutAiProviderInput, AiBotUncheckedCreateWithoutAiProviderInput>;
   };
 
-  export type AiBotUpdateWithWhereUniqueWithoutAiAccessInput = {
+  export type AiBotUpdateWithWhereUniqueWithoutAiProviderInput = {
     where: AiBotWhereUniqueInput;
-    data: XOR<AiBotUpdateWithoutAiAccessInput, AiBotUncheckedUpdateWithoutAiAccessInput>;
+    data: XOR<AiBotUpdateWithoutAiProviderInput, AiBotUncheckedUpdateWithoutAiProviderInput>;
   };
 
-  export type AiBotUpdateManyWithWhereWithoutAiAccessInput = {
+  export type AiBotUpdateManyWithWhereWithoutAiProviderInput = {
     where: AiBotScalarWhereInput;
-    data: XOR<AiBotUpdateManyMutationInput, AiBotUncheckedUpdateManyWithoutAiAccessInput>;
+    data: XOR<AiBotUpdateManyMutationInput, AiBotUncheckedUpdateManyWithoutAiProviderInput>;
   };
 
   export type UserCreateWithoutOwnedAiBotsInput = {
@@ -23247,9 +23285,9 @@ export namespace Prisma {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownedPaperlessInstances?: PaperlessInstanceCreateNestedManyWithoutOwnerInput;
-    ownedAiAccesses?: AiAccessCreateNestedManyWithoutOwnerInput;
+    ownedAiProviders?: AiProviderCreateNestedManyWithoutOwnerInput;
     sharedPaperlessInstances?: UserPaperlessInstanceAccessCreateNestedManyWithoutUserInput;
-    sharedAiAccesses?: UserAiAccessAccessCreateNestedManyWithoutUserInput;
+    sharedAiProviders?: UserAiProviderAccessCreateNestedManyWithoutUserInput;
     sharedAiBots?: UserAiBotAccessCreateNestedManyWithoutUserInput;
     aiUsageMetrics?: AiUsageMetricCreateNestedManyWithoutUserInput;
   };
@@ -23264,9 +23302,9 @@ export namespace Prisma {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownedPaperlessInstances?: PaperlessInstanceUncheckedCreateNestedManyWithoutOwnerInput;
-    ownedAiAccesses?: AiAccessUncheckedCreateNestedManyWithoutOwnerInput;
+    ownedAiProviders?: AiProviderUncheckedCreateNestedManyWithoutOwnerInput;
     sharedPaperlessInstances?: UserPaperlessInstanceAccessUncheckedCreateNestedManyWithoutUserInput;
-    sharedAiAccesses?: UserAiAccessAccessUncheckedCreateNestedManyWithoutUserInput;
+    sharedAiProviders?: UserAiProviderAccessUncheckedCreateNestedManyWithoutUserInput;
     sharedAiBots?: UserAiBotAccessUncheckedCreateNestedManyWithoutUserInput;
     aiUsageMetrics?: AiUsageMetricUncheckedCreateNestedManyWithoutUserInput;
   };
@@ -23276,7 +23314,7 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutOwnedAiBotsInput, UserUncheckedCreateWithoutOwnedAiBotsInput>;
   };
 
-  export type AiAccessCreateWithoutBotsInput = {
+  export type AiProviderCreateWithoutBotsInput = {
     id?: string;
     name: string;
     provider: string;
@@ -23286,11 +23324,11 @@ export namespace Prisma {
     isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
-    owner: UserCreateNestedOneWithoutOwnedAiAccessesInput;
-    sharedWith?: UserAiAccessAccessCreateNestedManyWithoutAiAccessInput;
+    owner: UserCreateNestedOneWithoutOwnedAiProvidersInput;
+    sharedWith?: UserAiProviderAccessCreateNestedManyWithoutAiProviderInput;
   };
 
-  export type AiAccessUncheckedCreateWithoutBotsInput = {
+  export type AiProviderUncheckedCreateWithoutBotsInput = {
     id?: string;
     name: string;
     provider: string;
@@ -23301,12 +23339,12 @@ export namespace Prisma {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownerId: string;
-    sharedWith?: UserAiAccessAccessUncheckedCreateNestedManyWithoutAiAccessInput;
+    sharedWith?: UserAiProviderAccessUncheckedCreateNestedManyWithoutAiProviderInput;
   };
 
-  export type AiAccessCreateOrConnectWithoutBotsInput = {
-    where: AiAccessWhereUniqueInput;
-    create: XOR<AiAccessCreateWithoutBotsInput, AiAccessUncheckedCreateWithoutBotsInput>;
+  export type AiProviderCreateOrConnectWithoutBotsInput = {
+    where: AiProviderWhereUniqueInput;
+    create: XOR<AiProviderCreateWithoutBotsInput, AiProviderUncheckedCreateWithoutBotsInput>;
   };
 
   export type UserAiBotAccessCreateWithoutAiBotInput = {
@@ -23396,9 +23434,9 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownedPaperlessInstances?: PaperlessInstanceUpdateManyWithoutOwnerNestedInput;
-    ownedAiAccesses?: AiAccessUpdateManyWithoutOwnerNestedInput;
+    ownedAiProviders?: AiProviderUpdateManyWithoutOwnerNestedInput;
     sharedPaperlessInstances?: UserPaperlessInstanceAccessUpdateManyWithoutUserNestedInput;
-    sharedAiAccesses?: UserAiAccessAccessUpdateManyWithoutUserNestedInput;
+    sharedAiProviders?: UserAiProviderAccessUpdateManyWithoutUserNestedInput;
     sharedAiBots?: UserAiBotAccessUpdateManyWithoutUserNestedInput;
     aiUsageMetrics?: AiUsageMetricUpdateManyWithoutUserNestedInput;
   };
@@ -23413,25 +23451,25 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownedPaperlessInstances?: PaperlessInstanceUncheckedUpdateManyWithoutOwnerNestedInput;
-    ownedAiAccesses?: AiAccessUncheckedUpdateManyWithoutOwnerNestedInput;
+    ownedAiProviders?: AiProviderUncheckedUpdateManyWithoutOwnerNestedInput;
     sharedPaperlessInstances?: UserPaperlessInstanceAccessUncheckedUpdateManyWithoutUserNestedInput;
-    sharedAiAccesses?: UserAiAccessAccessUncheckedUpdateManyWithoutUserNestedInput;
+    sharedAiProviders?: UserAiProviderAccessUncheckedUpdateManyWithoutUserNestedInput;
     sharedAiBots?: UserAiBotAccessUncheckedUpdateManyWithoutUserNestedInput;
     aiUsageMetrics?: AiUsageMetricUncheckedUpdateManyWithoutUserNestedInput;
   };
 
-  export type AiAccessUpsertWithoutBotsInput = {
-    update: XOR<AiAccessUpdateWithoutBotsInput, AiAccessUncheckedUpdateWithoutBotsInput>;
-    create: XOR<AiAccessCreateWithoutBotsInput, AiAccessUncheckedCreateWithoutBotsInput>;
-    where?: AiAccessWhereInput;
+  export type AiProviderUpsertWithoutBotsInput = {
+    update: XOR<AiProviderUpdateWithoutBotsInput, AiProviderUncheckedUpdateWithoutBotsInput>;
+    create: XOR<AiProviderCreateWithoutBotsInput, AiProviderUncheckedCreateWithoutBotsInput>;
+    where?: AiProviderWhereInput;
   };
 
-  export type AiAccessUpdateToOneWithWhereWithoutBotsInput = {
-    where?: AiAccessWhereInput;
-    data: XOR<AiAccessUpdateWithoutBotsInput, AiAccessUncheckedUpdateWithoutBotsInput>;
+  export type AiProviderUpdateToOneWithWhereWithoutBotsInput = {
+    where?: AiProviderWhereInput;
+    data: XOR<AiProviderUpdateWithoutBotsInput, AiProviderUncheckedUpdateWithoutBotsInput>;
   };
 
-  export type AiAccessUpdateWithoutBotsInput = {
+  export type AiProviderUpdateWithoutBotsInput = {
     id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     provider?: StringFieldUpdateOperationsInput | string;
@@ -23441,11 +23479,11 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    owner?: UserUpdateOneRequiredWithoutOwnedAiAccessesNestedInput;
-    sharedWith?: UserAiAccessAccessUpdateManyWithoutAiAccessNestedInput;
+    owner?: UserUpdateOneRequiredWithoutOwnedAiProvidersNestedInput;
+    sharedWith?: UserAiProviderAccessUpdateManyWithoutAiProviderNestedInput;
   };
 
-  export type AiAccessUncheckedUpdateWithoutBotsInput = {
+  export type AiProviderUncheckedUpdateWithoutBotsInput = {
     id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     provider?: StringFieldUpdateOperationsInput | string;
@@ -23456,7 +23494,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownerId?: StringFieldUpdateOperationsInput | string;
-    sharedWith?: UserAiAccessAccessUncheckedUpdateManyWithoutAiAccessNestedInput;
+    sharedWith?: UserAiProviderAccessUncheckedUpdateManyWithoutAiProviderNestedInput;
   };
 
   export type UserAiBotAccessUpsertWithWhereUniqueWithoutAiBotInput = {
@@ -23682,10 +23720,10 @@ export namespace Prisma {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownedPaperlessInstances?: PaperlessInstanceCreateNestedManyWithoutOwnerInput;
-    ownedAiAccesses?: AiAccessCreateNestedManyWithoutOwnerInput;
+    ownedAiProviders?: AiProviderCreateNestedManyWithoutOwnerInput;
     ownedAiBots?: AiBotCreateNestedManyWithoutOwnerInput;
     sharedPaperlessInstances?: UserPaperlessInstanceAccessCreateNestedManyWithoutUserInput;
-    sharedAiAccesses?: UserAiAccessAccessCreateNestedManyWithoutUserInput;
+    sharedAiProviders?: UserAiProviderAccessCreateNestedManyWithoutUserInput;
     sharedAiBots?: UserAiBotAccessCreateNestedManyWithoutUserInput;
   };
 
@@ -23699,10 +23737,10 @@ export namespace Prisma {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownedPaperlessInstances?: PaperlessInstanceUncheckedCreateNestedManyWithoutOwnerInput;
-    ownedAiAccesses?: AiAccessUncheckedCreateNestedManyWithoutOwnerInput;
+    ownedAiProviders?: AiProviderUncheckedCreateNestedManyWithoutOwnerInput;
     ownedAiBots?: AiBotUncheckedCreateNestedManyWithoutOwnerInput;
     sharedPaperlessInstances?: UserPaperlessInstanceAccessUncheckedCreateNestedManyWithoutUserInput;
-    sharedAiAccesses?: UserAiAccessAccessUncheckedCreateNestedManyWithoutUserInput;
+    sharedAiProviders?: UserAiProviderAccessUncheckedCreateNestedManyWithoutUserInput;
     sharedAiBots?: UserAiBotAccessUncheckedCreateNestedManyWithoutUserInput;
   };
 
@@ -23722,7 +23760,7 @@ export namespace Prisma {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     owner: UserCreateNestedOneWithoutOwnedAiBotsInput;
-    aiAccess: AiAccessCreateNestedOneWithoutBotsInput;
+    aiProvider: AiProviderCreateNestedOneWithoutBotsInput;
     sharedWith?: UserAiBotAccessCreateNestedManyWithoutAiBotInput;
   };
 
@@ -23734,7 +23772,7 @@ export namespace Prisma {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownerId: string;
-    aiAccessId: string;
+    aiProviderId: string;
     sharedWith?: UserAiBotAccessUncheckedCreateNestedManyWithoutAiBotInput;
   };
 
@@ -23773,10 +23811,10 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownedPaperlessInstances?: PaperlessInstanceUpdateManyWithoutOwnerNestedInput;
-    ownedAiAccesses?: AiAccessUpdateManyWithoutOwnerNestedInput;
+    ownedAiProviders?: AiProviderUpdateManyWithoutOwnerNestedInput;
     ownedAiBots?: AiBotUpdateManyWithoutOwnerNestedInput;
     sharedPaperlessInstances?: UserPaperlessInstanceAccessUpdateManyWithoutUserNestedInput;
-    sharedAiAccesses?: UserAiAccessAccessUpdateManyWithoutUserNestedInput;
+    sharedAiProviders?: UserAiProviderAccessUpdateManyWithoutUserNestedInput;
     sharedAiBots?: UserAiBotAccessUpdateManyWithoutUserNestedInput;
   };
 
@@ -23790,10 +23828,10 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownedPaperlessInstances?: PaperlessInstanceUncheckedUpdateManyWithoutOwnerNestedInput;
-    ownedAiAccesses?: AiAccessUncheckedUpdateManyWithoutOwnerNestedInput;
+    ownedAiProviders?: AiProviderUncheckedUpdateManyWithoutOwnerNestedInput;
     ownedAiBots?: AiBotUncheckedUpdateManyWithoutOwnerNestedInput;
     sharedPaperlessInstances?: UserPaperlessInstanceAccessUncheckedUpdateManyWithoutUserNestedInput;
-    sharedAiAccesses?: UserAiAccessAccessUncheckedUpdateManyWithoutUserNestedInput;
+    sharedAiProviders?: UserAiProviderAccessUncheckedUpdateManyWithoutUserNestedInput;
     sharedAiBots?: UserAiBotAccessUncheckedUpdateManyWithoutUserNestedInput;
   };
 
@@ -23825,7 +23863,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     owner?: UserUpdateOneRequiredWithoutOwnedAiBotsNestedInput;
-    aiAccess?: AiAccessUpdateOneRequiredWithoutBotsNestedInput;
+    aiProvider?: AiProviderUpdateOneRequiredWithoutBotsNestedInput;
     sharedWith?: UserAiBotAccessUpdateManyWithoutAiBotNestedInput;
   };
 
@@ -23837,7 +23875,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownerId?: StringFieldUpdateOperationsInput | string;
-    aiAccessId?: StringFieldUpdateOperationsInput | string;
+    aiProviderId?: StringFieldUpdateOperationsInput | string;
     sharedWith?: UserAiBotAccessUncheckedUpdateManyWithoutAiBotNestedInput;
   };
 
@@ -23851,7 +23889,7 @@ export namespace Prisma {
     updatedAt?: Date | string;
   };
 
-  export type AiAccessCreateManyOwnerInput = {
+  export type AiProviderCreateManyOwnerInput = {
     id?: string;
     name: string;
     provider: string;
@@ -23870,7 +23908,7 @@ export namespace Prisma {
     isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
-    aiAccessId: string;
+    aiProviderId: string;
   };
 
   export type UserPaperlessInstanceAccessCreateManyUserInput = {
@@ -23880,9 +23918,9 @@ export namespace Prisma {
     createdAt?: Date | string;
   };
 
-  export type UserAiAccessAccessCreateManyUserInput = {
+  export type UserAiProviderAccessCreateManyUserInput = {
     id?: string;
-    aiAccessId: string;
+    aiProviderId: string;
     permission?: $Enums.Permission;
     createdAt?: Date | string;
   };
@@ -23943,7 +23981,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
   };
 
-  export type AiAccessUpdateWithoutOwnerInput = {
+  export type AiProviderUpdateWithoutOwnerInput = {
     id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     provider?: StringFieldUpdateOperationsInput | string;
@@ -23953,11 +23991,11 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    sharedWith?: UserAiAccessAccessUpdateManyWithoutAiAccessNestedInput;
-    bots?: AiBotUpdateManyWithoutAiAccessNestedInput;
+    sharedWith?: UserAiProviderAccessUpdateManyWithoutAiProviderNestedInput;
+    bots?: AiBotUpdateManyWithoutAiProviderNestedInput;
   };
 
-  export type AiAccessUncheckedUpdateWithoutOwnerInput = {
+  export type AiProviderUncheckedUpdateWithoutOwnerInput = {
     id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     provider?: StringFieldUpdateOperationsInput | string;
@@ -23967,11 +24005,11 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    sharedWith?: UserAiAccessAccessUncheckedUpdateManyWithoutAiAccessNestedInput;
-    bots?: AiBotUncheckedUpdateManyWithoutAiAccessNestedInput;
+    sharedWith?: UserAiProviderAccessUncheckedUpdateManyWithoutAiProviderNestedInput;
+    bots?: AiBotUncheckedUpdateManyWithoutAiProviderNestedInput;
   };
 
-  export type AiAccessUncheckedUpdateManyWithoutOwnerInput = {
+  export type AiProviderUncheckedUpdateManyWithoutOwnerInput = {
     id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     provider?: StringFieldUpdateOperationsInput | string;
@@ -23990,7 +24028,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    aiAccess?: AiAccessUpdateOneRequiredWithoutBotsNestedInput;
+    aiProvider?: AiProviderUpdateOneRequiredWithoutBotsNestedInput;
     sharedWith?: UserAiBotAccessUpdateManyWithoutAiBotNestedInput;
     aiUsageMetrics?: AiUsageMetricUpdateManyWithoutAiBotNestedInput;
   };
@@ -24002,7 +24040,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    aiAccessId?: StringFieldUpdateOperationsInput | string;
+    aiProviderId?: StringFieldUpdateOperationsInput | string;
     sharedWith?: UserAiBotAccessUncheckedUpdateManyWithoutAiBotNestedInput;
     aiUsageMetrics?: AiUsageMetricUncheckedUpdateManyWithoutAiBotNestedInput;
   };
@@ -24014,7 +24052,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    aiAccessId?: StringFieldUpdateOperationsInput | string;
+    aiProviderId?: StringFieldUpdateOperationsInput | string;
   };
 
   export type UserPaperlessInstanceAccessUpdateWithoutUserInput = {
@@ -24038,23 +24076,23 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
   };
 
-  export type UserAiAccessAccessUpdateWithoutUserInput = {
+  export type UserAiProviderAccessUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string;
     permission?: EnumPermissionFieldUpdateOperationsInput | $Enums.Permission;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    aiAccess?: AiAccessUpdateOneRequiredWithoutSharedWithNestedInput;
+    aiProvider?: AiProviderUpdateOneRequiredWithoutSharedWithNestedInput;
   };
 
-  export type UserAiAccessAccessUncheckedUpdateWithoutUserInput = {
+  export type UserAiProviderAccessUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string;
-    aiAccessId?: StringFieldUpdateOperationsInput | string;
+    aiProviderId?: StringFieldUpdateOperationsInput | string;
     permission?: EnumPermissionFieldUpdateOperationsInput | $Enums.Permission;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
   };
 
-  export type UserAiAccessAccessUncheckedUpdateManyWithoutUserInput = {
+  export type UserAiProviderAccessUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string;
-    aiAccessId?: StringFieldUpdateOperationsInput | string;
+    aiProviderId?: StringFieldUpdateOperationsInput | string;
     permission?: EnumPermissionFieldUpdateOperationsInput | $Enums.Permission;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
   };
@@ -24267,14 +24305,14 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
   };
 
-  export type UserAiAccessAccessCreateManyAiAccessInput = {
+  export type UserAiProviderAccessCreateManyAiProviderInput = {
     id?: string;
     userId: string;
     permission?: $Enums.Permission;
     createdAt?: Date | string;
   };
 
-  export type AiBotCreateManyAiAccessInput = {
+  export type AiBotCreateManyAiProviderInput = {
     id?: string;
     name: string;
     systemPrompt: string;
@@ -24284,28 +24322,28 @@ export namespace Prisma {
     ownerId: string;
   };
 
-  export type UserAiAccessAccessUpdateWithoutAiAccessInput = {
+  export type UserAiProviderAccessUpdateWithoutAiProviderInput = {
     id?: StringFieldUpdateOperationsInput | string;
     permission?: EnumPermissionFieldUpdateOperationsInput | $Enums.Permission;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    user?: UserUpdateOneRequiredWithoutSharedAiAccessesNestedInput;
+    user?: UserUpdateOneRequiredWithoutSharedAiProvidersNestedInput;
   };
 
-  export type UserAiAccessAccessUncheckedUpdateWithoutAiAccessInput = {
-    id?: StringFieldUpdateOperationsInput | string;
-    userId?: StringFieldUpdateOperationsInput | string;
-    permission?: EnumPermissionFieldUpdateOperationsInput | $Enums.Permission;
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-  };
-
-  export type UserAiAccessAccessUncheckedUpdateManyWithoutAiAccessInput = {
+  export type UserAiProviderAccessUncheckedUpdateWithoutAiProviderInput = {
     id?: StringFieldUpdateOperationsInput | string;
     userId?: StringFieldUpdateOperationsInput | string;
     permission?: EnumPermissionFieldUpdateOperationsInput | $Enums.Permission;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
   };
 
-  export type AiBotUpdateWithoutAiAccessInput = {
+  export type UserAiProviderAccessUncheckedUpdateManyWithoutAiProviderInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    userId?: StringFieldUpdateOperationsInput | string;
+    permission?: EnumPermissionFieldUpdateOperationsInput | $Enums.Permission;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+  };
+
+  export type AiBotUpdateWithoutAiProviderInput = {
     id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
@@ -24317,7 +24355,7 @@ export namespace Prisma {
     aiUsageMetrics?: AiUsageMetricUpdateManyWithoutAiBotNestedInput;
   };
 
-  export type AiBotUncheckedUpdateWithoutAiAccessInput = {
+  export type AiBotUncheckedUpdateWithoutAiProviderInput = {
     id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
@@ -24329,7 +24367,7 @@ export namespace Prisma {
     aiUsageMetrics?: AiUsageMetricUncheckedUpdateManyWithoutAiBotNestedInput;
   };
 
-  export type AiBotUncheckedUpdateManyWithoutAiAccessInput = {
+  export type AiBotUncheckedUpdateManyWithoutAiProviderInput = {
     id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;

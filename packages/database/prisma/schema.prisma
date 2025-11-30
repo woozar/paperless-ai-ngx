@@ -39,12 +39,12 @@ model User {
 
   // Owned resources
   ownedPaperlessInstances PaperlessInstance[]
-  ownedAiAccesses         AiAccess[]
+  ownedAiProviders        AiProvider[]
   ownedAiBots             AiBot[]
 
   // Shared access
   sharedPaperlessInstances UserPaperlessInstanceAccess[]
-  sharedAiAccesses         UserAiAccessAccess[]
+  sharedAiProviders        UserAiProviderAccess[]
   sharedAiBots             UserAiBotAccess[]
 
   // Usage tracking
@@ -76,19 +76,19 @@ model UserPaperlessInstanceAccess {
   @@index([instanceId])
 }
 
-// Join table: User <-> AiAccess (shared access)
-model UserAiAccessAccess {
-  id         String     @id @default(cuid())
-  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId     String
-  aiAccess   AiAccess   @relation(fields: [aiAccessId], references: [id], onDelete: Cascade)
-  aiAccessId String
-  permission Permission @default(READ)
-  createdAt  DateTime   @default(now())
+// Join table: User <-> AiProvider (shared access)
+model UserAiProviderAccess {
+  id           String     @id @default(cuid())
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String
+  aiProvider   AiProvider @relation(fields: [aiProviderId], references: [id], onDelete: Cascade)
+  aiProviderId String
+  permission   Permission @default(READ)
+  createdAt    DateTime   @default(now())
 
-  @@unique([userId, aiAccessId])
+  @@unique([userId, aiProviderId])
   @@index([userId])
-  @@index([aiAccessId])
+  @@index([aiProviderId])
 }
 
 // Join table: User <-> AiBot (shared access)
@@ -138,7 +138,7 @@ model PaperlessInstance {
 // AI Configuration
 // =============================================================================
 
-model AiAccess {
+model AiProvider {
   id        String   @id @default(cuid())
   name      String
   provider  String // openai | anthropic | ollama | google | custom
@@ -154,7 +154,7 @@ model AiAccess {
   ownerId String
 
   // Shared access
-  sharedWith UserAiAccessAccess[]
+  sharedWith UserAiProviderAccess[]
 
   // Related bots
   bots AiBot[]
@@ -175,9 +175,9 @@ model AiBot {
   owner   User   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId String
 
-  // AI Access configuration
-  aiAccess   AiAccess @relation(fields: [aiAccessId], references: [id], onDelete: Cascade)
-  aiAccessId String
+  // AI Provider configuration
+  aiProvider   AiProvider @relation(fields: [aiProviderId], references: [id], onDelete: Cascade)
+  aiProviderId String
 
   // Shared access
   sharedWith UserAiBotAccess[]
@@ -187,7 +187,7 @@ model AiBot {
 
   @@unique([ownerId, name])
   @@index([ownerId])
-  @@index([aiAccessId])
+  @@index([aiProviderId])
 }
 
 // =============================================================================
