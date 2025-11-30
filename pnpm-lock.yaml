@@ -219,6 +219,9 @@ importers:
       eslint:
         specifier: ^9.39.1
         version: 9.39.1(jiti@2.6.1)
+      eslint-plugin-node-import:
+        specifier: ^1.0.5
+        version: 1.0.5(eslint@9.39.1(jiti@2.6.1))
       jsdom:
         specifier: ^27.2.0
         version: 27.2.0
@@ -4067,6 +4070,15 @@ packages:
     hasBin: true
     peerDependencies:
       eslint: '>=7.0.0'
+
+  eslint-plugin-node-import@1.0.5:
+    resolution:
+      {
+        integrity: sha512-razzgbr3EcB5+bm8/gqTqzTJ7Bpiu8PIChiAMRfZCNigr9GZBtnVSI+wPw+RGbWYCCIzWAsK/A7ihoAeSz5j7A==,
+      }
+    engines: { node: ^14.18.0 || ^16.0.0 || >= 18.0.0 }
+    peerDependencies:
+      eslint: '>=7'
 
   eslint-plugin-only-warn@1.1.0:
     resolution:
@@ -10039,6 +10051,10 @@ snapshots:
   escape-string-regexp@4.0.0: {}
 
   eslint-config-prettier@10.1.1(eslint@9.39.1(jiti@2.6.1)):
+    dependencies:
+      eslint: 9.39.1(jiti@2.6.1)
+
+  eslint-plugin-node-import@1.0.5(eslint@9.39.1(jiti@2.6.1)):
     dependencies:
       eslint: 9.39.1(jiti@2.6.1)
 

@@ -1,7 +1,16 @@
 {
   "$schema": "https://turborepo.com/schema.json",
   "ui": "tui",
-  "globalEnv": ["PORT", "HOST", "API_TOKEN", "JWT_SECRET", "LOG_LEVEL", "ENCRYPTION_KEY"],
+  "globalEnv": [
+    "PORT",
+    "HOST",
+    "API_TOKEN",
+    "JWT_SECRET",
+    "LOG_LEVEL",
+    "ENCRYPTION_KEY",
+    "NODE_ENV",
+    "DATABASE_URL"
+  ],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
