@@ -8,7 +8,7 @@
 - [x] next-intl i18n (DE/EN)
 - [x] Prisma Schema for PostgreSQL
 - [x] Paperless-ngx API Client Package
-- [ ] MCP Server (HTTP Transport)
+- [x] MCP Server (HTTP Transport)
 
 ## Phase 2: Docker & Testing Setup
 

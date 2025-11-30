@@ -3,30 +3,43 @@
   "version": "0.0.0",
   "type": "module",
   "private": true,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "bin": {
-    "paperless-mcp": "./dist/index.js"
+    "mcp-server": "./dist/index.js"
   },
   "scripts": {
+    "build": "tsc",
     "dev": "tsx watch src/index.ts",
-    "build": "tsup src/index.ts --format esm --dts",
     "start": "node dist/index.js",
     "lint": "eslint --max-warnings 0",
     "check-types": "tsc --noEmit",
-    "test": "vitest run --passWithNoTests",
-    "test:watch": "vitest"
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.12.1",
+    "@modelcontextprotocol/sdk": "^1.0.4",
     "@repo/paperless-client": "workspace:*",
     "@repo/types": "workspace:*",
-    "zod": "^3.25.23"
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
-    "tsup": "^8.5.0",
-    "tsx": "^4.19.4",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.0",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^22.10.2",
+    "@types/supertest": "^6.0.3",
+    "@vitest/coverage-v8": "^4.0.14",
+    "supertest": "^7.1.4",
+    "tsx": "^4.19.2",
     "typescript": "5.9.2",
-    "vitest": "^3.2.4"
+    "vitest": "^4.0.14"
   }
 }
