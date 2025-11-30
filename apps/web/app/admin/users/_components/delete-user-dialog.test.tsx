@@ -142,4 +142,25 @@ describe('DeleteUserDialog', () => {
       expect(vi.mocked(toast.error)).toHaveBeenCalledWith('Cannot modify the last admin user');
     });
   });
+
+  it('handles exception during delete', async () => {
+    const user = userEvent.setup({ delay: null });
+    mockDeleteUsersById.mockRejectedValueOnce(new Error('Network error'));
+
+    renderWithIntl(<DeleteUserDialog {...defaultProps} />);
+
+    await waitFor(() => {
+      expect(screen.getByRole('dialog')).toBeInTheDocument();
+    });
+
+    const input = screen.getByTestId('delete-confirm-input');
+    await user.type(input, 'testuser');
+
+    const submitButton = screen.getByTestId('delete-user-submit');
+    await user.click(submitButton);
+
+    await waitFor(() => {
+      expect(vi.mocked(toast.error)).toHaveBeenCalledWith('Failed to delete user');
+    });
+  });
 });

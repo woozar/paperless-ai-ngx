@@ -2,11 +2,7 @@
  * Password validation requirements and utilities
  */
 
-export type PasswordRequirement = {
-  key: string;
-  regex?: RegExp;
-  check?: (password: string) => boolean;
-};
+export type PasswordRequirement = { key: string; check: (password: string) => boolean };
 
 export const PASSWORD_REQUIREMENTS: PasswordRequirement[] = [
   {
@@ -25,7 +21,7 @@ export type PasswordValidationResult = {
  */
 export function validatePassword(password: string): PasswordValidationResult {
   const failedRequirements: string[] = PASSWORD_REQUIREMENTS.filter(
-    (requirement) => !requirement.regex?.test(password) && !requirement.check?.(password)
+    (requirement) => !requirement.check(password)
   ).map(({ key }) => key);
 
   return {
@@ -39,7 +35,6 @@ export function validatePassword(password: string): PasswordValidationResult {
  */
 export function checkRequirement(password: string, requirementKey: string): boolean {
   const requirement = PASSWORD_REQUIREMENTS.find((req) => req.key === requirementKey);
-  if (!requirement) return false;
 
-  return (requirement.regex?.test(password) || requirement.check?.(password)) ?? false;
+  return requirement?.check(password) ?? false;
 }

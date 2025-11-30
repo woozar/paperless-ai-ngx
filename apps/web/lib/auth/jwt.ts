@@ -69,6 +69,7 @@ export async function getAuthUser(request: NextRequest): Promise<JwtPayload | nu
   try {
     return await verifyToken(token);
   } catch (error) {
+    console.error(error);
     return null;
   }
 }

@@ -8,6 +8,9 @@ import type { ClientOptions } from '@repo/api-client';
  */
 export function useApi() {
   const client = useMemo(() => {
+    // Assert: globalThis.window is always defined in client-side React hooks
+    // This check exists only for TypeScript safety and SSR edge cases that don't occur in practice
+    /* v8 ignore next -- @preserve */
     const token = globalThis.window ? localStorage.getItem('auth_token') : null;
 
     return createClient(

@@ -239,6 +239,54 @@ describe('PATCH /api/users/[id]', () => {
     expect(data.message).toBe('error.lastAdmin');
   });
 
+  it('allows demoting admin when multiple admins exist', async () => {
+    vi.mocked(getAuthUser).mockResolvedValueOnce({
+      userId: 'admin-1',
+      username: 'admin',
+      role: 'ADMIN',
+    });
+    mockedPrisma.user.findUnique.mockResolvedValueOnce({
+      id: 'admin-2',
+      username: 'admin2',
+      role: 'ADMIN',
+      isActive: true,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      salt: 'salt',
+      passwordHash: 'hash',
+      mustChangePassword: false,
+    });
+    mockedPrisma.user.count.mockResolvedValueOnce(2); // Multiple admins
+    mockedPrisma.user.update.mockResolvedValueOnce({
+      id: 'admin-2',
+      username: 'admin2',
+      role: 'DEFAULT',
+      isActive: true,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      salt: 'salt',
+      passwordHash: 'hash',
+      mustChangePassword: false,
+    });
+
+    const request = new NextRequest('http://localhost/api/users/admin-2', {
+      method: 'PATCH',
+      body: JSON.stringify({ role: 'DEFAULT' }),
+    });
+
+    const response = await PATCH(request, createContext('admin-2'));
+
+    expect(response.status).toBe(200);
+    expect(mockedPrisma.user.update).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: { id: 'admin-2' },
+        data: expect.objectContaining({
+          role: 'DEFAULT',
+        }),
+      })
+    );
+  });
+
   it('returns 409 when username already exists', async () => {
     vi.mocked(getAuthUser).mockResolvedValueOnce({
       userId: 'admin-1',
@@ -493,6 +541,43 @@ describe('DELETE /api/users/[id]', () => {
     expect(data.message).toBe('error.lastAdmin');
   });
 
+  it('allows deleting admin when multiple admins exist', async () => {
+    vi.mocked(getAuthUser).mockResolvedValueOnce({
+      userId: 'admin-1',
+      username: 'admin',
+      role: 'ADMIN',
+    });
+    mockedPrisma.user.findUnique.mockResolvedValueOnce({
+      id: 'admin-2',
+      username: 'admin2',
+      role: 'ADMIN',
+      isActive: true,
+    });
+    mockedPrisma.user.count.mockResolvedValueOnce(2); // Multiple admins
+    mockedPrisma.user.delete.mockResolvedValueOnce({
+      id: 'admin-2',
+      username: 'admin2',
+      role: 'ADMIN',
+      isActive: true,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      salt: 'salt',
+      passwordHash: 'hash',
+      mustChangePassword: false,
+    });
+
+    const request = new NextRequest('http://localhost/api/users/admin-2', {
+      method: 'DELETE',
+    });
+
+    const response = await DELETE(request, createContext('admin-2'));
+
+    expect(response.status).toBe(204);
+    expect(mockedPrisma.user.delete).toHaveBeenCalledWith({
+      where: { id: 'admin-2' },
+    });
+  });
+
   it('successfully deletes user', async () => {
     vi.mocked(getAuthUser).mockResolvedValueOnce({
       userId: 'admin-1',
@@ -534,6 +619,10 @@ describe('DELETE /api/users/[id]', () => {
 });
 
 describe('PATCH /api/users/[id] - Additional Coverage', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
   it('updates only role when only role is provided', async () => {
     vi.mocked(getAuthUser).mockResolvedValueOnce({
       userId: 'admin-1',
@@ -610,5 +699,35 @@ describe('PATCH /api/users/[id] - Additional Coverage', () => {
       data: { isActive: false },
       select: expect.any(Object),
     });
+  });
+
+  it('returns 400 when deactivating last admin', async () => {
+    vi.mocked(getAuthUser).mockResolvedValueOnce({
+      userId: 'admin-1',
+      username: 'admin',
+      role: 'ADMIN',
+    });
+
+    mockedPrisma.user.findUnique.mockResolvedValueOnce({
+      id: 'admin-2',
+      username: 'admin2',
+      role: 'ADMIN',
+      isActive: true,
+    });
+
+    // Only 1 active admin exists
+    mockedPrisma.user.count.mockResolvedValueOnce(1);
+
+    const request = new NextRequest('http://localhost/api/users/admin-2', {
+      method: 'PATCH',
+      body: JSON.stringify({ isActive: false }),
+    });
+
+    const response = await PATCH(request, createContext('admin-2'));
+
+    expect(response.status).toBe(400);
+    const data = await response.json();
+    expect(data.message).toBe('error.lastAdmin');
+    expect(mockedPrisma.user.update).not.toHaveBeenCalled();
   });
 });

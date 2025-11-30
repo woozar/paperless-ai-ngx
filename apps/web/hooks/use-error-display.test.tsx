@@ -105,5 +105,13 @@ describe('useErrorDisplay', () => {
 
       expect(vi.mocked(toast.error)).toHaveBeenCalledWith('An internal server error occurred');
     });
+
+    it('showInfo uses global namespace', () => {
+      const { result } = renderHook(() => useErrorDisplay(), { wrapper });
+
+      result.current.showInfo('error.notFound');
+
+      expect(vi.mocked(toast.info)).toHaveBeenCalledWith('Not found');
+    });
   });
 });

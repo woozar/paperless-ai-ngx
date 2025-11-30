@@ -53,7 +53,7 @@ export default function UsersPage() {
         return;
       }
 
-      setUsers(response.data?.users || []);
+      setUsers(response.data.users);
     } catch {
       showError('loadFailed');
     } finally {
@@ -75,7 +75,7 @@ export default function UsersPage() {
         const response = await patchUsersById({
           client,
           path: { id: user.id },
-          body: { isActive: !user.isActive } as any,
+          body: { isActive: !user.isActive },
         });
 
         if (response.error) {
@@ -99,10 +99,6 @@ export default function UsersPage() {
   const renderTableContent = () => {
     if (isLoading) {
       return <UserTableSkeleton />;
-    }
-
-    if (users.length === 0) {
-      return null;
     }
 
     return users.map((user) => (

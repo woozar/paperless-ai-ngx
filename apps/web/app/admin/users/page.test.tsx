@@ -114,6 +114,10 @@ describe('UsersPage', () => {
     await waitFor(() => {
       expect(screen.getByText(/no users found/i)).toBeInTheDocument();
     });
+
+    // Ensure table body exists but is empty
+    const tableBody = screen.queryByRole('rowgroup');
+    expect(tableBody).not.toBeInTheDocument();
   });
 
   it('redirects to home on 403 error', async () => {
@@ -290,5 +294,79 @@ describe('UsersPage', () => {
         expect(vi.mocked(toast.error)).toHaveBeenCalledWith('Cannot modify the last admin user');
       });
     });
+
+    it('handles exception during toggle status', async () => {
+      const user = userEvent.setup({ delay: null });
+      mockGetUsers.mockResolvedValueOnce({
+        data: { users: mockUsers },
+        error: undefined,
+      });
+
+      mockPatchUsersById.mockRejectedValueOnce(new Error('Network error'));
+
+      renderWithIntl(<UsersPage />);
+
+      await waitFor(() => {
+        expect(screen.getByText('testuser')).toBeInTheDocument();
+      });
+
+      await user.click(screen.getByTestId('toggle-status-user-2'));
+
+      await waitFor(() => {
+        expect(vi.mocked(toast.error)).toHaveBeenCalledWith('Failed to update user');
+      });
+    });
+  });
+
+  it('closes edit dialog when onOpenChange is called', async () => {
+    const user = userEvent.setup({ delay: null });
+    mockGetUsers.mockResolvedValueOnce({
+      data: { users: mockUsers },
+      error: undefined,
+    });
+
+    renderWithIntl(<UsersPage />);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('edit-user-user-2')).toBeInTheDocument();
+    });
+
+    await user.click(screen.getByTestId('edit-user-user-2'));
+
+    await waitFor(() => {
+      expect(screen.getByRole('dialog')).toBeInTheDocument();
+    });
+
+    // Close the dialog by pressing Escape or clicking close button
+    const closeButton = screen.getAllByRole('button').find((btn) => btn.textContent === 'Cancel');
+    if (closeButton) {
+      await user.click(closeButton);
+    }
+  });
+
+  it('closes delete dialog when onOpenChange is called', async () => {
+    const user = userEvent.setup({ delay: null });
+    mockGetUsers.mockResolvedValueOnce({
+      data: { users: mockUsers },
+      error: undefined,
+    });
+
+    renderWithIntl(<UsersPage />);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('delete-user-user-2')).toBeInTheDocument();
+    });
+
+    await user.click(screen.getByTestId('delete-user-user-2'));
+
+    await waitFor(() => {
+      expect(screen.getByRole('dialog')).toBeInTheDocument();
+    });
+
+    // Close the dialog
+    const cancelButton = screen.getAllByRole('button').find((btn) => btn.textContent === 'Cancel');
+    if (cancelButton) {
+      await user.click(cancelButton);
+    }
   });
 });

@@ -155,13 +155,24 @@ describe('JWT utilities', () => {
     });
 
     it('returns null for invalid token', async () => {
-      const request = new NextRequest('http://localhost:3000/api/test', {
-        headers: { authorization: 'Bearer invalid-token' },
-      });
+      const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
-      const user = await getAuthUser(request);
+      try {
+        const request = new NextRequest('http://localhost:3000/api/test', {
+          headers: { authorization: 'Bearer invalid-token' },
+        });
 
-      expect(user).toBeNull();
+        const user = await getAuthUser(request);
+
+        expect(user).toBeNull();
+        expect(consoleErrorSpy).toHaveBeenCalledWith(
+          expect.objectContaining({
+            message: 'Invalid or expired token',
+          })
+        );
+      } finally {
+        consoleErrorSpy.mockRestore();
+      }
     });
   });
 

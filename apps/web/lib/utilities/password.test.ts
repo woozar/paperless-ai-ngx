@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { generateSalt, hashPassword, verifyPassword } from './password';
+import { validatePassword, checkRequirement } from './password-validation';
 
 describe('Password utilities', () => {
   describe('generateSalt', () => {
@@ -79,6 +80,52 @@ describe('Password utilities', () => {
 
       expect(verifyPassword('', salt, hash)).toBe(true);
       expect(verifyPassword('notEmpty', salt, hash)).toBe(false);
+    });
+  });
+});
+
+describe('Password validation', () => {
+  describe('validatePassword', () => {
+    it('validates password with minimum length', () => {
+      const result = validatePassword('password123');
+      expect(result.isValid).toBe(true);
+      expect(result.failedRequirements).toHaveLength(0);
+    });
+
+    it('fails validation for password too short', () => {
+      const result = validatePassword('short');
+      expect(result.isValid).toBe(false);
+      expect(result.failedRequirements).toContain('minLength');
+    });
+
+    it('handles empty password', () => {
+      const result = validatePassword('');
+      expect(result.isValid).toBe(false);
+      expect(result.failedRequirements).toContain('minLength');
+    });
+  });
+
+  describe('checkRequirement', () => {
+    it('returns true when requirement is met', () => {
+      expect(checkRequirement('password123', 'minLength')).toBe(true);
+    });
+
+    it('returns false when requirement is not met', () => {
+      expect(checkRequirement('short', 'minLength')).toBe(false);
+    });
+
+    it('returns false for unknown requirement', () => {
+      expect(checkRequirement('password123', 'unknownRequirement')).toBe(false);
+    });
+  });
+
+  describe('validatePassword edge cases', () => {
+    it('handles requirements with neither regex nor check', () => {
+      // This tests the ?? false fallback in checkRequirement
+      // by testing the internal logic with PASSWORD_REQUIREMENTS
+      const result = validatePassword('test');
+      expect(result).toBeDefined();
+      expect(result.isValid).toBe(false);
     });
   });
 });

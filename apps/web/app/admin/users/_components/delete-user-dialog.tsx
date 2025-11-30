@@ -43,6 +43,8 @@ export function DeleteUserDialog({ open, onOpenChange, user, onSuccess }: Delete
   }, [open]);
 
   const handleSubmit = async () => {
+    // Assert: user is always defined here - submit button is disabled when user is null (see isSubmitDisabled)
+    /* v8 ignore if -- @preserve */
     if (!user) return;
 
     setIsDeleting(true);

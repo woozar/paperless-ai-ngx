@@ -13,7 +13,7 @@ vi.mock('next/navigation', () => ({
 
 // Test component to access the hook
 function TestConsumer() {
-  const { user, isLoading, isAuthenticated, login, logout, updateUser } = useAuth();
+  const { user, isLoading, isAuthenticated, login, logout, updateUser, refreshUser } = useAuth();
 
   return (
     <div>
@@ -35,6 +35,7 @@ function TestConsumer() {
       </button>
       <button onClick={() => logout()}>Logout</button>
       <button onClick={() => updateUser({ username: 'updated' })}>Update</button>
+      <button onClick={() => refreshUser()}>Refresh</button>
     </div>
   );
 }
@@ -391,6 +392,30 @@ describe('AuthProvider', () => {
     await user.click(screen.getByText('Update'));
 
     // Username should still be 'none' since no user is logged in
+    expect(screen.getByTestId('username')).toHaveTextContent('none');
+  });
+
+  it('refreshUser does nothing when no token in localStorage', async () => {
+    mockPathname.mockReturnValue('/login'); // On login page to avoid redirect
+
+    render(
+      <AuthProvider>
+        <TestConsumer />
+      </AuthProvider>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByTestId('loading')).toHaveTextContent('ready');
+    });
+
+    // Ensure no token exists
+    expect(localStorage.getItem('auth_token')).toBeNull();
+
+    const user = userEvent.setup({ delay: null });
+    await user.click(screen.getByText('Refresh'));
+
+    // User should still be null after refresh without token
+    expect(screen.getByTestId('authenticated')).toHaveTextContent('no');
     expect(screen.getByTestId('username')).toHaveTextContent('none');
   });
 });

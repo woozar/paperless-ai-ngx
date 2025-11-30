@@ -331,4 +331,85 @@ describe('CreateUserDialog', () => {
     expect(newUsernameInput).toHaveValue('');
     expect(newPasswordInput).toHaveValue('');
   });
+
+  it('handles exception during create', async () => {
+    mockPostUsers.mockRejectedValueOnce(new Error('Network error'));
+
+    renderWithIntl(<CreateUserDialog {...defaultProps} />);
+
+    await waitFor(() => {
+      expect(screen.getByRole('dialog')).toBeInTheDocument();
+    });
+
+    const usernameInput = screen.getByTestId('create-username-input');
+    const passwordInput = screen.getByTestId('create-password-input');
+
+    fireEvent.change(usernameInput, { target: { value: 'newuser' } });
+    fireEvent.change(passwordInput, { target: { value: 'secret123' } });
+
+    const submitButton = screen.getByTestId('create-user-submit');
+    fireEvent.click(submitButton);
+
+    await waitFor(() => {
+      expect(vi.mocked(toast.error)).toHaveBeenCalledWith('Failed to create user');
+    });
+  });
+
+  it('prevents closing dialog by clicking outside', async () => {
+    renderWithIntl(<CreateUserDialog {...defaultProps} />);
+
+    await waitFor(() => {
+      expect(screen.getByRole('dialog')).toBeInTheDocument();
+    });
+
+    const dialogContent = screen.getByRole('dialog');
+    const event = new MouseEvent('pointerdown', { bubbles: true, cancelable: true });
+
+    // Simulate clicking outside the dialog
+    fireEvent(dialogContent.parentElement!, event);
+
+    // Dialog should still be open
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+  });
+
+  it('allows changing role to ADMIN', async () => {
+    mockPostUsers.mockResolvedValueOnce({ data: {}, error: undefined });
+
+    renderWithIntl(<CreateUserDialog {...defaultProps} />);
+
+    await waitFor(() => {
+      expect(screen.getByRole('dialog')).toBeInTheDocument();
+    });
+
+    const usernameInput = screen.getByTestId('create-username-input');
+    const passwordInput = screen.getByTestId('create-password-input');
+
+    fireEvent.change(usernameInput, { target: { value: 'adminuser' } });
+    fireEvent.change(passwordInput, { target: { value: 'admin123' } });
+
+    // Find and click the role select trigger
+    const selectTrigger = screen.getByRole('combobox');
+    fireEvent.click(selectTrigger);
+
+    await waitFor(() => {
+      const adminOption = screen.getByRole('option', { name: messages.admin.users.admin });
+      expect(adminOption).toBeInTheDocument();
+      fireEvent.click(adminOption);
+    });
+
+    const submitButton = screen.getByTestId('create-user-submit');
+    fireEvent.click(submitButton);
+
+    await waitFor(() => {
+      expect(mockPostUsers).toHaveBeenCalledWith(
+        expect.objectContaining({
+          body: {
+            username: 'adminuser',
+            password: 'admin123',
+            role: 'ADMIN',
+          },
+        })
+      );
+    });
+  });
 });

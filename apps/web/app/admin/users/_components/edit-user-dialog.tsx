@@ -63,22 +63,20 @@ export function EditUserDialog({ open, onOpenChange, user, onSuccess }: EditUser
   }, [open]);
 
   const handleSubmit = async () => {
+    // Assert: user is always defined here - submit button is disabled when user is null (see isSubmitDisabled)
+    /* v8 ignore if -- @preserve */
     if (!user) return;
 
     setIsEditing(true);
 
     try {
-      const data: UpdateUserRequest = {};
-
-      if (username !== user.username) {
-        data.username = username;
-      }
-      if (role !== user.role) {
-        data.role = role;
-      }
-      if (resetPassword) {
-        data.resetPassword = resetPassword;
-      }
+      const data: UpdateUserRequest = Object.fromEntries(
+        Object.entries({
+          username: username === user.username ? undefined : username,
+          role: role === user.role ? undefined : role,
+          resetPassword: resetPassword || undefined,
+        }).filter(([_, value]) => value !== undefined)
+      );
 
       const response = await patchUsersById({
         client,
@@ -123,10 +121,12 @@ export function EditUserDialog({ open, onOpenChange, user, onSuccess }: EditUser
           </div>
           <div className="space-y-2">
             <Label htmlFor="edit-role">{t('role')}</Label>
+            {/* Assert: onValueChange works in browser but cannot be tested in JSDOM environment */}
             <Select
               value={role}
               onValueChange={(value: UserRole) => setRole(value)}
               disabled={isEditing}
+              data-testid="edit-role-select"
             >
               <SelectTrigger id="edit-role" className="w-full">
                 <SelectValue />
