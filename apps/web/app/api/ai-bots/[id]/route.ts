@@ -38,7 +38,6 @@ export async function GET(request: NextRequest, context: RouteContext): Promise<
             name: true,
           },
         },
-        isActive: true,
         createdAt: true,
         updatedAt: true,
       },
@@ -104,7 +103,7 @@ export async function PATCH(request: NextRequest, context: RouteContext): Promis
       );
     }
 
-    const { name, aiProviderId, systemPrompt, isActive } = parsed.data;
+    const { name, aiProviderId, systemPrompt } = parsed.data;
 
     // Check name uniqueness if changing
     if (name && name !== existingBot.name) {
@@ -153,14 +152,12 @@ export async function PATCH(request: NextRequest, context: RouteContext): Promis
       name?: string;
       aiProviderId?: string;
       systemPrompt?: string;
-      isActive?: boolean;
     };
 
     const updateData: UpdateData = {};
     if (name !== undefined) updateData.name = name;
     if (aiProviderId !== undefined) updateData.aiProviderId = aiProviderId;
     if (systemPrompt !== undefined) updateData.systemPrompt = systemPrompt;
-    if (isActive !== undefined) updateData.isActive = isActive;
 
     // Update bot
     const bot = await prisma.aiBot.update({
@@ -177,7 +174,6 @@ export async function PATCH(request: NextRequest, context: RouteContext): Promis
             name: true,
           },
         },
-        isActive: true,
         createdAt: true,
         updatedAt: true,
       },
@@ -226,12 +222,12 @@ export async function DELETE(request: NextRequest, context: RouteContext): Promi
       );
     }
 
-    // Delete bot
+    // Delete the bot
     await prisma.aiBot.delete({
       where: { id },
     });
 
-    return new NextResponse(null, { status: 204 });
+    return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {
     console.error('Delete AI bot error:', error);
     return ApiResponses.serverError();

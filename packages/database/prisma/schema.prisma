@@ -115,12 +115,11 @@ model PaperlessInstance {
   name      String
   apiUrl    String
   apiToken  String // Never expose in UI after saving
-  isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   // Owner
-  owner   User   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  owner   User   @relation(fields: [ownerId], references: [id], onDelete: Restrict)
   ownerId String
 
   // Shared access
@@ -130,7 +129,6 @@ model PaperlessInstance {
   processedDocuments ProcessedDocument[]
   processingQueue    ProcessingQueue[]
 
-  @@unique([ownerId, name])
   @@index([ownerId])
 }
 
@@ -145,38 +143,38 @@ model AiProvider {
   model     String
   apiKey    String // Never expose in UI after saving
   baseUrl   String? // Optional for Custom/Ollama endpoints
-  isActive  Boolean  @default(true)
+  isActive  Boolean  @default(true) // Soft-delete for audit trail
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   // Owner
-  owner   User   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  owner   User   @relation(fields: [ownerId], references: [id], onDelete: Restrict)
   ownerId String
 
   // Shared access
   sharedWith UserAiProviderAccess[]
 
   // Related bots
-  bots AiBot[]
+  bots           AiBot[]
+  aiUsageMetrics AiUsageMetric[]
 
-  @@unique([ownerId, name])
   @@index([ownerId])
+  @@index([isActive])
 }
 
 model AiBot {
   id           String   @id @default(cuid())
   name         String
   systemPrompt String
-  isActive     Boolean  @default(true)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
   // Owner
-  owner   User   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  owner   User   @relation(fields: [ownerId], references: [id], onDelete: Restrict)
   ownerId String
 
   // AI Provider configuration
-  aiProvider   AiProvider @relation(fields: [aiProviderId], references: [id], onDelete: Cascade)
+  aiProvider   AiProvider @relation(fields: [aiProviderId], references: [id], onDelete: Restrict)
   aiProviderId String
 
   // Shared access
@@ -185,7 +183,6 @@ model AiBot {
   // Usage tracking
   aiUsageMetrics AiUsageMetric[]
 
-  @@unique([ownerId, name])
   @@index([ownerId])
   @@index([aiProviderId])
 }
@@ -218,7 +215,6 @@ model ProcessedDocument {
   paperlessInstance   PaperlessInstance @relation(fields: [paperlessInstanceId], references: [id], onDelete: Cascade)
   paperlessInstanceId String
 
-  @@unique([paperlessInstanceId, paperlessId])
   @@index([paperlessId])
   @@index([processedAt])
   @@index([paperlessInstanceId])
@@ -241,7 +237,6 @@ model ProcessingQueue {
   paperlessInstance   PaperlessInstance @relation(fields: [paperlessInstanceId], references: [id], onDelete: Cascade)
   paperlessInstanceId String
 
-  @@unique([paperlessInstanceId, paperlessId])
   @@index([status, scheduledFor])
   @@index([paperlessId])
   @@index([paperlessInstanceId])
@@ -263,8 +258,11 @@ model AiUsageMetric {
   createdAt        DateTime @default(now())
 
   // Who caused this usage
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id])
   userId String
+
+  aiProvider   AiProvider @relation(fields: [aiProviderId], references: [id], onDelete: Restrict)
+  aiProviderId String
 
   // Which bot was used (optional, for tracking)
   aiBot   AiBot?  @relation(fields: [aiBotId], references: [id], onDelete: SetNull)

@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 
@@ -30,38 +31,50 @@ export function useErrorDisplay(namespace?: string) {
    * Shows an error toast from an API error response.
    * Always uses the global namespace for translation.
    */
-  const showApiError = (error: { message: string; params?: Parameters<typeof tGlobal>[1] }) => {
-    toast.error(tGlobal(error.message, error.params));
-  };
+  const showApiError = useCallback(
+    (error: { message: string; params?: Parameters<typeof tGlobal>[1] }) => {
+      toast.error(tGlobal(error.message, error.params));
+    },
+    [tGlobal]
+  );
 
   /**
    * Shows a success toast message.
    * Uses the scoped namespace if provided, otherwise global.
    */
-  const showSuccess = (key: string, params?: Parameters<typeof tGlobal>[1]) => {
-    const translator = namespace ? tScoped : tGlobal;
-    toast.success(translator(key, params));
-  };
+  const showSuccess = useCallback(
+    (key: string, params?: Parameters<typeof tGlobal>[1]) => {
+      const translator = namespace ? tScoped : tGlobal;
+      toast.success(translator(key, params));
+    },
+    [namespace, tScoped, tGlobal]
+  );
 
   /**
    * Shows an error toast message.
    * Uses the scoped namespace if provided, otherwise global.
    * Automatically prefixes with 'error.' when a namespace is provided.
    */
-  const showError = (key: string, params?: Parameters<typeof tGlobal>[1]) => {
-    const translator = namespace ? tScoped : tGlobal;
-    const errorKey = namespace ? `error.${key}` : key;
-    toast.error(translator(errorKey, params));
-  };
+  const showError = useCallback(
+    (key: string, params?: Parameters<typeof tGlobal>[1]) => {
+      const translator = namespace ? tScoped : tGlobal;
+      const errorKey = namespace ? `error.${key}` : key;
+      toast.error(translator(errorKey, params));
+    },
+    [namespace, tScoped, tGlobal]
+  );
 
   /**
    * Shows an info toast message.
    * Uses the scoped namespace if provided, otherwise global.
    */
-  const showInfo = (key: string, params?: Parameters<typeof tGlobal>[1]) => {
-    const translator = namespace ? tScoped : tGlobal;
-    toast.info(translator(key, params));
-  };
+  const showInfo = useCallback(
+    (key: string, params?: Parameters<typeof tGlobal>[1]) => {
+      const translator = namespace ? tScoped : tGlobal;
+      toast.info(translator(key, params));
+    },
+    [namespace, tScoped, tGlobal]
+  );
 
   return {
     showApiError,

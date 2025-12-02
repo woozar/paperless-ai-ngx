@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { extendZodWithOpenApi } from '@asteasolutions/zod-to-openapi';
 import { registry } from '../openapi';
-import { CommonErrorResponses } from './common';
+import { registerCrudPaths, createNameSchema, createOptionalNameSchema } from './crud-helpers';
 
 extendZodWithOpenApi(z);
 
@@ -16,7 +16,6 @@ export const AiBotListItemSchema = z
       id: z.string(),
       name: z.string(),
     }),
-    isActive: z.boolean(),
     createdAt: z.iso.datetime(),
     updatedAt: z.iso.datetime(),
   })
@@ -33,11 +32,7 @@ export const AiBotListResponseSchema = z
 // Create AiBot request
 export const CreateAiBotRequestSchema = z
   .object({
-    name: z
-      .string()
-      .trim()
-      .min(1, 'Name is required')
-      .max(100, 'Name must be at most 100 characters'),
+    name: createNameSchema(),
     aiProviderId: z.string().min(1, 'AI Provider is required'),
     systemPrompt: z.string().min(1, 'System prompt is required'),
   })
@@ -46,15 +41,9 @@ export const CreateAiBotRequestSchema = z
 // Update AiBot request (partial)
 export const UpdateAiBotRequestSchema = z
   .object({
-    name: z
-      .string()
-      .trim()
-      .min(1, 'Name is required')
-      .max(100, 'Name must be at most 100 characters')
-      .optional(),
+    name: createOptionalNameSchema(),
     aiProviderId: z.string().min(1).optional(),
     systemPrompt: z.string().min(1).optional(),
-    isActive: z.boolean().optional(),
   })
   .openapi('UpdateAiBotRequest');
 
@@ -64,132 +53,14 @@ registry.register('AiBotListResponse', AiBotListResponseSchema);
 registry.register('CreateAiBotRequest', CreateAiBotRequestSchema);
 registry.register('UpdateAiBotRequest', UpdateAiBotRequestSchema);
 
-// Register paths
-registry.registerPath({
-  method: 'get',
-  path: '/ai-bots',
-  summary: 'List all AiBots (Admin only)',
-  tags: ['AiBots'],
-  responses: {
-    200: {
-      description: 'List of AiBots',
-      content: {
-        'application/json': {
-          schema: AiBotListResponseSchema,
-        },
-      },
-    },
-    401: CommonErrorResponses[401],
-    403: CommonErrorResponses[403],
-  },
-});
-
-registry.registerPath({
-  method: 'post',
-  path: '/ai-bots',
-  summary: 'Create a new AiBot (Admin only)',
-  tags: ['AiBots'],
-  request: {
-    body: {
-      content: {
-        'application/json': {
-          schema: CreateAiBotRequestSchema,
-        },
-      },
-    },
-  },
-  responses: {
-    201: {
-      description: 'AiBot created',
-      content: {
-        'application/json': {
-          schema: AiBotListItemSchema,
-        },
-      },
-    },
-    400: CommonErrorResponses[400],
-    401: CommonErrorResponses[401],
-    403: CommonErrorResponses[403],
-    409: CommonErrorResponses[409],
-  },
-});
-
-registry.registerPath({
-  method: 'get',
-  path: '/ai-bots/{id}',
-  summary: 'Get AiBot by ID (Admin only)',
-  tags: ['AiBots'],
-  request: {
-    params: z.object({
-      id: z.string(),
-    }),
-  },
-  responses: {
-    200: {
-      description: 'AiBot details',
-      content: {
-        'application/json': {
-          schema: AiBotListItemSchema,
-        },
-      },
-    },
-    401: CommonErrorResponses[401],
-    403: CommonErrorResponses[403],
-    404: CommonErrorResponses[404],
-  },
-});
-
-registry.registerPath({
-  method: 'patch',
-  path: '/ai-bots/{id}',
-  summary: 'Update AiBot (Admin only)',
-  tags: ['AiBots'],
-  request: {
-    params: z.object({
-      id: z.string(),
-    }),
-    body: {
-      content: {
-        'application/json': {
-          schema: UpdateAiBotRequestSchema,
-        },
-      },
-    },
-  },
-  responses: {
-    200: {
-      description: 'AiBot updated',
-      content: {
-        'application/json': {
-          schema: AiBotListItemSchema,
-        },
-      },
-    },
-    400: CommonErrorResponses[400],
-    401: CommonErrorResponses[401],
-    403: CommonErrorResponses[403],
-    404: CommonErrorResponses[404],
-    409: CommonErrorResponses[409],
-  },
-});
-
-registry.registerPath({
-  method: 'delete',
-  path: '/ai-bots/{id}',
-  summary: 'Delete AiBot (Admin only)',
-  tags: ['AiBots'],
-  request: {
-    params: z.object({
-      id: z.string(),
-    }),
-  },
-  responses: {
-    204: {
-      description: 'AiBot deleted',
-    },
-    400: CommonErrorResponses[400],
-    401: CommonErrorResponses[401],
-    403: CommonErrorResponses[403],
-    404: CommonErrorResponses[404],
-  },
+// Register all CRUD paths using helper
+registerCrudPaths({
+  resourceName: 'AiBot',
+  resourcePath: '/ai-bots',
+  tag: 'AiBots',
+  listItemSchema: AiBotListItemSchema,
+  listResponseSchema: AiBotListResponseSchema,
+  createRequestSchema: CreateAiBotRequestSchema,
+  updateRequestSchema: UpdateAiBotRequestSchema,
+  deleteReturnsSuccess: true, // AiBots DELETE returns 200 with success object
 });

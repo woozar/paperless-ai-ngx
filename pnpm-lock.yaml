@@ -50,8 +50,8 @@ importers:
         specifier: ^9.0.2
         version: 9.0.2
       zod:
-        specifier: ^3.24.1
-        version: 3.25.76
+        specifier: ^4.1.13
+        version: 4.1.13
     devDependencies:
       '@repo/eslint-config':
         specifier: workspace:*

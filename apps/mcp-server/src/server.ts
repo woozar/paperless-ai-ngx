@@ -211,7 +211,7 @@ export class PaperlessMCPServer {
 
     const loginSchema = z.object({
       mcpToken: z.string().optional(),
-      paperlessUrl: z.string().url(),
+      paperlessUrl: z.url(),
       paperlessToken: z.string().min(1),
     });
 

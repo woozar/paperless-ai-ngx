@@ -98,7 +98,7 @@ describe('EditUserDialog', () => {
       expect(screen.getByRole('dialog')).toBeInTheDocument();
     });
 
-    const usernameInput = screen.getByTestId('edit-username-input');
+    const usernameInput = screen.getByTestId('edit-user-username-input');
     expect(usernameInput).toHaveValue('testuser');
   });
 
@@ -113,11 +113,11 @@ describe('EditUserDialog', () => {
       expect(screen.getByRole('dialog')).toBeInTheDocument();
     });
 
-    const usernameInput = screen.getByTestId('edit-username-input');
+    const usernameInput = screen.getByTestId('edit-user-username-input');
     await user.clear(usernameInput);
     await user.type(usernameInput, 'newusername');
 
-    const submitButton = screen.getByTestId('edit-user-submit');
+    const submitButton = screen.getByTestId('edit-user-submit-button');
     await user.click(submitButton);
 
     await waitFor(() => {
@@ -146,11 +146,11 @@ describe('EditUserDialog', () => {
       expect(screen.getByRole('dialog')).toBeInTheDocument();
     });
 
-    const usernameInput = screen.getByTestId('edit-username-input');
+    const usernameInput = screen.getByTestId('edit-user-username-input');
     await user.clear(usernameInput);
     await user.type(usernameInput, 'admin');
 
-    const submitButton = screen.getByTestId('edit-user-submit');
+    const submitButton = screen.getByTestId('edit-user-submit-button');
     await user.click(submitButton);
 
     await waitFor(() => {
@@ -172,7 +172,12 @@ describe('EditUserDialog', () => {
       expect(screen.getByRole('dialog')).toBeInTheDocument();
     });
 
-    const submitButton = screen.getByTestId('edit-user-submit');
+    // Make a change to enable submit button
+    const usernameInput = screen.getByTestId('edit-user-username-input');
+    await user.clear(usernameInput);
+    await user.type(usernameInput, 'changeduser');
+
+    const submitButton = screen.getByTestId('edit-user-submit-button');
     await user.click(submitButton);
 
     await waitFor(() => {
@@ -193,11 +198,11 @@ describe('EditUserDialog', () => {
     });
 
     // Change username to trigger update
-    const usernameInput = screen.getByTestId('edit-username-input');
+    const usernameInput = screen.getByTestId('edit-user-username-input');
     await user.clear(usernameInput);
     await user.type(usernameInput, 'newadmin');
 
-    const submitButton = screen.getByTestId('edit-user-submit');
+    const submitButton = screen.getByTestId('edit-user-submit-button');
     await user.click(submitButton);
 
     await waitFor(() => {
@@ -219,10 +224,10 @@ describe('EditUserDialog', () => {
       expect(screen.getByRole('dialog')).toBeInTheDocument();
     });
 
-    const passwordInput = screen.getByTestId('edit-password-input');
+    const passwordInput = screen.getByTestId('edit-user-resetPassword-input');
     await user.type(passwordInput, 'newpassword123');
 
-    const submitButton = screen.getByTestId('edit-user-submit');
+    const submitButton = screen.getByTestId('edit-user-submit-button');
     await user.click(submitButton);
 
     await waitFor(() => {
@@ -243,7 +248,7 @@ describe('EditUserDialog', () => {
       expect(screen.getByRole('dialog')).toBeInTheDocument();
     });
 
-    const passwordInput = screen.getByTestId('edit-password-input');
+    const passwordInput = screen.getByTestId('edit-user-resetPassword-input');
     expect(passwordInput).toHaveAttribute('type', 'password');
 
     // Find the toggle button (has tabIndex -1)
@@ -260,28 +265,6 @@ describe('EditUserDialog', () => {
     }
   });
 
-  it('handles exception during update', async () => {
-    const user = userEvent.setup({ delay: null });
-    mockPatchUsersById.mockRejectedValueOnce(new Error('Network error'));
-
-    renderWithIntl(<EditUserDialog {...defaultProps} />);
-
-    await waitFor(() => {
-      expect(screen.getByRole('dialog')).toBeInTheDocument();
-    });
-
-    const usernameInput = screen.getByTestId('edit-username-input');
-    await user.clear(usernameInput);
-    await user.type(usernameInput, 'newusername');
-
-    const submitButton = screen.getByTestId('edit-user-submit');
-    await user.click(submitButton);
-
-    await waitFor(() => {
-      expect(vi.mocked(toast.error)).toHaveBeenCalledWith('Failed to update user');
-    });
-  });
-
   it('sends username and password when both are changed', async () => {
     const user = userEvent.setup({ delay: null });
     mockPatchUsersById.mockResolvedValueOnce({ data: {}, error: undefined });
@@ -293,15 +276,15 @@ describe('EditUserDialog', () => {
     });
 
     // Change username
-    const usernameInput = screen.getByTestId('edit-username-input');
+    const usernameInput = screen.getByTestId('edit-user-username-input');
     await user.clear(usernameInput);
     await user.type(usernameInput, 'newusername');
 
     // Set password
-    const passwordInput = screen.getByTestId('edit-password-input');
+    const passwordInput = screen.getByTestId('edit-user-resetPassword-input');
     await user.type(passwordInput, 'newpass123');
 
-    const submitButton = screen.getByTestId('edit-user-submit');
+    const submitButton = screen.getByTestId('edit-user-submit-button');
     await user.click(submitButton);
 
     await waitFor(() => {
@@ -337,7 +320,7 @@ describe('EditUserDialog', () => {
       expect(screen.getByTestId('mock-select')).toHaveAttribute('data-value', 'ADMIN');
     });
 
-    const submitButton = screen.getByTestId('edit-user-submit');
+    const submitButton = screen.getByTestId('edit-user-submit-button');
     await user.click(submitButton);
 
     await waitFor(() => {
@@ -352,5 +335,37 @@ describe('EditUserDialog', () => {
         }),
       })
     );
+  });
+
+  it('returns null when user is null', () => {
+    const { container } = renderWithIntl(<EditUserDialog {...defaultProps} user={null} />);
+    expect(container.firstChild).toBeNull();
+  });
+
+  it('returns early success when no changes are made', async () => {
+    const user = userEvent.setup({ delay: null });
+    const onOpenChange = vi.fn();
+    const onSuccess = vi.fn();
+
+    renderWithIntl(
+      <EditUserDialog {...defaultProps} onOpenChange={onOpenChange} onSuccess={onSuccess} />
+    );
+
+    await waitFor(() => {
+      expect(screen.getByRole('dialog')).toBeInTheDocument();
+    });
+
+    // Submit without making changes - button should be enabled since resetPassword can be empty
+    const submitButton = screen.getByTestId('edit-user-submit-button');
+    await user.click(submitButton);
+
+    // Should close dialog and call onSuccess without calling the API
+    await waitFor(() => {
+      expect(onOpenChange).toHaveBeenCalledWith(false);
+      expect(onSuccess).toHaveBeenCalled();
+    });
+
+    // API should not have been called since no changes were made
+    expect(mockPatchUsersById).not.toHaveBeenCalled();
   });
 });

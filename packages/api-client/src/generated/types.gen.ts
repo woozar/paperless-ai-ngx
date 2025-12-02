@@ -58,6 +58,98 @@ export type UpdateUserRequest = {
   resetPassword?: string;
 };
 
+export type PaperlessInstanceListItem = {
+  id: string;
+  name: string;
+  apiUrl: string;
+  apiToken: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type PaperlessInstanceListResponse = {
+  instances: Array<PaperlessInstanceListItem>;
+  total: number;
+};
+
+export type CreatePaperlessInstanceRequest = {
+  name: string;
+  apiUrl: string;
+  apiToken: string;
+};
+
+export type UpdatePaperlessInstanceRequest = {
+  name?: string;
+  apiUrl?: string;
+  apiToken?: string;
+};
+
+export type AiProviderType = 'openai' | 'anthropic' | 'ollama' | 'google' | 'custom';
+
+export type AiProviderListItem = {
+  id: string;
+  name: string;
+  provider: AiProviderType;
+  model: string;
+  apiKey: string;
+  baseUrl: string | null;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type AiProviderListResponse = {
+  providers: Array<AiProviderListItem>;
+  total: number;
+};
+
+export type CreateAiProviderRequest = {
+  name: string;
+  provider: AiProviderType;
+  model: string;
+  apiKey: string;
+  baseUrl?: string;
+};
+
+export type UpdateAiProviderRequest = {
+  name?: string;
+  provider?: AiProviderType;
+  model?: string;
+  apiKey?: string;
+  baseUrl?: string | null;
+  isActive?: boolean;
+};
+
+export type AiBotListItem = {
+  id: string;
+  name: string;
+  systemPrompt: string;
+  aiProviderId: string;
+  aiProvider: {
+    id: string;
+    name: string;
+  };
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type AiBotListResponse = {
+  bots: Array<AiBotListItem>;
+  total: number;
+};
+
+export type CreateAiBotRequest = {
+  name: string;
+  aiProviderId: string;
+  systemPrompt: string;
+};
+
+export type UpdateAiBotRequest = {
+  name?: string;
+  aiProviderId?: string;
+  systemPrompt?: string;
+};
+
 export type ErrorResponse = {
   error: string;
   message: string;
@@ -341,6 +433,568 @@ export type PatchUsersByIdResponses = {
 };
 
 export type PatchUsersByIdResponse = PatchUsersByIdResponses[keyof PatchUsersByIdResponses];
+
+export type GetPaperlessInstancesData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/paperless-instances';
+};
+
+export type GetPaperlessInstancesErrors = {
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not authorized
+   */
+  403: ErrorResponse;
+};
+
+export type GetPaperlessInstancesError =
+  GetPaperlessInstancesErrors[keyof GetPaperlessInstancesErrors];
+
+export type GetPaperlessInstancesResponses = {
+  /**
+   * List of PaperlessInstances
+   */
+  200: PaperlessInstanceListResponse;
+};
+
+export type GetPaperlessInstancesResponse =
+  GetPaperlessInstancesResponses[keyof GetPaperlessInstancesResponses];
+
+export type PostPaperlessInstancesData = {
+  body?: CreatePaperlessInstanceRequest;
+  path?: never;
+  query?: never;
+  url: '/paperless-instances';
+};
+
+export type PostPaperlessInstancesErrors = {
+  /**
+   * Bad request
+   */
+  400: ErrorResponse;
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not authorized
+   */
+  403: ErrorResponse;
+  /**
+   * Conflict
+   */
+  409: ErrorResponse;
+};
+
+export type PostPaperlessInstancesError =
+  PostPaperlessInstancesErrors[keyof PostPaperlessInstancesErrors];
+
+export type PostPaperlessInstancesResponses = {
+  /**
+   * PaperlessInstance created
+   */
+  201: PaperlessInstanceListItem;
+};
+
+export type PostPaperlessInstancesResponse =
+  PostPaperlessInstancesResponses[keyof PostPaperlessInstancesResponses];
+
+export type DeletePaperlessInstancesByIdData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/paperless-instances/{id}';
+};
+
+export type DeletePaperlessInstancesByIdErrors = {
+  /**
+   * Bad request
+   */
+  400: ErrorResponse;
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not authorized
+   */
+  403: ErrorResponse;
+  /**
+   * Not found
+   */
+  404: ErrorResponse;
+};
+
+export type DeletePaperlessInstancesByIdError =
+  DeletePaperlessInstancesByIdErrors[keyof DeletePaperlessInstancesByIdErrors];
+
+export type DeletePaperlessInstancesByIdResponses = {
+  /**
+   * PaperlessInstance deleted
+   */
+  204: void;
+};
+
+export type DeletePaperlessInstancesByIdResponse =
+  DeletePaperlessInstancesByIdResponses[keyof DeletePaperlessInstancesByIdResponses];
+
+export type GetPaperlessInstancesByIdData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/paperless-instances/{id}';
+};
+
+export type GetPaperlessInstancesByIdErrors = {
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not authorized
+   */
+  403: ErrorResponse;
+  /**
+   * Not found
+   */
+  404: ErrorResponse;
+};
+
+export type GetPaperlessInstancesByIdError =
+  GetPaperlessInstancesByIdErrors[keyof GetPaperlessInstancesByIdErrors];
+
+export type GetPaperlessInstancesByIdResponses = {
+  /**
+   * PaperlessInstance details
+   */
+  200: PaperlessInstanceListItem;
+};
+
+export type GetPaperlessInstancesByIdResponse =
+  GetPaperlessInstancesByIdResponses[keyof GetPaperlessInstancesByIdResponses];
+
+export type PatchPaperlessInstancesByIdData = {
+  body?: UpdatePaperlessInstanceRequest;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/paperless-instances/{id}';
+};
+
+export type PatchPaperlessInstancesByIdErrors = {
+  /**
+   * Bad request
+   */
+  400: ErrorResponse;
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not authorized
+   */
+  403: ErrorResponse;
+  /**
+   * Not found
+   */
+  404: ErrorResponse;
+  /**
+   * Conflict
+   */
+  409: ErrorResponse;
+};
+
+export type PatchPaperlessInstancesByIdError =
+  PatchPaperlessInstancesByIdErrors[keyof PatchPaperlessInstancesByIdErrors];
+
+export type PatchPaperlessInstancesByIdResponses = {
+  /**
+   * PaperlessInstance updated
+   */
+  200: PaperlessInstanceListItem;
+};
+
+export type PatchPaperlessInstancesByIdResponse =
+  PatchPaperlessInstancesByIdResponses[keyof PatchPaperlessInstancesByIdResponses];
+
+export type GetAiProvidersData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/ai-providers';
+};
+
+export type GetAiProvidersErrors = {
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not authorized
+   */
+  403: ErrorResponse;
+};
+
+export type GetAiProvidersError = GetAiProvidersErrors[keyof GetAiProvidersErrors];
+
+export type GetAiProvidersResponses = {
+  /**
+   * List of AiProviders
+   */
+  200: AiProviderListResponse;
+};
+
+export type GetAiProvidersResponse = GetAiProvidersResponses[keyof GetAiProvidersResponses];
+
+export type PostAiProvidersData = {
+  body?: CreateAiProviderRequest;
+  path?: never;
+  query?: never;
+  url: '/ai-providers';
+};
+
+export type PostAiProvidersErrors = {
+  /**
+   * Bad request
+   */
+  400: ErrorResponse;
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not authorized
+   */
+  403: ErrorResponse;
+  /**
+   * Conflict
+   */
+  409: ErrorResponse;
+};
+
+export type PostAiProvidersError = PostAiProvidersErrors[keyof PostAiProvidersErrors];
+
+export type PostAiProvidersResponses = {
+  /**
+   * AiProvider created
+   */
+  201: AiProviderListItem;
+};
+
+export type PostAiProvidersResponse = PostAiProvidersResponses[keyof PostAiProvidersResponses];
+
+export type DeleteAiProvidersByIdData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/ai-providers/{id}';
+};
+
+export type DeleteAiProvidersByIdErrors = {
+  /**
+   * Bad request
+   */
+  400: ErrorResponse;
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not authorized
+   */
+  403: ErrorResponse;
+  /**
+   * Not found
+   */
+  404: ErrorResponse;
+};
+
+export type DeleteAiProvidersByIdError =
+  DeleteAiProvidersByIdErrors[keyof DeleteAiProvidersByIdErrors];
+
+export type DeleteAiProvidersByIdResponses = {
+  /**
+   * AiProvider deleted
+   */
+  204: void;
+};
+
+export type DeleteAiProvidersByIdResponse =
+  DeleteAiProvidersByIdResponses[keyof DeleteAiProvidersByIdResponses];
+
+export type GetAiProvidersByIdData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/ai-providers/{id}';
+};
+
+export type GetAiProvidersByIdErrors = {
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not authorized
+   */
+  403: ErrorResponse;
+  /**
+   * Not found
+   */
+  404: ErrorResponse;
+};
+
+export type GetAiProvidersByIdError = GetAiProvidersByIdErrors[keyof GetAiProvidersByIdErrors];
+
+export type GetAiProvidersByIdResponses = {
+  /**
+   * AiProvider details
+   */
+  200: AiProviderListItem;
+};
+
+export type GetAiProvidersByIdResponse =
+  GetAiProvidersByIdResponses[keyof GetAiProvidersByIdResponses];
+
+export type PatchAiProvidersByIdData = {
+  body?: UpdateAiProviderRequest;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/ai-providers/{id}';
+};
+
+export type PatchAiProvidersByIdErrors = {
+  /**
+   * Bad request
+   */
+  400: ErrorResponse;
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not authorized
+   */
+  403: ErrorResponse;
+  /**
+   * Not found
+   */
+  404: ErrorResponse;
+  /**
+   * Conflict
+   */
+  409: ErrorResponse;
+};
+
+export type PatchAiProvidersByIdError =
+  PatchAiProvidersByIdErrors[keyof PatchAiProvidersByIdErrors];
+
+export type PatchAiProvidersByIdResponses = {
+  /**
+   * AiProvider updated
+   */
+  200: AiProviderListItem;
+};
+
+export type PatchAiProvidersByIdResponse =
+  PatchAiProvidersByIdResponses[keyof PatchAiProvidersByIdResponses];
+
+export type GetAiBotsData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/ai-bots';
+};
+
+export type GetAiBotsErrors = {
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not authorized
+   */
+  403: ErrorResponse;
+};
+
+export type GetAiBotsError = GetAiBotsErrors[keyof GetAiBotsErrors];
+
+export type GetAiBotsResponses = {
+  /**
+   * List of AiBots
+   */
+  200: AiBotListResponse;
+};
+
+export type GetAiBotsResponse = GetAiBotsResponses[keyof GetAiBotsResponses];
+
+export type PostAiBotsData = {
+  body?: CreateAiBotRequest;
+  path?: never;
+  query?: never;
+  url: '/ai-bots';
+};
+
+export type PostAiBotsErrors = {
+  /**
+   * Bad request
+   */
+  400: ErrorResponse;
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not authorized
+   */
+  403: ErrorResponse;
+  /**
+   * Conflict
+   */
+  409: ErrorResponse;
+};
+
+export type PostAiBotsError = PostAiBotsErrors[keyof PostAiBotsErrors];
+
+export type PostAiBotsResponses = {
+  /**
+   * AiBot created
+   */
+  201: AiBotListItem;
+};
+
+export type PostAiBotsResponse = PostAiBotsResponses[keyof PostAiBotsResponses];
+
+export type DeleteAiBotsByIdData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/ai-bots/{id}';
+};
+
+export type DeleteAiBotsByIdErrors = {
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not authorized
+   */
+  403: ErrorResponse;
+  /**
+   * Not found
+   */
+  404: ErrorResponse;
+};
+
+export type DeleteAiBotsByIdError = DeleteAiBotsByIdErrors[keyof DeleteAiBotsByIdErrors];
+
+export type DeleteAiBotsByIdResponses = {
+  /**
+   * AiBot deleted
+   */
+  200: {
+    success: boolean;
+  };
+};
+
+export type DeleteAiBotsByIdResponse = DeleteAiBotsByIdResponses[keyof DeleteAiBotsByIdResponses];
+
+export type GetAiBotsByIdData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/ai-bots/{id}';
+};
+
+export type GetAiBotsByIdErrors = {
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not authorized
+   */
+  403: ErrorResponse;
+  /**
+   * Not found
+   */
+  404: ErrorResponse;
+};
+
+export type GetAiBotsByIdError = GetAiBotsByIdErrors[keyof GetAiBotsByIdErrors];
+
+export type GetAiBotsByIdResponses = {
+  /**
+   * AiBot details
+   */
+  200: AiBotListItem;
+};
+
+export type GetAiBotsByIdResponse = GetAiBotsByIdResponses[keyof GetAiBotsByIdResponses];
+
+export type PatchAiBotsByIdData = {
+  body?: UpdateAiBotRequest;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/ai-bots/{id}';
+};
+
+export type PatchAiBotsByIdErrors = {
+  /**
+   * Bad request
+   */
+  400: ErrorResponse;
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not authorized
+   */
+  403: ErrorResponse;
+  /**
+   * Not found
+   */
+  404: ErrorResponse;
+  /**
+   * Conflict
+   */
+  409: ErrorResponse;
+};
+
+export type PatchAiBotsByIdError = PatchAiBotsByIdErrors[keyof PatchAiBotsByIdErrors];
+
+export type PatchAiBotsByIdResponses = {
+  /**
+   * AiBot updated
+   */
+  200: AiBotListItem;
+};
+
+export type PatchAiBotsByIdResponse = PatchAiBotsByIdResponses[keyof PatchAiBotsByIdResponses];
 
 export type ClientOptions = {
   baseUrl: `${string}://${string}/api` | (string & {});

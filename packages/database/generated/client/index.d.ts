@@ -1987,6 +1987,7 @@ export namespace Prisma {
   export type AiProviderCountOutputType = {
     sharedWith: number;
     bots: number;
+    aiUsageMetrics: number;
   };
 
   export type AiProviderCountOutputTypeSelect<
@@ -1994,6 +1995,7 @@ export namespace Prisma {
   > = {
     sharedWith?: boolean | AiProviderCountOutputTypeCountSharedWithArgs;
     bots?: boolean | AiProviderCountOutputTypeCountBotsArgs;
+    aiUsageMetrics?: boolean | AiProviderCountOutputTypeCountAiUsageMetricsArgs;
   };
 
   // Custom InputTypes
@@ -2025,6 +2027,15 @@ export namespace Prisma {
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     where?: AiBotWhereInput;
+  };
+
+  /**
+   * AiProviderCountOutputType without action
+   */
+  export type AiProviderCountOutputTypeCountAiUsageMetricsArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    where?: AiUsageMetricWhereInput;
   };
 
   /**
@@ -8579,7 +8590,6 @@ export namespace Prisma {
     name: string | null;
     apiUrl: string | null;
     apiToken: string | null;
-    isActive: boolean | null;
     createdAt: Date | null;
     updatedAt: Date | null;
     ownerId: string | null;
@@ -8590,7 +8600,6 @@ export namespace Prisma {
     name: string | null;
     apiUrl: string | null;
     apiToken: string | null;
-    isActive: boolean | null;
     createdAt: Date | null;
     updatedAt: Date | null;
     ownerId: string | null;
@@ -8601,7 +8610,6 @@ export namespace Prisma {
     name: number;
     apiUrl: number;
     apiToken: number;
-    isActive: number;
     createdAt: number;
     updatedAt: number;
     ownerId: number;
@@ -8613,7 +8621,6 @@ export namespace Prisma {
     name?: true;
     apiUrl?: true;
     apiToken?: true;
-    isActive?: true;
     createdAt?: true;
     updatedAt?: true;
     ownerId?: true;
@@ -8624,7 +8631,6 @@ export namespace Prisma {
     name?: true;
     apiUrl?: true;
     apiToken?: true;
-    isActive?: true;
     createdAt?: true;
     updatedAt?: true;
     ownerId?: true;
@@ -8635,7 +8641,6 @@ export namespace Prisma {
     name?: true;
     apiUrl?: true;
     apiToken?: true;
-    isActive?: true;
     createdAt?: true;
     updatedAt?: true;
     ownerId?: true;
@@ -8724,7 +8729,6 @@ export namespace Prisma {
     name: string;
     apiUrl: string;
     apiToken: string;
-    isActive: boolean;
     createdAt: Date;
     updatedAt: Date;
     ownerId: string;
@@ -8754,7 +8758,6 @@ export namespace Prisma {
       name?: boolean;
       apiUrl?: boolean;
       apiToken?: boolean;
-      isActive?: boolean;
       createdAt?: boolean;
       updatedAt?: boolean;
       ownerId?: boolean;
@@ -8775,7 +8778,6 @@ export namespace Prisma {
       name?: boolean;
       apiUrl?: boolean;
       apiToken?: boolean;
-      isActive?: boolean;
       createdAt?: boolean;
       updatedAt?: boolean;
       ownerId?: boolean;
@@ -8792,7 +8794,6 @@ export namespace Prisma {
       name?: boolean;
       apiUrl?: boolean;
       apiToken?: boolean;
-      isActive?: boolean;
       createdAt?: boolean;
       updatedAt?: boolean;
       ownerId?: boolean;
@@ -8806,7 +8807,6 @@ export namespace Prisma {
     name?: boolean;
     apiUrl?: boolean;
     apiToken?: boolean;
-    isActive?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     ownerId?: boolean;
@@ -8815,7 +8815,7 @@ export namespace Prisma {
   export type PaperlessInstanceOmit<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = $Extensions.GetOmit<
-    'id' | 'name' | 'apiUrl' | 'apiToken' | 'isActive' | 'createdAt' | 'updatedAt' | 'ownerId',
+    'id' | 'name' | 'apiUrl' | 'apiToken' | 'createdAt' | 'updatedAt' | 'ownerId',
     ExtArgs['result']['paperlessInstance']
   >;
   export type PaperlessInstanceInclude<
@@ -8854,7 +8854,6 @@ export namespace Prisma {
         name: string;
         apiUrl: string;
         apiToken: string;
-        isActive: boolean;
         createdAt: Date;
         updatedAt: Date;
         ownerId: string;
@@ -9441,7 +9440,6 @@ export namespace Prisma {
     readonly name: FieldRef<'PaperlessInstance', 'String'>;
     readonly apiUrl: FieldRef<'PaperlessInstance', 'String'>;
     readonly apiToken: FieldRef<'PaperlessInstance', 'String'>;
-    readonly isActive: FieldRef<'PaperlessInstance', 'Boolean'>;
     readonly createdAt: FieldRef<'PaperlessInstance', 'DateTime'>;
     readonly updatedAt: FieldRef<'PaperlessInstance', 'DateTime'>;
     readonly ownerId: FieldRef<'PaperlessInstance', 'String'>;
@@ -10184,6 +10182,7 @@ export namespace Prisma {
         owner?: boolean | UserDefaultArgs<ExtArgs>;
         sharedWith?: boolean | AiProvider$sharedWithArgs<ExtArgs>;
         bots?: boolean | AiProvider$botsArgs<ExtArgs>;
+        aiUsageMetrics?: boolean | AiProvider$aiUsageMetricsArgs<ExtArgs>;
         _count?: boolean | AiProviderCountOutputTypeDefaultArgs<ExtArgs>;
       },
       ExtArgs['result']['aiProvider']
@@ -10260,6 +10259,7 @@ export namespace Prisma {
     owner?: boolean | UserDefaultArgs<ExtArgs>;
     sharedWith?: boolean | AiProvider$sharedWithArgs<ExtArgs>;
     bots?: boolean | AiProvider$botsArgs<ExtArgs>;
+    aiUsageMetrics?: boolean | AiProvider$aiUsageMetricsArgs<ExtArgs>;
     _count?: boolean | AiProviderCountOutputTypeDefaultArgs<ExtArgs>;
   };
   export type AiProviderIncludeCreateManyAndReturn<
@@ -10281,6 +10281,7 @@ export namespace Prisma {
       owner: Prisma.$UserPayload<ExtArgs>;
       sharedWith: Prisma.$UserAiProviderAccessPayload<ExtArgs>[];
       bots: Prisma.$AiBotPayload<ExtArgs>[];
+      aiUsageMetrics: Prisma.$AiUsageMetricPayload<ExtArgs>[];
     };
     scalars: $Extensions.GetPayloadResult<
       {
@@ -10826,6 +10827,12 @@ export namespace Prisma {
     ): Prisma.PrismaPromise<
       $Result.GetResult<Prisma.$AiBotPayload<ExtArgs>, T, 'findMany', GlobalOmitOptions> | Null
     >;
+    aiUsageMetrics<T extends AiProvider$aiUsageMetricsArgs<ExtArgs> = {}>(
+      args?: Subset<T, AiProvider$aiUsageMetricsArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<
+      | $Result.GetResult<Prisma.$AiUsageMetricPayload<ExtArgs>, T, 'findMany', GlobalOmitOptions>
+      | Null
+    >;
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11344,6 +11351,32 @@ export namespace Prisma {
   };
 
   /**
+   * AiProvider.aiUsageMetrics
+   */
+  export type AiProvider$aiUsageMetricsArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the AiUsageMetric
+     */
+    select?: AiUsageMetricSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the AiUsageMetric
+     */
+    omit?: AiUsageMetricOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiUsageMetricInclude<ExtArgs> | null;
+    where?: AiUsageMetricWhereInput;
+    orderBy?: AiUsageMetricOrderByWithRelationInput | AiUsageMetricOrderByWithRelationInput[];
+    cursor?: AiUsageMetricWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?: AiUsageMetricScalarFieldEnum | AiUsageMetricScalarFieldEnum[];
+  };
+
+  /**
    * AiProvider without action
    */
   export type AiProviderDefaultArgs<
@@ -11377,7 +11410,6 @@ export namespace Prisma {
     id: string | null;
     name: string | null;
     systemPrompt: string | null;
-    isActive: boolean | null;
     createdAt: Date | null;
     updatedAt: Date | null;
     ownerId: string | null;
@@ -11388,7 +11420,6 @@ export namespace Prisma {
     id: string | null;
     name: string | null;
     systemPrompt: string | null;
-    isActive: boolean | null;
     createdAt: Date | null;
     updatedAt: Date | null;
     ownerId: string | null;
@@ -11399,7 +11430,6 @@ export namespace Prisma {
     id: number;
     name: number;
     systemPrompt: number;
-    isActive: number;
     createdAt: number;
     updatedAt: number;
     ownerId: number;
@@ -11411,7 +11441,6 @@ export namespace Prisma {
     id?: true;
     name?: true;
     systemPrompt?: true;
-    isActive?: true;
     createdAt?: true;
     updatedAt?: true;
     ownerId?: true;
@@ -11422,7 +11451,6 @@ export namespace Prisma {
     id?: true;
     name?: true;
     systemPrompt?: true;
-    isActive?: true;
     createdAt?: true;
     updatedAt?: true;
     ownerId?: true;
@@ -11433,7 +11461,6 @@ export namespace Prisma {
     id?: true;
     name?: true;
     systemPrompt?: true;
-    isActive?: true;
     createdAt?: true;
     updatedAt?: true;
     ownerId?: true;
@@ -11517,7 +11544,6 @@ export namespace Prisma {
     id: string;
     name: string;
     systemPrompt: string;
-    isActive: boolean;
     createdAt: Date;
     updatedAt: Date;
     ownerId: string;
@@ -11545,7 +11571,6 @@ export namespace Prisma {
         id?: boolean;
         name?: boolean;
         systemPrompt?: boolean;
-        isActive?: boolean;
         createdAt?: boolean;
         updatedAt?: boolean;
         ownerId?: boolean;
@@ -11566,7 +11591,6 @@ export namespace Prisma {
       id?: boolean;
       name?: boolean;
       systemPrompt?: boolean;
-      isActive?: boolean;
       createdAt?: boolean;
       updatedAt?: boolean;
       ownerId?: boolean;
@@ -11584,7 +11608,6 @@ export namespace Prisma {
       id?: boolean;
       name?: boolean;
       systemPrompt?: boolean;
-      isActive?: boolean;
       createdAt?: boolean;
       updatedAt?: boolean;
       ownerId?: boolean;
@@ -11599,7 +11622,6 @@ export namespace Prisma {
     id?: boolean;
     name?: boolean;
     systemPrompt?: boolean;
-    isActive?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     ownerId?: boolean;
@@ -11608,14 +11630,7 @@ export namespace Prisma {
 
   export type AiBotOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
     $Extensions.GetOmit<
-      | 'id'
-      | 'name'
-      | 'systemPrompt'
-      | 'isActive'
-      | 'createdAt'
-      | 'updatedAt'
-      | 'ownerId'
-      | 'aiProviderId',
+      'id' | 'name' | 'systemPrompt' | 'createdAt' | 'updatedAt' | 'ownerId' | 'aiProviderId',
       ExtArgs['result']['aiBot']
     >;
   export type AiBotInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -11651,7 +11666,6 @@ export namespace Prisma {
         id: string;
         name: string;
         systemPrompt: string;
-        isActive: boolean;
         createdAt: Date;
         updatedAt: Date;
         ownerId: string;
@@ -12203,7 +12217,6 @@ export namespace Prisma {
     readonly id: FieldRef<'AiBot', 'String'>;
     readonly name: FieldRef<'AiBot', 'String'>;
     readonly systemPrompt: FieldRef<'AiBot', 'String'>;
-    readonly isActive: FieldRef<'AiBot', 'Boolean'>;
     readonly createdAt: FieldRef<'AiBot', 'DateTime'>;
     readonly updatedAt: FieldRef<'AiBot', 'DateTime'>;
     readonly ownerId: FieldRef<'AiBot', 'String'>;
@@ -15544,6 +15557,7 @@ export namespace Prisma {
     documentId: number | null;
     createdAt: Date | null;
     userId: string | null;
+    aiProviderId: string | null;
     aiBotId: string | null;
   };
 
@@ -15558,6 +15572,7 @@ export namespace Prisma {
     documentId: number | null;
     createdAt: Date | null;
     userId: string | null;
+    aiProviderId: string | null;
     aiBotId: string | null;
   };
 
@@ -15572,6 +15587,7 @@ export namespace Prisma {
     documentId: number;
     createdAt: number;
     userId: number;
+    aiProviderId: number;
     aiBotId: number;
     _all: number;
   };
@@ -15603,6 +15619,7 @@ export namespace Prisma {
     documentId?: true;
     createdAt?: true;
     userId?: true;
+    aiProviderId?: true;
     aiBotId?: true;
   };
 
@@ -15617,6 +15634,7 @@ export namespace Prisma {
     documentId?: true;
     createdAt?: true;
     userId?: true;
+    aiProviderId?: true;
     aiBotId?: true;
   };
 
@@ -15631,6 +15649,7 @@ export namespace Prisma {
     documentId?: true;
     createdAt?: true;
     userId?: true;
+    aiProviderId?: true;
     aiBotId?: true;
     _all?: true;
   };
@@ -15733,6 +15752,7 @@ export namespace Prisma {
     documentId: number | null;
     createdAt: Date;
     userId: string;
+    aiProviderId: string;
     aiBotId: string | null;
     _count: AiUsageMetricCountAggregateOutputType | null;
     _avg: AiUsageMetricAvgAggregateOutputType | null;
@@ -15767,8 +15787,10 @@ export namespace Prisma {
       documentId?: boolean;
       createdAt?: boolean;
       userId?: boolean;
+      aiProviderId?: boolean;
       aiBotId?: boolean;
       user?: boolean | UserDefaultArgs<ExtArgs>;
+      aiProvider?: boolean | AiProviderDefaultArgs<ExtArgs>;
       aiBot?: boolean | AiUsageMetric$aiBotArgs<ExtArgs>;
     },
     ExtArgs['result']['aiUsageMetric']
@@ -15788,8 +15810,10 @@ export namespace Prisma {
       documentId?: boolean;
       createdAt?: boolean;
       userId?: boolean;
+      aiProviderId?: boolean;
       aiBotId?: boolean;
       user?: boolean | UserDefaultArgs<ExtArgs>;
+      aiProvider?: boolean | AiProviderDefaultArgs<ExtArgs>;
       aiBot?: boolean | AiUsageMetric$aiBotArgs<ExtArgs>;
     },
     ExtArgs['result']['aiUsageMetric']
@@ -15809,8 +15833,10 @@ export namespace Prisma {
       documentId?: boolean;
       createdAt?: boolean;
       userId?: boolean;
+      aiProviderId?: boolean;
       aiBotId?: boolean;
       user?: boolean | UserDefaultArgs<ExtArgs>;
+      aiProvider?: boolean | AiProviderDefaultArgs<ExtArgs>;
       aiBot?: boolean | AiUsageMetric$aiBotArgs<ExtArgs>;
     },
     ExtArgs['result']['aiUsageMetric']
@@ -15827,6 +15853,7 @@ export namespace Prisma {
     documentId?: boolean;
     createdAt?: boolean;
     userId?: boolean;
+    aiProviderId?: boolean;
     aiBotId?: boolean;
   };
 
@@ -15843,6 +15870,7 @@ export namespace Prisma {
     | 'documentId'
     | 'createdAt'
     | 'userId'
+    | 'aiProviderId'
     | 'aiBotId',
     ExtArgs['result']['aiUsageMetric']
   >;
@@ -15850,18 +15878,21 @@ export namespace Prisma {
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     user?: boolean | UserDefaultArgs<ExtArgs>;
+    aiProvider?: boolean | AiProviderDefaultArgs<ExtArgs>;
     aiBot?: boolean | AiUsageMetric$aiBotArgs<ExtArgs>;
   };
   export type AiUsageMetricIncludeCreateManyAndReturn<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     user?: boolean | UserDefaultArgs<ExtArgs>;
+    aiProvider?: boolean | AiProviderDefaultArgs<ExtArgs>;
     aiBot?: boolean | AiUsageMetric$aiBotArgs<ExtArgs>;
   };
   export type AiUsageMetricIncludeUpdateManyAndReturn<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     user?: boolean | UserDefaultArgs<ExtArgs>;
+    aiProvider?: boolean | AiProviderDefaultArgs<ExtArgs>;
     aiBot?: boolean | AiUsageMetric$aiBotArgs<ExtArgs>;
   };
 
@@ -15871,6 +15902,7 @@ export namespace Prisma {
     name: 'AiUsageMetric';
     objects: {
       user: Prisma.$UserPayload<ExtArgs>;
+      aiProvider: Prisma.$AiProviderPayload<ExtArgs>;
       aiBot: Prisma.$AiBotPayload<ExtArgs> | null;
     };
     scalars: $Extensions.GetPayloadResult<
@@ -15885,6 +15917,7 @@ export namespace Prisma {
         documentId: number | null;
         createdAt: Date;
         userId: string;
+        aiProviderId: string;
         aiBotId: string | null;
       },
       ExtArgs['result']['aiUsageMetric']
@@ -16404,6 +16437,20 @@ export namespace Prisma {
       ExtArgs,
       GlobalOmitOptions
     >;
+    aiProvider<T extends AiProviderDefaultArgs<ExtArgs> = {}>(
+      args?: Subset<T, AiProviderDefaultArgs<ExtArgs>>
+    ): Prisma__AiProviderClient<
+      | $Result.GetResult<
+          Prisma.$AiProviderPayload<ExtArgs>,
+          T,
+          'findUniqueOrThrow',
+          GlobalOmitOptions
+        >
+      | Null,
+      Null,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
     aiBot<T extends AiUsageMetric$aiBotArgs<ExtArgs> = {}>(
       args?: Subset<T, AiUsageMetric$aiBotArgs<ExtArgs>>
     ): Prisma__AiBotClient<
@@ -16458,6 +16505,7 @@ export namespace Prisma {
     readonly documentId: FieldRef<'AiUsageMetric', 'Int'>;
     readonly createdAt: FieldRef<'AiUsageMetric', 'DateTime'>;
     readonly userId: FieldRef<'AiUsageMetric', 'String'>;
+    readonly aiProviderId: FieldRef<'AiUsageMetric', 'String'>;
     readonly aiBotId: FieldRef<'AiUsageMetric', 'String'>;
   }
 
@@ -16997,7 +17045,6 @@ export namespace Prisma {
     name: 'name';
     apiUrl: 'apiUrl';
     apiToken: 'apiToken';
-    isActive: 'isActive';
     createdAt: 'createdAt';
     updatedAt: 'updatedAt';
     ownerId: 'ownerId';
@@ -17026,7 +17073,6 @@ export namespace Prisma {
     id: 'id';
     name: 'name';
     systemPrompt: 'systemPrompt';
-    isActive: 'isActive';
     createdAt: 'createdAt';
     updatedAt: 'updatedAt';
     ownerId: 'ownerId';
@@ -17085,6 +17131,7 @@ export namespace Prisma {
     documentId: 'documentId';
     createdAt: 'createdAt';
     userId: 'userId';
+    aiProviderId: 'aiProviderId';
     aiBotId: 'aiBotId';
   };
 
@@ -17575,7 +17622,6 @@ export namespace Prisma {
     name?: StringFilter<'PaperlessInstance'> | string;
     apiUrl?: StringFilter<'PaperlessInstance'> | string;
     apiToken?: StringFilter<'PaperlessInstance'> | string;
-    isActive?: BoolFilter<'PaperlessInstance'> | boolean;
     createdAt?: DateTimeFilter<'PaperlessInstance'> | Date | string;
     updatedAt?: DateTimeFilter<'PaperlessInstance'> | Date | string;
     ownerId?: StringFilter<'PaperlessInstance'> | string;
@@ -17590,7 +17636,6 @@ export namespace Prisma {
     name?: SortOrder;
     apiUrl?: SortOrder;
     apiToken?: SortOrder;
-    isActive?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
     ownerId?: SortOrder;
@@ -17603,14 +17648,12 @@ export namespace Prisma {
   export type PaperlessInstanceWhereUniqueInput = Prisma.AtLeast<
     {
       id?: string;
-      ownerId_name?: PaperlessInstanceOwnerIdNameCompoundUniqueInput;
       AND?: PaperlessInstanceWhereInput | PaperlessInstanceWhereInput[];
       OR?: PaperlessInstanceWhereInput[];
       NOT?: PaperlessInstanceWhereInput | PaperlessInstanceWhereInput[];
       name?: StringFilter<'PaperlessInstance'> | string;
       apiUrl?: StringFilter<'PaperlessInstance'> | string;
       apiToken?: StringFilter<'PaperlessInstance'> | string;
-      isActive?: BoolFilter<'PaperlessInstance'> | boolean;
       createdAt?: DateTimeFilter<'PaperlessInstance'> | Date | string;
       updatedAt?: DateTimeFilter<'PaperlessInstance'> | Date | string;
       ownerId?: StringFilter<'PaperlessInstance'> | string;
@@ -17619,7 +17662,7 @@ export namespace Prisma {
       processedDocuments?: ProcessedDocumentListRelationFilter;
       processingQueue?: ProcessingQueueListRelationFilter;
     },
-    'id' | 'ownerId_name'
+    'id'
   >;
 
   export type PaperlessInstanceOrderByWithAggregationInput = {
@@ -17627,7 +17670,6 @@ export namespace Prisma {
     name?: SortOrder;
     apiUrl?: SortOrder;
     apiToken?: SortOrder;
-    isActive?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
     ownerId?: SortOrder;
@@ -17648,7 +17690,6 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<'PaperlessInstance'> | string;
     apiUrl?: StringWithAggregatesFilter<'PaperlessInstance'> | string;
     apiToken?: StringWithAggregatesFilter<'PaperlessInstance'> | string;
-    isActive?: BoolWithAggregatesFilter<'PaperlessInstance'> | boolean;
     createdAt?: DateTimeWithAggregatesFilter<'PaperlessInstance'> | Date | string;
     updatedAt?: DateTimeWithAggregatesFilter<'PaperlessInstance'> | Date | string;
     ownerId?: StringWithAggregatesFilter<'PaperlessInstance'> | string;
@@ -17671,6 +17712,7 @@ export namespace Prisma {
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>;
     sharedWith?: UserAiProviderAccessListRelationFilter;
     bots?: AiBotListRelationFilter;
+    aiUsageMetrics?: AiUsageMetricListRelationFilter;
   };
 
   export type AiProviderOrderByWithRelationInput = {
@@ -17687,12 +17729,12 @@ export namespace Prisma {
     owner?: UserOrderByWithRelationInput;
     sharedWith?: UserAiProviderAccessOrderByRelationAggregateInput;
     bots?: AiBotOrderByRelationAggregateInput;
+    aiUsageMetrics?: AiUsageMetricOrderByRelationAggregateInput;
   };
 
   export type AiProviderWhereUniqueInput = Prisma.AtLeast<
     {
       id?: string;
-      ownerId_name?: AiProviderOwnerIdNameCompoundUniqueInput;
       AND?: AiProviderWhereInput | AiProviderWhereInput[];
       OR?: AiProviderWhereInput[];
       NOT?: AiProviderWhereInput | AiProviderWhereInput[];
@@ -17708,8 +17750,9 @@ export namespace Prisma {
       owner?: XOR<UserScalarRelationFilter, UserWhereInput>;
       sharedWith?: UserAiProviderAccessListRelationFilter;
       bots?: AiBotListRelationFilter;
+      aiUsageMetrics?: AiUsageMetricListRelationFilter;
     },
-    'id' | 'ownerId_name'
+    'id'
   >;
 
   export type AiProviderOrderByWithAggregationInput = {
@@ -17751,7 +17794,6 @@ export namespace Prisma {
     id?: StringFilter<'AiBot'> | string;
     name?: StringFilter<'AiBot'> | string;
     systemPrompt?: StringFilter<'AiBot'> | string;
-    isActive?: BoolFilter<'AiBot'> | boolean;
     createdAt?: DateTimeFilter<'AiBot'> | Date | string;
     updatedAt?: DateTimeFilter<'AiBot'> | Date | string;
     ownerId?: StringFilter<'AiBot'> | string;
@@ -17766,7 +17808,6 @@ export namespace Prisma {
     id?: SortOrder;
     name?: SortOrder;
     systemPrompt?: SortOrder;
-    isActive?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
     ownerId?: SortOrder;
@@ -17780,13 +17821,11 @@ export namespace Prisma {
   export type AiBotWhereUniqueInput = Prisma.AtLeast<
     {
       id?: string;
-      ownerId_name?: AiBotOwnerIdNameCompoundUniqueInput;
       AND?: AiBotWhereInput | AiBotWhereInput[];
       OR?: AiBotWhereInput[];
       NOT?: AiBotWhereInput | AiBotWhereInput[];
       name?: StringFilter<'AiBot'> | string;
       systemPrompt?: StringFilter<'AiBot'> | string;
-      isActive?: BoolFilter<'AiBot'> | boolean;
       createdAt?: DateTimeFilter<'AiBot'> | Date | string;
       updatedAt?: DateTimeFilter<'AiBot'> | Date | string;
       ownerId?: StringFilter<'AiBot'> | string;
@@ -17796,14 +17835,13 @@ export namespace Prisma {
       sharedWith?: UserAiBotAccessListRelationFilter;
       aiUsageMetrics?: AiUsageMetricListRelationFilter;
     },
-    'id' | 'ownerId_name'
+    'id'
   >;
 
   export type AiBotOrderByWithAggregationInput = {
     id?: SortOrder;
     name?: SortOrder;
     systemPrompt?: SortOrder;
-    isActive?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
     ownerId?: SortOrder;
@@ -17820,7 +17858,6 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<'AiBot'> | string;
     name?: StringWithAggregatesFilter<'AiBot'> | string;
     systemPrompt?: StringWithAggregatesFilter<'AiBot'> | string;
-    isActive?: BoolWithAggregatesFilter<'AiBot'> | boolean;
     createdAt?: DateTimeWithAggregatesFilter<'AiBot'> | Date | string;
     updatedAt?: DateTimeWithAggregatesFilter<'AiBot'> | Date | string;
     ownerId?: StringWithAggregatesFilter<'AiBot'> | string;
@@ -17869,7 +17906,6 @@ export namespace Prisma {
   export type ProcessedDocumentWhereUniqueInput = Prisma.AtLeast<
     {
       id?: string;
-      paperlessInstanceId_paperlessId?: ProcessedDocumentPaperlessInstanceIdPaperlessIdCompoundUniqueInput;
       AND?: ProcessedDocumentWhereInput | ProcessedDocumentWhereInput[];
       OR?: ProcessedDocumentWhereInput[];
       NOT?: ProcessedDocumentWhereInput | ProcessedDocumentWhereInput[];
@@ -17888,7 +17924,7 @@ export namespace Prisma {
       paperlessInstanceId?: StringFilter<'ProcessedDocument'> | string;
       paperlessInstance?: XOR<PaperlessInstanceScalarRelationFilter, PaperlessInstanceWhereInput>;
     },
-    'id' | 'paperlessInstanceId_paperlessId'
+    'id'
   >;
 
   export type ProcessedDocumentOrderByWithAggregationInput = {
@@ -17975,7 +18011,6 @@ export namespace Prisma {
   export type ProcessingQueueWhereUniqueInput = Prisma.AtLeast<
     {
       id?: string;
-      paperlessInstanceId_paperlessId?: ProcessingQueuePaperlessInstanceIdPaperlessIdCompoundUniqueInput;
       AND?: ProcessingQueueWhereInput | ProcessingQueueWhereInput[];
       OR?: ProcessingQueueWhereInput[];
       NOT?: ProcessingQueueWhereInput | ProcessingQueueWhereInput[];
@@ -17992,7 +18027,7 @@ export namespace Prisma {
       paperlessInstanceId?: StringFilter<'ProcessingQueue'> | string;
       paperlessInstance?: XOR<PaperlessInstanceScalarRelationFilter, PaperlessInstanceWhereInput>;
     },
-    'id' | 'paperlessInstanceId_paperlessId'
+    'id'
   >;
 
   export type ProcessingQueueOrderByWithAggregationInput = {
@@ -18051,8 +18086,10 @@ export namespace Prisma {
     documentId?: IntNullableFilter<'AiUsageMetric'> | number | null;
     createdAt?: DateTimeFilter<'AiUsageMetric'> | Date | string;
     userId?: StringFilter<'AiUsageMetric'> | string;
+    aiProviderId?: StringFilter<'AiUsageMetric'> | string;
     aiBotId?: StringNullableFilter<'AiUsageMetric'> | string | null;
     user?: XOR<UserScalarRelationFilter, UserWhereInput>;
+    aiProvider?: XOR<AiProviderScalarRelationFilter, AiProviderWhereInput>;
     aiBot?: XOR<AiBotNullableScalarRelationFilter, AiBotWhereInput> | null;
   };
 
@@ -18067,8 +18104,10 @@ export namespace Prisma {
     documentId?: SortOrderInput | SortOrder;
     createdAt?: SortOrder;
     userId?: SortOrder;
+    aiProviderId?: SortOrder;
     aiBotId?: SortOrderInput | SortOrder;
     user?: UserOrderByWithRelationInput;
+    aiProvider?: AiProviderOrderByWithRelationInput;
     aiBot?: AiBotOrderByWithRelationInput;
   };
 
@@ -18087,8 +18126,10 @@ export namespace Prisma {
       documentId?: IntNullableFilter<'AiUsageMetric'> | number | null;
       createdAt?: DateTimeFilter<'AiUsageMetric'> | Date | string;
       userId?: StringFilter<'AiUsageMetric'> | string;
+      aiProviderId?: StringFilter<'AiUsageMetric'> | string;
       aiBotId?: StringNullableFilter<'AiUsageMetric'> | string | null;
       user?: XOR<UserScalarRelationFilter, UserWhereInput>;
+      aiProvider?: XOR<AiProviderScalarRelationFilter, AiProviderWhereInput>;
       aiBot?: XOR<AiBotNullableScalarRelationFilter, AiBotWhereInput> | null;
     },
     'id'
@@ -18105,6 +18146,7 @@ export namespace Prisma {
     documentId?: SortOrderInput | SortOrder;
     createdAt?: SortOrder;
     userId?: SortOrder;
+    aiProviderId?: SortOrder;
     aiBotId?: SortOrderInput | SortOrder;
     _count?: AiUsageMetricCountOrderByAggregateInput;
     _avg?: AiUsageMetricAvgOrderByAggregateInput;
@@ -18131,6 +18173,7 @@ export namespace Prisma {
     documentId?: IntNullableWithAggregatesFilter<'AiUsageMetric'> | number | null;
     createdAt?: DateTimeWithAggregatesFilter<'AiUsageMetric'> | Date | string;
     userId?: StringWithAggregatesFilter<'AiUsageMetric'> | string;
+    aiProviderId?: StringWithAggregatesFilter<'AiUsageMetric'> | string;
     aiBotId?: StringNullableWithAggregatesFilter<'AiUsageMetric'> | string | null;
   };
 
@@ -18455,7 +18498,6 @@ export namespace Prisma {
     name: string;
     apiUrl: string;
     apiToken: string;
-    isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     owner: UserCreateNestedOneWithoutOwnedPaperlessInstancesInput;
@@ -18469,7 +18511,6 @@ export namespace Prisma {
     name: string;
     apiUrl: string;
     apiToken: string;
-    isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownerId: string;
@@ -18483,7 +18524,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string;
     apiUrl?: StringFieldUpdateOperationsInput | string;
     apiToken?: StringFieldUpdateOperationsInput | string;
-    isActive?: BoolFieldUpdateOperationsInput | boolean;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     owner?: UserUpdateOneRequiredWithoutOwnedPaperlessInstancesNestedInput;
@@ -18497,7 +18537,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string;
     apiUrl?: StringFieldUpdateOperationsInput | string;
     apiToken?: StringFieldUpdateOperationsInput | string;
-    isActive?: BoolFieldUpdateOperationsInput | boolean;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownerId?: StringFieldUpdateOperationsInput | string;
@@ -18511,7 +18550,6 @@ export namespace Prisma {
     name: string;
     apiUrl: string;
     apiToken: string;
-    isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownerId: string;
@@ -18522,7 +18560,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string;
     apiUrl?: StringFieldUpdateOperationsInput | string;
     apiToken?: StringFieldUpdateOperationsInput | string;
-    isActive?: BoolFieldUpdateOperationsInput | boolean;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
   };
@@ -18532,7 +18569,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string;
     apiUrl?: StringFieldUpdateOperationsInput | string;
     apiToken?: StringFieldUpdateOperationsInput | string;
-    isActive?: BoolFieldUpdateOperationsInput | boolean;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownerId?: StringFieldUpdateOperationsInput | string;
@@ -18551,6 +18587,7 @@ export namespace Prisma {
     owner: UserCreateNestedOneWithoutOwnedAiProvidersInput;
     sharedWith?: UserAiProviderAccessCreateNestedManyWithoutAiProviderInput;
     bots?: AiBotCreateNestedManyWithoutAiProviderInput;
+    aiUsageMetrics?: AiUsageMetricCreateNestedManyWithoutAiProviderInput;
   };
 
   export type AiProviderUncheckedCreateInput = {
@@ -18566,6 +18603,7 @@ export namespace Prisma {
     ownerId: string;
     sharedWith?: UserAiProviderAccessUncheckedCreateNestedManyWithoutAiProviderInput;
     bots?: AiBotUncheckedCreateNestedManyWithoutAiProviderInput;
+    aiUsageMetrics?: AiUsageMetricUncheckedCreateNestedManyWithoutAiProviderInput;
   };
 
   export type AiProviderUpdateInput = {
@@ -18581,6 +18619,7 @@ export namespace Prisma {
     owner?: UserUpdateOneRequiredWithoutOwnedAiProvidersNestedInput;
     sharedWith?: UserAiProviderAccessUpdateManyWithoutAiProviderNestedInput;
     bots?: AiBotUpdateManyWithoutAiProviderNestedInput;
+    aiUsageMetrics?: AiUsageMetricUpdateManyWithoutAiProviderNestedInput;
   };
 
   export type AiProviderUncheckedUpdateInput = {
@@ -18596,6 +18635,7 @@ export namespace Prisma {
     ownerId?: StringFieldUpdateOperationsInput | string;
     sharedWith?: UserAiProviderAccessUncheckedUpdateManyWithoutAiProviderNestedInput;
     bots?: AiBotUncheckedUpdateManyWithoutAiProviderNestedInput;
+    aiUsageMetrics?: AiUsageMetricUncheckedUpdateManyWithoutAiProviderNestedInput;
   };
 
   export type AiProviderCreateManyInput = {
@@ -18640,7 +18680,6 @@ export namespace Prisma {
     id?: string;
     name: string;
     systemPrompt: string;
-    isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     owner: UserCreateNestedOneWithoutOwnedAiBotsInput;
@@ -18653,7 +18692,6 @@ export namespace Prisma {
     id?: string;
     name: string;
     systemPrompt: string;
-    isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownerId: string;
@@ -18666,7 +18704,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
-    isActive?: BoolFieldUpdateOperationsInput | boolean;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     owner?: UserUpdateOneRequiredWithoutOwnedAiBotsNestedInput;
@@ -18679,7 +18716,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
-    isActive?: BoolFieldUpdateOperationsInput | boolean;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownerId?: StringFieldUpdateOperationsInput | string;
@@ -18692,7 +18728,6 @@ export namespace Prisma {
     id?: string;
     name: string;
     systemPrompt: string;
-    isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownerId: string;
@@ -18703,7 +18738,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
-    isActive?: BoolFieldUpdateOperationsInput | boolean;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
   };
@@ -18712,7 +18746,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
-    isActive?: BoolFieldUpdateOperationsInput | boolean;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownerId?: StringFieldUpdateOperationsInput | string;
@@ -18952,6 +18985,7 @@ export namespace Prisma {
     documentId?: number | null;
     createdAt?: Date | string;
     user: UserCreateNestedOneWithoutAiUsageMetricsInput;
+    aiProvider: AiProviderCreateNestedOneWithoutAiUsageMetricsInput;
     aiBot?: AiBotCreateNestedOneWithoutAiUsageMetricsInput;
   };
 
@@ -18966,6 +19000,7 @@ export namespace Prisma {
     documentId?: number | null;
     createdAt?: Date | string;
     userId: string;
+    aiProviderId: string;
     aiBotId?: string | null;
   };
 
@@ -18980,6 +19015,7 @@ export namespace Prisma {
     documentId?: NullableIntFieldUpdateOperationsInput | number | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     user?: UserUpdateOneRequiredWithoutAiUsageMetricsNestedInput;
+    aiProvider?: AiProviderUpdateOneRequiredWithoutAiUsageMetricsNestedInput;
     aiBot?: AiBotUpdateOneWithoutAiUsageMetricsNestedInput;
   };
 
@@ -18994,6 +19030,7 @@ export namespace Prisma {
     documentId?: NullableIntFieldUpdateOperationsInput | number | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     userId?: StringFieldUpdateOperationsInput | string;
+    aiProviderId?: StringFieldUpdateOperationsInput | string;
     aiBotId?: NullableStringFieldUpdateOperationsInput | string | null;
   };
 
@@ -19008,6 +19045,7 @@ export namespace Prisma {
     documentId?: number | null;
     createdAt?: Date | string;
     userId: string;
+    aiProviderId: string;
     aiBotId?: string | null;
   };
 
@@ -19034,6 +19072,7 @@ export namespace Prisma {
     documentId?: NullableIntFieldUpdateOperationsInput | number | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     userId?: StringFieldUpdateOperationsInput | string;
+    aiProviderId?: StringFieldUpdateOperationsInput | string;
     aiBotId?: NullableStringFieldUpdateOperationsInput | string | null;
   };
 
@@ -19393,17 +19432,11 @@ export namespace Prisma {
     _count?: SortOrder;
   };
 
-  export type PaperlessInstanceOwnerIdNameCompoundUniqueInput = {
-    ownerId: string;
-    name: string;
-  };
-
   export type PaperlessInstanceCountOrderByAggregateInput = {
     id?: SortOrder;
     name?: SortOrder;
     apiUrl?: SortOrder;
     apiToken?: SortOrder;
-    isActive?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
     ownerId?: SortOrder;
@@ -19414,7 +19447,6 @@ export namespace Prisma {
     name?: SortOrder;
     apiUrl?: SortOrder;
     apiToken?: SortOrder;
-    isActive?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
     ownerId?: SortOrder;
@@ -19425,7 +19457,6 @@ export namespace Prisma {
     name?: SortOrder;
     apiUrl?: SortOrder;
     apiToken?: SortOrder;
-    isActive?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
     ownerId?: SortOrder;
@@ -19449,11 +19480,6 @@ export namespace Prisma {
   export type SortOrderInput = {
     sort: SortOrder;
     nulls?: NullsOrder;
-  };
-
-  export type AiProviderOwnerIdNameCompoundUniqueInput = {
-    ownerId: string;
-    name: string;
   };
 
   export type AiProviderCountOrderByAggregateInput = {
@@ -19513,16 +19539,10 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>;
   };
 
-  export type AiBotOwnerIdNameCompoundUniqueInput = {
-    ownerId: string;
-    name: string;
-  };
-
   export type AiBotCountOrderByAggregateInput = {
     id?: SortOrder;
     name?: SortOrder;
     systemPrompt?: SortOrder;
-    isActive?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
     ownerId?: SortOrder;
@@ -19533,7 +19553,6 @@ export namespace Prisma {
     id?: SortOrder;
     name?: SortOrder;
     systemPrompt?: SortOrder;
-    isActive?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
     ownerId?: SortOrder;
@@ -19544,7 +19563,6 @@ export namespace Prisma {
     id?: SortOrder;
     name?: SortOrder;
     systemPrompt?: SortOrder;
-    isActive?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
     ownerId?: SortOrder;
@@ -19594,11 +19612,6 @@ export namespace Prisma {
     hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>;
     hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>;
     isEmpty?: boolean;
-  };
-
-  export type ProcessedDocumentPaperlessInstanceIdPaperlessIdCompoundUniqueInput = {
-    paperlessInstanceId: string;
-    paperlessId: number;
   };
 
   export type ProcessedDocumentCountOrderByAggregateInput = {
@@ -19714,11 +19727,6 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null;
   };
 
-  export type ProcessingQueuePaperlessInstanceIdPaperlessIdCompoundUniqueInput = {
-    paperlessInstanceId: string;
-    paperlessId: number;
-  };
-
   export type ProcessingQueueCountOrderByAggregateInput = {
     id?: SortOrder;
     paperlessId?: SortOrder;
@@ -19828,6 +19836,7 @@ export namespace Prisma {
     documentId?: SortOrder;
     createdAt?: SortOrder;
     userId?: SortOrder;
+    aiProviderId?: SortOrder;
     aiBotId?: SortOrder;
   };
 
@@ -19850,6 +19859,7 @@ export namespace Prisma {
     documentId?: SortOrder;
     createdAt?: SortOrder;
     userId?: SortOrder;
+    aiProviderId?: SortOrder;
     aiBotId?: SortOrder;
   };
 
@@ -19864,6 +19874,7 @@ export namespace Prisma {
     documentId?: SortOrder;
     createdAt?: SortOrder;
     userId?: SortOrder;
+    aiProviderId?: SortOrder;
     aiBotId?: SortOrder;
   };
 
@@ -20987,6 +20998,21 @@ export namespace Prisma {
     connect?: AiBotWhereUniqueInput | AiBotWhereUniqueInput[];
   };
 
+  export type AiUsageMetricCreateNestedManyWithoutAiProviderInput = {
+    create?:
+      | XOR<
+          AiUsageMetricCreateWithoutAiProviderInput,
+          AiUsageMetricUncheckedCreateWithoutAiProviderInput
+        >
+      | AiUsageMetricCreateWithoutAiProviderInput[]
+      | AiUsageMetricUncheckedCreateWithoutAiProviderInput[];
+    connectOrCreate?:
+      | AiUsageMetricCreateOrConnectWithoutAiProviderInput
+      | AiUsageMetricCreateOrConnectWithoutAiProviderInput[];
+    createMany?: AiUsageMetricCreateManyAiProviderInputEnvelope;
+    connect?: AiUsageMetricWhereUniqueInput | AiUsageMetricWhereUniqueInput[];
+  };
+
   export type UserAiProviderAccessUncheckedCreateNestedManyWithoutAiProviderInput = {
     create?:
       | XOR<
@@ -21012,6 +21038,21 @@ export namespace Prisma {
       | AiBotCreateOrConnectWithoutAiProviderInput[];
     createMany?: AiBotCreateManyAiProviderInputEnvelope;
     connect?: AiBotWhereUniqueInput | AiBotWhereUniqueInput[];
+  };
+
+  export type AiUsageMetricUncheckedCreateNestedManyWithoutAiProviderInput = {
+    create?:
+      | XOR<
+          AiUsageMetricCreateWithoutAiProviderInput,
+          AiUsageMetricUncheckedCreateWithoutAiProviderInput
+        >
+      | AiUsageMetricCreateWithoutAiProviderInput[]
+      | AiUsageMetricUncheckedCreateWithoutAiProviderInput[];
+    connectOrCreate?:
+      | AiUsageMetricCreateOrConnectWithoutAiProviderInput
+      | AiUsageMetricCreateOrConnectWithoutAiProviderInput[];
+    createMany?: AiUsageMetricCreateManyAiProviderInputEnvelope;
+    connect?: AiUsageMetricWhereUniqueInput | AiUsageMetricWhereUniqueInput[];
   };
 
   export type NullableStringFieldUpdateOperationsInput = {
@@ -21088,6 +21129,34 @@ export namespace Prisma {
     deleteMany?: AiBotScalarWhereInput | AiBotScalarWhereInput[];
   };
 
+  export type AiUsageMetricUpdateManyWithoutAiProviderNestedInput = {
+    create?:
+      | XOR<
+          AiUsageMetricCreateWithoutAiProviderInput,
+          AiUsageMetricUncheckedCreateWithoutAiProviderInput
+        >
+      | AiUsageMetricCreateWithoutAiProviderInput[]
+      | AiUsageMetricUncheckedCreateWithoutAiProviderInput[];
+    connectOrCreate?:
+      | AiUsageMetricCreateOrConnectWithoutAiProviderInput
+      | AiUsageMetricCreateOrConnectWithoutAiProviderInput[];
+    upsert?:
+      | AiUsageMetricUpsertWithWhereUniqueWithoutAiProviderInput
+      | AiUsageMetricUpsertWithWhereUniqueWithoutAiProviderInput[];
+    createMany?: AiUsageMetricCreateManyAiProviderInputEnvelope;
+    set?: AiUsageMetricWhereUniqueInput | AiUsageMetricWhereUniqueInput[];
+    disconnect?: AiUsageMetricWhereUniqueInput | AiUsageMetricWhereUniqueInput[];
+    delete?: AiUsageMetricWhereUniqueInput | AiUsageMetricWhereUniqueInput[];
+    connect?: AiUsageMetricWhereUniqueInput | AiUsageMetricWhereUniqueInput[];
+    update?:
+      | AiUsageMetricUpdateWithWhereUniqueWithoutAiProviderInput
+      | AiUsageMetricUpdateWithWhereUniqueWithoutAiProviderInput[];
+    updateMany?:
+      | AiUsageMetricUpdateManyWithWhereWithoutAiProviderInput
+      | AiUsageMetricUpdateManyWithWhereWithoutAiProviderInput[];
+    deleteMany?: AiUsageMetricScalarWhereInput | AiUsageMetricScalarWhereInput[];
+  };
+
   export type UserAiProviderAccessUncheckedUpdateManyWithoutAiProviderNestedInput = {
     create?:
       | XOR<
@@ -21139,6 +21208,34 @@ export namespace Prisma {
       | AiBotUpdateManyWithWhereWithoutAiProviderInput
       | AiBotUpdateManyWithWhereWithoutAiProviderInput[];
     deleteMany?: AiBotScalarWhereInput | AiBotScalarWhereInput[];
+  };
+
+  export type AiUsageMetricUncheckedUpdateManyWithoutAiProviderNestedInput = {
+    create?:
+      | XOR<
+          AiUsageMetricCreateWithoutAiProviderInput,
+          AiUsageMetricUncheckedCreateWithoutAiProviderInput
+        >
+      | AiUsageMetricCreateWithoutAiProviderInput[]
+      | AiUsageMetricUncheckedCreateWithoutAiProviderInput[];
+    connectOrCreate?:
+      | AiUsageMetricCreateOrConnectWithoutAiProviderInput
+      | AiUsageMetricCreateOrConnectWithoutAiProviderInput[];
+    upsert?:
+      | AiUsageMetricUpsertWithWhereUniqueWithoutAiProviderInput
+      | AiUsageMetricUpsertWithWhereUniqueWithoutAiProviderInput[];
+    createMany?: AiUsageMetricCreateManyAiProviderInputEnvelope;
+    set?: AiUsageMetricWhereUniqueInput | AiUsageMetricWhereUniqueInput[];
+    disconnect?: AiUsageMetricWhereUniqueInput | AiUsageMetricWhereUniqueInput[];
+    delete?: AiUsageMetricWhereUniqueInput | AiUsageMetricWhereUniqueInput[];
+    connect?: AiUsageMetricWhereUniqueInput | AiUsageMetricWhereUniqueInput[];
+    update?:
+      | AiUsageMetricUpdateWithWhereUniqueWithoutAiProviderInput
+      | AiUsageMetricUpdateWithWhereUniqueWithoutAiProviderInput[];
+    updateMany?:
+      | AiUsageMetricUpdateManyWithWhereWithoutAiProviderInput
+      | AiUsageMetricUpdateManyWithWhereWithoutAiProviderInput[];
+    deleteMany?: AiUsageMetricScalarWhereInput | AiUsageMetricScalarWhereInput[];
   };
 
   export type UserCreateNestedOneWithoutOwnedAiBotsInput = {
@@ -21405,6 +21502,15 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput;
   };
 
+  export type AiProviderCreateNestedOneWithoutAiUsageMetricsInput = {
+    create?: XOR<
+      AiProviderCreateWithoutAiUsageMetricsInput,
+      AiProviderUncheckedCreateWithoutAiUsageMetricsInput
+    >;
+    connectOrCreate?: AiProviderCreateOrConnectWithoutAiUsageMetricsInput;
+    connect?: AiProviderWhereUniqueInput;
+  };
+
   export type AiBotCreateNestedOneWithoutAiUsageMetricsInput = {
     create?: XOR<
       AiBotCreateWithoutAiUsageMetricsInput,
@@ -21441,6 +21547,23 @@ export namespace Prisma {
     update?: XOR<
       XOR<UserUpdateToOneWithWhereWithoutAiUsageMetricsInput, UserUpdateWithoutAiUsageMetricsInput>,
       UserUncheckedUpdateWithoutAiUsageMetricsInput
+    >;
+  };
+
+  export type AiProviderUpdateOneRequiredWithoutAiUsageMetricsNestedInput = {
+    create?: XOR<
+      AiProviderCreateWithoutAiUsageMetricsInput,
+      AiProviderUncheckedCreateWithoutAiUsageMetricsInput
+    >;
+    connectOrCreate?: AiProviderCreateOrConnectWithoutAiUsageMetricsInput;
+    upsert?: AiProviderUpsertWithoutAiUsageMetricsInput;
+    connect?: AiProviderWhereUniqueInput;
+    update?: XOR<
+      XOR<
+        AiProviderUpdateToOneWithWhereWithoutAiUsageMetricsInput,
+        AiProviderUpdateWithoutAiUsageMetricsInput
+      >,
+      AiProviderUncheckedUpdateWithoutAiUsageMetricsInput
     >;
   };
 
@@ -21745,7 +21868,6 @@ export namespace Prisma {
     name: string;
     apiUrl: string;
     apiToken: string;
-    isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     sharedWith?: UserPaperlessInstanceAccessCreateNestedManyWithoutInstanceInput;
@@ -21758,7 +21880,6 @@ export namespace Prisma {
     name: string;
     apiUrl: string;
     apiToken: string;
-    isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     sharedWith?: UserPaperlessInstanceAccessUncheckedCreateNestedManyWithoutInstanceInput;
@@ -21791,6 +21912,7 @@ export namespace Prisma {
     updatedAt?: Date | string;
     sharedWith?: UserAiProviderAccessCreateNestedManyWithoutAiProviderInput;
     bots?: AiBotCreateNestedManyWithoutAiProviderInput;
+    aiUsageMetrics?: AiUsageMetricCreateNestedManyWithoutAiProviderInput;
   };
 
   export type AiProviderUncheckedCreateWithoutOwnerInput = {
@@ -21805,6 +21927,7 @@ export namespace Prisma {
     updatedAt?: Date | string;
     sharedWith?: UserAiProviderAccessUncheckedCreateNestedManyWithoutAiProviderInput;
     bots?: AiBotUncheckedCreateNestedManyWithoutAiProviderInput;
+    aiUsageMetrics?: AiUsageMetricUncheckedCreateNestedManyWithoutAiProviderInput;
   };
 
   export type AiProviderCreateOrConnectWithoutOwnerInput = {
@@ -21821,7 +21944,6 @@ export namespace Prisma {
     id?: string;
     name: string;
     systemPrompt: string;
-    isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     aiProvider: AiProviderCreateNestedOneWithoutBotsInput;
@@ -21833,7 +21955,6 @@ export namespace Prisma {
     id?: string;
     name: string;
     systemPrompt: string;
-    isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     aiProviderId: string;
@@ -21944,6 +22065,7 @@ export namespace Prisma {
     estimatedCost?: number | null;
     documentId?: number | null;
     createdAt?: Date | string;
+    aiProvider: AiProviderCreateNestedOneWithoutAiUsageMetricsInput;
     aiBot?: AiBotCreateNestedOneWithoutAiUsageMetricsInput;
   };
 
@@ -21957,6 +22079,7 @@ export namespace Prisma {
     estimatedCost?: number | null;
     documentId?: number | null;
     createdAt?: Date | string;
+    aiProviderId: string;
     aiBotId?: string | null;
   };
 
@@ -22006,7 +22129,6 @@ export namespace Prisma {
     name?: StringFilter<'PaperlessInstance'> | string;
     apiUrl?: StringFilter<'PaperlessInstance'> | string;
     apiToken?: StringFilter<'PaperlessInstance'> | string;
-    isActive?: BoolFilter<'PaperlessInstance'> | boolean;
     createdAt?: DateTimeFilter<'PaperlessInstance'> | Date | string;
     updatedAt?: DateTimeFilter<'PaperlessInstance'> | Date | string;
     ownerId?: StringFilter<'PaperlessInstance'> | string;
@@ -22067,7 +22189,6 @@ export namespace Prisma {
     id?: StringFilter<'AiBot'> | string;
     name?: StringFilter<'AiBot'> | string;
     systemPrompt?: StringFilter<'AiBot'> | string;
-    isActive?: BoolFilter<'AiBot'> | boolean;
     createdAt?: DateTimeFilter<'AiBot'> | Date | string;
     updatedAt?: DateTimeFilter<'AiBot'> | Date | string;
     ownerId?: StringFilter<'AiBot'> | string;
@@ -22228,6 +22349,7 @@ export namespace Prisma {
     documentId?: IntNullableFilter<'AiUsageMetric'> | number | null;
     createdAt?: DateTimeFilter<'AiUsageMetric'> | Date | string;
     userId?: StringFilter<'AiUsageMetric'> | string;
+    aiProviderId?: StringFilter<'AiUsageMetric'> | string;
     aiBotId?: StringNullableFilter<'AiUsageMetric'> | string | null;
   };
 
@@ -22278,7 +22400,6 @@ export namespace Prisma {
     name: string;
     apiUrl: string;
     apiToken: string;
-    isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     owner: UserCreateNestedOneWithoutOwnedPaperlessInstancesInput;
@@ -22291,7 +22412,6 @@ export namespace Prisma {
     name: string;
     apiUrl: string;
     apiToken: string;
-    isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownerId: string;
@@ -22386,7 +22506,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string;
     apiUrl?: StringFieldUpdateOperationsInput | string;
     apiToken?: StringFieldUpdateOperationsInput | string;
-    isActive?: BoolFieldUpdateOperationsInput | boolean;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     owner?: UserUpdateOneRequiredWithoutOwnedPaperlessInstancesNestedInput;
@@ -22399,7 +22518,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string;
     apiUrl?: StringFieldUpdateOperationsInput | string;
     apiToken?: StringFieldUpdateOperationsInput | string;
-    isActive?: BoolFieldUpdateOperationsInput | boolean;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownerId?: StringFieldUpdateOperationsInput | string;
@@ -22461,6 +22579,7 @@ export namespace Prisma {
     updatedAt?: Date | string;
     owner: UserCreateNestedOneWithoutOwnedAiProvidersInput;
     bots?: AiBotCreateNestedManyWithoutAiProviderInput;
+    aiUsageMetrics?: AiUsageMetricCreateNestedManyWithoutAiProviderInput;
   };
 
   export type AiProviderUncheckedCreateWithoutSharedWithInput = {
@@ -22475,6 +22594,7 @@ export namespace Prisma {
     updatedAt?: Date | string;
     ownerId: string;
     bots?: AiBotUncheckedCreateNestedManyWithoutAiProviderInput;
+    aiUsageMetrics?: AiUsageMetricUncheckedCreateNestedManyWithoutAiProviderInput;
   };
 
   export type AiProviderCreateOrConnectWithoutSharedWithInput = {
@@ -22571,6 +22691,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     owner?: UserUpdateOneRequiredWithoutOwnedAiProvidersNestedInput;
     bots?: AiBotUpdateManyWithoutAiProviderNestedInput;
+    aiUsageMetrics?: AiUsageMetricUpdateManyWithoutAiProviderNestedInput;
   };
 
   export type AiProviderUncheckedUpdateWithoutSharedWithInput = {
@@ -22585,6 +22706,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownerId?: StringFieldUpdateOperationsInput | string;
     bots?: AiBotUncheckedUpdateManyWithoutAiProviderNestedInput;
+    aiUsageMetrics?: AiUsageMetricUncheckedUpdateManyWithoutAiProviderNestedInput;
   };
 
   export type UserCreateWithoutSharedAiBotsInput = {
@@ -22630,7 +22752,6 @@ export namespace Prisma {
     id?: string;
     name: string;
     systemPrompt: string;
-    isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     owner: UserCreateNestedOneWithoutOwnedAiBotsInput;
@@ -22642,7 +22763,6 @@ export namespace Prisma {
     id?: string;
     name: string;
     systemPrompt: string;
-    isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownerId: string;
@@ -22715,7 +22835,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
-    isActive?: BoolFieldUpdateOperationsInput | boolean;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     owner?: UserUpdateOneRequiredWithoutOwnedAiBotsNestedInput;
@@ -22727,7 +22846,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
-    isActive?: BoolFieldUpdateOperationsInput | boolean;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownerId?: StringFieldUpdateOperationsInput | string;
@@ -23147,7 +23265,6 @@ export namespace Prisma {
     id?: string;
     name: string;
     systemPrompt: string;
-    isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     owner: UserCreateNestedOneWithoutOwnedAiBotsInput;
@@ -23159,7 +23276,6 @@ export namespace Prisma {
     id?: string;
     name: string;
     systemPrompt: string;
-    isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownerId: string;
@@ -23174,6 +23290,47 @@ export namespace Prisma {
 
   export type AiBotCreateManyAiProviderInputEnvelope = {
     data: AiBotCreateManyAiProviderInput | AiBotCreateManyAiProviderInput[];
+    skipDuplicates?: boolean;
+  };
+
+  export type AiUsageMetricCreateWithoutAiProviderInput = {
+    id?: string;
+    provider: string;
+    model: string;
+    promptTokens: number;
+    completionTokens: number;
+    totalTokens: number;
+    estimatedCost?: number | null;
+    documentId?: number | null;
+    createdAt?: Date | string;
+    user: UserCreateNestedOneWithoutAiUsageMetricsInput;
+    aiBot?: AiBotCreateNestedOneWithoutAiUsageMetricsInput;
+  };
+
+  export type AiUsageMetricUncheckedCreateWithoutAiProviderInput = {
+    id?: string;
+    provider: string;
+    model: string;
+    promptTokens: number;
+    completionTokens: number;
+    totalTokens: number;
+    estimatedCost?: number | null;
+    documentId?: number | null;
+    createdAt?: Date | string;
+    userId: string;
+    aiBotId?: string | null;
+  };
+
+  export type AiUsageMetricCreateOrConnectWithoutAiProviderInput = {
+    where: AiUsageMetricWhereUniqueInput;
+    create: XOR<
+      AiUsageMetricCreateWithoutAiProviderInput,
+      AiUsageMetricUncheckedCreateWithoutAiProviderInput
+    >;
+  };
+
+  export type AiUsageMetricCreateManyAiProviderInputEnvelope = {
+    data: AiUsageMetricCreateManyAiProviderInput | AiUsageMetricCreateManyAiProviderInput[];
     skipDuplicates?: boolean;
   };
 
@@ -23275,6 +23432,34 @@ export namespace Prisma {
     data: XOR<AiBotUpdateManyMutationInput, AiBotUncheckedUpdateManyWithoutAiProviderInput>;
   };
 
+  export type AiUsageMetricUpsertWithWhereUniqueWithoutAiProviderInput = {
+    where: AiUsageMetricWhereUniqueInput;
+    update: XOR<
+      AiUsageMetricUpdateWithoutAiProviderInput,
+      AiUsageMetricUncheckedUpdateWithoutAiProviderInput
+    >;
+    create: XOR<
+      AiUsageMetricCreateWithoutAiProviderInput,
+      AiUsageMetricUncheckedCreateWithoutAiProviderInput
+    >;
+  };
+
+  export type AiUsageMetricUpdateWithWhereUniqueWithoutAiProviderInput = {
+    where: AiUsageMetricWhereUniqueInput;
+    data: XOR<
+      AiUsageMetricUpdateWithoutAiProviderInput,
+      AiUsageMetricUncheckedUpdateWithoutAiProviderInput
+    >;
+  };
+
+  export type AiUsageMetricUpdateManyWithWhereWithoutAiProviderInput = {
+    where: AiUsageMetricScalarWhereInput;
+    data: XOR<
+      AiUsageMetricUpdateManyMutationInput,
+      AiUsageMetricUncheckedUpdateManyWithoutAiProviderInput
+    >;
+  };
+
   export type UserCreateWithoutOwnedAiBotsInput = {
     id?: string;
     username: string;
@@ -23326,6 +23511,7 @@ export namespace Prisma {
     updatedAt?: Date | string;
     owner: UserCreateNestedOneWithoutOwnedAiProvidersInput;
     sharedWith?: UserAiProviderAccessCreateNestedManyWithoutAiProviderInput;
+    aiUsageMetrics?: AiUsageMetricCreateNestedManyWithoutAiProviderInput;
   };
 
   export type AiProviderUncheckedCreateWithoutBotsInput = {
@@ -23340,6 +23526,7 @@ export namespace Prisma {
     updatedAt?: Date | string;
     ownerId: string;
     sharedWith?: UserAiProviderAccessUncheckedCreateNestedManyWithoutAiProviderInput;
+    aiUsageMetrics?: AiUsageMetricUncheckedCreateNestedManyWithoutAiProviderInput;
   };
 
   export type AiProviderCreateOrConnectWithoutBotsInput = {
@@ -23385,6 +23572,7 @@ export namespace Prisma {
     documentId?: number | null;
     createdAt?: Date | string;
     user: UserCreateNestedOneWithoutAiUsageMetricsInput;
+    aiProvider: AiProviderCreateNestedOneWithoutAiUsageMetricsInput;
   };
 
   export type AiUsageMetricUncheckedCreateWithoutAiBotInput = {
@@ -23398,6 +23586,7 @@ export namespace Prisma {
     documentId?: number | null;
     createdAt?: Date | string;
     userId: string;
+    aiProviderId: string;
   };
 
   export type AiUsageMetricCreateOrConnectWithoutAiBotInput = {
@@ -23481,6 +23670,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     owner?: UserUpdateOneRequiredWithoutOwnedAiProvidersNestedInput;
     sharedWith?: UserAiProviderAccessUpdateManyWithoutAiProviderNestedInput;
+    aiUsageMetrics?: AiUsageMetricUpdateManyWithoutAiProviderNestedInput;
   };
 
   export type AiProviderUncheckedUpdateWithoutBotsInput = {
@@ -23495,6 +23685,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownerId?: StringFieldUpdateOperationsInput | string;
     sharedWith?: UserAiProviderAccessUncheckedUpdateManyWithoutAiProviderNestedInput;
+    aiUsageMetrics?: AiUsageMetricUncheckedUpdateManyWithoutAiProviderNestedInput;
   };
 
   export type UserAiBotAccessUpsertWithWhereUniqueWithoutAiBotInput = {
@@ -23555,7 +23746,6 @@ export namespace Prisma {
     name: string;
     apiUrl: string;
     apiToken: string;
-    isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     owner: UserCreateNestedOneWithoutOwnedPaperlessInstancesInput;
@@ -23568,7 +23758,6 @@ export namespace Prisma {
     name: string;
     apiUrl: string;
     apiToken: string;
-    isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownerId: string;
@@ -23609,7 +23798,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string;
     apiUrl?: StringFieldUpdateOperationsInput | string;
     apiToken?: StringFieldUpdateOperationsInput | string;
-    isActive?: BoolFieldUpdateOperationsInput | boolean;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     owner?: UserUpdateOneRequiredWithoutOwnedPaperlessInstancesNestedInput;
@@ -23622,7 +23810,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string;
     apiUrl?: StringFieldUpdateOperationsInput | string;
     apiToken?: StringFieldUpdateOperationsInput | string;
-    isActive?: BoolFieldUpdateOperationsInput | boolean;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownerId?: StringFieldUpdateOperationsInput | string;
@@ -23635,7 +23822,6 @@ export namespace Prisma {
     name: string;
     apiUrl: string;
     apiToken: string;
-    isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     owner: UserCreateNestedOneWithoutOwnedPaperlessInstancesInput;
@@ -23648,7 +23834,6 @@ export namespace Prisma {
     name: string;
     apiUrl: string;
     apiToken: string;
-    isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownerId: string;
@@ -23689,7 +23874,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string;
     apiUrl?: StringFieldUpdateOperationsInput | string;
     apiToken?: StringFieldUpdateOperationsInput | string;
-    isActive?: BoolFieldUpdateOperationsInput | boolean;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     owner?: UserUpdateOneRequiredWithoutOwnedPaperlessInstancesNestedInput;
@@ -23702,7 +23886,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string;
     apiUrl?: StringFieldUpdateOperationsInput | string;
     apiToken?: StringFieldUpdateOperationsInput | string;
-    isActive?: BoolFieldUpdateOperationsInput | boolean;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownerId?: StringFieldUpdateOperationsInput | string;
@@ -23752,11 +23935,48 @@ export namespace Prisma {
     >;
   };
 
+  export type AiProviderCreateWithoutAiUsageMetricsInput = {
+    id?: string;
+    name: string;
+    provider: string;
+    model: string;
+    apiKey: string;
+    baseUrl?: string | null;
+    isActive?: boolean;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    owner: UserCreateNestedOneWithoutOwnedAiProvidersInput;
+    sharedWith?: UserAiProviderAccessCreateNestedManyWithoutAiProviderInput;
+    bots?: AiBotCreateNestedManyWithoutAiProviderInput;
+  };
+
+  export type AiProviderUncheckedCreateWithoutAiUsageMetricsInput = {
+    id?: string;
+    name: string;
+    provider: string;
+    model: string;
+    apiKey: string;
+    baseUrl?: string | null;
+    isActive?: boolean;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    ownerId: string;
+    sharedWith?: UserAiProviderAccessUncheckedCreateNestedManyWithoutAiProviderInput;
+    bots?: AiBotUncheckedCreateNestedManyWithoutAiProviderInput;
+  };
+
+  export type AiProviderCreateOrConnectWithoutAiUsageMetricsInput = {
+    where: AiProviderWhereUniqueInput;
+    create: XOR<
+      AiProviderCreateWithoutAiUsageMetricsInput,
+      AiProviderUncheckedCreateWithoutAiUsageMetricsInput
+    >;
+  };
+
   export type AiBotCreateWithoutAiUsageMetricsInput = {
     id?: string;
     name: string;
     systemPrompt: string;
-    isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     owner: UserCreateNestedOneWithoutOwnedAiBotsInput;
@@ -23768,7 +23988,6 @@ export namespace Prisma {
     id?: string;
     name: string;
     systemPrompt: string;
-    isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownerId: string;
@@ -23835,6 +24054,56 @@ export namespace Prisma {
     sharedAiBots?: UserAiBotAccessUncheckedUpdateManyWithoutUserNestedInput;
   };
 
+  export type AiProviderUpsertWithoutAiUsageMetricsInput = {
+    update: XOR<
+      AiProviderUpdateWithoutAiUsageMetricsInput,
+      AiProviderUncheckedUpdateWithoutAiUsageMetricsInput
+    >;
+    create: XOR<
+      AiProviderCreateWithoutAiUsageMetricsInput,
+      AiProviderUncheckedCreateWithoutAiUsageMetricsInput
+    >;
+    where?: AiProviderWhereInput;
+  };
+
+  export type AiProviderUpdateToOneWithWhereWithoutAiUsageMetricsInput = {
+    where?: AiProviderWhereInput;
+    data: XOR<
+      AiProviderUpdateWithoutAiUsageMetricsInput,
+      AiProviderUncheckedUpdateWithoutAiUsageMetricsInput
+    >;
+  };
+
+  export type AiProviderUpdateWithoutAiUsageMetricsInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    name?: StringFieldUpdateOperationsInput | string;
+    provider?: StringFieldUpdateOperationsInput | string;
+    model?: StringFieldUpdateOperationsInput | string;
+    apiKey?: StringFieldUpdateOperationsInput | string;
+    baseUrl?: NullableStringFieldUpdateOperationsInput | string | null;
+    isActive?: BoolFieldUpdateOperationsInput | boolean;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    owner?: UserUpdateOneRequiredWithoutOwnedAiProvidersNestedInput;
+    sharedWith?: UserAiProviderAccessUpdateManyWithoutAiProviderNestedInput;
+    bots?: AiBotUpdateManyWithoutAiProviderNestedInput;
+  };
+
+  export type AiProviderUncheckedUpdateWithoutAiUsageMetricsInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    name?: StringFieldUpdateOperationsInput | string;
+    provider?: StringFieldUpdateOperationsInput | string;
+    model?: StringFieldUpdateOperationsInput | string;
+    apiKey?: StringFieldUpdateOperationsInput | string;
+    baseUrl?: NullableStringFieldUpdateOperationsInput | string | null;
+    isActive?: BoolFieldUpdateOperationsInput | boolean;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    ownerId?: StringFieldUpdateOperationsInput | string;
+    sharedWith?: UserAiProviderAccessUncheckedUpdateManyWithoutAiProviderNestedInput;
+    bots?: AiBotUncheckedUpdateManyWithoutAiProviderNestedInput;
+  };
+
   export type AiBotUpsertWithoutAiUsageMetricsInput = {
     update: XOR<
       AiBotUpdateWithoutAiUsageMetricsInput,
@@ -23859,7 +24128,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
-    isActive?: BoolFieldUpdateOperationsInput | boolean;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     owner?: UserUpdateOneRequiredWithoutOwnedAiBotsNestedInput;
@@ -23871,7 +24139,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
-    isActive?: BoolFieldUpdateOperationsInput | boolean;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownerId?: StringFieldUpdateOperationsInput | string;
@@ -23884,7 +24151,6 @@ export namespace Prisma {
     name: string;
     apiUrl: string;
     apiToken: string;
-    isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
   };
@@ -23905,7 +24171,6 @@ export namespace Prisma {
     id?: string;
     name: string;
     systemPrompt: string;
-    isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     aiProviderId: string;
@@ -23942,6 +24207,7 @@ export namespace Prisma {
     estimatedCost?: number | null;
     documentId?: number | null;
     createdAt?: Date | string;
+    aiProviderId: string;
     aiBotId?: string | null;
   };
 
@@ -23950,7 +24216,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string;
     apiUrl?: StringFieldUpdateOperationsInput | string;
     apiToken?: StringFieldUpdateOperationsInput | string;
-    isActive?: BoolFieldUpdateOperationsInput | boolean;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     sharedWith?: UserPaperlessInstanceAccessUpdateManyWithoutInstanceNestedInput;
@@ -23963,7 +24228,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string;
     apiUrl?: StringFieldUpdateOperationsInput | string;
     apiToken?: StringFieldUpdateOperationsInput | string;
-    isActive?: BoolFieldUpdateOperationsInput | boolean;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     sharedWith?: UserPaperlessInstanceAccessUncheckedUpdateManyWithoutInstanceNestedInput;
@@ -23976,7 +24240,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string;
     apiUrl?: StringFieldUpdateOperationsInput | string;
     apiToken?: StringFieldUpdateOperationsInput | string;
-    isActive?: BoolFieldUpdateOperationsInput | boolean;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
   };
@@ -23993,6 +24256,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     sharedWith?: UserAiProviderAccessUpdateManyWithoutAiProviderNestedInput;
     bots?: AiBotUpdateManyWithoutAiProviderNestedInput;
+    aiUsageMetrics?: AiUsageMetricUpdateManyWithoutAiProviderNestedInput;
   };
 
   export type AiProviderUncheckedUpdateWithoutOwnerInput = {
@@ -24007,6 +24271,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     sharedWith?: UserAiProviderAccessUncheckedUpdateManyWithoutAiProviderNestedInput;
     bots?: AiBotUncheckedUpdateManyWithoutAiProviderNestedInput;
+    aiUsageMetrics?: AiUsageMetricUncheckedUpdateManyWithoutAiProviderNestedInput;
   };
 
   export type AiProviderUncheckedUpdateManyWithoutOwnerInput = {
@@ -24025,7 +24290,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
-    isActive?: BoolFieldUpdateOperationsInput | boolean;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     aiProvider?: AiProviderUpdateOneRequiredWithoutBotsNestedInput;
@@ -24037,7 +24301,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
-    isActive?: BoolFieldUpdateOperationsInput | boolean;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     aiProviderId?: StringFieldUpdateOperationsInput | string;
@@ -24049,7 +24312,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
-    isActive?: BoolFieldUpdateOperationsInput | boolean;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     aiProviderId?: StringFieldUpdateOperationsInput | string;
@@ -24128,6 +24390,7 @@ export namespace Prisma {
     estimatedCost?: NullableFloatFieldUpdateOperationsInput | number | null;
     documentId?: NullableIntFieldUpdateOperationsInput | number | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    aiProvider?: AiProviderUpdateOneRequiredWithoutAiUsageMetricsNestedInput;
     aiBot?: AiBotUpdateOneWithoutAiUsageMetricsNestedInput;
   };
 
@@ -24141,6 +24404,7 @@ export namespace Prisma {
     estimatedCost?: NullableFloatFieldUpdateOperationsInput | number | null;
     documentId?: NullableIntFieldUpdateOperationsInput | number | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    aiProviderId?: StringFieldUpdateOperationsInput | string;
     aiBotId?: NullableStringFieldUpdateOperationsInput | string | null;
   };
 
@@ -24154,6 +24418,7 @@ export namespace Prisma {
     estimatedCost?: NullableFloatFieldUpdateOperationsInput | number | null;
     documentId?: NullableIntFieldUpdateOperationsInput | number | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    aiProviderId?: StringFieldUpdateOperationsInput | string;
     aiBotId?: NullableStringFieldUpdateOperationsInput | string | null;
   };
 
@@ -24316,10 +24581,23 @@ export namespace Prisma {
     id?: string;
     name: string;
     systemPrompt: string;
-    isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownerId: string;
+  };
+
+  export type AiUsageMetricCreateManyAiProviderInput = {
+    id?: string;
+    provider: string;
+    model: string;
+    promptTokens: number;
+    completionTokens: number;
+    totalTokens: number;
+    estimatedCost?: number | null;
+    documentId?: number | null;
+    createdAt?: Date | string;
+    userId: string;
+    aiBotId?: string | null;
   };
 
   export type UserAiProviderAccessUpdateWithoutAiProviderInput = {
@@ -24347,7 +24625,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
-    isActive?: BoolFieldUpdateOperationsInput | boolean;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     owner?: UserUpdateOneRequiredWithoutOwnedAiBotsNestedInput;
@@ -24359,7 +24636,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
-    isActive?: BoolFieldUpdateOperationsInput | boolean;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownerId?: StringFieldUpdateOperationsInput | string;
@@ -24371,10 +24647,51 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
-    isActive?: BoolFieldUpdateOperationsInput | boolean;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownerId?: StringFieldUpdateOperationsInput | string;
+  };
+
+  export type AiUsageMetricUpdateWithoutAiProviderInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    provider?: StringFieldUpdateOperationsInput | string;
+    model?: StringFieldUpdateOperationsInput | string;
+    promptTokens?: IntFieldUpdateOperationsInput | number;
+    completionTokens?: IntFieldUpdateOperationsInput | number;
+    totalTokens?: IntFieldUpdateOperationsInput | number;
+    estimatedCost?: NullableFloatFieldUpdateOperationsInput | number | null;
+    documentId?: NullableIntFieldUpdateOperationsInput | number | null;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    user?: UserUpdateOneRequiredWithoutAiUsageMetricsNestedInput;
+    aiBot?: AiBotUpdateOneWithoutAiUsageMetricsNestedInput;
+  };
+
+  export type AiUsageMetricUncheckedUpdateWithoutAiProviderInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    provider?: StringFieldUpdateOperationsInput | string;
+    model?: StringFieldUpdateOperationsInput | string;
+    promptTokens?: IntFieldUpdateOperationsInput | number;
+    completionTokens?: IntFieldUpdateOperationsInput | number;
+    totalTokens?: IntFieldUpdateOperationsInput | number;
+    estimatedCost?: NullableFloatFieldUpdateOperationsInput | number | null;
+    documentId?: NullableIntFieldUpdateOperationsInput | number | null;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    userId?: StringFieldUpdateOperationsInput | string;
+    aiBotId?: NullableStringFieldUpdateOperationsInput | string | null;
+  };
+
+  export type AiUsageMetricUncheckedUpdateManyWithoutAiProviderInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    provider?: StringFieldUpdateOperationsInput | string;
+    model?: StringFieldUpdateOperationsInput | string;
+    promptTokens?: IntFieldUpdateOperationsInput | number;
+    completionTokens?: IntFieldUpdateOperationsInput | number;
+    totalTokens?: IntFieldUpdateOperationsInput | number;
+    estimatedCost?: NullableFloatFieldUpdateOperationsInput | number | null;
+    documentId?: NullableIntFieldUpdateOperationsInput | number | null;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    userId?: StringFieldUpdateOperationsInput | string;
+    aiBotId?: NullableStringFieldUpdateOperationsInput | string | null;
   };
 
   export type UserAiBotAccessCreateManyAiBotInput = {
@@ -24395,6 +24712,7 @@ export namespace Prisma {
     documentId?: number | null;
     createdAt?: Date | string;
     userId: string;
+    aiProviderId: string;
   };
 
   export type UserAiBotAccessUpdateWithoutAiBotInput = {
@@ -24429,6 +24747,7 @@ export namespace Prisma {
     documentId?: NullableIntFieldUpdateOperationsInput | number | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     user?: UserUpdateOneRequiredWithoutAiUsageMetricsNestedInput;
+    aiProvider?: AiProviderUpdateOneRequiredWithoutAiUsageMetricsNestedInput;
   };
 
   export type AiUsageMetricUncheckedUpdateWithoutAiBotInput = {
@@ -24442,6 +24761,7 @@ export namespace Prisma {
     documentId?: NullableIntFieldUpdateOperationsInput | number | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     userId?: StringFieldUpdateOperationsInput | string;
+    aiProviderId?: StringFieldUpdateOperationsInput | string;
   };
 
   export type AiUsageMetricUncheckedUpdateManyWithoutAiBotInput = {
@@ -24455,6 +24775,7 @@ export namespace Prisma {
     documentId?: NullableIntFieldUpdateOperationsInput | number | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     userId?: StringFieldUpdateOperationsInput | string;
+    aiProviderId?: StringFieldUpdateOperationsInput | string;
   };
 
   /**

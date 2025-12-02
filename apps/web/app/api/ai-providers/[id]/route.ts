@@ -37,6 +37,7 @@ export async function GET(request: NextRequest, context: RouteContext): Promise<
         isActive: true,
         createdAt: true,
         updatedAt: true,
+        apiKey: false,
       },
     });
 
@@ -52,7 +53,6 @@ export async function GET(request: NextRequest, context: RouteContext): Promise<
 
     return NextResponse.json({
       ...provider,
-      apiKey: '***', // Always mask
       createdAt: provider.createdAt.toISOString(),
       updatedAt: provider.updatedAt.toISOString(),
     });
@@ -165,7 +165,6 @@ export async function PATCH(request: NextRequest, context: RouteContext): Promis
 
     return NextResponse.json({
       ...updatedProvider,
-      apiKey: '***', // Always mask
       createdAt: updatedProvider.createdAt.toISOString(),
       updatedAt: updatedProvider.updatedAt.toISOString(),
     });

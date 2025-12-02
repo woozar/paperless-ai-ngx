@@ -32,7 +32,6 @@ export async function GET(request: NextRequest, context: RouteContext): Promise<
         id: true,
         name: true,
         apiUrl: true,
-        isActive: true,
         createdAt: true,
         updatedAt: true,
       },
@@ -99,7 +98,7 @@ export async function PATCH(request: NextRequest, context: RouteContext): Promis
       );
     }
 
-    const { name, apiUrl, apiToken, isActive } = parsed.data;
+    const { name, apiUrl, apiToken } = parsed.data;
 
     // Check name uniqueness if changing
     if (name && name !== existingInstance.name) {
@@ -128,13 +127,11 @@ export async function PATCH(request: NextRequest, context: RouteContext): Promis
       name?: string;
       apiUrl?: string;
       apiToken?: string;
-      isActive?: boolean;
     };
 
     const updateData: UpdateData = {};
     if (name !== undefined) updateData.name = name;
     if (apiUrl !== undefined) updateData.apiUrl = apiUrl;
-    if (isActive !== undefined) updateData.isActive = isActive;
 
     // Encrypt API token if provided
     if (apiToken) {
@@ -149,7 +146,6 @@ export async function PATCH(request: NextRequest, context: RouteContext): Promis
         id: true,
         name: true,
         apiUrl: true,
-        isActive: true,
         createdAt: true,
         updatedAt: true,
       },

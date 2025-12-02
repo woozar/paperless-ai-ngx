@@ -3,7 +3,12 @@ import { expect } from 'vitest';
 
 expect.extend(matchers);
 import { cleanup } from '@testing-library/react';
-import { afterEach, vi } from 'vitest';
+import { afterEach, beforeAll, vi } from 'vitest';
+
+// // Mock console.error to suppress error logs from our app during tests
+// beforeAll(() => {
+//   vi.spyOn(console, 'error').mockImplementation(() => {});
+// });
 
 // Cleanup after each test
 afterEach(() => {

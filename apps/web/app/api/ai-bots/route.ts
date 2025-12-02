@@ -31,7 +31,6 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
             name: true,
           },
         },
-        isActive: true,
         createdAt: true,
         updatedAt: true,
       },
@@ -117,7 +116,6 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         systemPrompt,
         aiProviderId,
         ownerId: authUser.userId,
-        isActive: true,
       },
       select: {
         id: true,
@@ -130,7 +128,6 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
             name: true,
           },
         },
-        isActive: true,
         createdAt: true,
         updatedAt: true,
       },

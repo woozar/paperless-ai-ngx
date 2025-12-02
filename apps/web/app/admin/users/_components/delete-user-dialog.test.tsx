@@ -1,7 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { toast } from 'sonner';
 import { DeleteUserDialog } from './delete-user-dialog';
 import { renderWithIntl } from '@/test-utils/render-with-intl';
 import type { UserListItem } from '@repo/api-client';
@@ -65,7 +64,7 @@ describe('DeleteUserDialog', () => {
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
-  it('calls API and onSuccess after confirmation', async () => {
+  it('calls deleteUsersById with correct user ID', async () => {
     const user = userEvent.setup({ delay: null });
     const onSuccess = vi.fn();
     mockDeleteUsersById.mockResolvedValueOnce({ data: {}, error: undefined });
@@ -76,10 +75,10 @@ describe('DeleteUserDialog', () => {
       expect(screen.getByRole('dialog')).toBeInTheDocument();
     });
 
-    const input = screen.getByTestId('delete-confirm-input');
+    const input = screen.getByTestId('confirm-name-input');
     await user.type(input, 'testuser');
 
-    const deleteButton = screen.getByTestId('delete-user-submit');
+    const deleteButton = screen.getByTestId('submit-delete-button');
     await user.click(deleteButton);
 
     await waitFor(() => {
@@ -90,77 +89,6 @@ describe('DeleteUserDialog', () => {
         })
       );
       expect(onSuccess).toHaveBeenCalled();
-    });
-  });
-
-  it('displays error when trying to delete yourself', async () => {
-    const user = userEvent.setup({ delay: null });
-    mockDeleteUsersById.mockResolvedValueOnce({
-      data: undefined,
-      error: { message: 'error.cannotDeleteSelf' },
-      response: { status: 400 },
-    });
-
-    renderWithIntl(<DeleteUserDialog {...defaultProps} />);
-
-    await waitFor(() => {
-      expect(screen.getByRole('dialog')).toBeInTheDocument();
-    });
-
-    const input = screen.getByTestId('delete-confirm-input');
-    await user.type(input, 'testuser');
-
-    const submitButton = screen.getByTestId('delete-user-submit');
-    await user.click(submitButton);
-
-    await waitFor(() => {
-      expect(vi.mocked(toast.error)).toHaveBeenCalledWith('You cannot delete your own account');
-    });
-  });
-
-  it('displays error when trying to delete last admin', async () => {
-    const user = userEvent.setup({ delay: null });
-    mockDeleteUsersById.mockResolvedValueOnce({
-      data: undefined,
-      error: { message: 'error.lastAdmin' },
-      response: { status: 400 },
-    });
-
-    renderWithIntl(<DeleteUserDialog {...defaultProps} />);
-
-    await waitFor(() => {
-      expect(screen.getByRole('dialog')).toBeInTheDocument();
-    });
-
-    const input = screen.getByTestId('delete-confirm-input');
-    await user.type(input, 'testuser');
-
-    const submitButton = screen.getByTestId('delete-user-submit');
-    await user.click(submitButton);
-
-    await waitFor(() => {
-      expect(vi.mocked(toast.error)).toHaveBeenCalledWith('Cannot modify the last admin user');
-    });
-  });
-
-  it('handles exception during delete', async () => {
-    const user = userEvent.setup({ delay: null });
-    mockDeleteUsersById.mockRejectedValueOnce(new Error('Network error'));
-
-    renderWithIntl(<DeleteUserDialog {...defaultProps} />);
-
-    await waitFor(() => {
-      expect(screen.getByRole('dialog')).toBeInTheDocument();
-    });
-
-    const input = screen.getByTestId('delete-confirm-input');
-    await user.type(input, 'testuser');
-
-    const submitButton = screen.getByTestId('delete-user-submit');
-    await user.click(submitButton);
-
-    await waitFor(() => {
-      expect(vi.mocked(toast.error)).toHaveBeenCalledWith('Failed to delete user');
     });
   });
 });

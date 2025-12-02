@@ -10,7 +10,8 @@
     "sonar": "./scripts/sonar-analysis.sh",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
-    "prepare": "husky"
+    "prepare": "husky",
+    "generate": "pnpm --filter @repo/database db:generate && pnpm --filter web generate:openapi && pnpm --filter @repo/api-client generate"
   },
   "devDependencies": {
     "husky": "^9.1.7",

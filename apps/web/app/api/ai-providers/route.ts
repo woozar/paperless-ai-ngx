@@ -30,6 +30,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
         isActive: true,
         createdAt: true,
         updatedAt: true,
+        apiKey: false,
       },
       orderBy: { name: 'asc' },
     });
@@ -37,7 +38,6 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json({
       providers: providers.map((provider) => ({
         ...provider,
-        apiKey: '***', // Always mask
         createdAt: provider.createdAt.toISOString(),
         updatedAt: provider.updatedAt.toISOString(),
       })),
@@ -112,13 +112,13 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         isActive: true,
         createdAt: true,
         updatedAt: true,
+        apiKey: false,
       },
     });
 
     return NextResponse.json(
       {
         ...aiProvider,
-        apiKey: '***', // Always mask
         createdAt: aiProvider.createdAt.toISOString(),
         updatedAt: aiProvider.updatedAt.toISOString(),
       },

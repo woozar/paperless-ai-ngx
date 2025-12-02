@@ -1,0 +1,155 @@
+'use client';
+
+import { useState, useEffect, useCallback } from 'react';
+import { useTranslations, useFormatter } from 'next-intl';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/components/auth-provider';
+import { useErrorDisplay } from '@/hooks/use-error-display';
+import { Button } from '@/components/ui/button';
+import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Plus, Database } from 'lucide-react';
+import { AppShell } from '@/components/app-shell';
+import { useApi } from '@/lib/use-api';
+import { formatDate } from '@/lib/format-date';
+import { getPaperlessInstances } from '@repo/api-client';
+
+import type { PaperlessInstanceListItem } from '@repo/api-client';
+import {
+  InstanceTableSkeleton,
+  InstanceTableRow,
+  CreateInstanceDialog,
+  EditInstanceDialog,
+  DeleteInstanceDialog,
+} from './_components';
+
+export default function PaperlessInstancesPage() {
+  const t = useTranslations('admin.paperlessInstances');
+  const { showError } = useErrorDisplay('admin.paperlessInstances');
+  const format = useFormatter();
+  const router = useRouter();
+  const { user: currentUser, isLoading: isAuthLoading } = useAuth();
+  const client = useApi();
+
+  const [instances, setInstances] = useState<Omit<PaperlessInstanceListItem, 'apiToken'>[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Dialog states
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [editingInstance, setEditingInstance] = useState<Omit<
+    PaperlessInstanceListItem,
+    'apiToken'
+  > | null>(null);
+  const [deletingInstance, setDeletingInstance] = useState<Omit<
+    PaperlessInstanceListItem,
+    'apiToken'
+  > | null>(null);
+
+  const loadInstances = useCallback(async () => {
+    setIsLoading(true);
+
+    try {
+      const response = await getPaperlessInstances({ client });
+
+      if (response.error) {
+        if (response.response.status === 403) {
+          router.push('/');
+          return;
+        }
+        showError('loadFailed');
+        return;
+      }
+
+      setInstances(response.data.instances);
+    } catch {
+      showError('loadFailed');
+    } finally {
+      setIsLoading(false);
+    }
+  }, [router, showError, client]);
+
+  useEffect(() => {
+    if (!isAuthLoading && currentUser?.role !== 'ADMIN') {
+      router.push('/');
+      return;
+    }
+    loadInstances();
+  }, [isAuthLoading, currentUser, router, loadInstances]);
+
+  if (currentUser?.role !== 'ADMIN') {
+    return null;
+  }
+
+  const renderTableContent = () => {
+    if (isLoading) {
+      return <InstanceTableSkeleton />;
+    }
+
+    return instances.map((instance) => (
+      <InstanceTableRow
+        key={instance.id}
+        instance={instance}
+        onEdit={setEditingInstance}
+        onDelete={setDeletingInstance}
+        formatDate={(dateString) => formatDate(dateString, format)}
+      />
+    ));
+  };
+
+  return (
+    <AppShell>
+      <div className="container mx-auto px-4 py-8">
+        <div className="mb-8 flex items-center justify-between">
+          <div>
+            <h1 className="flex items-center gap-2 text-3xl font-bold tracking-tight">
+              <Database className="h-8 w-8" />
+              {t('title')}
+            </h1>
+            <p className="text-muted-foreground mt-2">{t('description')}</p>
+          </div>
+          <Button onClick={() => setIsCreateOpen(true)}>
+            <Plus className="mr-2 h-4 w-4" />
+            {t('createInstance')}
+          </Button>
+        </div>
+
+        {!isLoading && instances.length === 0 ? (
+          <div className="text-muted-foreground py-12 text-center">{t('noInstances')}</div>
+        ) : (
+          <div className="rounded-md border">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>{t('name')}</TableHead>
+                  <TableHead>{t('apiUrl')}</TableHead>
+                  <TableHead>{t('createdAt')}</TableHead>
+                  <TableHead className="text-right">{t('actions')}</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>{renderTableContent()}</TableBody>
+            </Table>
+          </div>
+        )}
+      </div>
+
+      <CreateInstanceDialog
+        open={isCreateOpen}
+        onOpenChange={setIsCreateOpen}
+        onSuccess={loadInstances}
+      />
+
+      <EditInstanceDialog
+        open={!!editingInstance}
+        onOpenChange={(open) => !open && setEditingInstance(null)}
+        instance={editingInstance}
+        onSuccess={loadInstances}
+      />
+
+      <DeleteInstanceDialog
+        open={!!deletingInstance}
+        onOpenChange={(open) => !open && setDeletingInstance(null)}
+        instance={deletingInstance}
+        onSuccess={loadInstances}
+      />
+    </AppShell>
+  );
+}

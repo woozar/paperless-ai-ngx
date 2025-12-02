@@ -7,7 +7,7 @@ import { useTranslations } from 'next-intl';
 import { useAuth } from '@/components/auth-provider';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { LayoutDashboard, Users, LogOut } from 'lucide-react';
+import { LayoutDashboard, Users, LogOut, Database, Cpu, Bot } from 'lucide-react';
 
 import { version } from '@/lib/version';
 
@@ -37,6 +37,21 @@ export function Sidebar() {
                 href: '/admin/users',
                 label: t('users'),
                 icon: Users,
+              },
+              {
+                href: '/admin/paperless-instances',
+                label: t('paperlessInstances'),
+                icon: Database,
+              },
+              {
+                href: '/admin/ai-providers',
+                label: t('aiProviders'),
+                icon: Cpu,
+              },
+              {
+                href: '/admin/ai-bots',
+                label: t('aiBots'),
+                icon: Bot,
               },
             ],
           },

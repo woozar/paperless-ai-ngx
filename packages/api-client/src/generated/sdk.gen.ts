@@ -28,6 +28,51 @@ import type {
   PatchUsersByIdData,
   PatchUsersByIdResponses,
   PatchUsersByIdErrors,
+  GetPaperlessInstancesData,
+  GetPaperlessInstancesResponses,
+  GetPaperlessInstancesErrors,
+  PostPaperlessInstancesData,
+  PostPaperlessInstancesResponses,
+  PostPaperlessInstancesErrors,
+  DeletePaperlessInstancesByIdData,
+  DeletePaperlessInstancesByIdResponses,
+  DeletePaperlessInstancesByIdErrors,
+  GetPaperlessInstancesByIdData,
+  GetPaperlessInstancesByIdResponses,
+  GetPaperlessInstancesByIdErrors,
+  PatchPaperlessInstancesByIdData,
+  PatchPaperlessInstancesByIdResponses,
+  PatchPaperlessInstancesByIdErrors,
+  GetAiProvidersData,
+  GetAiProvidersResponses,
+  GetAiProvidersErrors,
+  PostAiProvidersData,
+  PostAiProvidersResponses,
+  PostAiProvidersErrors,
+  DeleteAiProvidersByIdData,
+  DeleteAiProvidersByIdResponses,
+  DeleteAiProvidersByIdErrors,
+  GetAiProvidersByIdData,
+  GetAiProvidersByIdResponses,
+  GetAiProvidersByIdErrors,
+  PatchAiProvidersByIdData,
+  PatchAiProvidersByIdResponses,
+  PatchAiProvidersByIdErrors,
+  GetAiBotsData,
+  GetAiBotsResponses,
+  GetAiBotsErrors,
+  PostAiBotsData,
+  PostAiBotsResponses,
+  PostAiBotsErrors,
+  DeleteAiBotsByIdData,
+  DeleteAiBotsByIdResponses,
+  DeleteAiBotsByIdErrors,
+  GetAiBotsByIdData,
+  GetAiBotsByIdResponses,
+  GetAiBotsByIdErrors,
+  PatchAiBotsByIdData,
+  PatchAiBotsByIdResponses,
+  PatchAiBotsByIdErrors,
 } from './types.gen';
 import { client as _heyApiClient } from './client.gen';
 
@@ -186,6 +231,266 @@ export const patchUsersById = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     url: '/users/{id}',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * List all PaperlessInstances (Admin only)
+ */
+export const getPaperlessInstances = <ThrowOnError extends boolean = false>(
+  options?: Options<GetPaperlessInstancesData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).get<
+    GetPaperlessInstancesResponses,
+    GetPaperlessInstancesErrors,
+    ThrowOnError
+  >({
+    url: '/paperless-instances',
+    ...options,
+  });
+};
+
+/**
+ * Create a new PaperlessInstance (Admin only)
+ */
+export const postPaperlessInstances = <ThrowOnError extends boolean = false>(
+  options?: Options<PostPaperlessInstancesData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).post<
+    PostPaperlessInstancesResponses,
+    PostPaperlessInstancesErrors,
+    ThrowOnError
+  >({
+    url: '/paperless-instances',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * Delete PaperlessInstance (Admin only)
+ */
+export const deletePaperlessInstancesById = <ThrowOnError extends boolean = false>(
+  options: Options<DeletePaperlessInstancesByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).delete<
+    DeletePaperlessInstancesByIdResponses,
+    DeletePaperlessInstancesByIdErrors,
+    ThrowOnError
+  >({
+    url: '/paperless-instances/{id}',
+    ...options,
+  });
+};
+
+/**
+ * Get PaperlessInstance by ID (Admin only)
+ */
+export const getPaperlessInstancesById = <ThrowOnError extends boolean = false>(
+  options: Options<GetPaperlessInstancesByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<
+    GetPaperlessInstancesByIdResponses,
+    GetPaperlessInstancesByIdErrors,
+    ThrowOnError
+  >({
+    url: '/paperless-instances/{id}',
+    ...options,
+  });
+};
+
+/**
+ * Update PaperlessInstance (Admin only)
+ */
+export const patchPaperlessInstancesById = <ThrowOnError extends boolean = false>(
+  options: Options<PatchPaperlessInstancesByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).patch<
+    PatchPaperlessInstancesByIdResponses,
+    PatchPaperlessInstancesByIdErrors,
+    ThrowOnError
+  >({
+    url: '/paperless-instances/{id}',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * List all AiProviders (Admin only)
+ */
+export const getAiProviders = <ThrowOnError extends boolean = false>(
+  options?: Options<GetAiProvidersData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).get<
+    GetAiProvidersResponses,
+    GetAiProvidersErrors,
+    ThrowOnError
+  >({
+    url: '/ai-providers',
+    ...options,
+  });
+};
+
+/**
+ * Create a new AiProvider (Admin only)
+ */
+export const postAiProviders = <ThrowOnError extends boolean = false>(
+  options?: Options<PostAiProvidersData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).post<
+    PostAiProvidersResponses,
+    PostAiProvidersErrors,
+    ThrowOnError
+  >({
+    url: '/ai-providers',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * Delete AiProvider (Admin only)
+ */
+export const deleteAiProvidersById = <ThrowOnError extends boolean = false>(
+  options: Options<DeleteAiProvidersByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).delete<
+    DeleteAiProvidersByIdResponses,
+    DeleteAiProvidersByIdErrors,
+    ThrowOnError
+  >({
+    url: '/ai-providers/{id}',
+    ...options,
+  });
+};
+
+/**
+ * Get AiProvider by ID (Admin only)
+ */
+export const getAiProvidersById = <ThrowOnError extends boolean = false>(
+  options: Options<GetAiProvidersByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<
+    GetAiProvidersByIdResponses,
+    GetAiProvidersByIdErrors,
+    ThrowOnError
+  >({
+    url: '/ai-providers/{id}',
+    ...options,
+  });
+};
+
+/**
+ * Update AiProvider (Admin only)
+ */
+export const patchAiProvidersById = <ThrowOnError extends boolean = false>(
+  options: Options<PatchAiProvidersByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).patch<
+    PatchAiProvidersByIdResponses,
+    PatchAiProvidersByIdErrors,
+    ThrowOnError
+  >({
+    url: '/ai-providers/{id}',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * List all AiBots (Admin only)
+ */
+export const getAiBots = <ThrowOnError extends boolean = false>(
+  options?: Options<GetAiBotsData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).get<GetAiBotsResponses, GetAiBotsErrors, ThrowOnError>({
+    url: '/ai-bots',
+    ...options,
+  });
+};
+
+/**
+ * Create a new AiBot (Admin only)
+ */
+export const postAiBots = <ThrowOnError extends boolean = false>(
+  options?: Options<PostAiBotsData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).post<
+    PostAiBotsResponses,
+    PostAiBotsErrors,
+    ThrowOnError
+  >({
+    url: '/ai-bots',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * Delete AiBot (Admin only)
+ */
+export const deleteAiBotsById = <ThrowOnError extends boolean = false>(
+  options: Options<DeleteAiBotsByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).delete<
+    DeleteAiBotsByIdResponses,
+    DeleteAiBotsByIdErrors,
+    ThrowOnError
+  >({
+    url: '/ai-bots/{id}',
+    ...options,
+  });
+};
+
+/**
+ * Get AiBot by ID (Admin only)
+ */
+export const getAiBotsById = <ThrowOnError extends boolean = false>(
+  options: Options<GetAiBotsByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<
+    GetAiBotsByIdResponses,
+    GetAiBotsByIdErrors,
+    ThrowOnError
+  >({
+    url: '/ai-bots/{id}',
+    ...options,
+  });
+};
+
+/**
+ * Update AiBot (Admin only)
+ */
+export const patchAiBotsById = <ThrowOnError extends boolean = false>(
+  options: Options<PatchAiBotsByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).patch<
+    PatchAiBotsByIdResponses,
+    PatchAiBotsByIdErrors,
+    ThrowOnError
+  >({
+    url: '/ai-bots/{id}',
     ...options,
     headers: {
       'Content-Type': 'application/json',

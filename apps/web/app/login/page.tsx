@@ -7,8 +7,9 @@ import Image from 'next/image';
 import { useErrorDisplay } from '@/hooks/use-error-display';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { PasswordInput } from '@/components/ui/password-input';
 import { Label } from '@/components/ui/label';
-import { Eye, EyeOff, Loader2 } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import { useAuth } from '@/components/auth-provider';
 
 export default function LoginPage() {
@@ -21,7 +22,6 @@ export default function LoginPage() {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -63,7 +63,7 @@ export default function LoginPage() {
     <div className="flex min-h-screen w-full">
       {/* Left Side - Visual & Branding */}
       <div className="bg-primary relative hidden w-1/2 flex-col justify-between overflow-hidden p-16 text-white lg:flex">
-        <div className="from-primary/50 absolute inset-0 z-0 bg-gradient-to-br to-black/20" />
+        <div className="from-primary/50 absolute inset-0 z-0 bg-linear-to-br to-black/20" />
         <div
           className="absolute inset-0 z-0 opacity-10"
           style={{
@@ -89,8 +89,8 @@ export default function LoginPage() {
         <div className="relative z-10 max-w-xl">
           <h2 className="mb-6 text-4xl leading-tight font-bold">Document Management Reimagined.</h2>
           <blockquote className="border-l-4 border-white/30 pl-6 text-xl leading-relaxed font-light italic">
-            "Streamline your document management with the power of AI. Secure, efficient, and
-            paperless."
+            &quot;Streamline your document management with the power of AI. Secure, efficient, and
+            paperless.&quot;
           </blockquote>
         </div>
 
@@ -137,27 +137,17 @@ export default function LoginPage() {
             </div>
             <div className="space-y-2">
               <Label htmlFor="password">{t('password')}</Label>
-              <div className="relative">
-                <Input
-                  id="password"
-                  type={showPassword ? 'text' : 'password'}
-                  placeholder={t('passwordPlaceholder')}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  disabled={isLoading}
-                  required
-                  autoComplete="current-password"
-                  className="h-11 pr-10"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="text-muted-foreground hover:text-foreground absolute top-1/2 right-3 -translate-y-1/2"
-                  tabIndex={-1}
-                >
-                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                </button>
-              </div>
+              <PasswordInput
+                id="password"
+                placeholder={t('passwordPlaceholder')}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                disabled={isLoading}
+                required
+                autoComplete="current-password"
+                className="h-11"
+                showRules={true}
+              />
             </div>
 
             <Button type="submit" className="h-11 w-full text-base" disabled={isLoading}>
