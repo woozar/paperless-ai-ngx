@@ -162,6 +162,7 @@
       "instanceCreated": "Instance created successfully",
       "instanceUpdated": "Instance updated successfully",
       "instanceDeleted": "Instance deleted successfully",
+      "deleteWarning": "This will delete {documents, plural, =0 {} one {1 document} other {# documents}}{documents, plural, =0 {} other {{processingQueue, plural, =0 {} other { and }}}}{processingQueue, plural, =0 {} one {1 queue entry} other {# queue entries}}.",
       "error": {
         "loadFailed": "Failed to load instances",
         "createFailed": "Failed to create instance",

@@ -17,6 +17,7 @@ const mockPush = vi.fn();
 const mockUser = vi.fn();
 const mockGetPaperlessInstances = vi.fn();
 const mockPostPaperlessInstancesByIdImport = vi.fn();
+const mockGetPaperlessInstancesByIdStats = vi.fn();
 
 vi.mock('next/navigation', () => ({
   useRouter: () => ({ push: mockPush }),
@@ -34,6 +35,7 @@ vi.mock('@repo/api-client', async () => {
     getPaperlessInstances: (...args: any[]) => mockGetPaperlessInstances(...args),
     postPaperlessInstancesByIdImport: (...args: any[]) =>
       mockPostPaperlessInstancesByIdImport(...args),
+    getPaperlessInstancesByIdStats: (...args: any[]) => mockGetPaperlessInstancesByIdStats(...args),
   };
 });
 
@@ -60,6 +62,9 @@ describe('PaperlessInstancesPage', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mockUser.mockReturnValue({ id: 'user-1', username: 'admin', role: 'ADMIN' });
+    mockGetPaperlessInstancesByIdStats.mockResolvedValue({
+      data: { documents: 0, processingQueue: 0 },
+    });
     Object.defineProperty(window, 'localStorage', {
       value: {
         getItem: vi.fn(() => 'mock-token'),

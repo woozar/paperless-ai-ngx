@@ -46,6 +46,9 @@ import type {
   PostPaperlessInstancesByIdImportData,
   PostPaperlessInstancesByIdImportResponses,
   PostPaperlessInstancesByIdImportErrors,
+  GetPaperlessInstancesByIdStatsData,
+  GetPaperlessInstancesByIdStatsResponses,
+  GetPaperlessInstancesByIdStatsErrors,
   GetAiProvidersData,
   GetAiProvidersResponses,
   GetAiProvidersErrors,
@@ -343,6 +346,22 @@ export const postPaperlessInstancesByIdImport = <ThrowOnError extends boolean = 
     ThrowOnError
   >({
     url: '/paperless-instances/{id}/import',
+    ...options,
+  });
+};
+
+/**
+ * Get document statistics for a PaperlessInstance (Admin only)
+ */
+export const getPaperlessInstancesByIdStats = <ThrowOnError extends boolean = false>(
+  options: Options<GetPaperlessInstancesByIdStatsData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<
+    GetPaperlessInstancesByIdStatsResponses,
+    GetPaperlessInstancesByIdStatsErrors,
+    ThrowOnError
+  >({
+    url: '/paperless-instances/{id}/stats',
     ...options,
   });
 };

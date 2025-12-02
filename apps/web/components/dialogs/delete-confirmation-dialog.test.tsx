@@ -272,4 +272,27 @@ describe('DeleteConfirmationDialog', () => {
     const input = screen.getByTestId('confirm-name-input');
     expect(input).toHaveAttribute('placeholder', 'testuser');
   });
+
+  it('displays warning message when provided', async () => {
+    const warningText = 'This will delete 5 processed documents and 3 queue entries.';
+    renderWithIntl(<DeleteConfirmationDialog {...defaultProps} warning={warningText} />);
+
+    await waitFor(() => {
+      expect(screen.getByRole('dialog')).toBeInTheDocument();
+    });
+
+    const warningElement = screen.getByTestId('delete-warning');
+    expect(warningElement).toBeInTheDocument();
+    expect(warningElement).toHaveTextContent(warningText);
+  });
+
+  it('does not display warning element when warning is undefined', async () => {
+    renderWithIntl(<DeleteConfirmationDialog {...defaultProps} warning={undefined} />);
+
+    await waitFor(() => {
+      expect(screen.getByRole('dialog')).toBeInTheDocument();
+    });
+
+    expect(screen.queryByTestId('delete-warning')).not.toBeInTheDocument();
+  });
 });

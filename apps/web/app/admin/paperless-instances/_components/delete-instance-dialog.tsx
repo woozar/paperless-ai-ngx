@@ -1,7 +1,9 @@
 'use client';
 
-import type { PaperlessInstanceListItem } from '@repo/api-client';
-import { deletePaperlessInstancesById } from '@repo/api-client';
+import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
+import type { PaperlessInstanceListItem, PaperlessInstanceStatsResponse } from '@repo/api-client';
+import { deletePaperlessInstancesById, getPaperlessInstancesByIdStats } from '@repo/api-client';
 import { useApi } from '@/lib/use-api';
 import { DeleteConfirmationDialog } from '@/components/dialogs/delete-confirmation-dialog';
 
@@ -19,6 +21,23 @@ export function DeleteInstanceDialog({
   onSuccess,
 }: DeleteInstanceDialogProps) {
   const client = useApi();
+  const t = useTranslations('admin.paperlessInstances');
+  const [stats, setStats] = useState<PaperlessInstanceStatsResponse | null>(null);
+
+  useEffect(() => {
+    if (open && instance) {
+      getPaperlessInstancesByIdStats({
+        client,
+        path: { id: instance.id },
+      }).then((response) => {
+        if (response.data) {
+          setStats(response.data);
+        }
+      });
+    } else {
+      setStats(null);
+    }
+  }, [open, instance, client]);
 
   const handleDelete = async (instanceToDelete: Omit<PaperlessInstanceListItem, 'apiToken'>) => {
     return await deletePaperlessInstancesById({
@@ -26,6 +45,14 @@ export function DeleteInstanceDialog({
       path: { id: instanceToDelete.id },
     });
   };
+
+  const warningMessage =
+    stats && (stats.documents > 0 || stats.processingQueue > 0)
+      ? t('deleteWarning', {
+          documents: stats.documents,
+          processingQueue: stats.processingQueue,
+        })
+      : undefined;
 
   return (
     <DeleteConfirmationDialog
@@ -37,6 +64,7 @@ export function DeleteInstanceDialog({
       successMessageKey="instanceDeleted"
       onDelete={handleDelete}
       onSuccess={onSuccess}
+      warning={warningMessage}
     />
   );
 }

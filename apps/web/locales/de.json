@@ -162,6 +162,7 @@
       "instanceCreated": "Instanz erfolgreich erstellt",
       "instanceUpdated": "Instanz erfolgreich aktualisiert",
       "instanceDeleted": "Instanz erfolgreich gelöscht",
+      "deleteWarning": "Dies löscht {documents, plural, =0 {} one {1 Dokument} other {# Dokumente}}{documents, plural, =0 {} other {{processingQueue, plural, =0 {} other { und }}}}{processingQueue, plural, =0 {} one {1 Warteschlangen-Eintrag} other {# Warteschlangen-Einträge}}.",
       "error": {
         "loadFailed": "Fehler beim Laden der Instanzen",
         "createFailed": "Fehler beim Erstellen der Instanz",

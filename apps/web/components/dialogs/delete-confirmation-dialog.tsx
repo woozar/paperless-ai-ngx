@@ -28,6 +28,7 @@ type DeleteConfirmationDialogProps<T extends Entity> = Readonly<{
     entity: T
   ) => Promise<{ error?: { message: string; params?: Record<string, string | number> } }>;
   onSuccess: () => void;
+  warning?: string;
 }>;
 
 export function DeleteConfirmationDialog<T extends Entity>({
@@ -39,6 +40,7 @@ export function DeleteConfirmationDialog<T extends Entity>({
   successMessageKey,
   onDelete,
   onSuccess,
+  warning,
 }: DeleteConfirmationDialogProps<T>) {
   const t = useTranslations(translationNamespace);
   const tCommon = useTranslations('common');
@@ -108,6 +110,11 @@ export function DeleteConfirmationDialog<T extends Entity>({
           <DialogDescription>{t('confirmDeleteDescription')}</DialogDescription>
         </DialogHeader>
         <div className="space-y-4 py-4">
+          {warning && (
+            <div className="text-destructive text-sm" data-testid="delete-warning">
+              {warning}
+            </div>
+          )}
           <div className="space-y-2">
             <p className="text-sm">{t('confirmDelete')}</p>
             <Input

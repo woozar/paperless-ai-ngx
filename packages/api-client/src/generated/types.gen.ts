@@ -89,6 +89,11 @@ export type ImportDocumentsResponse = {
   total: number;
 };
 
+export type PaperlessInstanceStatsResponse = {
+  documents: number;
+  processingQueue: number;
+};
+
 export type AiProviderType = 'openai' | 'anthropic' | 'ollama' | 'google' | 'custom';
 
 export type AiProviderListItem = {
@@ -643,22 +648,25 @@ export type PostPaperlessInstancesByIdImportData = {
 
 export type PostPaperlessInstancesByIdImportErrors = {
   /**
-   * Unauthorized
+   * Not authenticated
    */
-  401: unknown;
+  401: ErrorResponse;
   /**
-   * Forbidden - Admin role required
+   * Not authorized
    */
-  403: unknown;
+  403: ErrorResponse;
   /**
-   * PaperlessInstance not found
+   * Not found
    */
-  404: unknown;
+  404: ErrorResponse;
   /**
-   * Server error
+   * Internal server error
    */
-  500: unknown;
+  500: ErrorResponse;
 };
+
+export type PostPaperlessInstancesByIdImportError =
+  PostPaperlessInstancesByIdImportErrors[keyof PostPaperlessInstancesByIdImportErrors];
 
 export type PostPaperlessInstancesByIdImportResponses = {
   /**
@@ -669,6 +677,43 @@ export type PostPaperlessInstancesByIdImportResponses = {
 
 export type PostPaperlessInstancesByIdImportResponse =
   PostPaperlessInstancesByIdImportResponses[keyof PostPaperlessInstancesByIdImportResponses];
+
+export type GetPaperlessInstancesByIdStatsData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/paperless-instances/{id}/stats';
+};
+
+export type GetPaperlessInstancesByIdStatsErrors = {
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not authorized
+   */
+  403: ErrorResponse;
+  /**
+   * Not found
+   */
+  404: ErrorResponse;
+};
+
+export type GetPaperlessInstancesByIdStatsError =
+  GetPaperlessInstancesByIdStatsErrors[keyof GetPaperlessInstancesByIdStatsErrors];
+
+export type GetPaperlessInstancesByIdStatsResponses = {
+  /**
+   * Instance statistics
+   */
+  200: PaperlessInstanceStatsResponse;
+};
+
+export type GetPaperlessInstancesByIdStatsResponse =
+  GetPaperlessInstancesByIdStatsResponses[keyof GetPaperlessInstancesByIdStatsResponses];
 
 export type GetAiProvidersData = {
   body?: never;

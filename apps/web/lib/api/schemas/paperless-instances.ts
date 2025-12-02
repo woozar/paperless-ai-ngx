@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { extendZodWithOpenApi } from '@asteasolutions/zod-to-openapi';
 import { registry } from '../openapi';
 import { registerCrudPaths, createNameSchema, createOptionalNameSchema } from './crud-helpers';
+import { CommonErrorResponses } from './common';
 
 extendZodWithOpenApi(z);
 
@@ -51,12 +52,21 @@ export const ImportDocumentsResponseSchema = z
   })
   .openapi('ImportDocumentsResponse');
 
+// PaperlessInstance stats response
+export const PaperlessInstanceStatsResponseSchema = z
+  .object({
+    documents: z.number(),
+    processingQueue: z.number(),
+  })
+  .openapi('PaperlessInstanceStatsResponse');
+
 // Register schemas
 registry.register('PaperlessInstanceListItem', PaperlessInstanceListItemSchema);
 registry.register('PaperlessInstanceListResponse', PaperlessInstanceListResponseSchema);
 registry.register('CreatePaperlessInstanceRequest', CreatePaperlessInstanceRequestSchema);
 registry.register('UpdatePaperlessInstanceRequest', UpdatePaperlessInstanceRequestSchema);
 registry.register('ImportDocumentsResponse', ImportDocumentsResponseSchema);
+registry.register('PaperlessInstanceStatsResponse', PaperlessInstanceStatsResponseSchema);
 
 // Register all CRUD paths using helper
 registerCrudPaths({
@@ -90,17 +100,35 @@ registry.registerPath({
         },
       },
     },
-    401: {
-      description: 'Unauthorized',
+    401: CommonErrorResponses[401],
+    403: CommonErrorResponses[403],
+    404: CommonErrorResponses[404],
+    500: CommonErrorResponses[500],
+  },
+});
+
+// Register stats endpoint manually (not part of CRUD)
+registry.registerPath({
+  method: 'get',
+  path: '/paperless-instances/{id}/stats',
+  summary: 'Get document statistics for a PaperlessInstance (Admin only)',
+  tags: ['PaperlessInstances'],
+  request: {
+    params: z.object({
+      id: z.string(),
+    }),
+  },
+  responses: {
+    200: {
+      description: 'Instance statistics',
+      content: {
+        'application/json': {
+          schema: PaperlessInstanceStatsResponseSchema,
+        },
+      },
     },
-    403: {
-      description: 'Forbidden - Admin role required',
-    },
-    404: {
-      description: 'PaperlessInstance not found',
-    },
-    500: {
-      description: 'Server error',
-    },
+    401: CommonErrorResponses[401],
+    403: CommonErrorResponses[403],
+    404: CommonErrorResponses[404],
   },
 });

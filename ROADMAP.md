@@ -110,31 +110,31 @@
 
 ### PaperlessInstance Management
 
-- [ ] API Routes with encryption (GET, POST, PATCH, DELETE)
-- [ ] Admin page `/admin/paperless-instances`
-- [ ] Create/Edit/Delete Dialogs
-- [ ] Warning on Delete with document count
-- [ ] 100% Test Coverage
-- [ ] i18n (de/en)
+- [x] API Routes with encryption (GET, POST, PATCH, DELETE)
+- [x] Admin page `/admin/paperless-instances`
+- [x] Create/Edit/Delete Dialogs
+- [x] Warning on Delete with document count
+- [x] 100% Test Coverage
+- [x] i18n (de/en)
 
 ### AiProvider Management (renamed from AiAccess)
 
-- [ ] API Routes with encryption
-- [ ] Admin page `/admin/ai-providers`
-- [ ] Provider dropdown (openai, anthropic, ollama, google, custom)
-- [ ] Conditional baseUrl field
-- [ ] Prevent delete when referenced by AiBots
-- [ ] 100% Test Coverage
-- [ ] i18n (de/en)
+- [x] API Routes with encryption
+- [x] Admin page `/admin/ai-providers`
+- [x] Provider dropdown (openai, anthropic, ollama, google, custom)
+- [x] Conditional baseUrl field
+- [x] Prevent delete when referenced by AiBots
+- [x] 100% Test Coverage
+- [x] i18n (de/en)
 
 ### AiBot Management
 
-- [ ] API Routes
-- [ ] Admin page `/admin/ai-bots`
-- [ ] AiProvider dropdown (only user's own providers)
-- [ ] "No providers available" handling
-- [ ] 100% Test Coverage
-- [ ] i18n (de/en)
+- [x] API Routes
+- [x] Admin page `/admin/ai-bots`
+- [x] AiProvider dropdown (only user's own providers)
+- [x] "No providers available" handling
+- [x] 100% Test Coverage
+- [x] i18n (de/en)
 
 ## Phase 3b: Setup Wizard
 
@@ -254,8 +254,7 @@
 
 ## Next Steps (Priority)
 
-1. **Object Management UI** (Phase 3a) - Implement management pages for PaperlessInstance, AiProvider, AiBot
-2. **Setup Wizard** (Phase 3b) - Step-by-step wizard to create instances, providers, and bots
-3. **Docker Compose Setup** (Phase 4) - Make the app production-ready deployable
-4. **Dashboard** (Phase 5) - Display documents and processing statistics
-5. **AI Analysis** (Phase 6) - Implement core document analysis feature
+1. **Setup Wizard** (Phase 3b) - Step-by-step wizard to create instances, providers, and bots
+2. **Docker Compose Setup** (Phase 4) - Make the app production-ready deployable
+3. **Dashboard** (Phase 5) - Display documents and processing statistics
+4. **AI Analysis** (Phase 6) - Implement core document analysis feature
