@@ -166,9 +166,12 @@
         "loadFailed": "Failed to load instances",
         "createFailed": "Failed to create instance",
         "updateFailed": "Failed to update instance",
-        "deleteFailed": "Failed to delete instance"
+        "deleteFailed": "Failed to delete instance",
+        "importFailed": "Failed to import documents"
       },
-      "noInstances": "No instances found"
+      "noInstances": "No instances found",
+      "importDocuments": "Import Documents",
+      "importSuccess": "{count, plural, one {1 document imported} other {# documents imported}}"
     },
     "aiProviders": {
       "title": "AI Providers",

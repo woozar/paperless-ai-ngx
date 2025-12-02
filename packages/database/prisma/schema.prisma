@@ -126,8 +126,8 @@ model PaperlessInstance {
   sharedWith UserPaperlessInstanceAccess[]
 
   // Related documents
-  processedDocuments ProcessedDocument[]
-  processingQueue    ProcessingQueue[]
+  documents       PaperlessDocument[]
+  processingQueue ProcessingQueue[]
 
   @@index([ownerId])
 }
@@ -188,13 +188,37 @@ model AiBot {
 }
 
 // =============================================================================
-// Document Processing
+// Paperless Documents
 // =============================================================================
 
-model ProcessedDocument {
+model PaperlessDocument {
+  id              String   @id @default(cuid())
+  paperlessId     Int
+  title           String
+  content         String   @db.Text
+  correspondentId Int?
+  tagIds          Int[]
+  importedAt      DateTime @default(now())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Link to Paperless instance
+  paperlessInstance   PaperlessInstance @relation(fields: [paperlessInstanceId], references: [id], onDelete: Cascade)
+  paperlessInstanceId String
+
+  // AI processing results
+  processingResults DocumentProcessingResult[]
+
+  @@unique([paperlessInstanceId, paperlessId])
+  @@index([paperlessInstanceId])
+}
+
+// =============================================================================
+// Document Processing Results
+// =============================================================================
+
+model DocumentProcessingResult {
   id          String   @id @default(cuid())
-  paperlessId Int
-  title       String
   processedAt DateTime @default(now())
   aiProvider  String
   tokensUsed  Int      @default(0)
@@ -211,13 +235,12 @@ model ProcessedDocument {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  // Link to Paperless instance
-  paperlessInstance   PaperlessInstance @relation(fields: [paperlessInstanceId], references: [id], onDelete: Cascade)
-  paperlessInstanceId String
+  // Link to PaperlessDocument
+  document   PaperlessDocument @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  documentId String
 
-  @@index([paperlessId])
   @@index([processedAt])
-  @@index([paperlessInstanceId])
+  @@index([documentId])
 }
 
 model ProcessingQueue {

@@ -11,7 +11,8 @@ import { Plus, Database } from 'lucide-react';
 import { AppShell } from '@/components/app-shell';
 import { useApi } from '@/lib/use-api';
 import { formatDate } from '@/lib/format-date';
-import { getPaperlessInstances } from '@repo/api-client';
+import { getPaperlessInstances, postPaperlessInstancesByIdImport } from '@repo/api-client';
+import { toast } from 'sonner';
 
 import type { PaperlessInstanceListItem } from '@repo/api-client';
 import {
@@ -43,6 +44,7 @@ export default function PaperlessInstancesPage() {
     PaperlessInstanceListItem,
     'apiToken'
   > | null>(null);
+  const [importingInstanceId, setImportingInstanceId] = useState<string | null>(null);
 
   const loadInstances = useCallback(async () => {
     setIsLoading(true);
@@ -67,6 +69,31 @@ export default function PaperlessInstancesPage() {
     }
   }, [router, showError, client]);
 
+  const handleImport = useCallback(
+    async (instance: Omit<PaperlessInstanceListItem, 'apiToken'>) => {
+      setImportingInstanceId(instance.id);
+
+      try {
+        const response = await postPaperlessInstancesByIdImport({
+          client,
+          path: { id: instance.id },
+        });
+
+        if (response.error) {
+          showError('importFailed');
+          return;
+        }
+
+        toast.success(t('importSuccess', { count: response.data.imported }));
+      } catch {
+        showError('importFailed');
+      } finally {
+        setImportingInstanceId(null);
+      }
+    },
+    [client, showError, t]
+  );
+
   useEffect(() => {
     if (!isAuthLoading && currentUser?.role !== 'ADMIN') {
       router.push('/');
@@ -90,6 +117,8 @@ export default function PaperlessInstancesPage() {
         instance={instance}
         onEdit={setEditingInstance}
         onDelete={setDeletingInstance}
+        onImport={handleImport}
+        isImporting={importingInstanceId === instance.id}
         formatDate={(dateString) => formatDate(dateString, format)}
       />
     ));

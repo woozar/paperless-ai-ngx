@@ -43,11 +43,20 @@ export const UpdatePaperlessInstanceRequestSchema = z
   })
   .openapi('UpdatePaperlessInstanceRequest');
 
+// Import documents response
+export const ImportDocumentsResponseSchema = z
+  .object({
+    imported: z.number(),
+    total: z.number(),
+  })
+  .openapi('ImportDocumentsResponse');
+
 // Register schemas
 registry.register('PaperlessInstanceListItem', PaperlessInstanceListItemSchema);
 registry.register('PaperlessInstanceListResponse', PaperlessInstanceListResponseSchema);
 registry.register('CreatePaperlessInstanceRequest', CreatePaperlessInstanceRequestSchema);
 registry.register('UpdatePaperlessInstanceRequest', UpdatePaperlessInstanceRequestSchema);
+registry.register('ImportDocumentsResponse', ImportDocumentsResponseSchema);
 
 // Register all CRUD paths using helper
 registerCrudPaths({
@@ -58,4 +67,40 @@ registerCrudPaths({
   listResponseSchema: PaperlessInstanceListResponseSchema,
   createRequestSchema: CreatePaperlessInstanceRequestSchema,
   updateRequestSchema: UpdatePaperlessInstanceRequestSchema,
+});
+
+// Register import path
+registry.registerPath({
+  method: 'post',
+  path: '/paperless-instances/{id}/import',
+  tags: ['PaperlessInstances'],
+  summary: 'Import documents from Paperless instance',
+  description: 'Imports the first 10 documents from the specified Paperless instance',
+  request: {
+    params: z.object({
+      id: z.string(),
+    }),
+  },
+  responses: {
+    200: {
+      description: 'Documents imported successfully',
+      content: {
+        'application/json': {
+          schema: ImportDocumentsResponseSchema,
+        },
+      },
+    },
+    401: {
+      description: 'Unauthorized',
+    },
+    403: {
+      description: 'Forbidden - Admin role required',
+    },
+    404: {
+      description: 'PaperlessInstance not found',
+    },
+    500: {
+      description: 'Server error',
+    },
+  },
 });

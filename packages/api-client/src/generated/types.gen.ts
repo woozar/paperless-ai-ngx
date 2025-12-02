@@ -84,6 +84,11 @@ export type UpdatePaperlessInstanceRequest = {
   apiToken?: string;
 };
 
+export type ImportDocumentsResponse = {
+  imported: number;
+  total: number;
+};
+
 export type AiProviderType = 'openai' | 'anthropic' | 'ollama' | 'google' | 'custom';
 
 export type AiProviderListItem = {
@@ -626,6 +631,44 @@ export type PatchPaperlessInstancesByIdResponses = {
 
 export type PatchPaperlessInstancesByIdResponse =
   PatchPaperlessInstancesByIdResponses[keyof PatchPaperlessInstancesByIdResponses];
+
+export type PostPaperlessInstancesByIdImportData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/paperless-instances/{id}/import';
+};
+
+export type PostPaperlessInstancesByIdImportErrors = {
+  /**
+   * Unauthorized
+   */
+  401: unknown;
+  /**
+   * Forbidden - Admin role required
+   */
+  403: unknown;
+  /**
+   * PaperlessInstance not found
+   */
+  404: unknown;
+  /**
+   * Server error
+   */
+  500: unknown;
+};
+
+export type PostPaperlessInstancesByIdImportResponses = {
+  /**
+   * Documents imported successfully
+   */
+  200: ImportDocumentsResponse;
+};
+
+export type PostPaperlessInstancesByIdImportResponse =
+  PostPaperlessInstancesByIdImportResponses[keyof PostPaperlessInstancesByIdImportResponses];
 
 export type GetAiProvidersData = {
   body?: never;

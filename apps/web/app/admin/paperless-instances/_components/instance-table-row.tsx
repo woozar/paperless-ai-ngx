@@ -1,13 +1,15 @@
 import { useTranslations } from 'next-intl';
 import { TableRow, TableCell } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
-import { Edit, Trash2 } from 'lucide-react';
+import { Edit, Trash2, Download, Loader2 } from 'lucide-react';
 import type { PaperlessInstanceListItem } from '@repo/api-client';
 
 type InstanceTableRowProps = Readonly<{
   instance: Omit<PaperlessInstanceListItem, 'apiToken'>;
   onEdit: (instance: Omit<PaperlessInstanceListItem, 'apiToken'>) => void;
   onDelete: (instance: Omit<PaperlessInstanceListItem, 'apiToken'>) => void;
+  onImport: (instance: Omit<PaperlessInstanceListItem, 'apiToken'>) => void;
+  isImporting: boolean;
   formatDate: (dateString: string) => string;
 }>;
 
@@ -15,6 +17,8 @@ export function InstanceTableRow({
   instance,
   onEdit,
   onDelete,
+  onImport,
+  isImporting,
   formatDate,
 }: InstanceTableRowProps) {
   const t = useTranslations('admin.paperlessInstances');
@@ -28,6 +32,20 @@ export function InstanceTableRow({
       </TableCell>
       <TableCell className="text-right">
         <div className="flex justify-end gap-2">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => onImport(instance)}
+            disabled={isImporting}
+            data-testid={`import-instance-${instance.id}`}
+          >
+            {isImporting ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <Download className="h-4 w-4" />
+            )}
+            <span className="sr-only">{t('importDocuments')}</span>
+          </Button>
           <Button
             variant="outline"
             size="icon"

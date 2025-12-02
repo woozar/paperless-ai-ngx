@@ -16,6 +16,7 @@ vi.mock('sonner', () => ({
 const mockPush = vi.fn();
 const mockUser = vi.fn();
 const mockGetPaperlessInstances = vi.fn();
+const mockPostPaperlessInstancesByIdImport = vi.fn();
 
 vi.mock('next/navigation', () => ({
   useRouter: () => ({ push: mockPush }),
@@ -31,6 +32,8 @@ vi.mock('@repo/api-client', async () => {
   return {
     ...actual,
     getPaperlessInstances: (...args: any[]) => mockGetPaperlessInstances(...args),
+    postPaperlessInstancesByIdImport: (...args: any[]) =>
+      mockPostPaperlessInstancesByIdImport(...args),
   };
 });
 
@@ -268,6 +271,80 @@ describe('PaperlessInstancesPage', () => {
 
     await waitFor(() => {
       expect(screen.getByText('Production')).toBeInTheDocument();
+    });
+  });
+
+  it('shows success toast when import succeeds', async () => {
+    const user = userEvent.setup({ delay: null });
+    mockGetPaperlessInstances.mockResolvedValueOnce({
+      data: { instances: mockInstances },
+      error: undefined,
+    });
+    mockPostPaperlessInstancesByIdImport.mockResolvedValueOnce({
+      data: { imported: 5, total: 10, skipped: 5 },
+      error: undefined,
+    });
+
+    renderWithIntl(<PaperlessInstancesPage />);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('import-instance-instance-1')).toBeInTheDocument();
+    });
+
+    await user.click(screen.getByTestId('import-instance-instance-1'));
+
+    await waitFor(() => {
+      expect(mockPostPaperlessInstancesByIdImport).toHaveBeenCalledWith(
+        expect.objectContaining({
+          path: { id: 'instance-1' },
+        })
+      );
+      expect(vi.mocked(toast.success)).toHaveBeenCalled();
+    });
+  });
+
+  it('shows error toast when import fails with API error', async () => {
+    const user = userEvent.setup({ delay: null });
+    mockGetPaperlessInstances.mockResolvedValueOnce({
+      data: { instances: mockInstances },
+      error: undefined,
+    });
+    mockPostPaperlessInstancesByIdImport.mockResolvedValueOnce({
+      data: undefined,
+      error: { message: 'Import failed' },
+    });
+
+    renderWithIntl(<PaperlessInstancesPage />);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('import-instance-instance-1')).toBeInTheDocument();
+    });
+
+    await user.click(screen.getByTestId('import-instance-instance-1'));
+
+    await waitFor(() => {
+      expect(vi.mocked(toast.error)).toHaveBeenCalled();
+    });
+  });
+
+  it('shows error toast when import throws exception', async () => {
+    const user = userEvent.setup({ delay: null });
+    mockGetPaperlessInstances.mockResolvedValueOnce({
+      data: { instances: mockInstances },
+      error: undefined,
+    });
+    mockPostPaperlessInstancesByIdImport.mockRejectedValueOnce(new Error('Network error'));
+
+    renderWithIntl(<PaperlessInstancesPage />);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('import-instance-instance-1')).toBeInTheDocument();
+    });
+
+    await user.click(screen.getByTestId('import-instance-instance-1'));
+
+    await waitFor(() => {
+      expect(vi.mocked(toast.error)).toHaveBeenCalled();
     });
   });
 });

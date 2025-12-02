@@ -53,10 +53,16 @@ export type AiProvider = $Result.DefaultSelection<Prisma.$AiProviderPayload>;
  */
 export type AiBot = $Result.DefaultSelection<Prisma.$AiBotPayload>;
 /**
- * Model ProcessedDocument
+ * Model PaperlessDocument
  *
  */
-export type ProcessedDocument = $Result.DefaultSelection<Prisma.$ProcessedDocumentPayload>;
+export type PaperlessDocument = $Result.DefaultSelection<Prisma.$PaperlessDocumentPayload>;
+/**
+ * Model DocumentProcessingResult
+ *
+ */
+export type DocumentProcessingResult =
+  $Result.DefaultSelection<Prisma.$DocumentProcessingResultPayload>;
 /**
  * Model ProcessingQueue
  *
@@ -327,14 +333,24 @@ export class PrismaClient<
   get aiBot(): Prisma.AiBotDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.processedDocument`: Exposes CRUD operations for the **ProcessedDocument** model.
+   * `prisma.paperlessDocument`: Exposes CRUD operations for the **PaperlessDocument** model.
    * Example usage:
    * ```ts
-   * // Fetch zero or more ProcessedDocuments
-   * const processedDocuments = await prisma.processedDocument.findMany()
+   * // Fetch zero or more PaperlessDocuments
+   * const paperlessDocuments = await prisma.paperlessDocument.findMany()
    * ```
    */
-  get processedDocument(): Prisma.ProcessedDocumentDelegate<ExtArgs, ClientOptions>;
+  get paperlessDocument(): Prisma.PaperlessDocumentDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.documentProcessingResult`: Exposes CRUD operations for the **DocumentProcessingResult** model.
+   * Example usage:
+   * ```ts
+   * // Fetch zero or more DocumentProcessingResults
+   * const documentProcessingResults = await prisma.documentProcessingResult.findMany()
+   * ```
+   */
+  get documentProcessingResult(): Prisma.DocumentProcessingResultDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.processingQueue`: Exposes CRUD operations for the **ProcessingQueue** model.
@@ -791,7 +807,8 @@ export namespace Prisma {
     PaperlessInstance: 'PaperlessInstance';
     AiProvider: 'AiProvider';
     AiBot: 'AiBot';
-    ProcessedDocument: 'ProcessedDocument';
+    PaperlessDocument: 'PaperlessDocument';
+    DocumentProcessingResult: 'DocumentProcessingResult';
     ProcessingQueue: 'ProcessingQueue';
     AiUsageMetric: 'AiUsageMetric';
   };
@@ -823,7 +840,8 @@ export namespace Prisma {
         | 'paperlessInstance'
         | 'aiProvider'
         | 'aiBot'
-        | 'processedDocument'
+        | 'paperlessDocument'
+        | 'documentProcessingResult'
         | 'processingQueue'
         | 'aiUsageMetric';
       txIsolationLevel: Prisma.TransactionIsolationLevel;
@@ -1421,77 +1439,151 @@ export namespace Prisma {
           };
         };
       };
-      ProcessedDocument: {
-        payload: Prisma.$ProcessedDocumentPayload<ExtArgs>;
-        fields: Prisma.ProcessedDocumentFieldRefs;
+      PaperlessDocument: {
+        payload: Prisma.$PaperlessDocumentPayload<ExtArgs>;
+        fields: Prisma.PaperlessDocumentFieldRefs;
         operations: {
           findUnique: {
-            args: Prisma.ProcessedDocumentFindUniqueArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$ProcessedDocumentPayload> | null;
+            args: Prisma.PaperlessDocumentFindUniqueArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$PaperlessDocumentPayload> | null;
           };
           findUniqueOrThrow: {
-            args: Prisma.ProcessedDocumentFindUniqueOrThrowArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$ProcessedDocumentPayload>;
+            args: Prisma.PaperlessDocumentFindUniqueOrThrowArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$PaperlessDocumentPayload>;
           };
           findFirst: {
-            args: Prisma.ProcessedDocumentFindFirstArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$ProcessedDocumentPayload> | null;
+            args: Prisma.PaperlessDocumentFindFirstArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$PaperlessDocumentPayload> | null;
           };
           findFirstOrThrow: {
-            args: Prisma.ProcessedDocumentFindFirstOrThrowArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$ProcessedDocumentPayload>;
+            args: Prisma.PaperlessDocumentFindFirstOrThrowArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$PaperlessDocumentPayload>;
           };
           findMany: {
-            args: Prisma.ProcessedDocumentFindManyArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$ProcessedDocumentPayload>[];
+            args: Prisma.PaperlessDocumentFindManyArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$PaperlessDocumentPayload>[];
           };
           create: {
-            args: Prisma.ProcessedDocumentCreateArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$ProcessedDocumentPayload>;
+            args: Prisma.PaperlessDocumentCreateArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$PaperlessDocumentPayload>;
           };
           createMany: {
-            args: Prisma.ProcessedDocumentCreateManyArgs<ExtArgs>;
+            args: Prisma.PaperlessDocumentCreateManyArgs<ExtArgs>;
             result: BatchPayload;
           };
           createManyAndReturn: {
-            args: Prisma.ProcessedDocumentCreateManyAndReturnArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$ProcessedDocumentPayload>[];
+            args: Prisma.PaperlessDocumentCreateManyAndReturnArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$PaperlessDocumentPayload>[];
           };
           delete: {
-            args: Prisma.ProcessedDocumentDeleteArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$ProcessedDocumentPayload>;
+            args: Prisma.PaperlessDocumentDeleteArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$PaperlessDocumentPayload>;
           };
           update: {
-            args: Prisma.ProcessedDocumentUpdateArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$ProcessedDocumentPayload>;
+            args: Prisma.PaperlessDocumentUpdateArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$PaperlessDocumentPayload>;
           };
           deleteMany: {
-            args: Prisma.ProcessedDocumentDeleteManyArgs<ExtArgs>;
+            args: Prisma.PaperlessDocumentDeleteManyArgs<ExtArgs>;
             result: BatchPayload;
           };
           updateMany: {
-            args: Prisma.ProcessedDocumentUpdateManyArgs<ExtArgs>;
+            args: Prisma.PaperlessDocumentUpdateManyArgs<ExtArgs>;
             result: BatchPayload;
           };
           updateManyAndReturn: {
-            args: Prisma.ProcessedDocumentUpdateManyAndReturnArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$ProcessedDocumentPayload>[];
+            args: Prisma.PaperlessDocumentUpdateManyAndReturnArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$PaperlessDocumentPayload>[];
           };
           upsert: {
-            args: Prisma.ProcessedDocumentUpsertArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$ProcessedDocumentPayload>;
+            args: Prisma.PaperlessDocumentUpsertArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$PaperlessDocumentPayload>;
           };
           aggregate: {
-            args: Prisma.ProcessedDocumentAggregateArgs<ExtArgs>;
-            result: $Utils.Optional<AggregateProcessedDocument>;
+            args: Prisma.PaperlessDocumentAggregateArgs<ExtArgs>;
+            result: $Utils.Optional<AggregatePaperlessDocument>;
           };
           groupBy: {
-            args: Prisma.ProcessedDocumentGroupByArgs<ExtArgs>;
-            result: $Utils.Optional<ProcessedDocumentGroupByOutputType>[];
+            args: Prisma.PaperlessDocumentGroupByArgs<ExtArgs>;
+            result: $Utils.Optional<PaperlessDocumentGroupByOutputType>[];
           };
           count: {
-            args: Prisma.ProcessedDocumentCountArgs<ExtArgs>;
-            result: $Utils.Optional<ProcessedDocumentCountAggregateOutputType> | number;
+            args: Prisma.PaperlessDocumentCountArgs<ExtArgs>;
+            result: $Utils.Optional<PaperlessDocumentCountAggregateOutputType> | number;
+          };
+        };
+      };
+      DocumentProcessingResult: {
+        payload: Prisma.$DocumentProcessingResultPayload<ExtArgs>;
+        fields: Prisma.DocumentProcessingResultFieldRefs;
+        operations: {
+          findUnique: {
+            args: Prisma.DocumentProcessingResultFindUniqueArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$DocumentProcessingResultPayload> | null;
+          };
+          findUniqueOrThrow: {
+            args: Prisma.DocumentProcessingResultFindUniqueOrThrowArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$DocumentProcessingResultPayload>;
+          };
+          findFirst: {
+            args: Prisma.DocumentProcessingResultFindFirstArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$DocumentProcessingResultPayload> | null;
+          };
+          findFirstOrThrow: {
+            args: Prisma.DocumentProcessingResultFindFirstOrThrowArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$DocumentProcessingResultPayload>;
+          };
+          findMany: {
+            args: Prisma.DocumentProcessingResultFindManyArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$DocumentProcessingResultPayload>[];
+          };
+          create: {
+            args: Prisma.DocumentProcessingResultCreateArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$DocumentProcessingResultPayload>;
+          };
+          createMany: {
+            args: Prisma.DocumentProcessingResultCreateManyArgs<ExtArgs>;
+            result: BatchPayload;
+          };
+          createManyAndReturn: {
+            args: Prisma.DocumentProcessingResultCreateManyAndReturnArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$DocumentProcessingResultPayload>[];
+          };
+          delete: {
+            args: Prisma.DocumentProcessingResultDeleteArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$DocumentProcessingResultPayload>;
+          };
+          update: {
+            args: Prisma.DocumentProcessingResultUpdateArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$DocumentProcessingResultPayload>;
+          };
+          deleteMany: {
+            args: Prisma.DocumentProcessingResultDeleteManyArgs<ExtArgs>;
+            result: BatchPayload;
+          };
+          updateMany: {
+            args: Prisma.DocumentProcessingResultUpdateManyArgs<ExtArgs>;
+            result: BatchPayload;
+          };
+          updateManyAndReturn: {
+            args: Prisma.DocumentProcessingResultUpdateManyAndReturnArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$DocumentProcessingResultPayload>[];
+          };
+          upsert: {
+            args: Prisma.DocumentProcessingResultUpsertArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$DocumentProcessingResultPayload>;
+          };
+          aggregate: {
+            args: Prisma.DocumentProcessingResultAggregateArgs<ExtArgs>;
+            result: $Utils.Optional<AggregateDocumentProcessingResult>;
+          };
+          groupBy: {
+            args: Prisma.DocumentProcessingResultGroupByArgs<ExtArgs>;
+            result: $Utils.Optional<DocumentProcessingResultGroupByOutputType>[];
+          };
+          count: {
+            args: Prisma.DocumentProcessingResultCountArgs<ExtArgs>;
+            result: $Utils.Optional<DocumentProcessingResultCountAggregateOutputType> | number;
           };
         };
       };
@@ -1747,7 +1839,8 @@ export namespace Prisma {
     paperlessInstance?: PaperlessInstanceOmit;
     aiProvider?: AiProviderOmit;
     aiBot?: AiBotOmit;
-    processedDocument?: ProcessedDocumentOmit;
+    paperlessDocument?: PaperlessDocumentOmit;
+    documentProcessingResult?: DocumentProcessingResultOmit;
     processingQueue?: ProcessingQueueOmit;
     aiUsageMetric?: AiUsageMetricOmit;
   };
@@ -1928,7 +2021,7 @@ export namespace Prisma {
 
   export type PaperlessInstanceCountOutputType = {
     sharedWith: number;
-    processedDocuments: number;
+    documents: number;
     processingQueue: number;
   };
 
@@ -1936,7 +2029,7 @@ export namespace Prisma {
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     sharedWith?: boolean | PaperlessInstanceCountOutputTypeCountSharedWithArgs;
-    processedDocuments?: boolean | PaperlessInstanceCountOutputTypeCountProcessedDocumentsArgs;
+    documents?: boolean | PaperlessInstanceCountOutputTypeCountDocumentsArgs;
     processingQueue?: boolean | PaperlessInstanceCountOutputTypeCountProcessingQueueArgs;
   };
 
@@ -1965,10 +2058,10 @@ export namespace Prisma {
   /**
    * PaperlessInstanceCountOutputType without action
    */
-  export type PaperlessInstanceCountOutputTypeCountProcessedDocumentsArgs<
+  export type PaperlessInstanceCountOutputTypeCountDocumentsArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
-    where?: ProcessedDocumentWhereInput;
+    where?: PaperlessDocumentWhereInput;
   };
 
   /**
@@ -2083,6 +2176,42 @@ export namespace Prisma {
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     where?: AiUsageMetricWhereInput;
+  };
+
+  /**
+   * Count Type PaperlessDocumentCountOutputType
+   */
+
+  export type PaperlessDocumentCountOutputType = {
+    processingResults: number;
+  };
+
+  export type PaperlessDocumentCountOutputTypeSelect<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    processingResults?: boolean | PaperlessDocumentCountOutputTypeCountProcessingResultsArgs;
+  };
+
+  // Custom InputTypes
+  /**
+   * PaperlessDocumentCountOutputType without action
+   */
+  export type PaperlessDocumentCountOutputTypeDefaultArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the PaperlessDocumentCountOutputType
+     */
+    select?: PaperlessDocumentCountOutputTypeSelect<ExtArgs> | null;
+  };
+
+  /**
+   * PaperlessDocumentCountOutputType without action
+   */
+  export type PaperlessDocumentCountOutputTypeCountProcessingResultsArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    where?: DocumentProcessingResultWhereInput;
   };
 
   /**
@@ -8763,7 +8892,7 @@ export namespace Prisma {
       ownerId?: boolean;
       owner?: boolean | UserDefaultArgs<ExtArgs>;
       sharedWith?: boolean | PaperlessInstance$sharedWithArgs<ExtArgs>;
-      processedDocuments?: boolean | PaperlessInstance$processedDocumentsArgs<ExtArgs>;
+      documents?: boolean | PaperlessInstance$documentsArgs<ExtArgs>;
       processingQueue?: boolean | PaperlessInstance$processingQueueArgs<ExtArgs>;
       _count?: boolean | PaperlessInstanceCountOutputTypeDefaultArgs<ExtArgs>;
     },
@@ -8823,7 +8952,7 @@ export namespace Prisma {
   > = {
     owner?: boolean | UserDefaultArgs<ExtArgs>;
     sharedWith?: boolean | PaperlessInstance$sharedWithArgs<ExtArgs>;
-    processedDocuments?: boolean | PaperlessInstance$processedDocumentsArgs<ExtArgs>;
+    documents?: boolean | PaperlessInstance$documentsArgs<ExtArgs>;
     processingQueue?: boolean | PaperlessInstance$processingQueueArgs<ExtArgs>;
     _count?: boolean | PaperlessInstanceCountOutputTypeDefaultArgs<ExtArgs>;
   };
@@ -8845,7 +8974,7 @@ export namespace Prisma {
     objects: {
       owner: Prisma.$UserPayload<ExtArgs>;
       sharedWith: Prisma.$UserPaperlessInstanceAccessPayload<ExtArgs>[];
-      processedDocuments: Prisma.$ProcessedDocumentPayload<ExtArgs>[];
+      documents: Prisma.$PaperlessDocumentPayload<ExtArgs>[];
       processingQueue: Prisma.$ProcessingQueuePayload<ExtArgs>[];
     };
     scalars: $Extensions.GetPayloadResult<
@@ -9388,11 +9517,11 @@ export namespace Prisma {
         >
       | Null
     >;
-    processedDocuments<T extends PaperlessInstance$processedDocumentsArgs<ExtArgs> = {}>(
-      args?: Subset<T, PaperlessInstance$processedDocumentsArgs<ExtArgs>>
+    documents<T extends PaperlessInstance$documentsArgs<ExtArgs> = {}>(
+      args?: Subset<T, PaperlessInstance$documentsArgs<ExtArgs>>
     ): Prisma.PrismaPromise<
       | $Result.GetResult<
-          Prisma.$ProcessedDocumentPayload<ExtArgs>,
+          Prisma.$PaperlessDocumentPayload<ExtArgs>,
           T,
           'findMany',
           GlobalOmitOptions
@@ -9902,31 +10031,31 @@ export namespace Prisma {
   };
 
   /**
-   * PaperlessInstance.processedDocuments
+   * PaperlessInstance.documents
    */
-  export type PaperlessInstance$processedDocumentsArgs<
+  export type PaperlessInstance$documentsArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Select specific fields to fetch from the ProcessedDocument
+     * Select specific fields to fetch from the PaperlessDocument
      */
-    select?: ProcessedDocumentSelect<ExtArgs> | null;
+    select?: PaperlessDocumentSelect<ExtArgs> | null;
     /**
-     * Omit specific fields from the ProcessedDocument
+     * Omit specific fields from the PaperlessDocument
      */
-    omit?: ProcessedDocumentOmit<ExtArgs> | null;
+    omit?: PaperlessDocumentOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ProcessedDocumentInclude<ExtArgs> | null;
-    where?: ProcessedDocumentWhereInput;
+    include?: PaperlessDocumentInclude<ExtArgs> | null;
+    where?: PaperlessDocumentWhereInput;
     orderBy?:
-      | ProcessedDocumentOrderByWithRelationInput
-      | ProcessedDocumentOrderByWithRelationInput[];
-    cursor?: ProcessedDocumentWhereUniqueInput;
+      | PaperlessDocumentOrderByWithRelationInput
+      | PaperlessDocumentOrderByWithRelationInput[];
+    cursor?: PaperlessDocumentWhereUniqueInput;
     take?: number;
     skip?: number;
-    distinct?: ProcessedDocumentScalarFieldEnum | ProcessedDocumentScalarFieldEnum[];
+    distinct?: PaperlessDocumentScalarFieldEnum | PaperlessDocumentScalarFieldEnum[];
   };
 
   /**
@@ -12711,443 +12840,404 @@ export namespace Prisma {
     };
 
   /**
-   * Model ProcessedDocument
+   * Model PaperlessDocument
    */
 
-  export type AggregateProcessedDocument = {
-    _count: ProcessedDocumentCountAggregateOutputType | null;
-    _avg: ProcessedDocumentAvgAggregateOutputType | null;
-    _sum: ProcessedDocumentSumAggregateOutputType | null;
-    _min: ProcessedDocumentMinAggregateOutputType | null;
-    _max: ProcessedDocumentMaxAggregateOutputType | null;
+  export type AggregatePaperlessDocument = {
+    _count: PaperlessDocumentCountAggregateOutputType | null;
+    _avg: PaperlessDocumentAvgAggregateOutputType | null;
+    _sum: PaperlessDocumentSumAggregateOutputType | null;
+    _min: PaperlessDocumentMinAggregateOutputType | null;
+    _max: PaperlessDocumentMaxAggregateOutputType | null;
   };
 
-  export type ProcessedDocumentAvgAggregateOutputType = {
+  export type PaperlessDocumentAvgAggregateOutputType = {
     paperlessId: number | null;
-    tokensUsed: number | null;
+    correspondentId: number | null;
+    tagIds: number | null;
   };
 
-  export type ProcessedDocumentSumAggregateOutputType = {
+  export type PaperlessDocumentSumAggregateOutputType = {
     paperlessId: number | null;
-    tokensUsed: number | null;
+    correspondentId: number | null;
+    tagIds: number[];
   };
 
-  export type ProcessedDocumentMinAggregateOutputType = {
+  export type PaperlessDocumentMinAggregateOutputType = {
     id: string | null;
     paperlessId: number | null;
     title: string | null;
-    processedAt: Date | null;
-    aiProvider: string | null;
-    tokensUsed: number | null;
-    originalTitle: string | null;
-    originalCorrespondent: string | null;
-    originalDocumentType: string | null;
+    content: string | null;
+    correspondentId: number | null;
+    importedAt: Date | null;
     createdAt: Date | null;
     updatedAt: Date | null;
     paperlessInstanceId: string | null;
   };
 
-  export type ProcessedDocumentMaxAggregateOutputType = {
+  export type PaperlessDocumentMaxAggregateOutputType = {
     id: string | null;
     paperlessId: number | null;
     title: string | null;
-    processedAt: Date | null;
-    aiProvider: string | null;
-    tokensUsed: number | null;
-    originalTitle: string | null;
-    originalCorrespondent: string | null;
-    originalDocumentType: string | null;
+    content: string | null;
+    correspondentId: number | null;
+    importedAt: Date | null;
     createdAt: Date | null;
     updatedAt: Date | null;
     paperlessInstanceId: string | null;
   };
 
-  export type ProcessedDocumentCountAggregateOutputType = {
+  export type PaperlessDocumentCountAggregateOutputType = {
     id: number;
     paperlessId: number;
     title: number;
-    processedAt: number;
-    aiProvider: number;
-    tokensUsed: number;
-    changes: number;
-    originalTitle: number;
-    originalCorrespondent: number;
-    originalDocumentType: number;
-    originalTags: number;
+    content: number;
+    correspondentId: number;
+    tagIds: number;
+    importedAt: number;
     createdAt: number;
     updatedAt: number;
     paperlessInstanceId: number;
     _all: number;
   };
 
-  export type ProcessedDocumentAvgAggregateInputType = {
+  export type PaperlessDocumentAvgAggregateInputType = {
     paperlessId?: true;
-    tokensUsed?: true;
+    correspondentId?: true;
+    tagIds?: true;
   };
 
-  export type ProcessedDocumentSumAggregateInputType = {
+  export type PaperlessDocumentSumAggregateInputType = {
     paperlessId?: true;
-    tokensUsed?: true;
+    correspondentId?: true;
+    tagIds?: true;
   };
 
-  export type ProcessedDocumentMinAggregateInputType = {
+  export type PaperlessDocumentMinAggregateInputType = {
     id?: true;
     paperlessId?: true;
     title?: true;
-    processedAt?: true;
-    aiProvider?: true;
-    tokensUsed?: true;
-    originalTitle?: true;
-    originalCorrespondent?: true;
-    originalDocumentType?: true;
+    content?: true;
+    correspondentId?: true;
+    importedAt?: true;
     createdAt?: true;
     updatedAt?: true;
     paperlessInstanceId?: true;
   };
 
-  export type ProcessedDocumentMaxAggregateInputType = {
+  export type PaperlessDocumentMaxAggregateInputType = {
     id?: true;
     paperlessId?: true;
     title?: true;
-    processedAt?: true;
-    aiProvider?: true;
-    tokensUsed?: true;
-    originalTitle?: true;
-    originalCorrespondent?: true;
-    originalDocumentType?: true;
+    content?: true;
+    correspondentId?: true;
+    importedAt?: true;
     createdAt?: true;
     updatedAt?: true;
     paperlessInstanceId?: true;
   };
 
-  export type ProcessedDocumentCountAggregateInputType = {
+  export type PaperlessDocumentCountAggregateInputType = {
     id?: true;
     paperlessId?: true;
     title?: true;
-    processedAt?: true;
-    aiProvider?: true;
-    tokensUsed?: true;
-    changes?: true;
-    originalTitle?: true;
-    originalCorrespondent?: true;
-    originalDocumentType?: true;
-    originalTags?: true;
+    content?: true;
+    correspondentId?: true;
+    tagIds?: true;
+    importedAt?: true;
     createdAt?: true;
     updatedAt?: true;
     paperlessInstanceId?: true;
     _all?: true;
   };
 
-  export type ProcessedDocumentAggregateArgs<
+  export type PaperlessDocumentAggregateArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Filter which ProcessedDocument to aggregate.
+     * Filter which PaperlessDocument to aggregate.
      */
-    where?: ProcessedDocumentWhereInput;
+    where?: PaperlessDocumentWhereInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      *
-     * Determine the order of ProcessedDocuments to fetch.
+     * Determine the order of PaperlessDocuments to fetch.
      */
     orderBy?:
-      | ProcessedDocumentOrderByWithRelationInput
-      | ProcessedDocumentOrderByWithRelationInput[];
+      | PaperlessDocumentOrderByWithRelationInput
+      | PaperlessDocumentOrderByWithRelationInput[];
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      *
      * Sets the start position
      */
-    cursor?: ProcessedDocumentWhereUniqueInput;
+    cursor?: PaperlessDocumentWhereUniqueInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      *
-     * Take `±n` ProcessedDocuments from the position of the cursor.
+     * Take `±n` PaperlessDocuments from the position of the cursor.
      */
     take?: number;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      *
-     * Skip the first `n` ProcessedDocuments.
+     * Skip the first `n` PaperlessDocuments.
      */
     skip?: number;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      *
-     * Count returned ProcessedDocuments
+     * Count returned PaperlessDocuments
      **/
-    _count?: true | ProcessedDocumentCountAggregateInputType;
+    _count?: true | PaperlessDocumentCountAggregateInputType;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      *
      * Select which fields to average
      **/
-    _avg?: ProcessedDocumentAvgAggregateInputType;
+    _avg?: PaperlessDocumentAvgAggregateInputType;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      *
      * Select which fields to sum
      **/
-    _sum?: ProcessedDocumentSumAggregateInputType;
+    _sum?: PaperlessDocumentSumAggregateInputType;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      *
      * Select which fields to find the minimum value
      **/
-    _min?: ProcessedDocumentMinAggregateInputType;
+    _min?: PaperlessDocumentMinAggregateInputType;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      *
      * Select which fields to find the maximum value
      **/
-    _max?: ProcessedDocumentMaxAggregateInputType;
+    _max?: PaperlessDocumentMaxAggregateInputType;
   };
 
-  export type GetProcessedDocumentAggregateType<T extends ProcessedDocumentAggregateArgs> = {
-    [P in keyof T & keyof AggregateProcessedDocument]: P extends '_count' | 'count'
+  export type GetPaperlessDocumentAggregateType<T extends PaperlessDocumentAggregateArgs> = {
+    [P in keyof T & keyof AggregatePaperlessDocument]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateProcessedDocument[P]>
-      : GetScalarType<T[P], AggregateProcessedDocument[P]>;
+        : GetScalarType<T[P], AggregatePaperlessDocument[P]>
+      : GetScalarType<T[P], AggregatePaperlessDocument[P]>;
   };
 
-  export type ProcessedDocumentGroupByArgs<
+  export type PaperlessDocumentGroupByArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
-    where?: ProcessedDocumentWhereInput;
+    where?: PaperlessDocumentWhereInput;
     orderBy?:
-      | ProcessedDocumentOrderByWithAggregationInput
-      | ProcessedDocumentOrderByWithAggregationInput[];
-    by: ProcessedDocumentScalarFieldEnum[] | ProcessedDocumentScalarFieldEnum;
-    having?: ProcessedDocumentScalarWhereWithAggregatesInput;
+      | PaperlessDocumentOrderByWithAggregationInput
+      | PaperlessDocumentOrderByWithAggregationInput[];
+    by: PaperlessDocumentScalarFieldEnum[] | PaperlessDocumentScalarFieldEnum;
+    having?: PaperlessDocumentScalarWhereWithAggregatesInput;
     take?: number;
     skip?: number;
-    _count?: ProcessedDocumentCountAggregateInputType | true;
-    _avg?: ProcessedDocumentAvgAggregateInputType;
-    _sum?: ProcessedDocumentSumAggregateInputType;
-    _min?: ProcessedDocumentMinAggregateInputType;
-    _max?: ProcessedDocumentMaxAggregateInputType;
+    _count?: PaperlessDocumentCountAggregateInputType | true;
+    _avg?: PaperlessDocumentAvgAggregateInputType;
+    _sum?: PaperlessDocumentSumAggregateInputType;
+    _min?: PaperlessDocumentMinAggregateInputType;
+    _max?: PaperlessDocumentMaxAggregateInputType;
   };
 
-  export type ProcessedDocumentGroupByOutputType = {
+  export type PaperlessDocumentGroupByOutputType = {
     id: string;
     paperlessId: number;
     title: string;
-    processedAt: Date;
-    aiProvider: string;
-    tokensUsed: number;
-    changes: JsonValue | null;
-    originalTitle: string | null;
-    originalCorrespondent: string | null;
-    originalDocumentType: string | null;
-    originalTags: string[];
+    content: string;
+    correspondentId: number | null;
+    tagIds: number[];
+    importedAt: Date;
     createdAt: Date;
     updatedAt: Date;
     paperlessInstanceId: string;
-    _count: ProcessedDocumentCountAggregateOutputType | null;
-    _avg: ProcessedDocumentAvgAggregateOutputType | null;
-    _sum: ProcessedDocumentSumAggregateOutputType | null;
-    _min: ProcessedDocumentMinAggregateOutputType | null;
-    _max: ProcessedDocumentMaxAggregateOutputType | null;
+    _count: PaperlessDocumentCountAggregateOutputType | null;
+    _avg: PaperlessDocumentAvgAggregateOutputType | null;
+    _sum: PaperlessDocumentSumAggregateOutputType | null;
+    _min: PaperlessDocumentMinAggregateOutputType | null;
+    _max: PaperlessDocumentMaxAggregateOutputType | null;
   };
 
-  type GetProcessedDocumentGroupByPayload<T extends ProcessedDocumentGroupByArgs> =
+  type GetPaperlessDocumentGroupByPayload<T extends PaperlessDocumentGroupByArgs> =
     Prisma.PrismaPromise<
       Array<
-        PickEnumerable<ProcessedDocumentGroupByOutputType, T['by']> & {
-          [P in keyof T & keyof ProcessedDocumentGroupByOutputType]: P extends '_count'
+        PickEnumerable<PaperlessDocumentGroupByOutputType, T['by']> & {
+          [P in keyof T & keyof PaperlessDocumentGroupByOutputType]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], ProcessedDocumentGroupByOutputType[P]>
-            : GetScalarType<T[P], ProcessedDocumentGroupByOutputType[P]>;
+              : GetScalarType<T[P], PaperlessDocumentGroupByOutputType[P]>
+            : GetScalarType<T[P], PaperlessDocumentGroupByOutputType[P]>;
         }
       >
     >;
 
-  export type ProcessedDocumentSelect<
+  export type PaperlessDocumentSelect<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = $Extensions.GetSelect<
     {
       id?: boolean;
       paperlessId?: boolean;
       title?: boolean;
-      processedAt?: boolean;
-      aiProvider?: boolean;
-      tokensUsed?: boolean;
-      changes?: boolean;
-      originalTitle?: boolean;
-      originalCorrespondent?: boolean;
-      originalDocumentType?: boolean;
-      originalTags?: boolean;
+      content?: boolean;
+      correspondentId?: boolean;
+      tagIds?: boolean;
+      importedAt?: boolean;
       createdAt?: boolean;
       updatedAt?: boolean;
       paperlessInstanceId?: boolean;
       paperlessInstance?: boolean | PaperlessInstanceDefaultArgs<ExtArgs>;
+      processingResults?: boolean | PaperlessDocument$processingResultsArgs<ExtArgs>;
+      _count?: boolean | PaperlessDocumentCountOutputTypeDefaultArgs<ExtArgs>;
     },
-    ExtArgs['result']['processedDocument']
+    ExtArgs['result']['paperlessDocument']
   >;
 
-  export type ProcessedDocumentSelectCreateManyAndReturn<
+  export type PaperlessDocumentSelectCreateManyAndReturn<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = $Extensions.GetSelect<
     {
       id?: boolean;
       paperlessId?: boolean;
       title?: boolean;
-      processedAt?: boolean;
-      aiProvider?: boolean;
-      tokensUsed?: boolean;
-      changes?: boolean;
-      originalTitle?: boolean;
-      originalCorrespondent?: boolean;
-      originalDocumentType?: boolean;
-      originalTags?: boolean;
+      content?: boolean;
+      correspondentId?: boolean;
+      tagIds?: boolean;
+      importedAt?: boolean;
       createdAt?: boolean;
       updatedAt?: boolean;
       paperlessInstanceId?: boolean;
       paperlessInstance?: boolean | PaperlessInstanceDefaultArgs<ExtArgs>;
     },
-    ExtArgs['result']['processedDocument']
+    ExtArgs['result']['paperlessDocument']
   >;
 
-  export type ProcessedDocumentSelectUpdateManyAndReturn<
+  export type PaperlessDocumentSelectUpdateManyAndReturn<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = $Extensions.GetSelect<
     {
       id?: boolean;
       paperlessId?: boolean;
       title?: boolean;
-      processedAt?: boolean;
-      aiProvider?: boolean;
-      tokensUsed?: boolean;
-      changes?: boolean;
-      originalTitle?: boolean;
-      originalCorrespondent?: boolean;
-      originalDocumentType?: boolean;
-      originalTags?: boolean;
+      content?: boolean;
+      correspondentId?: boolean;
+      tagIds?: boolean;
+      importedAt?: boolean;
       createdAt?: boolean;
       updatedAt?: boolean;
       paperlessInstanceId?: boolean;
       paperlessInstance?: boolean | PaperlessInstanceDefaultArgs<ExtArgs>;
     },
-    ExtArgs['result']['processedDocument']
+    ExtArgs['result']['paperlessDocument']
   >;
 
-  export type ProcessedDocumentSelectScalar = {
+  export type PaperlessDocumentSelectScalar = {
     id?: boolean;
     paperlessId?: boolean;
     title?: boolean;
-    processedAt?: boolean;
-    aiProvider?: boolean;
-    tokensUsed?: boolean;
-    changes?: boolean;
-    originalTitle?: boolean;
-    originalCorrespondent?: boolean;
-    originalDocumentType?: boolean;
-    originalTags?: boolean;
+    content?: boolean;
+    correspondentId?: boolean;
+    tagIds?: boolean;
+    importedAt?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     paperlessInstanceId?: boolean;
   };
 
-  export type ProcessedDocumentOmit<
+  export type PaperlessDocumentOmit<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = $Extensions.GetOmit<
     | 'id'
     | 'paperlessId'
     | 'title'
-    | 'processedAt'
-    | 'aiProvider'
-    | 'tokensUsed'
-    | 'changes'
-    | 'originalTitle'
-    | 'originalCorrespondent'
-    | 'originalDocumentType'
-    | 'originalTags'
+    | 'content'
+    | 'correspondentId'
+    | 'tagIds'
+    | 'importedAt'
     | 'createdAt'
     | 'updatedAt'
     | 'paperlessInstanceId',
-    ExtArgs['result']['processedDocument']
+    ExtArgs['result']['paperlessDocument']
   >;
-  export type ProcessedDocumentInclude<
+  export type PaperlessDocumentInclude<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    paperlessInstance?: boolean | PaperlessInstanceDefaultArgs<ExtArgs>;
+    processingResults?: boolean | PaperlessDocument$processingResultsArgs<ExtArgs>;
+    _count?: boolean | PaperlessDocumentCountOutputTypeDefaultArgs<ExtArgs>;
+  };
+  export type PaperlessDocumentIncludeCreateManyAndReturn<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     paperlessInstance?: boolean | PaperlessInstanceDefaultArgs<ExtArgs>;
   };
-  export type ProcessedDocumentIncludeCreateManyAndReturn<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    paperlessInstance?: boolean | PaperlessInstanceDefaultArgs<ExtArgs>;
-  };
-  export type ProcessedDocumentIncludeUpdateManyAndReturn<
+  export type PaperlessDocumentIncludeUpdateManyAndReturn<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     paperlessInstance?: boolean | PaperlessInstanceDefaultArgs<ExtArgs>;
   };
 
-  export type $ProcessedDocumentPayload<
+  export type $PaperlessDocumentPayload<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
-    name: 'ProcessedDocument';
+    name: 'PaperlessDocument';
     objects: {
       paperlessInstance: Prisma.$PaperlessInstancePayload<ExtArgs>;
+      processingResults: Prisma.$DocumentProcessingResultPayload<ExtArgs>[];
     };
     scalars: $Extensions.GetPayloadResult<
       {
         id: string;
         paperlessId: number;
         title: string;
-        processedAt: Date;
-        aiProvider: string;
-        tokensUsed: number;
-        changes: Prisma.JsonValue | null;
-        originalTitle: string | null;
-        originalCorrespondent: string | null;
-        originalDocumentType: string | null;
-        originalTags: string[];
+        content: string;
+        correspondentId: number | null;
+        tagIds: number[];
+        importedAt: Date;
         createdAt: Date;
         updatedAt: Date;
         paperlessInstanceId: string;
       },
-      ExtArgs['result']['processedDocument']
+      ExtArgs['result']['paperlessDocument']
     >;
     composites: {};
   };
 
-  type ProcessedDocumentGetPayload<
-    S extends boolean | null | undefined | ProcessedDocumentDefaultArgs,
-  > = $Result.GetResult<Prisma.$ProcessedDocumentPayload, S>;
+  type PaperlessDocumentGetPayload<
+    S extends boolean | null | undefined | PaperlessDocumentDefaultArgs,
+  > = $Result.GetResult<Prisma.$PaperlessDocumentPayload, S>;
 
-  type ProcessedDocumentCountArgs<
+  type PaperlessDocumentCountArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = Omit<ProcessedDocumentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-    select?: ProcessedDocumentCountAggregateInputType | true;
+  > = Omit<PaperlessDocumentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+    select?: PaperlessDocumentCountAggregateInputType | true;
   };
 
-  export interface ProcessedDocumentDelegate<
+  export interface PaperlessDocumentDelegate<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
     GlobalOmitOptions = {},
   > {
     [K: symbol]: {
-      types: Prisma.TypeMap<ExtArgs>['model']['ProcessedDocument'];
-      meta: { name: 'ProcessedDocument' };
+      types: Prisma.TypeMap<ExtArgs>['model']['PaperlessDocument'];
+      meta: { name: 'PaperlessDocument' };
     };
     /**
-     * Find zero or one ProcessedDocument that matches the filter.
-     * @param {ProcessedDocumentFindUniqueArgs} args - Arguments to find a ProcessedDocument
+     * Find zero or one PaperlessDocument that matches the filter.
+     * @param {PaperlessDocumentFindUniqueArgs} args - Arguments to find a PaperlessDocument
      * @example
-     * // Get one ProcessedDocument
-     * const processedDocument = await prisma.processedDocument.findUnique({
+     * // Get one PaperlessDocument
+     * const paperlessDocument = await prisma.paperlessDocument.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends ProcessedDocumentFindUniqueArgs>(
-      args: SelectSubset<T, ProcessedDocumentFindUniqueArgs<ExtArgs>>
-    ): Prisma__ProcessedDocumentClient<
+    findUnique<T extends PaperlessDocumentFindUniqueArgs>(
+      args: SelectSubset<T, PaperlessDocumentFindUniqueArgs<ExtArgs>>
+    ): Prisma__PaperlessDocumentClient<
       $Result.GetResult<
-        Prisma.$ProcessedDocumentPayload<ExtArgs>,
+        Prisma.$PaperlessDocumentPayload<ExtArgs>,
         T,
         'findUnique',
         GlobalOmitOptions
@@ -13158,22 +13248,22 @@ export namespace Prisma {
     >;
 
     /**
-     * Find one ProcessedDocument that matches the filter or throw an error with `error.code='P2025'`
+     * Find one PaperlessDocument that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {ProcessedDocumentFindUniqueOrThrowArgs} args - Arguments to find a ProcessedDocument
+     * @param {PaperlessDocumentFindUniqueOrThrowArgs} args - Arguments to find a PaperlessDocument
      * @example
-     * // Get one ProcessedDocument
-     * const processedDocument = await prisma.processedDocument.findUniqueOrThrow({
+     * // Get one PaperlessDocument
+     * const paperlessDocument = await prisma.paperlessDocument.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends ProcessedDocumentFindUniqueOrThrowArgs>(
-      args: SelectSubset<T, ProcessedDocumentFindUniqueOrThrowArgs<ExtArgs>>
-    ): Prisma__ProcessedDocumentClient<
+    findUniqueOrThrow<T extends PaperlessDocumentFindUniqueOrThrowArgs>(
+      args: SelectSubset<T, PaperlessDocumentFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__PaperlessDocumentClient<
       $Result.GetResult<
-        Prisma.$ProcessedDocumentPayload<ExtArgs>,
+        Prisma.$PaperlessDocumentPayload<ExtArgs>,
         T,
         'findUniqueOrThrow',
         GlobalOmitOptions
@@ -13184,23 +13274,23 @@ export namespace Prisma {
     >;
 
     /**
-     * Find the first ProcessedDocument that matches the filter.
+     * Find the first PaperlessDocument that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProcessedDocumentFindFirstArgs} args - Arguments to find a ProcessedDocument
+     * @param {PaperlessDocumentFindFirstArgs} args - Arguments to find a PaperlessDocument
      * @example
-     * // Get one ProcessedDocument
-     * const processedDocument = await prisma.processedDocument.findFirst({
+     * // Get one PaperlessDocument
+     * const paperlessDocument = await prisma.paperlessDocument.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends ProcessedDocumentFindFirstArgs>(
-      args?: SelectSubset<T, ProcessedDocumentFindFirstArgs<ExtArgs>>
-    ): Prisma__ProcessedDocumentClient<
+    findFirst<T extends PaperlessDocumentFindFirstArgs>(
+      args?: SelectSubset<T, PaperlessDocumentFindFirstArgs<ExtArgs>>
+    ): Prisma__PaperlessDocumentClient<
       $Result.GetResult<
-        Prisma.$ProcessedDocumentPayload<ExtArgs>,
+        Prisma.$PaperlessDocumentPayload<ExtArgs>,
         T,
         'findFirst',
         GlobalOmitOptions
@@ -13211,24 +13301,24 @@ export namespace Prisma {
     >;
 
     /**
-     * Find the first ProcessedDocument that matches the filter or
+     * Find the first PaperlessDocument that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProcessedDocumentFindFirstOrThrowArgs} args - Arguments to find a ProcessedDocument
+     * @param {PaperlessDocumentFindFirstOrThrowArgs} args - Arguments to find a PaperlessDocument
      * @example
-     * // Get one ProcessedDocument
-     * const processedDocument = await prisma.processedDocument.findFirstOrThrow({
+     * // Get one PaperlessDocument
+     * const paperlessDocument = await prisma.paperlessDocument.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends ProcessedDocumentFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, ProcessedDocumentFindFirstOrThrowArgs<ExtArgs>>
-    ): Prisma__ProcessedDocumentClient<
+    findFirstOrThrow<T extends PaperlessDocumentFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, PaperlessDocumentFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__PaperlessDocumentClient<
       $Result.GetResult<
-        Prisma.$ProcessedDocumentPayload<ExtArgs>,
+        Prisma.$PaperlessDocumentPayload<ExtArgs>,
         T,
         'findFirstOrThrow',
         GlobalOmitOptions
@@ -13239,77 +13329,77 @@ export namespace Prisma {
     >;
 
     /**
-     * Find zero or more ProcessedDocuments that matches the filter.
+     * Find zero or more PaperlessDocuments that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProcessedDocumentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {PaperlessDocumentFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all ProcessedDocuments
-     * const processedDocuments = await prisma.processedDocument.findMany()
+     * // Get all PaperlessDocuments
+     * const paperlessDocuments = await prisma.paperlessDocument.findMany()
      *
-     * // Get first 10 ProcessedDocuments
-     * const processedDocuments = await prisma.processedDocument.findMany({ take: 10 })
+     * // Get first 10 PaperlessDocuments
+     * const paperlessDocuments = await prisma.paperlessDocument.findMany({ take: 10 })
      *
      * // Only select the `id`
-     * const processedDocumentWithIdOnly = await prisma.processedDocument.findMany({ select: { id: true } })
+     * const paperlessDocumentWithIdOnly = await prisma.paperlessDocument.findMany({ select: { id: true } })
      *
      */
-    findMany<T extends ProcessedDocumentFindManyArgs>(
-      args?: SelectSubset<T, ProcessedDocumentFindManyArgs<ExtArgs>>
+    findMany<T extends PaperlessDocumentFindManyArgs>(
+      args?: SelectSubset<T, PaperlessDocumentFindManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<
-      $Result.GetResult<Prisma.$ProcessedDocumentPayload<ExtArgs>, T, 'findMany', GlobalOmitOptions>
+      $Result.GetResult<Prisma.$PaperlessDocumentPayload<ExtArgs>, T, 'findMany', GlobalOmitOptions>
     >;
 
     /**
-     * Create a ProcessedDocument.
-     * @param {ProcessedDocumentCreateArgs} args - Arguments to create a ProcessedDocument.
+     * Create a PaperlessDocument.
+     * @param {PaperlessDocumentCreateArgs} args - Arguments to create a PaperlessDocument.
      * @example
-     * // Create one ProcessedDocument
-     * const ProcessedDocument = await prisma.processedDocument.create({
+     * // Create one PaperlessDocument
+     * const PaperlessDocument = await prisma.paperlessDocument.create({
      *   data: {
-     *     // ... data to create a ProcessedDocument
+     *     // ... data to create a PaperlessDocument
      *   }
      * })
      *
      */
-    create<T extends ProcessedDocumentCreateArgs>(
-      args: SelectSubset<T, ProcessedDocumentCreateArgs<ExtArgs>>
-    ): Prisma__ProcessedDocumentClient<
-      $Result.GetResult<Prisma.$ProcessedDocumentPayload<ExtArgs>, T, 'create', GlobalOmitOptions>,
+    create<T extends PaperlessDocumentCreateArgs>(
+      args: SelectSubset<T, PaperlessDocumentCreateArgs<ExtArgs>>
+    ): Prisma__PaperlessDocumentClient<
+      $Result.GetResult<Prisma.$PaperlessDocumentPayload<ExtArgs>, T, 'create', GlobalOmitOptions>,
       never,
       ExtArgs,
       GlobalOmitOptions
     >;
 
     /**
-     * Create many ProcessedDocuments.
-     * @param {ProcessedDocumentCreateManyArgs} args - Arguments to create many ProcessedDocuments.
+     * Create many PaperlessDocuments.
+     * @param {PaperlessDocumentCreateManyArgs} args - Arguments to create many PaperlessDocuments.
      * @example
-     * // Create many ProcessedDocuments
-     * const processedDocument = await prisma.processedDocument.createMany({
+     * // Create many PaperlessDocuments
+     * const paperlessDocument = await prisma.paperlessDocument.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *
      */
-    createMany<T extends ProcessedDocumentCreateManyArgs>(
-      args?: SelectSubset<T, ProcessedDocumentCreateManyArgs<ExtArgs>>
+    createMany<T extends PaperlessDocumentCreateManyArgs>(
+      args?: SelectSubset<T, PaperlessDocumentCreateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
-     * Create many ProcessedDocuments and returns the data saved in the database.
-     * @param {ProcessedDocumentCreateManyAndReturnArgs} args - Arguments to create many ProcessedDocuments.
+     * Create many PaperlessDocuments and returns the data saved in the database.
+     * @param {PaperlessDocumentCreateManyAndReturnArgs} args - Arguments to create many PaperlessDocuments.
      * @example
-     * // Create many ProcessedDocuments
-     * const processedDocument = await prisma.processedDocument.createManyAndReturn({
+     * // Create many PaperlessDocuments
+     * const paperlessDocument = await prisma.paperlessDocument.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *
-     * // Create many ProcessedDocuments and only return the `id`
-     * const processedDocumentWithIdOnly = await prisma.processedDocument.createManyAndReturn({
+     * // Create many PaperlessDocuments and only return the `id`
+     * const paperlessDocumentWithIdOnly = await prisma.paperlessDocument.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -13319,11 +13409,11 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      *
      */
-    createManyAndReturn<T extends ProcessedDocumentCreateManyAndReturnArgs>(
-      args?: SelectSubset<T, ProcessedDocumentCreateManyAndReturnArgs<ExtArgs>>
+    createManyAndReturn<T extends PaperlessDocumentCreateManyAndReturnArgs>(
+      args?: SelectSubset<T, PaperlessDocumentCreateManyAndReturnArgs<ExtArgs>>
     ): Prisma.PrismaPromise<
       $Result.GetResult<
-        Prisma.$ProcessedDocumentPayload<ExtArgs>,
+        Prisma.$PaperlessDocumentPayload<ExtArgs>,
         T,
         'createManyAndReturn',
         GlobalOmitOptions
@@ -13331,32 +13421,32 @@ export namespace Prisma {
     >;
 
     /**
-     * Delete a ProcessedDocument.
-     * @param {ProcessedDocumentDeleteArgs} args - Arguments to delete one ProcessedDocument.
+     * Delete a PaperlessDocument.
+     * @param {PaperlessDocumentDeleteArgs} args - Arguments to delete one PaperlessDocument.
      * @example
-     * // Delete one ProcessedDocument
-     * const ProcessedDocument = await prisma.processedDocument.delete({
+     * // Delete one PaperlessDocument
+     * const PaperlessDocument = await prisma.paperlessDocument.delete({
      *   where: {
-     *     // ... filter to delete one ProcessedDocument
+     *     // ... filter to delete one PaperlessDocument
      *   }
      * })
      *
      */
-    delete<T extends ProcessedDocumentDeleteArgs>(
-      args: SelectSubset<T, ProcessedDocumentDeleteArgs<ExtArgs>>
-    ): Prisma__ProcessedDocumentClient<
-      $Result.GetResult<Prisma.$ProcessedDocumentPayload<ExtArgs>, T, 'delete', GlobalOmitOptions>,
+    delete<T extends PaperlessDocumentDeleteArgs>(
+      args: SelectSubset<T, PaperlessDocumentDeleteArgs<ExtArgs>>
+    ): Prisma__PaperlessDocumentClient<
+      $Result.GetResult<Prisma.$PaperlessDocumentPayload<ExtArgs>, T, 'delete', GlobalOmitOptions>,
       never,
       ExtArgs,
       GlobalOmitOptions
     >;
 
     /**
-     * Update one ProcessedDocument.
-     * @param {ProcessedDocumentUpdateArgs} args - Arguments to update one ProcessedDocument.
+     * Update one PaperlessDocument.
+     * @param {PaperlessDocumentUpdateArgs} args - Arguments to update one PaperlessDocument.
      * @example
-     * // Update one ProcessedDocument
-     * const processedDocument = await prisma.processedDocument.update({
+     * // Update one PaperlessDocument
+     * const paperlessDocument = await prisma.paperlessDocument.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -13366,39 +13456,39 @@ export namespace Prisma {
      * })
      *
      */
-    update<T extends ProcessedDocumentUpdateArgs>(
-      args: SelectSubset<T, ProcessedDocumentUpdateArgs<ExtArgs>>
-    ): Prisma__ProcessedDocumentClient<
-      $Result.GetResult<Prisma.$ProcessedDocumentPayload<ExtArgs>, T, 'update', GlobalOmitOptions>,
+    update<T extends PaperlessDocumentUpdateArgs>(
+      args: SelectSubset<T, PaperlessDocumentUpdateArgs<ExtArgs>>
+    ): Prisma__PaperlessDocumentClient<
+      $Result.GetResult<Prisma.$PaperlessDocumentPayload<ExtArgs>, T, 'update', GlobalOmitOptions>,
       never,
       ExtArgs,
       GlobalOmitOptions
     >;
 
     /**
-     * Delete zero or more ProcessedDocuments.
-     * @param {ProcessedDocumentDeleteManyArgs} args - Arguments to filter ProcessedDocuments to delete.
+     * Delete zero or more PaperlessDocuments.
+     * @param {PaperlessDocumentDeleteManyArgs} args - Arguments to filter PaperlessDocuments to delete.
      * @example
-     * // Delete a few ProcessedDocuments
-     * const { count } = await prisma.processedDocument.deleteMany({
+     * // Delete a few PaperlessDocuments
+     * const { count } = await prisma.paperlessDocument.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      *
      */
-    deleteMany<T extends ProcessedDocumentDeleteManyArgs>(
-      args?: SelectSubset<T, ProcessedDocumentDeleteManyArgs<ExtArgs>>
+    deleteMany<T extends PaperlessDocumentDeleteManyArgs>(
+      args?: SelectSubset<T, PaperlessDocumentDeleteManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
-     * Update zero or more ProcessedDocuments.
+     * Update zero or more PaperlessDocuments.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProcessedDocumentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {PaperlessDocumentUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many ProcessedDocuments
-     * const processedDocument = await prisma.processedDocument.updateMany({
+     * // Update many PaperlessDocuments
+     * const paperlessDocument = await prisma.paperlessDocument.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -13408,16 +13498,16 @@ export namespace Prisma {
      * })
      *
      */
-    updateMany<T extends ProcessedDocumentUpdateManyArgs>(
-      args: SelectSubset<T, ProcessedDocumentUpdateManyArgs<ExtArgs>>
+    updateMany<T extends PaperlessDocumentUpdateManyArgs>(
+      args: SelectSubset<T, PaperlessDocumentUpdateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
-     * Update zero or more ProcessedDocuments and returns the data updated in the database.
-     * @param {ProcessedDocumentUpdateManyAndReturnArgs} args - Arguments to update many ProcessedDocuments.
+     * Update zero or more PaperlessDocuments and returns the data updated in the database.
+     * @param {PaperlessDocumentUpdateManyAndReturnArgs} args - Arguments to update many PaperlessDocuments.
      * @example
-     * // Update many ProcessedDocuments
-     * const processedDocument = await prisma.processedDocument.updateManyAndReturn({
+     * // Update many PaperlessDocuments
+     * const paperlessDocument = await prisma.paperlessDocument.updateManyAndReturn({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -13426,8 +13516,8 @@ export namespace Prisma {
      *   ]
      * })
      *
-     * // Update zero or more ProcessedDocuments and only return the `id`
-     * const processedDocumentWithIdOnly = await prisma.processedDocument.updateManyAndReturn({
+     * // Update zero or more PaperlessDocuments and only return the `id`
+     * const paperlessDocumentWithIdOnly = await prisma.paperlessDocument.updateManyAndReturn({
      *   select: { id: true },
      *   where: {
      *     // ... provide filter here
@@ -13440,11 +13530,11 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      *
      */
-    updateManyAndReturn<T extends ProcessedDocumentUpdateManyAndReturnArgs>(
-      args: SelectSubset<T, ProcessedDocumentUpdateManyAndReturnArgs<ExtArgs>>
+    updateManyAndReturn<T extends PaperlessDocumentUpdateManyAndReturnArgs>(
+      args: SelectSubset<T, PaperlessDocumentUpdateManyAndReturnArgs<ExtArgs>>
     ): Prisma.PrismaPromise<
       $Result.GetResult<
-        Prisma.$ProcessedDocumentPayload<ExtArgs>,
+        Prisma.$PaperlessDocumentPayload<ExtArgs>,
         T,
         'updateManyAndReturn',
         GlobalOmitOptions
@@ -13452,59 +13542,59 @@ export namespace Prisma {
     >;
 
     /**
-     * Create or update one ProcessedDocument.
-     * @param {ProcessedDocumentUpsertArgs} args - Arguments to update or create a ProcessedDocument.
+     * Create or update one PaperlessDocument.
+     * @param {PaperlessDocumentUpsertArgs} args - Arguments to update or create a PaperlessDocument.
      * @example
-     * // Update or create a ProcessedDocument
-     * const processedDocument = await prisma.processedDocument.upsert({
+     * // Update or create a PaperlessDocument
+     * const paperlessDocument = await prisma.paperlessDocument.upsert({
      *   create: {
-     *     // ... data to create a ProcessedDocument
+     *     // ... data to create a PaperlessDocument
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the ProcessedDocument we want to update
+     *     // ... the filter for the PaperlessDocument we want to update
      *   }
      * })
      */
-    upsert<T extends ProcessedDocumentUpsertArgs>(
-      args: SelectSubset<T, ProcessedDocumentUpsertArgs<ExtArgs>>
-    ): Prisma__ProcessedDocumentClient<
-      $Result.GetResult<Prisma.$ProcessedDocumentPayload<ExtArgs>, T, 'upsert', GlobalOmitOptions>,
+    upsert<T extends PaperlessDocumentUpsertArgs>(
+      args: SelectSubset<T, PaperlessDocumentUpsertArgs<ExtArgs>>
+    ): Prisma__PaperlessDocumentClient<
+      $Result.GetResult<Prisma.$PaperlessDocumentPayload<ExtArgs>, T, 'upsert', GlobalOmitOptions>,
       never,
       ExtArgs,
       GlobalOmitOptions
     >;
 
     /**
-     * Count the number of ProcessedDocuments.
+     * Count the number of PaperlessDocuments.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProcessedDocumentCountArgs} args - Arguments to filter ProcessedDocuments to count.
+     * @param {PaperlessDocumentCountArgs} args - Arguments to filter PaperlessDocuments to count.
      * @example
-     * // Count the number of ProcessedDocuments
-     * const count = await prisma.processedDocument.count({
+     * // Count the number of PaperlessDocuments
+     * const count = await prisma.paperlessDocument.count({
      *   where: {
-     *     // ... the filter for the ProcessedDocuments we want to count
+     *     // ... the filter for the PaperlessDocuments we want to count
      *   }
      * })
      **/
-    count<T extends ProcessedDocumentCountArgs>(
-      args?: Subset<T, ProcessedDocumentCountArgs>
+    count<T extends PaperlessDocumentCountArgs>(
+      args?: Subset<T, PaperlessDocumentCountArgs>
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], ProcessedDocumentCountAggregateOutputType>
+          : GetScalarType<T['select'], PaperlessDocumentCountAggregateOutputType>
         : number
     >;
 
     /**
-     * Allows you to perform aggregations operations on a ProcessedDocument.
+     * Allows you to perform aggregations operations on a PaperlessDocument.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProcessedDocumentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {PaperlessDocumentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -13524,15 +13614,15 @@ export namespace Prisma {
      *   take: 10,
      * })
      **/
-    aggregate<T extends ProcessedDocumentAggregateArgs>(
-      args: Subset<T, ProcessedDocumentAggregateArgs>
-    ): Prisma.PrismaPromise<GetProcessedDocumentAggregateType<T>>;
+    aggregate<T extends PaperlessDocumentAggregateArgs>(
+      args: Subset<T, PaperlessDocumentAggregateArgs>
+    ): Prisma.PrismaPromise<GetPaperlessDocumentAggregateType<T>>;
 
     /**
-     * Group by ProcessedDocument.
+     * Group by PaperlessDocument.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProcessedDocumentGroupByArgs} args - Group by arguments.
+     * @param {PaperlessDocumentGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -13547,11 +13637,11 @@ export namespace Prisma {
      *
      **/
     groupBy<
-      T extends ProcessedDocumentGroupByArgs,
+      T extends PaperlessDocumentGroupByArgs,
       HasSelectOrTake extends Or<Extends<'skip', Keys<T>>, Extends<'take', Keys<T>>>,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: ProcessedDocumentGroupByArgs['orderBy'] }
-        : { orderBy?: ProcessedDocumentGroupByArgs['orderBy'] },
+        ? { orderBy: PaperlessDocumentGroupByArgs['orderBy'] }
+        : { orderBy?: PaperlessDocumentGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -13596,23 +13686,23 @@ export namespace Prisma {
                       : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
                   }[OrderFields],
     >(
-      args: SubsetIntersection<T, ProcessedDocumentGroupByArgs, OrderByArg> & InputErrors
+      args: SubsetIntersection<T, PaperlessDocumentGroupByArgs, OrderByArg> & InputErrors
     ): {} extends InputErrors
-      ? GetProcessedDocumentGroupByPayload<T>
+      ? GetPaperlessDocumentGroupByPayload<T>
       : Prisma.PrismaPromise<InputErrors>;
     /**
-     * Fields of the ProcessedDocument model
+     * Fields of the PaperlessDocument model
      */
-    readonly fields: ProcessedDocumentFieldRefs;
+    readonly fields: PaperlessDocumentFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for ProcessedDocument.
+   * The delegate class that acts as a "Promise-like" for PaperlessDocument.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__ProcessedDocumentClient<
+  export interface Prisma__PaperlessDocumentClient<
     T,
     Null = never,
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
@@ -13624,6 +13714,1454 @@ export namespace Prisma {
     ): Prisma__PaperlessInstanceClient<
       | $Result.GetResult<
           Prisma.$PaperlessInstancePayload<ExtArgs>,
+          T,
+          'findUniqueOrThrow',
+          GlobalOmitOptions
+        >
+      | Null,
+      Null,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+    processingResults<T extends PaperlessDocument$processingResultsArgs<ExtArgs> = {}>(
+      args?: Subset<T, PaperlessDocument$processingResultsArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<
+      | $Result.GetResult<
+          Prisma.$DocumentProcessingResultPayload<ExtArgs>,
+          T,
+          'findMany',
+          GlobalOmitOptions
+        >
+      | Null
+    >;
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(
+      onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null,
+      onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null
+    ): $Utils.JsPromise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(
+      onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null
+    ): $Utils.JsPromise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>;
+  }
+
+  /**
+   * Fields of the PaperlessDocument model
+   */
+  interface PaperlessDocumentFieldRefs {
+    readonly id: FieldRef<'PaperlessDocument', 'String'>;
+    readonly paperlessId: FieldRef<'PaperlessDocument', 'Int'>;
+    readonly title: FieldRef<'PaperlessDocument', 'String'>;
+    readonly content: FieldRef<'PaperlessDocument', 'String'>;
+    readonly correspondentId: FieldRef<'PaperlessDocument', 'Int'>;
+    readonly tagIds: FieldRef<'PaperlessDocument', 'Int[]'>;
+    readonly importedAt: FieldRef<'PaperlessDocument', 'DateTime'>;
+    readonly createdAt: FieldRef<'PaperlessDocument', 'DateTime'>;
+    readonly updatedAt: FieldRef<'PaperlessDocument', 'DateTime'>;
+    readonly paperlessInstanceId: FieldRef<'PaperlessDocument', 'String'>;
+  }
+
+  // Custom InputTypes
+  /**
+   * PaperlessDocument findUnique
+   */
+  export type PaperlessDocumentFindUniqueArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the PaperlessDocument
+     */
+    select?: PaperlessDocumentSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the PaperlessDocument
+     */
+    omit?: PaperlessDocumentOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaperlessDocumentInclude<ExtArgs> | null;
+    /**
+     * Filter, which PaperlessDocument to fetch.
+     */
+    where: PaperlessDocumentWhereUniqueInput;
+  };
+
+  /**
+   * PaperlessDocument findUniqueOrThrow
+   */
+  export type PaperlessDocumentFindUniqueOrThrowArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the PaperlessDocument
+     */
+    select?: PaperlessDocumentSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the PaperlessDocument
+     */
+    omit?: PaperlessDocumentOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaperlessDocumentInclude<ExtArgs> | null;
+    /**
+     * Filter, which PaperlessDocument to fetch.
+     */
+    where: PaperlessDocumentWhereUniqueInput;
+  };
+
+  /**
+   * PaperlessDocument findFirst
+   */
+  export type PaperlessDocumentFindFirstArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the PaperlessDocument
+     */
+    select?: PaperlessDocumentSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the PaperlessDocument
+     */
+    omit?: PaperlessDocumentOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaperlessDocumentInclude<ExtArgs> | null;
+    /**
+     * Filter, which PaperlessDocument to fetch.
+     */
+    where?: PaperlessDocumentWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of PaperlessDocuments to fetch.
+     */
+    orderBy?:
+      | PaperlessDocumentOrderByWithRelationInput
+      | PaperlessDocumentOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for searching for PaperlessDocuments.
+     */
+    cursor?: PaperlessDocumentWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` PaperlessDocuments from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` PaperlessDocuments.
+     */
+    skip?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     *
+     * Filter by unique combinations of PaperlessDocuments.
+     */
+    distinct?: PaperlessDocumentScalarFieldEnum | PaperlessDocumentScalarFieldEnum[];
+  };
+
+  /**
+   * PaperlessDocument findFirstOrThrow
+   */
+  export type PaperlessDocumentFindFirstOrThrowArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the PaperlessDocument
+     */
+    select?: PaperlessDocumentSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the PaperlessDocument
+     */
+    omit?: PaperlessDocumentOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaperlessDocumentInclude<ExtArgs> | null;
+    /**
+     * Filter, which PaperlessDocument to fetch.
+     */
+    where?: PaperlessDocumentWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of PaperlessDocuments to fetch.
+     */
+    orderBy?:
+      | PaperlessDocumentOrderByWithRelationInput
+      | PaperlessDocumentOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for searching for PaperlessDocuments.
+     */
+    cursor?: PaperlessDocumentWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` PaperlessDocuments from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` PaperlessDocuments.
+     */
+    skip?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     *
+     * Filter by unique combinations of PaperlessDocuments.
+     */
+    distinct?: PaperlessDocumentScalarFieldEnum | PaperlessDocumentScalarFieldEnum[];
+  };
+
+  /**
+   * PaperlessDocument findMany
+   */
+  export type PaperlessDocumentFindManyArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the PaperlessDocument
+     */
+    select?: PaperlessDocumentSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the PaperlessDocument
+     */
+    omit?: PaperlessDocumentOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaperlessDocumentInclude<ExtArgs> | null;
+    /**
+     * Filter, which PaperlessDocuments to fetch.
+     */
+    where?: PaperlessDocumentWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of PaperlessDocuments to fetch.
+     */
+    orderBy?:
+      | PaperlessDocumentOrderByWithRelationInput
+      | PaperlessDocumentOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for listing PaperlessDocuments.
+     */
+    cursor?: PaperlessDocumentWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` PaperlessDocuments from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` PaperlessDocuments.
+     */
+    skip?: number;
+    distinct?: PaperlessDocumentScalarFieldEnum | PaperlessDocumentScalarFieldEnum[];
+  };
+
+  /**
+   * PaperlessDocument create
+   */
+  export type PaperlessDocumentCreateArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the PaperlessDocument
+     */
+    select?: PaperlessDocumentSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the PaperlessDocument
+     */
+    omit?: PaperlessDocumentOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaperlessDocumentInclude<ExtArgs> | null;
+    /**
+     * The data needed to create a PaperlessDocument.
+     */
+    data: XOR<PaperlessDocumentCreateInput, PaperlessDocumentUncheckedCreateInput>;
+  };
+
+  /**
+   * PaperlessDocument createMany
+   */
+  export type PaperlessDocumentCreateManyArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * The data used to create many PaperlessDocuments.
+     */
+    data: PaperlessDocumentCreateManyInput | PaperlessDocumentCreateManyInput[];
+    skipDuplicates?: boolean;
+  };
+
+  /**
+   * PaperlessDocument createManyAndReturn
+   */
+  export type PaperlessDocumentCreateManyAndReturnArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the PaperlessDocument
+     */
+    select?: PaperlessDocumentSelectCreateManyAndReturn<ExtArgs> | null;
+    /**
+     * Omit specific fields from the PaperlessDocument
+     */
+    omit?: PaperlessDocumentOmit<ExtArgs> | null;
+    /**
+     * The data used to create many PaperlessDocuments.
+     */
+    data: PaperlessDocumentCreateManyInput | PaperlessDocumentCreateManyInput[];
+    skipDuplicates?: boolean;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaperlessDocumentIncludeCreateManyAndReturn<ExtArgs> | null;
+  };
+
+  /**
+   * PaperlessDocument update
+   */
+  export type PaperlessDocumentUpdateArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the PaperlessDocument
+     */
+    select?: PaperlessDocumentSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the PaperlessDocument
+     */
+    omit?: PaperlessDocumentOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaperlessDocumentInclude<ExtArgs> | null;
+    /**
+     * The data needed to update a PaperlessDocument.
+     */
+    data: XOR<PaperlessDocumentUpdateInput, PaperlessDocumentUncheckedUpdateInput>;
+    /**
+     * Choose, which PaperlessDocument to update.
+     */
+    where: PaperlessDocumentWhereUniqueInput;
+  };
+
+  /**
+   * PaperlessDocument updateMany
+   */
+  export type PaperlessDocumentUpdateManyArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * The data used to update PaperlessDocuments.
+     */
+    data: XOR<PaperlessDocumentUpdateManyMutationInput, PaperlessDocumentUncheckedUpdateManyInput>;
+    /**
+     * Filter which PaperlessDocuments to update
+     */
+    where?: PaperlessDocumentWhereInput;
+    /**
+     * Limit how many PaperlessDocuments to update.
+     */
+    limit?: number;
+  };
+
+  /**
+   * PaperlessDocument updateManyAndReturn
+   */
+  export type PaperlessDocumentUpdateManyAndReturnArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the PaperlessDocument
+     */
+    select?: PaperlessDocumentSelectUpdateManyAndReturn<ExtArgs> | null;
+    /**
+     * Omit specific fields from the PaperlessDocument
+     */
+    omit?: PaperlessDocumentOmit<ExtArgs> | null;
+    /**
+     * The data used to update PaperlessDocuments.
+     */
+    data: XOR<PaperlessDocumentUpdateManyMutationInput, PaperlessDocumentUncheckedUpdateManyInput>;
+    /**
+     * Filter which PaperlessDocuments to update
+     */
+    where?: PaperlessDocumentWhereInput;
+    /**
+     * Limit how many PaperlessDocuments to update.
+     */
+    limit?: number;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaperlessDocumentIncludeUpdateManyAndReturn<ExtArgs> | null;
+  };
+
+  /**
+   * PaperlessDocument upsert
+   */
+  export type PaperlessDocumentUpsertArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the PaperlessDocument
+     */
+    select?: PaperlessDocumentSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the PaperlessDocument
+     */
+    omit?: PaperlessDocumentOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaperlessDocumentInclude<ExtArgs> | null;
+    /**
+     * The filter to search for the PaperlessDocument to update in case it exists.
+     */
+    where: PaperlessDocumentWhereUniqueInput;
+    /**
+     * In case the PaperlessDocument found by the `where` argument doesn't exist, create a new PaperlessDocument with this data.
+     */
+    create: XOR<PaperlessDocumentCreateInput, PaperlessDocumentUncheckedCreateInput>;
+    /**
+     * In case the PaperlessDocument was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PaperlessDocumentUpdateInput, PaperlessDocumentUncheckedUpdateInput>;
+  };
+
+  /**
+   * PaperlessDocument delete
+   */
+  export type PaperlessDocumentDeleteArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the PaperlessDocument
+     */
+    select?: PaperlessDocumentSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the PaperlessDocument
+     */
+    omit?: PaperlessDocumentOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaperlessDocumentInclude<ExtArgs> | null;
+    /**
+     * Filter which PaperlessDocument to delete.
+     */
+    where: PaperlessDocumentWhereUniqueInput;
+  };
+
+  /**
+   * PaperlessDocument deleteMany
+   */
+  export type PaperlessDocumentDeleteManyArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Filter which PaperlessDocuments to delete
+     */
+    where?: PaperlessDocumentWhereInput;
+    /**
+     * Limit how many PaperlessDocuments to delete.
+     */
+    limit?: number;
+  };
+
+  /**
+   * PaperlessDocument.processingResults
+   */
+  export type PaperlessDocument$processingResultsArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the DocumentProcessingResult
+     */
+    select?: DocumentProcessingResultSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the DocumentProcessingResult
+     */
+    omit?: DocumentProcessingResultOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentProcessingResultInclude<ExtArgs> | null;
+    where?: DocumentProcessingResultWhereInput;
+    orderBy?:
+      | DocumentProcessingResultOrderByWithRelationInput
+      | DocumentProcessingResultOrderByWithRelationInput[];
+    cursor?: DocumentProcessingResultWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?: DocumentProcessingResultScalarFieldEnum | DocumentProcessingResultScalarFieldEnum[];
+  };
+
+  /**
+   * PaperlessDocument without action
+   */
+  export type PaperlessDocumentDefaultArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the PaperlessDocument
+     */
+    select?: PaperlessDocumentSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the PaperlessDocument
+     */
+    omit?: PaperlessDocumentOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaperlessDocumentInclude<ExtArgs> | null;
+  };
+
+  /**
+   * Model DocumentProcessingResult
+   */
+
+  export type AggregateDocumentProcessingResult = {
+    _count: DocumentProcessingResultCountAggregateOutputType | null;
+    _avg: DocumentProcessingResultAvgAggregateOutputType | null;
+    _sum: DocumentProcessingResultSumAggregateOutputType | null;
+    _min: DocumentProcessingResultMinAggregateOutputType | null;
+    _max: DocumentProcessingResultMaxAggregateOutputType | null;
+  };
+
+  export type DocumentProcessingResultAvgAggregateOutputType = {
+    tokensUsed: number | null;
+  };
+
+  export type DocumentProcessingResultSumAggregateOutputType = {
+    tokensUsed: number | null;
+  };
+
+  export type DocumentProcessingResultMinAggregateOutputType = {
+    id: string | null;
+    processedAt: Date | null;
+    aiProvider: string | null;
+    tokensUsed: number | null;
+    originalTitle: string | null;
+    originalCorrespondent: string | null;
+    originalDocumentType: string | null;
+    createdAt: Date | null;
+    updatedAt: Date | null;
+    documentId: string | null;
+  };
+
+  export type DocumentProcessingResultMaxAggregateOutputType = {
+    id: string | null;
+    processedAt: Date | null;
+    aiProvider: string | null;
+    tokensUsed: number | null;
+    originalTitle: string | null;
+    originalCorrespondent: string | null;
+    originalDocumentType: string | null;
+    createdAt: Date | null;
+    updatedAt: Date | null;
+    documentId: string | null;
+  };
+
+  export type DocumentProcessingResultCountAggregateOutputType = {
+    id: number;
+    processedAt: number;
+    aiProvider: number;
+    tokensUsed: number;
+    changes: number;
+    originalTitle: number;
+    originalCorrespondent: number;
+    originalDocumentType: number;
+    originalTags: number;
+    createdAt: number;
+    updatedAt: number;
+    documentId: number;
+    _all: number;
+  };
+
+  export type DocumentProcessingResultAvgAggregateInputType = {
+    tokensUsed?: true;
+  };
+
+  export type DocumentProcessingResultSumAggregateInputType = {
+    tokensUsed?: true;
+  };
+
+  export type DocumentProcessingResultMinAggregateInputType = {
+    id?: true;
+    processedAt?: true;
+    aiProvider?: true;
+    tokensUsed?: true;
+    originalTitle?: true;
+    originalCorrespondent?: true;
+    originalDocumentType?: true;
+    createdAt?: true;
+    updatedAt?: true;
+    documentId?: true;
+  };
+
+  export type DocumentProcessingResultMaxAggregateInputType = {
+    id?: true;
+    processedAt?: true;
+    aiProvider?: true;
+    tokensUsed?: true;
+    originalTitle?: true;
+    originalCorrespondent?: true;
+    originalDocumentType?: true;
+    createdAt?: true;
+    updatedAt?: true;
+    documentId?: true;
+  };
+
+  export type DocumentProcessingResultCountAggregateInputType = {
+    id?: true;
+    processedAt?: true;
+    aiProvider?: true;
+    tokensUsed?: true;
+    changes?: true;
+    originalTitle?: true;
+    originalCorrespondent?: true;
+    originalDocumentType?: true;
+    originalTags?: true;
+    createdAt?: true;
+    updatedAt?: true;
+    documentId?: true;
+    _all?: true;
+  };
+
+  export type DocumentProcessingResultAggregateArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Filter which DocumentProcessingResult to aggregate.
+     */
+    where?: DocumentProcessingResultWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of DocumentProcessingResults to fetch.
+     */
+    orderBy?:
+      | DocumentProcessingResultOrderByWithRelationInput
+      | DocumentProcessingResultOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the start position
+     */
+    cursor?: DocumentProcessingResultWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` DocumentProcessingResults from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` DocumentProcessingResults.
+     */
+    skip?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Count returned DocumentProcessingResults
+     **/
+    _count?: true | DocumentProcessingResultCountAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to average
+     **/
+    _avg?: DocumentProcessingResultAvgAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to sum
+     **/
+    _sum?: DocumentProcessingResultSumAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to find the minimum value
+     **/
+    _min?: DocumentProcessingResultMinAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to find the maximum value
+     **/
+    _max?: DocumentProcessingResultMaxAggregateInputType;
+  };
+
+  export type GetDocumentProcessingResultAggregateType<
+    T extends DocumentProcessingResultAggregateArgs,
+  > = {
+    [P in keyof T & keyof AggregateDocumentProcessingResult]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDocumentProcessingResult[P]>
+      : GetScalarType<T[P], AggregateDocumentProcessingResult[P]>;
+  };
+
+  export type DocumentProcessingResultGroupByArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    where?: DocumentProcessingResultWhereInput;
+    orderBy?:
+      | DocumentProcessingResultOrderByWithAggregationInput
+      | DocumentProcessingResultOrderByWithAggregationInput[];
+    by: DocumentProcessingResultScalarFieldEnum[] | DocumentProcessingResultScalarFieldEnum;
+    having?: DocumentProcessingResultScalarWhereWithAggregatesInput;
+    take?: number;
+    skip?: number;
+    _count?: DocumentProcessingResultCountAggregateInputType | true;
+    _avg?: DocumentProcessingResultAvgAggregateInputType;
+    _sum?: DocumentProcessingResultSumAggregateInputType;
+    _min?: DocumentProcessingResultMinAggregateInputType;
+    _max?: DocumentProcessingResultMaxAggregateInputType;
+  };
+
+  export type DocumentProcessingResultGroupByOutputType = {
+    id: string;
+    processedAt: Date;
+    aiProvider: string;
+    tokensUsed: number;
+    changes: JsonValue | null;
+    originalTitle: string | null;
+    originalCorrespondent: string | null;
+    originalDocumentType: string | null;
+    originalTags: string[];
+    createdAt: Date;
+    updatedAt: Date;
+    documentId: string;
+    _count: DocumentProcessingResultCountAggregateOutputType | null;
+    _avg: DocumentProcessingResultAvgAggregateOutputType | null;
+    _sum: DocumentProcessingResultSumAggregateOutputType | null;
+    _min: DocumentProcessingResultMinAggregateOutputType | null;
+    _max: DocumentProcessingResultMaxAggregateOutputType | null;
+  };
+
+  type GetDocumentProcessingResultGroupByPayload<T extends DocumentProcessingResultGroupByArgs> =
+    Prisma.PrismaPromise<
+      Array<
+        PickEnumerable<DocumentProcessingResultGroupByOutputType, T['by']> & {
+          [P in keyof T & keyof DocumentProcessingResultGroupByOutputType]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DocumentProcessingResultGroupByOutputType[P]>
+            : GetScalarType<T[P], DocumentProcessingResultGroupByOutputType[P]>;
+        }
+      >
+    >;
+
+  export type DocumentProcessingResultSelect<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = $Extensions.GetSelect<
+    {
+      id?: boolean;
+      processedAt?: boolean;
+      aiProvider?: boolean;
+      tokensUsed?: boolean;
+      changes?: boolean;
+      originalTitle?: boolean;
+      originalCorrespondent?: boolean;
+      originalDocumentType?: boolean;
+      originalTags?: boolean;
+      createdAt?: boolean;
+      updatedAt?: boolean;
+      documentId?: boolean;
+      document?: boolean | PaperlessDocumentDefaultArgs<ExtArgs>;
+    },
+    ExtArgs['result']['documentProcessingResult']
+  >;
+
+  export type DocumentProcessingResultSelectCreateManyAndReturn<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = $Extensions.GetSelect<
+    {
+      id?: boolean;
+      processedAt?: boolean;
+      aiProvider?: boolean;
+      tokensUsed?: boolean;
+      changes?: boolean;
+      originalTitle?: boolean;
+      originalCorrespondent?: boolean;
+      originalDocumentType?: boolean;
+      originalTags?: boolean;
+      createdAt?: boolean;
+      updatedAt?: boolean;
+      documentId?: boolean;
+      document?: boolean | PaperlessDocumentDefaultArgs<ExtArgs>;
+    },
+    ExtArgs['result']['documentProcessingResult']
+  >;
+
+  export type DocumentProcessingResultSelectUpdateManyAndReturn<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = $Extensions.GetSelect<
+    {
+      id?: boolean;
+      processedAt?: boolean;
+      aiProvider?: boolean;
+      tokensUsed?: boolean;
+      changes?: boolean;
+      originalTitle?: boolean;
+      originalCorrespondent?: boolean;
+      originalDocumentType?: boolean;
+      originalTags?: boolean;
+      createdAt?: boolean;
+      updatedAt?: boolean;
+      documentId?: boolean;
+      document?: boolean | PaperlessDocumentDefaultArgs<ExtArgs>;
+    },
+    ExtArgs['result']['documentProcessingResult']
+  >;
+
+  export type DocumentProcessingResultSelectScalar = {
+    id?: boolean;
+    processedAt?: boolean;
+    aiProvider?: boolean;
+    tokensUsed?: boolean;
+    changes?: boolean;
+    originalTitle?: boolean;
+    originalCorrespondent?: boolean;
+    originalDocumentType?: boolean;
+    originalTags?: boolean;
+    createdAt?: boolean;
+    updatedAt?: boolean;
+    documentId?: boolean;
+  };
+
+  export type DocumentProcessingResultOmit<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = $Extensions.GetOmit<
+    | 'id'
+    | 'processedAt'
+    | 'aiProvider'
+    | 'tokensUsed'
+    | 'changes'
+    | 'originalTitle'
+    | 'originalCorrespondent'
+    | 'originalDocumentType'
+    | 'originalTags'
+    | 'createdAt'
+    | 'updatedAt'
+    | 'documentId',
+    ExtArgs['result']['documentProcessingResult']
+  >;
+  export type DocumentProcessingResultInclude<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    document?: boolean | PaperlessDocumentDefaultArgs<ExtArgs>;
+  };
+  export type DocumentProcessingResultIncludeCreateManyAndReturn<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    document?: boolean | PaperlessDocumentDefaultArgs<ExtArgs>;
+  };
+  export type DocumentProcessingResultIncludeUpdateManyAndReturn<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    document?: boolean | PaperlessDocumentDefaultArgs<ExtArgs>;
+  };
+
+  export type $DocumentProcessingResultPayload<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    name: 'DocumentProcessingResult';
+    objects: {
+      document: Prisma.$PaperlessDocumentPayload<ExtArgs>;
+    };
+    scalars: $Extensions.GetPayloadResult<
+      {
+        id: string;
+        processedAt: Date;
+        aiProvider: string;
+        tokensUsed: number;
+        changes: Prisma.JsonValue | null;
+        originalTitle: string | null;
+        originalCorrespondent: string | null;
+        originalDocumentType: string | null;
+        originalTags: string[];
+        createdAt: Date;
+        updatedAt: Date;
+        documentId: string;
+      },
+      ExtArgs['result']['documentProcessingResult']
+    >;
+    composites: {};
+  };
+
+  type DocumentProcessingResultGetPayload<
+    S extends boolean | null | undefined | DocumentProcessingResultDefaultArgs,
+  > = $Result.GetResult<Prisma.$DocumentProcessingResultPayload, S>;
+
+  type DocumentProcessingResultCountArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = Omit<DocumentProcessingResultFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+    select?: DocumentProcessingResultCountAggregateInputType | true;
+  };
+
+  export interface DocumentProcessingResultDelegate<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+    GlobalOmitOptions = {},
+  > {
+    [K: symbol]: {
+      types: Prisma.TypeMap<ExtArgs>['model']['DocumentProcessingResult'];
+      meta: { name: 'DocumentProcessingResult' };
+    };
+    /**
+     * Find zero or one DocumentProcessingResult that matches the filter.
+     * @param {DocumentProcessingResultFindUniqueArgs} args - Arguments to find a DocumentProcessingResult
+     * @example
+     * // Get one DocumentProcessingResult
+     * const documentProcessingResult = await prisma.documentProcessingResult.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DocumentProcessingResultFindUniqueArgs>(
+      args: SelectSubset<T, DocumentProcessingResultFindUniqueArgs<ExtArgs>>
+    ): Prisma__DocumentProcessingResultClient<
+      $Result.GetResult<
+        Prisma.$DocumentProcessingResultPayload<ExtArgs>,
+        T,
+        'findUnique',
+        GlobalOmitOptions
+      > | null,
+      null,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Find one DocumentProcessingResult that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {DocumentProcessingResultFindUniqueOrThrowArgs} args - Arguments to find a DocumentProcessingResult
+     * @example
+     * // Get one DocumentProcessingResult
+     * const documentProcessingResult = await prisma.documentProcessingResult.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DocumentProcessingResultFindUniqueOrThrowArgs>(
+      args: SelectSubset<T, DocumentProcessingResultFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__DocumentProcessingResultClient<
+      $Result.GetResult<
+        Prisma.$DocumentProcessingResultPayload<ExtArgs>,
+        T,
+        'findUniqueOrThrow',
+        GlobalOmitOptions
+      >,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Find the first DocumentProcessingResult that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentProcessingResultFindFirstArgs} args - Arguments to find a DocumentProcessingResult
+     * @example
+     * // Get one DocumentProcessingResult
+     * const documentProcessingResult = await prisma.documentProcessingResult.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DocumentProcessingResultFindFirstArgs>(
+      args?: SelectSubset<T, DocumentProcessingResultFindFirstArgs<ExtArgs>>
+    ): Prisma__DocumentProcessingResultClient<
+      $Result.GetResult<
+        Prisma.$DocumentProcessingResultPayload<ExtArgs>,
+        T,
+        'findFirst',
+        GlobalOmitOptions
+      > | null,
+      null,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Find the first DocumentProcessingResult that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentProcessingResultFindFirstOrThrowArgs} args - Arguments to find a DocumentProcessingResult
+     * @example
+     * // Get one DocumentProcessingResult
+     * const documentProcessingResult = await prisma.documentProcessingResult.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DocumentProcessingResultFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, DocumentProcessingResultFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__DocumentProcessingResultClient<
+      $Result.GetResult<
+        Prisma.$DocumentProcessingResultPayload<ExtArgs>,
+        T,
+        'findFirstOrThrow',
+        GlobalOmitOptions
+      >,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Find zero or more DocumentProcessingResults that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentProcessingResultFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all DocumentProcessingResults
+     * const documentProcessingResults = await prisma.documentProcessingResult.findMany()
+     *
+     * // Get first 10 DocumentProcessingResults
+     * const documentProcessingResults = await prisma.documentProcessingResult.findMany({ take: 10 })
+     *
+     * // Only select the `id`
+     * const documentProcessingResultWithIdOnly = await prisma.documentProcessingResult.findMany({ select: { id: true } })
+     *
+     */
+    findMany<T extends DocumentProcessingResultFindManyArgs>(
+      args?: SelectSubset<T, DocumentProcessingResultFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<
+      $Result.GetResult<
+        Prisma.$DocumentProcessingResultPayload<ExtArgs>,
+        T,
+        'findMany',
+        GlobalOmitOptions
+      >
+    >;
+
+    /**
+     * Create a DocumentProcessingResult.
+     * @param {DocumentProcessingResultCreateArgs} args - Arguments to create a DocumentProcessingResult.
+     * @example
+     * // Create one DocumentProcessingResult
+     * const DocumentProcessingResult = await prisma.documentProcessingResult.create({
+     *   data: {
+     *     // ... data to create a DocumentProcessingResult
+     *   }
+     * })
+     *
+     */
+    create<T extends DocumentProcessingResultCreateArgs>(
+      args: SelectSubset<T, DocumentProcessingResultCreateArgs<ExtArgs>>
+    ): Prisma__DocumentProcessingResultClient<
+      $Result.GetResult<
+        Prisma.$DocumentProcessingResultPayload<ExtArgs>,
+        T,
+        'create',
+        GlobalOmitOptions
+      >,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Create many DocumentProcessingResults.
+     * @param {DocumentProcessingResultCreateManyArgs} args - Arguments to create many DocumentProcessingResults.
+     * @example
+     * // Create many DocumentProcessingResults
+     * const documentProcessingResult = await prisma.documentProcessingResult.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *
+     */
+    createMany<T extends DocumentProcessingResultCreateManyArgs>(
+      args?: SelectSubset<T, DocumentProcessingResultCreateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>;
+
+    /**
+     * Create many DocumentProcessingResults and returns the data saved in the database.
+     * @param {DocumentProcessingResultCreateManyAndReturnArgs} args - Arguments to create many DocumentProcessingResults.
+     * @example
+     * // Create many DocumentProcessingResults
+     * const documentProcessingResult = await prisma.documentProcessingResult.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *
+     * // Create many DocumentProcessingResults and only return the `id`
+     * const documentProcessingResultWithIdOnly = await prisma.documentProcessingResult.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     *
+     */
+    createManyAndReturn<T extends DocumentProcessingResultCreateManyAndReturnArgs>(
+      args?: SelectSubset<T, DocumentProcessingResultCreateManyAndReturnArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<
+      $Result.GetResult<
+        Prisma.$DocumentProcessingResultPayload<ExtArgs>,
+        T,
+        'createManyAndReturn',
+        GlobalOmitOptions
+      >
+    >;
+
+    /**
+     * Delete a DocumentProcessingResult.
+     * @param {DocumentProcessingResultDeleteArgs} args - Arguments to delete one DocumentProcessingResult.
+     * @example
+     * // Delete one DocumentProcessingResult
+     * const DocumentProcessingResult = await prisma.documentProcessingResult.delete({
+     *   where: {
+     *     // ... filter to delete one DocumentProcessingResult
+     *   }
+     * })
+     *
+     */
+    delete<T extends DocumentProcessingResultDeleteArgs>(
+      args: SelectSubset<T, DocumentProcessingResultDeleteArgs<ExtArgs>>
+    ): Prisma__DocumentProcessingResultClient<
+      $Result.GetResult<
+        Prisma.$DocumentProcessingResultPayload<ExtArgs>,
+        T,
+        'delete',
+        GlobalOmitOptions
+      >,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Update one DocumentProcessingResult.
+     * @param {DocumentProcessingResultUpdateArgs} args - Arguments to update one DocumentProcessingResult.
+     * @example
+     * // Update one DocumentProcessingResult
+     * const documentProcessingResult = await prisma.documentProcessingResult.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     *
+     */
+    update<T extends DocumentProcessingResultUpdateArgs>(
+      args: SelectSubset<T, DocumentProcessingResultUpdateArgs<ExtArgs>>
+    ): Prisma__DocumentProcessingResultClient<
+      $Result.GetResult<
+        Prisma.$DocumentProcessingResultPayload<ExtArgs>,
+        T,
+        'update',
+        GlobalOmitOptions
+      >,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Delete zero or more DocumentProcessingResults.
+     * @param {DocumentProcessingResultDeleteManyArgs} args - Arguments to filter DocumentProcessingResults to delete.
+     * @example
+     * // Delete a few DocumentProcessingResults
+     * const { count } = await prisma.documentProcessingResult.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     *
+     */
+    deleteMany<T extends DocumentProcessingResultDeleteManyArgs>(
+      args?: SelectSubset<T, DocumentProcessingResultDeleteManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>;
+
+    /**
+     * Update zero or more DocumentProcessingResults.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentProcessingResultUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many DocumentProcessingResults
+     * const documentProcessingResult = await prisma.documentProcessingResult.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     *
+     */
+    updateMany<T extends DocumentProcessingResultUpdateManyArgs>(
+      args: SelectSubset<T, DocumentProcessingResultUpdateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>;
+
+    /**
+     * Update zero or more DocumentProcessingResults and returns the data updated in the database.
+     * @param {DocumentProcessingResultUpdateManyAndReturnArgs} args - Arguments to update many DocumentProcessingResults.
+     * @example
+     * // Update many DocumentProcessingResults
+     * const documentProcessingResult = await prisma.documentProcessingResult.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *
+     * // Update zero or more DocumentProcessingResults and only return the `id`
+     * const documentProcessingResultWithIdOnly = await prisma.documentProcessingResult.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     *
+     */
+    updateManyAndReturn<T extends DocumentProcessingResultUpdateManyAndReturnArgs>(
+      args: SelectSubset<T, DocumentProcessingResultUpdateManyAndReturnArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<
+      $Result.GetResult<
+        Prisma.$DocumentProcessingResultPayload<ExtArgs>,
+        T,
+        'updateManyAndReturn',
+        GlobalOmitOptions
+      >
+    >;
+
+    /**
+     * Create or update one DocumentProcessingResult.
+     * @param {DocumentProcessingResultUpsertArgs} args - Arguments to update or create a DocumentProcessingResult.
+     * @example
+     * // Update or create a DocumentProcessingResult
+     * const documentProcessingResult = await prisma.documentProcessingResult.upsert({
+     *   create: {
+     *     // ... data to create a DocumentProcessingResult
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the DocumentProcessingResult we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DocumentProcessingResultUpsertArgs>(
+      args: SelectSubset<T, DocumentProcessingResultUpsertArgs<ExtArgs>>
+    ): Prisma__DocumentProcessingResultClient<
+      $Result.GetResult<
+        Prisma.$DocumentProcessingResultPayload<ExtArgs>,
+        T,
+        'upsert',
+        GlobalOmitOptions
+      >,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Count the number of DocumentProcessingResults.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentProcessingResultCountArgs} args - Arguments to filter DocumentProcessingResults to count.
+     * @example
+     * // Count the number of DocumentProcessingResults
+     * const count = await prisma.documentProcessingResult.count({
+     *   where: {
+     *     // ... the filter for the DocumentProcessingResults we want to count
+     *   }
+     * })
+     **/
+    count<T extends DocumentProcessingResultCountArgs>(
+      args?: Subset<T, DocumentProcessingResultCountArgs>
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DocumentProcessingResultCountAggregateOutputType>
+        : number
+    >;
+
+    /**
+     * Allows you to perform aggregations operations on a DocumentProcessingResult.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentProcessingResultAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+     **/
+    aggregate<T extends DocumentProcessingResultAggregateArgs>(
+      args: Subset<T, DocumentProcessingResultAggregateArgs>
+    ): Prisma.PrismaPromise<GetDocumentProcessingResultAggregateType<T>>;
+
+    /**
+     * Group by DocumentProcessingResult.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentProcessingResultGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     *
+     **/
+    groupBy<
+      T extends DocumentProcessingResultGroupByArgs,
+      HasSelectOrTake extends Or<Extends<'skip', Keys<T>>, Extends<'take', Keys<T>>>,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DocumentProcessingResultGroupByArgs['orderBy'] }
+        : { orderBy?: DocumentProcessingResultGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+        ? `Error: "by" must not be empty.`
+        : HavingValid extends False
+          ? {
+              [P in HavingFields]: P extends ByFields
+                ? never
+                : P extends string
+                  ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+                  : [Error, 'Field ', P, ` in "having" needs to be provided in "by"`];
+            }[HavingFields]
+          : 'take' extends Keys<T>
+            ? 'orderBy' extends Keys<T>
+              ? ByValid extends True
+                ? {}
+                : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+                  }[OrderFields]
+              : 'Error: If you provide "take", you also need to provide "orderBy"'
+            : 'skip' extends Keys<T>
+              ? 'orderBy' extends Keys<T>
+                ? ByValid extends True
+                  ? {}
+                  : {
+                      [P in OrderFields]: P extends ByFields
+                        ? never
+                        : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+                    }[OrderFields]
+                : 'Error: If you provide "skip", you also need to provide "orderBy"'
+              : ByValid extends True
+                ? {}
+                : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+                  }[OrderFields],
+    >(
+      args: SubsetIntersection<T, DocumentProcessingResultGroupByArgs, OrderByArg> & InputErrors
+    ): {} extends InputErrors
+      ? GetDocumentProcessingResultGroupByPayload<T>
+      : Prisma.PrismaPromise<InputErrors>;
+    /**
+     * Fields of the DocumentProcessingResult model
+     */
+    readonly fields: DocumentProcessingResultFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for DocumentProcessingResult.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DocumentProcessingResultClient<
+    T,
+    Null = never,
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+    GlobalOmitOptions = {},
+  > extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    document<T extends PaperlessDocumentDefaultArgs<ExtArgs> = {}>(
+      args?: Subset<T, PaperlessDocumentDefaultArgs<ExtArgs>>
+    ): Prisma__PaperlessDocumentClient<
+      | $Result.GetResult<
+          Prisma.$PaperlessDocumentPayload<ExtArgs>,
           T,
           'findUniqueOrThrow',
           GlobalOmitOptions
@@ -13661,469 +15199,473 @@ export namespace Prisma {
   }
 
   /**
-   * Fields of the ProcessedDocument model
+   * Fields of the DocumentProcessingResult model
    */
-  interface ProcessedDocumentFieldRefs {
-    readonly id: FieldRef<'ProcessedDocument', 'String'>;
-    readonly paperlessId: FieldRef<'ProcessedDocument', 'Int'>;
-    readonly title: FieldRef<'ProcessedDocument', 'String'>;
-    readonly processedAt: FieldRef<'ProcessedDocument', 'DateTime'>;
-    readonly aiProvider: FieldRef<'ProcessedDocument', 'String'>;
-    readonly tokensUsed: FieldRef<'ProcessedDocument', 'Int'>;
-    readonly changes: FieldRef<'ProcessedDocument', 'Json'>;
-    readonly originalTitle: FieldRef<'ProcessedDocument', 'String'>;
-    readonly originalCorrespondent: FieldRef<'ProcessedDocument', 'String'>;
-    readonly originalDocumentType: FieldRef<'ProcessedDocument', 'String'>;
-    readonly originalTags: FieldRef<'ProcessedDocument', 'String[]'>;
-    readonly createdAt: FieldRef<'ProcessedDocument', 'DateTime'>;
-    readonly updatedAt: FieldRef<'ProcessedDocument', 'DateTime'>;
-    readonly paperlessInstanceId: FieldRef<'ProcessedDocument', 'String'>;
+  interface DocumentProcessingResultFieldRefs {
+    readonly id: FieldRef<'DocumentProcessingResult', 'String'>;
+    readonly processedAt: FieldRef<'DocumentProcessingResult', 'DateTime'>;
+    readonly aiProvider: FieldRef<'DocumentProcessingResult', 'String'>;
+    readonly tokensUsed: FieldRef<'DocumentProcessingResult', 'Int'>;
+    readonly changes: FieldRef<'DocumentProcessingResult', 'Json'>;
+    readonly originalTitle: FieldRef<'DocumentProcessingResult', 'String'>;
+    readonly originalCorrespondent: FieldRef<'DocumentProcessingResult', 'String'>;
+    readonly originalDocumentType: FieldRef<'DocumentProcessingResult', 'String'>;
+    readonly originalTags: FieldRef<'DocumentProcessingResult', 'String[]'>;
+    readonly createdAt: FieldRef<'DocumentProcessingResult', 'DateTime'>;
+    readonly updatedAt: FieldRef<'DocumentProcessingResult', 'DateTime'>;
+    readonly documentId: FieldRef<'DocumentProcessingResult', 'String'>;
   }
 
   // Custom InputTypes
   /**
-   * ProcessedDocument findUnique
+   * DocumentProcessingResult findUnique
    */
-  export type ProcessedDocumentFindUniqueArgs<
+  export type DocumentProcessingResultFindUniqueArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Select specific fields to fetch from the ProcessedDocument
+     * Select specific fields to fetch from the DocumentProcessingResult
      */
-    select?: ProcessedDocumentSelect<ExtArgs> | null;
+    select?: DocumentProcessingResultSelect<ExtArgs> | null;
     /**
-     * Omit specific fields from the ProcessedDocument
+     * Omit specific fields from the DocumentProcessingResult
      */
-    omit?: ProcessedDocumentOmit<ExtArgs> | null;
+    omit?: DocumentProcessingResultOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ProcessedDocumentInclude<ExtArgs> | null;
+    include?: DocumentProcessingResultInclude<ExtArgs> | null;
     /**
-     * Filter, which ProcessedDocument to fetch.
+     * Filter, which DocumentProcessingResult to fetch.
      */
-    where: ProcessedDocumentWhereUniqueInput;
+    where: DocumentProcessingResultWhereUniqueInput;
   };
 
   /**
-   * ProcessedDocument findUniqueOrThrow
+   * DocumentProcessingResult findUniqueOrThrow
    */
-  export type ProcessedDocumentFindUniqueOrThrowArgs<
+  export type DocumentProcessingResultFindUniqueOrThrowArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Select specific fields to fetch from the ProcessedDocument
+     * Select specific fields to fetch from the DocumentProcessingResult
      */
-    select?: ProcessedDocumentSelect<ExtArgs> | null;
+    select?: DocumentProcessingResultSelect<ExtArgs> | null;
     /**
-     * Omit specific fields from the ProcessedDocument
+     * Omit specific fields from the DocumentProcessingResult
      */
-    omit?: ProcessedDocumentOmit<ExtArgs> | null;
+    omit?: DocumentProcessingResultOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ProcessedDocumentInclude<ExtArgs> | null;
+    include?: DocumentProcessingResultInclude<ExtArgs> | null;
     /**
-     * Filter, which ProcessedDocument to fetch.
+     * Filter, which DocumentProcessingResult to fetch.
      */
-    where: ProcessedDocumentWhereUniqueInput;
+    where: DocumentProcessingResultWhereUniqueInput;
   };
 
   /**
-   * ProcessedDocument findFirst
+   * DocumentProcessingResult findFirst
    */
-  export type ProcessedDocumentFindFirstArgs<
+  export type DocumentProcessingResultFindFirstArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Select specific fields to fetch from the ProcessedDocument
+     * Select specific fields to fetch from the DocumentProcessingResult
      */
-    select?: ProcessedDocumentSelect<ExtArgs> | null;
+    select?: DocumentProcessingResultSelect<ExtArgs> | null;
     /**
-     * Omit specific fields from the ProcessedDocument
+     * Omit specific fields from the DocumentProcessingResult
      */
-    omit?: ProcessedDocumentOmit<ExtArgs> | null;
+    omit?: DocumentProcessingResultOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ProcessedDocumentInclude<ExtArgs> | null;
+    include?: DocumentProcessingResultInclude<ExtArgs> | null;
     /**
-     * Filter, which ProcessedDocument to fetch.
+     * Filter, which DocumentProcessingResult to fetch.
      */
-    where?: ProcessedDocumentWhereInput;
+    where?: DocumentProcessingResultWhereInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      *
-     * Determine the order of ProcessedDocuments to fetch.
+     * Determine the order of DocumentProcessingResults to fetch.
      */
     orderBy?:
-      | ProcessedDocumentOrderByWithRelationInput
-      | ProcessedDocumentOrderByWithRelationInput[];
+      | DocumentProcessingResultOrderByWithRelationInput
+      | DocumentProcessingResultOrderByWithRelationInput[];
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      *
-     * Sets the position for searching for ProcessedDocuments.
+     * Sets the position for searching for DocumentProcessingResults.
      */
-    cursor?: ProcessedDocumentWhereUniqueInput;
+    cursor?: DocumentProcessingResultWhereUniqueInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      *
-     * Take `±n` ProcessedDocuments from the position of the cursor.
+     * Take `±n` DocumentProcessingResults from the position of the cursor.
      */
     take?: number;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      *
-     * Skip the first `n` ProcessedDocuments.
+     * Skip the first `n` DocumentProcessingResults.
      */
     skip?: number;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      *
-     * Filter by unique combinations of ProcessedDocuments.
+     * Filter by unique combinations of DocumentProcessingResults.
      */
-    distinct?: ProcessedDocumentScalarFieldEnum | ProcessedDocumentScalarFieldEnum[];
+    distinct?: DocumentProcessingResultScalarFieldEnum | DocumentProcessingResultScalarFieldEnum[];
   };
 
   /**
-   * ProcessedDocument findFirstOrThrow
+   * DocumentProcessingResult findFirstOrThrow
    */
-  export type ProcessedDocumentFindFirstOrThrowArgs<
+  export type DocumentProcessingResultFindFirstOrThrowArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Select specific fields to fetch from the ProcessedDocument
+     * Select specific fields to fetch from the DocumentProcessingResult
      */
-    select?: ProcessedDocumentSelect<ExtArgs> | null;
+    select?: DocumentProcessingResultSelect<ExtArgs> | null;
     /**
-     * Omit specific fields from the ProcessedDocument
+     * Omit specific fields from the DocumentProcessingResult
      */
-    omit?: ProcessedDocumentOmit<ExtArgs> | null;
+    omit?: DocumentProcessingResultOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ProcessedDocumentInclude<ExtArgs> | null;
+    include?: DocumentProcessingResultInclude<ExtArgs> | null;
     /**
-     * Filter, which ProcessedDocument to fetch.
+     * Filter, which DocumentProcessingResult to fetch.
      */
-    where?: ProcessedDocumentWhereInput;
+    where?: DocumentProcessingResultWhereInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      *
-     * Determine the order of ProcessedDocuments to fetch.
+     * Determine the order of DocumentProcessingResults to fetch.
      */
     orderBy?:
-      | ProcessedDocumentOrderByWithRelationInput
-      | ProcessedDocumentOrderByWithRelationInput[];
+      | DocumentProcessingResultOrderByWithRelationInput
+      | DocumentProcessingResultOrderByWithRelationInput[];
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      *
-     * Sets the position for searching for ProcessedDocuments.
+     * Sets the position for searching for DocumentProcessingResults.
      */
-    cursor?: ProcessedDocumentWhereUniqueInput;
+    cursor?: DocumentProcessingResultWhereUniqueInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      *
-     * Take `±n` ProcessedDocuments from the position of the cursor.
+     * Take `±n` DocumentProcessingResults from the position of the cursor.
      */
     take?: number;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      *
-     * Skip the first `n` ProcessedDocuments.
+     * Skip the first `n` DocumentProcessingResults.
      */
     skip?: number;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      *
-     * Filter by unique combinations of ProcessedDocuments.
+     * Filter by unique combinations of DocumentProcessingResults.
      */
-    distinct?: ProcessedDocumentScalarFieldEnum | ProcessedDocumentScalarFieldEnum[];
+    distinct?: DocumentProcessingResultScalarFieldEnum | DocumentProcessingResultScalarFieldEnum[];
   };
 
   /**
-   * ProcessedDocument findMany
+   * DocumentProcessingResult findMany
    */
-  export type ProcessedDocumentFindManyArgs<
+  export type DocumentProcessingResultFindManyArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Select specific fields to fetch from the ProcessedDocument
+     * Select specific fields to fetch from the DocumentProcessingResult
      */
-    select?: ProcessedDocumentSelect<ExtArgs> | null;
+    select?: DocumentProcessingResultSelect<ExtArgs> | null;
     /**
-     * Omit specific fields from the ProcessedDocument
+     * Omit specific fields from the DocumentProcessingResult
      */
-    omit?: ProcessedDocumentOmit<ExtArgs> | null;
+    omit?: DocumentProcessingResultOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ProcessedDocumentInclude<ExtArgs> | null;
+    include?: DocumentProcessingResultInclude<ExtArgs> | null;
     /**
-     * Filter, which ProcessedDocuments to fetch.
+     * Filter, which DocumentProcessingResults to fetch.
      */
-    where?: ProcessedDocumentWhereInput;
+    where?: DocumentProcessingResultWhereInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      *
-     * Determine the order of ProcessedDocuments to fetch.
+     * Determine the order of DocumentProcessingResults to fetch.
      */
     orderBy?:
-      | ProcessedDocumentOrderByWithRelationInput
-      | ProcessedDocumentOrderByWithRelationInput[];
+      | DocumentProcessingResultOrderByWithRelationInput
+      | DocumentProcessingResultOrderByWithRelationInput[];
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      *
-     * Sets the position for listing ProcessedDocuments.
+     * Sets the position for listing DocumentProcessingResults.
      */
-    cursor?: ProcessedDocumentWhereUniqueInput;
+    cursor?: DocumentProcessingResultWhereUniqueInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      *
-     * Take `±n` ProcessedDocuments from the position of the cursor.
+     * Take `±n` DocumentProcessingResults from the position of the cursor.
      */
     take?: number;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      *
-     * Skip the first `n` ProcessedDocuments.
+     * Skip the first `n` DocumentProcessingResults.
      */
     skip?: number;
-    distinct?: ProcessedDocumentScalarFieldEnum | ProcessedDocumentScalarFieldEnum[];
+    distinct?: DocumentProcessingResultScalarFieldEnum | DocumentProcessingResultScalarFieldEnum[];
   };
 
   /**
-   * ProcessedDocument create
+   * DocumentProcessingResult create
    */
-  export type ProcessedDocumentCreateArgs<
+  export type DocumentProcessingResultCreateArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Select specific fields to fetch from the ProcessedDocument
+     * Select specific fields to fetch from the DocumentProcessingResult
      */
-    select?: ProcessedDocumentSelect<ExtArgs> | null;
+    select?: DocumentProcessingResultSelect<ExtArgs> | null;
     /**
-     * Omit specific fields from the ProcessedDocument
+     * Omit specific fields from the DocumentProcessingResult
      */
-    omit?: ProcessedDocumentOmit<ExtArgs> | null;
+    omit?: DocumentProcessingResultOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ProcessedDocumentInclude<ExtArgs> | null;
+    include?: DocumentProcessingResultInclude<ExtArgs> | null;
     /**
-     * The data needed to create a ProcessedDocument.
+     * The data needed to create a DocumentProcessingResult.
      */
-    data: XOR<ProcessedDocumentCreateInput, ProcessedDocumentUncheckedCreateInput>;
+    data: XOR<DocumentProcessingResultCreateInput, DocumentProcessingResultUncheckedCreateInput>;
   };
 
   /**
-   * ProcessedDocument createMany
+   * DocumentProcessingResult createMany
    */
-  export type ProcessedDocumentCreateManyArgs<
+  export type DocumentProcessingResultCreateManyArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * The data used to create many ProcessedDocuments.
+     * The data used to create many DocumentProcessingResults.
      */
-    data: ProcessedDocumentCreateManyInput | ProcessedDocumentCreateManyInput[];
+    data: DocumentProcessingResultCreateManyInput | DocumentProcessingResultCreateManyInput[];
     skipDuplicates?: boolean;
   };
 
   /**
-   * ProcessedDocument createManyAndReturn
+   * DocumentProcessingResult createManyAndReturn
    */
-  export type ProcessedDocumentCreateManyAndReturnArgs<
+  export type DocumentProcessingResultCreateManyAndReturnArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Select specific fields to fetch from the ProcessedDocument
+     * Select specific fields to fetch from the DocumentProcessingResult
      */
-    select?: ProcessedDocumentSelectCreateManyAndReturn<ExtArgs> | null;
+    select?: DocumentProcessingResultSelectCreateManyAndReturn<ExtArgs> | null;
     /**
-     * Omit specific fields from the ProcessedDocument
+     * Omit specific fields from the DocumentProcessingResult
      */
-    omit?: ProcessedDocumentOmit<ExtArgs> | null;
+    omit?: DocumentProcessingResultOmit<ExtArgs> | null;
     /**
-     * The data used to create many ProcessedDocuments.
+     * The data used to create many DocumentProcessingResults.
      */
-    data: ProcessedDocumentCreateManyInput | ProcessedDocumentCreateManyInput[];
+    data: DocumentProcessingResultCreateManyInput | DocumentProcessingResultCreateManyInput[];
     skipDuplicates?: boolean;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ProcessedDocumentIncludeCreateManyAndReturn<ExtArgs> | null;
+    include?: DocumentProcessingResultIncludeCreateManyAndReturn<ExtArgs> | null;
   };
 
   /**
-   * ProcessedDocument update
+   * DocumentProcessingResult update
    */
-  export type ProcessedDocumentUpdateArgs<
+  export type DocumentProcessingResultUpdateArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Select specific fields to fetch from the ProcessedDocument
+     * Select specific fields to fetch from the DocumentProcessingResult
      */
-    select?: ProcessedDocumentSelect<ExtArgs> | null;
+    select?: DocumentProcessingResultSelect<ExtArgs> | null;
     /**
-     * Omit specific fields from the ProcessedDocument
+     * Omit specific fields from the DocumentProcessingResult
      */
-    omit?: ProcessedDocumentOmit<ExtArgs> | null;
+    omit?: DocumentProcessingResultOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ProcessedDocumentInclude<ExtArgs> | null;
+    include?: DocumentProcessingResultInclude<ExtArgs> | null;
     /**
-     * The data needed to update a ProcessedDocument.
+     * The data needed to update a DocumentProcessingResult.
      */
-    data: XOR<ProcessedDocumentUpdateInput, ProcessedDocumentUncheckedUpdateInput>;
+    data: XOR<DocumentProcessingResultUpdateInput, DocumentProcessingResultUncheckedUpdateInput>;
     /**
-     * Choose, which ProcessedDocument to update.
+     * Choose, which DocumentProcessingResult to update.
      */
-    where: ProcessedDocumentWhereUniqueInput;
+    where: DocumentProcessingResultWhereUniqueInput;
   };
 
   /**
-   * ProcessedDocument updateMany
+   * DocumentProcessingResult updateMany
    */
-  export type ProcessedDocumentUpdateManyArgs<
+  export type DocumentProcessingResultUpdateManyArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * The data used to update ProcessedDocuments.
+     * The data used to update DocumentProcessingResults.
      */
-    data: XOR<ProcessedDocumentUpdateManyMutationInput, ProcessedDocumentUncheckedUpdateManyInput>;
+    data: XOR<
+      DocumentProcessingResultUpdateManyMutationInput,
+      DocumentProcessingResultUncheckedUpdateManyInput
+    >;
     /**
-     * Filter which ProcessedDocuments to update
+     * Filter which DocumentProcessingResults to update
      */
-    where?: ProcessedDocumentWhereInput;
+    where?: DocumentProcessingResultWhereInput;
     /**
-     * Limit how many ProcessedDocuments to update.
+     * Limit how many DocumentProcessingResults to update.
      */
     limit?: number;
   };
 
   /**
-   * ProcessedDocument updateManyAndReturn
+   * DocumentProcessingResult updateManyAndReturn
    */
-  export type ProcessedDocumentUpdateManyAndReturnArgs<
+  export type DocumentProcessingResultUpdateManyAndReturnArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Select specific fields to fetch from the ProcessedDocument
+     * Select specific fields to fetch from the DocumentProcessingResult
      */
-    select?: ProcessedDocumentSelectUpdateManyAndReturn<ExtArgs> | null;
+    select?: DocumentProcessingResultSelectUpdateManyAndReturn<ExtArgs> | null;
     /**
-     * Omit specific fields from the ProcessedDocument
+     * Omit specific fields from the DocumentProcessingResult
      */
-    omit?: ProcessedDocumentOmit<ExtArgs> | null;
+    omit?: DocumentProcessingResultOmit<ExtArgs> | null;
     /**
-     * The data used to update ProcessedDocuments.
+     * The data used to update DocumentProcessingResults.
      */
-    data: XOR<ProcessedDocumentUpdateManyMutationInput, ProcessedDocumentUncheckedUpdateManyInput>;
+    data: XOR<
+      DocumentProcessingResultUpdateManyMutationInput,
+      DocumentProcessingResultUncheckedUpdateManyInput
+    >;
     /**
-     * Filter which ProcessedDocuments to update
+     * Filter which DocumentProcessingResults to update
      */
-    where?: ProcessedDocumentWhereInput;
+    where?: DocumentProcessingResultWhereInput;
     /**
-     * Limit how many ProcessedDocuments to update.
+     * Limit how many DocumentProcessingResults to update.
      */
     limit?: number;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ProcessedDocumentIncludeUpdateManyAndReturn<ExtArgs> | null;
+    include?: DocumentProcessingResultIncludeUpdateManyAndReturn<ExtArgs> | null;
   };
 
   /**
-   * ProcessedDocument upsert
+   * DocumentProcessingResult upsert
    */
-  export type ProcessedDocumentUpsertArgs<
+  export type DocumentProcessingResultUpsertArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Select specific fields to fetch from the ProcessedDocument
+     * Select specific fields to fetch from the DocumentProcessingResult
      */
-    select?: ProcessedDocumentSelect<ExtArgs> | null;
+    select?: DocumentProcessingResultSelect<ExtArgs> | null;
     /**
-     * Omit specific fields from the ProcessedDocument
+     * Omit specific fields from the DocumentProcessingResult
      */
-    omit?: ProcessedDocumentOmit<ExtArgs> | null;
+    omit?: DocumentProcessingResultOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ProcessedDocumentInclude<ExtArgs> | null;
+    include?: DocumentProcessingResultInclude<ExtArgs> | null;
     /**
-     * The filter to search for the ProcessedDocument to update in case it exists.
+     * The filter to search for the DocumentProcessingResult to update in case it exists.
      */
-    where: ProcessedDocumentWhereUniqueInput;
+    where: DocumentProcessingResultWhereUniqueInput;
     /**
-     * In case the ProcessedDocument found by the `where` argument doesn't exist, create a new ProcessedDocument with this data.
+     * In case the DocumentProcessingResult found by the `where` argument doesn't exist, create a new DocumentProcessingResult with this data.
      */
-    create: XOR<ProcessedDocumentCreateInput, ProcessedDocumentUncheckedCreateInput>;
+    create: XOR<DocumentProcessingResultCreateInput, DocumentProcessingResultUncheckedCreateInput>;
     /**
-     * In case the ProcessedDocument was found with the provided `where` argument, update it with this data.
+     * In case the DocumentProcessingResult was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<ProcessedDocumentUpdateInput, ProcessedDocumentUncheckedUpdateInput>;
+    update: XOR<DocumentProcessingResultUpdateInput, DocumentProcessingResultUncheckedUpdateInput>;
   };
 
   /**
-   * ProcessedDocument delete
+   * DocumentProcessingResult delete
    */
-  export type ProcessedDocumentDeleteArgs<
+  export type DocumentProcessingResultDeleteArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Select specific fields to fetch from the ProcessedDocument
+     * Select specific fields to fetch from the DocumentProcessingResult
      */
-    select?: ProcessedDocumentSelect<ExtArgs> | null;
+    select?: DocumentProcessingResultSelect<ExtArgs> | null;
     /**
-     * Omit specific fields from the ProcessedDocument
+     * Omit specific fields from the DocumentProcessingResult
      */
-    omit?: ProcessedDocumentOmit<ExtArgs> | null;
+    omit?: DocumentProcessingResultOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ProcessedDocumentInclude<ExtArgs> | null;
+    include?: DocumentProcessingResultInclude<ExtArgs> | null;
     /**
-     * Filter which ProcessedDocument to delete.
+     * Filter which DocumentProcessingResult to delete.
      */
-    where: ProcessedDocumentWhereUniqueInput;
+    where: DocumentProcessingResultWhereUniqueInput;
   };
 
   /**
-   * ProcessedDocument deleteMany
+   * DocumentProcessingResult deleteMany
    */
-  export type ProcessedDocumentDeleteManyArgs<
+  export type DocumentProcessingResultDeleteManyArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Filter which ProcessedDocuments to delete
+     * Filter which DocumentProcessingResults to delete
      */
-    where?: ProcessedDocumentWhereInput;
+    where?: DocumentProcessingResultWhereInput;
     /**
-     * Limit how many ProcessedDocuments to delete.
+     * Limit how many DocumentProcessingResults to delete.
      */
     limit?: number;
   };
 
   /**
-   * ProcessedDocument without action
+   * DocumentProcessingResult without action
    */
-  export type ProcessedDocumentDefaultArgs<
+  export type DocumentProcessingResultDefaultArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     /**
-     * Select specific fields to fetch from the ProcessedDocument
+     * Select specific fields to fetch from the DocumentProcessingResult
      */
-    select?: ProcessedDocumentSelect<ExtArgs> | null;
+    select?: DocumentProcessingResultSelect<ExtArgs> | null;
     /**
-     * Omit specific fields from the ProcessedDocument
+     * Omit specific fields from the DocumentProcessingResult
      */
-    omit?: ProcessedDocumentOmit<ExtArgs> | null;
+    omit?: DocumentProcessingResultOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ProcessedDocumentInclude<ExtArgs> | null;
+    include?: DocumentProcessingResultInclude<ExtArgs> | null;
   };
 
   /**
@@ -17082,10 +18624,24 @@ export namespace Prisma {
   export type AiBotScalarFieldEnum =
     (typeof AiBotScalarFieldEnum)[keyof typeof AiBotScalarFieldEnum];
 
-  export const ProcessedDocumentScalarFieldEnum: {
+  export const PaperlessDocumentScalarFieldEnum: {
     id: 'id';
     paperlessId: 'paperlessId';
     title: 'title';
+    content: 'content';
+    correspondentId: 'correspondentId';
+    tagIds: 'tagIds';
+    importedAt: 'importedAt';
+    createdAt: 'createdAt';
+    updatedAt: 'updatedAt';
+    paperlessInstanceId: 'paperlessInstanceId';
+  };
+
+  export type PaperlessDocumentScalarFieldEnum =
+    (typeof PaperlessDocumentScalarFieldEnum)[keyof typeof PaperlessDocumentScalarFieldEnum];
+
+  export const DocumentProcessingResultScalarFieldEnum: {
+    id: 'id';
     processedAt: 'processedAt';
     aiProvider: 'aiProvider';
     tokensUsed: 'tokensUsed';
@@ -17096,11 +18652,11 @@ export namespace Prisma {
     originalTags: 'originalTags';
     createdAt: 'createdAt';
     updatedAt: 'updatedAt';
-    paperlessInstanceId: 'paperlessInstanceId';
+    documentId: 'documentId';
   };
 
-  export type ProcessedDocumentScalarFieldEnum =
-    (typeof ProcessedDocumentScalarFieldEnum)[keyof typeof ProcessedDocumentScalarFieldEnum];
+  export type DocumentProcessingResultScalarFieldEnum =
+    (typeof DocumentProcessingResultScalarFieldEnum)[keyof typeof DocumentProcessingResultScalarFieldEnum];
 
   export const ProcessingQueueScalarFieldEnum: {
     id: 'id';
@@ -17627,7 +19183,7 @@ export namespace Prisma {
     ownerId?: StringFilter<'PaperlessInstance'> | string;
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>;
     sharedWith?: UserPaperlessInstanceAccessListRelationFilter;
-    processedDocuments?: ProcessedDocumentListRelationFilter;
+    documents?: PaperlessDocumentListRelationFilter;
     processingQueue?: ProcessingQueueListRelationFilter;
   };
 
@@ -17641,7 +19197,7 @@ export namespace Prisma {
     ownerId?: SortOrder;
     owner?: UserOrderByWithRelationInput;
     sharedWith?: UserPaperlessInstanceAccessOrderByRelationAggregateInput;
-    processedDocuments?: ProcessedDocumentOrderByRelationAggregateInput;
+    documents?: PaperlessDocumentOrderByRelationAggregateInput;
     processingQueue?: ProcessingQueueOrderByRelationAggregateInput;
   };
 
@@ -17659,7 +19215,7 @@ export namespace Prisma {
       ownerId?: StringFilter<'PaperlessInstance'> | string;
       owner?: XOR<UserScalarRelationFilter, UserWhereInput>;
       sharedWith?: UserPaperlessInstanceAccessListRelationFilter;
-      processedDocuments?: ProcessedDocumentListRelationFilter;
+      documents?: PaperlessDocumentListRelationFilter;
       processingQueue?: ProcessingQueueListRelationFilter;
     },
     'id'
@@ -17864,73 +19420,120 @@ export namespace Prisma {
     aiProviderId?: StringWithAggregatesFilter<'AiBot'> | string;
   };
 
-  export type ProcessedDocumentWhereInput = {
-    AND?: ProcessedDocumentWhereInput | ProcessedDocumentWhereInput[];
-    OR?: ProcessedDocumentWhereInput[];
-    NOT?: ProcessedDocumentWhereInput | ProcessedDocumentWhereInput[];
-    id?: StringFilter<'ProcessedDocument'> | string;
-    paperlessId?: IntFilter<'ProcessedDocument'> | number;
-    title?: StringFilter<'ProcessedDocument'> | string;
-    processedAt?: DateTimeFilter<'ProcessedDocument'> | Date | string;
-    aiProvider?: StringFilter<'ProcessedDocument'> | string;
-    tokensUsed?: IntFilter<'ProcessedDocument'> | number;
-    changes?: JsonNullableFilter<'ProcessedDocument'>;
-    originalTitle?: StringNullableFilter<'ProcessedDocument'> | string | null;
-    originalCorrespondent?: StringNullableFilter<'ProcessedDocument'> | string | null;
-    originalDocumentType?: StringNullableFilter<'ProcessedDocument'> | string | null;
-    originalTags?: StringNullableListFilter<'ProcessedDocument'>;
-    createdAt?: DateTimeFilter<'ProcessedDocument'> | Date | string;
-    updatedAt?: DateTimeFilter<'ProcessedDocument'> | Date | string;
-    paperlessInstanceId?: StringFilter<'ProcessedDocument'> | string;
+  export type PaperlessDocumentWhereInput = {
+    AND?: PaperlessDocumentWhereInput | PaperlessDocumentWhereInput[];
+    OR?: PaperlessDocumentWhereInput[];
+    NOT?: PaperlessDocumentWhereInput | PaperlessDocumentWhereInput[];
+    id?: StringFilter<'PaperlessDocument'> | string;
+    paperlessId?: IntFilter<'PaperlessDocument'> | number;
+    title?: StringFilter<'PaperlessDocument'> | string;
+    content?: StringFilter<'PaperlessDocument'> | string;
+    correspondentId?: IntNullableFilter<'PaperlessDocument'> | number | null;
+    tagIds?: IntNullableListFilter<'PaperlessDocument'>;
+    importedAt?: DateTimeFilter<'PaperlessDocument'> | Date | string;
+    createdAt?: DateTimeFilter<'PaperlessDocument'> | Date | string;
+    updatedAt?: DateTimeFilter<'PaperlessDocument'> | Date | string;
+    paperlessInstanceId?: StringFilter<'PaperlessDocument'> | string;
     paperlessInstance?: XOR<PaperlessInstanceScalarRelationFilter, PaperlessInstanceWhereInput>;
+    processingResults?: DocumentProcessingResultListRelationFilter;
   };
 
-  export type ProcessedDocumentOrderByWithRelationInput = {
+  export type PaperlessDocumentOrderByWithRelationInput = {
     id?: SortOrder;
     paperlessId?: SortOrder;
     title?: SortOrder;
-    processedAt?: SortOrder;
-    aiProvider?: SortOrder;
-    tokensUsed?: SortOrder;
-    changes?: SortOrderInput | SortOrder;
-    originalTitle?: SortOrderInput | SortOrder;
-    originalCorrespondent?: SortOrderInput | SortOrder;
-    originalDocumentType?: SortOrderInput | SortOrder;
-    originalTags?: SortOrder;
+    content?: SortOrder;
+    correspondentId?: SortOrderInput | SortOrder;
+    tagIds?: SortOrder;
+    importedAt?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
     paperlessInstanceId?: SortOrder;
     paperlessInstance?: PaperlessInstanceOrderByWithRelationInput;
+    processingResults?: DocumentProcessingResultOrderByRelationAggregateInput;
   };
 
-  export type ProcessedDocumentWhereUniqueInput = Prisma.AtLeast<
+  export type PaperlessDocumentWhereUniqueInput = Prisma.AtLeast<
     {
       id?: string;
-      AND?: ProcessedDocumentWhereInput | ProcessedDocumentWhereInput[];
-      OR?: ProcessedDocumentWhereInput[];
-      NOT?: ProcessedDocumentWhereInput | ProcessedDocumentWhereInput[];
-      paperlessId?: IntFilter<'ProcessedDocument'> | number;
-      title?: StringFilter<'ProcessedDocument'> | string;
-      processedAt?: DateTimeFilter<'ProcessedDocument'> | Date | string;
-      aiProvider?: StringFilter<'ProcessedDocument'> | string;
-      tokensUsed?: IntFilter<'ProcessedDocument'> | number;
-      changes?: JsonNullableFilter<'ProcessedDocument'>;
-      originalTitle?: StringNullableFilter<'ProcessedDocument'> | string | null;
-      originalCorrespondent?: StringNullableFilter<'ProcessedDocument'> | string | null;
-      originalDocumentType?: StringNullableFilter<'ProcessedDocument'> | string | null;
-      originalTags?: StringNullableListFilter<'ProcessedDocument'>;
-      createdAt?: DateTimeFilter<'ProcessedDocument'> | Date | string;
-      updatedAt?: DateTimeFilter<'ProcessedDocument'> | Date | string;
-      paperlessInstanceId?: StringFilter<'ProcessedDocument'> | string;
+      paperlessInstanceId_paperlessId?: PaperlessDocumentPaperlessInstanceIdPaperlessIdCompoundUniqueInput;
+      AND?: PaperlessDocumentWhereInput | PaperlessDocumentWhereInput[];
+      OR?: PaperlessDocumentWhereInput[];
+      NOT?: PaperlessDocumentWhereInput | PaperlessDocumentWhereInput[];
+      paperlessId?: IntFilter<'PaperlessDocument'> | number;
+      title?: StringFilter<'PaperlessDocument'> | string;
+      content?: StringFilter<'PaperlessDocument'> | string;
+      correspondentId?: IntNullableFilter<'PaperlessDocument'> | number | null;
+      tagIds?: IntNullableListFilter<'PaperlessDocument'>;
+      importedAt?: DateTimeFilter<'PaperlessDocument'> | Date | string;
+      createdAt?: DateTimeFilter<'PaperlessDocument'> | Date | string;
+      updatedAt?: DateTimeFilter<'PaperlessDocument'> | Date | string;
+      paperlessInstanceId?: StringFilter<'PaperlessDocument'> | string;
       paperlessInstance?: XOR<PaperlessInstanceScalarRelationFilter, PaperlessInstanceWhereInput>;
+      processingResults?: DocumentProcessingResultListRelationFilter;
     },
-    'id'
+    'id' | 'paperlessInstanceId_paperlessId'
   >;
 
-  export type ProcessedDocumentOrderByWithAggregationInput = {
+  export type PaperlessDocumentOrderByWithAggregationInput = {
     id?: SortOrder;
     paperlessId?: SortOrder;
     title?: SortOrder;
+    content?: SortOrder;
+    correspondentId?: SortOrderInput | SortOrder;
+    tagIds?: SortOrder;
+    importedAt?: SortOrder;
+    createdAt?: SortOrder;
+    updatedAt?: SortOrder;
+    paperlessInstanceId?: SortOrder;
+    _count?: PaperlessDocumentCountOrderByAggregateInput;
+    _avg?: PaperlessDocumentAvgOrderByAggregateInput;
+    _max?: PaperlessDocumentMaxOrderByAggregateInput;
+    _min?: PaperlessDocumentMinOrderByAggregateInput;
+    _sum?: PaperlessDocumentSumOrderByAggregateInput;
+  };
+
+  export type PaperlessDocumentScalarWhereWithAggregatesInput = {
+    AND?:
+      | PaperlessDocumentScalarWhereWithAggregatesInput
+      | PaperlessDocumentScalarWhereWithAggregatesInput[];
+    OR?: PaperlessDocumentScalarWhereWithAggregatesInput[];
+    NOT?:
+      | PaperlessDocumentScalarWhereWithAggregatesInput
+      | PaperlessDocumentScalarWhereWithAggregatesInput[];
+    id?: StringWithAggregatesFilter<'PaperlessDocument'> | string;
+    paperlessId?: IntWithAggregatesFilter<'PaperlessDocument'> | number;
+    title?: StringWithAggregatesFilter<'PaperlessDocument'> | string;
+    content?: StringWithAggregatesFilter<'PaperlessDocument'> | string;
+    correspondentId?: IntNullableWithAggregatesFilter<'PaperlessDocument'> | number | null;
+    tagIds?: IntNullableListFilter<'PaperlessDocument'>;
+    importedAt?: DateTimeWithAggregatesFilter<'PaperlessDocument'> | Date | string;
+    createdAt?: DateTimeWithAggregatesFilter<'PaperlessDocument'> | Date | string;
+    updatedAt?: DateTimeWithAggregatesFilter<'PaperlessDocument'> | Date | string;
+    paperlessInstanceId?: StringWithAggregatesFilter<'PaperlessDocument'> | string;
+  };
+
+  export type DocumentProcessingResultWhereInput = {
+    AND?: DocumentProcessingResultWhereInput | DocumentProcessingResultWhereInput[];
+    OR?: DocumentProcessingResultWhereInput[];
+    NOT?: DocumentProcessingResultWhereInput | DocumentProcessingResultWhereInput[];
+    id?: StringFilter<'DocumentProcessingResult'> | string;
+    processedAt?: DateTimeFilter<'DocumentProcessingResult'> | Date | string;
+    aiProvider?: StringFilter<'DocumentProcessingResult'> | string;
+    tokensUsed?: IntFilter<'DocumentProcessingResult'> | number;
+    changes?: JsonNullableFilter<'DocumentProcessingResult'>;
+    originalTitle?: StringNullableFilter<'DocumentProcessingResult'> | string | null;
+    originalCorrespondent?: StringNullableFilter<'DocumentProcessingResult'> | string | null;
+    originalDocumentType?: StringNullableFilter<'DocumentProcessingResult'> | string | null;
+    originalTags?: StringNullableListFilter<'DocumentProcessingResult'>;
+    createdAt?: DateTimeFilter<'DocumentProcessingResult'> | Date | string;
+    updatedAt?: DateTimeFilter<'DocumentProcessingResult'> | Date | string;
+    documentId?: StringFilter<'DocumentProcessingResult'> | string;
+    document?: XOR<PaperlessDocumentScalarRelationFilter, PaperlessDocumentWhereInput>;
+  };
+
+  export type DocumentProcessingResultOrderByWithRelationInput = {
+    id?: SortOrder;
     processedAt?: SortOrder;
     aiProvider?: SortOrder;
     tokensUsed?: SortOrder;
@@ -17941,36 +19544,78 @@ export namespace Prisma {
     originalTags?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
-    paperlessInstanceId?: SortOrder;
-    _count?: ProcessedDocumentCountOrderByAggregateInput;
-    _avg?: ProcessedDocumentAvgOrderByAggregateInput;
-    _max?: ProcessedDocumentMaxOrderByAggregateInput;
-    _min?: ProcessedDocumentMinOrderByAggregateInput;
-    _sum?: ProcessedDocumentSumOrderByAggregateInput;
+    documentId?: SortOrder;
+    document?: PaperlessDocumentOrderByWithRelationInput;
   };
 
-  export type ProcessedDocumentScalarWhereWithAggregatesInput = {
+  export type DocumentProcessingResultWhereUniqueInput = Prisma.AtLeast<
+    {
+      id?: string;
+      AND?: DocumentProcessingResultWhereInput | DocumentProcessingResultWhereInput[];
+      OR?: DocumentProcessingResultWhereInput[];
+      NOT?: DocumentProcessingResultWhereInput | DocumentProcessingResultWhereInput[];
+      processedAt?: DateTimeFilter<'DocumentProcessingResult'> | Date | string;
+      aiProvider?: StringFilter<'DocumentProcessingResult'> | string;
+      tokensUsed?: IntFilter<'DocumentProcessingResult'> | number;
+      changes?: JsonNullableFilter<'DocumentProcessingResult'>;
+      originalTitle?: StringNullableFilter<'DocumentProcessingResult'> | string | null;
+      originalCorrespondent?: StringNullableFilter<'DocumentProcessingResult'> | string | null;
+      originalDocumentType?: StringNullableFilter<'DocumentProcessingResult'> | string | null;
+      originalTags?: StringNullableListFilter<'DocumentProcessingResult'>;
+      createdAt?: DateTimeFilter<'DocumentProcessingResult'> | Date | string;
+      updatedAt?: DateTimeFilter<'DocumentProcessingResult'> | Date | string;
+      documentId?: StringFilter<'DocumentProcessingResult'> | string;
+      document?: XOR<PaperlessDocumentScalarRelationFilter, PaperlessDocumentWhereInput>;
+    },
+    'id'
+  >;
+
+  export type DocumentProcessingResultOrderByWithAggregationInput = {
+    id?: SortOrder;
+    processedAt?: SortOrder;
+    aiProvider?: SortOrder;
+    tokensUsed?: SortOrder;
+    changes?: SortOrderInput | SortOrder;
+    originalTitle?: SortOrderInput | SortOrder;
+    originalCorrespondent?: SortOrderInput | SortOrder;
+    originalDocumentType?: SortOrderInput | SortOrder;
+    originalTags?: SortOrder;
+    createdAt?: SortOrder;
+    updatedAt?: SortOrder;
+    documentId?: SortOrder;
+    _count?: DocumentProcessingResultCountOrderByAggregateInput;
+    _avg?: DocumentProcessingResultAvgOrderByAggregateInput;
+    _max?: DocumentProcessingResultMaxOrderByAggregateInput;
+    _min?: DocumentProcessingResultMinOrderByAggregateInput;
+    _sum?: DocumentProcessingResultSumOrderByAggregateInput;
+  };
+
+  export type DocumentProcessingResultScalarWhereWithAggregatesInput = {
     AND?:
-      | ProcessedDocumentScalarWhereWithAggregatesInput
-      | ProcessedDocumentScalarWhereWithAggregatesInput[];
-    OR?: ProcessedDocumentScalarWhereWithAggregatesInput[];
+      | DocumentProcessingResultScalarWhereWithAggregatesInput
+      | DocumentProcessingResultScalarWhereWithAggregatesInput[];
+    OR?: DocumentProcessingResultScalarWhereWithAggregatesInput[];
     NOT?:
-      | ProcessedDocumentScalarWhereWithAggregatesInput
-      | ProcessedDocumentScalarWhereWithAggregatesInput[];
-    id?: StringWithAggregatesFilter<'ProcessedDocument'> | string;
-    paperlessId?: IntWithAggregatesFilter<'ProcessedDocument'> | number;
-    title?: StringWithAggregatesFilter<'ProcessedDocument'> | string;
-    processedAt?: DateTimeWithAggregatesFilter<'ProcessedDocument'> | Date | string;
-    aiProvider?: StringWithAggregatesFilter<'ProcessedDocument'> | string;
-    tokensUsed?: IntWithAggregatesFilter<'ProcessedDocument'> | number;
-    changes?: JsonNullableWithAggregatesFilter<'ProcessedDocument'>;
-    originalTitle?: StringNullableWithAggregatesFilter<'ProcessedDocument'> | string | null;
-    originalCorrespondent?: StringNullableWithAggregatesFilter<'ProcessedDocument'> | string | null;
-    originalDocumentType?: StringNullableWithAggregatesFilter<'ProcessedDocument'> | string | null;
-    originalTags?: StringNullableListFilter<'ProcessedDocument'>;
-    createdAt?: DateTimeWithAggregatesFilter<'ProcessedDocument'> | Date | string;
-    updatedAt?: DateTimeWithAggregatesFilter<'ProcessedDocument'> | Date | string;
-    paperlessInstanceId?: StringWithAggregatesFilter<'ProcessedDocument'> | string;
+      | DocumentProcessingResultScalarWhereWithAggregatesInput
+      | DocumentProcessingResultScalarWhereWithAggregatesInput[];
+    id?: StringWithAggregatesFilter<'DocumentProcessingResult'> | string;
+    processedAt?: DateTimeWithAggregatesFilter<'DocumentProcessingResult'> | Date | string;
+    aiProvider?: StringWithAggregatesFilter<'DocumentProcessingResult'> | string;
+    tokensUsed?: IntWithAggregatesFilter<'DocumentProcessingResult'> | number;
+    changes?: JsonNullableWithAggregatesFilter<'DocumentProcessingResult'>;
+    originalTitle?: StringNullableWithAggregatesFilter<'DocumentProcessingResult'> | string | null;
+    originalCorrespondent?:
+      | StringNullableWithAggregatesFilter<'DocumentProcessingResult'>
+      | string
+      | null;
+    originalDocumentType?:
+      | StringNullableWithAggregatesFilter<'DocumentProcessingResult'>
+      | string
+      | null;
+    originalTags?: StringNullableListFilter<'DocumentProcessingResult'>;
+    createdAt?: DateTimeWithAggregatesFilter<'DocumentProcessingResult'> | Date | string;
+    updatedAt?: DateTimeWithAggregatesFilter<'DocumentProcessingResult'> | Date | string;
+    documentId?: StringWithAggregatesFilter<'DocumentProcessingResult'> | string;
   };
 
   export type ProcessingQueueWhereInput = {
@@ -18502,7 +20147,7 @@ export namespace Prisma {
     updatedAt?: Date | string;
     owner: UserCreateNestedOneWithoutOwnedPaperlessInstancesInput;
     sharedWith?: UserPaperlessInstanceAccessCreateNestedManyWithoutInstanceInput;
-    processedDocuments?: ProcessedDocumentCreateNestedManyWithoutPaperlessInstanceInput;
+    documents?: PaperlessDocumentCreateNestedManyWithoutPaperlessInstanceInput;
     processingQueue?: ProcessingQueueCreateNestedManyWithoutPaperlessInstanceInput;
   };
 
@@ -18515,7 +20160,7 @@ export namespace Prisma {
     updatedAt?: Date | string;
     ownerId: string;
     sharedWith?: UserPaperlessInstanceAccessUncheckedCreateNestedManyWithoutInstanceInput;
-    processedDocuments?: ProcessedDocumentUncheckedCreateNestedManyWithoutPaperlessInstanceInput;
+    documents?: PaperlessDocumentUncheckedCreateNestedManyWithoutPaperlessInstanceInput;
     processingQueue?: ProcessingQueueUncheckedCreateNestedManyWithoutPaperlessInstanceInput;
   };
 
@@ -18528,7 +20173,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     owner?: UserUpdateOneRequiredWithoutOwnedPaperlessInstancesNestedInput;
     sharedWith?: UserPaperlessInstanceAccessUpdateManyWithoutInstanceNestedInput;
-    processedDocuments?: ProcessedDocumentUpdateManyWithoutPaperlessInstanceNestedInput;
+    documents?: PaperlessDocumentUpdateManyWithoutPaperlessInstanceNestedInput;
     processingQueue?: ProcessingQueueUpdateManyWithoutPaperlessInstanceNestedInput;
   };
 
@@ -18541,7 +20186,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownerId?: StringFieldUpdateOperationsInput | string;
     sharedWith?: UserPaperlessInstanceAccessUncheckedUpdateManyWithoutInstanceNestedInput;
-    processedDocuments?: ProcessedDocumentUncheckedUpdateManyWithoutPaperlessInstanceNestedInput;
+    documents?: PaperlessDocumentUncheckedUpdateManyWithoutPaperlessInstanceNestedInput;
     processingQueue?: ProcessingQueueUncheckedUpdateManyWithoutPaperlessInstanceNestedInput;
   };
 
@@ -18752,78 +20397,102 @@ export namespace Prisma {
     aiProviderId?: StringFieldUpdateOperationsInput | string;
   };
 
-  export type ProcessedDocumentCreateInput = {
+  export type PaperlessDocumentCreateInput = {
     id?: string;
     paperlessId: number;
     title: string;
-    processedAt?: Date | string;
-    aiProvider: string;
-    tokensUsed?: number;
-    changes?: NullableJsonNullValueInput | InputJsonValue;
-    originalTitle?: string | null;
-    originalCorrespondent?: string | null;
-    originalDocumentType?: string | null;
-    originalTags?: ProcessedDocumentCreateoriginalTagsInput | string[];
+    content: string;
+    correspondentId?: number | null;
+    tagIds?: PaperlessDocumentCreatetagIdsInput | number[];
+    importedAt?: Date | string;
     createdAt?: Date | string;
     updatedAt?: Date | string;
-    paperlessInstance: PaperlessInstanceCreateNestedOneWithoutProcessedDocumentsInput;
+    paperlessInstance: PaperlessInstanceCreateNestedOneWithoutDocumentsInput;
+    processingResults?: DocumentProcessingResultCreateNestedManyWithoutDocumentInput;
   };
 
-  export type ProcessedDocumentUncheckedCreateInput = {
+  export type PaperlessDocumentUncheckedCreateInput = {
     id?: string;
     paperlessId: number;
     title: string;
-    processedAt?: Date | string;
-    aiProvider: string;
-    tokensUsed?: number;
-    changes?: NullableJsonNullValueInput | InputJsonValue;
-    originalTitle?: string | null;
-    originalCorrespondent?: string | null;
-    originalDocumentType?: string | null;
-    originalTags?: ProcessedDocumentCreateoriginalTagsInput | string[];
+    content: string;
+    correspondentId?: number | null;
+    tagIds?: PaperlessDocumentCreatetagIdsInput | number[];
+    importedAt?: Date | string;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    paperlessInstanceId: string;
+    processingResults?: DocumentProcessingResultUncheckedCreateNestedManyWithoutDocumentInput;
+  };
+
+  export type PaperlessDocumentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    paperlessId?: IntFieldUpdateOperationsInput | number;
+    title?: StringFieldUpdateOperationsInput | string;
+    content?: StringFieldUpdateOperationsInput | string;
+    correspondentId?: NullableIntFieldUpdateOperationsInput | number | null;
+    tagIds?: PaperlessDocumentUpdatetagIdsInput | number[];
+    importedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    paperlessInstance?: PaperlessInstanceUpdateOneRequiredWithoutDocumentsNestedInput;
+    processingResults?: DocumentProcessingResultUpdateManyWithoutDocumentNestedInput;
+  };
+
+  export type PaperlessDocumentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    paperlessId?: IntFieldUpdateOperationsInput | number;
+    title?: StringFieldUpdateOperationsInput | string;
+    content?: StringFieldUpdateOperationsInput | string;
+    correspondentId?: NullableIntFieldUpdateOperationsInput | number | null;
+    tagIds?: PaperlessDocumentUpdatetagIdsInput | number[];
+    importedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    paperlessInstanceId?: StringFieldUpdateOperationsInput | string;
+    processingResults?: DocumentProcessingResultUncheckedUpdateManyWithoutDocumentNestedInput;
+  };
+
+  export type PaperlessDocumentCreateManyInput = {
+    id?: string;
+    paperlessId: number;
+    title: string;
+    content: string;
+    correspondentId?: number | null;
+    tagIds?: PaperlessDocumentCreatetagIdsInput | number[];
+    importedAt?: Date | string;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     paperlessInstanceId: string;
   };
 
-  export type ProcessedDocumentUpdateInput = {
+  export type PaperlessDocumentUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string;
     paperlessId?: IntFieldUpdateOperationsInput | number;
     title?: StringFieldUpdateOperationsInput | string;
-    processedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    aiProvider?: StringFieldUpdateOperationsInput | string;
-    tokensUsed?: IntFieldUpdateOperationsInput | number;
-    changes?: NullableJsonNullValueInput | InputJsonValue;
-    originalTitle?: NullableStringFieldUpdateOperationsInput | string | null;
-    originalCorrespondent?: NullableStringFieldUpdateOperationsInput | string | null;
-    originalDocumentType?: NullableStringFieldUpdateOperationsInput | string | null;
-    originalTags?: ProcessedDocumentUpdateoriginalTagsInput | string[];
+    content?: StringFieldUpdateOperationsInput | string;
+    correspondentId?: NullableIntFieldUpdateOperationsInput | number | null;
+    tagIds?: PaperlessDocumentUpdatetagIdsInput | number[];
+    importedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    paperlessInstance?: PaperlessInstanceUpdateOneRequiredWithoutProcessedDocumentsNestedInput;
   };
 
-  export type ProcessedDocumentUncheckedUpdateInput = {
+  export type PaperlessDocumentUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string;
     paperlessId?: IntFieldUpdateOperationsInput | number;
     title?: StringFieldUpdateOperationsInput | string;
-    processedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    aiProvider?: StringFieldUpdateOperationsInput | string;
-    tokensUsed?: IntFieldUpdateOperationsInput | number;
-    changes?: NullableJsonNullValueInput | InputJsonValue;
-    originalTitle?: NullableStringFieldUpdateOperationsInput | string | null;
-    originalCorrespondent?: NullableStringFieldUpdateOperationsInput | string | null;
-    originalDocumentType?: NullableStringFieldUpdateOperationsInput | string | null;
-    originalTags?: ProcessedDocumentUpdateoriginalTagsInput | string[];
+    content?: StringFieldUpdateOperationsInput | string;
+    correspondentId?: NullableIntFieldUpdateOperationsInput | number | null;
+    tagIds?: PaperlessDocumentUpdatetagIdsInput | number[];
+    importedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     paperlessInstanceId?: StringFieldUpdateOperationsInput | string;
   };
 
-  export type ProcessedDocumentCreateManyInput = {
+  export type DocumentProcessingResultCreateInput = {
     id?: string;
-    paperlessId: number;
-    title: string;
     processedAt?: Date | string;
     aiProvider: string;
     tokensUsed?: number;
@@ -18831,16 +20500,29 @@ export namespace Prisma {
     originalTitle?: string | null;
     originalCorrespondent?: string | null;
     originalDocumentType?: string | null;
-    originalTags?: ProcessedDocumentCreateoriginalTagsInput | string[];
+    originalTags?: DocumentProcessingResultCreateoriginalTagsInput | string[];
     createdAt?: Date | string;
     updatedAt?: Date | string;
-    paperlessInstanceId: string;
+    document: PaperlessDocumentCreateNestedOneWithoutProcessingResultsInput;
   };
 
-  export type ProcessedDocumentUpdateManyMutationInput = {
+  export type DocumentProcessingResultUncheckedCreateInput = {
+    id?: string;
+    processedAt?: Date | string;
+    aiProvider: string;
+    tokensUsed?: number;
+    changes?: NullableJsonNullValueInput | InputJsonValue;
+    originalTitle?: string | null;
+    originalCorrespondent?: string | null;
+    originalDocumentType?: string | null;
+    originalTags?: DocumentProcessingResultCreateoriginalTagsInput | string[];
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    documentId: string;
+  };
+
+  export type DocumentProcessingResultUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string;
-    paperlessId?: IntFieldUpdateOperationsInput | number;
-    title?: StringFieldUpdateOperationsInput | string;
     processedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     aiProvider?: StringFieldUpdateOperationsInput | string;
     tokensUsed?: IntFieldUpdateOperationsInput | number;
@@ -18848,15 +20530,14 @@ export namespace Prisma {
     originalTitle?: NullableStringFieldUpdateOperationsInput | string | null;
     originalCorrespondent?: NullableStringFieldUpdateOperationsInput | string | null;
     originalDocumentType?: NullableStringFieldUpdateOperationsInput | string | null;
-    originalTags?: ProcessedDocumentUpdateoriginalTagsInput | string[];
+    originalTags?: DocumentProcessingResultUpdateoriginalTagsInput | string[];
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    document?: PaperlessDocumentUpdateOneRequiredWithoutProcessingResultsNestedInput;
   };
 
-  export type ProcessedDocumentUncheckedUpdateManyInput = {
+  export type DocumentProcessingResultUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string;
-    paperlessId?: IntFieldUpdateOperationsInput | number;
-    title?: StringFieldUpdateOperationsInput | string;
     processedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     aiProvider?: StringFieldUpdateOperationsInput | string;
     tokensUsed?: IntFieldUpdateOperationsInput | number;
@@ -18864,10 +20545,54 @@ export namespace Prisma {
     originalTitle?: NullableStringFieldUpdateOperationsInput | string | null;
     originalCorrespondent?: NullableStringFieldUpdateOperationsInput | string | null;
     originalDocumentType?: NullableStringFieldUpdateOperationsInput | string | null;
-    originalTags?: ProcessedDocumentUpdateoriginalTagsInput | string[];
+    originalTags?: DocumentProcessingResultUpdateoriginalTagsInput | string[];
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    paperlessInstanceId?: StringFieldUpdateOperationsInput | string;
+    documentId?: StringFieldUpdateOperationsInput | string;
+  };
+
+  export type DocumentProcessingResultCreateManyInput = {
+    id?: string;
+    processedAt?: Date | string;
+    aiProvider: string;
+    tokensUsed?: number;
+    changes?: NullableJsonNullValueInput | InputJsonValue;
+    originalTitle?: string | null;
+    originalCorrespondent?: string | null;
+    originalDocumentType?: string | null;
+    originalTags?: DocumentProcessingResultCreateoriginalTagsInput | string[];
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    documentId: string;
+  };
+
+  export type DocumentProcessingResultUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    processedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    aiProvider?: StringFieldUpdateOperationsInput | string;
+    tokensUsed?: IntFieldUpdateOperationsInput | number;
+    changes?: NullableJsonNullValueInput | InputJsonValue;
+    originalTitle?: NullableStringFieldUpdateOperationsInput | string | null;
+    originalCorrespondent?: NullableStringFieldUpdateOperationsInput | string | null;
+    originalDocumentType?: NullableStringFieldUpdateOperationsInput | string | null;
+    originalTags?: DocumentProcessingResultUpdateoriginalTagsInput | string[];
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+  };
+
+  export type DocumentProcessingResultUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    processedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    aiProvider?: StringFieldUpdateOperationsInput | string;
+    tokensUsed?: IntFieldUpdateOperationsInput | number;
+    changes?: NullableJsonNullValueInput | InputJsonValue;
+    originalTitle?: NullableStringFieldUpdateOperationsInput | string | null;
+    originalCorrespondent?: NullableStringFieldUpdateOperationsInput | string | null;
+    originalDocumentType?: NullableStringFieldUpdateOperationsInput | string | null;
+    originalTags?: DocumentProcessingResultUpdateoriginalTagsInput | string[];
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    documentId?: StringFieldUpdateOperationsInput | string;
   };
 
   export type ProcessingQueueCreateInput = {
@@ -19412,10 +21137,10 @@ export namespace Prisma {
     createdAt?: SortOrder;
   };
 
-  export type ProcessedDocumentListRelationFilter = {
-    every?: ProcessedDocumentWhereInput;
-    some?: ProcessedDocumentWhereInput;
-    none?: ProcessedDocumentWhereInput;
+  export type PaperlessDocumentListRelationFilter = {
+    every?: PaperlessDocumentWhereInput;
+    some?: PaperlessDocumentWhereInput;
+    none?: PaperlessDocumentWhereInput;
   };
 
   export type ProcessingQueueListRelationFilter = {
@@ -19424,7 +21149,7 @@ export namespace Prisma {
     none?: ProcessingQueueWhereInput;
   };
 
-  export type ProcessedDocumentOrderByRelationAggregateInput = {
+  export type PaperlessDocumentOrderByRelationAggregateInput = {
     _count?: SortOrder;
   };
 
@@ -19579,6 +21304,121 @@ export namespace Prisma {
     gte?: number | IntFieldRefInput<$PrismaModel>;
     not?: NestedIntFilter<$PrismaModel> | number;
   };
+
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null;
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null;
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null;
+    lt?: number | IntFieldRefInput<$PrismaModel>;
+    lte?: number | IntFieldRefInput<$PrismaModel>;
+    gt?: number | IntFieldRefInput<$PrismaModel>;
+    gte?: number | IntFieldRefInput<$PrismaModel>;
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null;
+  };
+
+  export type IntNullableListFilter<$PrismaModel = never> = {
+    equals?: number[] | ListIntFieldRefInput<$PrismaModel> | null;
+    has?: number | IntFieldRefInput<$PrismaModel> | null;
+    hasEvery?: number[] | ListIntFieldRefInput<$PrismaModel>;
+    hasSome?: number[] | ListIntFieldRefInput<$PrismaModel>;
+    isEmpty?: boolean;
+  };
+
+  export type DocumentProcessingResultListRelationFilter = {
+    every?: DocumentProcessingResultWhereInput;
+    some?: DocumentProcessingResultWhereInput;
+    none?: DocumentProcessingResultWhereInput;
+  };
+
+  export type DocumentProcessingResultOrderByRelationAggregateInput = {
+    _count?: SortOrder;
+  };
+
+  export type PaperlessDocumentPaperlessInstanceIdPaperlessIdCompoundUniqueInput = {
+    paperlessInstanceId: string;
+    paperlessId: number;
+  };
+
+  export type PaperlessDocumentCountOrderByAggregateInput = {
+    id?: SortOrder;
+    paperlessId?: SortOrder;
+    title?: SortOrder;
+    content?: SortOrder;
+    correspondentId?: SortOrder;
+    tagIds?: SortOrder;
+    importedAt?: SortOrder;
+    createdAt?: SortOrder;
+    updatedAt?: SortOrder;
+    paperlessInstanceId?: SortOrder;
+  };
+
+  export type PaperlessDocumentAvgOrderByAggregateInput = {
+    paperlessId?: SortOrder;
+    correspondentId?: SortOrder;
+    tagIds?: SortOrder;
+  };
+
+  export type PaperlessDocumentMaxOrderByAggregateInput = {
+    id?: SortOrder;
+    paperlessId?: SortOrder;
+    title?: SortOrder;
+    content?: SortOrder;
+    correspondentId?: SortOrder;
+    importedAt?: SortOrder;
+    createdAt?: SortOrder;
+    updatedAt?: SortOrder;
+    paperlessInstanceId?: SortOrder;
+  };
+
+  export type PaperlessDocumentMinOrderByAggregateInput = {
+    id?: SortOrder;
+    paperlessId?: SortOrder;
+    title?: SortOrder;
+    content?: SortOrder;
+    correspondentId?: SortOrder;
+    importedAt?: SortOrder;
+    createdAt?: SortOrder;
+    updatedAt?: SortOrder;
+    paperlessInstanceId?: SortOrder;
+  };
+
+  export type PaperlessDocumentSumOrderByAggregateInput = {
+    paperlessId?: SortOrder;
+    correspondentId?: SortOrder;
+    tagIds?: SortOrder;
+  };
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>;
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>;
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>;
+    lt?: number | IntFieldRefInput<$PrismaModel>;
+    lte?: number | IntFieldRefInput<$PrismaModel>;
+    gt?: number | IntFieldRefInput<$PrismaModel>;
+    gte?: number | IntFieldRefInput<$PrismaModel>;
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number;
+    _count?: NestedIntFilter<$PrismaModel>;
+    _avg?: NestedFloatFilter<$PrismaModel>;
+    _sum?: NestedIntFilter<$PrismaModel>;
+    _min?: NestedIntFilter<$PrismaModel>;
+    _max?: NestedIntFilter<$PrismaModel>;
+  };
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null;
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null;
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null;
+    lt?: number | IntFieldRefInput<$PrismaModel>;
+    lte?: number | IntFieldRefInput<$PrismaModel>;
+    gt?: number | IntFieldRefInput<$PrismaModel>;
+    gte?: number | IntFieldRefInput<$PrismaModel>;
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null;
+    _count?: NestedIntNullableFilter<$PrismaModel>;
+    _avg?: NestedFloatNullableFilter<$PrismaModel>;
+    _sum?: NestedIntNullableFilter<$PrismaModel>;
+    _min?: NestedIntNullableFilter<$PrismaModel>;
+    _max?: NestedIntNullableFilter<$PrismaModel>;
+  };
   export type JsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<
@@ -19614,10 +21454,13 @@ export namespace Prisma {
     isEmpty?: boolean;
   };
 
-  export type ProcessedDocumentCountOrderByAggregateInput = {
+  export type PaperlessDocumentScalarRelationFilter = {
+    is?: PaperlessDocumentWhereInput;
+    isNot?: PaperlessDocumentWhereInput;
+  };
+
+  export type DocumentProcessingResultCountOrderByAggregateInput = {
     id?: SortOrder;
-    paperlessId?: SortOrder;
-    title?: SortOrder;
     processedAt?: SortOrder;
     aiProvider?: SortOrder;
     tokensUsed?: SortOrder;
@@ -19628,18 +21471,15 @@ export namespace Prisma {
     originalTags?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
-    paperlessInstanceId?: SortOrder;
+    documentId?: SortOrder;
   };
 
-  export type ProcessedDocumentAvgOrderByAggregateInput = {
-    paperlessId?: SortOrder;
+  export type DocumentProcessingResultAvgOrderByAggregateInput = {
     tokensUsed?: SortOrder;
   };
 
-  export type ProcessedDocumentMaxOrderByAggregateInput = {
+  export type DocumentProcessingResultMaxOrderByAggregateInput = {
     id?: SortOrder;
-    paperlessId?: SortOrder;
-    title?: SortOrder;
     processedAt?: SortOrder;
     aiProvider?: SortOrder;
     tokensUsed?: SortOrder;
@@ -19648,13 +21488,11 @@ export namespace Prisma {
     originalDocumentType?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
-    paperlessInstanceId?: SortOrder;
+    documentId?: SortOrder;
   };
 
-  export type ProcessedDocumentMinOrderByAggregateInput = {
+  export type DocumentProcessingResultMinOrderByAggregateInput = {
     id?: SortOrder;
-    paperlessId?: SortOrder;
-    title?: SortOrder;
     processedAt?: SortOrder;
     aiProvider?: SortOrder;
     tokensUsed?: SortOrder;
@@ -19663,28 +21501,11 @@ export namespace Prisma {
     originalDocumentType?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
-    paperlessInstanceId?: SortOrder;
+    documentId?: SortOrder;
   };
 
-  export type ProcessedDocumentSumOrderByAggregateInput = {
-    paperlessId?: SortOrder;
+  export type DocumentProcessingResultSumOrderByAggregateInput = {
     tokensUsed?: SortOrder;
-  };
-
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>;
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>;
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>;
-    lt?: number | IntFieldRefInput<$PrismaModel>;
-    lte?: number | IntFieldRefInput<$PrismaModel>;
-    gt?: number | IntFieldRefInput<$PrismaModel>;
-    gte?: number | IntFieldRefInput<$PrismaModel>;
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number;
-    _count?: NestedIntFilter<$PrismaModel>;
-    _avg?: NestedFloatFilter<$PrismaModel>;
-    _sum?: NestedIntFilter<$PrismaModel>;
-    _min?: NestedIntFilter<$PrismaModel>;
-    _max?: NestedIntFilter<$PrismaModel>;
   };
   export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -19809,17 +21630,6 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null;
   };
 
-  export type IntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null;
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null;
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null;
-    lt?: number | IntFieldRefInput<$PrismaModel>;
-    lte?: number | IntFieldRefInput<$PrismaModel>;
-    gt?: number | IntFieldRefInput<$PrismaModel>;
-    gte?: number | IntFieldRefInput<$PrismaModel>;
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null;
-  };
-
   export type AiBotNullableScalarRelationFilter = {
     is?: AiBotWhereInput | null;
     isNot?: AiBotWhereInput | null;
@@ -19900,22 +21710,6 @@ export namespace Prisma {
     _sum?: NestedFloatNullableFilter<$PrismaModel>;
     _min?: NestedFloatNullableFilter<$PrismaModel>;
     _max?: NestedFloatNullableFilter<$PrismaModel>;
-  };
-
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null;
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null;
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null;
-    lt?: number | IntFieldRefInput<$PrismaModel>;
-    lte?: number | IntFieldRefInput<$PrismaModel>;
-    gt?: number | IntFieldRefInput<$PrismaModel>;
-    gte?: number | IntFieldRefInput<$PrismaModel>;
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null;
-    _count?: NestedIntNullableFilter<$PrismaModel>;
-    _avg?: NestedFloatNullableFilter<$PrismaModel>;
-    _sum?: NestedIntNullableFilter<$PrismaModel>;
-    _min?: NestedIntNullableFilter<$PrismaModel>;
-    _max?: NestedIntNullableFilter<$PrismaModel>;
   };
 
   export type StringFieldUpdateOperationsInput = {
@@ -20680,19 +22474,19 @@ export namespace Prisma {
       | UserPaperlessInstanceAccessWhereUniqueInput[];
   };
 
-  export type ProcessedDocumentCreateNestedManyWithoutPaperlessInstanceInput = {
+  export type PaperlessDocumentCreateNestedManyWithoutPaperlessInstanceInput = {
     create?:
       | XOR<
-          ProcessedDocumentCreateWithoutPaperlessInstanceInput,
-          ProcessedDocumentUncheckedCreateWithoutPaperlessInstanceInput
+          PaperlessDocumentCreateWithoutPaperlessInstanceInput,
+          PaperlessDocumentUncheckedCreateWithoutPaperlessInstanceInput
         >
-      | ProcessedDocumentCreateWithoutPaperlessInstanceInput[]
-      | ProcessedDocumentUncheckedCreateWithoutPaperlessInstanceInput[];
+      | PaperlessDocumentCreateWithoutPaperlessInstanceInput[]
+      | PaperlessDocumentUncheckedCreateWithoutPaperlessInstanceInput[];
     connectOrCreate?:
-      | ProcessedDocumentCreateOrConnectWithoutPaperlessInstanceInput
-      | ProcessedDocumentCreateOrConnectWithoutPaperlessInstanceInput[];
-    createMany?: ProcessedDocumentCreateManyPaperlessInstanceInputEnvelope;
-    connect?: ProcessedDocumentWhereUniqueInput | ProcessedDocumentWhereUniqueInput[];
+      | PaperlessDocumentCreateOrConnectWithoutPaperlessInstanceInput
+      | PaperlessDocumentCreateOrConnectWithoutPaperlessInstanceInput[];
+    createMany?: PaperlessDocumentCreateManyPaperlessInstanceInputEnvelope;
+    connect?: PaperlessDocumentWhereUniqueInput | PaperlessDocumentWhereUniqueInput[];
   };
 
   export type ProcessingQueueCreateNestedManyWithoutPaperlessInstanceInput = {
@@ -20727,19 +22521,19 @@ export namespace Prisma {
       | UserPaperlessInstanceAccessWhereUniqueInput[];
   };
 
-  export type ProcessedDocumentUncheckedCreateNestedManyWithoutPaperlessInstanceInput = {
+  export type PaperlessDocumentUncheckedCreateNestedManyWithoutPaperlessInstanceInput = {
     create?:
       | XOR<
-          ProcessedDocumentCreateWithoutPaperlessInstanceInput,
-          ProcessedDocumentUncheckedCreateWithoutPaperlessInstanceInput
+          PaperlessDocumentCreateWithoutPaperlessInstanceInput,
+          PaperlessDocumentUncheckedCreateWithoutPaperlessInstanceInput
         >
-      | ProcessedDocumentCreateWithoutPaperlessInstanceInput[]
-      | ProcessedDocumentUncheckedCreateWithoutPaperlessInstanceInput[];
+      | PaperlessDocumentCreateWithoutPaperlessInstanceInput[]
+      | PaperlessDocumentUncheckedCreateWithoutPaperlessInstanceInput[];
     connectOrCreate?:
-      | ProcessedDocumentCreateOrConnectWithoutPaperlessInstanceInput
-      | ProcessedDocumentCreateOrConnectWithoutPaperlessInstanceInput[];
-    createMany?: ProcessedDocumentCreateManyPaperlessInstanceInputEnvelope;
-    connect?: ProcessedDocumentWhereUniqueInput | ProcessedDocumentWhereUniqueInput[];
+      | PaperlessDocumentCreateOrConnectWithoutPaperlessInstanceInput
+      | PaperlessDocumentCreateOrConnectWithoutPaperlessInstanceInput[];
+    createMany?: PaperlessDocumentCreateManyPaperlessInstanceInputEnvelope;
+    connect?: PaperlessDocumentWhereUniqueInput | PaperlessDocumentWhereUniqueInput[];
   };
 
   export type ProcessingQueueUncheckedCreateNestedManyWithoutPaperlessInstanceInput = {
@@ -20812,32 +22606,32 @@ export namespace Prisma {
       | UserPaperlessInstanceAccessScalarWhereInput[];
   };
 
-  export type ProcessedDocumentUpdateManyWithoutPaperlessInstanceNestedInput = {
+  export type PaperlessDocumentUpdateManyWithoutPaperlessInstanceNestedInput = {
     create?:
       | XOR<
-          ProcessedDocumentCreateWithoutPaperlessInstanceInput,
-          ProcessedDocumentUncheckedCreateWithoutPaperlessInstanceInput
+          PaperlessDocumentCreateWithoutPaperlessInstanceInput,
+          PaperlessDocumentUncheckedCreateWithoutPaperlessInstanceInput
         >
-      | ProcessedDocumentCreateWithoutPaperlessInstanceInput[]
-      | ProcessedDocumentUncheckedCreateWithoutPaperlessInstanceInput[];
+      | PaperlessDocumentCreateWithoutPaperlessInstanceInput[]
+      | PaperlessDocumentUncheckedCreateWithoutPaperlessInstanceInput[];
     connectOrCreate?:
-      | ProcessedDocumentCreateOrConnectWithoutPaperlessInstanceInput
-      | ProcessedDocumentCreateOrConnectWithoutPaperlessInstanceInput[];
+      | PaperlessDocumentCreateOrConnectWithoutPaperlessInstanceInput
+      | PaperlessDocumentCreateOrConnectWithoutPaperlessInstanceInput[];
     upsert?:
-      | ProcessedDocumentUpsertWithWhereUniqueWithoutPaperlessInstanceInput
-      | ProcessedDocumentUpsertWithWhereUniqueWithoutPaperlessInstanceInput[];
-    createMany?: ProcessedDocumentCreateManyPaperlessInstanceInputEnvelope;
-    set?: ProcessedDocumentWhereUniqueInput | ProcessedDocumentWhereUniqueInput[];
-    disconnect?: ProcessedDocumentWhereUniqueInput | ProcessedDocumentWhereUniqueInput[];
-    delete?: ProcessedDocumentWhereUniqueInput | ProcessedDocumentWhereUniqueInput[];
-    connect?: ProcessedDocumentWhereUniqueInput | ProcessedDocumentWhereUniqueInput[];
+      | PaperlessDocumentUpsertWithWhereUniqueWithoutPaperlessInstanceInput
+      | PaperlessDocumentUpsertWithWhereUniqueWithoutPaperlessInstanceInput[];
+    createMany?: PaperlessDocumentCreateManyPaperlessInstanceInputEnvelope;
+    set?: PaperlessDocumentWhereUniqueInput | PaperlessDocumentWhereUniqueInput[];
+    disconnect?: PaperlessDocumentWhereUniqueInput | PaperlessDocumentWhereUniqueInput[];
+    delete?: PaperlessDocumentWhereUniqueInput | PaperlessDocumentWhereUniqueInput[];
+    connect?: PaperlessDocumentWhereUniqueInput | PaperlessDocumentWhereUniqueInput[];
     update?:
-      | ProcessedDocumentUpdateWithWhereUniqueWithoutPaperlessInstanceInput
-      | ProcessedDocumentUpdateWithWhereUniqueWithoutPaperlessInstanceInput[];
+      | PaperlessDocumentUpdateWithWhereUniqueWithoutPaperlessInstanceInput
+      | PaperlessDocumentUpdateWithWhereUniqueWithoutPaperlessInstanceInput[];
     updateMany?:
-      | ProcessedDocumentUpdateManyWithWhereWithoutPaperlessInstanceInput
-      | ProcessedDocumentUpdateManyWithWhereWithoutPaperlessInstanceInput[];
-    deleteMany?: ProcessedDocumentScalarWhereInput | ProcessedDocumentScalarWhereInput[];
+      | PaperlessDocumentUpdateManyWithWhereWithoutPaperlessInstanceInput
+      | PaperlessDocumentUpdateManyWithWhereWithoutPaperlessInstanceInput[];
+    deleteMany?: PaperlessDocumentScalarWhereInput | PaperlessDocumentScalarWhereInput[];
   };
 
   export type ProcessingQueueUpdateManyWithoutPaperlessInstanceNestedInput = {
@@ -20906,32 +22700,32 @@ export namespace Prisma {
       | UserPaperlessInstanceAccessScalarWhereInput[];
   };
 
-  export type ProcessedDocumentUncheckedUpdateManyWithoutPaperlessInstanceNestedInput = {
+  export type PaperlessDocumentUncheckedUpdateManyWithoutPaperlessInstanceNestedInput = {
     create?:
       | XOR<
-          ProcessedDocumentCreateWithoutPaperlessInstanceInput,
-          ProcessedDocumentUncheckedCreateWithoutPaperlessInstanceInput
+          PaperlessDocumentCreateWithoutPaperlessInstanceInput,
+          PaperlessDocumentUncheckedCreateWithoutPaperlessInstanceInput
         >
-      | ProcessedDocumentCreateWithoutPaperlessInstanceInput[]
-      | ProcessedDocumentUncheckedCreateWithoutPaperlessInstanceInput[];
+      | PaperlessDocumentCreateWithoutPaperlessInstanceInput[]
+      | PaperlessDocumentUncheckedCreateWithoutPaperlessInstanceInput[];
     connectOrCreate?:
-      | ProcessedDocumentCreateOrConnectWithoutPaperlessInstanceInput
-      | ProcessedDocumentCreateOrConnectWithoutPaperlessInstanceInput[];
+      | PaperlessDocumentCreateOrConnectWithoutPaperlessInstanceInput
+      | PaperlessDocumentCreateOrConnectWithoutPaperlessInstanceInput[];
     upsert?:
-      | ProcessedDocumentUpsertWithWhereUniqueWithoutPaperlessInstanceInput
-      | ProcessedDocumentUpsertWithWhereUniqueWithoutPaperlessInstanceInput[];
-    createMany?: ProcessedDocumentCreateManyPaperlessInstanceInputEnvelope;
-    set?: ProcessedDocumentWhereUniqueInput | ProcessedDocumentWhereUniqueInput[];
-    disconnect?: ProcessedDocumentWhereUniqueInput | ProcessedDocumentWhereUniqueInput[];
-    delete?: ProcessedDocumentWhereUniqueInput | ProcessedDocumentWhereUniqueInput[];
-    connect?: ProcessedDocumentWhereUniqueInput | ProcessedDocumentWhereUniqueInput[];
+      | PaperlessDocumentUpsertWithWhereUniqueWithoutPaperlessInstanceInput
+      | PaperlessDocumentUpsertWithWhereUniqueWithoutPaperlessInstanceInput[];
+    createMany?: PaperlessDocumentCreateManyPaperlessInstanceInputEnvelope;
+    set?: PaperlessDocumentWhereUniqueInput | PaperlessDocumentWhereUniqueInput[];
+    disconnect?: PaperlessDocumentWhereUniqueInput | PaperlessDocumentWhereUniqueInput[];
+    delete?: PaperlessDocumentWhereUniqueInput | PaperlessDocumentWhereUniqueInput[];
+    connect?: PaperlessDocumentWhereUniqueInput | PaperlessDocumentWhereUniqueInput[];
     update?:
-      | ProcessedDocumentUpdateWithWhereUniqueWithoutPaperlessInstanceInput
-      | ProcessedDocumentUpdateWithWhereUniqueWithoutPaperlessInstanceInput[];
+      | PaperlessDocumentUpdateWithWhereUniqueWithoutPaperlessInstanceInput
+      | PaperlessDocumentUpdateWithWhereUniqueWithoutPaperlessInstanceInput[];
     updateMany?:
-      | ProcessedDocumentUpdateManyWithWhereWithoutPaperlessInstanceInput
-      | ProcessedDocumentUpdateManyWithWhereWithoutPaperlessInstanceInput[];
-    deleteMany?: ProcessedDocumentScalarWhereInput | ProcessedDocumentScalarWhereInput[];
+      | PaperlessDocumentUpdateManyWithWhereWithoutPaperlessInstanceInput
+      | PaperlessDocumentUpdateManyWithWhereWithoutPaperlessInstanceInput[];
+    deleteMany?: PaperlessDocumentScalarWhereInput | PaperlessDocumentScalarWhereInput[];
   };
 
   export type ProcessingQueueUncheckedUpdateManyWithoutPaperlessInstanceNestedInput = {
@@ -21420,17 +23214,47 @@ export namespace Prisma {
     deleteMany?: AiUsageMetricScalarWhereInput | AiUsageMetricScalarWhereInput[];
   };
 
-  export type ProcessedDocumentCreateoriginalTagsInput = {
-    set: string[];
+  export type PaperlessDocumentCreatetagIdsInput = {
+    set: number[];
   };
 
-  export type PaperlessInstanceCreateNestedOneWithoutProcessedDocumentsInput = {
+  export type PaperlessInstanceCreateNestedOneWithoutDocumentsInput = {
     create?: XOR<
-      PaperlessInstanceCreateWithoutProcessedDocumentsInput,
-      PaperlessInstanceUncheckedCreateWithoutProcessedDocumentsInput
+      PaperlessInstanceCreateWithoutDocumentsInput,
+      PaperlessInstanceUncheckedCreateWithoutDocumentsInput
     >;
-    connectOrCreate?: PaperlessInstanceCreateOrConnectWithoutProcessedDocumentsInput;
+    connectOrCreate?: PaperlessInstanceCreateOrConnectWithoutDocumentsInput;
     connect?: PaperlessInstanceWhereUniqueInput;
+  };
+
+  export type DocumentProcessingResultCreateNestedManyWithoutDocumentInput = {
+    create?:
+      | XOR<
+          DocumentProcessingResultCreateWithoutDocumentInput,
+          DocumentProcessingResultUncheckedCreateWithoutDocumentInput
+        >
+      | DocumentProcessingResultCreateWithoutDocumentInput[]
+      | DocumentProcessingResultUncheckedCreateWithoutDocumentInput[];
+    connectOrCreate?:
+      | DocumentProcessingResultCreateOrConnectWithoutDocumentInput
+      | DocumentProcessingResultCreateOrConnectWithoutDocumentInput[];
+    createMany?: DocumentProcessingResultCreateManyDocumentInputEnvelope;
+    connect?: DocumentProcessingResultWhereUniqueInput | DocumentProcessingResultWhereUniqueInput[];
+  };
+
+  export type DocumentProcessingResultUncheckedCreateNestedManyWithoutDocumentInput = {
+    create?:
+      | XOR<
+          DocumentProcessingResultCreateWithoutDocumentInput,
+          DocumentProcessingResultUncheckedCreateWithoutDocumentInput
+        >
+      | DocumentProcessingResultCreateWithoutDocumentInput[]
+      | DocumentProcessingResultUncheckedCreateWithoutDocumentInput[];
+    connectOrCreate?:
+      | DocumentProcessingResultCreateOrConnectWithoutDocumentInput
+      | DocumentProcessingResultCreateOrConnectWithoutDocumentInput[];
+    createMany?: DocumentProcessingResultCreateManyDocumentInputEnvelope;
+    connect?: DocumentProcessingResultWhereUniqueInput | DocumentProcessingResultWhereUniqueInput[];
   };
 
   export type IntFieldUpdateOperationsInput = {
@@ -21441,25 +23265,132 @@ export namespace Prisma {
     divide?: number;
   };
 
-  export type ProcessedDocumentUpdateoriginalTagsInput = {
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null;
+    increment?: number;
+    decrement?: number;
+    multiply?: number;
+    divide?: number;
+  };
+
+  export type PaperlessDocumentUpdatetagIdsInput = {
+    set?: number[];
+    push?: number | number[];
+  };
+
+  export type PaperlessInstanceUpdateOneRequiredWithoutDocumentsNestedInput = {
+    create?: XOR<
+      PaperlessInstanceCreateWithoutDocumentsInput,
+      PaperlessInstanceUncheckedCreateWithoutDocumentsInput
+    >;
+    connectOrCreate?: PaperlessInstanceCreateOrConnectWithoutDocumentsInput;
+    upsert?: PaperlessInstanceUpsertWithoutDocumentsInput;
+    connect?: PaperlessInstanceWhereUniqueInput;
+    update?: XOR<
+      XOR<
+        PaperlessInstanceUpdateToOneWithWhereWithoutDocumentsInput,
+        PaperlessInstanceUpdateWithoutDocumentsInput
+      >,
+      PaperlessInstanceUncheckedUpdateWithoutDocumentsInput
+    >;
+  };
+
+  export type DocumentProcessingResultUpdateManyWithoutDocumentNestedInput = {
+    create?:
+      | XOR<
+          DocumentProcessingResultCreateWithoutDocumentInput,
+          DocumentProcessingResultUncheckedCreateWithoutDocumentInput
+        >
+      | DocumentProcessingResultCreateWithoutDocumentInput[]
+      | DocumentProcessingResultUncheckedCreateWithoutDocumentInput[];
+    connectOrCreate?:
+      | DocumentProcessingResultCreateOrConnectWithoutDocumentInput
+      | DocumentProcessingResultCreateOrConnectWithoutDocumentInput[];
+    upsert?:
+      | DocumentProcessingResultUpsertWithWhereUniqueWithoutDocumentInput
+      | DocumentProcessingResultUpsertWithWhereUniqueWithoutDocumentInput[];
+    createMany?: DocumentProcessingResultCreateManyDocumentInputEnvelope;
+    set?: DocumentProcessingResultWhereUniqueInput | DocumentProcessingResultWhereUniqueInput[];
+    disconnect?:
+      | DocumentProcessingResultWhereUniqueInput
+      | DocumentProcessingResultWhereUniqueInput[];
+    delete?: DocumentProcessingResultWhereUniqueInput | DocumentProcessingResultWhereUniqueInput[];
+    connect?: DocumentProcessingResultWhereUniqueInput | DocumentProcessingResultWhereUniqueInput[];
+    update?:
+      | DocumentProcessingResultUpdateWithWhereUniqueWithoutDocumentInput
+      | DocumentProcessingResultUpdateWithWhereUniqueWithoutDocumentInput[];
+    updateMany?:
+      | DocumentProcessingResultUpdateManyWithWhereWithoutDocumentInput
+      | DocumentProcessingResultUpdateManyWithWhereWithoutDocumentInput[];
+    deleteMany?:
+      | DocumentProcessingResultScalarWhereInput
+      | DocumentProcessingResultScalarWhereInput[];
+  };
+
+  export type DocumentProcessingResultUncheckedUpdateManyWithoutDocumentNestedInput = {
+    create?:
+      | XOR<
+          DocumentProcessingResultCreateWithoutDocumentInput,
+          DocumentProcessingResultUncheckedCreateWithoutDocumentInput
+        >
+      | DocumentProcessingResultCreateWithoutDocumentInput[]
+      | DocumentProcessingResultUncheckedCreateWithoutDocumentInput[];
+    connectOrCreate?:
+      | DocumentProcessingResultCreateOrConnectWithoutDocumentInput
+      | DocumentProcessingResultCreateOrConnectWithoutDocumentInput[];
+    upsert?:
+      | DocumentProcessingResultUpsertWithWhereUniqueWithoutDocumentInput
+      | DocumentProcessingResultUpsertWithWhereUniqueWithoutDocumentInput[];
+    createMany?: DocumentProcessingResultCreateManyDocumentInputEnvelope;
+    set?: DocumentProcessingResultWhereUniqueInput | DocumentProcessingResultWhereUniqueInput[];
+    disconnect?:
+      | DocumentProcessingResultWhereUniqueInput
+      | DocumentProcessingResultWhereUniqueInput[];
+    delete?: DocumentProcessingResultWhereUniqueInput | DocumentProcessingResultWhereUniqueInput[];
+    connect?: DocumentProcessingResultWhereUniqueInput | DocumentProcessingResultWhereUniqueInput[];
+    update?:
+      | DocumentProcessingResultUpdateWithWhereUniqueWithoutDocumentInput
+      | DocumentProcessingResultUpdateWithWhereUniqueWithoutDocumentInput[];
+    updateMany?:
+      | DocumentProcessingResultUpdateManyWithWhereWithoutDocumentInput
+      | DocumentProcessingResultUpdateManyWithWhereWithoutDocumentInput[];
+    deleteMany?:
+      | DocumentProcessingResultScalarWhereInput
+      | DocumentProcessingResultScalarWhereInput[];
+  };
+
+  export type DocumentProcessingResultCreateoriginalTagsInput = {
+    set: string[];
+  };
+
+  export type PaperlessDocumentCreateNestedOneWithoutProcessingResultsInput = {
+    create?: XOR<
+      PaperlessDocumentCreateWithoutProcessingResultsInput,
+      PaperlessDocumentUncheckedCreateWithoutProcessingResultsInput
+    >;
+    connectOrCreate?: PaperlessDocumentCreateOrConnectWithoutProcessingResultsInput;
+    connect?: PaperlessDocumentWhereUniqueInput;
+  };
+
+  export type DocumentProcessingResultUpdateoriginalTagsInput = {
     set?: string[];
     push?: string | string[];
   };
 
-  export type PaperlessInstanceUpdateOneRequiredWithoutProcessedDocumentsNestedInput = {
+  export type PaperlessDocumentUpdateOneRequiredWithoutProcessingResultsNestedInput = {
     create?: XOR<
-      PaperlessInstanceCreateWithoutProcessedDocumentsInput,
-      PaperlessInstanceUncheckedCreateWithoutProcessedDocumentsInput
+      PaperlessDocumentCreateWithoutProcessingResultsInput,
+      PaperlessDocumentUncheckedCreateWithoutProcessingResultsInput
     >;
-    connectOrCreate?: PaperlessInstanceCreateOrConnectWithoutProcessedDocumentsInput;
-    upsert?: PaperlessInstanceUpsertWithoutProcessedDocumentsInput;
-    connect?: PaperlessInstanceWhereUniqueInput;
+    connectOrCreate?: PaperlessDocumentCreateOrConnectWithoutProcessingResultsInput;
+    upsert?: PaperlessDocumentUpsertWithoutProcessingResultsInput;
+    connect?: PaperlessDocumentWhereUniqueInput;
     update?: XOR<
       XOR<
-        PaperlessInstanceUpdateToOneWithWhereWithoutProcessedDocumentsInput,
-        PaperlessInstanceUpdateWithoutProcessedDocumentsInput
+        PaperlessDocumentUpdateToOneWithWhereWithoutProcessingResultsInput,
+        PaperlessDocumentUpdateWithoutProcessingResultsInput
       >,
-      PaperlessInstanceUncheckedUpdateWithoutProcessedDocumentsInput
+      PaperlessDocumentUncheckedUpdateWithoutProcessingResultsInput
     >;
   };
 
@@ -21521,14 +23452,6 @@ export namespace Prisma {
   };
 
   export type NullableFloatFieldUpdateOperationsInput = {
-    set?: number | null;
-    increment?: number;
-    decrement?: number;
-    multiply?: number;
-    divide?: number;
-  };
-
-  export type NullableIntFieldUpdateOperationsInput = {
     set?: number | null;
     increment?: number;
     decrement?: number;
@@ -21768,6 +23691,33 @@ export namespace Prisma {
     gte?: number | FloatFieldRefInput<$PrismaModel>;
     not?: NestedFloatFilter<$PrismaModel> | number;
   };
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null;
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null;
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null;
+    lt?: number | IntFieldRefInput<$PrismaModel>;
+    lte?: number | IntFieldRefInput<$PrismaModel>;
+    gt?: number | IntFieldRefInput<$PrismaModel>;
+    gte?: number | IntFieldRefInput<$PrismaModel>;
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null;
+    _count?: NestedIntNullableFilter<$PrismaModel>;
+    _avg?: NestedFloatNullableFilter<$PrismaModel>;
+    _sum?: NestedIntNullableFilter<$PrismaModel>;
+    _min?: NestedIntNullableFilter<$PrismaModel>;
+    _max?: NestedIntNullableFilter<$PrismaModel>;
+  };
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null;
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null;
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null;
+    lt?: number | FloatFieldRefInput<$PrismaModel>;
+    lte?: number | FloatFieldRefInput<$PrismaModel>;
+    gt?: number | FloatFieldRefInput<$PrismaModel>;
+    gte?: number | FloatFieldRefInput<$PrismaModel>;
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null;
+  };
   export type NestedJsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<
@@ -21820,17 +23770,6 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>;
   };
 
-  export type NestedFloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null;
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null;
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null;
-    lt?: number | FloatFieldRefInput<$PrismaModel>;
-    lte?: number | FloatFieldRefInput<$PrismaModel>;
-    gt?: number | FloatFieldRefInput<$PrismaModel>;
-    gte?: number | FloatFieldRefInput<$PrismaModel>;
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null;
-  };
-
   export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel> | null;
     in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null;
@@ -21847,22 +23786,6 @@ export namespace Prisma {
     _max?: NestedFloatNullableFilter<$PrismaModel>;
   };
 
-  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null;
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null;
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null;
-    lt?: number | IntFieldRefInput<$PrismaModel>;
-    lte?: number | IntFieldRefInput<$PrismaModel>;
-    gt?: number | IntFieldRefInput<$PrismaModel>;
-    gte?: number | IntFieldRefInput<$PrismaModel>;
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null;
-    _count?: NestedIntNullableFilter<$PrismaModel>;
-    _avg?: NestedFloatNullableFilter<$PrismaModel>;
-    _sum?: NestedIntNullableFilter<$PrismaModel>;
-    _min?: NestedIntNullableFilter<$PrismaModel>;
-    _max?: NestedIntNullableFilter<$PrismaModel>;
-  };
-
   export type PaperlessInstanceCreateWithoutOwnerInput = {
     id?: string;
     name: string;
@@ -21871,7 +23794,7 @@ export namespace Prisma {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     sharedWith?: UserPaperlessInstanceAccessCreateNestedManyWithoutInstanceInput;
-    processedDocuments?: ProcessedDocumentCreateNestedManyWithoutPaperlessInstanceInput;
+    documents?: PaperlessDocumentCreateNestedManyWithoutPaperlessInstanceInput;
     processingQueue?: ProcessingQueueCreateNestedManyWithoutPaperlessInstanceInput;
   };
 
@@ -21883,7 +23806,7 @@ export namespace Prisma {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     sharedWith?: UserPaperlessInstanceAccessUncheckedCreateNestedManyWithoutInstanceInput;
-    processedDocuments?: ProcessedDocumentUncheckedCreateNestedManyWithoutPaperlessInstanceInput;
+    documents?: PaperlessDocumentUncheckedCreateNestedManyWithoutPaperlessInstanceInput;
     processingQueue?: ProcessingQueueUncheckedCreateNestedManyWithoutPaperlessInstanceInput;
   };
 
@@ -22403,7 +24326,7 @@ export namespace Prisma {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     owner: UserCreateNestedOneWithoutOwnedPaperlessInstancesInput;
-    processedDocuments?: ProcessedDocumentCreateNestedManyWithoutPaperlessInstanceInput;
+    documents?: PaperlessDocumentCreateNestedManyWithoutPaperlessInstanceInput;
     processingQueue?: ProcessingQueueCreateNestedManyWithoutPaperlessInstanceInput;
   };
 
@@ -22415,7 +24338,7 @@ export namespace Prisma {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownerId: string;
-    processedDocuments?: ProcessedDocumentUncheckedCreateNestedManyWithoutPaperlessInstanceInput;
+    documents?: PaperlessDocumentUncheckedCreateNestedManyWithoutPaperlessInstanceInput;
     processingQueue?: ProcessingQueueUncheckedCreateNestedManyWithoutPaperlessInstanceInput;
   };
 
@@ -22509,7 +24432,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     owner?: UserUpdateOneRequiredWithoutOwnedPaperlessInstancesNestedInput;
-    processedDocuments?: ProcessedDocumentUpdateManyWithoutPaperlessInstanceNestedInput;
+    documents?: PaperlessDocumentUpdateManyWithoutPaperlessInstanceNestedInput;
     processingQueue?: ProcessingQueueUpdateManyWithoutPaperlessInstanceNestedInput;
   };
 
@@ -22521,7 +24444,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownerId?: StringFieldUpdateOperationsInput | string;
-    processedDocuments?: ProcessedDocumentUncheckedUpdateManyWithoutPaperlessInstanceNestedInput;
+    documents?: PaperlessDocumentUncheckedUpdateManyWithoutPaperlessInstanceNestedInput;
     processingQueue?: ProcessingQueueUncheckedUpdateManyWithoutPaperlessInstanceNestedInput;
   };
 
@@ -22924,50 +24847,44 @@ export namespace Prisma {
     skipDuplicates?: boolean;
   };
 
-  export type ProcessedDocumentCreateWithoutPaperlessInstanceInput = {
+  export type PaperlessDocumentCreateWithoutPaperlessInstanceInput = {
     id?: string;
     paperlessId: number;
     title: string;
-    processedAt?: Date | string;
-    aiProvider: string;
-    tokensUsed?: number;
-    changes?: NullableJsonNullValueInput | InputJsonValue;
-    originalTitle?: string | null;
-    originalCorrespondent?: string | null;
-    originalDocumentType?: string | null;
-    originalTags?: ProcessedDocumentCreateoriginalTagsInput | string[];
+    content: string;
+    correspondentId?: number | null;
+    tagIds?: PaperlessDocumentCreatetagIdsInput | number[];
+    importedAt?: Date | string;
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    processingResults?: DocumentProcessingResultCreateNestedManyWithoutDocumentInput;
   };
 
-  export type ProcessedDocumentUncheckedCreateWithoutPaperlessInstanceInput = {
+  export type PaperlessDocumentUncheckedCreateWithoutPaperlessInstanceInput = {
     id?: string;
     paperlessId: number;
     title: string;
-    processedAt?: Date | string;
-    aiProvider: string;
-    tokensUsed?: number;
-    changes?: NullableJsonNullValueInput | InputJsonValue;
-    originalTitle?: string | null;
-    originalCorrespondent?: string | null;
-    originalDocumentType?: string | null;
-    originalTags?: ProcessedDocumentCreateoriginalTagsInput | string[];
+    content: string;
+    correspondentId?: number | null;
+    tagIds?: PaperlessDocumentCreatetagIdsInput | number[];
+    importedAt?: Date | string;
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    processingResults?: DocumentProcessingResultUncheckedCreateNestedManyWithoutDocumentInput;
   };
 
-  export type ProcessedDocumentCreateOrConnectWithoutPaperlessInstanceInput = {
-    where: ProcessedDocumentWhereUniqueInput;
+  export type PaperlessDocumentCreateOrConnectWithoutPaperlessInstanceInput = {
+    where: PaperlessDocumentWhereUniqueInput;
     create: XOR<
-      ProcessedDocumentCreateWithoutPaperlessInstanceInput,
-      ProcessedDocumentUncheckedCreateWithoutPaperlessInstanceInput
+      PaperlessDocumentCreateWithoutPaperlessInstanceInput,
+      PaperlessDocumentUncheckedCreateWithoutPaperlessInstanceInput
     >;
   };
 
-  export type ProcessedDocumentCreateManyPaperlessInstanceInputEnvelope = {
+  export type PaperlessDocumentCreateManyPaperlessInstanceInputEnvelope = {
     data:
-      | ProcessedDocumentCreateManyPaperlessInstanceInput
-      | ProcessedDocumentCreateManyPaperlessInstanceInput[];
+      | PaperlessDocumentCreateManyPaperlessInstanceInput
+      | PaperlessDocumentCreateManyPaperlessInstanceInput[];
     skipDuplicates?: boolean;
   };
 
@@ -23096,52 +25013,48 @@ export namespace Prisma {
     >;
   };
 
-  export type ProcessedDocumentUpsertWithWhereUniqueWithoutPaperlessInstanceInput = {
-    where: ProcessedDocumentWhereUniqueInput;
+  export type PaperlessDocumentUpsertWithWhereUniqueWithoutPaperlessInstanceInput = {
+    where: PaperlessDocumentWhereUniqueInput;
     update: XOR<
-      ProcessedDocumentUpdateWithoutPaperlessInstanceInput,
-      ProcessedDocumentUncheckedUpdateWithoutPaperlessInstanceInput
+      PaperlessDocumentUpdateWithoutPaperlessInstanceInput,
+      PaperlessDocumentUncheckedUpdateWithoutPaperlessInstanceInput
     >;
     create: XOR<
-      ProcessedDocumentCreateWithoutPaperlessInstanceInput,
-      ProcessedDocumentUncheckedCreateWithoutPaperlessInstanceInput
+      PaperlessDocumentCreateWithoutPaperlessInstanceInput,
+      PaperlessDocumentUncheckedCreateWithoutPaperlessInstanceInput
     >;
   };
 
-  export type ProcessedDocumentUpdateWithWhereUniqueWithoutPaperlessInstanceInput = {
-    where: ProcessedDocumentWhereUniqueInput;
+  export type PaperlessDocumentUpdateWithWhereUniqueWithoutPaperlessInstanceInput = {
+    where: PaperlessDocumentWhereUniqueInput;
     data: XOR<
-      ProcessedDocumentUpdateWithoutPaperlessInstanceInput,
-      ProcessedDocumentUncheckedUpdateWithoutPaperlessInstanceInput
+      PaperlessDocumentUpdateWithoutPaperlessInstanceInput,
+      PaperlessDocumentUncheckedUpdateWithoutPaperlessInstanceInput
     >;
   };
 
-  export type ProcessedDocumentUpdateManyWithWhereWithoutPaperlessInstanceInput = {
-    where: ProcessedDocumentScalarWhereInput;
+  export type PaperlessDocumentUpdateManyWithWhereWithoutPaperlessInstanceInput = {
+    where: PaperlessDocumentScalarWhereInput;
     data: XOR<
-      ProcessedDocumentUpdateManyMutationInput,
-      ProcessedDocumentUncheckedUpdateManyWithoutPaperlessInstanceInput
+      PaperlessDocumentUpdateManyMutationInput,
+      PaperlessDocumentUncheckedUpdateManyWithoutPaperlessInstanceInput
     >;
   };
 
-  export type ProcessedDocumentScalarWhereInput = {
-    AND?: ProcessedDocumentScalarWhereInput | ProcessedDocumentScalarWhereInput[];
-    OR?: ProcessedDocumentScalarWhereInput[];
-    NOT?: ProcessedDocumentScalarWhereInput | ProcessedDocumentScalarWhereInput[];
-    id?: StringFilter<'ProcessedDocument'> | string;
-    paperlessId?: IntFilter<'ProcessedDocument'> | number;
-    title?: StringFilter<'ProcessedDocument'> | string;
-    processedAt?: DateTimeFilter<'ProcessedDocument'> | Date | string;
-    aiProvider?: StringFilter<'ProcessedDocument'> | string;
-    tokensUsed?: IntFilter<'ProcessedDocument'> | number;
-    changes?: JsonNullableFilter<'ProcessedDocument'>;
-    originalTitle?: StringNullableFilter<'ProcessedDocument'> | string | null;
-    originalCorrespondent?: StringNullableFilter<'ProcessedDocument'> | string | null;
-    originalDocumentType?: StringNullableFilter<'ProcessedDocument'> | string | null;
-    originalTags?: StringNullableListFilter<'ProcessedDocument'>;
-    createdAt?: DateTimeFilter<'ProcessedDocument'> | Date | string;
-    updatedAt?: DateTimeFilter<'ProcessedDocument'> | Date | string;
-    paperlessInstanceId?: StringFilter<'ProcessedDocument'> | string;
+  export type PaperlessDocumentScalarWhereInput = {
+    AND?: PaperlessDocumentScalarWhereInput | PaperlessDocumentScalarWhereInput[];
+    OR?: PaperlessDocumentScalarWhereInput[];
+    NOT?: PaperlessDocumentScalarWhereInput | PaperlessDocumentScalarWhereInput[];
+    id?: StringFilter<'PaperlessDocument'> | string;
+    paperlessId?: IntFilter<'PaperlessDocument'> | number;
+    title?: StringFilter<'PaperlessDocument'> | string;
+    content?: StringFilter<'PaperlessDocument'> | string;
+    correspondentId?: IntNullableFilter<'PaperlessDocument'> | number | null;
+    tagIds?: IntNullableListFilter<'PaperlessDocument'>;
+    importedAt?: DateTimeFilter<'PaperlessDocument'> | Date | string;
+    createdAt?: DateTimeFilter<'PaperlessDocument'> | Date | string;
+    updatedAt?: DateTimeFilter<'PaperlessDocument'> | Date | string;
+    paperlessInstanceId?: StringFilter<'PaperlessDocument'> | string;
   };
 
   export type ProcessingQueueUpsertWithWhereUniqueWithoutPaperlessInstanceInput = {
@@ -23741,7 +25654,7 @@ export namespace Prisma {
     >;
   };
 
-  export type PaperlessInstanceCreateWithoutProcessedDocumentsInput = {
+  export type PaperlessInstanceCreateWithoutDocumentsInput = {
     id?: string;
     name: string;
     apiUrl: string;
@@ -23753,7 +25666,7 @@ export namespace Prisma {
     processingQueue?: ProcessingQueueCreateNestedManyWithoutPaperlessInstanceInput;
   };
 
-  export type PaperlessInstanceUncheckedCreateWithoutProcessedDocumentsInput = {
+  export type PaperlessInstanceUncheckedCreateWithoutDocumentsInput = {
     id?: string;
     name: string;
     apiUrl: string;
@@ -23765,35 +25678,78 @@ export namespace Prisma {
     processingQueue?: ProcessingQueueUncheckedCreateNestedManyWithoutPaperlessInstanceInput;
   };
 
-  export type PaperlessInstanceCreateOrConnectWithoutProcessedDocumentsInput = {
+  export type PaperlessInstanceCreateOrConnectWithoutDocumentsInput = {
     where: PaperlessInstanceWhereUniqueInput;
     create: XOR<
-      PaperlessInstanceCreateWithoutProcessedDocumentsInput,
-      PaperlessInstanceUncheckedCreateWithoutProcessedDocumentsInput
+      PaperlessInstanceCreateWithoutDocumentsInput,
+      PaperlessInstanceUncheckedCreateWithoutDocumentsInput
     >;
   };
 
-  export type PaperlessInstanceUpsertWithoutProcessedDocumentsInput = {
+  export type DocumentProcessingResultCreateWithoutDocumentInput = {
+    id?: string;
+    processedAt?: Date | string;
+    aiProvider: string;
+    tokensUsed?: number;
+    changes?: NullableJsonNullValueInput | InputJsonValue;
+    originalTitle?: string | null;
+    originalCorrespondent?: string | null;
+    originalDocumentType?: string | null;
+    originalTags?: DocumentProcessingResultCreateoriginalTagsInput | string[];
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+  };
+
+  export type DocumentProcessingResultUncheckedCreateWithoutDocumentInput = {
+    id?: string;
+    processedAt?: Date | string;
+    aiProvider: string;
+    tokensUsed?: number;
+    changes?: NullableJsonNullValueInput | InputJsonValue;
+    originalTitle?: string | null;
+    originalCorrespondent?: string | null;
+    originalDocumentType?: string | null;
+    originalTags?: DocumentProcessingResultCreateoriginalTagsInput | string[];
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+  };
+
+  export type DocumentProcessingResultCreateOrConnectWithoutDocumentInput = {
+    where: DocumentProcessingResultWhereUniqueInput;
+    create: XOR<
+      DocumentProcessingResultCreateWithoutDocumentInput,
+      DocumentProcessingResultUncheckedCreateWithoutDocumentInput
+    >;
+  };
+
+  export type DocumentProcessingResultCreateManyDocumentInputEnvelope = {
+    data:
+      | DocumentProcessingResultCreateManyDocumentInput
+      | DocumentProcessingResultCreateManyDocumentInput[];
+    skipDuplicates?: boolean;
+  };
+
+  export type PaperlessInstanceUpsertWithoutDocumentsInput = {
     update: XOR<
-      PaperlessInstanceUpdateWithoutProcessedDocumentsInput,
-      PaperlessInstanceUncheckedUpdateWithoutProcessedDocumentsInput
+      PaperlessInstanceUpdateWithoutDocumentsInput,
+      PaperlessInstanceUncheckedUpdateWithoutDocumentsInput
     >;
     create: XOR<
-      PaperlessInstanceCreateWithoutProcessedDocumentsInput,
-      PaperlessInstanceUncheckedCreateWithoutProcessedDocumentsInput
+      PaperlessInstanceCreateWithoutDocumentsInput,
+      PaperlessInstanceUncheckedCreateWithoutDocumentsInput
     >;
     where?: PaperlessInstanceWhereInput;
   };
 
-  export type PaperlessInstanceUpdateToOneWithWhereWithoutProcessedDocumentsInput = {
+  export type PaperlessInstanceUpdateToOneWithWhereWithoutDocumentsInput = {
     where?: PaperlessInstanceWhereInput;
     data: XOR<
-      PaperlessInstanceUpdateWithoutProcessedDocumentsInput,
-      PaperlessInstanceUncheckedUpdateWithoutProcessedDocumentsInput
+      PaperlessInstanceUpdateWithoutDocumentsInput,
+      PaperlessInstanceUncheckedUpdateWithoutDocumentsInput
     >;
   };
 
-  export type PaperlessInstanceUpdateWithoutProcessedDocumentsInput = {
+  export type PaperlessInstanceUpdateWithoutDocumentsInput = {
     id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     apiUrl?: StringFieldUpdateOperationsInput | string;
@@ -23805,7 +25761,7 @@ export namespace Prisma {
     processingQueue?: ProcessingQueueUpdateManyWithoutPaperlessInstanceNestedInput;
   };
 
-  export type PaperlessInstanceUncheckedUpdateWithoutProcessedDocumentsInput = {
+  export type PaperlessInstanceUncheckedUpdateWithoutDocumentsInput = {
     id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     apiUrl?: StringFieldUpdateOperationsInput | string;
@@ -23817,6 +25773,132 @@ export namespace Prisma {
     processingQueue?: ProcessingQueueUncheckedUpdateManyWithoutPaperlessInstanceNestedInput;
   };
 
+  export type DocumentProcessingResultUpsertWithWhereUniqueWithoutDocumentInput = {
+    where: DocumentProcessingResultWhereUniqueInput;
+    update: XOR<
+      DocumentProcessingResultUpdateWithoutDocumentInput,
+      DocumentProcessingResultUncheckedUpdateWithoutDocumentInput
+    >;
+    create: XOR<
+      DocumentProcessingResultCreateWithoutDocumentInput,
+      DocumentProcessingResultUncheckedCreateWithoutDocumentInput
+    >;
+  };
+
+  export type DocumentProcessingResultUpdateWithWhereUniqueWithoutDocumentInput = {
+    where: DocumentProcessingResultWhereUniqueInput;
+    data: XOR<
+      DocumentProcessingResultUpdateWithoutDocumentInput,
+      DocumentProcessingResultUncheckedUpdateWithoutDocumentInput
+    >;
+  };
+
+  export type DocumentProcessingResultUpdateManyWithWhereWithoutDocumentInput = {
+    where: DocumentProcessingResultScalarWhereInput;
+    data: XOR<
+      DocumentProcessingResultUpdateManyMutationInput,
+      DocumentProcessingResultUncheckedUpdateManyWithoutDocumentInput
+    >;
+  };
+
+  export type DocumentProcessingResultScalarWhereInput = {
+    AND?: DocumentProcessingResultScalarWhereInput | DocumentProcessingResultScalarWhereInput[];
+    OR?: DocumentProcessingResultScalarWhereInput[];
+    NOT?: DocumentProcessingResultScalarWhereInput | DocumentProcessingResultScalarWhereInput[];
+    id?: StringFilter<'DocumentProcessingResult'> | string;
+    processedAt?: DateTimeFilter<'DocumentProcessingResult'> | Date | string;
+    aiProvider?: StringFilter<'DocumentProcessingResult'> | string;
+    tokensUsed?: IntFilter<'DocumentProcessingResult'> | number;
+    changes?: JsonNullableFilter<'DocumentProcessingResult'>;
+    originalTitle?: StringNullableFilter<'DocumentProcessingResult'> | string | null;
+    originalCorrespondent?: StringNullableFilter<'DocumentProcessingResult'> | string | null;
+    originalDocumentType?: StringNullableFilter<'DocumentProcessingResult'> | string | null;
+    originalTags?: StringNullableListFilter<'DocumentProcessingResult'>;
+    createdAt?: DateTimeFilter<'DocumentProcessingResult'> | Date | string;
+    updatedAt?: DateTimeFilter<'DocumentProcessingResult'> | Date | string;
+    documentId?: StringFilter<'DocumentProcessingResult'> | string;
+  };
+
+  export type PaperlessDocumentCreateWithoutProcessingResultsInput = {
+    id?: string;
+    paperlessId: number;
+    title: string;
+    content: string;
+    correspondentId?: number | null;
+    tagIds?: PaperlessDocumentCreatetagIdsInput | number[];
+    importedAt?: Date | string;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    paperlessInstance: PaperlessInstanceCreateNestedOneWithoutDocumentsInput;
+  };
+
+  export type PaperlessDocumentUncheckedCreateWithoutProcessingResultsInput = {
+    id?: string;
+    paperlessId: number;
+    title: string;
+    content: string;
+    correspondentId?: number | null;
+    tagIds?: PaperlessDocumentCreatetagIdsInput | number[];
+    importedAt?: Date | string;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    paperlessInstanceId: string;
+  };
+
+  export type PaperlessDocumentCreateOrConnectWithoutProcessingResultsInput = {
+    where: PaperlessDocumentWhereUniqueInput;
+    create: XOR<
+      PaperlessDocumentCreateWithoutProcessingResultsInput,
+      PaperlessDocumentUncheckedCreateWithoutProcessingResultsInput
+    >;
+  };
+
+  export type PaperlessDocumentUpsertWithoutProcessingResultsInput = {
+    update: XOR<
+      PaperlessDocumentUpdateWithoutProcessingResultsInput,
+      PaperlessDocumentUncheckedUpdateWithoutProcessingResultsInput
+    >;
+    create: XOR<
+      PaperlessDocumentCreateWithoutProcessingResultsInput,
+      PaperlessDocumentUncheckedCreateWithoutProcessingResultsInput
+    >;
+    where?: PaperlessDocumentWhereInput;
+  };
+
+  export type PaperlessDocumentUpdateToOneWithWhereWithoutProcessingResultsInput = {
+    where?: PaperlessDocumentWhereInput;
+    data: XOR<
+      PaperlessDocumentUpdateWithoutProcessingResultsInput,
+      PaperlessDocumentUncheckedUpdateWithoutProcessingResultsInput
+    >;
+  };
+
+  export type PaperlessDocumentUpdateWithoutProcessingResultsInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    paperlessId?: IntFieldUpdateOperationsInput | number;
+    title?: StringFieldUpdateOperationsInput | string;
+    content?: StringFieldUpdateOperationsInput | string;
+    correspondentId?: NullableIntFieldUpdateOperationsInput | number | null;
+    tagIds?: PaperlessDocumentUpdatetagIdsInput | number[];
+    importedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    paperlessInstance?: PaperlessInstanceUpdateOneRequiredWithoutDocumentsNestedInput;
+  };
+
+  export type PaperlessDocumentUncheckedUpdateWithoutProcessingResultsInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    paperlessId?: IntFieldUpdateOperationsInput | number;
+    title?: StringFieldUpdateOperationsInput | string;
+    content?: StringFieldUpdateOperationsInput | string;
+    correspondentId?: NullableIntFieldUpdateOperationsInput | number | null;
+    tagIds?: PaperlessDocumentUpdatetagIdsInput | number[];
+    importedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    paperlessInstanceId?: StringFieldUpdateOperationsInput | string;
+  };
+
   export type PaperlessInstanceCreateWithoutProcessingQueueInput = {
     id?: string;
     name: string;
@@ -23826,7 +25908,7 @@ export namespace Prisma {
     updatedAt?: Date | string;
     owner: UserCreateNestedOneWithoutOwnedPaperlessInstancesInput;
     sharedWith?: UserPaperlessInstanceAccessCreateNestedManyWithoutInstanceInput;
-    processedDocuments?: ProcessedDocumentCreateNestedManyWithoutPaperlessInstanceInput;
+    documents?: PaperlessDocumentCreateNestedManyWithoutPaperlessInstanceInput;
   };
 
   export type PaperlessInstanceUncheckedCreateWithoutProcessingQueueInput = {
@@ -23838,7 +25920,7 @@ export namespace Prisma {
     updatedAt?: Date | string;
     ownerId: string;
     sharedWith?: UserPaperlessInstanceAccessUncheckedCreateNestedManyWithoutInstanceInput;
-    processedDocuments?: ProcessedDocumentUncheckedCreateNestedManyWithoutPaperlessInstanceInput;
+    documents?: PaperlessDocumentUncheckedCreateNestedManyWithoutPaperlessInstanceInput;
   };
 
   export type PaperlessInstanceCreateOrConnectWithoutProcessingQueueInput = {
@@ -23878,7 +25960,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     owner?: UserUpdateOneRequiredWithoutOwnedPaperlessInstancesNestedInput;
     sharedWith?: UserPaperlessInstanceAccessUpdateManyWithoutInstanceNestedInput;
-    processedDocuments?: ProcessedDocumentUpdateManyWithoutPaperlessInstanceNestedInput;
+    documents?: PaperlessDocumentUpdateManyWithoutPaperlessInstanceNestedInput;
   };
 
   export type PaperlessInstanceUncheckedUpdateWithoutProcessingQueueInput = {
@@ -23890,7 +25972,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownerId?: StringFieldUpdateOperationsInput | string;
     sharedWith?: UserPaperlessInstanceAccessUncheckedUpdateManyWithoutInstanceNestedInput;
-    processedDocuments?: ProcessedDocumentUncheckedUpdateManyWithoutPaperlessInstanceNestedInput;
+    documents?: PaperlessDocumentUncheckedUpdateManyWithoutPaperlessInstanceNestedInput;
   };
 
   export type UserCreateWithoutAiUsageMetricsInput = {
@@ -24219,7 +26301,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     sharedWith?: UserPaperlessInstanceAccessUpdateManyWithoutInstanceNestedInput;
-    processedDocuments?: ProcessedDocumentUpdateManyWithoutPaperlessInstanceNestedInput;
+    documents?: PaperlessDocumentUpdateManyWithoutPaperlessInstanceNestedInput;
     processingQueue?: ProcessingQueueUpdateManyWithoutPaperlessInstanceNestedInput;
   };
 
@@ -24231,7 +26313,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     sharedWith?: UserPaperlessInstanceAccessUncheckedUpdateManyWithoutInstanceNestedInput;
-    processedDocuments?: ProcessedDocumentUncheckedUpdateManyWithoutPaperlessInstanceNestedInput;
+    documents?: PaperlessDocumentUncheckedUpdateManyWithoutPaperlessInstanceNestedInput;
     processingQueue?: ProcessingQueueUncheckedUpdateManyWithoutPaperlessInstanceNestedInput;
   };
 
@@ -24429,18 +26511,14 @@ export namespace Prisma {
     createdAt?: Date | string;
   };
 
-  export type ProcessedDocumentCreateManyPaperlessInstanceInput = {
+  export type PaperlessDocumentCreateManyPaperlessInstanceInput = {
     id?: string;
     paperlessId: number;
     title: string;
-    processedAt?: Date | string;
-    aiProvider: string;
-    tokensUsed?: number;
-    changes?: NullableJsonNullValueInput | InputJsonValue;
-    originalTitle?: string | null;
-    originalCorrespondent?: string | null;
-    originalDocumentType?: string | null;
-    originalTags?: ProcessedDocumentCreateoriginalTagsInput | string[];
+    content: string;
+    correspondentId?: number | null;
+    tagIds?: PaperlessDocumentCreatetagIdsInput | number[];
+    importedAt?: Date | string;
     createdAt?: Date | string;
     updatedAt?: Date | string;
   };
@@ -24480,50 +26558,40 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
   };
 
-  export type ProcessedDocumentUpdateWithoutPaperlessInstanceInput = {
+  export type PaperlessDocumentUpdateWithoutPaperlessInstanceInput = {
     id?: StringFieldUpdateOperationsInput | string;
     paperlessId?: IntFieldUpdateOperationsInput | number;
     title?: StringFieldUpdateOperationsInput | string;
-    processedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    aiProvider?: StringFieldUpdateOperationsInput | string;
-    tokensUsed?: IntFieldUpdateOperationsInput | number;
-    changes?: NullableJsonNullValueInput | InputJsonValue;
-    originalTitle?: NullableStringFieldUpdateOperationsInput | string | null;
-    originalCorrespondent?: NullableStringFieldUpdateOperationsInput | string | null;
-    originalDocumentType?: NullableStringFieldUpdateOperationsInput | string | null;
-    originalTags?: ProcessedDocumentUpdateoriginalTagsInput | string[];
+    content?: StringFieldUpdateOperationsInput | string;
+    correspondentId?: NullableIntFieldUpdateOperationsInput | number | null;
+    tagIds?: PaperlessDocumentUpdatetagIdsInput | number[];
+    importedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    processingResults?: DocumentProcessingResultUpdateManyWithoutDocumentNestedInput;
   };
 
-  export type ProcessedDocumentUncheckedUpdateWithoutPaperlessInstanceInput = {
+  export type PaperlessDocumentUncheckedUpdateWithoutPaperlessInstanceInput = {
     id?: StringFieldUpdateOperationsInput | string;
     paperlessId?: IntFieldUpdateOperationsInput | number;
     title?: StringFieldUpdateOperationsInput | string;
-    processedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    aiProvider?: StringFieldUpdateOperationsInput | string;
-    tokensUsed?: IntFieldUpdateOperationsInput | number;
-    changes?: NullableJsonNullValueInput | InputJsonValue;
-    originalTitle?: NullableStringFieldUpdateOperationsInput | string | null;
-    originalCorrespondent?: NullableStringFieldUpdateOperationsInput | string | null;
-    originalDocumentType?: NullableStringFieldUpdateOperationsInput | string | null;
-    originalTags?: ProcessedDocumentUpdateoriginalTagsInput | string[];
+    content?: StringFieldUpdateOperationsInput | string;
+    correspondentId?: NullableIntFieldUpdateOperationsInput | number | null;
+    tagIds?: PaperlessDocumentUpdatetagIdsInput | number[];
+    importedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    processingResults?: DocumentProcessingResultUncheckedUpdateManyWithoutDocumentNestedInput;
   };
 
-  export type ProcessedDocumentUncheckedUpdateManyWithoutPaperlessInstanceInput = {
+  export type PaperlessDocumentUncheckedUpdateManyWithoutPaperlessInstanceInput = {
     id?: StringFieldUpdateOperationsInput | string;
     paperlessId?: IntFieldUpdateOperationsInput | number;
     title?: StringFieldUpdateOperationsInput | string;
-    processedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    aiProvider?: StringFieldUpdateOperationsInput | string;
-    tokensUsed?: IntFieldUpdateOperationsInput | number;
-    changes?: NullableJsonNullValueInput | InputJsonValue;
-    originalTitle?: NullableStringFieldUpdateOperationsInput | string | null;
-    originalCorrespondent?: NullableStringFieldUpdateOperationsInput | string | null;
-    originalDocumentType?: NullableStringFieldUpdateOperationsInput | string | null;
-    originalTags?: ProcessedDocumentUpdateoriginalTagsInput | string[];
+    content?: StringFieldUpdateOperationsInput | string;
+    correspondentId?: NullableIntFieldUpdateOperationsInput | number | null;
+    tagIds?: PaperlessDocumentUpdatetagIdsInput | number[];
+    importedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
   };
@@ -24776,6 +26844,62 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     userId?: StringFieldUpdateOperationsInput | string;
     aiProviderId?: StringFieldUpdateOperationsInput | string;
+  };
+
+  export type DocumentProcessingResultCreateManyDocumentInput = {
+    id?: string;
+    processedAt?: Date | string;
+    aiProvider: string;
+    tokensUsed?: number;
+    changes?: NullableJsonNullValueInput | InputJsonValue;
+    originalTitle?: string | null;
+    originalCorrespondent?: string | null;
+    originalDocumentType?: string | null;
+    originalTags?: DocumentProcessingResultCreateoriginalTagsInput | string[];
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+  };
+
+  export type DocumentProcessingResultUpdateWithoutDocumentInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    processedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    aiProvider?: StringFieldUpdateOperationsInput | string;
+    tokensUsed?: IntFieldUpdateOperationsInput | number;
+    changes?: NullableJsonNullValueInput | InputJsonValue;
+    originalTitle?: NullableStringFieldUpdateOperationsInput | string | null;
+    originalCorrespondent?: NullableStringFieldUpdateOperationsInput | string | null;
+    originalDocumentType?: NullableStringFieldUpdateOperationsInput | string | null;
+    originalTags?: DocumentProcessingResultUpdateoriginalTagsInput | string[];
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+  };
+
+  export type DocumentProcessingResultUncheckedUpdateWithoutDocumentInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    processedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    aiProvider?: StringFieldUpdateOperationsInput | string;
+    tokensUsed?: IntFieldUpdateOperationsInput | number;
+    changes?: NullableJsonNullValueInput | InputJsonValue;
+    originalTitle?: NullableStringFieldUpdateOperationsInput | string | null;
+    originalCorrespondent?: NullableStringFieldUpdateOperationsInput | string | null;
+    originalDocumentType?: NullableStringFieldUpdateOperationsInput | string | null;
+    originalTags?: DocumentProcessingResultUpdateoriginalTagsInput | string[];
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+  };
+
+  export type DocumentProcessingResultUncheckedUpdateManyWithoutDocumentInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    processedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    aiProvider?: StringFieldUpdateOperationsInput | string;
+    tokensUsed?: IntFieldUpdateOperationsInput | number;
+    changes?: NullableJsonNullValueInput | InputJsonValue;
+    originalTitle?: NullableStringFieldUpdateOperationsInput | string | null;
+    originalCorrespondent?: NullableStringFieldUpdateOperationsInput | string | null;
+    originalDocumentType?: NullableStringFieldUpdateOperationsInput | string | null;
+    originalTags?: DocumentProcessingResultUpdateoriginalTagsInput | string[];
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
   };
 
   /**

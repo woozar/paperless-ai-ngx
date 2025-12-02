@@ -166,9 +166,12 @@
         "loadFailed": "Fehler beim Laden der Instanzen",
         "createFailed": "Fehler beim Erstellen der Instanz",
         "updateFailed": "Fehler beim Aktualisieren der Instanz",
-        "deleteFailed": "Fehler beim Löschen der Instanz"
+        "deleteFailed": "Fehler beim Löschen der Instanz",
+        "importFailed": "Fehler beim Importieren der Dokumente"
       },
-      "noInstances": "Keine Instanzen gefunden"
+      "noInstances": "Keine Instanzen gefunden",
+      "importDocuments": "Dokumente importieren",
+      "importSuccess": "{count, plural, one {1 Dokument importiert} other {# Dokumente importiert}}"
     },
     "aiProviders": {
       "title": "KI-Anbieter",

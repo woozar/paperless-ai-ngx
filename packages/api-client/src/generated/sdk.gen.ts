@@ -43,6 +43,9 @@ import type {
   PatchPaperlessInstancesByIdData,
   PatchPaperlessInstancesByIdResponses,
   PatchPaperlessInstancesByIdErrors,
+  PostPaperlessInstancesByIdImportData,
+  PostPaperlessInstancesByIdImportResponses,
+  PostPaperlessInstancesByIdImportErrors,
   GetAiProvidersData,
   GetAiProvidersResponses,
   GetAiProvidersErrors,
@@ -324,6 +327,23 @@ export const patchPaperlessInstancesById = <ThrowOnError extends boolean = false
       'Content-Type': 'application/json',
       ...options.headers,
     },
+  });
+};
+
+/**
+ * Import documents from Paperless instance
+ * Imports the first 10 documents from the specified Paperless instance
+ */
+export const postPaperlessInstancesByIdImport = <ThrowOnError extends boolean = false>(
+  options: Options<PostPaperlessInstancesByIdImportData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostPaperlessInstancesByIdImportResponses,
+    PostPaperlessInstancesByIdImportErrors,
+    ThrowOnError
+  >({
+    url: '/paperless-instances/{id}/import',
+    ...options,
   });
 };
 

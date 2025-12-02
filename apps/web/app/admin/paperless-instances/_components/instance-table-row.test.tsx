@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { renderWithIntl } from '@/test-utils/render-with-intl';
@@ -9,6 +9,8 @@ function renderInstanceTableRow(props: {
   instance: Omit<PaperlessInstanceListItem, 'apiToken'>;
   onEdit: (instance: Omit<PaperlessInstanceListItem, 'apiToken'>) => void;
   onDelete: (instance: Omit<PaperlessInstanceListItem, 'apiToken'>) => void;
+  onImport: (instance: Omit<PaperlessInstanceListItem, 'apiToken'>) => void;
+  isImporting: boolean;
   formatDate: (date: string) => string;
 }) {
   return renderWithIntl(
@@ -31,14 +33,21 @@ const mockInstance: Omit<PaperlessInstanceListItem, 'apiToken'> = {
 describe('InstanceTableRow', () => {
   const mockOnEdit = vi.fn();
   const mockOnDelete = vi.fn();
+  const mockOnImport = vi.fn();
   const mockFormatDate = vi.fn(() => '2024-01-15');
 
   const defaultProps = {
     instance: mockInstance,
     onEdit: mockOnEdit,
     onDelete: mockOnDelete,
+    onImport: mockOnImport,
+    isImporting: false,
     formatDate: mockFormatDate,
   };
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
 
   it('renders instance name', () => {
     renderInstanceTableRow(defaultProps);
@@ -95,5 +104,44 @@ describe('InstanceTableRow', () => {
     const { container } = renderInstanceTableRow(defaultProps);
     const cells = container.querySelectorAll('td');
     expect(cells.length).toBe(4); // name, url, date, actions
+  });
+
+  it('renders import button with correct testid', () => {
+    renderInstanceTableRow(defaultProps);
+    expect(screen.getByTestId('import-instance-instance-123')).toBeInTheDocument();
+  });
+
+  it('calls onImport when import button is clicked', async () => {
+    const user = userEvent.setup({ delay: null });
+    renderInstanceTableRow(defaultProps);
+
+    const importButton = screen.getByTestId('import-instance-instance-123');
+    await user.click(importButton);
+
+    expect(mockOnImport).toHaveBeenCalledWith(mockInstance);
+  });
+
+  it('disables import button when isImporting is true', () => {
+    renderInstanceTableRow({ ...defaultProps, isImporting: true });
+
+    const importButton = screen.getByTestId('import-instance-instance-123');
+    expect(importButton).toBeDisabled();
+  });
+
+  it('enables import button when isImporting is false', () => {
+    renderInstanceTableRow({ ...defaultProps, isImporting: false });
+
+    const importButton = screen.getByTestId('import-instance-instance-123');
+    expect(importButton).not.toBeDisabled();
+  });
+
+  it('does not call onImport when button is clicked while importing', async () => {
+    const user = userEvent.setup({ delay: null });
+    renderInstanceTableRow({ ...defaultProps, isImporting: true });
+
+    const importButton = screen.getByTestId('import-instance-instance-123');
+    await user.click(importButton);
+
+    expect(mockOnImport).not.toHaveBeenCalled();
   });
 });
