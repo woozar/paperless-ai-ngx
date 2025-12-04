@@ -1,25 +1,15 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { prisma } from '@repo/database';
-import { getAuthUser } from '@/lib/auth/jwt';
 import { CreateAiProviderRequestSchema } from '@/lib/api/schemas/ai-providers';
-import { ApiResponses } from '@/lib/api/responses';
+import { adminRoute } from '@/lib/api/route-wrapper';
 import { encrypt } from '@/lib/crypto/encryption';
 
 // GET /api/ai-providers - List all AiProviders (Admin only)
-export async function GET(request: NextRequest): Promise<NextResponse> {
-  try {
-    const authUser = await getAuthUser(request);
-    if (!authUser) {
-      return ApiResponses.unauthorized();
-    }
-
-    if (authUser.role !== 'ADMIN') {
-      return ApiResponses.forbidden();
-    }
-
+export const GET = adminRoute(
+  async ({ user }) => {
     const providers = await prisma.aiProvider.findMany({
       where: {
-        ownerId: authUser.userId,
+        ownerId: user.userId,
       },
       select: {
         id: true,
@@ -43,37 +33,19 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       })),
       total: providers.length,
     });
-  } catch (error) {
-    console.error('List AI providers error:', error);
-    return ApiResponses.serverError();
-  }
-}
+  },
+  { errorLogPrefix: 'List AI providers' }
+);
 
 // POST /api/ai-providers - Create a new AiProvider (Admin only)
-export async function POST(request: NextRequest): Promise<NextResponse> {
-  try {
-    const authUser = await getAuthUser(request);
-    if (!authUser) {
-      return ApiResponses.unauthorized();
-    }
-
-    if (authUser.role !== 'ADMIN') {
-      return ApiResponses.forbidden();
-    }
-
-    const body = await request.json();
-    const parsed = CreateAiProviderRequestSchema.safeParse(body);
-
-    if (!parsed.success) {
-      return ApiResponses.validationError();
-    }
-
-    const { name, provider, model, apiKey, baseUrl } = parsed.data;
+export const POST = adminRoute(
+  async ({ user, body }) => {
+    const { name, provider, model, apiKey, baseUrl } = body;
 
     // Check if name already exists for this owner
     const existing = await prisma.aiProvider.findFirst({
       where: {
-        ownerId: authUser.userId,
+        ownerId: user.userId,
         name,
       },
     });
@@ -100,7 +72,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         model,
         apiKey: encryptedApiKey,
         baseUrl: baseUrl || null,
-        ownerId: authUser.userId,
+        ownerId: user.userId,
         isActive: true,
       },
       select: {
@@ -124,8 +96,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       },
       { status: 201 }
     );
-  } catch (error) {
-    console.error('Create AI provider error:', error);
-    return ApiResponses.serverError();
+  },
+  {
+    bodySchema: CreateAiProviderRequestSchema,
+    errorLogPrefix: 'Create AI provider',
   }
-}
+);

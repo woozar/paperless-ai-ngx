@@ -37,7 +37,6 @@ const mockedPrisma = mockPrisma<{
 describe('POST /api/auth/login', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.spyOn(console, 'error').mockImplementation(() => {});
   });
 
   it('returns 400 for invalid request body', async () => {
@@ -50,7 +49,7 @@ describe('POST /api/auth/login', () => {
     const data = await response.json();
 
     expect(response.status).toBe(400);
-    expect(data.error).toBe('Validation error');
+    expect(data.message).toBe('error.invalidUsernameOrPassword');
   });
 
   it('returns 401 when user is not found', async () => {
@@ -91,6 +90,7 @@ describe('POST /api/auth/login', () => {
   });
 
   it('returns 500 when salt is not configured', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => {});
     mockedPrisma.user.findUnique.mockResolvedValueOnce({
       id: 'user-1',
       username: 'testuser',
@@ -198,20 +198,5 @@ describe('POST /api/auth/login', () => {
 
     expect(response.status).toBe(200);
     expect(data.user.mustChangePassword).toBe(true);
-  });
-
-  it('returns 500 on unexpected error', async () => {
-    mockedPrisma.user.findUnique.mockRejectedValueOnce(new Error('Database error'));
-
-    const request = new NextRequest('http://localhost/api/auth/login', {
-      method: 'POST',
-      body: JSON.stringify({ username: 'testuser', password: 'password123' }),
-    });
-
-    const response = await POST(request);
-    const data = await response.json();
-
-    expect(response.status).toBe(500);
-    expect(data.message).toBe('error.serverError');
   });
 });

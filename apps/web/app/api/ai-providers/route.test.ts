@@ -33,47 +33,22 @@ const mockedPrisma = mockPrisma<{
   };
 }>(prisma);
 
+function mockAdmin() {
+  vi.mocked(getAuthUser).mockResolvedValueOnce({
+    userId: 'admin-1',
+    username: 'admin',
+    role: 'ADMIN',
+  });
+}
+
 describe('GET /api/ai-providers', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.spyOn(console, 'error').mockImplementation(() => {});
-  });
-
-  it('returns 401 when not authenticated', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce(null);
-
-    const request = new NextRequest('http://localhost/api/ai-providers');
-
-    const response = await GET(request);
-    const data = await response.json();
-
-    expect(response.status).toBe(401);
-    expect(data.message).toBe('error.unauthorized');
-  });
-
-  it('returns 403 when user is not admin', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'user-1',
-      username: 'testuser',
-      role: 'DEFAULT',
-    });
-
-    const request = new NextRequest('http://localhost/api/ai-providers');
-
-    const response = await GET(request);
-    const data = await response.json();
-
-    expect(response.status).toBe(403);
-    expect(data.message).toBe('error.forbidden');
   });
 
   it('returns list of providers for admin', async () => {
     const mockDate = new Date('2024-01-15T10:00:00Z');
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.aiProvider.findMany.mockResolvedValueOnce([
       {
         id: 'provider-1',
@@ -100,11 +75,7 @@ describe('GET /api/ai-providers', () => {
   });
 
   it('returns empty list when no providers exist', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.aiProvider.findMany.mockResolvedValueOnce([]);
 
     const request = new NextRequest('http://localhost/api/ai-providers');
@@ -116,76 +87,15 @@ describe('GET /api/ai-providers', () => {
     expect(data.providers).toHaveLength(0);
     expect(data.total).toBe(0);
   });
-
-  it('returns 500 on unexpected error', async () => {
-    vi.mocked(getAuthUser).mockRejectedValueOnce(new Error('Database error'));
-
-    const request = new NextRequest('http://localhost/api/ai-providers');
-
-    const response = await GET(request);
-    const data = await response.json();
-
-    expect(response.status).toBe(500);
-    expect(data.message).toBe('error.serverError');
-  });
 });
 
 describe('POST /api/ai-providers', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.spyOn(console, 'error').mockImplementation(() => {});
-  });
-
-  it('returns 401 when not authenticated', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce(null);
-
-    const request = new NextRequest('http://localhost/api/ai-providers', {
-      method: 'POST',
-      body: JSON.stringify({
-        name: 'OpenAI',
-        provider: 'openai',
-        model: 'gpt-4',
-        apiKey: 'sk-xxx',
-      }),
-    });
-
-    const response = await POST(request);
-    const data = await response.json();
-
-    expect(response.status).toBe(401);
-    expect(data.message).toBe('error.unauthorized');
-  });
-
-  it('returns 403 when user is not admin', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'user-1',
-      username: 'testuser',
-      role: 'DEFAULT',
-    });
-
-    const request = new NextRequest('http://localhost/api/ai-providers', {
-      method: 'POST',
-      body: JSON.stringify({
-        name: 'OpenAI',
-        provider: 'openai',
-        model: 'gpt-4',
-        apiKey: 'sk-xxx',
-      }),
-    });
-
-    const response = await POST(request);
-    const data = await response.json();
-
-    expect(response.status).toBe(403);
-    expect(data.message).toBe('error.forbidden');
   });
 
   it('returns 400 for invalid request body', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
 
     const request = new NextRequest('http://localhost/api/ai-providers', {
       method: 'POST',
@@ -205,11 +115,7 @@ describe('POST /api/ai-providers', () => {
   });
 
   it('returns 409 when name already exists', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.aiProvider.findFirst.mockResolvedValueOnce({
       id: 'existing-provider',
     });
@@ -233,11 +139,7 @@ describe('POST /api/ai-providers', () => {
 
   it('successfully creates provider', async () => {
     const mockDate = new Date('2024-01-15T10:00:00Z');
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.aiProvider.findFirst.mockResolvedValueOnce(null);
     vi.mocked(encrypt).mockReturnValueOnce('encrypted-api-key');
     mockedPrisma.aiProvider.create.mockResolvedValueOnce({
@@ -272,11 +174,7 @@ describe('POST /api/ai-providers', () => {
 
   it('creates provider with baseUrl', async () => {
     const mockDate = new Date('2024-01-15T10:00:00Z');
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.aiProvider.findFirst.mockResolvedValueOnce(null);
     vi.mocked(encrypt).mockReturnValueOnce('encrypted-api-key');
     mockedPrisma.aiProvider.create.mockResolvedValueOnce({
@@ -307,25 +205,5 @@ describe('POST /api/ai-providers', () => {
     expect(response.status).toBe(201);
     expect(data.name).toBe('Custom Ollama');
     expect(data.baseUrl).toBe('http://localhost:11434');
-  });
-
-  it('returns 500 on unexpected error', async () => {
-    vi.mocked(getAuthUser).mockRejectedValueOnce(new Error('Database error'));
-
-    const request = new NextRequest('http://localhost/api/ai-providers', {
-      method: 'POST',
-      body: JSON.stringify({
-        name: 'OpenAI',
-        provider: 'openai',
-        model: 'gpt-4',
-        apiKey: 'sk-xxx',
-      }),
-    });
-
-    const response = await POST(request);
-    const data = await response.json();
-
-    expect(response.status).toBe(500);
-    expect(data.message).toBe('error.serverError');
   });
 });

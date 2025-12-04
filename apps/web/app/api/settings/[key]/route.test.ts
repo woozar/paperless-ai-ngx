@@ -46,10 +46,17 @@ vi.mock('@/lib/api/schemas/settings', async (importOriginal) => {
 import * as settingsModule from '@/lib/api/schemas/settings';
 import { z } from 'zod';
 
+function mockAdmin() {
+  vi.mocked(getAuthUser).mockResolvedValueOnce({
+    userId: 'admin-1',
+    username: 'admin',
+    role: 'ADMIN',
+  });
+}
+
 describe('PUT /api/settings/[key]', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.spyOn(console, 'error').mockImplementation(() => {});
     // Reset to original implementations
     vi.mocked(settingsModule.getSettingKeys).mockImplementation(
       () => ['security.sharing.mode'] as (keyof typeof settingsModule.SettingsSchema.shape)[]
@@ -63,50 +70,8 @@ describe('PUT /api/settings/[key]', () => {
     );
   });
 
-  it('returns 401 when not authenticated', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce(null);
-
-    const request = new NextRequest('http://localhost/api/settings/security.sharing.mode', {
-      method: 'PUT',
-      body: JSON.stringify({ value: 'ADVANCED' }),
-    });
-
-    const response = await PUT(request, {
-      params: Promise.resolve({ key: 'security.sharing.mode' }),
-    });
-    const data = await response.json();
-
-    expect(response.status).toBe(401);
-    expect(data.message).toBe('error.unauthorized');
-  });
-
-  it('returns 403 when user is not admin', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'user-1',
-      username: 'testuser',
-      role: 'DEFAULT',
-    });
-
-    const request = new NextRequest('http://localhost/api/settings/security.sharing.mode', {
-      method: 'PUT',
-      body: JSON.stringify({ value: 'ADVANCED' }),
-    });
-
-    const response = await PUT(request, {
-      params: Promise.resolve({ key: 'security.sharing.mode' }),
-    });
-    const data = await response.json();
-
-    expect(response.status).toBe(403);
-    expect(data.message).toBe('error.forbidden');
-  });
-
   it('returns 404 for unknown setting key', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
 
     const request = new NextRequest('http://localhost/api/settings/unknown.setting', {
       method: 'PUT',
@@ -121,11 +86,7 @@ describe('PUT /api/settings/[key]', () => {
   });
 
   it('returns 400 for invalid value', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
 
     const request = new NextRequest('http://localhost/api/settings/security.sharing.mode', {
       method: 'PUT',
@@ -147,11 +108,7 @@ describe('PUT /api/settings/[key]', () => {
   });
 
   it('updates setting and returns all settings', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
 
     mockedPrisma.setting.upsert.mockResolvedValueOnce({
       id: '1',
@@ -182,35 +139,8 @@ describe('PUT /api/settings/[key]', () => {
     });
   });
 
-  it('returns 500 on database error', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
-
-    mockedPrisma.setting.upsert.mockRejectedValueOnce(new Error('DB error'));
-
-    const request = new NextRequest('http://localhost/api/settings/security.sharing.mode', {
-      method: 'PUT',
-      body: JSON.stringify({ value: 'ADVANCED' }),
-    });
-
-    const response = await PUT(request, {
-      params: Promise.resolve({ key: 'security.sharing.mode' }),
-    });
-    const data = await response.json();
-
-    expect(response.status).toBe(500);
-    expect(data.message).toBe('error.serverError');
-  });
-
   it('returns validation error with message when issue has no expected property', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
 
     // Mock a string schema with minLength that produces error without 'expected'
     vi.mocked(settingsModule.getSettingKeys).mockReturnValue(['test.string.setting'] as never[]);
@@ -234,11 +164,7 @@ describe('PUT /api/settings/[key]', () => {
   });
 
   it('returns validation error with unknown when issue has no expected or message', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
 
     // Mock a schema with custom refinement that produces error without expected or message
     vi.mocked(settingsModule.getSettingKeys).mockReturnValue(['test.custom.setting'] as never[]);
@@ -270,11 +196,7 @@ describe('PUT /api/settings/[key]', () => {
   });
 
   it('stores boolean values with JSON.stringify', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
 
     // Mock a boolean schema
     vi.mocked(settingsModule.getSettingKeys).mockReturnValue(['test.bool.setting'] as never[]);
@@ -312,11 +234,8 @@ describe('PUT /api/settings/[key]', () => {
   });
 
   it('returns 500 when stored value cannot be parsed after update', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+    mockAdmin();
 
     // Reset to original implementations for this test
     vi.mocked(settingsModule.getSettingKeys).mockReturnValue([
@@ -369,5 +288,25 @@ describe('PUT /api/settings/[key]', () => {
     expect(data.message).toBe('error.settingsParseError');
     expect(data.params.key).toBe('security.sharing.mode');
     expect(data.params.value).toBe('CORRUPTED_VALUE');
+  });
+
+  it('returns 500 on unexpected database error', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+    mockAdmin();
+
+    mockedPrisma.setting.upsert.mockRejectedValueOnce(new Error('Database connection failed'));
+
+    const request = new NextRequest('http://localhost/api/settings/security.sharing.mode', {
+      method: 'PUT',
+      body: JSON.stringify({ value: 'ADVANCED' }),
+    });
+
+    const response = await PUT(request, {
+      params: Promise.resolve({ key: 'security.sharing.mode' }),
+    });
+    const data = await response.json();
+
+    expect(response.status).toBe(500);
+    expect(data.message).toBe('error.serverError');
   });
 });

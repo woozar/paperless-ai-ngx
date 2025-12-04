@@ -1,24 +1,14 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { prisma } from '@repo/database';
-import { getAuthUser } from '@/lib/auth/jwt';
 import { CreateAiBotRequestSchema } from '@/lib/api/schemas/ai-bots';
-import { ApiResponses } from '@/lib/api/responses';
+import { adminRoute } from '@/lib/api/route-wrapper';
 
 // GET /api/ai-bots - List all AiBots (Admin only)
-export async function GET(request: NextRequest): Promise<NextResponse> {
-  try {
-    const authUser = await getAuthUser(request);
-    if (!authUser) {
-      return ApiResponses.unauthorized();
-    }
-
-    if (authUser.role !== 'ADMIN') {
-      return ApiResponses.forbidden();
-    }
-
+export const GET = adminRoute(
+  async ({ user }) => {
     const bots = await prisma.aiBot.findMany({
       where: {
-        ownerId: authUser.userId,
+        ownerId: user.userId,
       },
       select: {
         id: true,
@@ -45,37 +35,19 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       })),
       total: bots.length,
     });
-  } catch (error) {
-    console.error('List AI bots error:', error);
-    return ApiResponses.serverError();
-  }
-}
+  },
+  { errorLogPrefix: 'List AI bots' }
+);
 
 // POST /api/ai-bots - Create a new AiBot (Admin only)
-export async function POST(request: NextRequest): Promise<NextResponse> {
-  try {
-    const authUser = await getAuthUser(request);
-    if (!authUser) {
-      return ApiResponses.unauthorized();
-    }
-
-    if (authUser.role !== 'ADMIN') {
-      return ApiResponses.forbidden();
-    }
-
-    const body = await request.json();
-    const parsed = CreateAiBotRequestSchema.safeParse(body);
-
-    if (!parsed.success) {
-      return ApiResponses.validationError();
-    }
-
-    const { name, aiProviderId, systemPrompt } = parsed.data;
+export const POST = adminRoute(
+  async ({ user, body }) => {
+    const { name, aiProviderId, systemPrompt } = body;
 
     // Check if name already exists for this owner
     const existing = await prisma.aiBot.findFirst({
       where: {
-        ownerId: authUser.userId,
+        ownerId: user.userId,
         name,
       },
     });
@@ -95,7 +67,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     const provider = await prisma.aiProvider.findFirst({
       where: {
         id: aiProviderId,
-        ownerId: authUser.userId,
+        ownerId: user.userId,
       },
     });
 
@@ -115,7 +87,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         name,
         systemPrompt,
         aiProviderId,
-        ownerId: authUser.userId,
+        ownerId: user.userId,
       },
       select: {
         id: true,
@@ -141,8 +113,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       },
       { status: 201 }
     );
-  } catch (error) {
-    console.error('Create AI bot error:', error);
-    return ApiResponses.serverError();
+  },
+  {
+    bodySchema: CreateAiBotRequestSchema,
+    errorLogPrefix: 'Create AI bot',
   }
-}
+);

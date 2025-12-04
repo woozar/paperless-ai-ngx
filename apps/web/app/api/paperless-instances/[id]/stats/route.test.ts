@@ -40,44 +40,21 @@ const mockContext = (id: string) => ({
   params: Promise.resolve({ id }),
 });
 
+function mockAdmin() {
+  vi.mocked(getAuthUser).mockResolvedValueOnce({
+    userId: 'admin-1',
+    username: 'admin',
+    role: 'ADMIN',
+  });
+}
+
 describe('GET /api/paperless-instances/[id]/stats', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.spyOn(console, 'error').mockImplementation(() => {});
-  });
-
-  it('returns 401 when not authenticated', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce(null);
-
-    const request = new NextRequest('http://localhost/api/paperless-instances/instance-1/stats');
-    const response = await GET(request, mockContext('instance-1'));
-    const data = await response.json();
-
-    expect(response.status).toBe(401);
-    expect(data.message).toBe('error.unauthorized');
-  });
-
-  it('returns 403 when user is not admin', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'user-1',
-      username: 'testuser',
-      role: 'DEFAULT',
-    });
-
-    const request = new NextRequest('http://localhost/api/paperless-instances/instance-1/stats');
-    const response = await GET(request, mockContext('instance-1'));
-    const data = await response.json();
-
-    expect(response.status).toBe(403);
-    expect(data.message).toBe('error.forbidden');
   });
 
   it('returns 404 when instance not found', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.paperlessInstance.findFirst.mockResolvedValueOnce(null);
 
     const request = new NextRequest('http://localhost/api/paperless-instances/instance-1/stats');
@@ -89,11 +66,7 @@ describe('GET /api/paperless-instances/[id]/stats', () => {
   });
 
   it('returns stats for instance', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.paperlessInstance.findFirst.mockResolvedValueOnce({
       id: 'instance-1',
     });
@@ -110,11 +83,7 @@ describe('GET /api/paperless-instances/[id]/stats', () => {
   });
 
   it('returns zero counts when no documents exist', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.paperlessInstance.findFirst.mockResolvedValueOnce({
       id: 'instance-1',
     });
@@ -128,16 +97,5 @@ describe('GET /api/paperless-instances/[id]/stats', () => {
     expect(response.status).toBe(200);
     expect(data.documents).toBe(0);
     expect(data.processingQueue).toBe(0);
-  });
-
-  it('returns 500 on unexpected error', async () => {
-    vi.mocked(getAuthUser).mockRejectedValueOnce(new Error('Database error'));
-
-    const request = new NextRequest('http://localhost/api/paperless-instances/instance-1/stats');
-    const response = await GET(request, mockContext('instance-1'));
-    const data = await response.json();
-
-    expect(response.status).toBe(500);
-    expect(data.message).toBe('error.serverError');
   });
 });

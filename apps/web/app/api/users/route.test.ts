@@ -38,47 +38,22 @@ const mockedPrisma = mockPrisma<{
   };
 }>(prisma);
 
+function mockAdmin() {
+  vi.mocked(getAuthUser).mockResolvedValueOnce({
+    userId: 'admin-1',
+    username: 'admin',
+    role: 'ADMIN',
+  });
+}
+
 describe('GET /api/users', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.spyOn(console, 'error').mockImplementation(() => {});
-  });
-
-  it('returns 401 when not authenticated', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce(null);
-
-    const request = new NextRequest('http://localhost/api/users');
-
-    const response = await GET(request);
-    const data = await response.json();
-
-    expect(response.status).toBe(401);
-    expect(data.message).toBe('error.unauthorized');
-  });
-
-  it('returns 403 when user is not admin', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'user-1',
-      username: 'testuser',
-      role: 'DEFAULT',
-    });
-
-    const request = new NextRequest('http://localhost/api/users');
-
-    const response = await GET(request);
-    const data = await response.json();
-
-    expect(response.status).toBe(403);
-    expect(data.message).toBe('error.forbidden');
   });
 
   it('returns list of users for admin', async () => {
     const mockDate = new Date('2024-01-15T10:00:00Z');
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.user.findMany.mockResolvedValueOnce([
       {
         id: 'user-1',
@@ -92,7 +67,6 @@ describe('GET /api/users', () => {
     ]);
 
     const request = new NextRequest('http://localhost/api/users');
-
     const response = await GET(request);
     const data = await response.json();
 
@@ -101,66 +75,15 @@ describe('GET /api/users', () => {
     expect(data.users[0].username).toBe('testuser');
     expect(data.total).toBe(1);
   });
-
-  it('returns 500 on unexpected error', async () => {
-    vi.mocked(getAuthUser).mockRejectedValueOnce(new Error('Database error'));
-
-    const request = new NextRequest('http://localhost/api/users');
-
-    const response = await GET(request);
-    const data = await response.json();
-
-    expect(response.status).toBe(500);
-    expect(data.message).toBe('error.serverError');
-  });
 });
 
 describe('POST /api/users', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.spyOn(console, 'error').mockImplementation(() => {});
-  });
-
-  it('returns 401 when not authenticated', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce(null);
-
-    const request = new NextRequest('http://localhost/api/users', {
-      method: 'POST',
-      body: JSON.stringify({ username: 'newuser', password: 'password123' }),
-    });
-
-    const response = await POST(request);
-    const data = await response.json();
-
-    expect(response.status).toBe(401);
-    expect(data.message).toBe('error.unauthorized');
-  });
-
-  it('returns 403 when user is not admin', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'user-1',
-      username: 'testuser',
-      role: 'DEFAULT',
-    });
-
-    const request = new NextRequest('http://localhost/api/users', {
-      method: 'POST',
-      body: JSON.stringify({ username: 'newuser', password: 'password123' }),
-    });
-
-    const response = await POST(request);
-    const data = await response.json();
-
-    expect(response.status).toBe(403);
-    expect(data.message).toBe('error.forbidden');
   });
 
   it('returns 400 for invalid request body', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
 
     const request = new NextRequest('http://localhost/api/users', {
       method: 'POST',
@@ -175,11 +98,7 @@ describe('POST /api/users', () => {
   });
 
   it('returns 409 when username already exists', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.user.findUnique.mockResolvedValueOnce({ id: 'existing-user' });
 
     const request = new NextRequest('http://localhost/api/users', {
@@ -195,11 +114,7 @@ describe('POST /api/users', () => {
   });
 
   it('returns 500 when salt is not configured', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.user.findUnique.mockResolvedValueOnce(null);
     vi.mocked(getSalt).mockResolvedValueOnce(null);
 
@@ -217,11 +132,7 @@ describe('POST /api/users', () => {
 
   it('successfully creates user', async () => {
     const mockDate = new Date('2024-01-15T10:00:00Z');
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.user.findUnique.mockResolvedValueOnce(null);
     vi.mocked(getSalt).mockResolvedValueOnce('test-salt');
     vi.mocked(hashPassword).mockReturnValueOnce('hashed-password');
@@ -250,11 +161,7 @@ describe('POST /api/users', () => {
 
   it('creates user with specified role', async () => {
     const mockDate = new Date('2024-01-15T10:00:00Z');
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.user.findUnique.mockResolvedValueOnce(null);
     vi.mocked(getSalt).mockResolvedValueOnce('test-salt');
     vi.mocked(hashPassword).mockReturnValueOnce('hashed-password');
@@ -278,20 +185,5 @@ describe('POST /api/users', () => {
 
     expect(response.status).toBe(201);
     expect(data.role).toBe('ADMIN');
-  });
-
-  it('returns 500 on unexpected error', async () => {
-    vi.mocked(getAuthUser).mockRejectedValueOnce(new Error('Database error'));
-
-    const request = new NextRequest('http://localhost/api/users', {
-      method: 'POST',
-      body: JSON.stringify({ username: 'newuser', password: 'password123' }),
-    });
-
-    const response = await POST(request);
-    const data = await response.json();
-
-    expect(response.status).toBe(500);
-    expect(data.message).toBe('error.serverError');
   });
 });

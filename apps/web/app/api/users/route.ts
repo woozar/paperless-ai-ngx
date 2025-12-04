@@ -1,23 +1,14 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { prisma } from '@repo/database';
-import { getAuthUser } from '@/lib/auth/jwt';
 import { hashPassword } from '@/lib/utilities/password';
 import { getSalt } from '@/lib/bootstrap';
 import { CreateUserRequestSchema } from '@/lib/api/schemas/users';
 import { ApiResponses } from '@/lib/api/responses';
+import { adminRoute } from '@/lib/api/route-wrapper';
 
 // GET /api/users - List all users (Admin only)
-export async function GET(request: NextRequest): Promise<NextResponse> {
-  try {
-    const authUser = await getAuthUser(request);
-    if (!authUser) {
-      return ApiResponses.unauthorized();
-    }
-
-    if (authUser.role !== 'ADMIN') {
-      return ApiResponses.forbidden();
-    }
-
+export const GET = adminRoute(
+  async () => {
     const users = await prisma.user.findMany({
       select: {
         id: true,
@@ -39,32 +30,14 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       })),
       total: users.length,
     });
-  } catch (error) {
-    console.error('List users error:', error);
-    return ApiResponses.serverError();
-  }
-}
+  },
+  { errorLogPrefix: 'List users' }
+);
 
 // POST /api/users - Create a new user (Admin only)
-export async function POST(request: NextRequest): Promise<NextResponse> {
-  try {
-    const authUser = await getAuthUser(request);
-    if (!authUser) {
-      return ApiResponses.unauthorized();
-    }
-
-    if (authUser.role !== 'ADMIN') {
-      return ApiResponses.forbidden();
-    }
-
-    const body = await request.json();
-    const parsed = CreateUserRequestSchema.safeParse(body);
-
-    if (!parsed.success) {
-      return ApiResponses.validationError();
-    }
-
-    const { username, password, role } = parsed.data;
+export const POST = adminRoute(
+  async ({ body }) => {
+    const { username, password, role } = body;
 
     // Check if username already exists
     const existing = await prisma.user.findUnique({
@@ -90,7 +63,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         username,
         passwordHash,
         role,
-        mustChangePassword: true, // New users must change password
+        mustChangePassword: true,
         isActive: true,
       },
       select: {
@@ -112,8 +85,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       },
       { status: 201 }
     );
-  } catch (error) {
-    console.error('Create user error:', error);
-    return ApiResponses.serverError();
+  },
+  {
+    bodySchema: CreateUserRequestSchema,
+    errorLogPrefix: 'Create user',
   }
-}
+);

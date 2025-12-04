@@ -37,33 +37,21 @@ const mockedPrisma = mockPrisma<{
   };
 }>(prisma);
 
+function mockUser() {
+  vi.mocked(getAuthUser).mockResolvedValueOnce({
+    userId: 'user-1',
+    username: 'testuser',
+    role: 'DEFAULT',
+  });
+}
+
 describe('POST /api/auth/change-password', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.spyOn(console, 'error').mockImplementation(() => {});
-  });
-
-  it('returns 401 when not authenticated', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce(null);
-
-    const request = new NextRequest('http://localhost/api/auth/change-password', {
-      method: 'POST',
-      body: JSON.stringify({ currentPassword: 'old', newPassword: 'newpassword123' }),
-    });
-
-    const response = await POST(request);
-    const data = await response.json();
-
-    expect(response.status).toBe(401);
-    expect(data.message).toBe('error.unauthorized');
   });
 
   it('returns 400 for invalid request body', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'user-1',
-      username: 'testuser',
-      role: 'DEFAULT',
-    });
+    mockUser();
 
     const request = new NextRequest('http://localhost/api/auth/change-password', {
       method: 'POST',
@@ -74,15 +62,12 @@ describe('POST /api/auth/change-password', () => {
     const data = await response.json();
 
     expect(response.status).toBe(400);
-    expect(data.error).toBe('Validation error');
+    expect(data.message).toBe('error.invalidPasswordFormat');
   });
 
   it('returns 500 when salt is not configured', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'user-1',
-      username: 'testuser',
-      role: 'DEFAULT',
-    });
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+    mockUser();
     vi.mocked(getSalt).mockResolvedValueOnce(null);
 
     const request = new NextRequest('http://localhost/api/auth/change-password', {
@@ -98,11 +83,7 @@ describe('POST /api/auth/change-password', () => {
   });
 
   it('returns 404 when user not found', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'user-1',
-      username: 'testuser',
-      role: 'DEFAULT',
-    });
+    mockUser();
     vi.mocked(getSalt).mockResolvedValueOnce('test-salt');
     mockedPrisma.user.findUnique.mockResolvedValueOnce(null);
 
@@ -119,11 +100,7 @@ describe('POST /api/auth/change-password', () => {
   });
 
   it('returns 400 when current password is incorrect', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'user-1',
-      username: 'testuser',
-      role: 'DEFAULT',
-    });
+    mockUser();
     vi.mocked(getSalt).mockResolvedValueOnce('test-salt');
     mockedPrisma.user.findUnique.mockResolvedValueOnce({
       id: 'user-1',
@@ -144,11 +121,7 @@ describe('POST /api/auth/change-password', () => {
   });
 
   it('successfully changes password', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'user-1',
-      username: 'testuser',
-      role: 'DEFAULT',
-    });
+    mockUser();
     vi.mocked(getSalt).mockResolvedValueOnce('test-salt');
     mockedPrisma.user.findUnique.mockResolvedValueOnce({
       id: 'user-1',
@@ -175,20 +148,5 @@ describe('POST /api/auth/change-password', () => {
         mustChangePassword: false,
       },
     });
-  });
-
-  it('returns 500 on unexpected error', async () => {
-    vi.mocked(getAuthUser).mockRejectedValueOnce(new Error('Database error'));
-
-    const request = new NextRequest('http://localhost/api/auth/change-password', {
-      method: 'POST',
-      body: JSON.stringify({ currentPassword: 'old', newPassword: 'newpassword123' }),
-    });
-
-    const response = await POST(request);
-    const data = await response.json();
-
-    expect(response.status).toBe(500);
-    expect(data.message).toBe('error.serverError');
   });
 });

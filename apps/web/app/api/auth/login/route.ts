@@ -1,13 +1,14 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { prisma } from '@repo/database';
 import { verifyPassword } from '@/lib/utilities/password';
 import { getSalt } from '@/lib/bootstrap';
 import { generateToken } from '@/lib/auth/jwt';
 import { LoginRequestSchema } from '@/lib/api/schemas/auth';
 import { ApiResponses } from '@/lib/api/responses';
+import { publicRoute } from '@/lib/api/route-wrapper';
 
-export async function POST(request: NextRequest): Promise<NextResponse> {
-  try {
+export const POST = publicRoute(
+  async ({ request }) => {
     const body = await request.json();
     const parsed = LoginRequestSchema.safeParse(body);
 
@@ -66,8 +67,6 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         mustChangePassword: user.mustChangePassword,
       },
     });
-  } catch (error) {
-    console.error('Login error:', error);
-    return ApiResponses.serverError();
-  }
-}
+  },
+  { errorLogPrefix: 'Login' }
+);

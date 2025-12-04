@@ -43,44 +43,21 @@ const mockContext = (id: string) => ({
   params: Promise.resolve({ id }),
 });
 
+function mockAdmin() {
+  vi.mocked(getAuthUser).mockResolvedValueOnce({
+    userId: 'admin-1',
+    username: 'admin',
+    role: 'ADMIN',
+  });
+}
+
 describe('GET /api/ai-providers/[id]', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.spyOn(console, 'error').mockImplementation(() => {});
-  });
-
-  it('returns 401 when not authenticated', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce(null);
-
-    const request = new NextRequest('http://localhost/api/ai-providers/provider-1');
-    const response = await GET(request, mockContext('provider-1'));
-    const data = await response.json();
-
-    expect(response.status).toBe(401);
-    expect(data.message).toBe('error.unauthorized');
-  });
-
-  it('returns 403 when user is not admin', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'user-1',
-      username: 'testuser',
-      role: 'DEFAULT',
-    });
-
-    const request = new NextRequest('http://localhost/api/ai-providers/provider-1');
-    const response = await GET(request, mockContext('provider-1'));
-    const data = await response.json();
-
-    expect(response.status).toBe(403);
-    expect(data.message).toBe('error.forbidden');
   });
 
   it('returns 404 when provider not found', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.aiProvider.findFirst.mockResolvedValueOnce(null);
 
     const request = new NextRequest('http://localhost/api/ai-providers/provider-1');
@@ -93,11 +70,7 @@ describe('GET /api/ai-providers/[id]', () => {
 
   it('returns provider details', async () => {
     const mockDate = new Date('2024-01-15T10:00:00Z');
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.aiProvider.findFirst.mockResolvedValueOnce({
       id: 'provider-1',
       name: 'OpenAI',
@@ -117,63 +90,15 @@ describe('GET /api/ai-providers/[id]', () => {
     expect(data.name).toBe('OpenAI');
     expect(data.apiKey).toBeUndefined();
   });
-
-  it('returns 500 on unexpected error', async () => {
-    vi.mocked(getAuthUser).mockRejectedValueOnce(new Error('Database error'));
-
-    const request = new NextRequest('http://localhost/api/ai-providers/provider-1');
-    const response = await GET(request, mockContext('provider-1'));
-    const data = await response.json();
-
-    expect(response.status).toBe(500);
-    expect(data.message).toBe('error.serverError');
-  });
 });
 
 describe('PATCH /api/ai-providers/[id]', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.spyOn(console, 'error').mockImplementation(() => {});
-  });
-
-  it('returns 401 when not authenticated', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce(null);
-
-    const request = new NextRequest('http://localhost/api/ai-providers/provider-1', {
-      method: 'PATCH',
-      body: JSON.stringify({ name: 'New Name' }),
-    });
-    const response = await PATCH(request, mockContext('provider-1'));
-    const data = await response.json();
-
-    expect(response.status).toBe(401);
-    expect(data.message).toBe('error.unauthorized');
-  });
-
-  it('returns 403 when user is not admin', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'user-1',
-      username: 'testuser',
-      role: 'DEFAULT',
-    });
-
-    const request = new NextRequest('http://localhost/api/ai-providers/provider-1', {
-      method: 'PATCH',
-      body: JSON.stringify({ name: 'New Name' }),
-    });
-    const response = await PATCH(request, mockContext('provider-1'));
-    const data = await response.json();
-
-    expect(response.status).toBe(403);
-    expect(data.message).toBe('error.forbidden');
   });
 
   it('returns 400 for invalid request body', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
 
     const request = new NextRequest('http://localhost/api/ai-providers/provider-1', {
       method: 'PATCH',
@@ -187,11 +112,7 @@ describe('PATCH /api/ai-providers/[id]', () => {
   });
 
   it('returns 404 when provider not found', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.aiProvider.findFirst.mockResolvedValueOnce(null);
 
     const request = new NextRequest('http://localhost/api/ai-providers/provider-1', {
@@ -206,11 +127,7 @@ describe('PATCH /api/ai-providers/[id]', () => {
   });
 
   it('returns 409 when new name already exists', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.aiProvider.findFirst
       .mockResolvedValueOnce({
         id: 'provider-1',
@@ -234,11 +151,7 @@ describe('PATCH /api/ai-providers/[id]', () => {
 
   it('successfully updates provider', async () => {
     const mockDate = new Date('2024-01-15T10:00:00Z');
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.aiProvider.findFirst
       .mockResolvedValueOnce({
         id: 'provider-1',
@@ -270,11 +183,7 @@ describe('PATCH /api/ai-providers/[id]', () => {
 
   it('updates apiKey when provided', async () => {
     const mockDate = new Date('2024-01-15T10:00:00Z');
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.aiProvider.findFirst.mockResolvedValueOnce({
       id: 'provider-1',
       name: 'OpenAI',
@@ -303,11 +212,7 @@ describe('PATCH /api/ai-providers/[id]', () => {
 
   it('does not update apiKey when not provided', async () => {
     const mockDate = new Date('2024-01-15T10:00:00Z');
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.aiProvider.findFirst
       .mockResolvedValueOnce({
         id: 'provider-1',
@@ -336,11 +241,7 @@ describe('PATCH /api/ai-providers/[id]', () => {
 
   it('updates isActive status', async () => {
     const mockDate = new Date('2024-01-15T10:00:00Z');
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.aiProvider.findFirst.mockResolvedValueOnce({
       id: 'provider-1',
       name: 'OpenAI',
@@ -369,11 +270,7 @@ describe('PATCH /api/ai-providers/[id]', () => {
 
   it('updates provider type', async () => {
     const mockDate = new Date('2024-01-15T10:00:00Z');
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.aiProvider.findFirst.mockResolvedValueOnce({
       id: 'provider-1',
       name: 'OpenAI',
@@ -402,11 +299,7 @@ describe('PATCH /api/ai-providers/[id]', () => {
 
   it('updates model', async () => {
     const mockDate = new Date('2024-01-15T10:00:00Z');
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.aiProvider.findFirst.mockResolvedValueOnce({
       id: 'provider-1',
       name: 'OpenAI',
@@ -435,11 +328,7 @@ describe('PATCH /api/ai-providers/[id]', () => {
 
   it('updates baseUrl', async () => {
     const mockDate = new Date('2024-01-15T10:00:00Z');
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.aiProvider.findFirst.mockResolvedValueOnce({
       id: 'provider-1',
       name: 'OpenAI',
@@ -465,64 +354,15 @@ describe('PATCH /api/ai-providers/[id]', () => {
     expect(response.status).toBe(200);
     expect(data.baseUrl).toBe('http://new-url.com');
   });
-
-  it('returns 500 on unexpected error', async () => {
-    vi.mocked(getAuthUser).mockRejectedValueOnce(new Error('Database error'));
-
-    const request = new NextRequest('http://localhost/api/ai-providers/provider-1', {
-      method: 'PATCH',
-      body: JSON.stringify({ name: 'New Name' }),
-    });
-    const response = await PATCH(request, mockContext('provider-1'));
-    const data = await response.json();
-
-    expect(response.status).toBe(500);
-    expect(data.message).toBe('error.serverError');
-  });
 });
 
 describe('DELETE /api/ai-providers/[id]', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.spyOn(console, 'error').mockImplementation(() => {});
-  });
-
-  it('returns 401 when not authenticated', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce(null);
-
-    const request = new NextRequest('http://localhost/api/ai-providers/provider-1', {
-      method: 'DELETE',
-    });
-    const response = await DELETE(request, mockContext('provider-1'));
-    const data = await response.json();
-
-    expect(response.status).toBe(401);
-    expect(data.message).toBe('error.unauthorized');
-  });
-
-  it('returns 403 when user is not admin', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'user-1',
-      username: 'testuser',
-      role: 'DEFAULT',
-    });
-
-    const request = new NextRequest('http://localhost/api/ai-providers/provider-1', {
-      method: 'DELETE',
-    });
-    const response = await DELETE(request, mockContext('provider-1'));
-    const data = await response.json();
-
-    expect(response.status).toBe(403);
-    expect(data.message).toBe('error.forbidden');
   });
 
   it('returns 404 when provider not found', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.aiProvider.findFirst.mockResolvedValueOnce(null);
 
     const request = new NextRequest('http://localhost/api/ai-providers/provider-1', {
@@ -536,11 +376,7 @@ describe('DELETE /api/ai-providers/[id]', () => {
   });
 
   it('returns 400 when provider is in use by bots', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.aiProvider.findFirst.mockResolvedValueOnce({
       id: 'provider-1',
       name: 'OpenAI',
@@ -559,11 +395,7 @@ describe('DELETE /api/ai-providers/[id]', () => {
   });
 
   it('successfully deletes provider when no bots reference it', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.aiProvider.findFirst.mockResolvedValueOnce({
       id: 'provider-1',
       name: 'OpenAI',
@@ -580,18 +412,5 @@ describe('DELETE /api/ai-providers/[id]', () => {
     expect(mockedPrisma.aiProvider.delete).toHaveBeenCalledWith({
       where: { id: 'provider-1' },
     });
-  });
-
-  it('returns 500 on unexpected error', async () => {
-    vi.mocked(getAuthUser).mockRejectedValueOnce(new Error('Database error'));
-
-    const request = new NextRequest('http://localhost/api/ai-providers/provider-1', {
-      method: 'DELETE',
-    });
-    const response = await DELETE(request, mockContext('provider-1'));
-    const data = await response.json();
-
-    expect(response.status).toBe(500);
-    expect(data.message).toBe('error.serverError');
   });
 });

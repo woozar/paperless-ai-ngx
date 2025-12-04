@@ -1,33 +1,17 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { prisma } from '@repo/database';
 import { PaperlessClient, PaperlessDocument } from '@repo/paperless-client';
-import { getAuthUser } from '@/lib/auth/jwt';
-import { ApiResponses } from '@/lib/api/responses';
+import { adminRoute } from '@/lib/api/route-wrapper';
 import { decrypt } from '@/lib/crypto/encryption';
 
-type RouteContext = {
-  params: Promise<{ id: string }>;
-};
-
 // POST /api/paperless-instances/[id]/import - Import documents from Paperless (Admin only)
-export async function POST(request: NextRequest, context: RouteContext): Promise<NextResponse> {
-  try {
-    const { id } = await context.params;
-
-    const authUser = await getAuthUser(request);
-    if (!authUser) {
-      return ApiResponses.unauthorized();
-    }
-
-    if (authUser.role !== 'ADMIN') {
-      return ApiResponses.forbidden();
-    }
-
+export const POST = adminRoute<never, { id: string }>(
+  async ({ user, params }) => {
     // Get instance with encrypted token
     const instance = await prisma.paperlessInstance.findFirst({
       where: {
-        id,
-        ownerId: authUser.userId,
+        id: params.id,
+        ownerId: user.userId,
       },
     });
 
@@ -65,7 +49,7 @@ export async function POST(request: NextRequest, context: RouteContext): Promise
 
     // Get existing document IDs for this instance
     const existingDocs = await prisma.paperlessDocument.findMany({
-      where: { paperlessInstanceId: id },
+      where: { paperlessInstanceId: params.id },
       select: { paperlessId: true },
     });
     const existingIds = new Set(existingDocs.map((d) => d.paperlessId));
@@ -83,7 +67,7 @@ export async function POST(request: NextRequest, context: RouteContext): Promise
             content: doc.content,
             correspondentId: doc.correspondent,
             tagIds: doc.tags,
-            paperlessInstanceId: id,
+            paperlessInstanceId: params.id,
           },
         });
       })
@@ -94,8 +78,6 @@ export async function POST(request: NextRequest, context: RouteContext): Promise
       total: allDocuments.length,
       skipped: allDocuments.length - createdDocuments.length,
     });
-  } catch (error) {
-    console.error('Import documents error:', error);
-    return ApiResponses.serverError();
-  }
-}
+  },
+  { errorLogPrefix: 'Import documents' }
+);

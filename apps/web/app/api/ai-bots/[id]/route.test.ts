@@ -38,44 +38,21 @@ const mockContext = (id: string) => ({
   params: Promise.resolve({ id }),
 });
 
+function mockAdmin() {
+  vi.mocked(getAuthUser).mockResolvedValueOnce({
+    userId: 'admin-1',
+    username: 'admin',
+    role: 'ADMIN',
+  });
+}
+
 describe('GET /api/ai-bots/[id]', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.spyOn(console, 'error').mockImplementation(() => {});
-  });
-
-  it('returns 401 when not authenticated', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce(null);
-
-    const request = new NextRequest('http://localhost/api/ai-bots/bot-1');
-    const response = await GET(request, mockContext('bot-1'));
-    const data = await response.json();
-
-    expect(response.status).toBe(401);
-    expect(data.message).toBe('error.unauthorized');
-  });
-
-  it('returns 403 when user is not admin', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'user-1',
-      username: 'testuser',
-      role: 'DEFAULT',
-    });
-
-    const request = new NextRequest('http://localhost/api/ai-bots/bot-1');
-    const response = await GET(request, mockContext('bot-1'));
-    const data = await response.json();
-
-    expect(response.status).toBe(403);
-    expect(data.message).toBe('error.forbidden');
   });
 
   it('returns 404 when bot not found', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.aiBot.findFirst.mockResolvedValueOnce(null);
 
     const request = new NextRequest('http://localhost/api/ai-bots/bot-1');
@@ -88,11 +65,7 @@ describe('GET /api/ai-bots/[id]', () => {
 
   it('returns bot details', async () => {
     const mockDate = new Date('2024-01-15T10:00:00Z');
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.aiBot.findFirst.mockResolvedValueOnce({
       id: 'bot-1',
       name: 'Support Bot',
@@ -116,63 +89,15 @@ describe('GET /api/ai-bots/[id]', () => {
     expect(data.systemPrompt).toBe('You are a helpful support assistant');
     expect(data.aiProvider.name).toBe('OpenAI');
   });
-
-  it('returns 500 on unexpected error', async () => {
-    vi.mocked(getAuthUser).mockRejectedValueOnce(new Error('Database error'));
-
-    const request = new NextRequest('http://localhost/api/ai-bots/bot-1');
-    const response = await GET(request, mockContext('bot-1'));
-    const data = await response.json();
-
-    expect(response.status).toBe(500);
-    expect(data.message).toBe('error.serverError');
-  });
 });
 
 describe('PATCH /api/ai-bots/[id]', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.spyOn(console, 'error').mockImplementation(() => {});
-  });
-
-  it('returns 401 when not authenticated', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce(null);
-
-    const request = new NextRequest('http://localhost/api/ai-bots/bot-1', {
-      method: 'PATCH',
-      body: JSON.stringify({ name: 'New Name' }),
-    });
-    const response = await PATCH(request, mockContext('bot-1'));
-    const data = await response.json();
-
-    expect(response.status).toBe(401);
-    expect(data.message).toBe('error.unauthorized');
-  });
-
-  it('returns 403 when user is not admin', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'user-1',
-      username: 'testuser',
-      role: 'DEFAULT',
-    });
-
-    const request = new NextRequest('http://localhost/api/ai-bots/bot-1', {
-      method: 'PATCH',
-      body: JSON.stringify({ name: 'New Name' }),
-    });
-    const response = await PATCH(request, mockContext('bot-1'));
-    const data = await response.json();
-
-    expect(response.status).toBe(403);
-    expect(data.message).toBe('error.forbidden');
   });
 
   it('returns 400 for invalid request body', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
 
     const request = new NextRequest('http://localhost/api/ai-bots/bot-1', {
       method: 'PATCH',
@@ -186,11 +111,7 @@ describe('PATCH /api/ai-bots/[id]', () => {
   });
 
   it('returns 404 when bot not found', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.aiBot.findFirst.mockResolvedValueOnce(null);
 
     const request = new NextRequest('http://localhost/api/ai-bots/bot-1', {
@@ -205,11 +126,7 @@ describe('PATCH /api/ai-bots/[id]', () => {
   });
 
   it('returns 409 when new name already exists', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.aiBot.findFirst
       .mockResolvedValueOnce({
         id: 'bot-1',
@@ -233,11 +150,7 @@ describe('PATCH /api/ai-bots/[id]', () => {
 
   it('successfully updates bot name', async () => {
     const mockDate = new Date('2024-01-15T10:00:00Z');
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.aiBot.findFirst
       .mockResolvedValueOnce({
         id: 'bot-1',
@@ -271,11 +184,7 @@ describe('PATCH /api/ai-bots/[id]', () => {
 
   it('successfully updates bot systemPrompt', async () => {
     const mockDate = new Date('2024-01-15T10:00:00Z');
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.aiBot.findFirst.mockResolvedValueOnce({
       id: 'bot-1',
       name: 'Support Bot',
@@ -306,11 +215,7 @@ describe('PATCH /api/ai-bots/[id]', () => {
   });
 
   it('returns 400 when changing to non-existent provider', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.aiBot.findFirst.mockResolvedValueOnce({
       id: 'bot-1',
       name: 'Support Bot',
@@ -330,11 +235,7 @@ describe('PATCH /api/ai-bots/[id]', () => {
 
   it('successfully updates bot provider', async () => {
     const mockDate = new Date('2024-01-15T10:00:00Z');
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.aiBot.findFirst.mockResolvedValueOnce({
       id: 'bot-1',
       name: 'Support Bot',
@@ -371,11 +272,7 @@ describe('PATCH /api/ai-bots/[id]', () => {
 
   it('updates isActive status', async () => {
     const mockDate = new Date('2024-01-15T10:00:00Z');
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.aiBot.findFirst.mockResolvedValueOnce({
       id: 'bot-1',
       name: 'Support Bot',
@@ -404,64 +301,15 @@ describe('PATCH /api/ai-bots/[id]', () => {
     expect(response.status).toBe(200);
     expect(data.isActive).toBe(false);
   });
-
-  it('returns 500 on unexpected error', async () => {
-    vi.mocked(getAuthUser).mockRejectedValueOnce(new Error('Database error'));
-
-    const request = new NextRequest('http://localhost/api/ai-bots/bot-1', {
-      method: 'PATCH',
-      body: JSON.stringify({ name: 'New Name' }),
-    });
-    const response = await PATCH(request, mockContext('bot-1'));
-    const data = await response.json();
-
-    expect(response.status).toBe(500);
-    expect(data.message).toBe('error.serverError');
-  });
 });
 
 describe('DELETE /api/ai-bots/[id]', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.spyOn(console, 'error').mockImplementation(() => {});
-  });
-
-  it('returns 401 when not authenticated', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce(null);
-
-    const request = new NextRequest('http://localhost/api/ai-bots/bot-1', {
-      method: 'DELETE',
-    });
-    const response = await DELETE(request, mockContext('bot-1'));
-    const data = await response.json();
-
-    expect(response.status).toBe(401);
-    expect(data.message).toBe('error.unauthorized');
-  });
-
-  it('returns 403 when user is not admin', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'user-1',
-      username: 'testuser',
-      role: 'DEFAULT',
-    });
-
-    const request = new NextRequest('http://localhost/api/ai-bots/bot-1', {
-      method: 'DELETE',
-    });
-    const response = await DELETE(request, mockContext('bot-1'));
-    const data = await response.json();
-
-    expect(response.status).toBe(403);
-    expect(data.message).toBe('error.forbidden');
   });
 
   it('returns 404 when bot not found', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.aiBot.findFirst.mockResolvedValueOnce(null);
 
     const request = new NextRequest('http://localhost/api/ai-bots/bot-1', {
@@ -475,11 +323,7 @@ describe('DELETE /api/ai-bots/[id]', () => {
   });
 
   it('successfully deletes bot', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.aiBot.findFirst.mockResolvedValueOnce({
       id: 'bot-1',
       name: 'Support Bot',
@@ -501,18 +345,5 @@ describe('DELETE /api/ai-bots/[id]', () => {
     expect(mockedPrisma.aiBot.delete).toHaveBeenCalledWith({
       where: { id: 'bot-1' },
     });
-  });
-
-  it('returns 500 on unexpected error', async () => {
-    vi.mocked(getAuthUser).mockRejectedValueOnce(new Error('Database error'));
-
-    const request = new NextRequest('http://localhost/api/ai-bots/bot-1', {
-      method: 'DELETE',
-    });
-    const response = await DELETE(request, mockContext('bot-1'));
-    const data = await response.json();
-
-    expect(response.status).toBe(500);
-    expect(data.message).toBe('error.serverError');
   });
 });

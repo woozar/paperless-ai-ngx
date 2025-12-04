@@ -1,32 +1,16 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { prisma } from '@repo/database';
-import { getAuthUser } from '@/lib/auth/jwt';
 import { UpdatePaperlessInstanceRequestSchema } from '@/lib/api/schemas/paperless-instances';
-import { ApiResponses } from '@/lib/api/responses';
+import { adminRoute } from '@/lib/api/route-wrapper';
 import { encrypt } from '@/lib/crypto/encryption';
 
-type RouteContext = {
-  params: Promise<{ id: string }>;
-};
-
 // GET /api/paperless-instances/[id] - Get PaperlessInstance by ID (Admin only)
-export async function GET(request: NextRequest, context: RouteContext): Promise<NextResponse> {
-  try {
-    const { id } = await context.params;
-
-    const authUser = await getAuthUser(request);
-    if (!authUser) {
-      return ApiResponses.unauthorized();
-    }
-
-    if (authUser.role !== 'ADMIN') {
-      return ApiResponses.forbidden();
-    }
-
+export const GET = adminRoute<never, { id: string }>(
+  async ({ user, params }) => {
     const instance = await prisma.paperlessInstance.findFirst({
       where: {
-        id,
-        ownerId: authUser.userId,
+        id: params.id,
+        ownerId: user.userId,
       },
       select: {
         id: true,
@@ -49,42 +33,22 @@ export async function GET(request: NextRequest, context: RouteContext): Promise<
 
     return NextResponse.json({
       ...instance,
-      apiToken: '***', // Always mask
+      apiToken: '***',
       createdAt: instance.createdAt.toISOString(),
       updatedAt: instance.updatedAt.toISOString(),
     });
-  } catch (error) {
-    console.error('Get paperless instance error:', error);
-    return ApiResponses.serverError();
-  }
-}
+  },
+  { errorLogPrefix: 'Get paperless instance' }
+);
 
 // PATCH /api/paperless-instances/[id] - Update PaperlessInstance (Admin only)
-export async function PATCH(request: NextRequest, context: RouteContext): Promise<NextResponse> {
-  try {
-    const { id } = await context.params;
-
-    const authUser = await getAuthUser(request);
-    if (!authUser) {
-      return ApiResponses.unauthorized();
-    }
-
-    if (authUser.role !== 'ADMIN') {
-      return ApiResponses.forbidden();
-    }
-
-    const body = await request.json();
-    const parsed = UpdatePaperlessInstanceRequestSchema.safeParse(body);
-
-    if (!parsed.success) {
-      return ApiResponses.validationError();
-    }
-
+export const PATCH = adminRoute<typeof UpdatePaperlessInstanceRequestSchema, { id: string }>(
+  async ({ user, params, body }) => {
     // Check if instance exists and belongs to user
     const existingInstance = await prisma.paperlessInstance.findFirst({
       where: {
-        id,
-        ownerId: authUser.userId,
+        id: params.id,
+        ownerId: user.userId,
       },
     });
 
@@ -98,15 +62,15 @@ export async function PATCH(request: NextRequest, context: RouteContext): Promis
       );
     }
 
-    const { name, apiUrl, apiToken } = parsed.data;
+    const { name, apiUrl, apiToken } = body;
 
     // Check name uniqueness if changing
     if (name && name !== existingInstance.name) {
       const duplicateName = await prisma.paperlessInstance.findFirst({
         where: {
-          ownerId: authUser.userId,
+          ownerId: user.userId,
           name,
-          id: { not: id },
+          id: { not: params.id },
         },
       });
 
@@ -140,7 +104,7 @@ export async function PATCH(request: NextRequest, context: RouteContext): Promis
 
     // Update instance
     const instance = await prisma.paperlessInstance.update({
-      where: { id },
+      where: { id: params.id },
       data: updateData,
       select: {
         id: true,
@@ -153,35 +117,25 @@ export async function PATCH(request: NextRequest, context: RouteContext): Promis
 
     return NextResponse.json({
       ...instance,
-      apiToken: '***', // Always mask
+      apiToken: '***',
       createdAt: instance.createdAt.toISOString(),
       updatedAt: instance.updatedAt.toISOString(),
     });
-  } catch (error) {
-    console.error('Update paperless instance error:', error);
-    return ApiResponses.serverError();
+  },
+  {
+    bodySchema: UpdatePaperlessInstanceRequestSchema,
+    errorLogPrefix: 'Update paperless instance',
   }
-}
+);
 
 // DELETE /api/paperless-instances/[id] - Delete PaperlessInstance (Admin only)
-export async function DELETE(request: NextRequest, context: RouteContext): Promise<NextResponse> {
-  try {
-    const { id } = await context.params;
-
-    const authUser = await getAuthUser(request);
-    if (!authUser) {
-      return ApiResponses.unauthorized();
-    }
-
-    if (authUser.role !== 'ADMIN') {
-      return ApiResponses.forbidden();
-    }
-
+export const DELETE = adminRoute<never, { id: string }>(
+  async ({ user, params }) => {
     // Check if instance exists and belongs to user
     const existingInstance = await prisma.paperlessInstance.findFirst({
       where: {
-        id,
-        ownerId: authUser.userId,
+        id: params.id,
+        ownerId: user.userId,
       },
     });
 
@@ -197,12 +151,10 @@ export async function DELETE(request: NextRequest, context: RouteContext): Promi
 
     // Delete instance
     await prisma.paperlessInstance.delete({
-      where: { id },
+      where: { id: params.id },
     });
 
     return new NextResponse(null, { status: 204 });
-  } catch (error) {
-    console.error('Delete paperless instance error:', error);
-    return ApiResponses.serverError();
-  }
-}
+  },
+  { errorLogPrefix: 'Delete paperless instance' }
+);

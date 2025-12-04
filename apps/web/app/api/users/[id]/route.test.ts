@@ -44,50 +44,24 @@ const createContext = (id: string) => ({
   params: Promise.resolve({ id }),
 });
 
+function mockAdmin() {
+  vi.mocked(getAuthUser).mockResolvedValueOnce({
+    userId: 'admin-1',
+    username: 'admin',
+    role: 'ADMIN',
+  });
+}
+
 describe('GET /api/users/[id]', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.spyOn(console, 'error').mockImplementation(() => {});
-  });
-
-  it('returns 401 when not authenticated', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce(null);
-
-    const request = new NextRequest('http://localhost/api/users/user-1');
-
-    const response = await GET(request, createContext('user-1'));
-    const data = await response.json();
-
-    expect(response.status).toBe(401);
-    expect(data.message).toBe('error.unauthorized');
-  });
-
-  it('returns 403 when user is not admin', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'user-1',
-      username: 'testuser',
-      role: 'DEFAULT',
-    });
-
-    const request = new NextRequest('http://localhost/api/users/user-1');
-
-    const response = await GET(request, createContext('user-1'));
-    const data = await response.json();
-
-    expect(response.status).toBe(403);
-    expect(data.message).toBe('error.forbidden');
   });
 
   it('returns 404 when user not found', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.user.findUnique.mockResolvedValueOnce(null);
 
     const request = new NextRequest('http://localhost/api/users/nonexistent');
-
     const response = await GET(request, createContext('nonexistent'));
     const data = await response.json();
 
@@ -97,11 +71,7 @@ describe('GET /api/users/[id]', () => {
 
   it('returns user data on success', async () => {
     const mockDate = new Date('2024-01-15T10:00:00Z');
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.user.findUnique.mockResolvedValueOnce({
       id: 'user-1',
       username: 'testuser',
@@ -113,77 +83,25 @@ describe('GET /api/users/[id]', () => {
     });
 
     const request = new NextRequest('http://localhost/api/users/user-1');
-
     const response = await GET(request, createContext('user-1'));
     const data = await response.json();
 
     expect(response.status).toBe(200);
     expect(data.username).toBe('testuser');
   });
-
-  it('returns 500 on unexpected error', async () => {
-    vi.mocked(getAuthUser).mockRejectedValueOnce(new Error('Database error'));
-
-    const request = new NextRequest('http://localhost/api/users/user-1');
-
-    const response = await GET(request, createContext('user-1'));
-    const data = await response.json();
-
-    expect(response.status).toBe(500);
-    expect(data.message).toBe('error.serverError');
-  });
 });
 
 describe('PATCH /api/users/[id]', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.spyOn(console, 'error').mockImplementation(() => {});
-  });
-
-  it('returns 401 when not authenticated', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce(null);
-
-    const request = new NextRequest('http://localhost/api/users/user-1', {
-      method: 'PATCH',
-      body: JSON.stringify({ username: 'newname' }),
-    });
-
-    const response = await PATCH(request, createContext('user-1'));
-    const data = await response.json();
-
-    expect(response.status).toBe(401);
-    expect(data.message).toBe('error.unauthorized');
-  });
-
-  it('returns 403 when user is not admin', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'user-1',
-      username: 'testuser',
-      role: 'DEFAULT',
-    });
-
-    const request = new NextRequest('http://localhost/api/users/user-1', {
-      method: 'PATCH',
-      body: JSON.stringify({ username: 'newname' }),
-    });
-
-    const response = await PATCH(request, createContext('user-1'));
-    const data = await response.json();
-
-    expect(response.status).toBe(403);
-    expect(data.message).toBe('error.forbidden');
   });
 
   it('returns 400 for invalid request body', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
 
     const request = new NextRequest('http://localhost/api/users/user-1', {
       method: 'PATCH',
-      body: JSON.stringify({ username: 'a' }), // Too short
+      body: JSON.stringify({ username: 'a' }),
     });
 
     const response = await PATCH(request, createContext('user-1'));
@@ -194,11 +112,7 @@ describe('PATCH /api/users/[id]', () => {
   });
 
   it('returns 404 when user not found', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.user.findUnique.mockResolvedValueOnce(null);
 
     const request = new NextRequest('http://localhost/api/users/nonexistent', {
@@ -214,11 +128,7 @@ describe('PATCH /api/users/[id]', () => {
   });
 
   it('returns 400 when demoting last admin', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.user.findUnique.mockResolvedValueOnce({
       id: 'admin-2',
       username: 'admin2',
@@ -240,11 +150,7 @@ describe('PATCH /api/users/[id]', () => {
   });
 
   it('allows demoting admin when multiple admins exist', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.user.findUnique.mockResolvedValueOnce({
       id: 'admin-2',
       username: 'admin2',
@@ -256,7 +162,7 @@ describe('PATCH /api/users/[id]', () => {
       passwordHash: 'hash',
       mustChangePassword: false,
     });
-    mockedPrisma.user.count.mockResolvedValueOnce(2); // Multiple admins
+    mockedPrisma.user.count.mockResolvedValueOnce(2);
     mockedPrisma.user.update.mockResolvedValueOnce({
       id: 'admin-2',
       username: 'admin2',
@@ -280,19 +186,13 @@ describe('PATCH /api/users/[id]', () => {
     expect(mockedPrisma.user.update).toHaveBeenCalledWith(
       expect.objectContaining({
         where: { id: 'admin-2' },
-        data: expect.objectContaining({
-          role: 'DEFAULT',
-        }),
+        data: expect.objectContaining({ role: 'DEFAULT' }),
       })
     );
   });
 
   it('returns 409 when username already exists', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.user.findUnique
       .mockResolvedValueOnce({
         id: 'user-1',
@@ -318,18 +218,14 @@ describe('PATCH /api/users/[id]', () => {
 
   it('successfully updates user', async () => {
     const mockDate = new Date('2024-01-15T10:00:00Z');
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.user.findUnique
       .mockResolvedValueOnce({
         id: 'user-1',
         username: 'testuser',
         role: 'DEFAULT',
       })
-      .mockResolvedValueOnce(null); // No user with new username
+      .mockResolvedValueOnce(null);
     mockedPrisma.user.update.mockResolvedValueOnce({
       id: 'user-1',
       username: 'newname',
@@ -354,11 +250,7 @@ describe('PATCH /api/users/[id]', () => {
 
   it('resets password when resetPassword is provided', async () => {
     const mockDate = new Date('2024-01-15T10:00:00Z');
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.user.findUnique.mockResolvedValueOnce({
       id: 'user-1',
       username: 'testuser',
@@ -397,11 +289,7 @@ describe('PATCH /api/users/[id]', () => {
   });
 
   it('returns 500 when salt is not configured for password reset', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
+    mockAdmin();
     mockedPrisma.user.findUnique.mockResolvedValueOnce({
       id: 'user-1',
       username: 'testuser',
@@ -421,222 +309,14 @@ describe('PATCH /api/users/[id]', () => {
     expect(data.message).toBe('error.applicationNotConfigured');
   });
 
-  it('returns 500 on unexpected error', async () => {
-    vi.mocked(getAuthUser).mockRejectedValueOnce(new Error('Database error'));
-
-    const request = new NextRequest('http://localhost/api/users/user-1', {
-      method: 'PATCH',
-      body: JSON.stringify({ username: 'newname' }),
-    });
-
-    const response = await PATCH(request, createContext('user-1'));
-    const data = await response.json();
-
-    expect(response.status).toBe(500);
-    expect(data.message).toBe('error.serverError');
-  });
-});
-
-describe('DELETE /api/users/[id]', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-    vi.spyOn(console, 'error').mockImplementation(() => {});
-  });
-
-  it('returns 401 when not authenticated', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce(null);
-
-    const request = new NextRequest('http://localhost/api/users/user-1', {
-      method: 'DELETE',
-    });
-
-    const response = await DELETE(request, createContext('user-1'));
-    const data = await response.json();
-
-    expect(response.status).toBe(401);
-    expect(data.message).toBe('error.unauthorized');
-  });
-
-  it('returns 403 when user is not admin', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'user-1',
-      username: 'testuser',
-      role: 'DEFAULT',
-    });
-
-    const request = new NextRequest('http://localhost/api/users/user-1', {
-      method: 'DELETE',
-    });
-
-    const response = await DELETE(request, createContext('user-1'));
-    const data = await response.json();
-
-    expect(response.status).toBe(403);
-    expect(data.message).toBe('error.forbidden');
-  });
-
-  it('returns 404 when user not found', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
-    mockedPrisma.user.findUnique.mockResolvedValueOnce(null);
-
-    const request = new NextRequest('http://localhost/api/users/nonexistent', {
-      method: 'DELETE',
-    });
-
-    const response = await DELETE(request, createContext('nonexistent'));
-    const data = await response.json();
-
-    expect(response.status).toBe(404);
-    expect(data.message).toBe('error.userNotFound');
-  });
-
-  it('returns 400 when trying to delete yourself', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
-    mockedPrisma.user.findUnique.mockResolvedValueOnce({
-      id: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
-
-    const request = new NextRequest('http://localhost/api/users/admin-1', {
-      method: 'DELETE',
-    });
-
-    const response = await DELETE(request, createContext('admin-1'));
-    const data = await response.json();
-
-    expect(response.status).toBe(400);
-    expect(data.message).toBe('error.cannotDeleteSelf');
-  });
-
-  it('returns 400 when deleting last admin', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
-    mockedPrisma.user.findUnique.mockResolvedValueOnce({
-      id: 'admin-2',
-      username: 'admin2',
-      role: 'ADMIN',
-    });
-    mockedPrisma.user.count.mockResolvedValueOnce(1);
-
-    const request = new NextRequest('http://localhost/api/users/admin-2', {
-      method: 'DELETE',
-    });
-
-    const response = await DELETE(request, createContext('admin-2'));
-    const data = await response.json();
-
-    expect(response.status).toBe(400);
-    expect(data.message).toBe('error.lastAdmin');
-  });
-
-  it('allows deleting admin when multiple admins exist', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
-    mockedPrisma.user.findUnique.mockResolvedValueOnce({
-      id: 'admin-2',
-      username: 'admin2',
-      role: 'ADMIN',
-      isActive: true,
-    });
-    mockedPrisma.user.count.mockResolvedValueOnce(2); // Multiple admins
-    mockedPrisma.user.delete.mockResolvedValueOnce({
-      id: 'admin-2',
-      username: 'admin2',
-      role: 'ADMIN',
-      isActive: true,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      salt: 'salt',
-      passwordHash: 'hash',
-      mustChangePassword: false,
-    });
-
-    const request = new NextRequest('http://localhost/api/users/admin-2', {
-      method: 'DELETE',
-    });
-
-    const response = await DELETE(request, createContext('admin-2'));
-
-    expect(response.status).toBe(204);
-    expect(mockedPrisma.user.delete).toHaveBeenCalledWith({
-      where: { id: 'admin-2' },
-    });
-  });
-
-  it('successfully deletes user', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
-    mockedPrisma.user.findUnique.mockResolvedValueOnce({
-      id: 'user-1',
-      username: 'testuser',
-      role: 'DEFAULT',
-    });
-    mockedPrisma.user.delete.mockResolvedValueOnce({});
-
-    const request = new NextRequest('http://localhost/api/users/user-1', {
-      method: 'DELETE',
-    });
-
-    const response = await DELETE(request, createContext('user-1'));
-
-    expect(response.status).toBe(204);
-    expect(mockedPrisma.user.delete).toHaveBeenCalledWith({
-      where: { id: 'user-1' },
-    });
-  });
-
-  it('returns 500 on unexpected error', async () => {
-    vi.mocked(getAuthUser).mockRejectedValueOnce(new Error('Database error'));
-
-    const request = new NextRequest('http://localhost/api/users/user-1', {
-      method: 'DELETE',
-    });
-
-    const response = await DELETE(request, createContext('user-1'));
-    const data = await response.json();
-
-    expect(response.status).toBe(500);
-    expect(data.message).toBe('error.serverError');
-  });
-});
-
-describe('PATCH /api/users/[id] - Additional Coverage', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
   it('updates only role when only role is provided', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
-
+    mockAdmin();
     mockedPrisma.user.findUnique.mockResolvedValueOnce({
       id: 'user-2',
       username: 'testuser',
       role: 'DEFAULT',
       isActive: true,
     });
-
     mockedPrisma.user.update.mockResolvedValueOnce({
       id: 'user-2',
       username: 'testuser',
@@ -663,19 +343,13 @@ describe('PATCH /api/users/[id] - Additional Coverage', () => {
   });
 
   it('updates only isActive when only isActive is provided', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
-
+    mockAdmin();
     mockedPrisma.user.findUnique.mockResolvedValueOnce({
       id: 'user-2',
       username: 'testuser',
       role: 'DEFAULT',
       isActive: true,
     });
-
     mockedPrisma.user.update.mockResolvedValueOnce({
       id: 'user-2',
       username: 'testuser',
@@ -702,20 +376,13 @@ describe('PATCH /api/users/[id] - Additional Coverage', () => {
   });
 
   it('returns 400 when deactivating last admin', async () => {
-    vi.mocked(getAuthUser).mockResolvedValueOnce({
-      userId: 'admin-1',
-      username: 'admin',
-      role: 'ADMIN',
-    });
-
+    mockAdmin();
     mockedPrisma.user.findUnique.mockResolvedValueOnce({
       id: 'admin-2',
       username: 'admin2',
       role: 'ADMIN',
       isActive: true,
     });
-
-    // Only 1 active admin exists
     mockedPrisma.user.count.mockResolvedValueOnce(1);
 
     const request = new NextRequest('http://localhost/api/users/admin-2', {
@@ -729,5 +396,119 @@ describe('PATCH /api/users/[id] - Additional Coverage', () => {
     const data = await response.json();
     expect(data.message).toBe('error.lastAdmin');
     expect(mockedPrisma.user.update).not.toHaveBeenCalled();
+  });
+});
+
+describe('DELETE /api/users/[id]', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it('returns 404 when user not found', async () => {
+    mockAdmin();
+    mockedPrisma.user.findUnique.mockResolvedValueOnce(null);
+
+    const request = new NextRequest('http://localhost/api/users/nonexistent', {
+      method: 'DELETE',
+    });
+
+    const response = await DELETE(request, createContext('nonexistent'));
+    const data = await response.json();
+
+    expect(response.status).toBe(404);
+    expect(data.message).toBe('error.userNotFound');
+  });
+
+  it('returns 400 when trying to delete yourself', async () => {
+    mockAdmin();
+    mockedPrisma.user.findUnique.mockResolvedValueOnce({
+      id: 'admin-1',
+      username: 'admin',
+      role: 'ADMIN',
+    });
+
+    const request = new NextRequest('http://localhost/api/users/admin-1', {
+      method: 'DELETE',
+    });
+
+    const response = await DELETE(request, createContext('admin-1'));
+    const data = await response.json();
+
+    expect(response.status).toBe(400);
+    expect(data.message).toBe('error.cannotDeleteSelf');
+  });
+
+  it('returns 400 when deleting last admin', async () => {
+    mockAdmin();
+    mockedPrisma.user.findUnique.mockResolvedValueOnce({
+      id: 'admin-2',
+      username: 'admin2',
+      role: 'ADMIN',
+    });
+    mockedPrisma.user.count.mockResolvedValueOnce(1);
+
+    const request = new NextRequest('http://localhost/api/users/admin-2', {
+      method: 'DELETE',
+    });
+
+    const response = await DELETE(request, createContext('admin-2'));
+    const data = await response.json();
+
+    expect(response.status).toBe(400);
+    expect(data.message).toBe('error.lastAdmin');
+  });
+
+  it('allows deleting admin when multiple admins exist', async () => {
+    mockAdmin();
+    mockedPrisma.user.findUnique.mockResolvedValueOnce({
+      id: 'admin-2',
+      username: 'admin2',
+      role: 'ADMIN',
+      isActive: true,
+    });
+    mockedPrisma.user.count.mockResolvedValueOnce(2);
+    mockedPrisma.user.delete.mockResolvedValueOnce({
+      id: 'admin-2',
+      username: 'admin2',
+      role: 'ADMIN',
+      isActive: true,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      salt: 'salt',
+      passwordHash: 'hash',
+      mustChangePassword: false,
+    });
+
+    const request = new NextRequest('http://localhost/api/users/admin-2', {
+      method: 'DELETE',
+    });
+
+    const response = await DELETE(request, createContext('admin-2'));
+
+    expect(response.status).toBe(204);
+    expect(mockedPrisma.user.delete).toHaveBeenCalledWith({
+      where: { id: 'admin-2' },
+    });
+  });
+
+  it('successfully deletes user', async () => {
+    mockAdmin();
+    mockedPrisma.user.findUnique.mockResolvedValueOnce({
+      id: 'user-1',
+      username: 'testuser',
+      role: 'DEFAULT',
+    });
+    mockedPrisma.user.delete.mockResolvedValueOnce({});
+
+    const request = new NextRequest('http://localhost/api/users/user-1', {
+      method: 'DELETE',
+    });
+
+    const response = await DELETE(request, createContext('user-1'));
+
+    expect(response.status).toBe(204);
+    expect(mockedPrisma.user.delete).toHaveBeenCalledWith({
+      where: { id: 'user-1' },
+    });
   });
 });

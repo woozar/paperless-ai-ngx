@@ -30,6 +30,7 @@ export default defineConfig({
         '**/test-utils/**',
         '**/_components/index.ts',
         '**/instrumentation.ts',
+        '**/route-wrapper/types.ts', // Only TypeScript types, no runtime code
       ],
     },
   },

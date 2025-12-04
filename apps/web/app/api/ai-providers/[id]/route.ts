@@ -1,32 +1,16 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { prisma } from '@repo/database';
-import { getAuthUser } from '@/lib/auth/jwt';
 import { UpdateAiProviderRequestSchema } from '@/lib/api/schemas/ai-providers';
-import { ApiResponses } from '@/lib/api/responses';
+import { adminRoute } from '@/lib/api/route-wrapper';
 import { encrypt } from '@/lib/crypto/encryption';
 
-type RouteContext = {
-  params: Promise<{ id: string }>;
-};
-
 // GET /api/ai-providers/[id] - Get AiProvider by ID (Admin only)
-export async function GET(request: NextRequest, context: RouteContext): Promise<NextResponse> {
-  try {
-    const { id } = await context.params;
-
-    const authUser = await getAuthUser(request);
-    if (!authUser) {
-      return ApiResponses.unauthorized();
-    }
-
-    if (authUser.role !== 'ADMIN') {
-      return ApiResponses.forbidden();
-    }
-
+export const GET = adminRoute<never, { id: string }>(
+  async ({ user, params }) => {
     const provider = await prisma.aiProvider.findFirst({
       where: {
-        id,
-        ownerId: authUser.userId,
+        id: params.id,
+        ownerId: user.userId,
       },
       select: {
         id: true,
@@ -56,38 +40,18 @@ export async function GET(request: NextRequest, context: RouteContext): Promise<
       createdAt: provider.createdAt.toISOString(),
       updatedAt: provider.updatedAt.toISOString(),
     });
-  } catch (error) {
-    console.error('Get AI provider error:', error);
-    return ApiResponses.serverError();
-  }
-}
+  },
+  { errorLogPrefix: 'Get AI provider' }
+);
 
 // PATCH /api/ai-providers/[id] - Update AiProvider (Admin only)
-export async function PATCH(request: NextRequest, context: RouteContext): Promise<NextResponse> {
-  try {
-    const { id } = await context.params;
-
-    const authUser = await getAuthUser(request);
-    if (!authUser) {
-      return ApiResponses.unauthorized();
-    }
-
-    if (authUser.role !== 'ADMIN') {
-      return ApiResponses.forbidden();
-    }
-
-    const body = await request.json();
-    const parsed = UpdateAiProviderRequestSchema.safeParse(body);
-
-    if (!parsed.success) {
-      return ApiResponses.validationError();
-    }
-
+export const PATCH = adminRoute<typeof UpdateAiProviderRequestSchema, { id: string }>(
+  async ({ user, params, body }) => {
     // Check if provider exists and belongs to user
     const existingProvider = await prisma.aiProvider.findFirst({
       where: {
-        id,
-        ownerId: authUser.userId,
+        id: params.id,
+        ownerId: user.userId,
       },
     });
 
@@ -101,15 +65,15 @@ export async function PATCH(request: NextRequest, context: RouteContext): Promis
       );
     }
 
-    const { name, provider, model, apiKey, baseUrl, isActive } = parsed.data;
+    const { name, provider, model, apiKey, baseUrl, isActive } = body;
 
     // Check name uniqueness if changing
     if (name && name !== existingProvider.name) {
       const duplicateName = await prisma.aiProvider.findFirst({
         where: {
-          ownerId: authUser.userId,
+          ownerId: user.userId,
           name,
-          id: { not: id },
+          id: { not: params.id },
         },
       });
 
@@ -149,7 +113,7 @@ export async function PATCH(request: NextRequest, context: RouteContext): Promis
 
     // Update provider
     const updatedProvider = await prisma.aiProvider.update({
-      where: { id },
+      where: { id: params.id },
       data: updateData,
       select: {
         id: true,
@@ -168,31 +132,21 @@ export async function PATCH(request: NextRequest, context: RouteContext): Promis
       createdAt: updatedProvider.createdAt.toISOString(),
       updatedAt: updatedProvider.updatedAt.toISOString(),
     });
-  } catch (error) {
-    console.error('Update AI provider error:', error);
-    return ApiResponses.serverError();
+  },
+  {
+    bodySchema: UpdateAiProviderRequestSchema,
+    errorLogPrefix: 'Update AI provider',
   }
-}
+);
 
 // DELETE /api/ai-providers/[id] - Delete AiProvider (Admin only)
-export async function DELETE(request: NextRequest, context: RouteContext): Promise<NextResponse> {
-  try {
-    const { id } = await context.params;
-
-    const authUser = await getAuthUser(request);
-    if (!authUser) {
-      return ApiResponses.unauthorized();
-    }
-
-    if (authUser.role !== 'ADMIN') {
-      return ApiResponses.forbidden();
-    }
-
+export const DELETE = adminRoute<never, { id: string }>(
+  async ({ user, params }) => {
     // Check if provider exists and belongs to user
     const existingProvider = await prisma.aiProvider.findFirst({
       where: {
-        id,
-        ownerId: authUser.userId,
+        id: params.id,
+        ownerId: user.userId,
       },
     });
 
@@ -208,7 +162,7 @@ export async function DELETE(request: NextRequest, context: RouteContext): Promi
 
     // Check if provider is referenced by any bots
     const botCount = await prisma.aiBot.count({
-      where: { aiProviderId: id },
+      where: { aiProviderId: params.id },
     });
 
     if (botCount > 0) {
@@ -224,12 +178,10 @@ export async function DELETE(request: NextRequest, context: RouteContext): Promi
 
     // Delete provider
     await prisma.aiProvider.delete({
-      where: { id },
+      where: { id: params.id },
     });
 
     return new NextResponse(null, { status: 204 });
-  } catch (error) {
-    console.error('Delete AI provider error:', error);
-    return ApiResponses.serverError();
-  }
-}
+  },
+  { errorLogPrefix: 'Delete AI provider' }
+);

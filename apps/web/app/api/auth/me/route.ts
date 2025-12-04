@@ -1,19 +1,13 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { prisma } from '@repo/database';
-import { getAuthUser } from '@/lib/auth/jwt';
 import { ApiResponses } from '@/lib/api/responses';
+import { authRoute } from '@/lib/api/route-wrapper';
 
-export async function GET(request: NextRequest): Promise<NextResponse> {
-  try {
-    // Check authentication
-    const authUser = await getAuthUser(request);
-    if (!authUser) {
-      return ApiResponses.unauthorized();
-    }
-
+export const GET = authRoute(
+  async ({ user }) => {
     // Get full user details
-    const user = await prisma.user.findUnique({
-      where: { id: authUser.userId },
+    const dbUser = await prisma.user.findUnique({
+      where: { id: user.userId },
       select: {
         id: true,
         username: true,
@@ -23,19 +17,17 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       },
     });
 
-    if (!user) {
+    if (!dbUser) {
       return ApiResponses.userNotFound();
     }
 
     return NextResponse.json({
-      id: user.id,
-      username: user.username,
-      role: user.role,
-      mustChangePassword: user.mustChangePassword,
-      createdAt: user.createdAt.toISOString(),
+      id: dbUser.id,
+      username: dbUser.username,
+      role: dbUser.role,
+      mustChangePassword: dbUser.mustChangePassword,
+      createdAt: dbUser.createdAt.toISOString(),
     });
-  } catch (error) {
-    console.error('Get current user error:', error);
-    return ApiResponses.serverError();
-  }
-}
+  },
+  { errorLogPrefix: 'Get current user' }
+);
