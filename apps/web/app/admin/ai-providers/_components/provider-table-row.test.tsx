@@ -4,6 +4,16 @@ import userEvent from '@testing-library/user-event';
 import { renderWithIntl } from '@/test-utils/render-with-intl';
 import { ProviderTableRow } from './provider-table-row';
 import type { AiProviderListItem } from '@repo/api-client';
+import type { Settings } from '@/lib/api/schemas/settings';
+
+const mockUseSettings = vi.fn(() => ({
+  settings: { 'security.sharing.mode': 'BASIC' } as Settings,
+  updateSetting: vi.fn(),
+}));
+
+vi.mock('@/components/settings-provider', () => ({
+  useSettings: () => mockUseSettings(),
+}));
 
 function renderProviderTableRow(props: {
   provider: Omit<AiProviderListItem, 'apiKey'>;
@@ -105,5 +115,25 @@ describe('ProviderTableRow', () => {
     const { container } = renderProviderTableRow(defaultProps);
     const cells = container.querySelectorAll('td');
     expect(cells.length).toBe(5); // name, type, model, date, actions
+  });
+
+  describe('share button', () => {
+    it('does not render share button when sharing mode is BASIC', () => {
+      mockUseSettings.mockReturnValue({
+        settings: { 'security.sharing.mode': 'BASIC' },
+        updateSetting: vi.fn(),
+      });
+      renderProviderTableRow(defaultProps);
+      expect(screen.queryByTestId('share-provider-provider-123')).not.toBeInTheDocument();
+    });
+
+    it('renders share button when sharing mode is ADVANCED', () => {
+      mockUseSettings.mockReturnValue({
+        settings: { 'security.sharing.mode': 'ADVANCED' } as Settings,
+        updateSetting: vi.fn(),
+      });
+      renderProviderTableRow(defaultProps);
+      expect(screen.getByTestId('share-provider-provider-123')).toBeInTheDocument();
+    });
   });
 });

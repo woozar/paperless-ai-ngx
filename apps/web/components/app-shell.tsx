@@ -29,7 +29,7 @@ export function AppShell({ children }: Readonly<AppShellProps>) {
   return (
     <div className="bg-background flex min-h-screen">
       <Sidebar />
-      <main className="w-full flex-1">{children}</main>
+      <main className="m-8 w-full flex-1">{children}</main>
     </div>
   );
 }

@@ -1,8 +1,11 @@
+import { useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import { TableRow, TableCell } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
-import { Edit, Trash2, Download, Loader2 } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { Edit, Trash2, Download, Loader2, UserPlus } from 'lucide-react';
 import type { PaperlessInstanceListItem } from '@repo/api-client';
+import { useSettings } from '@/components/settings-provider';
 
 type InstanceTableRowProps = Readonly<{
   instance: Omit<PaperlessInstanceListItem, 'apiToken'>;
@@ -22,6 +25,10 @@ export function InstanceTableRow({
   formatDate,
 }: InstanceTableRowProps) {
   const t = useTranslations('admin.paperlessInstances');
+  const tCommon = useTranslations('common');
+  const { settings } = useSettings();
+  const sharingMode = settings['security.sharing.mode'];
+  const showShareButton = useMemo(() => sharingMode === 'ADVANCED', [sharingMode]);
 
   return (
     <TableRow>
@@ -32,6 +39,17 @@ export function InstanceTableRow({
       </TableCell>
       <TableCell className="text-right">
         <div className="flex justify-end gap-2">
+          {showShareButton && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="outline" size="icon" data-testid={`share-instance-${instance.id}`}>
+                  <UserPlus className="h-4 w-4" />
+                  <span className="sr-only">{tCommon('share')}</span>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>{tCommon('shareTooltip')}</TooltipContent>
+            </Tooltip>
+          )}
           <Button
             variant="outline"
             size="icon"

@@ -4,7 +4,9 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
 import { ThemeProvider } from '@/components/theme-provider';
 import { AuthProvider } from '@/components/auth-provider';
+import { SettingsProvider } from '@/components/settings-provider';
 import { ToastProvider } from '@/components/toast-provider';
+import { TooltipProvider } from '@/components/ui/tooltip';
 import './globals.css';
 
 const geistSans = localFont({
@@ -40,7 +42,11 @@ export default async function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <AuthProvider>{children}</AuthProvider>
+            <AuthProvider>
+              <SettingsProvider>
+                <TooltipProvider>{children}</TooltipProvider>
+              </SettingsProvider>
+            </AuthProvider>
             <ToastProvider />
           </ThemeProvider>
         </NextIntlClientProvider>

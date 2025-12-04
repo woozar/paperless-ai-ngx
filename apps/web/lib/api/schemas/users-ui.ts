@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { extendZodWithOpenApi } from '@asteasolutions/zod-to-openapi';
+import { selectOptions } from './form-field-meta';
 
 extendZodWithOpenApi(z);
 
@@ -17,12 +18,16 @@ export const CreateUserFormSchema = z.object({
       /^[a-zA-Z0-9_-]+$/,
       'Username can only contain letters, numbers, underscores, and hyphens'
     )
-    .describe('text|username'),
+    .meta({ inputType: 'text', labelKey: 'username' }),
   password: z
     .string()
     .min(8, 'Password must be at least 8 characters')
-    .describe('password|password|validate'),
-  role: UserRoleSchema.default('DEFAULT').describe('select|role|DEFAULT:default|ADMIN:admin'),
+    .meta({ inputType: 'password', labelKey: 'password', validate: true }),
+  role: UserRoleSchema.default('DEFAULT').meta({
+    inputType: 'select',
+    labelKey: 'role',
+    options: selectOptions({ DEFAULT: 'default', ADMIN: 'admin' }),
+  }),
 });
 
 // UI-enhanced schema for editing users
@@ -36,12 +41,16 @@ export const EditUserFormSchema = z.object({
       /^[a-zA-Z0-9_-]+$/,
       'Username can only contain letters, numbers, underscores, and hyphens'
     )
-    .describe('text|username'),
-  role: UserRoleSchema.describe('select|role|DEFAULT:default|ADMIN:admin'),
+    .meta({ inputType: 'text', labelKey: 'username' }),
+  role: UserRoleSchema.meta({
+    inputType: 'select',
+    labelKey: 'role',
+    options: selectOptions({ DEFAULT: 'default', ADMIN: 'admin' }),
+  }),
   resetPassword: z
     .union([z.string().min(8, 'Password must be at least 8 characters'), z.literal('')])
     .optional()
-    .describe('password|resetPassword|validate'),
+    .meta({ inputType: 'password', labelKey: 'resetPassword', validate: true }),
 });
 
 export type CreateUserFormData = z.infer<typeof CreateUserFormSchema>;

@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { createRef } from 'react';
 import { ApiKeyInput } from './api-key-input';
 
 describe('ApiKeyInput', () => {
@@ -48,7 +49,7 @@ describe('ApiKeyInput', () => {
   });
 
   it('forwards ref correctly', () => {
-    const ref = { current: null } as React.RefObject<HTMLInputElement>;
+    const ref = createRef<HTMLInputElement>();
     render(<ApiKeyInput ref={ref} data-testid="api-key" />);
     expect(ref.current).toBeInstanceOf(HTMLInputElement);
   });

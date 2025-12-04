@@ -1,6 +1,7 @@
-import { render, RenderOptions } from '@testing-library/react';
+import { render, RenderOptions, RenderResult } from '@testing-library/react';
 import { NextIntlClientProvider, IntlErrorCode } from 'next-intl';
-import { ReactElement } from 'react';
+import { ReactElement, ReactNode } from 'react';
+import { TooltipProvider } from '@/components/ui/tooltip';
 export { default as messages } from '../locales/en.json';
 import messages from '../locales/en.json';
 
@@ -19,7 +20,7 @@ function getMessageFallback({ namespace, key }: { namespace?: string; key: strin
   return namespace ? `${namespace}.${key}` : key;
 }
 
-export function renderWithIntl(ui: ReactElement, options?: CustomRenderOptions) {
+export function renderWithIntl(ui: ReactElement, options?: CustomRenderOptions): RenderResult {
   const result = render(
     <NextIntlClientProvider
       locale="en"
@@ -28,14 +29,14 @@ export function renderWithIntl(ui: ReactElement, options?: CustomRenderOptions) 
       onError={onError}
       getMessageFallback={getMessageFallback}
     >
-      {ui}
+      <TooltipProvider>{ui}</TooltipProvider>
     </NextIntlClientProvider>,
     options
   );
 
   return {
     ...result,
-    rerender: (rerenderUi: ReactElement) =>
+    rerender: (rerenderUi: ReactNode) =>
       result.rerender(
         <NextIntlClientProvider
           locale="en"
@@ -44,7 +45,7 @@ export function renderWithIntl(ui: ReactElement, options?: CustomRenderOptions) 
           onError={onError}
           getMessageFallback={getMessageFallback}
         >
-          {rerenderUi}
+          <TooltipProvider>{rerenderUi}</TooltipProvider>
         </NextIntlClientProvider>
       ),
   };

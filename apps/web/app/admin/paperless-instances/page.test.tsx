@@ -28,6 +28,13 @@ vi.mock('@/components/auth-provider', () => ({
   useAuth: () => ({ user: mockUser(), isLoading: false }),
 }));
 
+vi.mock('@/components/settings-provider', () => ({
+  useSettings: () => ({
+    settings: { 'security.sharing.mode': 'BASIC' as const },
+    updateSetting: vi.fn(),
+  }),
+}));
+
 vi.mock('@repo/api-client', async () => {
   const actual = await vi.importActual('@repo/api-client');
   return {
@@ -44,7 +51,7 @@ const mockInstances: PaperlessInstanceListItem[] = [
     id: 'instance-1',
     name: 'Production',
     apiUrl: 'http://paperless.prod:8000',
-    isActive: true,
+    apiToken: 'prod-token',
     createdAt: '2024-01-15T10:30:00Z',
     updatedAt: '2024-01-15T10:30:00Z',
   },
@@ -52,7 +59,7 @@ const mockInstances: PaperlessInstanceListItem[] = [
     id: 'instance-2',
     name: 'Development',
     apiUrl: 'http://localhost:8000',
-    isActive: true,
+    apiToken: 'dev-token',
     createdAt: '2024-02-20T14:00:00Z',
     updatedAt: '2024-02-20T14:00:00Z',
   },

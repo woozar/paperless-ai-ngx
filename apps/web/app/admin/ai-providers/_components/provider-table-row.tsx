@@ -1,9 +1,12 @@
+import { useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import { TableRow, TableCell } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Edit, Trash2 } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { Edit, UserPlus, Trash2 } from 'lucide-react';
 import type { AiProviderListItem } from '@repo/api-client';
+import { useSettings } from '@/components/settings-provider';
 
 type ProviderTableRowProps = Readonly<{
   provider: Omit<AiProviderListItem, 'apiKey'>;
@@ -19,6 +22,10 @@ export function ProviderTableRow({
   formatDate,
 }: ProviderTableRowProps) {
   const t = useTranslations('admin.aiProviders');
+  const tCommon = useTranslations('common');
+  const { settings } = useSettings();
+  const sharingMode = settings['security.sharing.mode'];
+  const showShareButton = useMemo(() => sharingMode === 'ADVANCED', [sharingMode]);
 
   return (
     <TableRow>
@@ -32,6 +39,17 @@ export function ProviderTableRow({
       </TableCell>
       <TableCell className="text-right">
         <div className="flex justify-end gap-2">
+          {showShareButton && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="outline" size="icon" data-testid={`share-provider-${provider.id}`}>
+                  <UserPlus className="h-4 w-4" />
+                  <span className="sr-only">{tCommon('share')}</span>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>{tCommon('shareTooltip')}</TooltipContent>
+            </Tooltip>
+          )}
           <Button
             variant="outline"
             size="icon"

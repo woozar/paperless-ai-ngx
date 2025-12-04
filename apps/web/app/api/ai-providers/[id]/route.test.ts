@@ -569,7 +569,7 @@ describe('DELETE /api/ai-providers/[id]', () => {
       name: 'OpenAI',
     });
     mockedPrisma.aiBot.count.mockResolvedValueOnce(0);
-    mockedPrisma.aiProvider.delete.mockResolvedValueOnce({} as any);
+    mockedPrisma.aiProvider.delete.mockResolvedValueOnce({});
 
     const request = new NextRequest('http://localhost/api/ai-providers/provider-1', {
       method: 'DELETE',

@@ -4,6 +4,16 @@ import userEvent from '@testing-library/user-event';
 import { renderWithIntl } from '@/test-utils/render-with-intl';
 import { BotTableRow } from './bot-table-row';
 import type { AiBotListItem } from '@repo/api-client';
+import type { Settings } from '@/lib/api/schemas/settings';
+
+const mockUseSettings = vi.fn(() => ({
+  settings: { 'security.sharing.mode': 'BASIC' } as Settings,
+  updateSetting: vi.fn(),
+}));
+
+vi.mock('@/components/settings-provider', () => ({
+  useSettings: () => mockUseSettings(),
+}));
 
 function renderBotTableRow(props: {
   bot: AiBotListItem;
@@ -36,7 +46,7 @@ const mockBot: AiBotListItem = {
 describe('BotTableRow', () => {
   const mockOnEdit = vi.fn();
   const mockOnDelete = vi.fn();
-  const mockFormatDate = vi.fn((dateString) => '2024-01-15');
+  const mockFormatDate = vi.fn(() => '2024-01-15');
 
   const defaultProps = {
     bot: mockBot,
@@ -100,5 +110,25 @@ describe('BotTableRow', () => {
     const { container } = renderBotTableRow(defaultProps);
     const cells = container.querySelectorAll('td');
     expect(cells.length).toBe(4); // name, provider, date, actions
+  });
+
+  describe('share button', () => {
+    it('does not render share button when sharing mode is BASIC', () => {
+      mockUseSettings.mockReturnValue({
+        settings: { 'security.sharing.mode': 'BASIC' },
+        updateSetting: vi.fn(),
+      });
+      renderBotTableRow(defaultProps);
+      expect(screen.queryByTestId('share-bot-bot-123')).not.toBeInTheDocument();
+    });
+
+    it('renders share button when sharing mode is ADVANCED', () => {
+      mockUseSettings.mockReturnValue({
+        settings: { 'security.sharing.mode': 'ADVANCED' } as Settings,
+        updateSetting: vi.fn(),
+      });
+      renderBotTableRow(defaultProps);
+      expect(screen.getByTestId('share-bot-bot-123')).toBeInTheDocument();
+    });
   });
 });

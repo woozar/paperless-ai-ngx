@@ -1,8 +1,11 @@
+import { useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import { TableRow, TableCell } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
-import { Edit, Trash2 } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { Edit, UserPlus, Trash2 } from 'lucide-react';
 import type { AiBotListItem } from '@repo/api-client';
+import { useSettings } from '@/components/settings-provider';
 
 type BotTableRowProps = Readonly<{
   bot: Omit<AiBotListItem, 'apiKey'>;
@@ -13,6 +16,10 @@ type BotTableRowProps = Readonly<{
 
 export function BotTableRow({ bot, onEdit, onDelete, formatDate }: BotTableRowProps) {
   const t = useTranslations('admin.aiBots');
+  const tCommon = useTranslations('common');
+  const { settings } = useSettings();
+  const sharingMode = settings['security.sharing.mode'];
+  const showShareButton = useMemo(() => sharingMode === 'ADVANCED', [sharingMode]);
 
   return (
     <TableRow>
@@ -21,6 +28,17 @@ export function BotTableRow({ bot, onEdit, onDelete, formatDate }: BotTableRowPr
       <TableCell className="text-muted-foreground text-sm">{formatDate(bot.createdAt)}</TableCell>
       <TableCell className="text-right">
         <div className="flex justify-end gap-2">
+          {showShareButton && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="outline" size="icon" data-testid={`share-bot-${bot.id}`}>
+                  <UserPlus className="h-4 w-4" />
+                  <span className="sr-only">{tCommon('share')}</span>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>{tCommon('shareTooltip')}</TooltipContent>
+            </Tooltip>
+          )}
           <Button
             variant="outline"
             size="icon"

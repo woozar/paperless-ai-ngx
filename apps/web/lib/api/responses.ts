@@ -84,4 +84,16 @@ export const ApiResponses = {
       { error: 'Server error', message: 'error.applicationNotConfigured' },
       { status: 500 }
     ),
+
+  settingsParseError: (params: { key: string; value: string; errors: string }) =>
+    NextResponse.json(
+      { error: 'Settings parse error', message: 'error.settingsParseError', params },
+      { status: 500 }
+    ),
+
+  settingsValidationError: (params: { key: string; value: string; expectedType: string }) =>
+    NextResponse.json(
+      { error: 'Settings validation error', message: 'error.settingsValidationError', params },
+      { status: 400 }
+    ),
 } as const;

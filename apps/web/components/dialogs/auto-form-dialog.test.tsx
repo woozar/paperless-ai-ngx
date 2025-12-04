@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { z } from 'zod';
 import { AutoFormDialog } from './auto-form-dialog';
 import { renderWithIntl } from '@/test-utils/render-with-intl';
+import { selectOptions } from '@/lib/api/schemas/form-field-meta';
 
 vi.mock('sonner', () => ({
   toast: {
@@ -29,46 +30,25 @@ describe('AutoFormDialog', () => {
     vi.clearAllMocks();
   });
 
-  describe('parseFieldType fallback', () => {
-    it('treats unknown field type as text input', async () => {
-      // Use unknownType but with existing labelKey 'username'
-      const schemaWithUnknownType = z.object({
-        username: z.string().describe('unknownType|username'),
-      });
-
-      renderWithIntl(
-        <AutoFormDialog {...defaultProps} schema={schemaWithUnknownType} testIdPrefix="test" />
-      );
-
-      await waitFor(() => {
-        expect(screen.getByRole('dialog')).toBeInTheDocument();
-      });
-
-      // Should render as text input (fallback behavior)
-      const input = screen.getByTestId('test-username-input');
-      expect(input).toBeInTheDocument();
-      expect(input).toHaveAttribute('type', 'text');
-    });
-  });
-
-  describe('field without description', () => {
-    it('uses field name as label key when no description provided', async () => {
+  describe('field without meta', () => {
+    it('uses field name as label key when no meta provided', async () => {
       // Use 'username' as field name since admin.users.username exists
-      const schemaWithoutDescription = z.object({
+      const schemaWithoutMeta = z.object({
         username: z.string(),
       });
 
       renderWithIntl(
-        <AutoFormDialog {...defaultProps} schema={schemaWithoutDescription} testIdPrefix="test" />
+        <AutoFormDialog {...defaultProps} schema={schemaWithoutMeta} testIdPrefix="test" />
       );
 
       await waitFor(() => {
         expect(screen.getByRole('dialog')).toBeInTheDocument();
       });
 
-      // Field should still render
+      // Field should still render as text input (default)
       const input = screen.getByTestId('test-username-input');
       expect(input).toBeInTheDocument();
+      expect(input).toHaveAttribute('type', 'text');
     });
   });
 
@@ -76,8 +56,15 @@ describe('AutoFormDialog', () => {
     it('hides field when showWhen condition is not met', async () => {
       // Use existing keys: role and password
       const schemaWithConditional = z.object({
-        role: z.string().describe('text|role'),
-        password: z.string().optional().describe('text|password|showWhen:role:ADMIN'),
+        role: z.string().meta({ inputType: 'text', labelKey: 'role' }),
+        password: z
+          .string()
+          .optional()
+          .meta({
+            inputType: 'text',
+            labelKey: 'password',
+            showWhen: { field: 'role', values: ['ADMIN'] },
+          }),
       });
 
       renderWithIntl(
@@ -102,8 +89,15 @@ describe('AutoFormDialog', () => {
 
     it('shows field when showWhen condition is met', async () => {
       const schemaWithConditional = z.object({
-        role: z.string().describe('text|role'),
-        password: z.string().optional().describe('text|password|showWhen:role:ADMIN'),
+        role: z.string().meta({ inputType: 'text', labelKey: 'role' }),
+        password: z
+          .string()
+          .optional()
+          .meta({
+            inputType: 'text',
+            labelKey: 'password',
+            showWhen: { field: 'role', values: ['ADMIN'] },
+          }),
       });
 
       renderWithIntl(
@@ -132,7 +126,7 @@ describe('AutoFormDialog', () => {
       const onSuccess = vi.fn();
 
       const schema = z.object({
-        username: z.string().min(1).describe('text|username'),
+        username: z.string().min(1).meta({ inputType: 'text', labelKey: 'username' }),
       });
 
       renderWithIntl(
@@ -163,10 +157,14 @@ describe('AutoFormDialog', () => {
   });
 
   describe('select fields with static options', () => {
-    it('renders select field with options from describe', async () => {
+    it('renders select field with options from meta', async () => {
       // Use existing keys: role with admin/default options
       const schemaWithSelect = z.object({
-        role: z.string().describe('select|role|ADMIN:admin|DEFAULT:default'),
+        role: z.string().meta({
+          inputType: 'select',
+          labelKey: 'role',
+          options: selectOptions({ ADMIN: 'admin', DEFAULT: 'default' }),
+        }),
       });
 
       renderWithIntl(
@@ -188,63 +186,13 @@ describe('AutoFormDialog', () => {
     });
   });
 
-  describe('parseSelectOptions edge cases', () => {
-    it('handles option without colon separator', async () => {
-      // Use status with active/suspended as simple options
-      const schemaWithSimpleOptions = z.object({
-        status: z.string().describe('select|status|active|suspended'),
-      });
-
-      renderWithIntl(
-        <AutoFormDialog
-          {...defaultProps}
-          schema={schemaWithSimpleOptions}
-          testIdPrefix="test"
-          initialData={{ status: 'active' }}
-        />
-      );
-
-      await waitFor(() => {
-        expect(screen.getByRole('dialog')).toBeInTheDocument();
-      });
-
-      // Select should render
-      const selectTrigger = screen.getByTestId('test-status-input');
-      expect(selectTrigger).toBeInTheDocument();
-    });
-  });
-
-  describe('parseShowWhen edge cases', () => {
-    it('ignores malformed showWhen condition without field separator', async () => {
-      // Use existing keys
-      const schemaWithMalformedShowWhen = z.object({
-        username: z.string().describe('text|username'),
-        password: z.string().optional().describe('text|password|showWhen:malformed'),
-      });
-
-      renderWithIntl(
-        <AutoFormDialog
-          {...defaultProps}
-          schema={schemaWithMalformedShowWhen}
-          testIdPrefix="test"
-          initialData={{ username: 'test', password: '' }}
-        />
-      );
-
-      await waitFor(() => {
-        expect(screen.getByRole('dialog')).toBeInTheDocument();
-      });
-
-      // Both fields should be visible (malformed showWhen is ignored)
-      expect(screen.getByTestId('test-username-input')).toBeInTheDocument();
-      expect(screen.getByTestId('test-password-input')).toBeInTheDocument();
-    });
-  });
-
   describe('extractDefaultValue', () => {
     it('uses default value from schema', async () => {
       const schemaWithDefault = z.object({
-        username: z.string().default('defaultuser').describe('text|username'),
+        username: z
+          .string()
+          .default('defaultuser')
+          .meta({ inputType: 'text', labelKey: 'username' }),
       });
 
       renderWithIntl(

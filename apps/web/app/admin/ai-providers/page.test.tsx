@@ -26,6 +26,13 @@ vi.mock('@/components/auth-provider', () => ({
   useAuth: () => ({ user: mockUser(), isLoading: false }),
 }));
 
+vi.mock('@/components/settings-provider', () => ({
+  useSettings: () => ({
+    settings: { 'security.sharing.mode': 'BASIC' as const },
+    updateSetting: vi.fn(),
+  }),
+}));
+
 vi.mock('@repo/api-client', async () => {
   const actual = await vi.importActual('@repo/api-client');
   return {

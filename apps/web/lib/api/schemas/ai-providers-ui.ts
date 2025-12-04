@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { extendZodWithOpenApi } from '@asteasolutions/zod-to-openapi';
+import { selectOptions } from './form-field-meta';
 
 extendZodWithOpenApi(z);
 
@@ -8,6 +9,14 @@ export const AiProviderTypeSchema = z
   .enum(['openai', 'anthropic', 'ollama', 'google', 'custom'])
   .openapi('AiProviderType');
 
+const providerOptions = selectOptions({
+  openai: 'providerTypes.openai',
+  anthropic: 'providerTypes.anthropic',
+  ollama: 'providerTypes.ollama',
+  google: 'providerTypes.google',
+  custom: 'providerTypes.custom',
+});
+
 // UI-enhanced schema for creating AI providers
 export const CreateAiProviderFormSchema = z.object({
   name: z
@@ -15,16 +24,25 @@ export const CreateAiProviderFormSchema = z.object({
     .trim()
     .min(1, 'Name is required')
     .max(100, 'Name must be at most 100 characters')
-    .describe('text|name'),
-  provider: AiProviderTypeSchema.default('openai').describe(
-    'select|provider|openai:providerTypes.openai|anthropic:providerTypes.anthropic|ollama:providerTypes.ollama|google:providerTypes.google|custom:providerTypes.custom'
-  ),
-  model: z.string().min(1, 'Model is required').describe('text|model'),
-  apiKey: z.string().min(1, 'API key is required').describe('apiKey|apiKey'),
+    .meta({ inputType: 'text', labelKey: 'name' }),
+  provider: AiProviderTypeSchema.default('openai').meta({
+    inputType: 'select',
+    labelKey: 'provider',
+    options: providerOptions,
+  }),
+  model: z.string().min(1, 'Model is required').meta({ inputType: 'text', labelKey: 'model' }),
+  apiKey: z
+    .string()
+    .min(1, 'API key is required')
+    .meta({ inputType: 'apiKey', labelKey: 'apiKey' }),
   baseUrl: z
     .url('Invalid URL format')
     .optional()
-    .describe('url|baseUrl|showWhen:provider:ollama,custom'),
+    .meta({
+      inputType: 'url',
+      labelKey: 'baseUrl',
+      showWhen: { field: 'provider', values: ['ollama', 'custom'] },
+    }),
 });
 
 // UI-enhanced schema for editing AI providers
@@ -34,20 +52,26 @@ export const EditAiProviderFormSchema = z.object({
     .trim()
     .min(1, 'Name is required')
     .max(100, 'Name must be at most 100 characters')
-    .describe('text|name'),
-  provider: AiProviderTypeSchema.describe(
-    'select|provider|openai:providerTypes.openai|anthropic:providerTypes.anthropic|ollama:providerTypes.ollama|google:providerTypes.google|custom:providerTypes.custom'
-  ),
-  model: z.string().min(1, 'Model is required').describe('text|model'),
+    .meta({ inputType: 'text', labelKey: 'name' }),
+  provider: AiProviderTypeSchema.meta({
+    inputType: 'select',
+    labelKey: 'provider',
+    options: providerOptions,
+  }),
+  model: z.string().min(1, 'Model is required').meta({ inputType: 'text', labelKey: 'model' }),
   apiKey: z
     .union([z.string().min(1, 'API key is required'), z.literal('')])
     .optional()
-    .describe('apiKey|apiKey'),
+    .meta({ inputType: 'apiKey', labelKey: 'apiKey' }),
   baseUrl: z
     .url('Invalid URL format')
     .nullable()
     .optional()
-    .describe('url|baseUrl|showWhen:provider:ollama,custom'),
+    .meta({
+      inputType: 'url',
+      labelKey: 'baseUrl',
+      showWhen: { field: 'provider', values: ['ollama', 'custom'] },
+    }),
 });
 
 export type CreateAiProviderFormData = z.infer<typeof CreateAiProviderFormSchema>;

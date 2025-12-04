@@ -11,6 +11,7 @@ const mockProvider: AiProviderListItem = {
   name: 'OpenAI',
   provider: 'openai',
   model: 'gpt-4',
+  apiKey: 'sk-test-key',
   baseUrl: null,
   isActive: true,
   createdAt: '2024-01-15T10:30:00Z',
@@ -18,7 +19,6 @@ const mockProvider: AiProviderListItem = {
 };
 
 const mockPatchAiProvidersById = vi.fn();
-let mockOnProviderTypeChange: ((value: string) => void) | undefined;
 
 vi.mock('@repo/api-client', async () => {
   const actual = await vi.importActual('@repo/api-client');
@@ -29,14 +29,11 @@ vi.mock('@repo/api-client', async () => {
 });
 
 vi.mock('@/components/ui/select', () => ({
-  Select: ({ children, onValueChange, value }: any) => {
-    mockOnProviderTypeChange = onValueChange;
-    return (
-      <div data-testid="mock-select" data-value={value}>
-        {children}
-      </div>
-    );
-  },
+  Select: ({ children, value }: any) => (
+    <div data-testid="mock-select" data-value={value}>
+      {children}
+    </div>
+  ),
   SelectTrigger: ({ children, ...props }: any) => <button {...props}>{children}</button>,
   SelectValue: () => <div>Value</div>,
   SelectContent: ({ children }: any) => <div>{children}</div>,

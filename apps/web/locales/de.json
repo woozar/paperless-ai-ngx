@@ -8,6 +8,8 @@
     "edit": "Bearbeiten",
     "create": "Erstellen",
     "search": "Suchen",
+    "share": "Teilen",
+    "shareTooltip": "Zugriff für andere Benutzer freigeben",
     "settings": "Einstellungen",
     "dashboard": "Dashboard",
     "documents": "Dokumente",
@@ -88,7 +90,9 @@
     "conflict": "Ein Konflikt ist aufgetreten",
     "usernameExists": "Benutzername existiert bereits",
     "serverError": "Ein interner Serverfehler ist aufgetreten",
-    "applicationNotConfigured": "Die Anwendung ist nicht richtig konfiguriert"
+    "applicationNotConfigured": "Die Anwendung ist nicht richtig konfiguriert",
+    "settingsParseError": "Ungültiger gespeicherter Wert für Einstellung \"{key}\": \"{value}\". Fehler: {errors}",
+    "settingsValidationError": "Der Wert \"{value}\" kann nicht in der Einstellung \"{key}\" gespeichert werden (erwartet: {expectedType})"
   },
   "errors": {
     "generic": "Ein Fehler ist aufgetreten",
@@ -242,6 +246,26 @@
       },
       "noBots": "Keine Bots gefunden",
       "noProvidersAvailable": "Keine KI-Anbieter verfügbar. Bitte erstelle zuerst einen."
+    },
+    "settings": {
+      "title": "Einstellungen",
+      "saved": "Einstellung gespeichert",
+      "saveFailed": "Fehler beim Speichern der Einstellung",
+      "security": {
+        "title": "Sicherheit",
+        "sharing": {
+          "title": "Freigabe",
+          "description": "Konfiguriere, wie Ressourcen zwischen Benutzern geteilt werden können",
+          "mode": {
+            "title": "Freigabemodus",
+            "description": "Legt fest, ob Benutzer ihre Ressourcen mit anderen teilen können",
+            "values": {
+              "basic": "Einfach - Ressourcen gehören nur ihrem Ersteller",
+              "advanced": "Erweitert - Ressourcen können mit anderen Benutzern geteilt werden"
+            }
+          }
+        }
+      }
     }
   },
   "auth": {

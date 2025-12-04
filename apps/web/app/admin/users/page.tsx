@@ -116,7 +116,7 @@ export default function UsersPage() {
 
   return (
     <AppShell>
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto">
         <div className="mb-8 flex items-center justify-between">
           <div>
             <h1 className="flex items-center gap-2 text-3xl font-bold tracking-tight">

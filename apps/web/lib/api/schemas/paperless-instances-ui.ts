@@ -10,9 +10,12 @@ export const CreatePaperlessInstanceFormSchema = z.object({
     .trim()
     .min(1, 'Name is required')
     .max(100, 'Name must be at most 100 characters')
-    .describe('text|name'),
-  apiUrl: z.url('Invalid URL format').describe('url|apiUrl'),
-  apiToken: z.string().min(1, 'API token is required').describe('apiKey|apiToken'),
+    .meta({ inputType: 'text', labelKey: 'name' }),
+  apiUrl: z.url('Invalid URL format').meta({ inputType: 'url', labelKey: 'apiUrl' }),
+  apiToken: z
+    .string()
+    .min(1, 'API token is required')
+    .meta({ inputType: 'apiKey', labelKey: 'apiToken' }),
 });
 
 // UI-enhanced schema for editing Paperless instances
@@ -22,12 +25,12 @@ export const EditPaperlessInstanceFormSchema = z.object({
     .trim()
     .min(1, 'Name is required')
     .max(100, 'Name must be at most 100 characters')
-    .describe('text|name'),
-  apiUrl: z.url('Invalid URL format').describe('url|apiUrl'),
+    .meta({ inputType: 'text', labelKey: 'name' }),
+  apiUrl: z.url('Invalid URL format').meta({ inputType: 'url', labelKey: 'apiUrl' }),
   apiToken: z
     .union([z.string().min(1, 'API token is required'), z.literal('')])
     .optional()
-    .describe('apiKey|apiToken'),
+    .meta({ inputType: 'apiKey', labelKey: 'apiToken' }),
 });
 
 export type CreatePaperlessInstanceFormData = z.infer<typeof CreatePaperlessInstanceFormSchema>;

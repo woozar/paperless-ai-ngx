@@ -1,5 +1,6 @@
 import { Prisma, prisma } from '@repo/database';
 import { generateSalt, hashPassword } from './utilities/password';
+import { getSettingKeys, getSettingsDefaults } from './api/schemas/settings';
 
 const SALT_SETTING_KEY = 'security.secrets.salt';
 
@@ -67,6 +68,25 @@ export async function bootstrapApplication(): Promise<void> {
           });
 
           console.log('Initial admin user created successfully.');
+        }
+
+        // Step 3: Ensure default settings exist
+        const settingKeys = getSettingKeys();
+        const defaults = getSettingsDefaults();
+
+        for (const key of settingKeys) {
+          const existing = await tx.setting.findUnique({
+            where: { settingKey: key },
+          });
+
+          if (!existing) {
+            await tx.setting.create({
+              data: {
+                settingKey: key,
+                settingValue: String(defaults[key]),
+              },
+            });
+          }
         }
       },
       {

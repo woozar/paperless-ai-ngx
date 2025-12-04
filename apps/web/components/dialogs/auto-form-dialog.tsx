@@ -4,18 +4,8 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { PasswordInput } from '@/components/ui/password-input';
-import { ApiKeyInput } from '@/components/ui/api-key-input';
-import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import { AutoFormField, type AutoFormFieldType } from '@/components/ui/auto-form-field';
 import {
   Dialog,
   DialogContent,
@@ -27,6 +17,11 @@ import {
 import { useErrorDisplay } from '@/hooks/use-error-display';
 import { Loader2 } from 'lucide-react';
 import { validatePassword } from '@/lib/utilities/password-validation';
+import {
+  type FieldInputType,
+  type SelectOption,
+  getFieldMeta,
+} from '@/lib/api/schemas/form-field-meta';
 
 type AutoFormDialogProps<TSchema extends z.ZodObject<z.ZodRawShape>> = Readonly<{
   /** Dialog open state */
@@ -62,63 +57,15 @@ type AutoFormDialogProps<TSchema extends z.ZodObject<z.ZodRawShape>> = Readonly<
   dynamicOptions?: Record<string, Array<{ value: string; label: string }>>;
 }>;
 
-type FieldType = 'text' | 'password' | 'apiKey' | 'url' | 'select' | 'textarea';
-
-type StaticSelectOption = { value: string; labelKey: string };
-
 type FieldMetadata = {
   name: string;
-  type: FieldType;
+  type: FieldInputType;
   labelKey: string;
-  options?: StaticSelectOption[];
+  options?: SelectOption[];
   hasCustomValidation?: boolean;
   defaultValue?: string;
   showWhen?: { field: string; values: string[] };
 };
-
-const VALID_FIELD_TYPES: Set<FieldType> = new Set([
-  'text',
-  'password',
-  'apiKey',
-  'url',
-  'select',
-  'textarea',
-]);
-
-function parseFieldType(typeStr: string): FieldType {
-  return VALID_FIELD_TYPES.has(typeStr as FieldType) ? (typeStr as FieldType) : 'text';
-}
-
-function parseSelectOptions(parts: string[]): StaticSelectOption[] {
-  return parts
-    .slice(2)
-    .filter((opt) => !opt.startsWith('showWhen:'))
-    .map((opt) => {
-      const colonIndex = opt.indexOf(':');
-      if (colonIndex === -1) return { value: opt, labelKey: opt };
-      return {
-        value: opt.substring(0, colonIndex),
-        labelKey: opt.substring(colonIndex + 1),
-      };
-    });
-}
-
-function parseShowWhen(parts: string[]): FieldMetadata['showWhen'] {
-  const showWhenPart = parts.find((p) => p.startsWith('showWhen:'));
-  if (!showWhenPart) return undefined;
-
-  const condition = showWhenPart.substring('showWhen:'.length);
-  const colonIndex = condition.indexOf(':');
-  if (colonIndex === -1) return undefined;
-
-  return {
-    field: condition.substring(0, colonIndex),
-    values: condition
-      .substring(colonIndex + 1)
-      .split(',')
-      .map((val) => val.trim()),
-  };
-}
 
 function extractDefaultValue(field: z.ZodTypeAny): string | undefined {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -129,30 +76,37 @@ function extractDefaultValue(field: z.ZodTypeAny): string | undefined {
 }
 
 function extractFieldMetadata(key: string, field: z.ZodTypeAny): FieldMetadata {
-  const description = field.description ?? '';
-  const parts = description.split('|');
-  const fieldType = parseFieldType(parts[0]!);
+  const meta = getFieldMeta(field);
+
+  // Default to text input if no metadata
+  if (!meta) {
+    return {
+      name: key,
+      type: 'text',
+      labelKey: key,
+      defaultValue: extractDefaultValue(field),
+    };
+  }
 
   return {
     name: key,
-    type: fieldType,
-    labelKey: parts[1] ?? key,
-    options: fieldType === 'select' && parts.length > 2 ? parseSelectOptions(parts) : undefined,
-    hasCustomValidation: parts.includes('validate') || undefined,
+    type: meta.inputType,
+    labelKey: meta.labelKey,
+    options: meta.options,
+    hasCustomValidation: meta.validate,
     defaultValue: extractDefaultValue(field),
-    showWhen: parseShowWhen(parts),
+    showWhen: meta.showWhen,
   };
 }
 
 /**
- * Auto-form dialog that extracts all metadata from Zod schema .describe() fields.
- * Format: "type|labelKey|option1:label1|option2:label2|showWhen:field:value1,value2"
+ * Auto-form dialog that extracts all metadata from Zod schema .meta() fields.
  *
  * Examples:
- * - text|name - Simple text field
- * - select|role|DEFAULT:default|ADMIN:admin - Select with options
- * - password|password|validate - Password field with custom validation
- * - url|baseUrl|showWhen:provider:ollama,custom - Conditional field that only shows when provider is ollama or custom
+ * - .meta({ inputType: 'text', labelKey: 'name' }) - Simple text field
+ * - .meta({ inputType: 'select', labelKey: 'role', options: [{ value: 'DEFAULT', labelKey: 'default' }] }) - Select with options
+ * - .meta({ inputType: 'password', labelKey: 'password', validate: true }) - Password field with custom validation
+ * - .meta({ inputType: 'url', labelKey: 'baseUrl', showWhen: { field: 'provider', values: ['ollama', 'custom'] } }) - Conditional field
  */
 export function AutoFormDialog<TSchema extends z.ZodObject<z.ZodRawShape>>({
   open,
@@ -281,110 +235,29 @@ export function AutoFormDialog<TSchema extends z.ZodObject<z.ZodRawShape>>({
         }
       }
 
-      const value = formData[field.name];
+      const value = formData[field.name]!;
       const label = t(field.labelKey);
       const id = `${testIdPrefix}-${field.name}`;
       const testId = `${testIdPrefix}-${field.name}-input`;
 
-      switch (field.type) {
-        case 'password':
-          return (
-            <div key={field.name} className="space-y-2">
-              <Label htmlFor={id}>{label}</Label>
-              <PasswordInput
-                id={id}
-                data-testid={testId}
-                value={value}
-                onChange={(e) => updateField(field.name, e.target.value)}
-                disabled={isSubmitting}
-                showRules={field.hasCustomValidation}
-                autoComplete="off"
-              />
-            </div>
-          );
-
-        case 'apiKey':
-          return (
-            <div key={field.name} className="space-y-2">
-              <Label htmlFor={id}>{label}</Label>
-              <ApiKeyInput
-                id={id}
-                data-testid={testId}
-                value={value}
-                onChange={(e) => updateField(field.name, e.target.value)}
-                disabled={isSubmitting}
-                autoComplete="off"
-              />
-            </div>
-          );
-
-        case 'select': {
-          // Use dynamic options if available, otherwise use static options from schema
-          const dynamicOpts = dynamicOptions[field.name];
-          const staticOpts = field.options ?? [];
-
-          return (
-            <div key={field.name} className="space-y-2">
-              <Label htmlFor={id}>{label}</Label>
-              <Select
-                value={value}
-                onValueChange={(val) => updateField(field.name, val)}
-                disabled={isSubmitting}
-              >
-                <SelectTrigger id={id} data-testid={testId} className="w-full">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {dynamicOpts
-                    ? dynamicOpts.map((option) => (
-                        <SelectItem key={option.value} value={option.value}>
-                          {option.label}
-                        </SelectItem>
-                      ))
-                    : staticOpts.map((option) => (
-                        <SelectItem key={option.value} value={option.value}>
-                          {t(option.labelKey)}
-                        </SelectItem>
-                      ))}
-                </SelectContent>
-              </Select>
-            </div>
-          );
-        }
-
-        case 'textarea':
-          return (
-            <div key={field.name} className="space-y-2">
-              <Label htmlFor={id}>{label}</Label>
-              <Textarea
-                id={id}
-                data-testid={testId}
-                value={value}
-                onChange={(e) => updateField(field.name, e.target.value)}
-                disabled={isSubmitting}
-                rows={5}
-              />
-            </div>
-          );
-
-        case 'url':
-        case 'text':
-        default:
-          return (
-            <div key={field.name} className="space-y-2">
-              <Label htmlFor={id}>{label}</Label>
-              <Input
-                id={id}
-                data-testid={testId}
-                type={field.type === 'url' ? 'url' : 'text'}
-                value={value}
-                onChange={(e) => updateField(field.name, e.target.value)}
-                disabled={isSubmitting}
-                autoComplete="new-password"
-              />
-            </div>
-          );
-      }
+      return (
+        <div key={field.name} className="space-y-2">
+          <Label htmlFor={id}>{label}</Label>
+          <AutoFormField
+            type={field.type as AutoFormFieldType}
+            value={value}
+            onChange={(val) => updateField(field.name, val as string)}
+            id={id}
+            testId={testId}
+            disabled={isSubmitting}
+            options={
+              dynamicOptions[field.name] ??
+              (field.options ?? []).map((opt) => ({ value: opt.value, label: t(opt.labelKey) }))
+            }
+            showPasswordRules={field.hasCustomValidation}
+          />
+        </div>
+      );
     },
     [formData, isSubmitting, t, testIdPrefix, updateField, dynamicOptions]
   );

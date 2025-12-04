@@ -7,7 +7,7 @@ import { useTranslations } from 'next-intl';
 import { useAuth } from '@/components/auth-provider';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { LayoutDashboard, Users, LogOut, Database, Cpu, Bot } from 'lucide-react';
+import { LayoutDashboard, Users, LogOut, Database, Cpu, Bot, Settings } from 'lucide-react';
 
 import { version } from '@/lib/version';
 
@@ -52,6 +52,11 @@ export function Sidebar() {
                 href: '/admin/ai-bots',
                 label: t('aiBots'),
                 icon: Bot,
+              },
+              {
+                href: '/admin/settings',
+                label: t('settings'),
+                icon: Settings,
               },
             ],
           },

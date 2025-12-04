@@ -97,7 +97,7 @@ describe('CreateProviderDialog', () => {
 
     await waitFor(() => {
       expect(mockPostAiProviders).toHaveBeenCalled();
-      expect(mockPostAiProviders.mock.calls[0][0].body).toMatchObject({
+      expect(mockPostAiProviders.mock.calls[0]?.[0]?.body).toMatchObject({
         name: 'OpenAI Provider',
         provider: 'openai',
         model: 'gpt-4',

@@ -4,6 +4,16 @@ import userEvent from '@testing-library/user-event';
 import { renderWithIntl } from '@/test-utils/render-with-intl';
 import { InstanceTableRow } from './instance-table-row';
 import type { PaperlessInstanceListItem } from '@repo/api-client';
+import type { Settings } from '@/lib/api/schemas/settings';
+
+const mockUseSettings = vi.fn(() => ({
+  settings: { 'security.sharing.mode': 'BASIC' } as Settings,
+  updateSetting: vi.fn(),
+}));
+
+vi.mock('@/components/settings-provider', () => ({
+  useSettings: () => mockUseSettings(),
+}));
 
 function renderInstanceTableRow(props: {
   instance: Omit<PaperlessInstanceListItem, 'apiToken'>;
@@ -143,5 +153,25 @@ describe('InstanceTableRow', () => {
     await user.click(importButton);
 
     expect(mockOnImport).not.toHaveBeenCalled();
+  });
+
+  describe('share button', () => {
+    it('does not render share button when sharing mode is BASIC', () => {
+      mockUseSettings.mockReturnValue({
+        settings: { 'security.sharing.mode': 'BASIC' } as Settings,
+        updateSetting: vi.fn(),
+      });
+      renderInstanceTableRow(defaultProps);
+      expect(screen.queryByTestId('share-instance-instance-123')).not.toBeInTheDocument();
+    });
+
+    it('renders share button when sharing mode is ADVANCED', () => {
+      mockUseSettings.mockReturnValue({
+        settings: { 'security.sharing.mode': 'ADVANCED' } as Settings,
+        updateSetting: vi.fn(),
+      });
+      renderInstanceTableRow(defaultProps);
+      expect(screen.getByTestId('share-instance-instance-123')).toBeInTheDocument();
+    });
   });
 });

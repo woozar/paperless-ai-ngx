@@ -10,7 +10,7 @@ const mockInstance: PaperlessInstanceListItem = {
   id: 'instance-123',
   name: 'Test Instance',
   apiUrl: 'http://localhost:8000',
-  isActive: true,
+  apiToken: 'test-token',
   createdAt: '2024-01-15T10:30:00Z',
   updatedAt: '2024-01-15T10:30:00Z',
 };

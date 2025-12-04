@@ -8,6 +8,8 @@
     "edit": "Edit",
     "create": "Create",
     "search": "Search",
+    "share": "Share",
+    "shareTooltip": "Grant access to other users",
     "settings": "Settings",
     "dashboard": "Dashboard",
     "documents": "Documents",
@@ -88,7 +90,9 @@
     "conflict": "A conflict occurred",
     "usernameExists": "Username already exists",
     "serverError": "An internal server error occurred",
-    "applicationNotConfigured": "Application is not properly configured"
+    "applicationNotConfigured": "Application is not properly configured",
+    "settingsParseError": "Invalid stored value for setting \"{key}\": \"{value}\". Errors: {errors}",
+    "settingsValidationError": "The value \"{value}\" cannot be saved for setting \"{key}\" (expected: {expectedType})"
   },
   "errors": {
     "generic": "An error occurred",
@@ -242,6 +246,26 @@
       },
       "noBots": "No bots found",
       "noProvidersAvailable": "No AI providers available. Please create one first."
+    },
+    "settings": {
+      "title": "Settings",
+      "saved": "Setting saved",
+      "saveFailed": "Failed to save setting",
+      "security": {
+        "title": "Security",
+        "sharing": {
+          "title": "Sharing",
+          "description": "Configure how resources can be shared between users",
+          "mode": {
+            "title": "Sharing Mode",
+            "description": "Determines whether users can share their resources with others",
+            "values": {
+              "basic": "Basic - Resources belong only to their creator",
+              "advanced": "Advanced - Resources can be shared with other users"
+            }
+          }
+        }
+      }
     }
   },
   "auth": {

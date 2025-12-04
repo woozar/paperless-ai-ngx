@@ -16,6 +16,7 @@ const mockProviders: AiProviderListItem[] = [
     name: 'OpenAI',
     provider: 'openai',
     model: 'gpt-4',
+    apiKey: 'sk-test-key',
     baseUrl: null,
     isActive: true,
     createdAt: '2024-01-15T10:30:00Z',
