@@ -278,6 +278,10 @@
       "passwordPlaceholder": "Passwort eingeben",
       "submit": "Anmelden",
       "loggingIn": "Anmeldung läuft...",
+      "heroHeading": "Dokumentenverwaltung neu erfunden.",
+      "heroSubtitle": "Optimiere deine Dokumentenverwaltung mit der Kraft von KI. Sicher, effizient und papierlos.",
+      "logoAlt": "Paperless AI ngx Logo",
+      "copyright": "Paperless AI ngx. Alle Rechte vorbehalten.",
       "error": {
         "invalidCredentials": "Ungültiger Benutzername oder Passwort",
         "accountSuspended": "Dein Konto wurde gesperrt",

@@ -278,6 +278,10 @@
       "passwordPlaceholder": "Enter your password",
       "submit": "Sign in",
       "loggingIn": "Signing in...",
+      "heroHeading": "Document Management Reimagined.",
+      "heroSubtitle": "Streamline your document management with the power of AI. Secure, efficient, and paperless.",
+      "logoAlt": "Paperless AI ngx Logo",
+      "copyright": "Paperless AI ngx. All rights reserved.",
       "error": {
         "invalidCredentials": "Invalid username or password",
         "accountSuspended": "Your account has been suspended",

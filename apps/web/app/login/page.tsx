@@ -77,7 +77,7 @@ export default function LoginPage() {
           <div className="rounded-xl bg-white/10 p-2 backdrop-blur-sm">
             <Image
               src="/logo.webp"
-              alt="Logo"
+              alt={t('logoAlt')}
               width={48}
               height={48}
               className="h-12 w-12 rounded-md shadow-lg"
@@ -87,15 +87,14 @@ export default function LoginPage() {
         </div>
 
         <div className="relative z-10 max-w-xl">
-          <h2 className="mb-6 text-4xl leading-tight font-bold">Document Management Reimagined.</h2>
+          <h2 className="mb-6 text-4xl leading-tight font-bold">{t('heroHeading')}</h2>
           <blockquote className="border-l-4 border-white/30 pl-6 text-xl leading-relaxed font-light italic">
-            &quot;Streamline your document management with the power of AI. Secure, efficient, and
-            paperless.&quot;
+            &quot;{t('heroSubtitle')}&quot;
           </blockquote>
         </div>
 
         <div className="relative z-10 text-sm font-medium tracking-wide opacity-70">
-          &copy; {new Date().getFullYear()} Paperless AI ngx. All rights reserved.
+          &copy; {new Date().getFullYear()} {t('copyright')}
         </div>
       </div>
 
@@ -107,7 +106,7 @@ export default function LoginPage() {
               <div className="flex items-center gap-2">
                 <Image
                   src="/logo.webp"
-                  alt="Logo"
+                  alt={t('logoAlt')}
                   width={32}
                   height={32}
                   className="h-8 w-8 rounded-sm"
