@@ -1,44 +1,12 @@
-import { useMemo } from 'react';
-import { TableRow, TableCell } from '@/components/ui/table';
-import { Skeleton } from '@/components/ui/skeleton';
-import { useSettings } from '@/components/settings-provider';
+import { TableSkeleton } from '@/components/table-skeleton';
+
+const columns = [
+  { width: 'w-32' }, // Name
+  { width: 'w-48' }, // URL
+  { width: 'w-16' }, // Status
+  { width: 'w-24' }, // Created
+];
 
 export function InstanceTableSkeleton() {
-  const { settings } = useSettings();
-  const sharingMode = settings?.['security.sharing.mode'];
-  const showShareButton = useMemo(() => sharingMode === 'ADVANCED', [sharingMode]);
-  // Standard buttons: Import, Edit, Delete (3) + optional Share (1)
-  const buttonCount = showShareButton ? 4 : 3;
-
-  return (
-    <>
-      {Array.from({ length: 3 })
-        .map((_, i) => i)
-        .map((i) => (
-          <TableRow key={i}>
-            <TableCell>
-              <Skeleton className="h-4 w-32" />
-            </TableCell>
-            <TableCell>
-              <Skeleton className="h-4 w-48" />
-            </TableCell>
-            <TableCell>
-              <Skeleton className="h-4 w-16" />
-            </TableCell>
-            <TableCell>
-              <Skeleton className="h-4 w-24" />
-            </TableCell>
-            <TableCell className="text-right">
-              <div className="flex justify-end gap-2">
-                {Array.from({ length: buttonCount })
-                  .map((_, j) => j)
-                  .map((j) => (
-                    <Skeleton key={j} className="h-9 w-9 rounded-md" />
-                  ))}
-              </div>
-            </TableCell>
-          </TableRow>
-        ))}
-    </>
-  );
+  return <TableSkeleton columns={columns} baseButtonCount={3} />;
 }
