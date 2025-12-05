@@ -1,7 +1,14 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { Table, TableBody } from '@/components/ui/table';
 import { UserTableSkeleton } from './user-table-skeleton';
+
+vi.mock('@/components/settings-provider', () => ({
+  useSettings: () => ({
+    settings: { 'security.sharing.mode': 'BASIC' },
+    isLoading: false,
+  }),
+}));
 
 const renderWithTable = (ui: React.ReactNode) => {
   return render(

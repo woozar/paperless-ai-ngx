@@ -104,7 +104,7 @@ describe('Sidebar', () => {
 
     const dashboardLink = screen.getByRole('link', { name: /dashboard/i });
     // The link itself has the active styling classes applied via the Button component with asChild
-    expect(dashboardLink).toHaveClass('bg-sidebar-accent');
+    expect(dashboardLink).toHaveClass('from-sidebar-accent');
   });
 
   it('renders version number', () => {

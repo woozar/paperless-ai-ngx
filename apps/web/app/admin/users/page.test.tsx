@@ -36,6 +36,13 @@ vi.mock('@repo/api-client', async () => {
   };
 });
 
+vi.mock('@/components/settings-provider', () => ({
+  useSettings: () => ({
+    settings: { 'security.sharing.mode': 'BASIC' },
+    isLoading: false,
+  }),
+}));
+
 const mockUsers: UserListItem[] = [
   {
     id: 'user-1',

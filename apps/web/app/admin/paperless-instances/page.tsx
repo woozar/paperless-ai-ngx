@@ -144,7 +144,7 @@ export default function PaperlessInstancesPage() {
         {!isLoading && instances.length === 0 ? (
           <div className="text-muted-foreground py-12 text-center">{t('noInstances')}</div>
         ) : (
-          <div className="rounded-md border">
+          <div className="bg-card rounded-md border shadow-sm">
             <Table>
               <TableHeader>
                 <TableRow>

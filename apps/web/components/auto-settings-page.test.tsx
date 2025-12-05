@@ -62,7 +62,7 @@ describe('AutoSettingsPage', () => {
     });
   });
 
-  it('shows loading spinner when isLoading is true', () => {
+  it('shows loading skeleton when isLoading is true', () => {
     mockUseSettings.mockReturnValue({
       settings: { 'security.sharing.mode': 'BASIC' },
       isLoading: true,
@@ -71,10 +71,11 @@ describe('AutoSettingsPage', () => {
 
     const { container } = renderWithIntl(<AutoSettingsPage />);
 
-    expect(container.querySelector('.animate-spin')).toBeInTheDocument();
+    // Loading state shows Skeleton components instead of spinner
+    expect(container.querySelectorAll('[class*="animate-pulse"]').length).toBeGreaterThan(0);
   });
 
-  it('shows loading spinner when settings is null', () => {
+  it('shows loading skeleton when settings is null', () => {
     mockUseSettings.mockReturnValue({
       settings: null,
       isLoading: false,
@@ -83,7 +84,8 @@ describe('AutoSettingsPage', () => {
 
     const { container } = renderWithIntl(<AutoSettingsPage />);
 
-    expect(container.querySelector('.animate-spin')).toBeInTheDocument();
+    // Loading state shows Skeleton components instead of spinner
+    expect(container.querySelectorAll('[class*="animate-pulse"]').length).toBeGreaterThan(0);
   });
 
   it('renders section title', async () => {

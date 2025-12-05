@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Label } from '@/components/ui/label';
 import { AutoFormField, type AutoFormFieldType } from '@/components/ui/auto-form-field';
 import { Loader2 } from 'lucide-react';
+import { Skeleton } from '@/components/ui/skeleton';
 import { SettingsSchema, type Settings } from '@/lib/api/schemas/settings';
 import { useSettings } from './settings-provider';
 import { toast } from 'sonner';
@@ -267,14 +268,35 @@ export function AutoSettingsPage() {
 
   if (isLoading || !settings) {
     return (
-      <div className="flex items-center justify-center p-8">
-        <Loader2 className="h-8 w-8 animate-spin" />
+      <div className="space-y-6">
+        {Array.from({ length: 2 }).map((_, i) => (
+          <div key={i} className="space-y-4">
+            <Skeleton className="h-8 w-48" />
+            <Card>
+              <CardHeader>
+                <Skeleton className="mb-2 h-6 w-32" />
+                <Skeleton className="h-4 w-full max-w-md" />
+              </CardHeader>
+              <CardContent className="space-y-6">
+                {Array.from({ length: 3 }).map((_, j) => (
+                  <div key={j} className="space-y-2">
+                    <Skeleton className="h-5 w-24" />
+                    <div className="flex items-center gap-4">
+                      <Skeleton className="h-10 w-full" />
+                      <Skeleton className="h-4 w-full max-w-xs" />
+                    </div>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+          </div>
+        ))}
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
+    <div className="animate-in fade-in slide-in-from-bottom-4 space-y-6 duration-500 ease-out">
       {Object.entries(groupedFields).map(([sectionKey, groups]) => (
         <div key={sectionKey} className="space-y-4">
           <h2 className="text-2xl font-semibold tracking-tight">

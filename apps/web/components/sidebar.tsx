@@ -65,7 +65,7 @@ export function Sidebar() {
   ];
 
   return (
-    <aside className="bg-sidebar text-sidebar-foreground sticky top-0 z-50 flex hidden h-screen w-64 flex-col border-r shadow-xl md:flex">
+    <aside className="bg-sidebar/90 text-sidebar-foreground border-sidebar-border sticky top-0 z-50 flex h-screen w-64 flex-col border-r shadow-xl backdrop-blur-xl md:flex">
       <div className="border-sidebar-border flex items-center gap-3 border-b p-6">
         <Image
           src="/logo.webp"
@@ -97,18 +97,20 @@ export function Sidebar() {
                   className={cn(
                     'relative w-full justify-start gap-3 overflow-hidden transition-all duration-200',
                     isActive
-                      ? 'bg-sidebar-accent text-primary translate-x-1 font-semibold shadow-sm'
+                      ? 'from-sidebar-accent to-sidebar-accent/50 text-sidebar-primary bg-linear-to-r font-semibold shadow-sm'
                       : 'text-muted-foreground hover:text-foreground font-medium hover:translate-x-1'
                   )}
                   asChild
                 >
                   <Link href={link.href}>
-                    {isActive && <div className="bg-primary absolute top-0 bottom-0 left-0 w-1" />}
+                    {isActive && (
+                      <div className="bg-sidebar-primary absolute top-0 bottom-0 left-0 w-1 shadow-[0_0_8px_currentColor]" />
+                    )}
                     <Icon
                       className={cn(
-                        'h-4 w-4',
+                        'h-4 w-4 transition-colors',
                         isActive
-                          ? 'text-primary'
+                          ? 'text-sidebar-primary'
                           : 'text-muted-foreground group-hover:text-foreground'
                       )}
                     />
@@ -124,7 +126,7 @@ export function Sidebar() {
       <div className="border-sidebar-border bg-sidebar/50 border-t p-4 backdrop-blur-sm">
         <div className="hover:bg-sidebar-accent/50 flex items-center justify-between gap-2 rounded-lg p-2 px-2 transition-colors">
           <div className="flex items-center gap-3 overflow-hidden">
-            <div className="from-primary to-primary/60 text-primary-foreground border-primary/20 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border bg-gradient-to-br shadow-sm">
+            <div className="from-sidebar-primary to-sidebar-primary/60 text-sidebar-primary-foreground border-sidebar-primary/20 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border bg-linear-to-br shadow-sm">
               <span className="text-xs font-bold">
                 {user?.username?.substring(0, 2).toUpperCase()}
               </span>

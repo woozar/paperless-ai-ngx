@@ -134,7 +134,7 @@ export default function UsersPage() {
         {!isLoading && users.length === 0 ? (
           <div className="text-muted-foreground py-12 text-center">{t('noUsers')}</div>
         ) : (
-          <div className="rounded-md border">
+          <div className="bg-card rounded-md border shadow-sm">
             <Table>
               <TableHeader>
                 <TableRow>

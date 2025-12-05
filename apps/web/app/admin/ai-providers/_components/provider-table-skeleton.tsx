@@ -1,7 +1,15 @@
+import { useMemo } from 'react';
 import { TableRow, TableCell } from '@/components/ui/table';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useSettings } from '@/components/settings-provider';
 
 export function ProviderTableSkeleton() {
+  const { settings } = useSettings();
+  const sharingMode = settings?.['security.sharing.mode'];
+  const showShareButton = useMemo(() => sharingMode === 'ADVANCED', [sharingMode]);
+  // Standard buttons: Edit, Delete (2) + optional Share (1)
+  const buttonCount = showShareButton ? 3 : 2;
+
   return (
     <>
       {Array.from({ length: 3 })
@@ -25,8 +33,9 @@ export function ProviderTableSkeleton() {
             </TableCell>
             <TableCell className="text-right">
               <div className="flex justify-end gap-2">
-                <Skeleton className="h-8 w-16" />
-                <Skeleton className="h-8 w-16" />
+                {Array.from({ length: buttonCount }).map((_, j) => (
+                  <Skeleton key={j} className="h-9 w-9 rounded-md" />
+                ))}
               </div>
             </TableCell>
           </TableRow>
