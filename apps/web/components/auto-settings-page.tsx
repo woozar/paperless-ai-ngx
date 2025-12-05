@@ -1,31 +1,19 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
-import { AutoFormField, type AutoFormFieldType } from '@/components/ui/auto-form-field';
-import { Loader2 } from 'lucide-react';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { SettingsSchema, type Settings } from '@/lib/api/schemas/settings';
 import { useSettings } from './settings-provider';
 import { toast } from 'sonner';
 import { useState, useMemo, useCallback } from 'react';
 import { z } from 'zod';
+import { GroupCard, type SettingField } from './group-card';
 
 type FieldType = 'enum' | 'boolean' | 'string';
 
 interface FieldMeta {
   inputType?: 'secret';
-}
-
-interface SettingField {
-  key: keyof Settings;
-  section: string;
-  group: string;
-  name: string;
-  type: FieldType;
-  enumValues?: string[];
-  isSecret?: boolean;
 }
 
 interface ParsedKey {
@@ -111,134 +99,6 @@ function groupFields(fields: SettingField[]) {
   }
 
   return sections;
-}
-
-interface SettingControlProps {
-  field: SettingField;
-  value: string | boolean;
-  onChange: (value: string | boolean) => void;
-  disabled: boolean;
-  t: ReturnType<typeof useTranslations>;
-}
-
-// Map SettingField type to AutoFormFieldType
-function getAutoFieldType(field: SettingField): AutoFormFieldType {
-  if (field.type === 'enum') return 'select';
-  if (field.type === 'boolean') return 'switch';
-  return field.isSecret ? 'apiKey' : 'text';
-}
-
-function SettingControl({ field, value, onChange, disabled, t }: Readonly<SettingControlProps>) {
-  // Convert dotted key to nested path: security.sharing.mode -> admin.settings.security.sharing.mode
-  const baseKey = `admin.settings.${field.section}.${field.group}.${field.name}`;
-  const autoFieldType = getAutoFieldType(field);
-  const testId = `setting-${field.key}`;
-
-  // Prepare options for enum fields
-  const options = field.enumValues?.map((enumValue) => ({
-    value: enumValue,
-    label: t(`${baseKey}.values.${enumValue.toLowerCase()}`),
-  }));
-
-  switch (field.type) {
-    case 'enum':
-      return (
-        <div>
-          <Label className="mb-4 block">{t(`${baseKey}.title`)}</Label>
-          <div className="grid grid-cols-2 items-center gap-6">
-            <AutoFormField
-              type={autoFieldType}
-              value={value}
-              onChange={onChange}
-              disabled={disabled}
-              testId={testId}
-              options={options}
-            />
-            <p className="text-muted-foreground text-sm">{t(`${baseKey}.description`)}</p>
-          </div>
-        </div>
-      );
-
-    case 'boolean':
-      return (
-        <div className="flex items-center justify-between">
-          <div className="space-y-0.5">
-            <Label htmlFor={testId}>{t(`${baseKey}.title`)}</Label>
-            <p className="text-muted-foreground text-sm">{t(`${baseKey}.description`)}</p>
-          </div>
-          <div className="flex items-center gap-2">
-            {disabled && <Loader2 className="h-4 w-4 animate-spin" />}
-            <AutoFormField
-              type={autoFieldType}
-              value={value}
-              onChange={onChange}
-              disabled={disabled}
-              id={testId}
-              testId={testId}
-            />
-          </div>
-        </div>
-      );
-
-    case 'string':
-    default:
-      return (
-        <div className="space-y-2">
-          <Label>{t(`${baseKey}.title`)}</Label>
-          <p className="text-muted-foreground text-sm">{t(`${baseKey}.description`)}</p>
-          <AutoFormField
-            type={autoFieldType}
-            value={value}
-            onChange={onChange}
-            disabled={disabled}
-            testId={testId}
-          />
-        </div>
-      );
-  }
-}
-
-interface GroupCardProps {
-  sectionKey: string;
-  groupKey: string;
-  fields: SettingField[];
-  settings: Settings;
-  savingKey: string | null;
-  onFieldChange: (field: SettingField, value: string | boolean) => void;
-  t: ReturnType<typeof useTranslations>;
-}
-
-function GroupCard({
-  sectionKey,
-  groupKey,
-  fields,
-  settings,
-  savingKey,
-  onFieldChange,
-  t,
-}: Readonly<GroupCardProps>) {
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{t(`admin.settings.${sectionKey}.${groupKey}.title`)}</CardTitle>
-        <CardDescription>
-          {t(`admin.settings.${sectionKey}.${groupKey}.description`)}
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        {fields.map((field) => (
-          <SettingControl
-            key={field.key}
-            field={field}
-            value={settings[field.key]}
-            onChange={(value) => onFieldChange(field, value)}
-            disabled={savingKey === field.key}
-            t={t}
-          />
-        ))}
-      </CardContent>
-    </Card>
-  );
 }
 
 export function AutoSettingsPage() {

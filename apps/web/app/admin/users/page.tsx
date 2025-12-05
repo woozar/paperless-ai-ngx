@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { useTranslations, useFormatter } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/components/auth-provider';
 import { useErrorDisplay } from '@/hooks/use-error-display';
@@ -10,7 +10,7 @@ import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components
 import { Plus, UserCog } from 'lucide-react';
 import { AppShell } from '@/components/app-shell';
 import { useApi } from '@/lib/use-api';
-import { formatDate } from '@/lib/format-date';
+import { useFormatDate } from '@/hooks/use-format-date';
 import { getUsers, patchUsersById } from '@repo/api-client';
 
 import type { UserListItem } from '@repo/api-client';
@@ -25,7 +25,7 @@ import {
 export default function UsersPage() {
   const t = useTranslations('admin.users');
   const { showApiError, showSuccess, showError } = useErrorDisplay('admin.users');
-  const format = useFormatter();
+  const formatDate = useFormatDate();
   const router = useRouter();
   const { user: currentUser, isLoading: isAuthLoading } = useAuth();
   const client = useApi();
@@ -109,7 +109,7 @@ export default function UsersPage() {
         onEdit={setEditingUser}
         onDelete={setDeletingUser}
         onToggleStatus={handleToggleStatus}
-        formatDate={(dateString) => formatDate(dateString, format)}
+        formatDate={formatDate}
       />
     ));
   };

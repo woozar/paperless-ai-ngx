@@ -1,5 +1,6 @@
 'use client';
 
+import { memo } from 'react';
 import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -16,7 +17,7 @@ type UserTableRowProps = Readonly<{
   formatDate: (dateString: string) => string;
 }>;
 
-export function UserTableRow({
+export const UserTableRow = memo(function UserTableRow({
   user,
   currentUserId,
   onEdit,
@@ -79,4 +80,4 @@ export function UserTableRow({
       </TableCell>
     </TableRow>
   );
-}
+});

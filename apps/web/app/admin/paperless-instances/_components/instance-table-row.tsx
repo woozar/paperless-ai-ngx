@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { memo } from 'react';
 import { useTranslations } from 'next-intl';
 import { TableRow, TableCell } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
@@ -16,7 +16,7 @@ type InstanceTableRowProps = Readonly<{
   formatDate: (dateString: string) => string;
 }>;
 
-export function InstanceTableRow({
+export const InstanceTableRow = memo(function InstanceTableRow({
   instance,
   onEdit,
   onDelete,
@@ -27,8 +27,7 @@ export function InstanceTableRow({
   const t = useTranslations('admin.paperlessInstances');
   const tCommon = useTranslations('common');
   const { settings } = useSettings();
-  const sharingMode = settings['security.sharing.mode'];
-  const showShareButton = useMemo(() => sharingMode === 'ADVANCED', [sharingMode]);
+  const showShareButton = settings['security.sharing.mode'] === 'ADVANCED';
 
   return (
     <TableRow>
@@ -86,4 +85,4 @@ export function InstanceTableRow({
       </TableCell>
     </TableRow>
   );
-}
+});

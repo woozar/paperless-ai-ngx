@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { memo } from 'react';
 import { useTranslations } from 'next-intl';
 import { TableRow, TableCell } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
@@ -14,12 +14,16 @@ type BotTableRowProps = Readonly<{
   formatDate: (dateString: string) => string;
 }>;
 
-export function BotTableRow({ bot, onEdit, onDelete, formatDate }: BotTableRowProps) {
+export const BotTableRow = memo(function BotTableRow({
+  bot,
+  onEdit,
+  onDelete,
+  formatDate,
+}: BotTableRowProps) {
   const t = useTranslations('admin.aiBots');
   const tCommon = useTranslations('common');
   const { settings } = useSettings();
-  const sharingMode = settings['security.sharing.mode'];
-  const showShareButton = useMemo(() => sharingMode === 'ADVANCED', [sharingMode]);
+  const showShareButton = settings['security.sharing.mode'] === 'ADVANCED';
 
   return (
     <TableRow>
@@ -61,4 +65,4 @@ export function BotTableRow({ bot, onEdit, onDelete, formatDate }: BotTableRowPr
       </TableCell>
     </TableRow>
   );
-}
+});

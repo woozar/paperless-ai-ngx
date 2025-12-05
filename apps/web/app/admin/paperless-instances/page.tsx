@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { useTranslations, useFormatter } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/components/auth-provider';
 import { useErrorDisplay } from '@/hooks/use-error-display';
@@ -10,7 +10,7 @@ import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components
 import { Plus, Database } from 'lucide-react';
 import { AppShell } from '@/components/app-shell';
 import { useApi } from '@/lib/use-api';
-import { formatDate } from '@/lib/format-date';
+import { useFormatDate } from '@/hooks/use-format-date';
 import { getPaperlessInstances, postPaperlessInstancesByIdImport } from '@repo/api-client';
 import { toast } from 'sonner';
 
@@ -26,7 +26,7 @@ import {
 export default function PaperlessInstancesPage() {
   const t = useTranslations('admin.paperlessInstances');
   const { showError } = useErrorDisplay('admin.paperlessInstances');
-  const format = useFormatter();
+  const formatDate = useFormatDate();
   const router = useRouter();
   const { user: currentUser, isLoading: isAuthLoading } = useAuth();
   const client = useApi();
@@ -119,7 +119,7 @@ export default function PaperlessInstancesPage() {
         onDelete={setDeletingInstance}
         onImport={handleImport}
         isImporting={importingInstanceId === instance.id}
-        formatDate={(dateString) => formatDate(dateString, format)}
+        formatDate={formatDate}
       />
     ));
   };

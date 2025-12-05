@@ -1,5 +1,6 @@
 'use client';
 
+import { useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -17,52 +18,55 @@ export function Sidebar() {
   const { user, logout } = useAuth();
   const pathname = usePathname();
 
-  const navigation = [
-    {
-      group: t('dashboard'), // You might want to change this key if 'dashboard' is just "Dashboard" and not a group name like "Main"
-      items: [
-        {
-          href: '/',
-          label: t('dashboard'),
-          icon: LayoutDashboard,
-        },
-      ],
-    },
-    ...(user?.role === 'ADMIN'
-      ? [
+  const navigation = useMemo(
+    () => [
+      {
+        group: t('dashboard'), // You might want to change this key if 'dashboard' is just "Dashboard" and not a group name like "Main"
+        items: [
           {
-            group: t('admin'),
-            items: [
-              {
-                href: '/admin/users',
-                label: t('users'),
-                icon: Users,
-              },
-              {
-                href: '/admin/paperless-instances',
-                label: t('paperlessInstances'),
-                icon: Database,
-              },
-              {
-                href: '/admin/ai-providers',
-                label: t('aiProviders'),
-                icon: Cpu,
-              },
-              {
-                href: '/admin/ai-bots',
-                label: t('aiBots'),
-                icon: Bot,
-              },
-              {
-                href: '/admin/settings',
-                label: t('settings'),
-                icon: Settings,
-              },
-            ],
+            href: '/',
+            label: t('dashboard'),
+            icon: LayoutDashboard,
           },
-        ]
-      : []),
-  ];
+        ],
+      },
+      ...(user?.role === 'ADMIN'
+        ? [
+            {
+              group: t('admin'),
+              items: [
+                {
+                  href: '/admin/users',
+                  label: t('users'),
+                  icon: Users,
+                },
+                {
+                  href: '/admin/paperless-instances',
+                  label: t('paperlessInstances'),
+                  icon: Database,
+                },
+                {
+                  href: '/admin/ai-providers',
+                  label: t('aiProviders'),
+                  icon: Cpu,
+                },
+                {
+                  href: '/admin/ai-bots',
+                  label: t('aiBots'),
+                  icon: Bot,
+                },
+                {
+                  href: '/admin/settings',
+                  label: t('settings'),
+                  icon: Settings,
+                },
+              ],
+            },
+          ]
+        : []),
+    ],
+    [user?.role, t]
+  );
 
   return (
     <aside className="bg-sidebar/90 text-sidebar-foreground border-sidebar-border sticky top-0 z-50 flex h-screen w-64 flex-col border-r shadow-xl backdrop-blur-xl md:flex">

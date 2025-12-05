@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { memo } from 'react';
 import { useTranslations } from 'next-intl';
 import { TableRow, TableCell } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
@@ -15,7 +15,7 @@ type ProviderTableRowProps = Readonly<{
   formatDate: (dateString: string) => string;
 }>;
 
-export function ProviderTableRow({
+export const ProviderTableRow = memo(function ProviderTableRow({
   provider,
   onEdit,
   onDelete,
@@ -24,8 +24,7 @@ export function ProviderTableRow({
   const t = useTranslations('admin.aiProviders');
   const tCommon = useTranslations('common');
   const { settings } = useSettings();
-  const sharingMode = settings['security.sharing.mode'];
-  const showShareButton = useMemo(() => sharingMode === 'ADVANCED', [sharingMode]);
+  const showShareButton = settings['security.sharing.mode'] === 'ADVANCED';
 
   return (
     <TableRow>
@@ -72,4 +71,4 @@ export function ProviderTableRow({
       </TableCell>
     </TableRow>
   );
-}
+});

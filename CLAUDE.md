@@ -44,6 +44,43 @@ type Props = {
 };
 ```
 
+## Performance Optimization
+
+**Core principle:** Only memoize when it actually prevents re-renders.
+
+### When to use `memo()`
+
+- List items rendered in a `.map()` (e.g., TableRow components)
+- Components that receive stable props from parent
+
+```tsx
+// ✅ Good - prevents re-render when other list items change
+export const BotTableRow = memo(function BotTableRow({ bot, onEdit, onDelete, formatDate }) {
+  return <TableRow>...</TableRow>;
+});
+```
+
+### When to use `useMemo`/`useCallback`
+
+- Props passed to `memo()` components that would otherwise be new references
+- Values used in dependency arrays of other hooks
+- Repeated patterns → extract into a custom hook (e.g., `useFormatDate`)
+
+```tsx
+// ✅ Good - stabilizes prop for memo() child
+const formatDate = useFormatDate(); // hook encapsulates useMemo
+
+// ❌ Bad - useMemo inside memo() component is usually pointless
+const showShareButton = useMemo(() => mode === 'ADVANCED', [mode]); // just use: mode === 'ADVANCED'
+```
+
+### When NOT to memoize
+
+- Simple operations (string comparisons, boolean logic)
+- Callbacks inside `memo()` components (if memo blocks render, callback isn't called anyway)
+- Props for components without `memo()`
+- State setters from `useState` (already stable)
+
 ## Protected Routes & Authorization
 
 **AppShell handles the Auth Loading State centrally.**
