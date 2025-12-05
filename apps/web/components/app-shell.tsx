@@ -27,9 +27,9 @@ export function AppShell({ children }: Readonly<AppShellProps>) {
   }
 
   return (
-    <div className="bg-background flex min-h-screen">
+    <div className="bg-background min-h-screen">
       <Sidebar />
-      <main className="animate-in fade-in slide-in-from-bottom-4 m-8 w-full flex-1 duration-500 ease-out">
+      <main className="animate-in fade-in slide-in-from-bottom-4 ml-64 p-8 duration-500 ease-out">
         {children}
       </main>
     </div>

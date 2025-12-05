@@ -6,6 +6,7 @@ import type { Request } from 'express';
 import { PaperlessTools } from './tools/paperless.js';
 import type { SessionManager, SessionData } from './session-manager.js';
 import type { Application } from 'express';
+import { version } from './version.js';
 
 // Type for mock Request objects used in tests
 type MockRequest = Partial<Request> & {
@@ -88,7 +89,7 @@ describe('PaperlessMCPServer', () => {
       expect(response.status).toBe(200);
       expect(response.body).toEqual({
         status: 'ok',
-        version: '0.0.1',
+        version,
       });
     });
   });
@@ -100,7 +101,7 @@ describe('PaperlessMCPServer', () => {
       expect(response.status).toBe(200);
       expect(response.body).toEqual({
         name: 'paperless-ai-ngx-mcp',
-        version: '0.0.1',
+        version,
         description: 'Model Context Protocol server for Paperless-ngx',
         authentication: 'Bearer token required',
         endpoints: {

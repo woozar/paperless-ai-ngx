@@ -129,28 +129,32 @@ export function AutoSettingsPage() {
   if (isLoading || !settings) {
     return (
       <div className="space-y-6">
-        {Array.from({ length: 2 }).map((_, i) => (
-          <div key={i} className="space-y-4">
-            <Skeleton className="h-8 w-48" />
-            <Card>
-              <CardHeader>
-                <Skeleton className="mb-2 h-6 w-32" />
-                <Skeleton className="h-4 w-full max-w-md" />
-              </CardHeader>
-              <CardContent className="space-y-6">
-                {Array.from({ length: 3 }).map((_, j) => (
-                  <div key={j} className="space-y-2">
-                    <Skeleton className="h-5 w-24" />
-                    <div className="flex items-center gap-4">
-                      <Skeleton className="h-10 w-full" />
-                      <Skeleton className="h-4 w-full max-w-xs" />
-                    </div>
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
-          </div>
-        ))}
+        {Array.from({ length: 2 })
+          .map((_, i) => i)
+          .map((i) => (
+            <div key={i} className="space-y-4">
+              <Skeleton className="h-8 w-48" />
+              <Card>
+                <CardHeader>
+                  <Skeleton className="mb-2 h-6 w-32" />
+                  <Skeleton className="h-4 w-full max-w-md" />
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  {Array.from({ length: 3 })
+                    .map((_, j) => j)
+                    .map((j) => (
+                      <div key={j} className="space-y-2">
+                        <Skeleton className="h-5 w-24" />
+                        <div className="flex items-center gap-4">
+                          <Skeleton className="h-10 w-full" />
+                          <Skeleton className="h-4 w-full max-w-xs" />
+                        </div>
+                      </div>
+                    ))}
+                </CardContent>
+              </Card>
+            </div>
+          ))}
       </div>
     );
   }

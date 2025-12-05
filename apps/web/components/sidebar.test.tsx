@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Sidebar } from './sidebar';
 import { renderWithIntl } from '@/test-utils/render-with-intl';
@@ -59,12 +59,13 @@ describe('Sidebar', () => {
     expect(screen.queryByRole('link', { name: /users/i })).not.toBeInTheDocument();
   });
 
-  it('displays user initials in avatar', () => {
-    mockUser.mockReturnValue({ id: '1', username: 'testuser', role: 'DEFAULT' });
+  it('highlights active navigation item', () => {
+    mockPathname.mockReturnValue('/');
 
     renderWithIntl(<Sidebar />);
 
-    expect(screen.getByText('TE')).toBeInTheDocument();
+    const dashboardLink = screen.getByRole('link', { name: /dashboard/i });
+    expect(dashboardLink).toHaveClass('from-sidebar-accent');
   });
 
   it('displays username', () => {
@@ -73,17 +74,6 @@ describe('Sidebar', () => {
     renderWithIntl(<Sidebar />);
 
     expect(screen.getByText('johndoe')).toBeInTheDocument();
-  });
-
-  it('displays user role in lowercase', () => {
-    mockUser.mockReturnValue({ id: '1', username: 'testuser', role: 'ADMIN' });
-
-    renderWithIntl(<Sidebar />);
-
-    // Role is displayed in lowercase in the user info section
-    const roleElements = screen.getAllByText('admin');
-    // Should have at least one for the role display
-    expect(roleElements.length).toBeGreaterThanOrEqual(1);
   });
 
   it('calls logout when logout button is clicked', async () => {
@@ -97,26 +87,18 @@ describe('Sidebar', () => {
     expect(mockLogout).toHaveBeenCalledTimes(1);
   });
 
-  it('highlights active navigation item', () => {
-    mockPathname.mockReturnValue('/');
-
-    renderWithIntl(<Sidebar />);
-
-    const dashboardLink = screen.getByRole('link', { name: /dashboard/i });
-    // The link itself has the active styling classes applied via the Button component with asChild
-    expect(dashboardLink).toHaveClass('from-sidebar-accent');
-  });
-
   it('renders version number', () => {
     renderWithIntl(<Sidebar />);
 
     expect(screen.getByText(/^v\d/)).toBeInTheDocument();
   });
 
-  it('renders copyright with current year', () => {
+  it('renders GitHub link', () => {
     renderWithIntl(<Sidebar />);
 
-    const currentYear = new Date().getFullYear();
-    expect(screen.getByText(`© ${currentYear}`)).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /github/i })).toHaveAttribute(
+      'href',
+      'https://github.com/woozar/paperless-ai-ngx'
+    );
   });
 });

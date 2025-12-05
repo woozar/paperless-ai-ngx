@@ -43,14 +43,18 @@ if [ -z "$TOKEN" ]; then
   exit 1
 fi
 
+cd "$PROJECT_ROOT"
+
+# Get version from package.json
+VERSION=$(node -p "require('./package.json').version")
+
 echo "========================================"
 echo "SonarQube Analysis"
 echo "========================================"
 echo "Server: $SONAR_SERVER"
 echo "Project: $SONAR_KEY"
+echo "Version: $VERSION"
 echo "========================================"
-
-cd "$PROJECT_ROOT"
 
 # Check if sonar-scanner is installed
 if command -v sonar-scanner &> /dev/null; then
@@ -73,6 +77,7 @@ echo "Running SonarQube analysis..."
 $SCANNER \
   -Dsonar.host.url="$SONAR_SERVER" \
   -Dsonar.projectKey="$SONAR_KEY" \
+  -Dsonar.projectVersion="$VERSION" \
   -Dsonar.token="$TOKEN"
 
 echo ""

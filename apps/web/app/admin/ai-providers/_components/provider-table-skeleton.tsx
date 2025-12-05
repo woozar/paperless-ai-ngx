@@ -33,9 +33,11 @@ export function ProviderTableSkeleton() {
             </TableCell>
             <TableCell className="text-right">
               <div className="flex justify-end gap-2">
-                {Array.from({ length: buttonCount }).map((_, j) => (
-                  <Skeleton key={j} className="h-9 w-9 rounded-md" />
-                ))}
+                {Array.from({ length: buttonCount })
+                  .map((_, j) => j)
+                  .map((j) => (
+                    <Skeleton key={j} className="h-9 w-9 rounded-md" />
+                  ))}
               </div>
             </TableCell>
           </TableRow>

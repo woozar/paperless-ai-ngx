@@ -1,6 +1,5 @@
 'use client';
 
-import { useMemo } from 'react';
 import { TableRow, TableCell } from '@/components/ui/table';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useSettings } from '@/components/settings-provider';
@@ -61,6 +60,12 @@ export function UserTableSkeleton({ rows = 5 }: UserTableSkeletonProps) {
                   className="h-9 w-9 rounded-md"
                   style={{ animationDelay: `${i * 150}ms` }}
                 />
+                {sharingMode === 'ADVANCED' && (
+                  <Skeleton
+                    className="h-9 w-9 rounded-md"
+                    style={{ animationDelay: `${i * 150}ms` }}
+                  />
+                )}
               </div>
             </TableCell>
           </TableRow>

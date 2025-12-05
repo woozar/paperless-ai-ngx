@@ -17,6 +17,7 @@ import {
 } from './tools/paperless.js';
 import { SessionData, SessionManager } from './session-manager.js';
 import { Logger } from './logger.js';
+import { version } from './version.js';
 
 export class PaperlessMCPServer {
   private server: McpServer;
@@ -32,7 +33,7 @@ export class PaperlessMCPServer {
     this.sessionManager = new SessionManager();
     this.server = new McpServer({
       name: 'paperless-ai-ngx-mcp',
-      version: '0.0.1',
+      version,
     });
 
     this.app = express();
@@ -547,7 +548,7 @@ export class PaperlessMCPServer {
 
     // Health check endpoint (no auth required)
     this.app.get('/health', (_req: Request, res: Response) => {
-      res.json({ status: 'ok', version: '0.0.1' });
+      res.json({ status: 'ok', version });
     });
 
     // Verify token endpoint
@@ -560,7 +561,7 @@ export class PaperlessMCPServer {
     this.app.get('/mcp', (_req: Request, res: Response) => {
       res.json({
         name: 'paperless-ai-ngx-mcp',
-        version: '0.0.1',
+        version,
         description: 'Model Context Protocol server for Paperless-ngx',
         authentication: 'Bearer token required',
         endpoints: {

@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { registry, generateOpenAPIDocument } from './openapi';
+import { version } from '@/lib/version';
 
 describe('OpenAPI', () => {
   describe('registry', () => {
@@ -16,7 +17,7 @@ describe('OpenAPI', () => {
       expect(doc.openapi).toBe('3.1.0');
       expect(doc.info).toBeDefined();
       expect(doc.info.title).toBe('Paperless AI API');
-      expect(doc.info.version).toBe('1.0.0');
+      expect(doc.info.version).toBe(version);
       expect(doc.info.description).toBe('API for Paperless AI document processing');
     });
 
