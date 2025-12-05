@@ -781,6 +781,485 @@ For E2E tests, the following conditions must be met:
 
 ---
 
+## AI Provider Management (Admin)
+
+### US-ADMIN-011: View AI provider list
+
+| Field            | Value                                   |
+| ---------------- | --------------------------------------- |
+| **Route**        | `/admin/ai-providers`                   |
+| **Permission**   | `admin`                                 |
+| **Precondition** | Logged in as admin                      |
+| **Test Data**    | Multiple AI providers exist in database |
+
+**As an** admin
+**I want to** see a list of all AI providers
+**so that** I can manage AI integrations
+
+**Steps:**
+
+1. Log in as admin
+2. Navigate to `/admin/ai-providers`
+
+**Expected Result:**
+
+- Table with columns: Name, Provider, Model, Created, Actions
+- All AI providers are listed
+- Pagination controls are visible
+
+**Status:** ✅ Implemented
+
+---
+
+### US-ADMIN-012: Create AI provider
+
+| Field            | Value                                                            |
+| ---------------- | ---------------------------------------------------------------- |
+| **Route**        | `/admin/ai-providers`                                            |
+| **Permission**   | `admin`                                                          |
+| **Precondition** | Logged in as admin                                               |
+| **Test Data**    | `name: "OpenAI GPT-4"`, `provider: "openai"`, `apiKey: "sk-..."` |
+
+**As an** admin
+**I want to** create a new AI provider
+**so that** I can configure AI services
+
+**Steps:**
+
+1. Navigate to `/admin/ai-providers`
+2. Click "Create Provider" button
+3. Fill in name, provider type, model, and API key
+4. Click "Create" in dialog
+
+**Expected Result:**
+
+- Dialog closes
+- New provider appears in the list
+- DB: Provider is created with encrypted API key
+
+**Status:** ✅ Implemented
+
+---
+
+### US-ADMIN-013: Edit AI provider
+
+| Field            | Value                               |
+| ---------------- | ----------------------------------- |
+| **Route**        | `/admin/ai-providers`               |
+| **Permission**   | `admin`                             |
+| **Precondition** | Logged in as admin, provider exists |
+| **Test Data**    | `newName: "Updated Provider"`       |
+
+**As an** admin
+**I want to** edit an AI provider's details
+**so that** I can update configuration
+
+**Steps:**
+
+1. Navigate to `/admin/ai-providers`
+2. Click edit icon next to provider
+3. Modify name, model, or API key
+4. Click "Save"
+
+**Expected Result:**
+
+- Dialog closes
+- Provider list shows updated details
+- DB: Provider record is updated
+
+**Status:** ✅ Implemented
+
+---
+
+### US-ADMIN-014: Delete AI provider
+
+| Field            | Value                               |
+| ---------------- | ----------------------------------- |
+| **Route**        | `/admin/ai-providers`               |
+| **Permission**   | `admin`                             |
+| **Precondition** | Logged in as admin, provider exists |
+| **Test Data**    | -                                   |
+
+**As an** admin
+**I want to** delete an AI provider
+**so that** I can remove unused configurations
+
+**Steps:**
+
+1. Navigate to `/admin/ai-providers`
+2. Click delete icon next to provider
+3. Confirm deletion in dialog
+
+**Expected Result:**
+
+- Dialog closes
+- Provider is removed from the list
+- DB: Provider record is deleted
+
+**Status:** ✅ Implemented
+
+---
+
+## AI Bot Management (Admin)
+
+### US-ADMIN-015: View AI bot list
+
+| Field            | Value                              |
+| ---------------- | ---------------------------------- |
+| **Route**        | `/admin/ai-bots`                   |
+| **Permission**   | `admin`                            |
+| **Precondition** | Logged in as admin                 |
+| **Test Data**    | Multiple AI bots exist in database |
+
+**As an** admin
+**I want to** see a list of all AI bots
+**so that** I can manage bot configurations
+
+**Steps:**
+
+1. Log in as admin
+2. Navigate to `/admin/ai-bots`
+
+**Expected Result:**
+
+- Table with columns: Name, AI Provider, Created, Actions
+- All AI bots are listed
+- Pagination controls are visible
+
+**Status:** ✅ Implemented
+
+---
+
+### US-ADMIN-016: Create AI bot
+
+| Field            | Value                                              |
+| ---------------- | -------------------------------------------------- |
+| **Route**        | `/admin/ai-bots`                                   |
+| **Permission**   | `admin`                                            |
+| **Precondition** | Logged in as admin, AI provider exists             |
+| **Test Data**    | `name: "Document Classifier"`, `providerId: "..."` |
+
+**As an** admin
+**I want to** create a new AI bot
+**so that** I can configure document processing bots
+
+**Steps:**
+
+1. Navigate to `/admin/ai-bots`
+2. Click "Create Bot" button
+3. Fill in name and select AI provider
+4. Click "Create" in dialog
+
+**Expected Result:**
+
+- Dialog closes
+- New bot appears in the list
+- DB: Bot is created with provider reference
+
+**Status:** ✅ Implemented
+
+---
+
+### US-ADMIN-017: Edit AI bot
+
+| Field            | Value                          |
+| ---------------- | ------------------------------ |
+| **Route**        | `/admin/ai-bots`               |
+| **Permission**   | `admin`                        |
+| **Precondition** | Logged in as admin, bot exists |
+| **Test Data**    | `newName: "Updated Bot"`       |
+
+**As an** admin
+**I want to** edit an AI bot's details
+**so that** I can update configuration
+
+**Steps:**
+
+1. Navigate to `/admin/ai-bots`
+2. Click edit icon next to bot
+3. Modify name or AI provider
+4. Click "Save"
+
+**Expected Result:**
+
+- Dialog closes
+- Bot list shows updated details
+- DB: Bot record is updated
+
+**Status:** ✅ Implemented
+
+---
+
+### US-ADMIN-018: Delete AI bot
+
+| Field            | Value                          |
+| ---------------- | ------------------------------ |
+| **Route**        | `/admin/ai-bots`               |
+| **Permission**   | `admin`                        |
+| **Precondition** | Logged in as admin, bot exists |
+| **Test Data**    | -                              |
+
+**As an** admin
+**I want to** delete an AI bot
+**so that** I can remove unused bots
+
+**Steps:**
+
+1. Navigate to `/admin/ai-bots`
+2. Click delete icon next to bot
+3. Confirm deletion in dialog
+
+**Expected Result:**
+
+- Dialog closes
+- Bot is removed from the list
+- DB: Bot record is deleted
+
+**Status:** ✅ Implemented
+
+---
+
+## Paperless Instance Management (Admin)
+
+### US-ADMIN-019: View Paperless instance list
+
+| Field            | Value                              |
+| ---------------- | ---------------------------------- |
+| **Route**        | `/admin/paperless-instances`       |
+| **Permission**   | `admin`                            |
+| **Precondition** | Logged in as admin                 |
+| **Test Data**    | Multiple Paperless instances exist |
+
+**As an** admin
+**I want to** see a list of all Paperless instances
+**so that** I can manage Paperless connections
+
+**Steps:**
+
+1. Log in as admin
+2. Navigate to `/admin/paperless-instances`
+
+**Expected Result:**
+
+- Table with columns: Name, API URL, Created, Actions
+- All instances are listed
+- Pagination controls are visible
+
+**Status:** ✅ Implemented
+
+---
+
+### US-ADMIN-020: Create Paperless instance
+
+| Field            | Value                                                             |
+| ---------------- | ----------------------------------------------------------------- |
+| **Route**        | `/admin/paperless-instances`                                      |
+| **Permission**   | `admin`                                                           |
+| **Precondition** | Logged in as admin                                                |
+| **Test Data**    | `name: "Home Server"`, `apiUrl: "https://..."`, `apiToken: "..."` |
+
+**As an** admin
+**I want to** create a new Paperless instance connection
+**so that** I can integrate with Paperless-ngx servers
+
+**Steps:**
+
+1. Navigate to `/admin/paperless-instances`
+2. Click "Create Instance" button
+3. Fill in name, API URL, and API token
+4. Click "Create" in dialog
+
+**Expected Result:**
+
+- Dialog closes
+- New instance appears in the list
+- DB: Instance is created with encrypted API token
+
+**Status:** ✅ Implemented
+
+---
+
+### US-ADMIN-021: Edit Paperless instance
+
+| Field            | Value                               |
+| ---------------- | ----------------------------------- |
+| **Route**        | `/admin/paperless-instances`        |
+| **Permission**   | `admin`                             |
+| **Precondition** | Logged in as admin, instance exists |
+| **Test Data**    | `newName: "Updated Instance"`       |
+
+**As an** admin
+**I want to** edit a Paperless instance's details
+**so that** I can update connection settings
+
+**Steps:**
+
+1. Navigate to `/admin/paperless-instances`
+2. Click edit icon next to instance
+3. Modify name, API URL, or API token
+4. Click "Save"
+
+**Expected Result:**
+
+- Dialog closes
+- Instance list shows updated details
+- DB: Instance record is updated
+
+**Status:** ✅ Implemented
+
+---
+
+### US-ADMIN-022: Delete Paperless instance with document count warning
+
+| Field            | Value                                              |
+| ---------------- | -------------------------------------------------- |
+| **Route**        | `/admin/paperless-instances`                       |
+| **Permission**   | `admin`                                            |
+| **Precondition** | Logged in as admin, instance with documents exists |
+| **Test Data**    | Instance with imported documents                   |
+
+**As an** admin
+**I want to** see a warning with document count before deleting an instance
+**so that** I understand the impact of deletion
+
+**Steps:**
+
+1. Navigate to `/admin/paperless-instances`
+2. Click delete icon next to instance with documents
+3. Observe warning message with document count
+4. Confirm deletion
+
+**Expected Result:**
+
+- Delete dialog shows document count warning
+- After confirmation: Instance and associated documents are removed
+- DB: Instance and documents are deleted
+
+**Status:** ✅ Implemented
+
+---
+
+### US-ADMIN-023: Import documents from Paperless instance
+
+| Field            | Value                                   |
+| ---------------- | --------------------------------------- |
+| **Route**        | `/admin/paperless-instances`            |
+| **Permission**   | `admin`                                 |
+| **Precondition** | Logged in as admin, instance configured |
+| **Test Data**    | Instance with accessible documents      |
+
+**As an** admin
+**I want to** import documents from a Paperless instance
+**so that** I can process them with AI
+
+**Steps:**
+
+1. Navigate to `/admin/paperless-instances`
+2. Click import icon next to instance
+3. Wait for import to complete
+
+**Expected Result:**
+
+- Loading indicator shows during import
+- Success toast shows number of imported documents
+- DB: Documents are imported from Paperless
+
+**Status:** ✅ Implemented
+
+---
+
+## Settings (Admin)
+
+### US-SETTINGS-001: View settings page
+
+| Field            | Value              |
+| ---------------- | ------------------ |
+| **Route**        | `/admin/settings`  |
+| **Permission**   | `admin`            |
+| **Precondition** | Logged in as admin |
+| **Test Data**    | -                  |
+
+**As an** admin
+**I want to** view all application settings
+**so that** I can configure the application
+
+**Steps:**
+
+1. Log in as admin
+2. Navigate to `/admin/settings`
+
+**Expected Result:**
+
+- Settings page is displayed
+- All configurable settings are shown with current values
+- Settings are grouped by category
+
+**Status:** ✅ Implemented
+
+---
+
+### US-SETTINGS-002: Edit settings
+
+| Field            | Value                |
+| ---------------- | -------------------- |
+| **Route**        | `/admin/settings`    |
+| **Permission**   | `admin`              |
+| **Precondition** | Logged in as admin   |
+| **Test Data**    | Setting value change |
+
+**As an** admin
+**I want to** edit application settings
+**so that** I can customize the application behavior
+
+**Steps:**
+
+1. Navigate to `/admin/settings`
+2. Modify a setting value
+3. Save changes
+
+**Expected Result:**
+
+- Success notification is shown
+- Setting is updated
+- DB: Setting value is persisted
+
+**Status:** ✅ Implemented
+
+---
+
+## Sidebar and Navigation
+
+### US-NAV-004: Sidebar shows user info and version
+
+| Field            | Value     |
+| ---------------- | --------- |
+| **Route**        | `/`       |
+| **Permission**   | `user`    |
+| **Precondition** | Logged in |
+| **Test Data**    | -         |
+
+**As a** logged-in user
+**I want to** see my user info and the app version in the sidebar
+**so that** I know who I'm logged in as and which version I'm using
+
+**Steps:**
+
+1. Log in
+2. Observe the sidebar footer
+
+**Expected Result:**
+
+- User avatar with initials is displayed
+- Username is shown
+- User role (admin/user) is displayed
+- Logout button is visible
+- GitHub link is present
+- Application version number is shown
+
+**Status:** ✅ Implemented
+
+---
+
 ## Legend
 
 | Status         | Meaning                                   |
