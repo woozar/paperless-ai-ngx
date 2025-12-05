@@ -34,7 +34,7 @@ export function TableSkeleton({
         .map((i) => (
           <TableRow key={i}>
             {columns.map((col, colIndex) => (
-              <TableCell key={colIndex}>
+              <TableCell key={`skeleton-cell-${colIndex}`}>
                 <Skeleton
                   className={`${col.height ?? 'h-4'} ${col.width} animate-pulse duration-1000`}
                   style={{ animationDelay: `${i * 150}ms` }}
