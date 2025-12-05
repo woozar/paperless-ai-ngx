@@ -29,7 +29,7 @@ export function EditBotDialog({ open, onOpenChange, bot, onSuccess }: EditBotDia
           setProviders([]);
         } else {
           setProviders(
-            response.data.providers.map((p) => ({
+            response.data.items.map((p) => ({
               value: p.id,
               label: p.name,
             }))

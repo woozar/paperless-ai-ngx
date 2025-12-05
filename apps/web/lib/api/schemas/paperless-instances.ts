@@ -18,14 +18,6 @@ export const PaperlessInstanceListItemSchema = z
   })
   .openapi('PaperlessInstanceListItem');
 
-// PaperlessInstance list response
-export const PaperlessInstanceListResponseSchema = z
-  .object({
-    instances: z.array(PaperlessInstanceListItemSchema),
-    total: z.number(),
-  })
-  .openapi('PaperlessInstanceListResponse');
-
 // Create PaperlessInstance request
 export const CreatePaperlessInstanceRequestSchema = z
   .object({
@@ -62,7 +54,6 @@ export const PaperlessInstanceStatsResponseSchema = z
 
 // Register schemas
 registry.register('PaperlessInstanceListItem', PaperlessInstanceListItemSchema);
-registry.register('PaperlessInstanceListResponse', PaperlessInstanceListResponseSchema);
 registry.register('CreatePaperlessInstanceRequest', CreatePaperlessInstanceRequestSchema);
 registry.register('UpdatePaperlessInstanceRequest', UpdatePaperlessInstanceRequestSchema);
 registry.register('ImportDocumentsResponse', ImportDocumentsResponseSchema);
@@ -74,7 +65,6 @@ registerCrudPaths({
   resourcePath: '/paperless-instances',
   tag: 'PaperlessInstances',
   listItemSchema: PaperlessInstanceListItemSchema,
-  listResponseSchema: PaperlessInstanceListResponseSchema,
   createRequestSchema: CreatePaperlessInstanceRequestSchema,
   updateRequestSchema: UpdatePaperlessInstanceRequestSchema,
 });

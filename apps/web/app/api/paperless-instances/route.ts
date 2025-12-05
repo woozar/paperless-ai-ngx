@@ -1,34 +1,42 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@repo/database';
 import { CreatePaperlessInstanceRequestSchema } from '@/lib/api/schemas/paperless-instances';
+import { getPaginationParams, getPaginationMeta } from '@/lib/api/schemas/common';
 import { adminRoute } from '@/lib/api/route-wrapper';
 import { encrypt } from '@/lib/crypto/encryption';
 
-// GET /api/paperless-instances - List all PaperlessInstances (Admin only)
+// GET /api/paperless-instances - List all PaperlessInstances (Admin only, paginated)
 export const GET = adminRoute(
-  async ({ user }) => {
-    const instances = await prisma.paperlessInstance.findMany({
-      where: {
-        ownerId: user.userId,
-      },
-      select: {
-        id: true,
-        name: true,
-        apiUrl: true,
-        createdAt: true,
-        updatedAt: true,
-      },
-      orderBy: { name: 'asc' },
-    });
+  async ({ user, request }) => {
+    const { page, limit } = getPaginationParams(request);
+    const skip = (page - 1) * limit;
+    const where = { ownerId: user.userId };
+
+    const [instances, total] = await Promise.all([
+      prisma.paperlessInstance.findMany({
+        where,
+        select: {
+          id: true,
+          name: true,
+          apiUrl: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+        orderBy: { name: 'asc' },
+        skip,
+        take: limit,
+      }),
+      prisma.paperlessInstance.count({ where }),
+    ]);
 
     return NextResponse.json({
-      instances: instances.map((instance) => ({
+      items: instances.map((instance) => ({
         ...instance,
         apiToken: '***',
         createdAt: instance.createdAt.toISOString(),
         updatedAt: instance.updatedAt.toISOString(),
       })),
-      total: instances.length,
+      ...getPaginationMeta(total, page, limit),
     });
   },
   { errorLogPrefix: 'List paperless instances' }

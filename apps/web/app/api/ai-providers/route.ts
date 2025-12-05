@@ -1,37 +1,45 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@repo/database';
 import { CreateAiProviderRequestSchema } from '@/lib/api/schemas/ai-providers';
+import { getPaginationParams, getPaginationMeta } from '@/lib/api/schemas/common';
 import { adminRoute } from '@/lib/api/route-wrapper';
 import { encrypt } from '@/lib/crypto/encryption';
 
-// GET /api/ai-providers - List all AiProviders (Admin only)
+// GET /api/ai-providers - List all AiProviders (Admin only, paginated)
 export const GET = adminRoute(
-  async ({ user }) => {
-    const providers = await prisma.aiProvider.findMany({
-      where: {
-        ownerId: user.userId,
-      },
-      select: {
-        id: true,
-        name: true,
-        provider: true,
-        model: true,
-        baseUrl: true,
-        isActive: true,
-        createdAt: true,
-        updatedAt: true,
-        apiKey: false,
-      },
-      orderBy: { name: 'asc' },
-    });
+  async ({ user, request }) => {
+    const { page, limit } = getPaginationParams(request);
+    const skip = (page - 1) * limit;
+    const where = { ownerId: user.userId };
+
+    const [providers, total] = await Promise.all([
+      prisma.aiProvider.findMany({
+        where,
+        select: {
+          id: true,
+          name: true,
+          provider: true,
+          model: true,
+          baseUrl: true,
+          isActive: true,
+          createdAt: true,
+          updatedAt: true,
+          apiKey: false,
+        },
+        orderBy: { name: 'asc' },
+        skip,
+        take: limit,
+      }),
+      prisma.aiProvider.count({ where }),
+    ]);
 
     return NextResponse.json({
-      providers: providers.map((provider) => ({
+      items: providers.map((provider) => ({
         ...provider,
         createdAt: provider.createdAt.toISOString(),
         updatedAt: provider.updatedAt.toISOString(),
       })),
-      total: providers.length,
+      ...getPaginationMeta(total, page, limit),
     });
   },
   { errorLogPrefix: 'List AI providers' }

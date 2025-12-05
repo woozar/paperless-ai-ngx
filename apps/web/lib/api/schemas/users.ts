@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { extendZodWithOpenApi } from '@asteasolutions/zod-to-openapi';
 import { registry } from '../openapi';
-import { CommonErrorResponses } from './common';
+import { CommonErrorResponses, PaginationQuerySchema, PaginationMetaSchema } from './common';
 
 extendZodWithOpenApi(z);
 
@@ -21,12 +21,12 @@ export const UserListItemSchema = z
   })
   .openapi('UserListItem');
 
-// User list response
+// User list response (paginated)
 export const UserListResponseSchema = z
   .object({
-    users: z.array(UserListItemSchema),
-    total: z.number(),
+    items: z.array(UserListItemSchema),
   })
+  .extend(PaginationMetaSchema.shape)
   .openapi('UserListResponse');
 
 // Create user request
@@ -78,9 +78,12 @@ registry.registerPath({
   path: '/users',
   summary: 'List all users (Admin only)',
   tags: ['Users'],
+  request: {
+    query: PaginationQuerySchema,
+  },
   responses: {
     200: {
-      description: 'List of users',
+      description: 'Paginated list of users',
       content: {
         'application/json': {
           schema: UserListResponseSchema,

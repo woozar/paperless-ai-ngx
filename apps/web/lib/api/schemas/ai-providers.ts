@@ -25,14 +25,6 @@ export const AiProviderListItemSchema = z
   })
   .openapi('AiProviderListItem');
 
-// AiProvider list response
-export const AiProviderListResponseSchema = z
-  .object({
-    providers: z.array(AiProviderListItemSchema),
-    total: z.number(),
-  })
-  .openapi('AiProviderListResponse');
-
 // Create AiProvider request
 export const CreateAiProviderRequestSchema = z
   .object({
@@ -72,7 +64,6 @@ export const UpdateAiProviderRequestSchema = z
 // Register schemas
 registry.register('AiProviderType', AiProviderTypeSchema);
 registry.register('AiProviderListItem', AiProviderListItemSchema);
-registry.register('AiProviderListResponse', AiProviderListResponseSchema);
 registry.register('CreateAiProviderRequest', CreateAiProviderRequestSchema);
 registry.register('UpdateAiProviderRequest', UpdateAiProviderRequestSchema);
 
@@ -82,7 +73,6 @@ registerCrudPaths({
   resourcePath: '/ai-providers',
   tag: 'AiProviders',
   listItemSchema: AiProviderListItemSchema,
-  listResponseSchema: AiProviderListResponseSchema,
   createRequestSchema: CreateAiProviderRequestSchema,
   updateRequestSchema: UpdateAiProviderRequestSchema,
 });

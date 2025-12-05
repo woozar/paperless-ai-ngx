@@ -2,7 +2,6 @@ import { describe, it, expect } from 'vitest';
 import {
   AiProviderTypeSchema,
   AiProviderListItemSchema,
-  AiProviderListResponseSchema,
   CreateAiProviderRequestSchema,
   UpdateAiProviderRequestSchema,
 } from './ai-providers';
@@ -76,36 +75,6 @@ describe('AiProviderListItemSchema', () => {
       name: 'My Provider',
     });
     expect(result.success).toBe(false);
-  });
-});
-
-describe('AiProviderListResponseSchema', () => {
-  it('validates correct provider list response', () => {
-    const result = AiProviderListResponseSchema.safeParse({
-      providers: [
-        {
-          id: 'provider-1',
-          name: 'My OpenAI',
-          provider: 'openai',
-          model: 'gpt-4',
-          apiKey: '***',
-          baseUrl: null,
-          isActive: true,
-          createdAt: '2024-01-15T10:00:00.000Z',
-          updatedAt: '2024-01-15T10:00:00.000Z',
-        },
-      ],
-      total: 1,
-    });
-    expect(result.success).toBe(true);
-  });
-
-  it('validates empty provider list', () => {
-    const result = AiProviderListResponseSchema.safeParse({
-      providers: [],
-      total: 0,
-    });
-    expect(result.success).toBe(true);
   });
 });
 

@@ -60,7 +60,7 @@ describe('PaginationQuerySchema', () => {
     expect(result.success).toBe(true);
     if (result.success) {
       expect(result.data.page).toBe(1);
-      expect(result.data.limit).toBe(20);
+      expect(result.data.limit).toBe(10);
     }
   });
 

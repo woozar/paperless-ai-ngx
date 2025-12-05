@@ -12,6 +12,7 @@ import { AppShell } from '@/components/app-shell';
 import { useApi } from '@/lib/use-api';
 import { useFormatDate } from '@/hooks/use-format-date';
 import { getUsers, patchUsersById } from '@repo/api-client';
+import { TablePagination } from '@/components/table-pagination';
 
 import type { UserListItem } from '@repo/api-client';
 import {
@@ -32,42 +33,67 @@ export default function UsersPage() {
 
   const [users, setUsers] = useState<UserListItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const [total, setTotal] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
 
   // Dialog states
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<UserListItem | null>(null);
   const [deletingUser, setDeletingUser] = useState<UserListItem | null>(null);
 
-  const loadUsers = useCallback(async () => {
-    setIsLoading(true);
+  const loadUsers = useCallback(
+    async (currentPage: number, currentLimit: number) => {
+      setIsLoading(true);
 
-    try {
-      const response = await getUsers({ client });
+      try {
+        const response = await getUsers({
+          client,
+          query: { page: currentPage, limit: currentLimit },
+        });
 
-      if (response.error) {
-        if (response.response.status === 403) {
-          router.push('/');
+        if (response.error) {
+          if (response.response.status === 403) {
+            router.push('/');
+            return;
+          }
+          showError('loadFailed');
           return;
         }
-        showError('loadFailed');
-        return;
-      }
 
-      setUsers(response.data.users);
-    } catch {
-      showError('loadFailed');
-    } finally {
-      setIsLoading(false);
-    }
-  }, [router, showError, client]);
+        setUsers(response.data.items);
+        setTotal(response.data.total);
+        setTotalPages(response.data.totalPages);
+      } catch {
+        showError('loadFailed');
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [router, showError, client]
+  );
 
   useEffect(() => {
     if (!isAuthLoading && currentUser?.role !== 'ADMIN') {
       router.push('/');
       return;
     }
-    loadUsers();
-  }, [isAuthLoading, currentUser, router, loadUsers]);
+    loadUsers(page, limit);
+  }, [isAuthLoading, currentUser, router, loadUsers, page, limit]);
+
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleLimitChange = (newLimit: number) => {
+    setLimit(newLimit);
+    setPage(1); // Reset to first page when changing limit
+  };
+
+  const reloadCurrentPage = () => {
+    loadUsers(page, limit);
+  };
 
   const handleToggleStatus = useCallback(
     async (user: UserListItem) => {
@@ -84,12 +110,13 @@ export default function UsersPage() {
         }
 
         showSuccess('userStatusUpdated');
-        loadUsers();
+        reloadCurrentPage();
       } catch {
         showError('updateFailed');
       }
     },
-    [client, showApiError, showSuccess, showError, loadUsers]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [client, showApiError, showSuccess, showError, page, limit]
   );
 
   if (currentUser?.role !== 'ADMIN') {
@@ -131,7 +158,7 @@ export default function UsersPage() {
           </Button>
         </div>
 
-        {!isLoading && users.length === 0 ? (
+        {!isLoading && users.length === 0 && total === 0 ? (
           <div className="text-muted-foreground py-12 text-center">{t('noUsers')}</div>
         ) : (
           <div className="bg-card rounded-md border shadow-sm">
@@ -147,24 +174,37 @@ export default function UsersPage() {
               </TableHeader>
               <TableBody>{renderTableContent()}</TableBody>
             </Table>
+            <TablePagination
+              page={page}
+              limit={limit}
+              total={total}
+              totalPages={totalPages}
+              isLoading={isLoading}
+              onPageChange={handlePageChange}
+              onLimitChange={handleLimitChange}
+            />
           </div>
         )}
       </div>
 
-      <CreateUserDialog open={isCreateOpen} onOpenChange={setIsCreateOpen} onSuccess={loadUsers} />
+      <CreateUserDialog
+        open={isCreateOpen}
+        onOpenChange={setIsCreateOpen}
+        onSuccess={reloadCurrentPage}
+      />
 
       <EditUserDialog
         open={!!editingUser}
         onOpenChange={(open) => !open && setEditingUser(null)}
         user={editingUser}
-        onSuccess={loadUsers}
+        onSuccess={reloadCurrentPage}
       />
 
       <DeleteUserDialog
         open={!!deletingUser}
         onOpenChange={(open) => !open && setDeletingUser(null)}
         user={deletingUser}
-        onSuccess={loadUsers}
+        onSuccess={reloadCurrentPage}
       />
     </AppShell>
   );

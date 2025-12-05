@@ -8,6 +8,7 @@ vi.mock('@repo/database', () => ({
       findMany: vi.fn(),
       findFirst: vi.fn(),
       create: vi.fn(),
+      count: vi.fn(),
     },
   },
 }));
@@ -30,6 +31,7 @@ const mockedPrisma = mockPrisma<{
     findMany: typeof prisma.aiProvider.findMany;
     findFirst: typeof prisma.aiProvider.findFirst;
     create: typeof prisma.aiProvider.create;
+    count: typeof prisma.aiProvider.count;
   };
 }>(prisma);
 
@@ -61,6 +63,7 @@ describe('GET /api/ai-providers', () => {
         updatedAt: mockDate,
       },
     ]);
+    mockedPrisma.aiProvider.count.mockResolvedValueOnce(1);
 
     const request = new NextRequest('http://localhost/api/ai-providers');
 
@@ -68,15 +71,16 @@ describe('GET /api/ai-providers', () => {
     const data = await response.json();
 
     expect(response.status).toBe(200);
-    expect(data.providers).toHaveLength(1);
-    expect(data.providers[0].name).toBe('OpenAI');
-    expect(data.providers[0].apiKey).toBeUndefined();
+    expect(data.items).toHaveLength(1);
+    expect(data.items[0].name).toBe('OpenAI');
+    expect(data.items[0].apiKey).toBeUndefined();
     expect(data.total).toBe(1);
   });
 
   it('returns empty list when no providers exist', async () => {
     mockAdmin();
     mockedPrisma.aiProvider.findMany.mockResolvedValueOnce([]);
+    mockedPrisma.aiProvider.count.mockResolvedValueOnce(0);
 
     const request = new NextRequest('http://localhost/api/ai-providers');
 
@@ -84,7 +88,7 @@ describe('GET /api/ai-providers', () => {
     const data = await response.json();
 
     expect(response.status).toBe(200);
-    expect(data.providers).toHaveLength(0);
+    expect(data.items).toHaveLength(0);
     expect(data.total).toBe(0);
   });
 });

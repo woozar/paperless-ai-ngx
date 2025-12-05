@@ -17,7 +17,12 @@
     "paperlessInstances": "Paperless Instances",
     "aiProviders": "AI Providers",
     "aiBots": "AI Bots",
-    "admin": "Administration"
+    "admin": "Administration",
+    "pagination": {
+      "showing": "Showing {start} to {end} of {total}",
+      "rowsPerPage": "Rows per page",
+      "pageOf": "Page {page} of {totalPages}"
+    }
   },
   "home": {
     "title": "Welcome to Paperless AI ngx",

@@ -12,6 +12,7 @@ import { AppShell } from '@/components/app-shell';
 import { useApi } from '@/lib/use-api';
 import { useFormatDate } from '@/hooks/use-format-date';
 import { getAiProviders } from '@repo/api-client';
+import { TablePagination } from '@/components/table-pagination';
 
 import type { AiProviderListItem } from '@repo/api-client';
 import {
@@ -32,6 +33,10 @@ export default function AiProvidersPage() {
 
   const [providers, setProviders] = useState<Omit<AiProviderListItem, 'apiKey'>[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const [total, setTotal] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
 
   // Dialog states
   const [isCreateOpen, setIsCreateOpen] = useState(false);
@@ -43,36 +48,57 @@ export default function AiProvidersPage() {
     'apiKey'
   > | null>(null);
 
-  const loadProviders = useCallback(async () => {
-    setIsLoading(true);
+  const loadProviders = useCallback(
+    async (currentPage: number, currentLimit: number) => {
+      setIsLoading(true);
 
-    try {
-      const response = await getAiProviders({ client });
+      try {
+        const response = await getAiProviders({
+          client,
+          query: { page: currentPage, limit: currentLimit },
+        });
 
-      if (response.error) {
-        if (response.response.status === 403) {
-          router.push('/');
+        if (response.error) {
+          if (response.response.status === 403) {
+            router.push('/');
+            return;
+          }
+          showError('loadFailed');
           return;
         }
-        showError('loadFailed');
-        return;
-      }
 
-      setProviders(response.data.providers);
-    } catch {
-      showError('loadFailed');
-    } finally {
-      setIsLoading(false);
-    }
-  }, [router, showError, client]);
+        setProviders(response.data.items);
+        setTotal(response.data.total);
+        setTotalPages(response.data.totalPages);
+      } catch {
+        showError('loadFailed');
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [router, showError, client]
+  );
 
   useEffect(() => {
     if (!isAuthLoading && currentUser?.role !== 'ADMIN') {
       router.push('/');
       return;
     }
-    loadProviders();
-  }, [isAuthLoading, currentUser, router, loadProviders]);
+    loadProviders(page, limit);
+  }, [isAuthLoading, currentUser, router, loadProviders, page, limit]);
+
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleLimitChange = (newLimit: number) => {
+    setLimit(newLimit);
+    setPage(1);
+  };
+
+  const reloadCurrentPage = () => {
+    loadProviders(page, limit);
+  };
 
   if (currentUser?.role !== 'ADMIN') {
     return null;
@@ -111,7 +137,7 @@ export default function AiProvidersPage() {
           </Button>
         </div>
 
-        {!isLoading && providers.length === 0 ? (
+        {!isLoading && providers.length === 0 && total === 0 ? (
           <div className="text-muted-foreground py-12 text-center">{t('noProviders')}</div>
         ) : (
           <div className="bg-card rounded-md border shadow-sm">
@@ -127,6 +153,15 @@ export default function AiProvidersPage() {
               </TableHeader>
               <TableBody>{renderTableContent()}</TableBody>
             </Table>
+            <TablePagination
+              page={page}
+              limit={limit}
+              total={total}
+              totalPages={totalPages}
+              isLoading={isLoading}
+              onPageChange={handlePageChange}
+              onLimitChange={handleLimitChange}
+            />
           </div>
         )}
       </div>
@@ -134,21 +169,21 @@ export default function AiProvidersPage() {
       <CreateProviderDialog
         open={isCreateOpen}
         onOpenChange={setIsCreateOpen}
-        onSuccess={loadProviders}
+        onSuccess={reloadCurrentPage}
       />
 
       <EditProviderDialog
         open={!!editingProvider}
         onOpenChange={(open) => !open && setEditingProvider(null)}
         provider={editingProvider}
-        onSuccess={loadProviders}
+        onSuccess={reloadCurrentPage}
       />
 
       <DeleteProviderDialog
         open={!!deletingProvider}
         onOpenChange={(open) => !open && setDeletingProvider(null)}
         provider={deletingProvider}
-        onSuccess={loadProviders}
+        onSuccess={reloadCurrentPage}
       />
     </AppShell>
   );

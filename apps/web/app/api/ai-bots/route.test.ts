@@ -8,6 +8,7 @@ vi.mock('@repo/database', () => ({
       findMany: vi.fn(),
       findFirst: vi.fn(),
       create: vi.fn(),
+      count: vi.fn(),
     },
     aiProvider: {
       findFirst: vi.fn(),
@@ -28,6 +29,7 @@ const mockedPrisma = mockPrisma<{
     findMany: typeof prisma.aiBot.findMany;
     findFirst: typeof prisma.aiBot.findFirst;
     create: typeof prisma.aiBot.create;
+    count: typeof prisma.aiBot.count;
   };
   aiProvider: {
     findFirst: typeof prisma.aiProvider.findFirst;
@@ -65,6 +67,7 @@ describe('GET /api/ai-bots', () => {
         updatedAt: mockDate,
       },
     ]);
+    mockedPrisma.aiBot.count.mockResolvedValueOnce(1);
 
     const request = new NextRequest('http://localhost/api/ai-bots');
 
@@ -72,15 +75,16 @@ describe('GET /api/ai-bots', () => {
     const data = await response.json();
 
     expect(response.status).toBe(200);
-    expect(data.bots).toHaveLength(1);
-    expect(data.bots[0].name).toBe('Support Bot');
-    expect(data.bots[0].systemPrompt).toBe('You are a helpful support assistant');
+    expect(data.items).toHaveLength(1);
+    expect(data.items[0].name).toBe('Support Bot');
+    expect(data.items[0].systemPrompt).toBe('You are a helpful support assistant');
     expect(data.total).toBe(1);
   });
 
   it('returns empty list when no bots exist', async () => {
     mockAdmin();
     mockedPrisma.aiBot.findMany.mockResolvedValueOnce([]);
+    mockedPrisma.aiBot.count.mockResolvedValueOnce(0);
 
     const request = new NextRequest('http://localhost/api/ai-bots');
 
@@ -88,7 +92,7 @@ describe('GET /api/ai-bots', () => {
     const data = await response.json();
 
     expect(response.status).toBe(200);
-    expect(data.bots).toHaveLength(0);
+    expect(data.items).toHaveLength(0);
     expect(data.total).toBe(0);
   });
 
@@ -123,6 +127,7 @@ describe('GET /api/ai-bots', () => {
         updatedAt: mockDate,
       },
     ]);
+    mockedPrisma.aiBot.count.mockResolvedValueOnce(2);
 
     const request = new NextRequest('http://localhost/api/ai-bots');
 
@@ -130,9 +135,9 @@ describe('GET /api/ai-bots', () => {
     const data = await response.json();
 
     expect(response.status).toBe(200);
-    expect(data.bots).toHaveLength(2);
-    expect(data.bots[0].name).toBe('Bot A');
-    expect(data.bots[1].name).toBe('Bot B');
+    expect(data.items).toHaveLength(2);
+    expect(data.items[0].name).toBe('Bot A');
+    expect(data.items[1].name).toBe('Bot B');
   });
 });
 

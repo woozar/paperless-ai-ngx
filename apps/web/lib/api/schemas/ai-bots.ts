@@ -21,14 +21,6 @@ export const AiBotListItemSchema = z
   })
   .openapi('AiBotListItem');
 
-// AiBot list response
-export const AiBotListResponseSchema = z
-  .object({
-    bots: z.array(AiBotListItemSchema),
-    total: z.number(),
-  })
-  .openapi('AiBotListResponse');
-
 // Create AiBot request
 export const CreateAiBotRequestSchema = z
   .object({
@@ -49,7 +41,6 @@ export const UpdateAiBotRequestSchema = z
 
 // Register schemas
 registry.register('AiBotListItem', AiBotListItemSchema);
-registry.register('AiBotListResponse', AiBotListResponseSchema);
 registry.register('CreateAiBotRequest', CreateAiBotRequestSchema);
 registry.register('UpdateAiBotRequest', UpdateAiBotRequestSchema);
 
@@ -59,7 +50,6 @@ registerCrudPaths({
   resourcePath: '/ai-bots',
   tag: 'AiBots',
   listItemSchema: AiBotListItemSchema,
-  listResponseSchema: AiBotListResponseSchema,
   createRequestSchema: CreateAiBotRequestSchema,
   updateRequestSchema: UpdateAiBotRequestSchema,
   deleteReturnsSuccess: true, // AiBots DELETE returns 200 with success object

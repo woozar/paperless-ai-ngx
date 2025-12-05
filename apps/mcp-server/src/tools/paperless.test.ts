@@ -1,6 +1,13 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { PaperlessTools } from './paperless.js';
-import type { PaperlessClient } from '@repo/paperless-client';
+import type {
+  PaperlessClient,
+  PaperlessCorrespondent,
+  PaperlessDocument,
+  PaperlessDocumentType,
+  PaperlessPaginatedResponse,
+  PaperlessTag,
+} from '@repo/paperless-client';
 
 describe('PaperlessTools', () => {
   let mockClient: PaperlessClient;
@@ -15,14 +22,14 @@ describe('PaperlessTools', () => {
       searchCorrespondents: vi.fn(),
       searchDocumentTypes: vi.fn(),
       checkConnection: vi.fn(),
-    } as any;
+    } as Partial<PaperlessClient> as PaperlessClient;
 
     tools = new PaperlessTools(mockClient);
   });
 
   describe('listDocuments', () => {
     it('should list documents without filters', async () => {
-      const mockResponse = {
+      const mockResponse: PaperlessPaginatedResponse<PaperlessDocument> = {
         count: 2,
         next: null,
         previous: null,
@@ -38,6 +45,8 @@ describe('PaperlessTools', () => {
             tags: [1, 2],
             archive_serial_number: 'ASN-001',
             content: 'Content 1',
+            archived_file_name: 'Archived File Name 1',
+            original_file_name: 'Original File Name 1',
           },
           {
             id: 2,
@@ -50,6 +59,8 @@ describe('PaperlessTools', () => {
             tags: [3],
             archive_serial_number: 'ASN-002',
             content: 'Content 2',
+            archived_file_name: 'Archived File Name 2',
+            original_file_name: 'Original File Name 2',
           },
         ],
       };
@@ -60,8 +71,8 @@ describe('PaperlessTools', () => {
 
       expect(result.count).toBe(2);
       expect(result.documents).toHaveLength(2);
-      expect(result.documents[0].title).toBe('Document 1');
-      expect(result.documents[1].title).toBe('Document 2');
+      expect(result.documents[0]?.title).toBe('Document 1');
+      expect(result.documents[1]?.title).toBe('Document 2');
       expect(mockClient.getDocuments).toHaveBeenCalledWith({
         page: undefined,
         page_size: undefined,
@@ -73,7 +84,7 @@ describe('PaperlessTools', () => {
     });
 
     it('should list documents with pagination', async () => {
-      const mockResponse = {
+      const mockResponse: PaperlessPaginatedResponse<PaperlessDocument> = {
         count: 100,
         next: 'http://example.com/api/documents/?page=2',
         previous: null,
@@ -95,7 +106,7 @@ describe('PaperlessTools', () => {
     });
 
     it('should list documents with search query', async () => {
-      const mockResponse = {
+      const mockResponse: PaperlessPaginatedResponse<PaperlessDocument> = {
         count: 1,
         next: null,
         previous: null,
@@ -111,6 +122,8 @@ describe('PaperlessTools', () => {
             tags: [],
             archive_serial_number: null,
             content: 'Invoice content',
+            archived_file_name: 'Archived File Name 1',
+            original_file_name: 'Original File Name 1',
           },
         ],
       };
@@ -225,7 +238,7 @@ describe('PaperlessTools', () => {
     });
 
     it('should map document fields correctly', async () => {
-      const mockResponse = {
+      const mockResponse: PaperlessPaginatedResponse<PaperlessDocument> = {
         count: 1,
         next: null,
         previous: null,
@@ -241,12 +254,13 @@ describe('PaperlessTools', () => {
             tags: [1, 2, 3],
             archive_serial_number: 'ASN-123',
             content: 'Full content',
-            extra_field: 'should not be included',
+            archived_file_name: 'Archived File Name 1',
+            original_file_name: 'Original File Name 1',
           },
         ],
       };
 
-      vi.mocked(mockClient.getDocuments).mockResolvedValue(mockResponse as any);
+      vi.mocked(mockClient.getDocuments).mockResolvedValue(mockResponse);
 
       const result = await tools.listDocuments({});
 
@@ -268,7 +282,7 @@ describe('PaperlessTools', () => {
 
   describe('getDocument', () => {
     it('should get document by ID', async () => {
-      const mockDocument = {
+      const mockDocument: Awaited<ReturnType<typeof mockClient.getDocument>> = {
         id: 1,
         title: 'Test Document',
         content: 'Document content',
@@ -280,6 +294,7 @@ describe('PaperlessTools', () => {
         tags: [1, 2],
         archive_serial_number: 'ASN-001',
         original_file_name: 'test.pdf',
+        archived_file_name: 'Archived File Name 1',
       };
 
       vi.mocked(mockClient.getDocument).mockResolvedValue(mockDocument);
@@ -303,7 +318,7 @@ describe('PaperlessTools', () => {
     });
 
     it('should include all document fields', async () => {
-      const mockDocument = {
+      const mockDocument: PaperlessDocument = {
         id: 42,
         title: 'Full Document',
         content: 'Complete content',
@@ -315,10 +330,10 @@ describe('PaperlessTools', () => {
         tags: [1, 2, 3, 4],
         archive_serial_number: 'ASN-042',
         original_file_name: 'document.pdf',
-        extra_field: 'not mapped',
+        archived_file_name: 'document.pdf',
       };
 
-      vi.mocked(mockClient.getDocument).mockResolvedValue(mockDocument as any);
+      vi.mocked(mockClient.getDocument).mockResolvedValue(mockDocument);
 
       const result = await tools.getDocument({ id: 42 });
 
@@ -328,14 +343,23 @@ describe('PaperlessTools', () => {
 
   describe('getDocumentContent', () => {
     it('should get document content by ID', async () => {
-      const mockDocument = {
+      const mockDocument: PaperlessDocument = {
         id: 1,
         title: 'Test Document',
         content: 'This should not be used',
+        correspondent: 1,
+        document_type: 1,
+        tags: [1, 2, 3],
+        created: '2024-01-01',
+        modified: '2024-01-02',
+        added: '2024-01-01',
+        archive_serial_number: 'ASN-001',
+        original_file_name: 'Document.pdf',
+        archived_file_name: 'Document.pdf',
       };
       const mockContent = 'This is the actual content from getDocumentContent';
 
-      vi.mocked(mockClient.getDocument).mockResolvedValue(mockDocument as any);
+      vi.mocked(mockClient.getDocument).mockResolvedValue(mockDocument);
       vi.mocked(mockClient.getDocumentContent).mockResolvedValue(mockContent);
 
       const result = await tools.getDocumentContent({ id: 1 });
@@ -350,12 +374,22 @@ describe('PaperlessTools', () => {
     });
 
     it('should call both getDocumentContent and getDocument', async () => {
-      const mockDocument = {
+      const mockDocument: PaperlessDocument = {
         id: 5,
         title: 'Document Title',
+        content: 'Document Content',
+        correspondent: 1,
+        document_type: 1,
+        tags: [1, 2, 3],
+        created: '2024-01-01',
+        modified: '2024-01-02',
+        added: '2024-01-01',
+        archive_serial_number: 'ASN-001',
+        original_file_name: 'Document.pdf',
+        archived_file_name: 'Document.pdf',
       };
 
-      vi.mocked(mockClient.getDocument).mockResolvedValue(mockDocument as any);
+      vi.mocked(mockClient.getDocument).mockResolvedValue(mockDocument);
       vi.mocked(mockClient.getDocumentContent).mockResolvedValue('Content');
 
       await tools.getDocumentContent({ id: 5 });
@@ -367,13 +401,17 @@ describe('PaperlessTools', () => {
 
   describe('searchTags', () => {
     it('should search tags by query', async () => {
-      const mockTags = [
+      const mockTags: PaperlessTag[] = [
         {
           id: 1,
           name: 'Important',
           slug: 'important',
           color: '#ff0000',
           document_count: 10,
+          is_inbox_tag: false,
+          matching_algorithm: 0,
+          is_insensitive: false,
+          match: 'important',
         },
         {
           id: 2,
@@ -381,6 +419,10 @@ describe('PaperlessTools', () => {
           slug: 'urgent',
           color: '#ff6600',
           document_count: 5,
+          is_inbox_tag: false,
+          matching_algorithm: 0,
+          is_insensitive: false,
+          match: 'urgent',
         },
       ];
 
@@ -408,18 +450,21 @@ describe('PaperlessTools', () => {
     });
 
     it('should map tag fields correctly', async () => {
-      const mockTags = [
+      const mockTags: PaperlessTag[] = [
         {
           id: 1,
           name: 'Tag',
           slug: 'tag',
           color: '#000000',
           document_count: 3,
-          extra_field: 'should not appear',
+          is_inbox_tag: false,
+          matching_algorithm: 0,
+          is_insensitive: false,
+          match: 'tag',
         },
       ];
 
-      vi.mocked(mockClient.searchTags).mockResolvedValue(mockTags as any);
+      vi.mocked(mockClient.searchTags).mockResolvedValue(mockTags);
 
       const result = await tools.searchTags({ query: 'tag' });
 
@@ -429,18 +474,26 @@ describe('PaperlessTools', () => {
 
   describe('searchCorrespondents', () => {
     it('should search correspondents by query', async () => {
-      const mockCorrespondents = [
+      const mockCorrespondents: PaperlessCorrespondent[] = [
         {
           id: 1,
           name: 'Company A',
           slug: 'company-a',
           document_count: 20,
+          is_insensitive: false,
+          matching_algorithm: 0,
+          match: 'company-a',
+          last_correspondence: null,
         },
         {
           id: 2,
           name: 'Company B',
           slug: 'company-b',
           document_count: 15,
+          is_insensitive: false,
+          matching_algorithm: 0,
+          match: 'company-b',
+          last_correspondence: null,
         },
       ];
 
@@ -467,17 +520,20 @@ describe('PaperlessTools', () => {
     });
 
     it('should map correspondent fields correctly', async () => {
-      const mockCorrespondents = [
+      const mockCorrespondents: PaperlessCorrespondent[] = [
         {
           id: 1,
           name: 'Test',
           slug: 'test',
           document_count: 5,
-          extra_field: 'should not appear',
+          is_insensitive: false,
+          matching_algorithm: 0,
+          match: 'test',
+          last_correspondence: null,
         },
       ];
 
-      vi.mocked(mockClient.searchCorrespondents).mockResolvedValue(mockCorrespondents as any);
+      vi.mocked(mockClient.searchCorrespondents).mockResolvedValue(mockCorrespondents);
 
       const result = await tools.searchCorrespondents({ query: 'test' });
 
@@ -487,18 +543,24 @@ describe('PaperlessTools', () => {
 
   describe('searchDocumentTypes', () => {
     it('should search document types by query', async () => {
-      const mockTypes = [
+      const mockTypes: PaperlessDocumentType[] = [
         {
           id: 1,
           name: 'Invoice',
           slug: 'invoice',
           document_count: 50,
+          match: 'invoice',
+          matching_algorithm: 0,
+          is_insensitive: false,
         },
         {
           id: 2,
           name: 'Receipt',
           slug: 'receipt',
           document_count: 30,
+          match: 'receipt',
+          matching_algorithm: 0,
+          is_insensitive: false,
         },
       ];
 
@@ -525,17 +587,19 @@ describe('PaperlessTools', () => {
     });
 
     it('should map document type fields correctly', async () => {
-      const mockTypes = [
+      const mockTypes: PaperlessDocumentType[] = [
         {
           id: 1,
           name: 'Type',
           slug: 'type',
           document_count: 10,
-          extra_field: 'should not appear',
+          is_insensitive: false,
+          matching_algorithm: 0,
+          match: 'type',
         },
       ];
 
-      vi.mocked(mockClient.searchDocumentTypes).mockResolvedValue(mockTypes as any);
+      vi.mocked(mockClient.searchDocumentTypes).mockResolvedValue(mockTypes);
 
       const result = await tools.searchDocumentTypes({ query: 'type' });
 

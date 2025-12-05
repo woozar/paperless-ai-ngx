@@ -1,10 +1,45 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { screen, waitFor } from '@testing-library/react';
+import { screen, waitFor, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { toast } from 'sonner';
 import UsersPage from './page';
 import { renderWithIntl } from '@/test-utils/render-with-intl';
 import type { UserListItem } from '@repo/api-client';
+
+// Mock Radix Select to make onValueChange testable
+vi.mock('@/components/ui/select', async () => {
+  const actual = await vi.importActual('@/components/ui/select');
+  return {
+    ...actual,
+    Select: ({
+      children,
+      onValueChange,
+      value,
+    }: {
+      children: React.ReactNode;
+      onValueChange: (value: string) => void;
+      value: string;
+    }) => (
+      <div data-testid="mock-select" data-value={value}>
+        <select
+          data-testid="select-native"
+          value={value}
+          onChange={(e) => onValueChange(e.target.value)}
+        >
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+        </select>
+        {children}
+      </div>
+    ),
+    SelectTrigger: ({ children }: { children: React.ReactNode }) => <>{children}</>,
+    SelectValue: () => null,
+    SelectContent: () => null,
+    SelectItem: () => null,
+  };
+});
 
 vi.mock('sonner', () => ({
   toast: {
@@ -18,13 +53,14 @@ const mockUser = vi.fn();
 const mockGetUsers = vi.fn();
 const mockPatchUsersById = vi.fn();
 
+const mockRouter = { push: mockPush };
 vi.mock('next/navigation', () => ({
-  useRouter: () => ({ push: mockPush }),
+  useRouter: () => mockRouter,
   usePathname: () => '/admin/users',
 }));
 
 vi.mock('@/components/auth-provider', () => ({
-  useAuth: () => ({ user: mockUser() }),
+  useAuth: () => ({ user: mockUser(), isLoading: false }),
 }));
 
 vi.mock('@repo/api-client', async () => {
@@ -41,6 +77,39 @@ vi.mock('@/components/settings-provider', () => ({
     settings: { 'security.sharing.mode': 'BASIC' },
     isLoading: false,
   }),
+}));
+
+const mockShowApiError = vi.fn((error: { message: string }) => {
+  // Simulate the real behavior by calling toast.error
+  const errorMessages: Record<string, string> = {
+    'error.serverError': 'An internal server error occurred',
+    'error.lastAdmin': 'Cannot modify the last admin user',
+  };
+  toast.error(errorMessages[error.message] || error.message);
+});
+const mockShowSuccess = vi.fn();
+const mockShowError = vi.fn((key: string) => {
+  // Simulate the real behavior by calling toast.error
+  const errorMessages: Record<string, string> = {
+    loadFailed: 'Failed to load users',
+    updateFailed: 'Failed to update user',
+  };
+  toast.error(errorMessages[key] || key);
+});
+const mockShowInfo = vi.fn();
+
+vi.mock('@/hooks/use-error-display', () => ({
+  useErrorDisplay: () => ({
+    showApiError: mockShowApiError,
+    showSuccess: mockShowSuccess,
+    showError: mockShowError,
+    showInfo: mockShowInfo,
+  }),
+}));
+
+const mockClient = {};
+vi.mock('@/lib/use-api', () => ({
+  useApi: () => mockClient,
 }));
 
 const mockUsers: UserListItem[] = [
@@ -97,8 +166,8 @@ describe('UsersPage', () => {
   });
 
   it('loads and displays users', async () => {
-    mockGetUsers.mockResolvedValueOnce({
-      data: { users: mockUsers },
+    mockGetUsers.mockResolvedValue({
+      data: { items: mockUsers, total: mockUsers.length, page: 1, limit: 10, totalPages: 1 },
       error: undefined,
     });
 
@@ -112,7 +181,7 @@ describe('UsersPage', () => {
 
   it('displays "no users" message when list is empty', async () => {
     mockGetUsers.mockResolvedValueOnce({
-      data: { users: [] },
+      data: { items: [], total: 0, page: 1, limit: 10, totalPages: 0 },
       error: undefined,
     });
 
@@ -158,7 +227,7 @@ describe('UsersPage', () => {
   it('opens create dialog when clicking create button', async () => {
     const user = userEvent.setup({ delay: null });
     mockGetUsers.mockResolvedValueOnce({
-      data: { users: mockUsers },
+      data: { items: mockUsers, total: mockUsers.length, page: 1, limit: 10, totalPages: 1 },
       error: undefined,
     });
 
@@ -178,7 +247,7 @@ describe('UsersPage', () => {
   it('opens edit dialog when clicking edit button', async () => {
     const user = userEvent.setup({ delay: null });
     mockGetUsers.mockResolvedValueOnce({
-      data: { users: mockUsers },
+      data: { items: mockUsers, total: mockUsers.length, page: 1, limit: 10, totalPages: 1 },
       error: undefined,
     });
 
@@ -198,7 +267,7 @@ describe('UsersPage', () => {
   it('opens delete dialog when clicking delete button', async () => {
     const user = userEvent.setup({ delay: null });
     mockGetUsers.mockResolvedValueOnce({
-      data: { users: mockUsers },
+      data: { items: mockUsers, total: mockUsers.length, page: 1, limit: 10, totalPages: 1 },
       error: undefined,
     });
 
@@ -219,7 +288,7 @@ describe('UsersPage', () => {
     it('toggles user status successfully', async () => {
       const user = userEvent.setup({ delay: null });
       mockGetUsers.mockResolvedValue({
-        data: { users: mockUsers },
+        data: { items: mockUsers, total: mockUsers.length, page: 1, limit: 10, totalPages: 1 },
         error: undefined,
       });
 
@@ -253,7 +322,7 @@ describe('UsersPage', () => {
     it('displays error when toggling status fails', async () => {
       const user = userEvent.setup({ delay: null });
       mockGetUsers.mockResolvedValueOnce({
-        data: { users: mockUsers },
+        data: { items: mockUsers, total: mockUsers.length, page: 1, limit: 10, totalPages: 1 },
         error: undefined,
       });
 
@@ -278,7 +347,7 @@ describe('UsersPage', () => {
     it('displays last admin error when deactivating last admin', async () => {
       const user = userEvent.setup({ delay: null });
       mockGetUsers.mockResolvedValue({
-        data: { users: mockUsers },
+        data: { items: mockUsers, total: mockUsers.length, page: 1, limit: 10, totalPages: 1 },
         error: undefined,
       });
 
@@ -305,7 +374,7 @@ describe('UsersPage', () => {
     it('handles exception during toggle status', async () => {
       const user = userEvent.setup({ delay: null });
       mockGetUsers.mockResolvedValueOnce({
-        data: { users: mockUsers },
+        data: { items: mockUsers, total: mockUsers.length, page: 1, limit: 10, totalPages: 1 },
         error: undefined,
       });
 
@@ -328,7 +397,7 @@ describe('UsersPage', () => {
   it('closes edit dialog when onOpenChange is called', async () => {
     const user = userEvent.setup({ delay: null });
     mockGetUsers.mockResolvedValueOnce({
-      data: { users: mockUsers },
+      data: { items: mockUsers, total: mockUsers.length, page: 1, limit: 10, totalPages: 1 },
       error: undefined,
     });
 
@@ -354,7 +423,7 @@ describe('UsersPage', () => {
   it('closes delete dialog when onOpenChange is called', async () => {
     const user = userEvent.setup({ delay: null });
     mockGetUsers.mockResolvedValueOnce({
-      data: { users: mockUsers },
+      data: { items: mockUsers, total: mockUsers.length, page: 1, limit: 10, totalPages: 1 },
       error: undefined,
     });
 
@@ -375,5 +444,64 @@ describe('UsersPage', () => {
     if (cancelButton) {
       await user.click(cancelButton);
     }
+  });
+
+  describe('pagination handlers', () => {
+    it('calls loadUsers with new page when handlePageChange is triggered', async () => {
+      mockGetUsers.mockResolvedValue({
+        data: { items: mockUsers, total: 25, page: 1, limit: 10, totalPages: 3 },
+        error: undefined,
+      });
+
+      renderWithIntl(<UsersPage />);
+
+      await waitFor(() => {
+        expect(screen.getByTestId('pagination-next')).toBeInTheDocument();
+      });
+
+      const user = userEvent.setup();
+      await user.click(screen.getByTestId('pagination-next'));
+
+      await waitFor(() => {
+        expect(mockGetUsers).toHaveBeenCalledWith(
+          expect.objectContaining({
+            query: { page: 2, limit: 10 },
+          })
+        );
+      });
+    });
+
+    it('resets to page 1 when limit changes', async () => {
+      mockGetUsers.mockResolvedValue({
+        data: { items: mockUsers, total: 25, page: 2, limit: 10, totalPages: 3 },
+        error: undefined,
+      });
+
+      renderWithIntl(<UsersPage />);
+
+      await waitFor(() => {
+        expect(screen.getByTestId('select-native')).toBeInTheDocument();
+      });
+
+      fireEvent.change(screen.getByTestId('select-native'), { target: { value: '20' } });
+
+      await waitFor(() => {
+        expect(mockGetUsers).toHaveBeenCalledWith(
+          expect.objectContaining({
+            query: { page: 1, limit: 20 },
+          })
+        );
+      });
+    });
+
+    it('handles exception during loadUsers', async () => {
+      mockGetUsers.mockRejectedValueOnce(new Error('Network error'));
+
+      renderWithIntl(<UsersPage />);
+
+      await waitFor(() => {
+        expect(vi.mocked(toast.error)).toHaveBeenCalledWith('Failed to load users');
+      });
+    });
   });
 });

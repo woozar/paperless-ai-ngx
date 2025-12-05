@@ -1,10 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import {
-  AiBotListItemSchema,
-  AiBotListResponseSchema,
-  CreateAiBotRequestSchema,
-  UpdateAiBotRequestSchema,
-} from './ai-bots';
+import { AiBotListItemSchema, CreateAiBotRequestSchema, UpdateAiBotRequestSchema } from './ai-bots';
 
 describe('AiBotListItemSchema', () => {
   it('validates correct bot item', () => {
@@ -43,38 +38,6 @@ describe('AiBotListItemSchema', () => {
       updatedAt: '2024-01-15T10:00:00.000Z',
     });
     expect(result.success).toBe(false);
-  });
-});
-
-describe('AiBotListResponseSchema', () => {
-  it('validates correct bot list response', () => {
-    const result = AiBotListResponseSchema.safeParse({
-      bots: [
-        {
-          id: 'bot-1',
-          name: 'Document Analyzer',
-          systemPrompt: 'You are a helpful assistant',
-          aiProviderId: 'provider-1',
-          aiProvider: {
-            id: 'provider-1',
-            name: 'My OpenAI',
-          },
-          isActive: true,
-          createdAt: '2024-01-15T10:00:00.000Z',
-          updatedAt: '2024-01-15T10:00:00.000Z',
-        },
-      ],
-      total: 1,
-    });
-    expect(result.success).toBe(true);
-  });
-
-  it('validates empty bot list', () => {
-    const result = AiBotListResponseSchema.safeParse({
-      bots: [],
-      total: 0,
-    });
-    expect(result.success).toBe(true);
   });
 });
 

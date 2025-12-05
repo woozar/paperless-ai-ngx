@@ -1,39 +1,47 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@repo/database';
 import { CreateAiBotRequestSchema } from '@/lib/api/schemas/ai-bots';
+import { getPaginationParams, getPaginationMeta } from '@/lib/api/schemas/common';
 import { adminRoute } from '@/lib/api/route-wrapper';
 
-// GET /api/ai-bots - List all AiBots (Admin only)
+// GET /api/ai-bots - List all AiBots (Admin only, paginated)
 export const GET = adminRoute(
-  async ({ user }) => {
-    const bots = await prisma.aiBot.findMany({
-      where: {
-        ownerId: user.userId,
-      },
-      select: {
-        id: true,
-        name: true,
-        systemPrompt: true,
-        aiProviderId: true,
-        aiProvider: {
-          select: {
-            id: true,
-            name: true,
+  async ({ user, request }) => {
+    const { page, limit } = getPaginationParams(request);
+    const skip = (page - 1) * limit;
+    const where = { ownerId: user.userId };
+
+    const [bots, total] = await Promise.all([
+      prisma.aiBot.findMany({
+        where,
+        select: {
+          id: true,
+          name: true,
+          systemPrompt: true,
+          aiProviderId: true,
+          aiProvider: {
+            select: {
+              id: true,
+              name: true,
+            },
           },
+          createdAt: true,
+          updatedAt: true,
         },
-        createdAt: true,
-        updatedAt: true,
-      },
-      orderBy: { name: 'asc' },
-    });
+        orderBy: { name: 'asc' },
+        skip,
+        take: limit,
+      }),
+      prisma.aiBot.count({ where }),
+    ]);
 
     return NextResponse.json({
-      bots: bots.map((bot) => ({
+      items: bots.map((bot) => ({
         ...bot,
         createdAt: bot.createdAt.toISOString(),
         updatedAt: bot.updatedAt.toISOString(),
       })),
-      total: bots.length,
+      ...getPaginationMeta(total, page, limit),
     });
   },
   { errorLogPrefix: 'List AI bots' }

@@ -3,32 +3,41 @@ import { prisma } from '@repo/database';
 import { hashPassword } from '@/lib/utilities/password';
 import { getSalt } from '@/lib/bootstrap';
 import { CreateUserRequestSchema } from '@/lib/api/schemas/users';
+import { getPaginationParams, getPaginationMeta } from '@/lib/api/schemas/common';
 import { ApiResponses } from '@/lib/api/responses';
 import { adminRoute } from '@/lib/api/route-wrapper';
 
-// GET /api/users - List all users (Admin only)
+// GET /api/users - List all users (Admin only, paginated)
 export const GET = adminRoute(
-  async () => {
-    const users = await prisma.user.findMany({
-      select: {
-        id: true,
-        username: true,
-        role: true,
-        isActive: true,
-        mustChangePassword: true,
-        createdAt: true,
-        updatedAt: true,
-      },
-      orderBy: { username: 'asc' },
-    });
+  async ({ request }) => {
+    const { page, limit } = getPaginationParams(request);
+    const skip = (page - 1) * limit;
+
+    const [users, total] = await Promise.all([
+      prisma.user.findMany({
+        select: {
+          id: true,
+          username: true,
+          role: true,
+          isActive: true,
+          mustChangePassword: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+        orderBy: { username: 'asc' },
+        skip,
+        take: limit,
+      }),
+      prisma.user.count(),
+    ]);
 
     return NextResponse.json({
-      users: users.map((user) => ({
+      items: users.map((user) => ({
         ...user,
         createdAt: user.createdAt.toISOString(),
         updatedAt: user.updatedAt.toISOString(),
       })),
-      total: users.length,
+      ...getPaginationMeta(total, page, limit),
     });
   },
   { errorLogPrefix: 'List users' }

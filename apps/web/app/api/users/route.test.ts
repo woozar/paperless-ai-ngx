@@ -8,6 +8,7 @@ vi.mock('@repo/database', () => ({
       findMany: vi.fn(),
       findUnique: vi.fn(),
       create: vi.fn(),
+      count: vi.fn(),
     },
   },
 }));
@@ -35,6 +36,7 @@ const mockedPrisma = mockPrisma<{
     findMany: typeof prisma.user.findMany;
     findUnique: typeof prisma.user.findUnique;
     create: typeof prisma.user.create;
+    count: typeof prisma.user.count;
   };
 }>(prisma);
 
@@ -65,14 +67,15 @@ describe('GET /api/users', () => {
         updatedAt: mockDate,
       },
     ]);
+    mockedPrisma.user.count.mockResolvedValueOnce(1);
 
     const request = new NextRequest('http://localhost/api/users');
     const response = await GET(request);
     const data = await response.json();
 
     expect(response.status).toBe(200);
-    expect(data.users).toHaveLength(1);
-    expect(data.users[0].username).toBe('testuser');
+    expect(data.items).toHaveLength(1);
+    expect(data.items[0].username).toBe('testuser');
     expect(data.total).toBe(1);
   });
 });

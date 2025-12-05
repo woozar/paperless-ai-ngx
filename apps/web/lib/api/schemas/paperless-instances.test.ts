@@ -1,7 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import {
   PaperlessInstanceListItemSchema,
-  PaperlessInstanceListResponseSchema,
   CreatePaperlessInstanceRequestSchema,
   UpdatePaperlessInstanceRequestSchema,
 } from './paperless-instances';
@@ -26,34 +25,6 @@ describe('PaperlessInstanceListItemSchema', () => {
       name: 'My Paperless',
     });
     expect(result.success).toBe(false);
-  });
-});
-
-describe('PaperlessInstanceListResponseSchema', () => {
-  it('validates correct instance list response', () => {
-    const result = PaperlessInstanceListResponseSchema.safeParse({
-      instances: [
-        {
-          id: 'instance-1',
-          name: 'My Paperless',
-          apiUrl: 'https://paperless.example.com',
-          apiToken: '***',
-          isActive: true,
-          createdAt: '2024-01-15T10:00:00.000Z',
-          updatedAt: '2024-01-15T10:00:00.000Z',
-        },
-      ],
-      total: 1,
-    });
-    expect(result.success).toBe(true);
-  });
-
-  it('validates empty instance list', () => {
-    const result = PaperlessInstanceListResponseSchema.safeParse({
-      instances: [],
-      total: 0,
-    });
-    expect(result.success).toBe(true);
   });
 });
 

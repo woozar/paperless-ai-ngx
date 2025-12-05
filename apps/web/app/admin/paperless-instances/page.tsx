@@ -13,6 +13,7 @@ import { useApi } from '@/lib/use-api';
 import { useFormatDate } from '@/hooks/use-format-date';
 import { getPaperlessInstances, postPaperlessInstancesByIdImport } from '@repo/api-client';
 import { toast } from 'sonner';
+import { TablePagination } from '@/components/table-pagination';
 
 import type { PaperlessInstanceListItem } from '@repo/api-client';
 import {
@@ -33,6 +34,10 @@ export default function PaperlessInstancesPage() {
 
   const [instances, setInstances] = useState<Omit<PaperlessInstanceListItem, 'apiToken'>[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const [total, setTotal] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
 
   // Dialog states
   const [isCreateOpen, setIsCreateOpen] = useState(false);
@@ -46,28 +51,36 @@ export default function PaperlessInstancesPage() {
   > | null>(null);
   const [importingInstanceId, setImportingInstanceId] = useState<string | null>(null);
 
-  const loadInstances = useCallback(async () => {
-    setIsLoading(true);
+  const loadInstances = useCallback(
+    async (currentPage: number, currentLimit: number) => {
+      setIsLoading(true);
 
-    try {
-      const response = await getPaperlessInstances({ client });
+      try {
+        const response = await getPaperlessInstances({
+          client,
+          query: { page: currentPage, limit: currentLimit },
+        });
 
-      if (response.error) {
-        if (response.response.status === 403) {
-          router.push('/');
+        if (response.error) {
+          if (response.response.status === 403) {
+            router.push('/');
+            return;
+          }
+          showError('loadFailed');
           return;
         }
-        showError('loadFailed');
-        return;
-      }
 
-      setInstances(response.data.instances);
-    } catch {
-      showError('loadFailed');
-    } finally {
-      setIsLoading(false);
-    }
-  }, [router, showError, client]);
+        setInstances(response.data.items);
+        setTotal(response.data.total);
+        setTotalPages(response.data.totalPages);
+      } catch {
+        showError('loadFailed');
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [router, showError, client]
+  );
 
   const handleImport = useCallback(
     async (instance: Omit<PaperlessInstanceListItem, 'apiToken'>) => {
@@ -99,8 +112,21 @@ export default function PaperlessInstancesPage() {
       router.push('/');
       return;
     }
-    loadInstances();
-  }, [isAuthLoading, currentUser, router, loadInstances]);
+    loadInstances(page, limit);
+  }, [isAuthLoading, currentUser, router, loadInstances, page, limit]);
+
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleLimitChange = (newLimit: number) => {
+    setLimit(newLimit);
+    setPage(1);
+  };
+
+  const reloadCurrentPage = () => {
+    loadInstances(page, limit);
+  };
 
   if (currentUser?.role !== 'ADMIN') {
     return null;
@@ -141,7 +167,7 @@ export default function PaperlessInstancesPage() {
           </Button>
         </div>
 
-        {!isLoading && instances.length === 0 ? (
+        {!isLoading && instances.length === 0 && total === 0 ? (
           <div className="text-muted-foreground py-12 text-center">{t('noInstances')}</div>
         ) : (
           <div className="bg-card rounded-md border shadow-sm">
@@ -156,6 +182,15 @@ export default function PaperlessInstancesPage() {
               </TableHeader>
               <TableBody>{renderTableContent()}</TableBody>
             </Table>
+            <TablePagination
+              page={page}
+              limit={limit}
+              total={total}
+              totalPages={totalPages}
+              isLoading={isLoading}
+              onPageChange={handlePageChange}
+              onLimitChange={handleLimitChange}
+            />
           </div>
         )}
       </div>
@@ -163,21 +198,21 @@ export default function PaperlessInstancesPage() {
       <CreateInstanceDialog
         open={isCreateOpen}
         onOpenChange={setIsCreateOpen}
-        onSuccess={loadInstances}
+        onSuccess={reloadCurrentPage}
       />
 
       <EditInstanceDialog
         open={!!editingInstance}
         onOpenChange={(open) => !open && setEditingInstance(null)}
         instance={editingInstance}
-        onSuccess={loadInstances}
+        onSuccess={reloadCurrentPage}
       />
 
       <DeleteInstanceDialog
         open={!!deletingInstance}
         onOpenChange={(open) => !open && setDeletingInstance(null)}
         instance={deletingInstance}
-        onSuccess={loadInstances}
+        onSuccess={reloadCurrentPage}
       />
     </AppShell>
   );

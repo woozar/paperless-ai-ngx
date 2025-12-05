@@ -10,7 +10,7 @@ export interface PaperlessDocument {
   created: string;
   modified: string;
   added: string;
-  archive_serial_number: number | null;
+  archive_serial_number: string | null;
   original_file_name: string;
   archived_file_name: string | null;
 }

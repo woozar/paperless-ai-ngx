@@ -50,7 +50,7 @@ describe('UserListItemSchema', () => {
 describe('UserListResponseSchema', () => {
   it('validates correct user list response', () => {
     const result = UserListResponseSchema.safeParse({
-      users: [
+      items: [
         {
           id: 'user-1',
           username: 'testuser',
@@ -62,14 +62,20 @@ describe('UserListResponseSchema', () => {
         },
       ],
       total: 1,
+      page: 1,
+      limit: 10,
+      totalPages: 1,
     });
     expect(result.success).toBe(true);
   });
 
   it('validates empty user list', () => {
     const result = UserListResponseSchema.safeParse({
-      users: [],
+      items: [],
       total: 0,
+      page: 1,
+      limit: 10,
+      totalPages: 0,
     });
     expect(result.success).toBe(true);
   });

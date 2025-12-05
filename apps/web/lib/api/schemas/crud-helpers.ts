@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { registry } from '../openapi';
-import { CommonErrorResponses } from './common';
+import { CommonErrorResponses, PaginationQuerySchema, PaginationMetaSchema } from './common';
 
 type CrudResourceConfig = {
   /** Resource name in singular form (e.g., "AiProvider") */
@@ -11,8 +11,6 @@ type CrudResourceConfig = {
   tag: string;
   /** Schema for list item response */
   listItemSchema: z.ZodType;
-  /** Schema for list response with items array */
-  listResponseSchema: z.ZodType;
   /** Schema for create request body */
   createRequestSchema: z.ZodType;
   /** Schema for update request body */
@@ -31,24 +29,33 @@ export function registerCrudPaths(config: CrudResourceConfig) {
     resourcePath,
     tag,
     listItemSchema,
-    listResponseSchema,
     createRequestSchema,
     updateRequestSchema,
     deleteReturnsSuccess = false,
   } = config;
 
-  // GET /resources - List all
+  // Create paginated response schema for this resource
+  const paginatedResponseSchema = z
+    .object({
+      items: z.array(listItemSchema),
+    })
+    .extend(PaginationMetaSchema.shape);
+
+  // GET /resources - List all (paginated)
   registry.registerPath({
     method: 'get',
     path: resourcePath,
     summary: `List all ${tag} (Admin only)`,
     tags: [tag],
+    request: {
+      query: PaginationQuerySchema,
+    },
     responses: {
       200: {
-        description: `List of ${tag}`,
+        description: `Paginated list of ${tag}`,
         content: {
           'application/json': {
-            schema: listResponseSchema,
+            schema: paginatedResponseSchema,
           },
         },
       },

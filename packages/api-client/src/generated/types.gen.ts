@@ -41,8 +41,11 @@ export type UserListItem = {
 };
 
 export type UserListResponse = {
-  users: Array<UserListItem>;
+  items: Array<UserListItem>;
   total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
 };
 
 export type CreateUserRequest = {
@@ -272,7 +275,10 @@ export type GetAuthMeResponse = GetAuthMeResponses[keyof GetAuthMeResponses];
 export type GetUsersData = {
   body?: never;
   path?: never;
-  query?: never;
+  query?: {
+    page?: number;
+    limit?: number;
+  };
   url: '/users';
 };
 
@@ -291,7 +297,7 @@ export type GetUsersError = GetUsersErrors[keyof GetUsersErrors];
 
 export type GetUsersResponses = {
   /**
-   * List of users
+   * Paginated list of users
    */
   200: UserListResponse;
 };
@@ -447,7 +453,10 @@ export type PatchUsersByIdResponse = PatchUsersByIdResponses[keyof PatchUsersByI
 export type GetPaperlessInstancesData = {
   body?: never;
   path?: never;
-  query?: never;
+  query?: {
+    page?: number;
+    limit?: number;
+  };
   url: '/paperless-instances';
 };
 
@@ -467,9 +476,15 @@ export type GetPaperlessInstancesError =
 
 export type GetPaperlessInstancesResponses = {
   /**
-   * List of PaperlessInstances
+   * Paginated list of PaperlessInstances
    */
-  200: PaperlessInstanceListResponse;
+  200: {
+    items: Array<PaperlessInstanceListItem>;
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
 };
 
 export type GetPaperlessInstancesResponse =
@@ -718,7 +733,10 @@ export type GetPaperlessInstancesByIdStatsResponse =
 export type GetAiProvidersData = {
   body?: never;
   path?: never;
-  query?: never;
+  query?: {
+    page?: number;
+    limit?: number;
+  };
   url: '/ai-providers';
 };
 
@@ -737,9 +755,15 @@ export type GetAiProvidersError = GetAiProvidersErrors[keyof GetAiProvidersError
 
 export type GetAiProvidersResponses = {
   /**
-   * List of AiProviders
+   * Paginated list of AiProviders
    */
-  200: AiProviderListResponse;
+  200: {
+    items: Array<AiProviderListItem>;
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
 };
 
 export type GetAiProvidersResponse = GetAiProvidersResponses[keyof GetAiProvidersResponses];
@@ -906,7 +930,10 @@ export type PatchAiProvidersByIdResponse =
 export type GetAiBotsData = {
   body?: never;
   path?: never;
-  query?: never;
+  query?: {
+    page?: number;
+    limit?: number;
+  };
   url: '/ai-bots';
 };
 
@@ -925,9 +952,15 @@ export type GetAiBotsError = GetAiBotsErrors[keyof GetAiBotsErrors];
 
 export type GetAiBotsResponses = {
   /**
-   * List of AiBots
+   * Paginated list of AiBots
    */
-  200: AiBotListResponse;
+  200: {
+    items: Array<AiBotListItem>;
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
 };
 
 export type GetAiBotsResponse = GetAiBotsResponses[keyof GetAiBotsResponses];

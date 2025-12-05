@@ -74,7 +74,13 @@ describe('EditBotDialog', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mockGetAiProviders.mockResolvedValue({
-      data: { providers: mockProviders },
+      data: {
+        items: mockProviders,
+        total: mockProviders.length,
+        page: 1,
+        limit: 10,
+        totalPages: 1,
+      },
       error: undefined,
     });
     Object.defineProperty(window, 'localStorage', {

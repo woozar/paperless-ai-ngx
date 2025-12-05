@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Paperless AI API",
-    "version": "1.0.0",
+    "version": "1.5.0",
     "description": "API for Paperless AI document processing"
   },
   "servers": [
@@ -136,17 +136,30 @@
       "UserListResponse": {
         "type": "object",
         "properties": {
-          "users": {
+          "items": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/UserListItem"
             }
           },
           "total": {
-            "type": "number"
+            "type": "integer",
+            "example": 100
+          },
+          "page": {
+            "type": "integer",
+            "example": 1
+          },
+          "limit": {
+            "type": "integer",
+            "example": 10
+          },
+          "totalPages": {
+            "type": "integer",
+            "example": 10
           }
         },
-        "required": ["users", "total"]
+        "required": ["items", "total", "page", "limit", "totalPages"]
       },
       "CreateUserRequest": {
         "type": "object",
@@ -690,9 +703,34 @@
       "get": {
         "summary": "List all users (Admin only)",
         "tags": ["Users"],
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "example": 1
+            },
+            "required": false,
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 10,
+              "example": 10
+            },
+            "required": false,
+            "name": "limit",
+            "in": "query"
+          }
+        ],
         "responses": {
           "200": {
-            "description": "List of users",
+            "description": "Paginated list of users",
             "content": {
               "application/json": {
                 "schema": {
@@ -975,13 +1013,63 @@
       "get": {
         "summary": "List all PaperlessInstances (Admin only)",
         "tags": ["PaperlessInstances"],
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "example": 1
+            },
+            "required": false,
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 10,
+              "example": 10
+            },
+            "required": false,
+            "name": "limit",
+            "in": "query"
+          }
+        ],
         "responses": {
           "200": {
-            "description": "List of PaperlessInstances",
+            "description": "Paginated list of PaperlessInstances",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PaperlessInstanceListResponse"
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/PaperlessInstanceListItem"
+                      }
+                    },
+                    "total": {
+                      "type": "integer",
+                      "example": 100
+                    },
+                    "page": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "limit": {
+                      "type": "integer",
+                      "example": 10
+                    },
+                    "totalPages": {
+                      "type": "integer",
+                      "example": 10
+                    }
+                  },
+                  "required": ["items", "total", "page", "limit", "totalPages"]
                 }
               }
             }
@@ -1407,13 +1495,63 @@
       "get": {
         "summary": "List all AiProviders (Admin only)",
         "tags": ["AiProviders"],
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "example": 1
+            },
+            "required": false,
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 10,
+              "example": 10
+            },
+            "required": false,
+            "name": "limit",
+            "in": "query"
+          }
+        ],
         "responses": {
           "200": {
-            "description": "List of AiProviders",
+            "description": "Paginated list of AiProviders",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AiProviderListResponse"
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/AiProviderListItem"
+                      }
+                    },
+                    "total": {
+                      "type": "integer",
+                      "example": 100
+                    },
+                    "page": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "limit": {
+                      "type": "integer",
+                      "example": 10
+                    },
+                    "totalPages": {
+                      "type": "integer",
+                      "example": 10
+                    }
+                  },
+                  "required": ["items", "total", "page", "limit", "totalPages"]
                 }
               }
             }
@@ -1712,13 +1850,63 @@
       "get": {
         "summary": "List all AiBots (Admin only)",
         "tags": ["AiBots"],
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "example": 1
+            },
+            "required": false,
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 10,
+              "example": 10
+            },
+            "required": false,
+            "name": "limit",
+            "in": "query"
+          }
+        ],
         "responses": {
           "200": {
-            "description": "List of AiBots",
+            "description": "Paginated list of AiBots",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AiBotListResponse"
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/AiBotListItem"
+                      }
+                    },
+                    "total": {
+                      "type": "integer",
+                      "example": 100
+                    },
+                    "page": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "limit": {
+                      "type": "integer",
+                      "example": 10
+                    },
+                    "totalPages": {
+                      "type": "integer",
+                      "example": 10
+                    }
+                  },
+                  "required": ["items", "total", "page", "limit", "totalPages"]
                 }
               }
             }

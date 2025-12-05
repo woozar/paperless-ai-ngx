@@ -8,6 +8,7 @@ vi.mock('@repo/database', () => ({
       findMany: vi.fn(),
       findFirst: vi.fn(),
       create: vi.fn(),
+      count: vi.fn(),
     },
   },
 }));
@@ -30,6 +31,7 @@ const mockedPrisma = mockPrisma<{
     findMany: typeof prisma.paperlessInstance.findMany;
     findFirst: typeof prisma.paperlessInstance.findFirst;
     create: typeof prisma.paperlessInstance.create;
+    count: typeof prisma.paperlessInstance.count;
   };
 }>(prisma);
 
@@ -59,6 +61,7 @@ describe('GET /api/paperless-instances', () => {
         updatedAt: mockDate,
       },
     ]);
+    mockedPrisma.paperlessInstance.count.mockResolvedValueOnce(1);
 
     const request = new NextRequest('http://localhost/api/paperless-instances');
 
@@ -66,9 +69,9 @@ describe('GET /api/paperless-instances', () => {
     const data = await response.json();
 
     expect(response.status).toBe(200);
-    expect(data.instances).toHaveLength(1);
-    expect(data.instances[0].name).toBe('My Paperless');
-    expect(data.instances[0].apiToken).toBe('***');
+    expect(data.items).toHaveLength(1);
+    expect(data.items[0].name).toBe('My Paperless');
+    expect(data.items[0].apiToken).toBe('***');
     expect(data.total).toBe(1);
   });
 });

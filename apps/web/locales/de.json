@@ -17,7 +17,12 @@
     "paperlessInstances": "Paperless Server",
     "aiProviders": "KI-Anbieter",
     "aiBots": "KI-Bots",
-    "admin": "Verwaltung"
+    "admin": "Verwaltung",
+    "pagination": {
+      "showing": "{start} bis {end} von {total}",
+      "rowsPerPage": "Zeilen pro Seite",
+      "pageOf": "Seite {page} von {totalPages}"
+    }
   },
   "home": {
     "title": "Willkommen bei Paperless AI ngx",
