@@ -3,7 +3,7 @@ import { expect } from 'vitest';
 
 expect.extend(matchers);
 import { cleanup } from '@testing-library/react';
-import { afterEach, beforeAll, vi } from 'vitest';
+import { afterEach, vi } from 'vitest';
 
 // // Mock console.error to suppress error logs from our app during tests
 // beforeAll(() => {

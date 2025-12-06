@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { screen, fireEvent, waitFor } from '@testing-library/react';
 import { toast } from 'sonner';
 import { CreateUserDialog } from './create-user-dialog';
-import { renderWithIntl, messages } from '@/test-utils/render-with-intl';
+import { renderWithIntl } from '@/test-utils/render-with-intl';
 
 const mockPostUsers = vi.fn();
 

@@ -1,12 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { screen, waitFor, act } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { toast } from 'sonner';
 import { CreateProviderDialog } from './create-provider-dialog';
 import { renderWithIntl } from '@/test-utils/render-with-intl';
 
 const mockPostAiProviders = vi.fn();
-let mockOnProviderChange: ((value: string) => void) | undefined;
 
 vi.mock('@repo/api-client', async () => {
   const actual = await vi.importActual('@repo/api-client');
@@ -17,8 +16,7 @@ vi.mock('@repo/api-client', async () => {
 });
 
 vi.mock('@/components/ui/select', () => ({
-  Select: ({ children, onValueChange, value }: any) => {
-    mockOnProviderChange = onValueChange;
+  Select: ({ children, value }: any) => {
     return (
       <div data-testid="mock-select" data-value={value}>
         {children}

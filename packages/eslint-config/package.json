@@ -4,11 +4,24 @@
   "type": "module",
   "private": true,
   "exports": {
-    "./base": "./base.js",
-    "./next-js": "./next.js",
-    "./react-internal": "./react-internal.js"
+    "./base": {
+      "types": "./base.ts",
+      "import": "./base.ts",
+      "default": "./base.ts"
+    },
+    "./next-js": {
+      "types": "./next.ts",
+      "import": "./next.ts",
+      "default": "./next.ts"
+    },
+    "./react-internal": {
+      "types": "./react-internal.ts",
+      "import": "./react-internal.ts",
+      "default": "./react-internal.ts"
+    }
   },
   "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
     "@eslint/js": "^9.39.1",
     "@next/eslint-plugin-next": "^15.5.0",
     "eslint": "^9.39.1",

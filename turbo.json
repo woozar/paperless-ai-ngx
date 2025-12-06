@@ -2,14 +2,16 @@
   "$schema": "https://turborepo.com/schema.json",
   "ui": "tui",
   "globalEnv": [
-    "PORT",
-    "HOST",
+    "ADMIN_INITIAL_PASSWORD",
     "API_TOKEN",
+    "DATABASE_URL",
+    "ENCRYPTION_KEY",
+    "HOST",
     "JWT_SECRET",
     "LOG_LEVEL",
-    "ENCRYPTION_KEY",
+    "NEXT_RUNTIME",
     "NODE_ENV",
-    "DATABASE_URL"
+    "PORT"
   ],
   "tasks": {
     "build": {

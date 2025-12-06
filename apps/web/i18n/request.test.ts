@@ -127,7 +127,7 @@ describe('i18n/request', () => {
     expect(config.messages).toBeDefined();
     if (config.messages) {
       expect(config.messages.common).toBeDefined();
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
       expect((config.messages as any).common.appName).toBe('Paperless AI ngx');
     }
   });

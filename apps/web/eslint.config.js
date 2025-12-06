@@ -14,4 +14,10 @@ export default [
       'node-import/prefer-node-protocol': 2,
     },
   },
+  {
+    files: ['**/*.test.ts', '**/*.test.tsx', 'test-utils/**/*'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+    },
+  },
 ];

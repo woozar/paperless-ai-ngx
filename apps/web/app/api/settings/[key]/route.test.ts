@@ -222,7 +222,6 @@ describe('PUT /api/settings/[key]', () => {
     });
 
     const response = await PUT(request, { params: Promise.resolve({ key: 'test.bool.setting' }) });
-    const data = await response.json();
 
     expect(response.status).toBe(200);
     // Verify that boolean was stringified for storage

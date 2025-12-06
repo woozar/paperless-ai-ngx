@@ -45,7 +45,7 @@ vi.mock('@repo/api-client', async () => {
 });
 
 vi.mock('@/components/ui/select', () => ({
-  Select: ({ children, onValueChange, value }: any) => (
+  Select: ({ children, value }: any) => (
     <div data-testid="mock-select" data-value={value}>
       {children}
     </div>
