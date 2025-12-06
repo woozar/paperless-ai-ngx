@@ -5,6 +5,7 @@ import { EditAiProviderFormSchema } from '@/lib/api/schemas/ai-providers-ui';
 import { patchAiProvidersById } from '@repo/api-client';
 import { useApi } from '@/lib/use-api';
 import type { AiProviderListItem } from '@repo/api-client';
+import { ProviderLogo } from '@/components/provider-logo';
 
 type EditProviderDialogProps = Readonly<{
   open: boolean;
@@ -56,6 +57,7 @@ export function EditProviderDialog({
       }}
       onSuccess={onSuccess}
       testIdPrefix="edit-provider"
+      renderOptionIcon={(_fieldName, value) => <ProviderLogo provider={value} size={20} />}
       initialData={{
         name: provider.name,
         provider: provider.provider,

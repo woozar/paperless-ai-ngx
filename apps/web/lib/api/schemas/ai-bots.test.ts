@@ -11,6 +11,7 @@ describe('AiBotListItemSchema', () => {
       aiProvider: {
         id: 'provider-1',
         name: 'My OpenAI',
+        provider: 'openai',
       },
       isActive: true,
       createdAt: '2024-01-15T10:00:00.000Z',

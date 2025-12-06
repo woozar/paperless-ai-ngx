@@ -60,7 +60,7 @@
 }
 
 :root {
-  /* Professional Slate/Blue Theme - Refined */
+  /* Professional gray/Blue Theme - Refined */
   --radius: 0.75rem; /* Slightly more rounded for modern feel */
 
   --background: oklch(1 0 0);
@@ -76,7 +76,7 @@
   --primary: oklch(0.5 0.2 265);
   --primary-foreground: oklch(0.98 0 0);
 
-  /* Clean light slate for secondary */
+  /* Clean light gray for secondary */
   --secondary: oklch(0.97 0.01 260);
   --secondary-foreground: oklch(0.21 0.03 260);
 

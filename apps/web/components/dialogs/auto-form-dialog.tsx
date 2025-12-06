@@ -55,6 +55,8 @@ type AutoFormDialogProps<TSchema extends z.ZodObject<z.ZodRawShape>> = Readonly<
   initialData?: Partial<z.infer<TSchema>>;
   /** Dynamic options for select fields */
   dynamicOptions?: Record<string, Array<{ value: string; label: string }>>;
+  /** Render icon for select option (fieldName, optionValue) => ReactNode */
+  renderOptionIcon?: (fieldName: string, optionValue: string) => React.ReactNode;
 }>;
 
 type FieldMetadata = {
@@ -123,6 +125,7 @@ export function AutoFormDialog<TSchema extends z.ZodObject<z.ZodRawShape>>({
   testIdPrefix = 'form',
   initialData = {},
   dynamicOptions = {},
+  renderOptionIcon,
 }: AutoFormDialogProps<TSchema>) {
   const t = useTranslations(translationNamespace);
   const tCommon = useTranslations('common');
@@ -250,16 +253,19 @@ export function AutoFormDialog<TSchema extends z.ZodObject<z.ZodRawShape>>({
             id={id}
             testId={testId}
             disabled={isSubmitting}
-            options={
+            options={(
               dynamicOptions[field.name] ??
               (field.options ?? []).map((opt) => ({ value: opt.value, label: t(opt.labelKey) }))
-            }
+            ).map((opt) => ({
+              ...opt,
+              icon: renderOptionIcon?.(field.name, opt.value),
+            }))}
             showPasswordRules={field.hasCustomValidation}
           />
         </div>
       );
     },
-    [formData, isSubmitting, t, testIdPrefix, updateField, dynamicOptions]
+    [formData, isSubmitting, t, testIdPrefix, updateField, dynamicOptions, renderOptionIcon]
   );
 
   const handleFormSubmit = useCallback(

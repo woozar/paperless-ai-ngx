@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import SettingsPage from './page';
 import { renderWithIntl } from '@/test-utils/render-with-intl';
 
@@ -20,6 +21,13 @@ vi.mock('@/components/settings-provider', () => ({
     settings: { 'security.sharing.mode': 'BASIC' as const },
     isLoading: false,
     updateSetting: vi.fn(),
+  }),
+}));
+
+vi.mock('next-themes', () => ({
+  useTheme: () => ({
+    theme: 'system',
+    setTheme: vi.fn(),
   }),
 }));
 
@@ -48,11 +56,27 @@ describe('SettingsPage', () => {
     });
   });
 
-  it('renders AutoSettingsPage component', async () => {
+  it('renders appearance settings tab by default', async () => {
     renderWithIntl(<SettingsPage />);
 
     await waitFor(() => {
-      // AutoSettingsPage renders settings controls
+      // Appearance is the default tab, check for the theme mode selector
+      expect(screen.getByTestId('setting-appearance.theme.mode')).toBeInTheDocument();
+    });
+  });
+
+  it('renders security settings when Security tab is clicked', async () => {
+    const user = userEvent.setup();
+    renderWithIntl(<SettingsPage />);
+
+    // Click on the Security tab
+    await waitFor(() => {
+      expect(screen.getByRole('tab', { name: /security/i })).toBeInTheDocument();
+    });
+    await user.click(screen.getByRole('tab', { name: /security/i }));
+
+    // Now security settings should be visible
+    await waitFor(() => {
       expect(screen.getByTestId('setting-security.sharing.mode')).toBeInTheDocument();
     });
   });
@@ -61,7 +85,7 @@ describe('SettingsPage', () => {
     renderWithIntl(<SettingsPage />);
 
     await waitFor(() => {
-      expect(screen.getByTestId('setting-security.sharing.mode')).toBeInTheDocument();
+      expect(screen.getByTestId('setting-appearance.theme.mode')).toBeInTheDocument();
     });
 
     expect(mockPush).not.toHaveBeenCalled();

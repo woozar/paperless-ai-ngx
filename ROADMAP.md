@@ -35,7 +35,7 @@
 - [x] Two roles: `DEFAULT` and `ADMIN` (Prisma Schema)
 - [x] Initial Admin created on first start (via ADMIN_INITIAL_PASSWORD)
 - [x] UI: Only admins can create new users
-- [ ] UI: Admins can edit app settings
+- [x] UI: Admins can edit app settings
 - [x] Schema: Admins do NOT have automatic access to other users' objects (Owner + Sharing Model)
 
 ### User Creation & Password
@@ -74,17 +74,8 @@
 
 - [x] Key-Value Settings Table (settingKey/settingValue)
 - [x] Bootstrap creates Salt setting automatically
-- [ ] `useSettings` Hook in frontend with typed object
-  ```typescript
-  {
-    security: {
-      sharing: {
-        mode: 'basic' | 'advanced';
-      }
-    }
-  }
-  ```
-- [ ] Advanced permissions setting (`security.sharing.mode`)
+- [x] `useSettings` Hook in frontend with typed object
+- [x] Advanced permissions setting (`security.sharing.mode`)
   - `basic`: No Sharing UI visible
   - `advanced`: Users can share objects with other users
 
@@ -162,21 +153,128 @@
   - [x] Shell script for analysis (`scripts/sonar-analysis.sh`)
   - [x] Uses ENV: `SONAR_SERVER`, `SONAR_KEY`, `SONAR_TOKEN`
 
-## Phase 5: Dashboard & Document Processing
+## Phase 5: Customizable Dashboard System
 
-- [ ] Dashboard Page (`/dashboard`)
-  - [ ] Processing statistics
-  - [ ] Recently processed documents
-  - [ ] Queue status
-  - [ ] Charts & Visualizations
-    - [ ] Pie Charts (overall distribution)
-      - [ ] Documents per instance
-      - [ ] Token usage per model
-      - [ ] Token usage per instance
-      - [ ] Token usage per bot
-    - [ ] Line Charts (distribution over time)
-      - [ ] Documents over time
-      - [ ] Token usage over time
+### Database Schema
+
+- [ ] `Dashboard` Model
+  - [ ] `id`, `name`, `description`, `ownerId`
+  - [ ] `isDefault` flag (system-wide default dashboard)
+  - [ ] `gridCols` (number of columns, default: 12)
+  - [ ] `createdAt`, `updatedAt`
+- [ ] `DashboardTile` Model
+  - [ ] `id`, `dashboardId`, `tileType` (enum)
+  - [ ] `gridX`, `gridY`, `gridWidth`, `gridHeight`
+  - [ ] `config` (JSON - tile-specific settings)
+  - [ ] `order` (z-index for overlapping edge cases)
+- [ ] `UserDashboardAccess` Join Table
+  - [ ] `userId`, `dashboardId`, `permission` (READ, WRITE, ADMIN)
+- [ ] Migration: Create default "Overview" dashboard on bootstrap
+
+### Dashboard API
+
+- [ ] CRUD endpoints for Dashboards (`/api/dashboards`)
+- [ ] CRUD endpoints for Tiles (`/api/dashboards/[id]/tiles`)
+- [ ] Permission checks (Owner + Sharing Model)
+- [ ] Bulk update endpoint for tile positions (drag & drop saves)
+- [ ] Clone dashboard endpoint
+
+### Tile Types (React Components)
+
+- [ ] `STATISTICS` - Processing statistics (documents processed, pending, failed)
+- [ ] `RECENT_DOCUMENTS` - Recently processed documents list
+- [ ] `QUEUE_STATUS` - Current queue status
+- [ ] `PIE_CHART` - Configurable pie chart
+  - [ ] Config: `metric` (documents_per_instance, token_per_model, token_per_instance, token_per_bot)
+- [ ] `LINE_CHART` - Configurable line chart over time
+  - [ ] Config: `metric` (documents_over_time, tokens_over_time), `timeRange`
+- [ ] `QUICK_ACTIONS` - Buttons for common actions
+- [ ] `MARKDOWN` - Custom markdown content (for notes)
+
+### Tile Size Constraints
+
+- [ ] Define `minWidth`, `minHeight` per tile type:
+  - [ ] `STATISTICS`: min 3x2
+  - [ ] `RECENT_DOCUMENTS`: min 4x3
+  - [ ] `QUEUE_STATUS`: min 2x2
+  - [ ] `PIE_CHART`: min 3x3
+  - [ ] `LINE_CHART`: min 4x2
+  - [ ] `QUICK_ACTIONS`: min 2x1
+  - [ ] `MARKDOWN`: min 2x2
+- [ ] Validate constraints on API level
+
+### Grid System & Layout Engine
+
+- [ ] 12-column responsive grid (CSS Grid or react-grid-layout)
+- [ ] Responsive breakpoints:
+  - [ ] Desktop (≥1200px): 12 columns
+  - [ ] Tablet (≥768px): 8 columns
+  - [ ] Mobile (<768px): 4 columns (stacked layout)
+- [ ] Collision detection algorithm
+- [ ] Auto-compact: Tiles float up to fill gaps
+
+### Drag & Drop Editor
+
+- [ ] Edit mode toggle (only for WRITE/ADMIN permission)
+- [ ] Drag tiles to reposition
+- [ ] Resize handles (corner + edges)
+- [ ] Visual grid overlay in edit mode
+- [ ] Collision handling strategy: **Block resize/move** if collision would occur
+  - [ ] Visual feedback: Red outline when move/resize is blocked
+  - [ ] Tooltip explaining why action is blocked
+- [ ] Tile toolbar in edit mode:
+  - [ ] Configure tile (opens config modal)
+  - [ ] Delete tile
+  - [ ] Duplicate tile
+- [ ] Add tile button → opens tile type picker
+- [ ] Undo/Redo for layout changes (in-memory, not persisted until save)
+- [ ] Save/Cancel buttons (batch save all changes)
+
+### Edge Case Handling
+
+- [ ] **Resize blocked by neighbor**: Show ghost outline at max possible size, display tooltip
+- [ ] **Drag to occupied space**: Preview shows where tile would push others (but we block, not push)
+- [ ] **Tile exceeds grid bounds**: Clamp to grid boundary
+- [ ] **Responsive shrink**: If tile min-width > available columns, tile spans full width
+- [ ] **Empty dashboard**: Show "Add your first tile" placeholder
+- [ ] **Last tile delete**: Prevent deleting last tile (dashboard must have ≥1 tile)
+- [ ] **Concurrent edit**: Optimistic UI + conflict toast if save fails (reload to see changes)
+
+### Default Dashboard
+
+- [ ] System creates "Overview" dashboard on first boot
+- [ ] Owned by system (no owner, or special system user)
+- [ ] All users have implicit READ access
+- [ ] Only ADMINs can edit the default dashboard
+- [ ] Users can clone default dashboard to customize
+
+### Dashboard UI Pages
+
+- [ ] Dashboard view page (`/dashboard/[id]`)
+- [ ] Dashboard list page (`/dashboards`) - shows user's dashboards + shared
+- [ ] Dashboard settings modal (name, description, sharing)
+- [ ] Redirect `/dashboard` to user's primary dashboard or default
+
+### Responsive Strategy
+
+- [ ] **Layout Persistence per Breakpoint**
+  - [ ] Store separate tile positions for desktop/tablet/mobile in `DashboardTile.config`
+  - [ ] Or: Auto-calculate positions based on column reduction algorithm
+- [ ] **Column Collapse Algorithm**
+  - [ ] When columns reduce (12→8→4), tiles maintain relative order
+  - [ ] Tiles that no longer fit side-by-side stack vertically
+  - [ ] Preserve user's manual arrangements where possible
+- [ ] **Touch Support**
+  - [ ] Long-press to enter edit mode on mobile
+  - [ ] Larger touch targets for resize handles
+  - [ ] Swipe gestures for tile actions (optional)
+- [ ] **Performance on Mobile**
+  - [ ] Lazy-load tile content below fold
+  - [ ] Reduce chart complexity on mobile (fewer data points)
+  - [ ] Skeleton loading for each tile independently
+
+## Phase 5a: Document Processing
+
 - [ ] Document List (`/documents`)
   - [ ] Show unprocessed documents
   - [ ] Filter by status
@@ -256,5 +354,6 @@
 
 1. **Setup Wizard** (Phase 3b) - Step-by-step wizard to create instances, providers, and bots
 2. **Docker Compose Setup** (Phase 4) - Make the app production-ready deployable
-3. **Dashboard** (Phase 5) - Display documents and processing statistics
-4. **AI Analysis** (Phase 6) - Implement core document analysis feature
+3. **Customizable Dashboard System** (Phase 5) - Grid-based dashboard with drag & drop tiles
+4. **Document Processing** (Phase 5a) - Document list and detail views
+5. **AI Analysis** (Phase 6) - Implement core document analysis feature

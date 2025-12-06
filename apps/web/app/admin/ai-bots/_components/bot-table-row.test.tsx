@@ -37,6 +37,7 @@ const mockBot: AiBotListItem = {
   aiProvider: {
     id: 'provider-1',
     name: 'OpenAI',
+    provider: 'openai',
   },
   systemPrompt: 'You are a helpful assistant',
   createdAt: '2024-01-15T10:30:00Z',

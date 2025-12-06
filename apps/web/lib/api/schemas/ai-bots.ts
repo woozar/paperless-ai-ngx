@@ -15,6 +15,7 @@ export const AiBotListItemSchema = z
     aiProvider: z.object({
       id: z.string(),
       name: z.string(),
+      provider: z.string(),
     }),
     createdAt: z.iso.datetime(),
     updatedAt: z.iso.datetime(),

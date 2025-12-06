@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { useAuth } from '@/components/auth-provider';
-import { Sidebar } from '@/components/sidebar';
+import { Header } from '@/components/header';
 
 interface AppShellProps {
   children: React.ReactNode;
@@ -27,9 +27,9 @@ export function AppShell({ children }: Readonly<AppShellProps>) {
   }
 
   return (
-    <div className="bg-background min-h-screen">
-      <Sidebar />
-      <main className="animate-in fade-in slide-in-from-bottom-4 ml-64 p-8 duration-500 ease-out">
+    <div className="bg-background mx-auto flex min-h-screen max-w-7xl flex-col px-4 md:px-8">
+      <Header />
+      <main className="animate-in fade-in slide-in-from-bottom-4 container flex-1 py-4 duration-500 ease-out md:py-8">
         {children}
       </main>
     </div>

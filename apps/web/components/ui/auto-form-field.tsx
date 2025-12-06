@@ -1,5 +1,6 @@
 'use client';
 
+import * as React from 'react';
 import { Input } from '@/components/ui/input';
 import { PasswordInput } from '@/components/ui/password-input';
 import { ApiKeyInput } from '@/components/ui/api-key-input';
@@ -25,6 +26,7 @@ export type AutoFormFieldType =
 export type SelectOption = {
   value: string;
   label: string;
+  icon?: React.ReactNode;
 };
 
 export type AutoFormFieldProps = Readonly<{
@@ -89,21 +91,33 @@ export function AutoFormField({
         />
       );
 
-    case 'select':
+    case 'select': {
+      const selectedOption = options.find((opt) => opt.value === value);
       return (
         <Select value={value as string} onValueChange={(val) => onChange(val)} disabled={disabled}>
           <SelectTrigger id={id} data-testid={testId} className="w-full">
-            <SelectValue />
+            <SelectValue>
+              {selectedOption && (
+                <span className="flex items-center gap-2">
+                  {selectedOption.icon}
+                  {selectedOption.label}
+                </span>
+              )}
+            </SelectValue>
           </SelectTrigger>
           <SelectContent>
             {options.map((option) => (
               <SelectItem key={option.value} value={option.value}>
-                {option.label}
+                <span className="flex items-center gap-2">
+                  {option.icon}
+                  {option.label}
+                </span>
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
       );
+    }
 
     case 'textarea':
       return (

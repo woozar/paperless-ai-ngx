@@ -2,7 +2,7 @@
 
 import { memo, useMemo } from 'react';
 import { useTranslations } from 'next-intl';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { AutoFormField, type AutoFormFieldType } from '@/components/ui/auto-form-field';
 import { Loader2 } from 'lucide-react';
@@ -60,30 +60,28 @@ const SettingControl = memo(function SettingControl({
   switch (field.type) {
     case 'enum':
       return (
-        <div>
-          <Label className="mb-4 block">{t(`${baseKey}.title`)}</Label>
-          <div className="grid grid-cols-2 items-center gap-6">
-            <AutoFormField
-              type={autoFieldType}
-              value={value}
-              onChange={onChange}
-              disabled={disabled}
-              testId={testId}
-              options={options}
-            />
-            <p className="text-muted-foreground text-sm">{t(`${baseKey}.description`)}</p>
-          </div>
+        <div className="space-y-4">
+          <Label className="block">{t(`${baseKey}.title`)}</Label>
+          <AutoFormField
+            type={autoFieldType}
+            value={value}
+            onChange={onChange}
+            disabled={disabled}
+            testId={testId}
+            options={options}
+          />
+          <p className="text-muted-foreground text-sm">{t(`${baseKey}.description`)}</p>
         </div>
       );
 
     case 'boolean':
       return (
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-4">
           <div className="space-y-0.5">
             <Label htmlFor={testId}>{t(`${baseKey}.title`)}</Label>
             <p className="text-muted-foreground text-sm">{t(`${baseKey}.description`)}</p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex shrink-0 items-center gap-2">
             {disabled && <Loader2 className="h-4 w-4 animate-spin" />}
             <AutoFormField
               type={autoFieldType}
@@ -100,9 +98,8 @@ const SettingControl = memo(function SettingControl({
     case 'string':
     default:
       return (
-        <div className="space-y-2">
+        <div className="space-y-4">
           <Label>{t(`${baseKey}.title`)}</Label>
-          <p className="text-muted-foreground text-sm">{t(`${baseKey}.description`)}</p>
           <AutoFormField
             type={autoFieldType}
             value={value}
@@ -110,6 +107,7 @@ const SettingControl = memo(function SettingControl({
             disabled={disabled}
             testId={testId}
           />
+          <p className="text-muted-foreground text-sm">{t(`${baseKey}.description`)}</p>
         </div>
       );
   }
@@ -144,25 +142,32 @@ export const GroupCard = memo(function GroupCard({
   );
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{t(`admin.settings.${sectionKey}.${groupKey}.title`)}</CardTitle>
-        <CardDescription>
+    <div className="grid gap-8 lg:grid-cols-[1fr_2fr]">
+      {/* Left column: Title and description */}
+      <div className="space-y-1">
+        <h3 className="text-base font-medium">
+          {t(`admin.settings.${sectionKey}.${groupKey}.title`)}
+        </h3>
+        <p className="text-muted-foreground text-sm">
           {t(`admin.settings.${sectionKey}.${groupKey}.description`)}
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        {fields.map((field) => (
-          <SettingControl
-            key={field.key}
-            field={field}
-            value={settings[field.key]}
-            onChange={fieldChangeHandlers[field.key]!}
-            disabled={savingKey === field.key}
-            t={t}
-          />
-        ))}
-      </CardContent>
-    </Card>
+        </p>
+      </div>
+
+      {/* Right column: Settings controls in a card */}
+      <Card className="bg-gray-100 p-6 dark:bg-gray-800/50">
+        <CardContent className="space-y-6 p-0">
+          {fields.map((field) => (
+            <SettingControl
+              key={field.key}
+              field={field}
+              value={settings[field.key]}
+              onChange={fieldChangeHandlers[field.key]!}
+              disabled={savingKey === field.key}
+              t={t}
+            />
+          ))}
+        </CardContent>
+      </Card>
+    </div>
   );
 });

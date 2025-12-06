@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Paperless AI API",
-    "version": "1.5.0",
+    "version": "1.6.0",
     "description": "API for Paperless AI document processing"
   },
   "servers": [
@@ -234,21 +234,6 @@
         },
         "required": ["id", "name", "apiUrl", "apiToken", "createdAt", "updatedAt"]
       },
-      "PaperlessInstanceListResponse": {
-        "type": "object",
-        "properties": {
-          "instances": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PaperlessInstanceListItem"
-            }
-          },
-          "total": {
-            "type": "number"
-          }
-        },
-        "required": ["instances", "total"]
-      },
       "CreatePaperlessInstanceRequest": {
         "type": "object",
         "properties": {
@@ -359,21 +344,6 @@
           "updatedAt"
         ]
       },
-      "AiProviderListResponse": {
-        "type": "object",
-        "properties": {
-          "providers": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/AiProviderListItem"
-            }
-          },
-          "total": {
-            "type": "number"
-          }
-        },
-        "required": ["providers", "total"]
-      },
       "CreateAiProviderRequest": {
         "type": "object",
         "properties": {
@@ -451,9 +421,12 @@
               },
               "name": {
                 "type": "string"
+              },
+              "provider": {
+                "type": "string"
               }
             },
-            "required": ["id", "name"]
+            "required": ["id", "name", "provider"]
           },
           "createdAt": {
             "type": "string",
@@ -473,21 +446,6 @@
           "createdAt",
           "updatedAt"
         ]
-      },
-      "AiBotListResponse": {
-        "type": "object",
-        "properties": {
-          "bots": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/AiBotListItem"
-            }
-          },
-          "total": {
-            "type": "number"
-          }
-        },
-        "required": ["bots", "total"]
       },
       "CreateAiBotRequest": {
         "type": "object",

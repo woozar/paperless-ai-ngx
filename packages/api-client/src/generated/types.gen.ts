@@ -70,11 +70,6 @@ export type PaperlessInstanceListItem = {
   updatedAt: string;
 };
 
-export type PaperlessInstanceListResponse = {
-  instances: Array<PaperlessInstanceListItem>;
-  total: number;
-};
-
 export type CreatePaperlessInstanceRequest = {
   name: string;
   apiUrl: string;
@@ -111,11 +106,6 @@ export type AiProviderListItem = {
   updatedAt: string;
 };
 
-export type AiProviderListResponse = {
-  providers: Array<AiProviderListItem>;
-  total: number;
-};
-
 export type CreateAiProviderRequest = {
   name: string;
   provider: AiProviderType;
@@ -141,14 +131,10 @@ export type AiBotListItem = {
   aiProvider: {
     id: string;
     name: string;
+    provider: string;
   };
   createdAt: string;
   updatedAt: string;
-};
-
-export type AiBotListResponse = {
-  bots: Array<AiBotListItem>;
-  total: number;
 };
 
 export type CreateAiBotRequest = {

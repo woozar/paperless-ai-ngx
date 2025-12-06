@@ -6,6 +6,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 import { Edit, UserPlus, Trash2 } from 'lucide-react';
 import type { AiBotListItem } from '@repo/api-client';
 import { useSettings } from '@/components/settings-provider';
+import { ProviderLogo } from '@/components/provider-logo';
 
 type BotTableRowProps = Readonly<{
   bot: Omit<AiBotListItem, 'apiKey'>;
@@ -28,7 +29,12 @@ export const BotTableRow = memo(function BotTableRow({
   return (
     <TableRow>
       <TableCell className="font-medium">{bot.name}</TableCell>
-      <TableCell>{bot.aiProvider.name}</TableCell>
+      <TableCell>
+        <div className="flex items-center gap-2">
+          <ProviderLogo provider={bot.aiProvider.provider} size={20} />
+          <span>{bot.aiProvider.name}</span>
+        </div>
+      </TableCell>
       <TableCell className="text-muted-foreground text-sm">{formatDate(bot.createdAt)}</TableCell>
       <TableCell className="text-right">
         <div className="flex justify-end gap-2">

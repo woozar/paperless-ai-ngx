@@ -20,6 +20,7 @@ export const GET = adminRoute<never, { id: string }>(
           select: {
             id: true,
             name: true,
+            provider: true,
           },
         },
         createdAt: true,
@@ -136,6 +137,7 @@ export const PATCH = adminRoute<typeof UpdateAiBotRequestSchema, { id: string }>
           select: {
             id: true,
             name: true,
+            provider: true,
           },
         },
         createdAt: true,

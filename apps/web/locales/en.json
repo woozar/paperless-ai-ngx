@@ -256,6 +256,22 @@
       "title": "Settings",
       "saved": "Setting saved",
       "saveFailed": "Failed to save setting",
+      "appearance": {
+        "title": "Appearance",
+        "theme": {
+          "title": "Theme",
+          "description": "Customize the look and feel of the application",
+          "mode": {
+            "title": "Color Mode",
+            "description": "Choose between light, dark, or system-based theme",
+            "values": {
+              "light": "Light",
+              "dark": "Dark",
+              "system": "System Default"
+            }
+          }
+        }
+      },
       "security": {
         "title": "Security",
         "sharing": {

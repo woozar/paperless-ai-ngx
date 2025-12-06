@@ -23,6 +23,7 @@ export const GET = adminRoute(
             select: {
               id: true,
               name: true,
+              provider: true,
             },
           },
           createdAt: true,
@@ -106,6 +107,7 @@ export const POST = adminRoute(
           select: {
             id: true,
             name: true,
+            provider: true,
           },
         },
         createdAt: true,

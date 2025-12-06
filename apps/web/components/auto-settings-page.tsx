@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { SettingsSchema, type Settings } from '@/lib/api/schemas/settings';
 import { useSettings } from './settings-provider';
@@ -9,6 +9,8 @@ import { toast } from 'sonner';
 import { useState, useMemo, useCallback } from 'react';
 import { z } from 'zod';
 import { GroupCard, type SettingField } from './group-card';
+import { ClientSettings } from './client-settings';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 type FieldType = 'enum' | 'boolean' | 'string';
 
@@ -108,6 +110,7 @@ export function AutoSettingsPage() {
 
   const fields = useMemo(() => extractFieldMetadata(SettingsSchema), []);
   const groupedFields = useMemo(() => groupFields(fields), [fields]);
+  const sectionKeys = useMemo(() => Object.keys(groupedFields), [groupedFields]);
 
   const handleChange = useCallback(
     async (field: SettingField, value: string | boolean) => {
@@ -128,58 +131,66 @@ export function AutoSettingsPage() {
 
   if (isLoading || !settings) {
     return (
-      <div className="space-y-6">
-        {Array.from({ length: 2 })
-          .map((_, i) => i)
-          .map((i) => (
-            <div key={i} className="space-y-4">
-              <Skeleton className="h-8 w-48" />
-              <Card>
-                <CardHeader>
-                  <Skeleton className="mb-2 h-6 w-32" />
-                  <Skeleton className="h-4 w-full max-w-md" />
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  {Array.from({ length: 3 })
-                    .map((_, j) => j)
-                    .map((j) => (
-                      <div key={j} className="space-y-2">
-                        <Skeleton className="h-5 w-24" />
-                        <div className="flex items-center gap-4">
-                          <Skeleton className="h-10 w-full" />
-                          <Skeleton className="h-4 w-full max-w-xs" />
-                        </div>
-                      </div>
-                    ))}
-                </CardContent>
-              </Card>
+      <div className="space-y-8">
+        {/* Tabs skeleton */}
+        <div className="border-border/10 flex gap-8 border-b pb-4">
+          <Skeleton className="h-5 w-28" />
+          <Skeleton className="h-5 w-20" />
+        </div>
+
+        {/* Content skeleton */}
+        <div className="grid gap-8 lg:grid-cols-[1fr_2fr]">
+          <div className="space-y-2">
+            <Skeleton className="h-5 w-32" />
+            <Skeleton className="h-4 w-48" />
+          </div>
+          <Card className="bg-gray-100 p-6 dark:bg-gray-800/50">
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-24" />
+                <Skeleton className="h-10 w-full" />
+                <Skeleton className="h-4 w-64" />
+              </div>
             </div>
-          ))}
+          </Card>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="animate-in fade-in slide-in-from-bottom-4 space-y-6 duration-500 ease-out">
-      {Object.entries(groupedFields).map(([sectionKey, groups]) => (
-        <div key={sectionKey} className="space-y-4">
-          <h2 className="text-2xl font-semibold tracking-tight">
-            {t(`admin.settings.${sectionKey}.title`)}
-          </h2>
-          {Object.entries(groups).map(([groupKey, groupFields]) => (
-            <GroupCard
-              key={groupKey}
-              sectionKey={sectionKey}
-              groupKey={groupKey}
-              fields={groupFields}
-              settings={settings}
-              savingKey={savingKey}
-              onFieldChange={handleChange}
-              t={t}
-            />
+    <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 ease-out">
+      <Tabs defaultValue="appearance" className="w-full">
+        <TabsList>
+          <TabsTrigger value="appearance">{t('admin.settings.appearance.title')}</TabsTrigger>
+          {sectionKeys.map((sectionKey) => (
+            <TabsTrigger key={sectionKey} value={sectionKey}>
+              {t(`admin.settings.${sectionKey}.title`)}
+            </TabsTrigger>
           ))}
-        </div>
-      ))}
+        </TabsList>
+
+        <TabsContent value="appearance" className="space-y-8">
+          <ClientSettings />
+        </TabsContent>
+
+        {Object.entries(groupedFields).map(([sectionKey, groups]) => (
+          <TabsContent key={sectionKey} value={sectionKey} className="space-y-8">
+            {Object.entries(groups).map(([groupKey, groupFields]) => (
+              <GroupCard
+                key={groupKey}
+                sectionKey={sectionKey}
+                groupKey={groupKey}
+                fields={groupFields}
+                settings={settings}
+                savingKey={savingKey}
+                onFieldChange={handleChange}
+                t={t}
+              />
+            ))}
+          </TabsContent>
+        ))}
+      </Tabs>
     </div>
   );
 }

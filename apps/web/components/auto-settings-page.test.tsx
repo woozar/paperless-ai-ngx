@@ -19,6 +19,13 @@ vi.mock('./settings-provider', () => ({
   useSettings: () => mockUseSettings(),
 }));
 
+vi.mock('next-themes', () => ({
+  useTheme: () => ({
+    theme: 'system',
+    setTheme: vi.fn(),
+  }),
+}));
+
 // Create a test schema with all field types (inline to avoid hoisting issues)
 // Also includes invalid keys to test parseSettingKey's error handling
 vi.mock('@/lib/api/schemas/settings', async () => {
@@ -88,16 +95,36 @@ describe('AutoSettingsPage', () => {
     expect(container.querySelectorAll('[class*="animate-pulse"]').length).toBeGreaterThan(0);
   });
 
-  it('renders section title', async () => {
+  it('renders appearance tab by default', async () => {
     renderWithIntl(<AutoSettingsPage />);
 
     await waitFor(() => {
-      expect(screen.getByText('Security')).toBeInTheDocument();
+      expect(screen.getByTestId('setting-appearance.theme.mode')).toBeInTheDocument();
+    });
+  });
+
+  it('renders section title when security tab is clicked', async () => {
+    const user = userEvent.setup();
+    renderWithIntl(<AutoSettingsPage />);
+
+    await waitFor(() => {
+      expect(screen.getByRole('tab', { name: /security/i })).toBeInTheDocument();
+    });
+    await user.click(screen.getByRole('tab', { name: /security/i }));
+
+    await waitFor(() => {
+      expect(screen.getByText('Sharing')).toBeInTheDocument();
     });
   });
 
   it('renders group card with title and description', async () => {
+    const user = userEvent.setup();
     renderWithIntl(<AutoSettingsPage />);
+
+    await waitFor(() => {
+      expect(screen.getByRole('tab', { name: /security/i })).toBeInTheDocument();
+    });
+    await user.click(screen.getByRole('tab', { name: /security/i }));
 
     await waitFor(() => {
       expect(screen.getByText('Sharing')).toBeInTheDocument();
@@ -108,7 +135,13 @@ describe('AutoSettingsPage', () => {
   });
 
   it('renders enum setting as select with testid', async () => {
+    const user = userEvent.setup();
     renderWithIntl(<AutoSettingsPage />);
+
+    await waitFor(() => {
+      expect(screen.getByRole('tab', { name: /security/i })).toBeInTheDocument();
+    });
+    await user.click(screen.getByRole('tab', { name: /security/i }));
 
     await waitFor(() => {
       expect(screen.getByTestId('setting-security.sharing.mode')).toBeInTheDocument();
@@ -116,7 +149,13 @@ describe('AutoSettingsPage', () => {
   });
 
   it('renders setting field title and description', async () => {
+    const user = userEvent.setup();
     renderWithIntl(<AutoSettingsPage />);
+
+    await waitFor(() => {
+      expect(screen.getByRole('tab', { name: /security/i })).toBeInTheDocument();
+    });
+    await user.click(screen.getByRole('tab', { name: /security/i }));
 
     await waitFor(() => {
       expect(screen.getByText('Sharing Mode')).toBeInTheDocument();
@@ -127,6 +166,7 @@ describe('AutoSettingsPage', () => {
   });
 
   it('displays current value in select', async () => {
+    const user = userEvent.setup();
     mockUseSettings.mockReturnValue({
       settings: { 'security.sharing.mode': 'ADVANCED' },
       isLoading: false,
@@ -134,6 +174,11 @@ describe('AutoSettingsPage', () => {
     });
 
     renderWithIntl(<AutoSettingsPage />);
+
+    await waitFor(() => {
+      expect(screen.getByRole('tab', { name: /security/i })).toBeInTheDocument();
+    });
+    await user.click(screen.getByRole('tab', { name: /security/i }));
 
     await waitFor(() => {
       const trigger = screen.getByTestId('setting-security.sharing.mode');
@@ -144,6 +189,12 @@ describe('AutoSettingsPage', () => {
   it('calls updateSetting and shows success toast when value changes', async () => {
     const user = userEvent.setup();
     renderWithIntl(<AutoSettingsPage />);
+
+    // Click on Security tab first (appearance is now the default tab)
+    await waitFor(() => {
+      expect(screen.getByRole('tab', { name: /security/i })).toBeInTheDocument();
+    });
+    await user.click(screen.getByRole('tab', { name: /security/i }));
 
     await waitFor(() => {
       expect(screen.getByTestId('setting-security.sharing.mode')).toBeInTheDocument();
@@ -176,6 +227,12 @@ describe('AutoSettingsPage', () => {
     const user = userEvent.setup();
     renderWithIntl(<AutoSettingsPage />);
 
+    // Click on Security tab first (appearance is now the default tab)
+    await waitFor(() => {
+      expect(screen.getByRole('tab', { name: /security/i })).toBeInTheDocument();
+    });
+    await user.click(screen.getByRole('tab', { name: /security/i }));
+
     await waitFor(() => {
       expect(screen.getByTestId('setting-security.sharing.mode')).toBeInTheDocument();
     });
@@ -198,7 +255,14 @@ describe('AutoSettingsPage', () => {
   });
 
   it('renders boolean setting as switch', async () => {
+    const user = userEvent.setup();
     renderWithIntl(<AutoSettingsPage />);
+
+    // Click on General tab to see the general settings
+    await waitFor(() => {
+      expect(screen.getByRole('tab', { name: /general/i })).toBeInTheDocument();
+    });
+    await user.click(screen.getByRole('tab', { name: /general/i }));
 
     await waitFor(() => {
       const switchEl = screen.getByTestId('setting-general.features.enabled');
@@ -209,7 +273,14 @@ describe('AutoSettingsPage', () => {
   });
 
   it('renders string setting as input', async () => {
+    const user = userEvent.setup();
     renderWithIntl(<AutoSettingsPage />);
+
+    // Click on General tab to see the general settings
+    await waitFor(() => {
+      expect(screen.getByRole('tab', { name: /general/i })).toBeInTheDocument();
+    });
+    await user.click(screen.getByRole('tab', { name: /general/i }));
 
     await waitFor(() => {
       const input = screen.getByTestId('setting-general.features.name');
@@ -219,7 +290,14 @@ describe('AutoSettingsPage', () => {
   });
 
   it('renders secret setting with ApiKeyInput (password type)', async () => {
+    const user = userEvent.setup();
     renderWithIntl(<AutoSettingsPage />);
+
+    // Click on Security tab first (appearance is now the default tab)
+    await waitFor(() => {
+      expect(screen.getByRole('tab', { name: /security/i })).toBeInTheDocument();
+    });
+    await user.click(screen.getByRole('tab', { name: /security/i }));
 
     await waitFor(() => {
       const input = screen.getByTestId('setting-security.api.key');
@@ -232,6 +310,12 @@ describe('AutoSettingsPage', () => {
   it('calls updateSetting when switch is toggled', async () => {
     const user = userEvent.setup();
     renderWithIntl(<AutoSettingsPage />);
+
+    // Click on General tab to see the general settings
+    await waitFor(() => {
+      expect(screen.getByRole('tab', { name: /general/i })).toBeInTheDocument();
+    });
+    await user.click(screen.getByRole('tab', { name: /general/i }));
 
     await waitFor(() => {
       expect(screen.getByTestId('setting-general.features.enabled')).toBeInTheDocument();
@@ -248,6 +332,12 @@ describe('AutoSettingsPage', () => {
   it('calls updateSetting when text input is changed', async () => {
     const user = userEvent.setup();
     renderWithIntl(<AutoSettingsPage />);
+
+    // Click on General tab to see the general settings
+    await waitFor(() => {
+      expect(screen.getByRole('tab', { name: /general/i })).toBeInTheDocument();
+    });
+    await user.click(screen.getByRole('tab', { name: /general/i }));
 
     await waitFor(() => {
       expect(screen.getByTestId('setting-general.features.name')).toBeInTheDocument();
@@ -266,6 +356,12 @@ describe('AutoSettingsPage', () => {
     mockUpdateSetting.mockRejectedValue('string error'); // non-Error value
     const user = userEvent.setup();
     renderWithIntl(<AutoSettingsPage />);
+
+    // Click on Security tab first (appearance is now the default tab)
+    await waitFor(() => {
+      expect(screen.getByRole('tab', { name: /security/i })).toBeInTheDocument();
+    });
+    await user.click(screen.getByRole('tab', { name: /security/i }));
 
     await waitFor(() => {
       expect(screen.getByTestId('setting-security.sharing.mode')).toBeInTheDocument();

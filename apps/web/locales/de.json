@@ -256,6 +256,22 @@
       "title": "Einstellungen",
       "saved": "Einstellung gespeichert",
       "saveFailed": "Fehler beim Speichern der Einstellung",
+      "appearance": {
+        "title": "Erscheinungsbild",
+        "theme": {
+          "title": "Design",
+          "description": "Passe das Aussehen der Anwendung an",
+          "mode": {
+            "title": "Farbmodus",
+            "description": "Wähle zwischen hellem, dunklem oder systembasiertem Design",
+            "values": {
+              "light": "Hell",
+              "dark": "Dunkel",
+              "system": "Systemstandard"
+            }
+          }
+        }
+      },
       "security": {
         "title": "Sicherheit",
         "sharing": {

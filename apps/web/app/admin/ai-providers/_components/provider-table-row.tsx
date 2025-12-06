@@ -2,11 +2,11 @@ import { memo } from 'react';
 import { useTranslations } from 'next-intl';
 import { TableRow, TableCell } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { Edit, UserPlus, Trash2 } from 'lucide-react';
 import type { AiProviderListItem } from '@repo/api-client';
 import { useSettings } from '@/components/settings-provider';
+import { ProviderLogo } from '@/components/provider-logo';
 
 type ProviderTableRowProps = Readonly<{
   provider: Omit<AiProviderListItem, 'apiKey'>;
@@ -30,7 +30,10 @@ export const ProviderTableRow = memo(function ProviderTableRow({
     <TableRow>
       <TableCell className="font-medium">{provider.name}</TableCell>
       <TableCell>
-        <Badge variant="outline">{t(`providerTypes.${provider.provider}`)}</Badge>
+        <div className="flex items-center gap-2">
+          <ProviderLogo provider={provider.provider} size={20} />
+          <span>{t(`providerTypes.${provider.provider}`)}</span>
+        </div>
       </TableCell>
       <TableCell className="font-mono text-sm">{provider.model}</TableCell>
       <TableCell className="text-muted-foreground text-sm">

@@ -130,6 +130,7 @@ const mockBots: AiBotListItem[] = [
     aiProvider: {
       id: 'provider-1',
       name: 'OpenAI',
+      provider: 'openai',
     },
     systemPrompt: 'You are a support assistant',
     createdAt: '2024-01-15T10:30:00Z',
@@ -142,6 +143,7 @@ const mockBots: AiBotListItem[] = [
     aiProvider: {
       id: 'provider-1',
       name: 'OpenAI',
+      provider: 'openai',
     },
     systemPrompt: 'You help with coding',
     createdAt: '2024-02-20T14:00:00Z',

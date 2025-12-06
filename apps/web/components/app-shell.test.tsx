@@ -3,8 +3,8 @@ import { screen } from '@testing-library/react';
 import { AppShell } from './app-shell';
 import { renderWithIntl } from '@/test-utils/render-with-intl';
 
-vi.mock('@/components/sidebar', () => ({
-  Sidebar: () => <div data-testid="sidebar">Sidebar</div>,
+vi.mock('@/components/header', () => ({
+  Header: () => <div data-testid="header">Header</div>,
 }));
 
 const mockIsLoading = vi.fn();
@@ -34,14 +34,14 @@ describe('AppShell', () => {
     expect(screen.getByText('Page Content')).toBeInTheDocument();
   });
 
-  it('renders sidebar', () => {
+  it('renders header', () => {
     renderWithIntl(
       <AppShell>
         <div>Content</div>
       </AppShell>
     );
 
-    expect(screen.getByTestId('sidebar')).toBeInTheDocument();
+    expect(screen.getByTestId('header')).toBeInTheDocument();
   });
 
   it('wraps content in main element', () => {
@@ -72,8 +72,8 @@ describe('AppShell', () => {
     // "Verifying authentication" sollte sichtbar sein
     expect(screen.getByText('Verifying authentication')).toBeInTheDocument();
 
-    // Sidebar sollte NICHT da sein während Loading
-    expect(screen.queryByTestId('sidebar')).not.toBeInTheDocument();
+    // Header sollte NICHT da sein während Loading
+    expect(screen.queryByTestId('header')).not.toBeInTheDocument();
   });
 
   it('renders children after auth finishes loading', () => {
