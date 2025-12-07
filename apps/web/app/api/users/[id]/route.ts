@@ -141,7 +141,7 @@ export const PATCH = adminRoute<typeof UpdateUserRequestSchema, { id: string }>(
   }
 );
 
-// DELETE /api/users/[id] - Delete user (Admin only)
+// DELETE /api/users/[id] - Soft delete user (Admin only)
 export const DELETE = adminRoute<never, { id: string }>(
   async ({ user: authUser, params }) => {
     const existingUser = await prisma.user.findUnique({
@@ -166,11 +166,25 @@ export const DELETE = adminRoute<never, { id: string }>(
       }
     }
 
-    await prisma.user.delete({
+    const user = await prisma.user.update({
       where: { id: params.id },
+      data: { isActive: false },
+      select: {
+        id: true,
+        username: true,
+        role: true,
+        isActive: true,
+        mustChangePassword: true,
+        createdAt: true,
+        updatedAt: true,
+      },
     });
 
-    return new NextResponse(null, { status: 204 });
+    return NextResponse.json({
+      ...user,
+      createdAt: user.createdAt.toISOString(),
+      updatedAt: user.updatedAt.toISOString(),
+    });
   },
   { errorLogPrefix: 'Delete user' }
 );

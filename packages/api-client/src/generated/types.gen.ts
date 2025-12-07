@@ -355,9 +355,9 @@ export type DeleteUsersByIdError = DeleteUsersByIdErrors[keyof DeleteUsersByIdEr
 
 export type DeleteUsersByIdResponses = {
   /**
-   * User deleted
+   * User soft deleted
    */
-  204: void;
+  200: UserListItem;
 };
 
 export type DeleteUsersByIdResponse = DeleteUsersByIdResponses[keyof DeleteUsersByIdResponses];
@@ -435,6 +435,75 @@ export type PatchUsersByIdResponses = {
 };
 
 export type PatchUsersByIdResponse = PatchUsersByIdResponses[keyof PatchUsersByIdResponses];
+
+export type GetUsersInactiveData = {
+  body?: never;
+  path?: never;
+  query?: {
+    page?: number;
+    limit?: number;
+  };
+  url: '/users/inactive';
+};
+
+export type GetUsersInactiveErrors = {
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not authorized
+   */
+  403: ErrorResponse;
+};
+
+export type GetUsersInactiveError = GetUsersInactiveErrors[keyof GetUsersInactiveErrors];
+
+export type GetUsersInactiveResponses = {
+  /**
+   * Paginated list of inactive users
+   */
+  200: UserListResponse;
+};
+
+export type GetUsersInactiveResponse = GetUsersInactiveResponses[keyof GetUsersInactiveResponses];
+
+export type PostUsersByIdRestoreData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/users/{id}/restore';
+};
+
+export type PostUsersByIdRestoreErrors = {
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not authorized
+   */
+  403: ErrorResponse;
+  /**
+   * Not found
+   */
+  404: ErrorResponse;
+};
+
+export type PostUsersByIdRestoreError =
+  PostUsersByIdRestoreErrors[keyof PostUsersByIdRestoreErrors];
+
+export type PostUsersByIdRestoreResponses = {
+  /**
+   * User restored
+   */
+  200: UserListItem;
+};
+
+export type PostUsersByIdRestoreResponse =
+  PostUsersByIdRestoreResponses[keyof PostUsersByIdRestoreResponses];
 
 export type GetPaperlessInstancesData = {
   body?: never;

@@ -7,11 +7,11 @@ import { useAuth } from '@/components/auth-provider';
 import { useErrorDisplay } from '@/hooks/use-error-display';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Plus, UserCog } from 'lucide-react';
+import { Plus, UserCog, UserX } from 'lucide-react';
 import { AppShell } from '@/components/app-shell';
 import { useApi } from '@/lib/use-api';
 import { useFormatDate } from '@/hooks/use-format-date';
-import { getUsers, patchUsersById } from '@repo/api-client';
+import { getUsers } from '@repo/api-client';
 import { TablePagination } from '@/components/table-pagination';
 
 import type { UserListItem } from '@repo/api-client';
@@ -21,11 +21,12 @@ import {
   CreateUserDialog,
   EditUserDialog,
   DeleteUserDialog,
+  RestoreUsersDialog,
 } from './_components';
 
 export default function UsersPage() {
   const t = useTranslations('admin.users');
-  const { showApiError, showSuccess, showError } = useErrorDisplay('admin.users');
+  const { showError } = useErrorDisplay('admin.users');
   const formatDate = useFormatDate();
   const router = useRouter();
   const { user: currentUser, isLoading: isAuthLoading } = useAuth();
@@ -40,6 +41,7 @@ export default function UsersPage() {
 
   // Dialog states
   const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [isRestoreOpen, setIsRestoreOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<UserListItem | null>(null);
   const [deletingUser, setDeletingUser] = useState<UserListItem | null>(null);
 
@@ -95,30 +97,6 @@ export default function UsersPage() {
     loadUsers(page, limit);
   };
 
-  const handleToggleStatus = useCallback(
-    async (user: UserListItem) => {
-      try {
-        const response = await patchUsersById({
-          client,
-          path: { id: user.id },
-          body: { isActive: !user.isActive },
-        });
-
-        if (response.error) {
-          showApiError(response.error);
-          return;
-        }
-
-        showSuccess('userStatusUpdated');
-        reloadCurrentPage();
-      } catch {
-        showError('updateFailed');
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [client, showApiError, showSuccess, showError, page, limit]
-  );
-
   if (currentUser?.role !== 'ADMIN') {
     return null;
   }
@@ -135,7 +113,6 @@ export default function UsersPage() {
         currentUserId={currentUser?.id}
         onEdit={setEditingUser}
         onDelete={setDeletingUser}
-        onToggleStatus={handleToggleStatus}
         formatDate={formatDate}
       />
     ));
@@ -152,10 +129,16 @@ export default function UsersPage() {
             </h1>
             <p className="text-muted-foreground mt-2">{t('description')}</p>
           </div>
-          <Button onClick={() => setIsCreateOpen(true)}>
-            <Plus className="mr-2 h-4 w-4" />
-            {t('createUser')}
-          </Button>
+          <div className="flex gap-2">
+            <Button variant="outline" onClick={() => setIsRestoreOpen(true)}>
+              <UserX className="mr-2 h-4 w-4" />
+              {t('deletedUsers')}
+            </Button>
+            <Button onClick={() => setIsCreateOpen(true)}>
+              <Plus className="mr-2 h-4 w-4" />
+              {t('createUser')}
+            </Button>
+          </div>
         </div>
 
         {!isLoading && users.length === 0 && total === 0 ? (
@@ -167,7 +150,6 @@ export default function UsersPage() {
                 <TableRow>
                   <TableHead>{t('username')}</TableHead>
                   <TableHead>{t('role')}</TableHead>
-                  <TableHead>{t('status')}</TableHead>
                   <TableHead>{t('createdAt')}</TableHead>
                   <TableHead className="text-right">{t('actions')}</TableHead>
                 </TableRow>
@@ -204,6 +186,12 @@ export default function UsersPage() {
         open={!!deletingUser}
         onOpenChange={(open) => !open && setDeletingUser(null)}
         user={deletingUser}
+        onSuccess={reloadCurrentPage}
+      />
+
+      <RestoreUsersDialog
+        open={isRestoreOpen}
+        onOpenChange={setIsRestoreOpen}
         onSuccess={reloadCurrentPage}
       />
     </AppShell>

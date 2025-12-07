@@ -185,7 +185,7 @@ registry.registerPath({
 registry.registerPath({
   method: 'delete',
   path: '/users/{id}',
-  summary: 'Delete user (Admin only)',
+  summary: 'Soft delete user (Admin only)',
   tags: ['Users'],
   request: {
     params: z.object({
@@ -193,10 +193,62 @@ registry.registerPath({
     }),
   },
   responses: {
-    204: {
-      description: 'User deleted',
+    200: {
+      description: 'User soft deleted',
+      content: {
+        'application/json': {
+          schema: UserListItemSchema,
+        },
+      },
     },
     400: CommonErrorResponses[400],
+    401: CommonErrorResponses[401],
+    403: CommonErrorResponses[403],
+    404: CommonErrorResponses[404],
+  },
+});
+
+registry.registerPath({
+  method: 'get',
+  path: '/users/inactive',
+  summary: 'List all inactive (soft-deleted) users (Admin only)',
+  tags: ['Users'],
+  request: {
+    query: PaginationQuerySchema,
+  },
+  responses: {
+    200: {
+      description: 'Paginated list of inactive users',
+      content: {
+        'application/json': {
+          schema: UserListResponseSchema,
+        },
+      },
+    },
+    401: CommonErrorResponses[401],
+    403: CommonErrorResponses[403],
+  },
+});
+
+registry.registerPath({
+  method: 'post',
+  path: '/users/{id}/restore',
+  summary: 'Restore a soft-deleted user (Admin only)',
+  tags: ['Users'],
+  request: {
+    params: z.object({
+      id: z.string(),
+    }),
+  },
+  responses: {
+    200: {
+      description: 'User restored',
+      content: {
+        'application/json': {
+          schema: UserListItemSchema,
+        },
+      },
+    },
     401: CommonErrorResponses[401],
     403: CommonErrorResponses[403],
     404: CommonErrorResponses[404],

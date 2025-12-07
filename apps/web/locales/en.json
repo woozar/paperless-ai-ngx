@@ -1,6 +1,7 @@
 {
   "common": {
     "appName": "Paperless AI ngx",
+    "navigation": "Navigation",
     "loading": "Loading...",
     "save": "Save",
     "cancel": "Cancel",
@@ -138,15 +139,22 @@
       "userUpdated": "User updated successfully",
       "userDeleted": "User deleted successfully",
       "userStatusUpdated": "User status updated successfully",
+      "noUsers": "No users found",
+      "suspend": "Suspend",
+      "activate": "Activate",
+      "deletedUsers": "Deleted Users",
+      "deletedUsersTitle": "Deleted Users",
+      "deletedUsersDescription": "Users that have been deleted can be restored here.",
+      "noDeletedUsers": "No deleted users found",
+      "restore": "Restore",
+      "userRestored": "User restored successfully",
       "error": {
         "loadFailed": "Failed to load users",
         "createFailed": "Failed to create user",
         "updateFailed": "Failed to update user",
-        "deleteFailed": "Failed to delete user"
-      },
-      "noUsers": "No users found",
-      "suspend": "Suspend",
-      "activate": "Activate"
+        "deleteFailed": "Failed to delete user",
+        "restoreFailed": "Failed to restore user"
+      }
     },
     "paperlessInstances": {
       "title": "Paperless Instances",

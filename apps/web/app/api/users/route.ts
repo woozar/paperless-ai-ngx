@@ -15,6 +15,7 @@ export const GET = adminRoute(
 
     const [users, total] = await Promise.all([
       prisma.user.findMany({
+        where: { isActive: true },
         select: {
           id: true,
           username: true,
@@ -28,7 +29,7 @@ export const GET = adminRoute(
         skip,
         take: limit,
       }),
-      prisma.user.count(),
+      prisma.user.count({ where: { isActive: true } }),
     ]);
 
     return NextResponse.json({

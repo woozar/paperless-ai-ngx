@@ -10,8 +10,6 @@ import {
   SheetTitle,
   SheetDescription,
   SheetClose,
-  SheetOverlay,
-  SheetPortal,
 } from './sheet';
 
 describe('Sheet', () => {
@@ -27,7 +25,10 @@ describe('Sheet', () => {
     render(
       <Sheet>
         <SheetTrigger data-testid="trigger">Open</SheetTrigger>
-        <SheetContent>Content</SheetContent>
+        <SheetContent aria-describedby={undefined}>
+          <SheetTitle>Title</SheetTitle>
+          Content
+        </SheetContent>
       </Sheet>
     );
 
@@ -40,7 +41,7 @@ describe('Sheet', () => {
     render(
       <Sheet>
         <SheetTrigger>Open</SheetTrigger>
-        <SheetContent>
+        <SheetContent aria-describedby={undefined}>
           <SheetTitle>Sheet Title</SheetTitle>
           <SheetDescription>Sheet Description</SheetDescription>
         </SheetContent>
@@ -59,7 +60,7 @@ describe('Sheet', () => {
     render(
       <Sheet>
         <SheetTrigger>Open</SheetTrigger>
-        <SheetContent>
+        <SheetContent aria-describedby={undefined}>
           <SheetHeader className="custom-header">
             <SheetTitle>Title</SheetTitle>
           </SheetHeader>
@@ -79,7 +80,8 @@ describe('Sheet', () => {
     render(
       <Sheet>
         <SheetTrigger>Open</SheetTrigger>
-        <SheetContent>
+        <SheetContent aria-describedby={undefined}>
+          <SheetTitle>Title</SheetTitle>
           <SheetFooter className="custom-footer">
             <button>Action</button>
           </SheetFooter>
@@ -99,7 +101,7 @@ describe('Sheet', () => {
     render(
       <Sheet>
         <SheetTrigger>Open</SheetTrigger>
-        <SheetContent>
+        <SheetContent aria-describedby={undefined}>
           <SheetTitle className="custom-title">My Title</SheetTitle>
         </SheetContent>
       </Sheet>
@@ -116,7 +118,8 @@ describe('Sheet', () => {
     render(
       <Sheet>
         <SheetTrigger>Open</SheetTrigger>
-        <SheetContent>
+        <SheetContent aria-describedby={undefined}>
+          <SheetTitle>Title</SheetTitle>
           <SheetDescription className="custom-desc">My Description</SheetDescription>
         </SheetContent>
       </Sheet>
@@ -127,25 +130,23 @@ describe('Sheet', () => {
     expect(screen.getByText('My Description')).toHaveClass('custom-desc');
   });
 
-  it('renders SheetContent with different sides', async () => {
-    const user = userEvent.setup();
-
+  it('renders SheetContent with different sides', () => {
     const { rerender } = render(
-      <Sheet>
-        <SheetTrigger>Open</SheetTrigger>
-        <SheetContent side="left" data-testid="sheet-content">
+      <Sheet open>
+        <SheetContent side="left" data-testid="sheet-content" aria-describedby={undefined}>
+          <SheetTitle>Title</SheetTitle>
           Left Content
         </SheetContent>
       </Sheet>
     );
 
-    await user.click(screen.getByText('Open'));
     expect(screen.getByTestId('sheet-content')).toBeInTheDocument();
 
     // Test with different sides
     rerender(
       <Sheet open>
-        <SheetContent side="top" data-testid="sheet-content">
+        <SheetContent side="top" data-testid="sheet-content" aria-describedby={undefined}>
+          <SheetTitle>Title</SheetTitle>
           Top Content
         </SheetContent>
       </Sheet>
@@ -154,7 +155,8 @@ describe('Sheet', () => {
 
     rerender(
       <Sheet open>
-        <SheetContent side="bottom" data-testid="sheet-content">
+        <SheetContent side="bottom" data-testid="sheet-content" aria-describedby={undefined}>
+          <SheetTitle>Title</SheetTitle>
           Bottom Content
         </SheetContent>
       </Sheet>
@@ -163,7 +165,8 @@ describe('Sheet', () => {
 
     rerender(
       <Sheet open>
-        <SheetContent side="right" data-testid="sheet-content">
+        <SheetContent side="right" data-testid="sheet-content" aria-describedby={undefined}>
+          <SheetTitle>Title</SheetTitle>
           Right Content
         </SheetContent>
       </Sheet>
@@ -177,7 +180,7 @@ describe('Sheet', () => {
     render(
       <Sheet>
         <SheetTrigger>Open</SheetTrigger>
-        <SheetContent>
+        <SheetContent aria-describedby={undefined}>
           <SheetTitle>Title</SheetTitle>
         </SheetContent>
       </Sheet>
@@ -200,7 +203,10 @@ describe('Sheet', () => {
     render(
       <Sheet>
         <SheetTrigger>Open</SheetTrigger>
-        <SheetContent>Content</SheetContent>
+        <SheetContent aria-describedby={undefined}>
+          <SheetTitle>Title</SheetTitle>
+          Content
+        </SheetContent>
       </Sheet>
     );
 
@@ -216,7 +222,8 @@ describe('Sheet', () => {
     render(
       <Sheet>
         <SheetTrigger>Open</SheetTrigger>
-        <SheetContent>
+        <SheetContent aria-describedby={undefined}>
+          <SheetTitle>Title</SheetTitle>
           <SheetClose data-testid="custom-close">Custom Close</SheetClose>
         </SheetContent>
       </Sheet>

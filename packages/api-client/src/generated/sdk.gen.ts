@@ -28,6 +28,12 @@ import type {
   PatchUsersByIdData,
   PatchUsersByIdResponses,
   PatchUsersByIdErrors,
+  GetUsersInactiveData,
+  GetUsersInactiveResponses,
+  GetUsersInactiveErrors,
+  PostUsersByIdRestoreData,
+  PostUsersByIdRestoreResponses,
+  PostUsersByIdRestoreErrors,
   GetPaperlessInstancesData,
   GetPaperlessInstancesResponses,
   GetPaperlessInstancesErrors,
@@ -194,7 +200,7 @@ export const postUsers = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * Delete user (Admin only)
+ * Soft delete user (Admin only)
  */
 export const deleteUsersById = <ThrowOnError extends boolean = false>(
   options: Options<DeleteUsersByIdData, ThrowOnError>
@@ -242,6 +248,38 @@ export const patchUsersById = <ThrowOnError extends boolean = false>(
       'Content-Type': 'application/json',
       ...options.headers,
     },
+  });
+};
+
+/**
+ * List all inactive (soft-deleted) users (Admin only)
+ */
+export const getUsersInactive = <ThrowOnError extends boolean = false>(
+  options?: Options<GetUsersInactiveData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).get<
+    GetUsersInactiveResponses,
+    GetUsersInactiveErrors,
+    ThrowOnError
+  >({
+    url: '/users/inactive',
+    ...options,
+  });
+};
+
+/**
+ * Restore a soft-deleted user (Admin only)
+ */
+export const postUsersByIdRestore = <ThrowOnError extends boolean = false>(
+  options: Options<PostUsersByIdRestoreData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostUsersByIdRestoreResponses,
+    PostUsersByIdRestoreErrors,
+    ThrowOnError
+  >({
+    url: '/users/{id}/restore',
+    ...options,
   });
 };
 

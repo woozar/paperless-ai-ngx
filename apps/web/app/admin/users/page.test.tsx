@@ -51,7 +51,8 @@ vi.mock('sonner', () => ({
 const mockPush = vi.fn();
 const mockUser = vi.fn();
 const mockGetUsers = vi.fn();
-const mockPatchUsersById = vi.fn();
+const mockGetUsersInactive = vi.fn();
+const mockPostUsers = vi.fn();
 
 const mockRouter = { push: mockPush };
 vi.mock('next/navigation', () => ({
@@ -68,7 +69,8 @@ vi.mock('@repo/api-client', async () => {
   return {
     ...actual,
     getUsers: (...args: any[]) => mockGetUsers(...args),
-    patchUsersById: (...args: any[]) => mockPatchUsersById(...args),
+    getUsersInactive: (...args: any[]) => mockGetUsersInactive(...args),
+    postUsers: (...args: any[]) => mockPostUsers(...args),
   };
 });
 
@@ -284,116 +286,6 @@ describe('UsersPage', () => {
     });
   });
 
-  describe('handleToggleStatus', () => {
-    it('toggles user status successfully', async () => {
-      const user = userEvent.setup({ delay: null });
-      mockGetUsers.mockResolvedValue({
-        data: { items: mockUsers, total: mockUsers.length, page: 1, limit: 10, totalPages: 1 },
-        error: undefined,
-      });
-
-      mockPatchUsersById.mockResolvedValueOnce({
-        data: { id: 'user-2', isActive: false },
-        error: undefined,
-      });
-
-      renderWithIntl(<UsersPage />);
-
-      await waitFor(() => {
-        expect(screen.getByText('testuser')).toBeInTheDocument();
-      });
-
-      const initialCallCount = mockGetUsers.mock.calls.length;
-
-      await user.click(screen.getByTestId('toggle-status-user-2'));
-
-      await waitFor(() => {
-        expect(mockPatchUsersById).toHaveBeenCalledWith(
-          expect.objectContaining({
-            client: expect.any(Object),
-            path: { id: 'user-2' },
-            body: { isActive: false },
-          })
-        );
-        expect(mockGetUsers.mock.calls.length).toBeGreaterThan(initialCallCount);
-      });
-    });
-
-    it('displays error when toggling status fails', async () => {
-      const user = userEvent.setup({ delay: null });
-      mockGetUsers.mockResolvedValueOnce({
-        data: { items: mockUsers, total: mockUsers.length, page: 1, limit: 10, totalPages: 1 },
-        error: undefined,
-      });
-
-      mockPatchUsersById.mockResolvedValueOnce({
-        data: undefined,
-        error: { message: 'error.serverError' },
-      });
-
-      renderWithIntl(<UsersPage />);
-
-      await waitFor(() => {
-        expect(screen.getByText('testuser')).toBeInTheDocument();
-      });
-
-      await user.click(screen.getByTestId('toggle-status-user-2'));
-
-      await waitFor(() => {
-        expect(vi.mocked(toast.error)).toHaveBeenCalledWith('An internal server error occurred');
-      });
-    });
-
-    it('displays last admin error when deactivating last admin', async () => {
-      const user = userEvent.setup({ delay: null });
-      mockGetUsers.mockResolvedValue({
-        data: { items: mockUsers, total: mockUsers.length, page: 1, limit: 10, totalPages: 1 },
-        error: undefined,
-      });
-
-      mockPatchUsersById.mockResolvedValueOnce({
-        data: undefined,
-        error: { message: 'error.lastAdmin' },
-        response: { status: 400 },
-      });
-
-      renderWithIntl(<UsersPage />);
-
-      await waitFor(() => {
-        expect(screen.getByText('testuser')).toBeInTheDocument();
-      });
-
-      await user.click(screen.getByTestId('toggle-status-user-2'));
-
-      await waitFor(() => {
-        expect(mockPatchUsersById).toHaveBeenCalled();
-        expect(vi.mocked(toast.error)).toHaveBeenCalledWith('Cannot modify the last admin user');
-      });
-    });
-
-    it('handles exception during toggle status', async () => {
-      const user = userEvent.setup({ delay: null });
-      mockGetUsers.mockResolvedValueOnce({
-        data: { items: mockUsers, total: mockUsers.length, page: 1, limit: 10, totalPages: 1 },
-        error: undefined,
-      });
-
-      mockPatchUsersById.mockRejectedValueOnce(new Error('Network error'));
-
-      renderWithIntl(<UsersPage />);
-
-      await waitFor(() => {
-        expect(screen.getByText('testuser')).toBeInTheDocument();
-      });
-
-      await user.click(screen.getByTestId('toggle-status-user-2'));
-
-      await waitFor(() => {
-        expect(vi.mocked(toast.error)).toHaveBeenCalledWith('Failed to update user');
-      });
-    });
-  });
-
   it('closes edit dialog when onOpenChange is called', async () => {
     const user = userEvent.setup({ delay: null });
     mockGetUsers.mockResolvedValueOnce({
@@ -502,6 +394,73 @@ describe('UsersPage', () => {
       await waitFor(() => {
         expect(vi.mocked(toast.error)).toHaveBeenCalledWith('Failed to load users');
       });
+    });
+  });
+
+  it('opens restore users dialog when deleted users button is clicked', async () => {
+    const user = userEvent.setup({ delay: null });
+    mockGetUsers.mockResolvedValueOnce({
+      data: { items: mockUsers, total: mockUsers.length, page: 1, limit: 10, totalPages: 1 },
+      error: undefined,
+    });
+    mockGetUsersInactive.mockResolvedValueOnce({
+      data: { items: [], total: 0, page: 1, limit: 100, totalPages: 0 },
+      error: undefined,
+    });
+
+    renderWithIntl(<UsersPage />);
+
+    await waitFor(() => {
+      expect(screen.getByText('testuser')).toBeInTheDocument();
+    });
+
+    await user.click(screen.getByText('Deleted Users'));
+
+    await waitFor(() => {
+      expect(screen.getByRole('dialog')).toBeInTheDocument();
+      expect(
+        screen.getByText('Users that have been deleted can be restored here.')
+      ).toBeInTheDocument();
+    });
+  });
+
+  it('reloads users list when user is created successfully', async () => {
+    const user = userEvent.setup({ delay: null });
+    mockGetUsers.mockResolvedValue({
+      data: { items: mockUsers, total: mockUsers.length, page: 1, limit: 10, totalPages: 1 },
+      error: undefined,
+    });
+    mockPostUsers.mockResolvedValueOnce({
+      data: { id: 'new-user', username: 'newuser', role: 'DEFAULT', isActive: true },
+      error: undefined,
+    });
+
+    renderWithIntl(<UsersPage />);
+
+    await waitFor(() => {
+      expect(screen.getByText('testuser')).toBeInTheDocument();
+    });
+
+    const initialCallCount = mockGetUsers.mock.calls.length;
+
+    // Open create dialog
+    await user.click(screen.getByText('Create User'));
+
+    await waitFor(() => {
+      expect(screen.getByRole('dialog')).toBeInTheDocument();
+    });
+
+    // Fill in the form and submit
+    await user.type(screen.getByLabelText('Username'), 'newuser');
+    await user.type(screen.getByLabelText('Password'), 'password123');
+
+    // Submit the form
+    const saveButton = screen.getByRole('button', { name: 'Save' });
+    await user.click(saveButton);
+
+    // Verify that getUsers was called again (reload via onSuccess)
+    await waitFor(() => {
+      expect(mockGetUsers.mock.calls.length).toBeGreaterThan(initialCallCount);
     });
   });
 });

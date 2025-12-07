@@ -26,16 +26,6 @@ const mockAdminUser: UserListItem = {
   updatedAt: '2024-01-10T08:00:00Z',
 };
 
-const mockSuspendedUser: UserListItem = {
-  id: 'suspended-789',
-  username: 'suspendeduser',
-  role: 'DEFAULT',
-  isActive: false,
-  mustChangePassword: false,
-  createdAt: '2024-01-01T00:00:00Z',
-  updatedAt: '2024-01-01T00:00:00Z',
-};
-
 const renderWithProviders = (ui: React.ReactNode) => {
   return render(
     <NextIntlClientProvider locale="en" messages={messages}>
@@ -52,7 +42,6 @@ describe('UserTableRow', () => {
     currentUserId: 'different-user',
     onEdit: vi.fn(),
     onDelete: vi.fn(),
-    onToggleStatus: vi.fn(),
     formatDate: (date: string) => new Date(date).toLocaleDateString(),
   };
 
@@ -93,24 +82,12 @@ describe('UserTableRow', () => {
     expect(onDelete).toHaveBeenCalledWith(mockUser);
   });
 
-  it('calls onToggleStatus with user when status button is clicked', () => {
-    const onToggleStatus = vi.fn();
-    renderWithProviders(<UserTableRow {...defaultProps} onToggleStatus={onToggleStatus} />);
-
-    const toggleButton = screen.getByTestId(`toggle-status-${mockUser.id}`);
-    fireEvent.click(toggleButton);
-
-    expect(onToggleStatus).toHaveBeenCalledWith(mockUser);
-  });
-
-  it('disables status toggle and delete buttons for current user', () => {
+  it('disables delete button for current user', () => {
     renderWithProviders(<UserTableRow {...defaultProps} currentUserId={mockUser.id} />);
 
-    const toggleButton = screen.getByTestId(`toggle-status-${mockUser.id}`);
     const editButton = screen.getByTestId(`edit-user-${mockUser.id}`);
     const deleteButton = screen.getByTestId(`delete-user-${mockUser.id}`);
 
-    expect(toggleButton).toBeDisabled();
     expect(editButton).not.toBeDisabled();
     expect(deleteButton).toBeDisabled();
   });
@@ -118,25 +95,11 @@ describe('UserTableRow', () => {
   it('enables all action buttons for non-current users', () => {
     renderWithProviders(<UserTableRow {...defaultProps} />);
 
-    const toggleButton = screen.getByTestId(`toggle-status-${mockUser.id}`);
     const editButton = screen.getByTestId(`edit-user-${mockUser.id}`);
     const deleteButton = screen.getByTestId(`delete-user-${mockUser.id}`);
 
-    expect(toggleButton).not.toBeDisabled();
     expect(editButton).not.toBeDisabled();
     expect(deleteButton).not.toBeDisabled();
-  });
-
-  it('renders suspend title for active users', () => {
-    renderWithProviders(<UserTableRow {...defaultProps} />);
-    const toggleButton = screen.getByTestId(`toggle-status-${mockUser.id}`);
-    expect(toggleButton).toHaveAttribute('title', messages.admin.users.suspend);
-  });
-
-  it('renders activate title for suspended users', () => {
-    renderWithProviders(<UserTableRow {...defaultProps} user={mockSuspendedUser} />);
-    const toggleButton = screen.getByTestId(`toggle-status-${mockSuspendedUser.id}`);
-    expect(toggleButton).toHaveAttribute('title', messages.admin.users.activate);
   });
 
   it('renders admin badge for admin users', () => {
@@ -147,15 +110,5 @@ describe('UserTableRow', () => {
   it('renders user badge for default role users', () => {
     renderWithProviders(<UserTableRow {...defaultProps} />);
     expect(screen.getByText(messages.admin.users.default)).toBeInTheDocument();
-  });
-
-  it('renders active status badge for active users', () => {
-    renderWithProviders(<UserTableRow {...defaultProps} />);
-    expect(screen.getByText(messages.admin.users.active)).toBeInTheDocument();
-  });
-
-  it('renders suspended status badge for suspended users', () => {
-    renderWithProviders(<UserTableRow {...defaultProps} user={mockSuspendedUser} />);
-    expect(screen.getByText(messages.admin.users.suspended)).toBeInTheDocument();
   });
 });

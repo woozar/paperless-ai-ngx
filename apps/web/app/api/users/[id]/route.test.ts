@@ -458,8 +458,10 @@ describe('DELETE /api/users/[id]', () => {
     expect(data.message).toBe('error.lastAdmin');
   });
 
-  it('allows deleting admin when multiple admins exist', async () => {
+  it('allows soft-deleting admin when multiple admins exist', async () => {
     mockAdmin();
+    const createdAt = new Date('2024-01-01T00:00:00Z');
+    const updatedAt = new Date('2024-01-02T00:00:00Z');
     mockedPrisma.user.findUnique.mockResolvedValueOnce({
       id: 'admin-2',
       username: 'admin2',
@@ -467,15 +469,13 @@ describe('DELETE /api/users/[id]', () => {
       isActive: true,
     });
     mockedPrisma.user.count.mockResolvedValueOnce(2);
-    mockedPrisma.user.delete.mockResolvedValueOnce({
+    mockedPrisma.user.update.mockResolvedValueOnce({
       id: 'admin-2',
       username: 'admin2',
       role: 'ADMIN',
-      isActive: true,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      salt: 'salt',
-      passwordHash: 'hash',
+      isActive: false,
+      createdAt,
+      updatedAt,
       mustChangePassword: false,
     });
 
@@ -484,31 +484,67 @@ describe('DELETE /api/users/[id]', () => {
     });
 
     const response = await DELETE(request, createContext('admin-2'));
+    const data = await response.json();
 
-    expect(response.status).toBe(204);
-    expect(mockedPrisma.user.delete).toHaveBeenCalledWith({
+    expect(response.status).toBe(200);
+    expect(data.id).toBe('admin-2');
+    expect(data.isActive).toBe(false);
+    expect(mockedPrisma.user.update).toHaveBeenCalledWith({
       where: { id: 'admin-2' },
+      data: { isActive: false },
+      select: {
+        id: true,
+        username: true,
+        role: true,
+        isActive: true,
+        mustChangePassword: true,
+        createdAt: true,
+        updatedAt: true,
+      },
     });
   });
 
-  it('successfully deletes user', async () => {
+  it('successfully soft-deletes user', async () => {
     mockAdmin();
+    const createdAt = new Date('2024-01-01T00:00:00Z');
+    const updatedAt = new Date('2024-01-02T00:00:00Z');
     mockedPrisma.user.findUnique.mockResolvedValueOnce({
       id: 'user-1',
       username: 'testuser',
       role: 'DEFAULT',
     });
-    mockedPrisma.user.delete.mockResolvedValueOnce({});
+    mockedPrisma.user.update.mockResolvedValueOnce({
+      id: 'user-1',
+      username: 'testuser',
+      role: 'DEFAULT',
+      isActive: false,
+      createdAt,
+      updatedAt,
+      mustChangePassword: false,
+    });
 
     const request = new NextRequest('http://localhost/api/users/user-1', {
       method: 'DELETE',
     });
 
     const response = await DELETE(request, createContext('user-1'));
+    const data = await response.json();
 
-    expect(response.status).toBe(204);
-    expect(mockedPrisma.user.delete).toHaveBeenCalledWith({
+    expect(response.status).toBe(200);
+    expect(data.id).toBe('user-1');
+    expect(data.isActive).toBe(false);
+    expect(mockedPrisma.user.update).toHaveBeenCalledWith({
       where: { id: 'user-1' },
+      data: { isActive: false },
+      select: {
+        id: true,
+        username: true,
+        role: true,
+        isActive: true,
+        mustChangePassword: true,
+        createdAt: true,
+        updatedAt: true,
+      },
     });
   });
 });

@@ -8,7 +8,7 @@ import { useTranslations } from 'next-intl';
 import { useAuth } from '@/components/auth-provider';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet';
 import { LayoutDashboard, Users, Database, Cpu, Bot, Settings, LogOut, Menu } from 'lucide-react';
 import { GithubIcon } from '@/components/icons/github';
 import { version } from '@/lib/version';
@@ -150,7 +150,8 @@ export function Header() {
                 <Menu className="h-5 w-5" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="w-64 p-0">
+            <SheetContent side="left" className="w-64 p-0" aria-describedby={undefined}>
+              <SheetTitle className="sr-only">{t('navigation')}</SheetTitle>
               <div className="border-border flex h-16 items-center gap-3 border-b px-6">
                 <Image
                   src="/logo.webp"
