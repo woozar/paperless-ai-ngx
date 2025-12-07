@@ -149,6 +149,25 @@ export type UpdateAiBotRequest = {
   systemPrompt?: string;
 };
 
+export type Permission = 'READ' | 'WRITE' | 'ADMIN';
+
+export type ShareAccessItem = {
+  id: string;
+  userId: string | null;
+  username: string | null;
+  permission: Permission;
+  createdAt: string;
+};
+
+export type ShareAccessList = {
+  items: Array<ShareAccessItem>;
+};
+
+export type CreateShareRequest = {
+  userId: string | null;
+  permission: Permission;
+};
+
 export type ErrorResponse = {
   error: string;
   message: string;
@@ -1171,6 +1190,330 @@ export type PatchAiBotsByIdResponses = {
 };
 
 export type PatchAiBotsByIdResponse = PatchAiBotsByIdResponses[keyof PatchAiBotsByIdResponses];
+
+export type GetAiProvidersByIdSharingData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/ai-providers/{id}/sharing';
+};
+
+export type GetAiProvidersByIdSharingErrors = {
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not found
+   */
+  404: ErrorResponse;
+};
+
+export type GetAiProvidersByIdSharingError =
+  GetAiProvidersByIdSharingErrors[keyof GetAiProvidersByIdSharingErrors];
+
+export type GetAiProvidersByIdSharingResponses = {
+  /**
+   * List of shares
+   */
+  200: ShareAccessList;
+};
+
+export type GetAiProvidersByIdSharingResponse =
+  GetAiProvidersByIdSharingResponses[keyof GetAiProvidersByIdSharingResponses];
+
+export type PostAiProvidersByIdSharingData = {
+  body?: CreateShareRequest;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/ai-providers/{id}/sharing';
+};
+
+export type PostAiProvidersByIdSharingErrors = {
+  /**
+   * Bad request
+   */
+  400: ErrorResponse;
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not found
+   */
+  404: ErrorResponse;
+};
+
+export type PostAiProvidersByIdSharingError =
+  PostAiProvidersByIdSharingErrors[keyof PostAiProvidersByIdSharingErrors];
+
+export type PostAiProvidersByIdSharingResponses = {
+  /**
+   * Share updated (already existed)
+   */
+  200: ShareAccessItem;
+  /**
+   * Share created
+   */
+  201: ShareAccessItem;
+};
+
+export type PostAiProvidersByIdSharingResponse =
+  PostAiProvidersByIdSharingResponses[keyof PostAiProvidersByIdSharingResponses];
+
+export type DeleteAiProvidersByIdSharingByAccessIdData = {
+  body?: never;
+  path: {
+    id: string;
+    accessId: string;
+  };
+  query?: never;
+  url: '/ai-providers/{id}/sharing/{accessId}';
+};
+
+export type DeleteAiProvidersByIdSharingByAccessIdErrors = {
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not found
+   */
+  404: ErrorResponse;
+};
+
+export type DeleteAiProvidersByIdSharingByAccessIdError =
+  DeleteAiProvidersByIdSharingByAccessIdErrors[keyof DeleteAiProvidersByIdSharingByAccessIdErrors];
+
+export type DeleteAiProvidersByIdSharingByAccessIdResponses = {
+  /**
+   * Share removed
+   */
+  204: void;
+};
+
+export type DeleteAiProvidersByIdSharingByAccessIdResponse =
+  DeleteAiProvidersByIdSharingByAccessIdResponses[keyof DeleteAiProvidersByIdSharingByAccessIdResponses];
+
+export type GetAiBotsByIdSharingData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/ai-bots/{id}/sharing';
+};
+
+export type GetAiBotsByIdSharingErrors = {
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not found
+   */
+  404: ErrorResponse;
+};
+
+export type GetAiBotsByIdSharingError =
+  GetAiBotsByIdSharingErrors[keyof GetAiBotsByIdSharingErrors];
+
+export type GetAiBotsByIdSharingResponses = {
+  /**
+   * List of shares
+   */
+  200: ShareAccessList;
+};
+
+export type GetAiBotsByIdSharingResponse =
+  GetAiBotsByIdSharingResponses[keyof GetAiBotsByIdSharingResponses];
+
+export type PostAiBotsByIdSharingData = {
+  body?: CreateShareRequest;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/ai-bots/{id}/sharing';
+};
+
+export type PostAiBotsByIdSharingErrors = {
+  /**
+   * Bad request
+   */
+  400: ErrorResponse;
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not found
+   */
+  404: ErrorResponse;
+};
+
+export type PostAiBotsByIdSharingError =
+  PostAiBotsByIdSharingErrors[keyof PostAiBotsByIdSharingErrors];
+
+export type PostAiBotsByIdSharingResponses = {
+  /**
+   * Share updated (already existed)
+   */
+  200: ShareAccessItem;
+  /**
+   * Share created
+   */
+  201: ShareAccessItem;
+};
+
+export type PostAiBotsByIdSharingResponse =
+  PostAiBotsByIdSharingResponses[keyof PostAiBotsByIdSharingResponses];
+
+export type DeleteAiBotsByIdSharingByAccessIdData = {
+  body?: never;
+  path: {
+    id: string;
+    accessId: string;
+  };
+  query?: never;
+  url: '/ai-bots/{id}/sharing/{accessId}';
+};
+
+export type DeleteAiBotsByIdSharingByAccessIdErrors = {
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not found
+   */
+  404: ErrorResponse;
+};
+
+export type DeleteAiBotsByIdSharingByAccessIdError =
+  DeleteAiBotsByIdSharingByAccessIdErrors[keyof DeleteAiBotsByIdSharingByAccessIdErrors];
+
+export type DeleteAiBotsByIdSharingByAccessIdResponses = {
+  /**
+   * Share removed
+   */
+  204: void;
+};
+
+export type DeleteAiBotsByIdSharingByAccessIdResponse =
+  DeleteAiBotsByIdSharingByAccessIdResponses[keyof DeleteAiBotsByIdSharingByAccessIdResponses];
+
+export type GetPaperlessInstancesByIdSharingData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/paperless-instances/{id}/sharing';
+};
+
+export type GetPaperlessInstancesByIdSharingErrors = {
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not found
+   */
+  404: ErrorResponse;
+};
+
+export type GetPaperlessInstancesByIdSharingError =
+  GetPaperlessInstancesByIdSharingErrors[keyof GetPaperlessInstancesByIdSharingErrors];
+
+export type GetPaperlessInstancesByIdSharingResponses = {
+  /**
+   * List of shares
+   */
+  200: ShareAccessList;
+};
+
+export type GetPaperlessInstancesByIdSharingResponse =
+  GetPaperlessInstancesByIdSharingResponses[keyof GetPaperlessInstancesByIdSharingResponses];
+
+export type PostPaperlessInstancesByIdSharingData = {
+  body?: CreateShareRequest;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/paperless-instances/{id}/sharing';
+};
+
+export type PostPaperlessInstancesByIdSharingErrors = {
+  /**
+   * Bad request
+   */
+  400: ErrorResponse;
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not found
+   */
+  404: ErrorResponse;
+};
+
+export type PostPaperlessInstancesByIdSharingError =
+  PostPaperlessInstancesByIdSharingErrors[keyof PostPaperlessInstancesByIdSharingErrors];
+
+export type PostPaperlessInstancesByIdSharingResponses = {
+  /**
+   * Share updated (already existed)
+   */
+  200: ShareAccessItem;
+  /**
+   * Share created
+   */
+  201: ShareAccessItem;
+};
+
+export type PostPaperlessInstancesByIdSharingResponse =
+  PostPaperlessInstancesByIdSharingResponses[keyof PostPaperlessInstancesByIdSharingResponses];
+
+export type DeletePaperlessInstancesByIdSharingByAccessIdData = {
+  body?: never;
+  path: {
+    id: string;
+    accessId: string;
+  };
+  query?: never;
+  url: '/paperless-instances/{id}/sharing/{accessId}';
+};
+
+export type DeletePaperlessInstancesByIdSharingByAccessIdErrors = {
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not found
+   */
+  404: ErrorResponse;
+};
+
+export type DeletePaperlessInstancesByIdSharingByAccessIdError =
+  DeletePaperlessInstancesByIdSharingByAccessIdErrors[keyof DeletePaperlessInstancesByIdSharingByAccessIdErrors];
+
+export type DeletePaperlessInstancesByIdSharingByAccessIdResponses = {
+  /**
+   * Share removed
+   */
+  204: void;
+};
+
+export type DeletePaperlessInstancesByIdSharingByAccessIdResponse =
+  DeletePaperlessInstancesByIdSharingByAccessIdResponses[keyof DeletePaperlessInstancesByIdSharingByAccessIdResponses];
 
 export type ClientOptions = {
   baseUrl: `${string}://${string}/api` | (string & {});

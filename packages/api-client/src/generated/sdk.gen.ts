@@ -85,6 +85,33 @@ import type {
   PatchAiBotsByIdData,
   PatchAiBotsByIdResponses,
   PatchAiBotsByIdErrors,
+  GetAiProvidersByIdSharingData,
+  GetAiProvidersByIdSharingResponses,
+  GetAiProvidersByIdSharingErrors,
+  PostAiProvidersByIdSharingData,
+  PostAiProvidersByIdSharingResponses,
+  PostAiProvidersByIdSharingErrors,
+  DeleteAiProvidersByIdSharingByAccessIdData,
+  DeleteAiProvidersByIdSharingByAccessIdResponses,
+  DeleteAiProvidersByIdSharingByAccessIdErrors,
+  GetAiBotsByIdSharingData,
+  GetAiBotsByIdSharingResponses,
+  GetAiBotsByIdSharingErrors,
+  PostAiBotsByIdSharingData,
+  PostAiBotsByIdSharingResponses,
+  PostAiBotsByIdSharingErrors,
+  DeleteAiBotsByIdSharingByAccessIdData,
+  DeleteAiBotsByIdSharingByAccessIdResponses,
+  DeleteAiBotsByIdSharingByAccessIdErrors,
+  GetPaperlessInstancesByIdSharingData,
+  GetPaperlessInstancesByIdSharingResponses,
+  GetPaperlessInstancesByIdSharingErrors,
+  PostPaperlessInstancesByIdSharingData,
+  PostPaperlessInstancesByIdSharingResponses,
+  PostPaperlessInstancesByIdSharingErrors,
+  DeletePaperlessInstancesByIdSharingByAccessIdData,
+  DeletePaperlessInstancesByIdSharingByAccessIdResponses,
+  DeletePaperlessInstancesByIdSharingByAccessIdErrors,
 } from './types.gen';
 import { client as _heyApiClient } from './client.gen';
 
@@ -573,5 +600,161 @@ export const patchAiBotsById = <ThrowOnError extends boolean = false>(
       'Content-Type': 'application/json',
       ...options.headers,
     },
+  });
+};
+
+/**
+ * List shares for AiProviders
+ */
+export const getAiProvidersByIdSharing = <ThrowOnError extends boolean = false>(
+  options: Options<GetAiProvidersByIdSharingData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<
+    GetAiProvidersByIdSharingResponses,
+    GetAiProvidersByIdSharingErrors,
+    ThrowOnError
+  >({
+    url: '/ai-providers/{id}/sharing',
+    ...options,
+  });
+};
+
+/**
+ * Share AiProviders with user or all users
+ */
+export const postAiProvidersByIdSharing = <ThrowOnError extends boolean = false>(
+  options: Options<PostAiProvidersByIdSharingData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostAiProvidersByIdSharingResponses,
+    PostAiProvidersByIdSharingErrors,
+    ThrowOnError
+  >({
+    url: '/ai-providers/{id}/sharing',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * Remove share from AiProviders
+ */
+export const deleteAiProvidersByIdSharingByAccessId = <ThrowOnError extends boolean = false>(
+  options: Options<DeleteAiProvidersByIdSharingByAccessIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).delete<
+    DeleteAiProvidersByIdSharingByAccessIdResponses,
+    DeleteAiProvidersByIdSharingByAccessIdErrors,
+    ThrowOnError
+  >({
+    url: '/ai-providers/{id}/sharing/{accessId}',
+    ...options,
+  });
+};
+
+/**
+ * List shares for AiBots
+ */
+export const getAiBotsByIdSharing = <ThrowOnError extends boolean = false>(
+  options: Options<GetAiBotsByIdSharingData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<
+    GetAiBotsByIdSharingResponses,
+    GetAiBotsByIdSharingErrors,
+    ThrowOnError
+  >({
+    url: '/ai-bots/{id}/sharing',
+    ...options,
+  });
+};
+
+/**
+ * Share AiBots with user or all users
+ */
+export const postAiBotsByIdSharing = <ThrowOnError extends boolean = false>(
+  options: Options<PostAiBotsByIdSharingData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostAiBotsByIdSharingResponses,
+    PostAiBotsByIdSharingErrors,
+    ThrowOnError
+  >({
+    url: '/ai-bots/{id}/sharing',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * Remove share from AiBots
+ */
+export const deleteAiBotsByIdSharingByAccessId = <ThrowOnError extends boolean = false>(
+  options: Options<DeleteAiBotsByIdSharingByAccessIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).delete<
+    DeleteAiBotsByIdSharingByAccessIdResponses,
+    DeleteAiBotsByIdSharingByAccessIdErrors,
+    ThrowOnError
+  >({
+    url: '/ai-bots/{id}/sharing/{accessId}',
+    ...options,
+  });
+};
+
+/**
+ * List shares for PaperlessInstances
+ */
+export const getPaperlessInstancesByIdSharing = <ThrowOnError extends boolean = false>(
+  options: Options<GetPaperlessInstancesByIdSharingData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<
+    GetPaperlessInstancesByIdSharingResponses,
+    GetPaperlessInstancesByIdSharingErrors,
+    ThrowOnError
+  >({
+    url: '/paperless-instances/{id}/sharing',
+    ...options,
+  });
+};
+
+/**
+ * Share PaperlessInstances with user or all users
+ */
+export const postPaperlessInstancesByIdSharing = <ThrowOnError extends boolean = false>(
+  options: Options<PostPaperlessInstancesByIdSharingData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostPaperlessInstancesByIdSharingResponses,
+    PostPaperlessInstancesByIdSharingErrors,
+    ThrowOnError
+  >({
+    url: '/paperless-instances/{id}/sharing',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * Remove share from PaperlessInstances
+ */
+export const deletePaperlessInstancesByIdSharingByAccessId = <ThrowOnError extends boolean = false>(
+  options: Options<DeletePaperlessInstancesByIdSharingByAccessIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).delete<
+    DeletePaperlessInstancesByIdSharingByAccessIdResponses,
+    DeletePaperlessInstancesByIdSharingByAccessIdErrors,
+    ThrowOnError
+  >({
+    url: '/paperless-instances/{id}/sharing/{accessId}',
+    ...options,
   });
 };

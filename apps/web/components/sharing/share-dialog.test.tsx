@@ -5,20 +5,24 @@ import { toast } from 'sonner';
 import { ShareDialog } from './share-dialog';
 import { renderWithIntl } from '@/test-utils/render-with-intl';
 
-// Mock fetch
-const mockFetch = vi.fn();
-global.fetch = mockFetch;
+// Mock the API client functions
+vi.mock('@repo/api-client', () => ({
+  getAiProvidersByIdSharing: vi.fn(),
+  postAiProvidersByIdSharing: vi.fn(),
+  deleteAiProvidersByIdSharingByAccessId: vi.fn(),
+  getAiBotsByIdSharing: vi.fn(),
+  postAiBotsByIdSharing: vi.fn(),
+  deleteAiBotsByIdSharingByAccessId: vi.fn(),
+  getPaperlessInstancesByIdSharing: vi.fn(),
+  postPaperlessInstancesByIdSharing: vi.fn(),
+  deletePaperlessInstancesByIdSharingByAccessId: vi.fn(),
+  getUsers: vi.fn(),
+}));
 
-// Mock localStorage
-const mockLocalStorage = {
-  getItem: vi.fn(() => 'mock-token'),
-  setItem: vi.fn(),
-  removeItem: vi.fn(),
-  clear: vi.fn(),
-  length: 0,
-  key: vi.fn(),
-};
-Object.defineProperty(window, 'localStorage', { value: mockLocalStorage });
+// Mock useApi hook
+vi.mock('@/lib/use-api', () => ({
+  useApi: vi.fn(() => ({})),
+}));
 
 vi.mock('sonner', () => ({
   toast: {
@@ -26,6 +30,48 @@ vi.mock('sonner', () => ({
     success: vi.fn(),
   },
 }));
+
+import {
+  getAiProvidersByIdSharing,
+  postAiProvidersByIdSharing,
+  deleteAiProvidersByIdSharingByAccessId,
+  getUsers,
+} from '@repo/api-client';
+import type { ShareAccessItem } from '@/lib/api/schemas/sharing';
+
+// Helper to create mock API responses - using 'as any' for simplicity in tests
+const mockShareList = (items: ShareAccessItem[]) =>
+  ({ data: { items }, error: undefined, request: {}, response: {} }) as any;
+
+const mockUserList = (items: { id: string; username: string }[]) =>
+  ({
+    data: {
+      items: items.map((u) => ({
+        ...u,
+        role: 'DEFAULT' as const,
+        isActive: true,
+        mustChangePassword: false,
+        createdAt: '2024-01-15T10:00:00Z',
+        updatedAt: '2024-01-15T10:00:00Z',
+      })),
+      total: items.length,
+      totalPages: 1,
+      page: 1,
+      limit: 100,
+    },
+    error: undefined,
+    request: {},
+    response: {},
+  }) as any;
+
+const mockShareItem = (item: ShareAccessItem) =>
+  ({ data: item, error: undefined, request: {}, response: {} }) as any;
+
+const mockError = (message: string) =>
+  ({ data: undefined, error: { error: message, message }, request: {}, response: {} }) as any;
+
+const mockDeleteResponse = () =>
+  ({ data: undefined, error: undefined, request: {}, response: {} }) as any;
 
 describe('ShareDialog', () => {
   const defaultProps = {
@@ -38,20 +84,12 @@ describe('ShareDialog', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    mockFetch.mockReset();
   });
 
   describe('rendering', () => {
     it('renders dialog when open', async () => {
-      mockFetch
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () => Promise.resolve({ items: [] }),
-        })
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () => Promise.resolve({ items: [] }),
-        });
+      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(mockShareList([]));
+      vi.mocked(getUsers).mockResolvedValueOnce(mockUserList([]));
 
       renderWithIntl(<ShareDialog {...defaultProps} />);
 
@@ -67,19 +105,10 @@ describe('ShareDialog', () => {
     });
 
     it('shows loading state while fetching shares', async () => {
-      mockFetch.mockImplementation(
-        () =>
-          new Promise((resolve) =>
-            setTimeout(
-              () =>
-                resolve({
-                  ok: true,
-                  json: () => Promise.resolve({ items: [] }),
-                }),
-              100
-            )
-          )
+      vi.mocked(getAiProvidersByIdSharing).mockImplementation(
+        (() => new Promise((resolve) => setTimeout(() => resolve(mockShareList([])), 100))) as any
       );
+      vi.mocked(getUsers).mockResolvedValueOnce(mockUserList([]));
 
       renderWithIntl(<ShareDialog {...defaultProps} />);
 
@@ -89,15 +118,8 @@ describe('ShareDialog', () => {
     });
 
     it('shows empty message when no shares exist', async () => {
-      mockFetch
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () => Promise.resolve({ items: [] }),
-        })
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () => Promise.resolve({ items: [] }),
-        });
+      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(mockShareList([]));
+      vi.mocked(getUsers).mockResolvedValueOnce(mockUserList([]));
 
       renderWithIntl(<ShareDialog {...defaultProps} />);
 
@@ -109,26 +131,20 @@ describe('ShareDialog', () => {
 
   describe('displaying shares', () => {
     it('displays list of existing shares', async () => {
-      mockFetch
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () =>
-            Promise.resolve({
-              items: [
-                {
-                  id: 'access-1',
-                  userId: 'user-2',
-                  username: 'otheruser',
-                  permission: 'READ',
-                  createdAt: '2024-01-15T10:00:00Z',
-                },
-              ],
-            }),
-        })
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () => Promise.resolve({ items: [{ id: 'user-3', username: 'thirduser' }] }),
-        });
+      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(
+        mockShareList([
+          {
+            id: 'access-1',
+            userId: 'user-2',
+            username: 'otheruser',
+            permission: 'READ',
+            createdAt: '2024-01-15T10:00:00Z',
+          },
+        ])
+      );
+      vi.mocked(getUsers).mockResolvedValueOnce(
+        mockUserList([{ id: 'user-3', username: 'thirduser' }])
+      );
 
       renderWithIntl(<ShareDialog {...defaultProps} />);
 
@@ -138,26 +154,18 @@ describe('ShareDialog', () => {
     });
 
     it('displays "All Users" for shares with null userId', async () => {
-      mockFetch
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () =>
-            Promise.resolve({
-              items: [
-                {
-                  id: 'access-1',
-                  userId: null,
-                  username: null,
-                  permission: 'WRITE',
-                  createdAt: '2024-01-15T10:00:00Z',
-                },
-              ],
-            }),
-        })
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () => Promise.resolve({ items: [] }),
-        });
+      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(
+        mockShareList([
+          {
+            id: 'access-1',
+            userId: null,
+            username: null,
+            permission: 'WRITE',
+            createdAt: '2024-01-15T10:00:00Z',
+          },
+        ])
+      );
+      vi.mocked(getUsers).mockResolvedValueOnce(mockUserList([]));
 
       renderWithIntl(<ShareDialog {...defaultProps} />);
 
@@ -171,30 +179,19 @@ describe('ShareDialog', () => {
     it('adds share for specific user', async () => {
       const user = userEvent.setup({ delay: null });
 
-      mockFetch
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () => Promise.resolve({ items: [] }),
+      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(mockShareList([]));
+      vi.mocked(getUsers).mockResolvedValueOnce(
+        mockUserList([{ id: 'user-2', username: 'otheruser' }])
+      );
+      vi.mocked(postAiProvidersByIdSharing).mockResolvedValueOnce(
+        mockShareItem({
+          id: 'access-1',
+          userId: 'user-2',
+          username: 'otheruser',
+          permission: 'READ',
+          createdAt: '2024-01-15T10:00:00Z',
         })
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () =>
-            Promise.resolve({
-              items: [{ id: 'user-2', username: 'otheruser' }],
-            }),
-        })
-        .mockResolvedValueOnce({
-          ok: true,
-          status: 201,
-          json: () =>
-            Promise.resolve({
-              id: 'access-1',
-              userId: 'user-2',
-              username: 'otheruser',
-              permission: 'READ',
-              createdAt: '2024-01-15T10:00:00Z',
-            }),
-        });
+      );
 
       renderWithIntl(<ShareDialog {...defaultProps} />);
 
@@ -202,20 +199,16 @@ describe('ShareDialog', () => {
         expect(screen.getByRole('dialog')).toBeInTheDocument();
       });
 
-      // Wait for loading to complete
       await waitFor(() => {
         expect(screen.queryByText(/not shared with anyone/i)).toBeInTheDocument();
       });
 
-      // Select a user from the new share row
       const userSelect = screen.getByTestId('new-share-user-select');
       await user.click(userSelect);
 
-      // Wait for the dropdown to open and find the option
       const option = await screen.findByRole('option', { name: /otheruser/i });
       await user.click(option);
 
-      // Click add button
       const addButton = screen.getByTestId('add-share-button');
       await user.click(addButton);
 
@@ -227,27 +220,17 @@ describe('ShareDialog', () => {
     it('adds share for all users', async () => {
       const user = userEvent.setup({ delay: null });
 
-      mockFetch
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () => Promise.resolve({ items: [] }),
+      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(mockShareList([]));
+      vi.mocked(getUsers).mockResolvedValueOnce(mockUserList([]));
+      vi.mocked(postAiProvidersByIdSharing).mockResolvedValueOnce(
+        mockShareItem({
+          id: 'access-1',
+          userId: null,
+          username: null,
+          permission: 'READ',
+          createdAt: '2024-01-15T10:00:00Z',
         })
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () => Promise.resolve({ items: [] }),
-        })
-        .mockResolvedValueOnce({
-          ok: true,
-          status: 201,
-          json: () =>
-            Promise.resolve({
-              id: 'access-1',
-              userId: null,
-              username: null,
-              permission: 'READ',
-              createdAt: '2024-01-15T10:00:00Z',
-            }),
-        });
+      );
 
       renderWithIntl(<ShareDialog {...defaultProps} />);
 
@@ -255,15 +238,12 @@ describe('ShareDialog', () => {
         expect(screen.getByRole('dialog')).toBeInTheDocument();
       });
 
-      // Select "All Users" from the new share row dropdown
       const userSelect = screen.getByTestId('new-share-user-select');
       await user.click(userSelect);
 
-      // Select "All Users" option
       const allUsersOption = await screen.findByRole('option', { name: /All Users/i });
       await user.click(allUsersOption);
 
-      // Click add button
       const addButton = screen.getByTestId('add-share-button');
       await user.click(addButton);
 
@@ -275,26 +255,18 @@ describe('ShareDialog', () => {
     it('hides "All Users" option when already shared with all', async () => {
       const user = userEvent.setup({ delay: null });
 
-      mockFetch
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () =>
-            Promise.resolve({
-              items: [
-                {
-                  id: 'access-1',
-                  userId: null,
-                  username: null,
-                  permission: 'WRITE',
-                  createdAt: '2024-01-15T10:00:00Z',
-                },
-              ],
-            }),
-        })
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () => Promise.resolve({ items: [] }),
-        });
+      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(
+        mockShareList([
+          {
+            id: 'access-1',
+            userId: null,
+            username: null,
+            permission: 'WRITE',
+            createdAt: '2024-01-15T10:00:00Z',
+          },
+        ])
+      );
+      vi.mocked(getUsers).mockResolvedValueOnce(mockUserList([]));
 
       renderWithIntl(<ShareDialog {...defaultProps} />);
 
@@ -302,30 +274,18 @@ describe('ShareDialog', () => {
         expect(screen.getByRole('dialog')).toBeInTheDocument();
       });
 
-      // Open the user select dropdown
       const userSelect = screen.getByTestId('new-share-user-select');
       await user.click(userSelect);
 
-      // "All Users" option should not be present since it's already shared
       expect(screen.queryByRole('option', { name: /All Users/i })).not.toBeInTheDocument();
     });
 
     it('shows error toast on API failure', async () => {
       const user = userEvent.setup({ delay: null });
 
-      mockFetch
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () => Promise.resolve({ items: [] }),
-        })
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () => Promise.resolve({ items: [] }),
-        })
-        .mockResolvedValueOnce({
-          ok: false,
-          json: () => Promise.resolve({ message: 'serverError' }),
-        });
+      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(mockShareList([]));
+      vi.mocked(getUsers).mockResolvedValueOnce(mockUserList([]));
+      vi.mocked(postAiProvidersByIdSharing).mockResolvedValueOnce(mockError('serverError'));
 
       renderWithIntl(<ShareDialog {...defaultProps} />);
 
@@ -333,13 +293,11 @@ describe('ShareDialog', () => {
         expect(screen.getByRole('dialog')).toBeInTheDocument();
       });
 
-      // Select "All Users" from dropdown
       const userSelect = screen.getByTestId('new-share-user-select');
       await user.click(userSelect);
       const allUsersOption = await screen.findByRole('option', { name: /All Users/i });
       await user.click(allUsersOption);
 
-      // Click add button
       const addButton = screen.getByTestId('add-share-button');
       await user.click(addButton);
 
@@ -353,29 +311,19 @@ describe('ShareDialog', () => {
     it('removes share when clicking remove button', async () => {
       const user = userEvent.setup({ delay: null });
 
-      mockFetch
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () =>
-            Promise.resolve({
-              items: [
-                {
-                  id: 'access-1',
-                  userId: 'user-2',
-                  username: 'otheruser',
-                  permission: 'READ',
-                  createdAt: '2024-01-15T10:00:00Z',
-                },
-              ],
-            }),
-        })
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () => Promise.resolve({ items: [] }),
-        })
-        .mockResolvedValueOnce({
-          ok: true,
-        });
+      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(
+        mockShareList([
+          {
+            id: 'access-1',
+            userId: 'user-2',
+            username: 'otheruser',
+            permission: 'READ',
+            createdAt: '2024-01-15T10:00:00Z',
+          },
+        ])
+      );
+      vi.mocked(getUsers).mockResolvedValueOnce(mockUserList([]));
+      vi.mocked(deleteAiProvidersByIdSharingByAccessId).mockResolvedValueOnce(mockDeleteResponse());
 
       renderWithIntl(<ShareDialog {...defaultProps} />);
 
@@ -394,29 +342,21 @@ describe('ShareDialog', () => {
     it('shows error toast when remove fails', async () => {
       const user = userEvent.setup({ delay: null });
 
-      mockFetch
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () =>
-            Promise.resolve({
-              items: [
-                {
-                  id: 'access-1',
-                  userId: 'user-2',
-                  username: 'otheruser',
-                  permission: 'READ',
-                  createdAt: '2024-01-15T10:00:00Z',
-                },
-              ],
-            }),
-        })
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () => Promise.resolve({ items: [] }),
-        })
-        .mockResolvedValueOnce({
-          ok: false,
-        });
+      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(
+        mockShareList([
+          {
+            id: 'access-1',
+            userId: 'user-2',
+            username: 'otheruser',
+            permission: 'READ',
+            createdAt: '2024-01-15T10:00:00Z',
+          },
+        ])
+      );
+      vi.mocked(getUsers).mockResolvedValueOnce(mockUserList([]));
+      vi.mocked(deleteAiProvidersByIdSharingByAccessId).mockResolvedValueOnce(
+        mockError('serverError')
+      );
 
       renderWithIntl(<ShareDialog {...defaultProps} />);
 
@@ -435,27 +375,21 @@ describe('ShareDialog', () => {
     it('shows error toast when remove network fails', async () => {
       const user = userEvent.setup({ delay: null });
 
-      mockFetch
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () =>
-            Promise.resolve({
-              items: [
-                {
-                  id: 'access-1',
-                  userId: 'user-2',
-                  username: 'otheruser',
-                  permission: 'READ',
-                  createdAt: '2024-01-15T10:00:00Z',
-                },
-              ],
-            }),
-        })
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () => Promise.resolve({ items: [] }),
-        })
-        .mockRejectedValueOnce(new Error('Network error'));
+      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(
+        mockShareList([
+          {
+            id: 'access-1',
+            userId: 'user-2',
+            username: 'otheruser',
+            permission: 'READ',
+            createdAt: '2024-01-15T10:00:00Z',
+          },
+        ])
+      );
+      vi.mocked(getUsers).mockResolvedValueOnce(mockUserList([]));
+      vi.mocked(deleteAiProvidersByIdSharingByAccessId).mockRejectedValueOnce(
+        new Error('Network error')
+      );
 
       renderWithIntl(<ShareDialog {...defaultProps} />);
 
@@ -476,15 +410,8 @@ describe('ShareDialog', () => {
     it('allows changing permission for new share', async () => {
       const user = userEvent.setup({ delay: null });
 
-      mockFetch
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () => Promise.resolve({ items: [] }),
-        })
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () => Promise.resolve({ items: [] }),
-        });
+      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(mockShareList([]));
+      vi.mocked(getUsers).mockResolvedValueOnce(mockUserList([]));
 
       renderWithIntl(<ShareDialog {...defaultProps} />);
 
@@ -492,57 +419,43 @@ describe('ShareDialog', () => {
         expect(screen.getByRole('dialog')).toBeInTheDocument();
       });
 
-      // Wait for loading to complete
       await waitFor(() => {
         expect(screen.queryByText(/not shared with anyone/i)).toBeInTheDocument();
       });
 
-      // Click on permission select for new share row
       const permissionSelect = screen.getByTestId('new-share-permission-select');
       await user.click(permissionSelect);
 
-      // Find and click WRITE option
       const writeOption = await screen.findByRole('option', { name: /write/i });
       await user.click(writeOption);
 
-      // The select trigger should still be there
       expect(screen.getByTestId('new-share-permission-select')).toBeInTheDocument();
     });
 
     it('auto-saves when permission is changed for existing share', async () => {
       const user = userEvent.setup({ delay: null });
 
-      mockFetch
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () =>
-            Promise.resolve({
-              items: [
-                {
-                  id: 'access-1',
-                  userId: 'user-2',
-                  username: 'otheruser',
-                  permission: 'READ',
-                  createdAt: '2024-01-15T10:00:00Z',
-                },
-              ],
-            }),
+      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(
+        mockShareList([
+          {
+            id: 'access-1',
+            userId: 'user-2',
+            username: 'otheruser',
+            permission: 'READ',
+            createdAt: '2024-01-15T10:00:00Z',
+          },
+        ])
+      );
+      vi.mocked(getUsers).mockResolvedValueOnce(mockUserList([]));
+      vi.mocked(postAiProvidersByIdSharing).mockResolvedValueOnce(
+        mockShareItem({
+          id: 'access-1',
+          userId: 'user-2',
+          username: 'otheruser',
+          permission: 'WRITE',
+          createdAt: '2024-01-15T10:00:00Z',
         })
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () => Promise.resolve({ items: [] }),
-        })
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () =>
-            Promise.resolve({
-              id: 'access-1',
-              userId: 'user-2',
-              username: 'otheruser',
-              permission: 'WRITE',
-              createdAt: '2024-01-15T10:00:00Z',
-            }),
-        });
+      );
 
       renderWithIntl(<ShareDialog {...defaultProps} />);
 
@@ -550,15 +463,12 @@ describe('ShareDialog', () => {
         expect(screen.getByText('otheruser')).toBeInTheDocument();
       });
 
-      // Click on permission select for existing share
       const permissionSelect = screen.getByTestId('permission-select-access-1');
       await user.click(permissionSelect);
 
-      // Find and click WRITE option
       const writeOption = await screen.findByRole('option', { name: /write/i });
       await user.click(writeOption);
 
-      // Should auto-save and show success toast
       await waitFor(() => {
         expect(vi.mocked(toast.success)).toHaveBeenCalled();
       });
@@ -567,30 +477,19 @@ describe('ShareDialog', () => {
     it('shows error toast when permission update returns error', async () => {
       const user = userEvent.setup({ delay: null });
 
-      mockFetch
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () =>
-            Promise.resolve({
-              items: [
-                {
-                  id: 'access-1',
-                  userId: 'user-2',
-                  username: 'otheruser',
-                  permission: 'READ',
-                  createdAt: '2024-01-15T10:00:00Z',
-                },
-              ],
-            }),
-        })
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () => Promise.resolve({ items: [] }),
-        })
-        .mockResolvedValueOnce({
-          ok: false,
-          json: () => Promise.resolve({ message: 'serverError' }),
-        });
+      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(
+        mockShareList([
+          {
+            id: 'access-1',
+            userId: 'user-2',
+            username: 'otheruser',
+            permission: 'READ',
+            createdAt: '2024-01-15T10:00:00Z',
+          },
+        ])
+      );
+      vi.mocked(getUsers).mockResolvedValueOnce(mockUserList([]));
+      vi.mocked(postAiProvidersByIdSharing).mockResolvedValueOnce(mockError('serverError'));
 
       renderWithIntl(<ShareDialog {...defaultProps} />);
 
@@ -598,15 +497,12 @@ describe('ShareDialog', () => {
         expect(screen.getByText('otheruser')).toBeInTheDocument();
       });
 
-      // Click on permission select for existing share
       const permissionSelect = screen.getByTestId('permission-select-access-1');
       await user.click(permissionSelect);
 
-      // Find and click WRITE option
       const writeOption = await screen.findByRole('option', { name: /write/i });
       await user.click(writeOption);
 
-      // Should show error toast
       await waitFor(() => {
         expect(vi.mocked(toast.error)).toHaveBeenCalled();
       });
@@ -615,27 +511,19 @@ describe('ShareDialog', () => {
     it('shows error toast when permission update network fails', async () => {
       const user = userEvent.setup({ delay: null });
 
-      mockFetch
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () =>
-            Promise.resolve({
-              items: [
-                {
-                  id: 'access-1',
-                  userId: 'user-2',
-                  username: 'otheruser',
-                  permission: 'READ',
-                  createdAt: '2024-01-15T10:00:00Z',
-                },
-              ],
-            }),
-        })
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () => Promise.resolve({ items: [] }),
-        })
-        .mockRejectedValueOnce(new Error('Network error'));
+      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(
+        mockShareList([
+          {
+            id: 'access-1',
+            userId: 'user-2',
+            username: 'otheruser',
+            permission: 'READ',
+            createdAt: '2024-01-15T10:00:00Z',
+          },
+        ])
+      );
+      vi.mocked(getUsers).mockResolvedValueOnce(mockUserList([]));
+      vi.mocked(postAiProvidersByIdSharing).mockRejectedValueOnce(new Error('Network error'));
 
       renderWithIntl(<ShareDialog {...defaultProps} />);
 
@@ -643,15 +531,12 @@ describe('ShareDialog', () => {
         expect(screen.getByText('otheruser')).toBeInTheDocument();
       });
 
-      // Click on permission select for existing share
       const permissionSelect = screen.getByTestId('permission-select-access-1');
       await user.click(permissionSelect);
 
-      // Find and click WRITE option
       const writeOption = await screen.findByRole('option', { name: /write/i });
       await user.click(writeOption);
 
-      // Should show error toast
       await waitFor(() => {
         expect(vi.mocked(toast.error)).toHaveBeenCalled();
       });
@@ -662,16 +547,9 @@ describe('ShareDialog', () => {
     it('shows error toast when add share network fails', async () => {
       const user = userEvent.setup({ delay: null });
 
-      mockFetch
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () => Promise.resolve({ items: [] }),
-        })
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () => Promise.resolve({ items: [] }),
-        })
-        .mockRejectedValueOnce(new Error('Network error'));
+      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(mockShareList([]));
+      vi.mocked(getUsers).mockResolvedValueOnce(mockUserList([]));
+      vi.mocked(postAiProvidersByIdSharing).mockRejectedValueOnce(new Error('Network error'));
 
       renderWithIntl(<ShareDialog {...defaultProps} />);
 
@@ -679,13 +557,11 @@ describe('ShareDialog', () => {
         expect(screen.getByRole('dialog')).toBeInTheDocument();
       });
 
-      // Select "All Users" from dropdown
       const userSelect = screen.getByTestId('new-share-user-select');
       await user.click(userSelect);
       const allUsersOption = await screen.findByRole('option', { name: /All Users/i });
       await user.click(allUsersOption);
 
-      // Click add button
       const addButton = screen.getByTestId('add-share-button');
       await user.click(addButton);
 
@@ -695,7 +571,8 @@ describe('ShareDialog', () => {
     });
 
     it('shows error toast when load shares fails', async () => {
-      mockFetch.mockRejectedValueOnce(new Error('Network error'));
+      vi.mocked(getAiProvidersByIdSharing).mockRejectedValueOnce(new Error('Network error'));
+      vi.mocked(getUsers).mockResolvedValueOnce(mockUserList([]));
 
       renderWithIntl(<ShareDialog {...defaultProps} />);
 
@@ -704,15 +581,38 @@ describe('ShareDialog', () => {
       });
     });
 
-    it('shows error toast when load shares returns not ok', async () => {
-      mockFetch.mockResolvedValueOnce({
-        ok: false,
-      });
+    it('shows error toast when load shares returns error', async () => {
+      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(mockError('serverError'));
+      vi.mocked(getUsers).mockResolvedValueOnce(mockUserList([]));
 
       renderWithIntl(<ShareDialog {...defaultProps} />);
 
       await waitFor(() => {
         expect(vi.mocked(toast.error)).toHaveBeenCalled();
+      });
+    });
+
+    it('silently handles when load users fails', async () => {
+      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(mockShareList([]));
+      vi.mocked(getUsers).mockRejectedValueOnce(new Error('Network error'));
+
+      renderWithIntl(<ShareDialog {...defaultProps} />);
+
+      // Should still render dialog without error toast for users
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+    });
+
+    it('silently handles when load users returns no data', async () => {
+      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(mockShareList([]));
+      vi.mocked(getUsers).mockResolvedValueOnce(mockError('serverError'));
+
+      renderWithIntl(<ShareDialog {...defaultProps} />);
+
+      // Should still render dialog - users dropdown will just be empty
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
       });
     });
   });
@@ -721,15 +621,8 @@ describe('ShareDialog', () => {
     it('does not add share when in user mode without selected user', async () => {
       const user = userEvent.setup({ delay: null });
 
-      mockFetch
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () => Promise.resolve({ items: [] }),
-        })
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () => Promise.resolve({ items: [] }),
-        });
+      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(mockShareList([]));
+      vi.mocked(getUsers).mockResolvedValueOnce(mockUserList([]));
 
       renderWithIntl(<ShareDialog {...defaultProps} />);
 
@@ -737,45 +630,33 @@ describe('ShareDialog', () => {
         expect(screen.getByRole('dialog')).toBeInTheDocument();
       });
 
-      // Wait for loading to complete
       await waitFor(() => {
         expect(screen.queryByText(/not shared with anyone/i)).toBeInTheDocument();
       });
 
-      // Click add button without selecting a user
       const addButton = screen.getByTestId('add-share-button');
       await user.click(addButton);
 
-      // Should not make a POST request (only GET for shares and users)
-      expect(mockFetch).toHaveBeenCalledTimes(2);
+      // Should not make a POST request
+      expect(postAiProvidersByIdSharing).not.toHaveBeenCalled();
     });
   });
 
   describe('share updates', () => {
-    it('adds new share when response is 201', async () => {
+    it('adds new share when response succeeds', async () => {
       const user = userEvent.setup({ delay: null });
 
-      mockFetch
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () => Promise.resolve({ items: [] }),
+      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(mockShareList([]));
+      vi.mocked(getUsers).mockResolvedValueOnce(mockUserList([]));
+      vi.mocked(postAiProvidersByIdSharing).mockResolvedValueOnce(
+        mockShareItem({
+          id: 'access-1',
+          userId: null,
+          username: null,
+          permission: 'READ',
+          createdAt: '2024-01-15T10:00:00Z',
         })
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () => Promise.resolve({ items: [] }),
-        })
-        .mockResolvedValueOnce({
-          ok: true,
-          status: 201,
-          json: () =>
-            Promise.resolve({
-              id: 'access-1',
-              userId: null,
-              username: null,
-              permission: 'READ',
-              createdAt: '2024-01-15T10:00:00Z',
-            }),
-        });
+      );
 
       renderWithIntl(<ShareDialog {...defaultProps} />);
 
@@ -783,13 +664,11 @@ describe('ShareDialog', () => {
         expect(screen.getByRole('dialog')).toBeInTheDocument();
       });
 
-      // Select "All Users" from dropdown
       const userSelect = screen.getByTestId('new-share-user-select');
       await user.click(userSelect);
       const allUsersOption = await screen.findByRole('option', { name: /All Users/i });
       await user.click(allUsersOption);
 
-      // Click add button
       const addButton = screen.getByTestId('add-share-button');
       await user.click(addButton);
 
@@ -799,84 +678,22 @@ describe('ShareDialog', () => {
     });
   });
 
-  describe('API calls', () => {
-    it('includes auth token in headers', async () => {
-      mockFetch
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () => Promise.resolve({ items: [] }),
-        })
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () => Promise.resolve({ items: [] }),
-        });
-
-      renderWithIntl(<ShareDialog {...defaultProps} />);
-
-      await waitFor(() => {
-        expect(mockFetch).toHaveBeenCalledWith(
-          expect.stringContaining('/api/ai-providers/provider-1/sharing'),
-          expect.objectContaining({
-            headers: expect.objectContaining({
-              Authorization: 'Bearer mock-token',
-            }),
-          })
-        );
-      });
-    });
-
-    it('does not include auth token when not available', async () => {
-      mockLocalStorage.getItem.mockReturnValueOnce(null).mockReturnValueOnce(null);
-
-      mockFetch
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () => Promise.resolve({ items: [] }),
-        })
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () => Promise.resolve({ items: [] }),
-        });
-
-      renderWithIntl(<ShareDialog {...defaultProps} />);
-
-      await waitFor(() => {
-        expect(mockFetch).toHaveBeenCalledWith(
-          expect.stringContaining('/api/ai-providers/provider-1/sharing'),
-          expect.objectContaining({
-            headers: expect.not.objectContaining({
-              Authorization: expect.anything(),
-            }),
-          })
-        );
-      });
-    });
-  });
-
   describe('permission change edge cases', () => {
     it('does not call API when same permission is selected', async () => {
       const user = userEvent.setup({ delay: null });
 
-      mockFetch
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () =>
-            Promise.resolve({
-              items: [
-                {
-                  id: 'access-1',
-                  userId: 'user-2',
-                  username: 'otheruser',
-                  permission: 'READ',
-                  createdAt: '2024-01-15T10:00:00Z',
-                },
-              ],
-            }),
-        })
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () => Promise.resolve({ items: [] }),
-        });
+      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(
+        mockShareList([
+          {
+            id: 'access-1',
+            userId: 'user-2',
+            username: 'otheruser',
+            permission: 'READ',
+            createdAt: '2024-01-15T10:00:00Z',
+          },
+        ])
+      );
+      vi.mocked(getUsers).mockResolvedValueOnce(mockUserList([]));
 
       renderWithIntl(<ShareDialog {...defaultProps} />);
 
@@ -884,59 +701,47 @@ describe('ShareDialog', () => {
         expect(screen.getByText('otheruser')).toBeInTheDocument();
       });
 
-      // Click on permission select for existing share
       const permissionSelect = screen.getByTestId('permission-select-access-1');
       await user.click(permissionSelect);
 
-      // Find and click READ option (same as current)
       const readOption = await screen.findByRole('option', { name: /read/i });
       await user.click(readOption);
 
-      // Should not make a POST request (only 2 calls for initial load)
-      expect(mockFetch).toHaveBeenCalledTimes(2);
+      // Should not make a POST request
+      expect(postAiProvidersByIdSharing).not.toHaveBeenCalled();
     });
 
     it('updates share in list when permission change succeeds with multiple shares', async () => {
       const user = userEvent.setup({ delay: null });
 
-      mockFetch
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () =>
-            Promise.resolve({
-              items: [
-                {
-                  id: 'access-1',
-                  userId: 'user-2',
-                  username: 'otheruser',
-                  permission: 'READ',
-                  createdAt: '2024-01-15T10:00:00Z',
-                },
-                {
-                  id: 'access-2',
-                  userId: 'user-3',
-                  username: 'thirduser',
-                  permission: 'WRITE',
-                  createdAt: '2024-01-15T10:00:00Z',
-                },
-              ],
-            }),
+      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(
+        mockShareList([
+          {
+            id: 'access-1',
+            userId: 'user-2',
+            username: 'otheruser',
+            permission: 'READ',
+            createdAt: '2024-01-15T10:00:00Z',
+          },
+          {
+            id: 'access-2',
+            userId: 'user-3',
+            username: 'thirduser',
+            permission: 'WRITE',
+            createdAt: '2024-01-15T10:00:00Z',
+          },
+        ])
+      );
+      vi.mocked(getUsers).mockResolvedValueOnce(mockUserList([]));
+      vi.mocked(postAiProvidersByIdSharing).mockResolvedValueOnce(
+        mockShareItem({
+          id: 'access-1',
+          userId: 'user-2',
+          username: 'otheruser',
+          permission: 'WRITE',
+          createdAt: '2024-01-15T10:00:00Z',
         })
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () => Promise.resolve({ items: [] }),
-        })
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () =>
-            Promise.resolve({
-              id: 'access-1',
-              userId: 'user-2',
-              username: 'otheruser',
-              permission: 'WRITE',
-              createdAt: '2024-01-15T10:00:00Z',
-            }),
-        });
+      );
 
       renderWithIntl(<ShareDialog {...defaultProps} />);
 
@@ -945,15 +750,12 @@ describe('ShareDialog', () => {
         expect(screen.getByText('thirduser')).toBeInTheDocument();
       });
 
-      // Click on permission select for first share
       const permissionSelect = screen.getByTestId('permission-select-access-1');
       await user.click(permissionSelect);
 
-      // Find and click WRITE option
       const writeOption = await screen.findByRole('option', { name: /write/i });
       await user.click(writeOption);
 
-      // Should show success and the share should be updated
       await waitFor(() => {
         expect(vi.mocked(toast.success)).toHaveBeenCalled();
       });

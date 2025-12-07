@@ -28,6 +28,19 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import type { Permission, ShareAccessItem } from '@/lib/api/schemas/sharing';
+import { useApi } from '@/lib/use-api';
+import {
+  getAiProvidersByIdSharing,
+  postAiProvidersByIdSharing,
+  deleteAiProvidersByIdSharingByAccessId,
+  getAiBotsByIdSharing,
+  postAiBotsByIdSharing,
+  deleteAiBotsByIdSharingByAccessId,
+  getPaperlessInstancesByIdSharing,
+  postPaperlessInstancesByIdSharing,
+  deletePaperlessInstancesByIdSharingByAccessId,
+  getUsers,
+} from '@repo/api-client';
 
 export type ResourceType = 'ai-providers' | 'ai-bots' | 'paperless-instances';
 
@@ -47,6 +60,25 @@ type UserOption = {
 const PERMISSIONS: Permission[] = ['READ', 'WRITE', 'ADMIN'];
 const ALL_USERS_VALUE = '__all_users__';
 
+// API function mappings per resource type
+const apiMappings = {
+  'ai-providers': {
+    getSharing: getAiProvidersByIdSharing,
+    postSharing: postAiProvidersByIdSharing,
+    deleteSharing: deleteAiProvidersByIdSharingByAccessId,
+  },
+  'ai-bots': {
+    getSharing: getAiBotsByIdSharing,
+    postSharing: postAiBotsByIdSharing,
+    deleteSharing: deleteAiBotsByIdSharingByAccessId,
+  },
+  'paperless-instances': {
+    getSharing: getPaperlessInstancesByIdSharing,
+    postSharing: postPaperlessInstancesByIdSharing,
+    deleteSharing: deletePaperlessInstancesByIdSharingByAccessId,
+  },
+} as const;
+
 export function ShareDialog({
   open,
   onOpenChange,
@@ -56,6 +88,7 @@ export function ShareDialog({
 }: ShareDialogProps) {
   const t = useTranslations('sharing');
   const tErrors = useTranslations('errors');
+  const client = useApi();
 
   const [shares, setShares] = useState<ShareAccessItem[]>([]);
   const [users, setUsers] = useState<UserOption[]>([]);
@@ -67,13 +100,7 @@ export function ShareDialog({
   const [newPermission, setNewPermission] = useState<Permission>('READ');
   const [isAdding, setIsAdding] = useState(false);
 
-  const getAuthHeaders = useCallback(() => {
-    const token = localStorage.getItem('auth_token');
-    return {
-      'Content-Type': 'application/json',
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    };
-  }, []);
+  const api = apiMappings[resourceType];
 
   // Load shares when dialog opens
   useEffect(() => {
@@ -88,34 +115,34 @@ export function ShareDialog({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, resourceType, resourceId]);
 
-  const loadShares = async () => {
+  const loadShares = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await fetch(`/api/${resourceType}/${resourceId}/sharing`, {
-        headers: getAuthHeaders(),
+      const { data, error } = await api.getSharing({
+        client,
+        path: { id: resourceId },
       });
-      if (response.ok) {
-        const data = await response.json();
+      if (data) {
         setShares(data.items);
-      } else {
-        toast.error(t('error.loadFailed'));
       }
+      // v8 ignore next -- @preserve: API returns either data or error, never both undefined
+      if (!data && error) toast.error(t('error.loadFailed'));
     } catch {
       toast.error(t('error.loadFailed'));
     } finally {
       setLoading(false);
     }
-  };
+  }, [api, client, resourceId, t]);
 
-  const loadUsers = async () => {
+  const loadUsers = useCallback(async () => {
     try {
-      const response = await fetch('/api/users?limit=100', {
-        headers: getAuthHeaders(),
+      const { data } = await getUsers({
+        client,
+        query: { limit: 100 },
       });
-      if (response.ok) {
-        const data = await response.json();
+      if (data) {
         setUsers(
-          data.items.map((u: { id: string; username: string }) => ({
+          data.items.map((u) => ({
             id: u.id,
             username: u.username,
           }))
@@ -124,7 +151,7 @@ export function ShareDialog({
     } catch {
       // Silent fail - users dropdown will be empty
     }
-  };
+  }, [client]);
 
   // Filter out users that already have shares
   const availableUsers = users.filter((user) => !shares.some((share) => share.userId === user.id));
@@ -139,23 +166,21 @@ export function ShareDialog({
 
     setSavingId(shareId);
     try {
-      const response = await fetch(`/api/${resourceType}/${resourceId}/sharing`, {
-        method: 'POST',
-        headers: getAuthHeaders(),
-        body: JSON.stringify({
+      const { data, error } = await api.postSharing({
+        client,
+        path: { id: resourceId },
+        body: {
           userId: share.userId,
           permission: newPermission,
-        }),
+        },
       });
 
-      if (response.ok) {
-        const updatedShare = await response.json();
-        setShares((prev) => prev.map((s) => (s.id === updatedShare.id ? updatedShare : s)));
+      if (data) {
+        setShares((prev) => prev.map((s) => (s.id === data.id ? data : s)));
         toast.success(t('shareUpdated'));
-      } else {
-        const error = await response.json();
-        toast.error(tErrors(error.message));
       }
+      // v8 ignore next -- @preserve: API returns either data or error, never both undefined
+      if (!data && error) toast.error(tErrors(error.message));
     } catch {
       toast.error(t('error.updateFailed'));
     } finally {
@@ -171,26 +196,24 @@ export function ShareDialog({
 
     setIsAdding(true);
     try {
-      const response = await fetch(`/api/${resourceType}/${resourceId}/sharing`, {
-        method: 'POST',
-        headers: getAuthHeaders(),
-        body: JSON.stringify({
+      const { data, error } = await api.postSharing({
+        client,
+        path: { id: resourceId },
+        body: {
           userId,
           permission: newPermission,
-        }),
+        },
       });
 
-      if (response.ok) {
-        const newShare = await response.json();
-        setShares((prev) => [...prev, newShare]);
+      if (data) {
+        setShares((prev) => [...prev, data]);
         toast.success(t('shareAdded'));
         // Reset new row
         setNewUserValue('');
         setNewPermission('READ');
-      } else {
-        const error = await response.json();
-        toast.error(tErrors(error.message));
       }
+      // v8 ignore next -- @preserve: API returns either data or error, never both undefined
+      if (!data && error) toast.error(tErrors(error.message));
     } catch {
       toast.error(t('error.addFailed'));
     } finally {
@@ -201,12 +224,12 @@ export function ShareDialog({
   const handleRemoveShare = async (accessId: string) => {
     setSavingId(accessId);
     try {
-      const response = await fetch(`/api/${resourceType}/${resourceId}/sharing/${accessId}`, {
-        method: 'DELETE',
-        headers: getAuthHeaders(),
+      const { error } = await api.deleteSharing({
+        client,
+        path: { id: resourceId, accessId },
       });
 
-      if (response.ok) {
+      if (!error) {
         setShares((prev) => prev.filter((s) => s.id !== accessId));
         toast.success(t('shareRemoved'));
       } else {

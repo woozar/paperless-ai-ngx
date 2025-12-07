@@ -5,6 +5,37 @@
 - We use API Routes instead of Server Actions to allow additional UIs
 - We generate an OpenAPI file and create a client under `packages/` that we use from the frontend, additional apps, and E2E tests
 
+### API Client Usage
+
+**ALWAYS use the generated API client from `@repo/api-client` for all API calls.**
+
+```tsx
+// ✅ Good - Use generated client
+import { client } from '@repo/api-client';
+
+const { data, error } = await client.GET('/api/users');
+const { data, error } = await client.POST('/api/users', { body: { username, password } });
+
+// ❌ Bad - Never use raw fetch
+const response = await fetch('/api/users');
+const response = await fetch('/api/users', {
+  method: 'POST',
+  body: JSON.stringify({ username, password }),
+});
+```
+
+**Regenerate the client after API changes:**
+
+```bash
+pnpm generate
+```
+
+This ensures:
+
+- Type safety for request/response payloads
+- Consistent error handling
+- OpenAPI spec stays in sync with implementation
+
 ## Component Design
 
 When creating a new component, always decide:
