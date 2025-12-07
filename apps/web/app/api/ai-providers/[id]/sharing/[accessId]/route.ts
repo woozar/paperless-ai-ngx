@@ -5,11 +5,14 @@ import { authRoute } from '@/lib/api/route-wrapper';
 // DELETE /api/ai-providers/[id]/sharing/[accessId] - Remove a share
 export const DELETE = authRoute<never, { id: string; accessId: string }>(
   async ({ user, params }) => {
-    // Check if user is owner of the provider
+    // Check if user has sharing rights (owner or ADMIN permission)
     const provider = await prisma.aiProvider.findFirst({
       where: {
         id: params.id,
-        ownerId: user.userId,
+        OR: [
+          { ownerId: user.userId },
+          { sharedWith: { some: { userId: user.userId, permission: 'FULL' } } },
+        ],
       },
     });
 

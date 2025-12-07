@@ -58,7 +58,7 @@ model User {
 enum Permission {
   READ
   WRITE
-  ADMIN
+  FULL
 }
 
 // Join table: User <-> PaperlessInstance (shared access)

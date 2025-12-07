@@ -55,7 +55,8 @@ export const GET = authRoute(
       items: instances.map((instance) => {
         const isOwner = instance.ownerId === user.userId;
         const sharedPermission = instance.sharedWith[0]?.permission;
-        const canEdit = isOwner || sharedPermission === 'WRITE';
+        const canEdit = isOwner || sharedPermission === 'WRITE' || sharedPermission === 'FULL';
+        const canShare = isOwner || sharedPermission === 'FULL';
 
         return {
           id: instance.id,
@@ -65,6 +66,7 @@ export const GET = authRoute(
           createdAt: instance.createdAt.toISOString(),
           updatedAt: instance.updatedAt.toISOString(),
           canEdit,
+          canShare,
           isOwner,
         };
       }),

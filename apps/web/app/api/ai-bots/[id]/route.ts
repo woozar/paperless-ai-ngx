@@ -59,7 +59,7 @@ export const GET = authRoute<never, { id: string }>(
 // PATCH /api/ai-bots/[id] - Update AiBot (owner or WRITE permission)
 export const PATCH = authRoute<typeof UpdateAiBotRequestSchema, { id: string }>(
   async ({ user, params, body }) => {
-    // Check if bot exists and user has write access
+    // Check if bot exists and user has write access (WRITE or FULL permission)
     const existingBot = await prisma.aiBot.findFirst({
       where: {
         id: params.id,
@@ -69,7 +69,7 @@ export const PATCH = authRoute<typeof UpdateAiBotRequestSchema, { id: string }>(
             sharedWith: {
               some: {
                 OR: [{ userId: user.userId }, { userId: null }],
-                permission: 'WRITE',
+                permission: { in: ['WRITE', 'FULL'] },
               },
             },
           },

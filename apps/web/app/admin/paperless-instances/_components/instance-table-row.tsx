@@ -9,6 +9,7 @@ import { useSettings } from '@/components/settings-provider';
 
 type InstanceWithPermissions = Omit<PaperlessInstanceListItem, 'apiToken'> & {
   canEdit?: boolean;
+  canShare?: boolean;
   isOwner?: boolean;
 };
 
@@ -36,8 +37,9 @@ export const InstanceTableRow = memo(function InstanceTableRow({
   const { settings } = useSettings();
   const showShareButton = settings['security.sharing.mode'] === 'ADVANCED';
 
-  // Default to true for backwards compatibility (owner can always edit)
+  // Default to true for backwards compatibility (owner can always edit/share)
   const canEdit = instance.canEdit ?? true;
+  const canShare = instance.canShare ?? instance.isOwner ?? true;
   const isOwner = instance.isOwner ?? true;
 
   return (
@@ -49,7 +51,7 @@ export const InstanceTableRow = memo(function InstanceTableRow({
       </TableCell>
       <TableCell className="text-right">
         <div className="flex justify-end gap-2">
-          {showShareButton && onShare && isOwner && (
+          {showShareButton && onShare && canShare && (
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button

@@ -306,19 +306,19 @@ describe('POST /api/ai-providers/[id]/sharing', () => {
       id: 'access-1',
       userId: 'user-2',
       aiProviderId: 'provider-1',
-      permission: 'ADMIN',
+      permission: 'FULL',
       createdAt: mockDate,
       user: { id: 'user-2', username: 'otheruser' },
     });
 
     const request = new NextRequest('http://localhost/api/ai-providers/provider-1/sharing', {
       method: 'POST',
-      body: JSON.stringify({ userId: 'user-2', permission: 'ADMIN' }),
+      body: JSON.stringify({ userId: 'user-2', permission: 'FULL' }),
     });
     const response = await POST(request, { params: Promise.resolve({ id: 'provider-1' }) });
     const data = await response.json();
 
     expect(response.status).toBe(200);
-    expect(data.permission).toBe('ADMIN');
+    expect(data.permission).toBe('FULL');
   });
 });

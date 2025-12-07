@@ -123,6 +123,37 @@ describe('GET /api/ai-providers', () => {
     expect(data.items[0].canEdit).toBe(true);
     expect(data.items[0].isOwner).toBe(false);
   });
+
+  it('returns canEdit=true and canShare=true for shared provider with FULL permission', async () => {
+    const mockDate = new Date('2024-01-15T10:00:00Z');
+    mockAdmin();
+    mockedPrisma.aiProvider.findMany.mockResolvedValueOnce([
+      {
+        id: 'provider-1',
+        name: 'Shared Provider with FULL',
+        provider: 'openai',
+        model: 'gpt-4',
+        baseUrl: null,
+        ownerId: 'other-user',
+        isActive: true,
+        createdAt: mockDate,
+        updatedAt: mockDate,
+        sharedWith: [{ permission: 'FULL' }],
+      },
+    ]);
+    mockedPrisma.aiProvider.count.mockResolvedValueOnce(1);
+
+    const request = new NextRequest('http://localhost/api/ai-providers');
+
+    const response = await GET(request);
+    const data = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(data.items).toHaveLength(1);
+    expect(data.items[0].canEdit).toBe(true);
+    expect(data.items[0].canShare).toBe(true);
+    expect(data.items[0].isOwner).toBe(false);
+  });
 });
 
 describe('POST /api/ai-providers', () => {

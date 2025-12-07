@@ -59,7 +59,8 @@ export const GET = authRoute(
       items: providers.map((provider) => {
         const isOwner = provider.ownerId === user.userId;
         const sharedPermission = provider.sharedWith[0]?.permission;
-        const canEdit = isOwner || sharedPermission === 'WRITE';
+        const canEdit = isOwner || sharedPermission === 'WRITE' || sharedPermission === 'FULL';
+        const canShare = isOwner || sharedPermission === 'FULL';
 
         return {
           id: provider.id,
@@ -71,6 +72,7 @@ export const GET = authRoute(
           createdAt: provider.createdAt.toISOString(),
           updatedAt: provider.updatedAt.toISOString(),
           canEdit,
+          canShare,
           isOwner,
         };
       }),

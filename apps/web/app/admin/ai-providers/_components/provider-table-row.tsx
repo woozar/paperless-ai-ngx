@@ -10,6 +10,7 @@ import { ProviderLogo } from '@/components/provider-logo';
 
 type ProviderWithPermissions = Omit<AiProviderListItem, 'apiKey'> & {
   canEdit?: boolean;
+  canShare?: boolean;
   isOwner?: boolean;
 };
 
@@ -33,8 +34,9 @@ export const ProviderTableRow = memo(function ProviderTableRow({
   const { settings } = useSettings();
   const showShareButton = settings['security.sharing.mode'] === 'ADVANCED';
 
-  // Default to true for backwards compatibility (owner can always edit)
+  // Default to true for backwards compatibility (owner can always edit/share)
   const canEdit = provider.canEdit ?? true;
+  const canShare = provider.canShare ?? provider.isOwner ?? true;
   const isOwner = provider.isOwner ?? true;
 
   return (
@@ -52,7 +54,7 @@ export const ProviderTableRow = memo(function ProviderTableRow({
       </TableCell>
       <TableCell className="text-right">
         <div className="flex justify-end gap-2">
-          {showShareButton && onShare && isOwner && (
+          {showShareButton && onShare && canShare && (
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button

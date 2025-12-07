@@ -56,7 +56,7 @@ export const GET = authRoute<never, { id: string }>(
 // PATCH /api/ai-providers/[id] - Update AiProvider (owner or WRITE permission)
 export const PATCH = authRoute<typeof UpdateAiProviderRequestSchema, { id: string }>(
   async ({ user, params, body }) => {
-    // Check if provider exists and user has write access
+    // Check if provider exists and user has write access (WRITE or FULL permission)
     const existingProvider = await prisma.aiProvider.findFirst({
       where: {
         id: params.id,
@@ -66,7 +66,7 @@ export const PATCH = authRoute<typeof UpdateAiProviderRequestSchema, { id: strin
             sharedWith: {
               some: {
                 OR: [{ userId: user.userId }, { userId: null }],
-                permission: 'WRITE',
+                permission: { in: ['WRITE', 'FULL'] },
               },
             },
           },

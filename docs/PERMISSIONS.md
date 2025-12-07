@@ -11,10 +11,11 @@ Dieses Dokument beschreibt, welche Berechtigungen für welche Aktionen erforderl
 
 ## Freigabeberechtigungen
 
-| Berechtigung | Beschreibung                        |
-| ------------ | ----------------------------------- |
-| `READ`       | Nur-Lesen Zugriff auf die Ressource |
-| `WRITE`      | Lesen und Bearbeiten der Ressource  |
+| Berechtigung | Beschreibung                                     |
+| ------------ | ------------------------------------------------ |
+| `READ`       | Nur-Lesen Zugriff auf die Ressource              |
+| `WRITE`      | Lesen und Bearbeiten der Ressource               |
+| `FULL`       | Lesen, Bearbeiten und Weiterteilen der Ressource |
 
 ## Navigationsmenü
 
@@ -29,37 +30,37 @@ Dieses Dokument beschreibt, welche Berechtigungen für welche Aktionen erforderl
 
 ## Paperless Server (Instanzen)
 
-| Aktion                | Owner           | WRITE | READ |
-| --------------------- | --------------- | ----- | ---- |
-| Liste anzeigen        | ✅              | ✅    | ✅   |
-| Details anzeigen      | ✅              | ✅    | ✅   |
-| Erstellen             | ✅ (nur eigene) | -     | -    |
-| Bearbeiten            | ✅              | ✅    | ❌   |
-| Löschen               | ✅              | ❌    | ❌   |
-| Dokumente importieren | ✅              | ✅    | ✅   |
-| Freigaben verwalten   | ✅              | ❌    | ❌   |
+| Aktion                | Owner           | FULL | WRITE | READ |
+| --------------------- | --------------- | ---- | ----- | ---- |
+| Liste anzeigen        | ✅              | ✅   | ✅    | ✅   |
+| Details anzeigen      | ✅              | ✅   | ✅    | ✅   |
+| Erstellen             | ✅ (nur eigene) | -    | -     | -    |
+| Bearbeiten            | ✅              | ✅   | ✅    | ❌   |
+| Löschen               | ✅              | ❌   | ❌    | ❌   |
+| Dokumente importieren | ✅              | ✅   | ✅    | ✅   |
+| Freigaben verwalten   | ✅              | ✅   | ❌    | ❌   |
 
 ## KI Anbieter
 
-| Aktion              | Owner           | WRITE | READ |
-| ------------------- | --------------- | ----- | ---- |
-| Liste anzeigen      | ✅              | ✅    | ✅   |
-| Details anzeigen    | ✅              | ✅    | ✅   |
-| Erstellen           | ✅ (nur eigene) | -     | -    |
-| Bearbeiten          | ✅              | ✅    | ❌   |
-| Löschen             | ✅              | ❌    | ❌   |
-| Freigaben verwalten | ✅              | ❌    | ❌   |
+| Aktion              | Owner           | FULL | WRITE | READ |
+| ------------------- | --------------- | ---- | ----- | ---- |
+| Liste anzeigen      | ✅              | ✅   | ✅    | ✅   |
+| Details anzeigen    | ✅              | ✅   | ✅    | ✅   |
+| Erstellen           | ✅ (nur eigene) | -    | -     | -    |
+| Bearbeiten          | ✅              | ✅   | ✅    | ❌   |
+| Löschen             | ✅              | ❌   | ❌    | ❌   |
+| Freigaben verwalten | ✅              | ✅   | ❌    | ❌   |
 
 ## KI Bots
 
-| Aktion              | Owner           | WRITE | READ |
-| ------------------- | --------------- | ----- | ---- |
-| Liste anzeigen      | ✅              | ✅    | ✅   |
-| Details anzeigen    | ✅              | ✅    | ✅   |
-| Erstellen           | ✅ (nur eigene) | -     | -    |
-| Bearbeiten          | ✅              | ✅    | ❌   |
-| Löschen             | ✅              | ❌    | ❌   |
-| Freigaben verwalten | ✅              | ❌    | ❌   |
+| Aktion              | Owner           | FULL | WRITE | READ |
+| ------------------- | --------------- | ---- | ----- | ---- |
+| Liste anzeigen      | ✅              | ✅   | ✅    | ✅   |
+| Details anzeigen    | ✅              | ✅   | ✅    | ✅   |
+| Erstellen           | ✅ (nur eigene) | -    | -     | -    |
+| Bearbeiten          | ✅              | ✅   | ✅    | ❌   |
+| Löschen             | ✅              | ❌   | ❌    | ❌   |
+| Freigaben verwalten | ✅              | ✅   | ❌    | ❌   |
 
 ## Benutzer (nur ADMIN)
 
@@ -82,12 +83,12 @@ Dieses Dokument beschreibt, welche Berechtigungen für welche Aktionen erforderl
 
 ### Buttons in Tabellen
 
-| Button      | Sichtbar wenn            |
-| ----------- | ------------------------ |
-| Teilen      | Owner UND ADVANCED Modus |
-| Importieren | Immer (bei Zugriff)      |
-| Bearbeiten  | Owner oder WRITE         |
-| Löschen     | Nur Owner                |
+| Button      | Sichtbar wenn                      |
+| ----------- | ---------------------------------- |
+| Teilen      | Owner oder FULL UND ADVANCED Modus |
+| Importieren | Immer (bei Zugriff)                |
+| Bearbeiten  | Owner, FULL oder WRITE             |
+| Löschen     | Nur Owner                          |
 
 ### Hinweise
 

@@ -5,11 +5,14 @@ import { authRoute } from '@/lib/api/route-wrapper';
 // DELETE /api/paperless-instances/[id]/sharing/[accessId] - Remove a share
 export const DELETE = authRoute<never, { id: string; accessId: string }>(
   async ({ user, params }) => {
-    // Check if user is owner of the instance
+    // Check if user has sharing rights (owner or ADMIN permission)
     const instance = await prisma.paperlessInstance.findFirst({
       where: {
         id: params.id,
-        ownerId: user.userId,
+        OR: [
+          { ownerId: user.userId },
+          { sharedWith: { some: { userId: user.userId, permission: 'FULL' } } },
+        ],
       },
     });
 

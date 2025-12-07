@@ -88,7 +88,7 @@ export namespace $Enums {
   export const Permission: {
     READ: 'READ';
     WRITE: 'WRITE';
-    ADMIN: 'ADMIN';
+    FULL: 'FULL';
   };
 
   export type Permission = (typeof Permission)[keyof typeof Permission];

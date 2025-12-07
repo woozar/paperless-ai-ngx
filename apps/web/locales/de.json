@@ -37,12 +37,12 @@
     "permissions": {
       "READ": "Lesen",
       "WRITE": "Schreiben",
-      "ADMIN": "Admin"
+      "FULL": "Vollzugriff"
     },
     "permissionDescriptions": {
       "READ": "Kann diese Ressource ansehen",
       "WRITE": "Kann diese Ressource ansehen und bearbeiten",
-      "ADMIN": "Kann diese Ressource ansehen, bearbeiten und teilen"
+      "FULL": "Kann diese Ressource ansehen, bearbeiten und teilen"
     },
     "currentShares": "Aktuelle Freigaben",
     "noShares": "Diese Ressource ist mit niemandem geteilt",

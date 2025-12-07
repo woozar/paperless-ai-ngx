@@ -1207,8 +1207,8 @@ For E2E tests, the following conditions must be met:
 | Field            | Value                                                                 |
 | ---------------- | --------------------------------------------------------------------- |
 | **Route**        | `/admin/ai-providers`, `/admin/ai-bots`, `/admin/paperless-instances` |
-| **Permission**   | `user` (owner or ADMIN permission on resource)                        |
-| **Precondition** | Logged in, user owns a resource or has ADMIN permission               |
+| **Permission**   | `user` (owner or FULL permission on resource)                         |
+| **Precondition** | Logged in, user owns a resource or has FULL permission                |
 | **Test Data**    | Resource exists, other users exist                                    |
 
 **As a** resource owner
@@ -1221,7 +1221,7 @@ For E2E tests, the following conditions must be met:
 2. Click the share icon next to a resource you own
 3. In the Share dialog, click the "Add share" dropdown
 4. Select a user from the list
-5. Select a permission level (READ, WRITE, or ADMIN)
+5. Select a permission level (READ, WRITE, or FULL)
 6. Click the confirm button
 
 **Expected Result:**
@@ -1231,7 +1231,7 @@ For E2E tests, the following conditions must be met:
 - User can now access the resource with the selected permission level
 - READ: User can view the resource
 - WRITE: User can view and edit the resource
-- ADMIN: User can view, edit, and reshare the resource
+- FULL: User can view, edit, and reshare the resource
 
 **Status:** ✅ Implemented
 
@@ -1242,8 +1242,8 @@ For E2E tests, the following conditions must be met:
 | Field            | Value                                                                 |
 | ---------------- | --------------------------------------------------------------------- |
 | **Route**        | `/admin/ai-providers`, `/admin/ai-bots`, `/admin/paperless-instances` |
-| **Permission**   | `user` (owner or ADMIN permission on resource)                        |
-| **Precondition** | Logged in, user owns a resource or has ADMIN permission               |
+| **Permission**   | `user` (owner or FULL permission on resource)                         |
+| **Precondition** | Logged in, user owns a resource or has FULL permission                |
 | **Test Data**    | Resource exists                                                       |
 
 **As a** resource owner
@@ -1274,7 +1274,7 @@ For E2E tests, the following conditions must be met:
 | Field            | Value                                                                 |
 | ---------------- | --------------------------------------------------------------------- |
 | **Route**        | `/admin/ai-providers`, `/admin/ai-bots`, `/admin/paperless-instances` |
-| **Permission**   | `user` (owner or ADMIN permission on resource)                        |
+| **Permission**   | `user` (owner or FULL permission on resource)                         |
 | **Precondition** | Resource has existing shares                                          |
 | **Test Data**    | Resource with shares exists                                           |
 
@@ -1304,7 +1304,7 @@ For E2E tests, the following conditions must be met:
 | Field            | Value                                                                 |
 | ---------------- | --------------------------------------------------------------------- |
 | **Route**        | `/admin/ai-providers`, `/admin/ai-bots`, `/admin/paperless-instances` |
-| **Permission**   | `user` (owner or ADMIN permission on resource)                        |
+| **Permission**   | `user` (owner or FULL permission on resource)                         |
 | **Precondition** | Resource has existing shares                                          |
 | **Test Data**    | Resource with shares exists                                           |
 

@@ -16,8 +16,8 @@ type SharingConfig = {
   notFoundError: string;
   /** Log prefix for error messages (e.g., 'AI bot') */
   logPrefix: string;
-  /** Function to find the resource by id and ownerId */
-  findResource: (id: string, ownerId: string) => Promise<{ id: string } | null>;
+  /** Function to find the resource by id if user has sharing rights (owner or ADMIN permission) */
+  findResource: (id: string, userId: string) => Promise<{ id: string } | null>;
   /** Function to find all shares for a resource */
   findShares: (resourceId: string) => Promise<ShareAccessRecord[]>;
   /** Function to find an existing share */
@@ -150,7 +150,13 @@ const includeUser = {
 export const aiBotSharingRoutes = createSharingRoutes({
   notFoundError: 'aiBotNotFound',
   logPrefix: 'AI bot',
-  findResource: (id, ownerId) => prisma.aiBot.findFirst({ where: { id, ownerId } }),
+  findResource: (id, userId) =>
+    prisma.aiBot.findFirst({
+      where: {
+        id,
+        OR: [{ ownerId: userId }, { sharedWith: { some: { userId, permission: 'FULL' } } }],
+      },
+    }),
   findShares: (aiBotId) =>
     prisma.userAiBotAccess.findMany({
       where: { aiBotId },
@@ -177,7 +183,13 @@ export const aiBotSharingRoutes = createSharingRoutes({
 export const aiProviderSharingRoutes = createSharingRoutes({
   notFoundError: 'aiProviderNotFound',
   logPrefix: 'AI provider',
-  findResource: (id, ownerId) => prisma.aiProvider.findFirst({ where: { id, ownerId } }),
+  findResource: (id, userId) =>
+    prisma.aiProvider.findFirst({
+      where: {
+        id,
+        OR: [{ ownerId: userId }, { sharedWith: { some: { userId, permission: 'FULL' } } }],
+      },
+    }),
   findShares: (aiProviderId) =>
     prisma.userAiProviderAccess.findMany({
       where: { aiProviderId },
@@ -207,7 +219,13 @@ export const aiProviderSharingRoutes = createSharingRoutes({
 export const paperlessInstanceSharingRoutes = createSharingRoutes({
   notFoundError: 'paperlessInstanceNotFound',
   logPrefix: 'Paperless instance',
-  findResource: (id, ownerId) => prisma.paperlessInstance.findFirst({ where: { id, ownerId } }),
+  findResource: (id, userId) =>
+    prisma.paperlessInstance.findFirst({
+      where: {
+        id,
+        OR: [{ ownerId: userId }, { sharedWith: { some: { userId, permission: 'FULL' } } }],
+      },
+    }),
   findShares: (instanceId) =>
     prisma.userPaperlessInstanceAccess.findMany({
       where: { instanceId },

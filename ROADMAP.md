@@ -82,17 +82,16 @@
 ### Sharing & Permissions
 
 - [x] Owner + Sharing Model in Prisma Schema for: PaperlessInstance, AiProvider, AiBot
-- [x] Permission Levels Enum: READ, WRITE, ADMIN
+- [x] Permission Levels Enum: READ, WRITE, FULL
   - READ: Read only
   - WRITE: Read and edit
-  - ADMIN: Read, edit, and reshare
+  - FULL: Read, edit, and reshare
 - [x] Join Tables: UserPaperlessInstanceAccess, UserAiProviderAccess, UserAiBotAccess
 - [x] Sharing API endpoints (GET/POST/DELETE for access entries)
 - [x] Share Modal component with two modes:
   - [x] Share with specific user (user dropdown + permission level)
   - [x] Share with all users (permission level only)
 - [x] UI: Sharing UI only visible when `security.sharing.mode = advanced`
-- [ ] UI: Explanation of permission levels in Share Modal (especially ADMIN/Resharing)
 
 ## Phase 3a: Object Management UI
 

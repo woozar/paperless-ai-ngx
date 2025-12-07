@@ -62,7 +62,8 @@ export const GET = authRoute(
       items: bots.map((bot) => {
         const isOwner = bot.ownerId === user.userId;
         const sharedPermission = bot.sharedWith[0]?.permission;
-        const canEdit = isOwner || sharedPermission === 'WRITE';
+        const canEdit = isOwner || sharedPermission === 'WRITE' || sharedPermission === 'FULL';
+        const canShare = isOwner || sharedPermission === 'FULL';
 
         return {
           id: bot.id,
@@ -73,6 +74,7 @@ export const GET = authRoute(
           createdAt: bot.createdAt.toISOString(),
           updatedAt: bot.updatedAt.toISOString(),
           canEdit,
+          canShare,
           isOwner,
         };
       }),

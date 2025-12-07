@@ -37,12 +37,12 @@
     "permissions": {
       "READ": "Read",
       "WRITE": "Write",
-      "ADMIN": "Admin"
+      "FULL": "Full"
     },
     "permissionDescriptions": {
       "READ": "Can view this resource",
       "WRITE": "Can view and edit this resource",
-      "ADMIN": "Can view, edit, and share this resource"
+      "FULL": "Can view, edit, and share this resource"
     },
     "currentShares": "Current Shares",
     "noShares": "This resource is not shared with anyone",

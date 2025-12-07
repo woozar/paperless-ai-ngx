@@ -53,7 +53,7 @@ export const GET = authRoute<never, { id: string }>(
 // PATCH /api/paperless-instances/[id] - Update PaperlessInstance (owner or WRITE permission)
 export const PATCH = authRoute<typeof UpdatePaperlessInstanceRequestSchema, { id: string }>(
   async ({ user, params, body }) => {
-    // Check if instance exists and user has write access
+    // Check if instance exists and user has write access (WRITE or FULL permission)
     const existingInstance = await prisma.paperlessInstance.findFirst({
       where: {
         id: params.id,
@@ -63,7 +63,7 @@ export const PATCH = authRoute<typeof UpdatePaperlessInstanceRequestSchema, { id
             sharedWith: {
               some: {
                 OR: [{ userId: user.userId }, { userId: null }],
-                permission: 'WRITE',
+                permission: { in: ['WRITE', 'FULL'] },
               },
             },
           },

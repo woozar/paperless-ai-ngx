@@ -10,6 +10,7 @@ import { ProviderLogo } from '@/components/provider-logo';
 
 type BotWithPermissions = Omit<AiBotListItem, 'apiKey'> & {
   canEdit?: boolean;
+  canShare?: boolean;
   isOwner?: boolean;
 };
 
@@ -33,8 +34,9 @@ export const BotTableRow = memo(function BotTableRow({
   const { settings } = useSettings();
   const showShareButton = settings['security.sharing.mode'] === 'ADVANCED';
 
-  // Default to true for backwards compatibility (owner can always edit)
+  // Default to true for backwards compatibility (owner can always edit/share)
   const canEdit = bot.canEdit ?? true;
+  const canShare = bot.canShare ?? bot.isOwner ?? true;
   const isOwner = bot.isOwner ?? true;
 
   return (
@@ -49,7 +51,7 @@ export const BotTableRow = memo(function BotTableRow({
       <TableCell className="text-muted-foreground text-sm">{formatDate(bot.createdAt)}</TableCell>
       <TableCell className="text-right">
         <div className="flex justify-end gap-2">
-          {showShareButton && onShare && isOwner && (
+          {showShareButton && onShare && canShare && (
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button

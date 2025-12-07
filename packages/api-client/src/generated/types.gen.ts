@@ -149,7 +149,7 @@ export type UpdateAiBotRequest = {
   systemPrompt?: string;
 };
 
-export type Permission = 'READ' | 'WRITE' | 'ADMIN';
+export type Permission = 'READ' | 'WRITE' | 'FULL';
 
 export type ShareAccessItem = {
   id: string;

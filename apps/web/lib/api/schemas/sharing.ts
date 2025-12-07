@@ -6,7 +6,7 @@ import { CommonErrorResponses } from './common';
 extendZodWithOpenApi(z);
 
 // Permission levels for shared resources
-export const PermissionSchema = z.enum(['READ', 'WRITE', 'ADMIN']).openapi('Permission');
+export const PermissionSchema = z.enum(['READ', 'WRITE', 'FULL']).openapi('Permission');
 
 export type Permission = z.infer<typeof PermissionSchema>;
 

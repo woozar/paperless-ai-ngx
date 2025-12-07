@@ -57,7 +57,7 @@ type UserOption = {
   username: string;
 };
 
-const PERMISSIONS: Permission[] = ['READ', 'WRITE', 'ADMIN'];
+const PERMISSIONS: Permission[] = ['READ', 'WRITE', 'FULL'];
 const ALL_USERS_VALUE = '__all_users__';
 
 // API function mappings per resource type
@@ -229,11 +229,11 @@ export function ShareDialog({
         path: { id: resourceId, accessId },
       });
 
-      if (!error) {
+      if (error) {
+        toast.error(t('error.removeFailed'));
+      } else {
         setShares((prev) => prev.filter((s) => s.id !== accessId));
         toast.success(t('shareRemoved'));
-      } else {
-        toast.error(t('error.removeFailed'));
       }
     } catch {
       toast.error(t('error.removeFailed'));
