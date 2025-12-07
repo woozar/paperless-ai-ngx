@@ -22,13 +22,14 @@ import {
   EditProviderDialog,
   DeleteProviderDialog,
 } from './_components';
+import { ShareDialog } from '@/components/sharing/share-dialog';
 
 export default function AiProvidersPage() {
   const t = useTranslations('admin.aiProviders');
   const { showError } = useErrorDisplay('admin.aiProviders');
   const formatDate = useFormatDate();
   const router = useRouter();
-  const { user: currentUser, isLoading: isAuthLoading } = useAuth();
+  const { isLoading: isAuthLoading } = useAuth();
   const client = useApi();
 
   const [providers, setProviders] = useState<Omit<AiProviderListItem, 'apiKey'>[]>([]);
@@ -47,6 +48,9 @@ export default function AiProvidersPage() {
     AiProviderListItem,
     'apiKey'
   > | null>(null);
+  const [sharingProvider, setSharingProvider] = useState<Omit<AiProviderListItem, 'apiKey'> | null>(
+    null
+  );
 
   const loadProviders = useCallback(
     async (currentPage: number, currentLimit: number) => {
@@ -80,12 +84,10 @@ export default function AiProvidersPage() {
   );
 
   useEffect(() => {
-    if (!isAuthLoading && currentUser?.role !== 'ADMIN') {
-      router.push('/');
-      return;
+    if (!isAuthLoading) {
+      loadProviders(page, limit);
     }
-    loadProviders(page, limit);
-  }, [isAuthLoading, currentUser, router, loadProviders, page, limit]);
+  }, [isAuthLoading, loadProviders, page, limit]);
 
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
@@ -100,10 +102,6 @@ export default function AiProvidersPage() {
     loadProviders(page, limit);
   };
 
-  if (currentUser?.role !== 'ADMIN') {
-    return null;
-  }
-
   const renderTableContent = () => {
     if (isLoading) {
       return <ProviderTableSkeleton />;
@@ -115,6 +113,7 @@ export default function AiProvidersPage() {
         provider={provider}
         onEdit={setEditingProvider}
         onDelete={setDeletingProvider}
+        onShare={setSharingProvider}
         formatDate={formatDate}
       />
     ));
@@ -185,6 +184,16 @@ export default function AiProvidersPage() {
         provider={deletingProvider}
         onSuccess={reloadCurrentPage}
       />
+
+      {sharingProvider && (
+        <ShareDialog
+          open={!!sharingProvider}
+          onOpenChange={(open) => !open && setSharingProvider(null)}
+          resourceType="ai-providers"
+          resourceId={sharingProvider.id}
+          resourceName={sharingProvider.name}
+        />
+      )}
     </AppShell>
   );
 }

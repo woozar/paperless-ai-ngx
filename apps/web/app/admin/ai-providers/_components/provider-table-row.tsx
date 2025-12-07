@@ -8,10 +8,16 @@ import type { AiProviderListItem } from '@repo/api-client';
 import { useSettings } from '@/components/settings-provider';
 import { ProviderLogo } from '@/components/provider-logo';
 
+type ProviderWithPermissions = Omit<AiProviderListItem, 'apiKey'> & {
+  canEdit?: boolean;
+  isOwner?: boolean;
+};
+
 type ProviderTableRowProps = Readonly<{
-  provider: Omit<AiProviderListItem, 'apiKey'>;
-  onEdit: (provider: Omit<AiProviderListItem, 'apiKey'>) => void;
-  onDelete: (provider: Omit<AiProviderListItem, 'apiKey'>) => void;
+  provider: ProviderWithPermissions;
+  onEdit: (provider: ProviderWithPermissions) => void;
+  onDelete: (provider: ProviderWithPermissions) => void;
+  onShare?: (provider: ProviderWithPermissions) => void;
   formatDate: (dateString: string) => string;
 }>;
 
@@ -19,12 +25,17 @@ export const ProviderTableRow = memo(function ProviderTableRow({
   provider,
   onEdit,
   onDelete,
+  onShare,
   formatDate,
 }: ProviderTableRowProps) {
   const t = useTranslations('admin.aiProviders');
   const tCommon = useTranslations('common');
   const { settings } = useSettings();
   const showShareButton = settings['security.sharing.mode'] === 'ADVANCED';
+
+  // Default to true for backwards compatibility (owner can always edit)
+  const canEdit = provider.canEdit ?? true;
+  const isOwner = provider.isOwner ?? true;
 
   return (
     <TableRow>
@@ -41,10 +52,15 @@ export const ProviderTableRow = memo(function ProviderTableRow({
       </TableCell>
       <TableCell className="text-right">
         <div className="flex justify-end gap-2">
-          {showShareButton && (
+          {showShareButton && onShare && isOwner && (
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="outline" size="icon" data-testid={`share-provider-${provider.id}`}>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => onShare(provider)}
+                  data-testid={`share-provider-${provider.id}`}
+                >
                   <UserPlus className="h-4 w-4" />
                   <span className="sr-only">{tCommon('share')}</span>
                 </Button>
@@ -52,24 +68,38 @@ export const ProviderTableRow = memo(function ProviderTableRow({
               <TooltipContent>{tCommon('shareTooltip')}</TooltipContent>
             </Tooltip>
           )}
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => onEdit(provider)}
-            data-testid={`edit-provider-${provider.id}`}
-          >
-            <Edit className="h-4 w-4" />
-            <span className="sr-only">{t('editProvider')}</span>
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => onDelete(provider)}
-            data-testid={`delete-provider-${provider.id}`}
-          >
-            <Trash2 className="h-4 w-4" />
-            <span className="sr-only">{t('deleteProvider')}</span>
-          </Button>
+          {canEdit && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => onEdit(provider)}
+                  data-testid={`edit-provider-${provider.id}`}
+                >
+                  <Edit className="h-4 w-4" />
+                  <span className="sr-only">{t('editProvider')}</span>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>{t('editProvider')}</TooltipContent>
+            </Tooltip>
+          )}
+          {isOwner && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => onDelete(provider)}
+                  data-testid={`delete-provider-${provider.id}`}
+                >
+                  <Trash2 className="h-4 w-4" />
+                  <span className="sr-only">{t('deleteProvider')}</span>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>{t('deleteProvider')}</TooltipContent>
+            </Tooltip>
+          )}
         </div>
       </TableCell>
     </TableRow>

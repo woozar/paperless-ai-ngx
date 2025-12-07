@@ -5,6 +5,7 @@ import './users';
 import './paperless-instances';
 import './ai-providers';
 import './ai-bots';
+import './sharing';
 
 export * from './common';
 export * from './auth';
@@ -12,3 +13,4 @@ export * from './users';
 export * from './paperless-instances';
 export * from './ai-providers';
 export * from './ai-bots';
+export * from './sharing';

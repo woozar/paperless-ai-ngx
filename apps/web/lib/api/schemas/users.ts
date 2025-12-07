@@ -8,6 +8,17 @@ extendZodWithOpenApi(z);
 // User role enum
 export const UserRoleSchema = z.enum(['DEFAULT', 'ADMIN']).openapi('UserRole');
 
+// Username validation schema (reused in create and update)
+const UsernameSchema = z
+  .string()
+  .trim()
+  .min(3, 'Username must be at least 3 characters')
+  .max(50, 'Username must be at most 50 characters')
+  .regex(
+    /^[a-zA-Z0-9_-]+$/,
+    'Username can only contain letters, numbers, underscores, and hyphens'
+  );
+
 // User in list (without sensitive data)
 export const UserListItemSchema = z
   .object({
@@ -32,15 +43,7 @@ export const UserListResponseSchema = z
 // Create user request
 export const CreateUserRequestSchema = z
   .object({
-    username: z
-      .string()
-      .trim()
-      .min(3, 'Username must be at least 3 characters')
-      .max(50, 'Username must be at most 50 characters')
-      .regex(
-        /^[a-zA-Z0-9_-]+$/,
-        'Username can only contain letters, numbers, underscores, and hyphens'
-      ),
+    username: UsernameSchema,
     password: z.string().min(8, 'Password must be at least 8 characters'),
     role: UserRoleSchema.default('DEFAULT'),
   })
@@ -49,16 +52,7 @@ export const CreateUserRequestSchema = z
 // Update user request (partial)
 export const UpdateUserRequestSchema = z
   .object({
-    username: z
-      .string()
-      .trim()
-      .min(3, 'Username must be at least 3 characters')
-      .max(50, 'Username must be at most 50 characters')
-      .regex(
-        /^[a-zA-Z0-9_-]+$/,
-        'Username can only contain letters, numbers, underscores, and hyphens'
-      )
-      .optional(),
+    username: UsernameSchema.optional(),
     role: UserRoleSchema.optional(),
     isActive: z.boolean().optional(),
     resetPassword: z.string().min(8).optional(), // Admin can reset user's password
@@ -72,27 +66,36 @@ registry.register('UserListResponse', UserListResponseSchema);
 registry.register('CreateUserRequest', CreateUserRequestSchema);
 registry.register('UpdateUserRequest', UpdateUserRequestSchema);
 
+// Common response builders to reduce duplication
+const idParamSchema = z.object({ id: z.string() });
+
+const paginatedListResponse = (description: string) => ({
+  200: {
+    description,
+    content: { 'application/json': { schema: UserListResponseSchema } },
+  },
+  401: CommonErrorResponses[401],
+  403: CommonErrorResponses[403],
+});
+
+const userItemResponse = (description: string, includeNotFound = false) => ({
+  200: {
+    description,
+    content: { 'application/json': { schema: UserListItemSchema } },
+  },
+  401: CommonErrorResponses[401],
+  403: CommonErrorResponses[403],
+  ...(includeNotFound && { 404: CommonErrorResponses[404] }),
+});
+
 // Register user paths
 registry.registerPath({
   method: 'get',
   path: '/users',
   summary: 'List all users (Admin only)',
   tags: ['Users'],
-  request: {
-    query: PaginationQuerySchema,
-  },
-  responses: {
-    200: {
-      description: 'Paginated list of users',
-      content: {
-        'application/json': {
-          schema: UserListResponseSchema,
-        },
-      },
-    },
-    401: CommonErrorResponses[401],
-    403: CommonErrorResponses[403],
-  },
+  request: { query: PaginationQuerySchema },
+  responses: paginatedListResponse('Paginated list of users'),
 });
 
 registry.registerPath({
@@ -101,22 +104,12 @@ registry.registerPath({
   summary: 'Create a new user (Admin only)',
   tags: ['Users'],
   request: {
-    body: {
-      content: {
-        'application/json': {
-          schema: CreateUserRequestSchema,
-        },
-      },
-    },
+    body: { content: { 'application/json': { schema: CreateUserRequestSchema } } },
   },
   responses: {
     201: {
       description: 'User created',
-      content: {
-        'application/json': {
-          schema: UserListItemSchema,
-        },
-      },
+      content: { 'application/json': { schema: UserListItemSchema } },
     },
     400: CommonErrorResponses[400],
     401: CommonErrorResponses[401],
@@ -129,24 +122,8 @@ registry.registerPath({
   path: '/users/{id}',
   summary: 'Get user by ID (Admin only)',
   tags: ['Users'],
-  request: {
-    params: z.object({
-      id: z.string(),
-    }),
-  },
-  responses: {
-    200: {
-      description: 'User details',
-      content: {
-        'application/json': {
-          schema: UserListItemSchema,
-        },
-      },
-    },
-    401: CommonErrorResponses[401],
-    403: CommonErrorResponses[403],
-    404: CommonErrorResponses[404],
-  },
+  request: { params: idParamSchema },
+  responses: userItemResponse('User details', true),
 });
 
 registry.registerPath({
@@ -155,30 +132,12 @@ registry.registerPath({
   summary: 'Update user (Admin only)',
   tags: ['Users'],
   request: {
-    params: z.object({
-      id: z.string(),
-    }),
-    body: {
-      content: {
-        'application/json': {
-          schema: UpdateUserRequestSchema,
-        },
-      },
-    },
+    params: idParamSchema,
+    body: { content: { 'application/json': { schema: UpdateUserRequestSchema } } },
   },
   responses: {
-    200: {
-      description: 'User updated',
-      content: {
-        'application/json': {
-          schema: UserListItemSchema,
-        },
-      },
-    },
+    ...userItemResponse('User updated', true),
     400: CommonErrorResponses[400],
-    401: CommonErrorResponses[401],
-    403: CommonErrorResponses[403],
-    404: CommonErrorResponses[404],
   },
 });
 
@@ -187,24 +146,10 @@ registry.registerPath({
   path: '/users/{id}',
   summary: 'Soft delete user (Admin only)',
   tags: ['Users'],
-  request: {
-    params: z.object({
-      id: z.string(),
-    }),
-  },
+  request: { params: idParamSchema },
   responses: {
-    200: {
-      description: 'User soft deleted',
-      content: {
-        'application/json': {
-          schema: UserListItemSchema,
-        },
-      },
-    },
+    ...userItemResponse('User soft deleted', true),
     400: CommonErrorResponses[400],
-    401: CommonErrorResponses[401],
-    403: CommonErrorResponses[403],
-    404: CommonErrorResponses[404],
   },
 });
 
@@ -213,21 +158,8 @@ registry.registerPath({
   path: '/users/inactive',
   summary: 'List all inactive (soft-deleted) users (Admin only)',
   tags: ['Users'],
-  request: {
-    query: PaginationQuerySchema,
-  },
-  responses: {
-    200: {
-      description: 'Paginated list of inactive users',
-      content: {
-        'application/json': {
-          schema: UserListResponseSchema,
-        },
-      },
-    },
-    401: CommonErrorResponses[401],
-    403: CommonErrorResponses[403],
-  },
+  request: { query: PaginationQuerySchema },
+  responses: paginatedListResponse('Paginated list of inactive users'),
 });
 
 registry.registerPath({
@@ -235,22 +167,6 @@ registry.registerPath({
   path: '/users/{id}/restore',
   summary: 'Restore a soft-deleted user (Admin only)',
   tags: ['Users'],
-  request: {
-    params: z.object({
-      id: z.string(),
-    }),
-  },
-  responses: {
-    200: {
-      description: 'User restored',
-      content: {
-        'application/json': {
-          schema: UserListItemSchema,
-        },
-      },
-    },
-    401: CommonErrorResponses[401],
-    403: CommonErrorResponses[403],
-    404: CommonErrorResponses[404],
-  },
+  request: { params: idParamSchema },
+  responses: userItemResponse('User restored', true),
 });

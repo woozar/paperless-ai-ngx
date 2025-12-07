@@ -82,7 +82,7 @@ describe('PUT /api/settings/[key]', () => {
     const data = await response.json();
 
     expect(response.status).toBe(404);
-    expect(data.message).toBe('error.notFound');
+    expect(data.message).toBe('notFound');
   });
 
   it('returns 400 for invalid value', async () => {
@@ -99,7 +99,7 @@ describe('PUT /api/settings/[key]', () => {
     const data = await response.json();
 
     expect(response.status).toBe(400);
-    expect(data.message).toBe('error.settingsValidationError');
+    expect(data.message).toBe('settingsValidationError');
     expect(data.params).toEqual({
       key: 'security.sharing.mode',
       value: 'INVALID_VALUE',
@@ -159,7 +159,7 @@ describe('PUT /api/settings/[key]', () => {
     const data = await response.json();
 
     expect(response.status).toBe(400);
-    expect(data.message).toBe('error.settingsValidationError');
+    expect(data.message).toBe('settingsValidationError');
     expect(data.params.expectedType).toContain('5 character');
   });
 
@@ -191,7 +191,7 @@ describe('PUT /api/settings/[key]', () => {
     const data = await response.json();
 
     expect(response.status).toBe(400);
-    expect(data.message).toBe('error.settingsValidationError');
+    expect(data.message).toBe('settingsValidationError');
     expect(data.params.expectedType).toBe('unknown');
   });
 
@@ -284,7 +284,7 @@ describe('PUT /api/settings/[key]', () => {
     const data = await response.json();
 
     expect(response.status).toBe(500);
-    expect(data.message).toBe('error.settingsParseError');
+    expect(data.message).toBe('settingsParseError');
     expect(data.params.key).toBe('security.sharing.mode');
     expect(data.params.value).toBe('CORRUPTED_VALUE');
   });
@@ -306,6 +306,6 @@ describe('PUT /api/settings/[key]', () => {
     const data = await response.json();
 
     expect(response.status).toBe(500);
-    expect(data.message).toBe('error.serverError');
+    expect(data.message).toBe('serverError');
   });
 });

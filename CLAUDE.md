@@ -132,3 +132,11 @@ The application uses a unified toast notification system (sonner) for user feedb
   - Check off acceptance criteria when implemented
   - Format: `US-[CATEGORY]-[NR]` (e.g., `US-AUTH-001`)
 - **ROADMAP.md** contains planned features and current progress
+
+## Code Coverage
+
+To exclude a line from code coverage, use the v8 ignore directive:
+
+```ts
+// v8 ignore next -- @preserve
+```

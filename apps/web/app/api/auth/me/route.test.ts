@@ -47,7 +47,7 @@ describe('GET /api/auth/me', () => {
     const data = await response.json();
 
     expect(response.status).toBe(404);
-    expect(data.message).toBe('error.userNotFound');
+    expect(data.message).toBe('userNotFound');
   });
 
   it('returns user data on success', async () => {

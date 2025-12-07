@@ -99,7 +99,7 @@ describe('GET /api/settings', () => {
     const data = await response.json();
 
     expect(response.status).toBe(500);
-    expect(data.message).toBe('error.settingsParseError');
+    expect(data.message).toBe('settingsParseError');
     expect(data.params.key).toBe('security.sharing.mode');
     expect(data.params.value).toBe('INVALID_ENUM_VALUE');
   });
@@ -116,6 +116,6 @@ describe('GET /api/settings', () => {
     const data = await response.json();
 
     expect(response.status).toBe(500);
-    expect(data.message).toBe('error.serverError');
+    expect(data.message).toBe('serverError');
   });
 });

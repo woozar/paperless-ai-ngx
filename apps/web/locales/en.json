@@ -11,6 +11,7 @@
     "search": "Search",
     "share": "Share",
     "shareTooltip": "Grant access to other users",
+    "remove": "Remove",
     "settings": "Settings",
     "dashboard": "Dashboard",
     "documents": "Documents",
@@ -23,6 +24,38 @@
       "showing": "Showing {start} to {end} of {total}",
       "rowsPerPage": "Rows per page",
       "pageOf": "Page {page} of {totalPages}"
+    }
+  },
+  "sharing": {
+    "title": "Share",
+    "description": "Manage who has access to this resource",
+    "user": "User",
+    "shareWith": "Share with",
+    "allUsers": "All Users",
+    "selectUser": "Select a user",
+    "permission": "Permission",
+    "permissions": {
+      "READ": "Read",
+      "WRITE": "Write",
+      "ADMIN": "Admin"
+    },
+    "permissionDescriptions": {
+      "READ": "Can view this resource",
+      "WRITE": "Can view and edit this resource",
+      "ADMIN": "Can view, edit, and share this resource"
+    },
+    "currentShares": "Current Shares",
+    "noShares": "This resource is not shared with anyone",
+    "addShare": "Add Share",
+    "removeShare": "Remove Share",
+    "shareAdded": "Share added successfully",
+    "shareRemoved": "Share removed successfully",
+    "shareUpdated": "Share updated successfully",
+    "error": {
+      "loadFailed": "Failed to load shares",
+      "addFailed": "Failed to add share",
+      "updateFailed": "Failed to update share",
+      "removeFailed": "Failed to remove share"
     }
   },
   "home": {
@@ -102,16 +135,34 @@
   },
   "errors": {
     "generic": "An error occurred",
+    "serverError": "An unexpected server error occurred",
     "notFound": "Not found",
     "unauthorized": "Unauthorized",
+    "forbidden": "You do not have permission to perform this action",
+    "invalidRequest": "Invalid request",
     "connectionFailed": "Connection failed",
+    "invalidCredentials": "Invalid username or password",
+    "accountSuspended": "Your account has been suspended",
+    "invalidPasswordFormat": "Invalid password format",
+    "invalidUsernameOrPassword": "Invalid username or password format",
+    "currentPasswordIncorrect": "Current password is incorrect",
+    "lastAdmin": "Cannot remove the last admin user",
+    "cannotDeleteSelf": "You cannot delete your own account",
+    "conflict": "A conflict occurred",
+    "usernameExists": "Username \"{username}\" already exists",
+    "applicationNotConfigured": "Application is not properly configured",
+    "settingsParseError": "Failed to parse setting {key}",
+    "settingsValidationError": "Invalid value for setting {key}",
     "paperlessInstanceNotFound": "Paperless instance not found",
     "paperlessInstanceNameExists": "A Paperless instance with the name \"{name}\" already exists",
     "aiProviderNotFound": "AI provider not found",
     "aiProviderNameExists": "An AI provider with the name \"{name}\" already exists",
     "aiProviderInUse": "Cannot delete AI provider because it is used by {count, plural, one {1 bot} other {# bots}}",
     "aiBotNotFound": "AI bot not found",
-    "aiBotNameExists": "An AI bot with the name \"{name}\" already exists"
+    "aiBotNameExists": "An AI bot with the name \"{name}\" already exists",
+    "userNotFound": "User not found",
+    "cannotShareWithSelf": "You cannot share a resource with yourself",
+    "shareNotFound": "Share not found"
   },
   "admin": {
     "users": {

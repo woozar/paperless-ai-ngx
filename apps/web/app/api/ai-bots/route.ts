@@ -2,14 +2,27 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@repo/database';
 import { CreateAiBotRequestSchema } from '@/lib/api/schemas/ai-bots';
 import { getPaginationParams, getPaginationMeta } from '@/lib/api/schemas/common';
-import { adminRoute } from '@/lib/api/route-wrapper';
+import { authRoute } from '@/lib/api/route-wrapper';
 
-// GET /api/ai-bots - List all AiBots (Admin only, paginated)
-export const GET = adminRoute(
+// GET /api/ai-bots - List all AiBots (owned or shared with user)
+export const GET = authRoute(
   async ({ user, request }) => {
     const { page, limit } = getPaginationParams(request);
     const skip = (page - 1) * limit;
-    const where = { ownerId: user.userId };
+
+    // Find bots the user owns OR has access to (via sharing)
+    const where = {
+      OR: [
+        { ownerId: user.userId },
+        {
+          sharedWith: {
+            some: {
+              OR: [{ userId: user.userId }, { userId: null }],
+            },
+          },
+        },
+      ],
+    };
 
     const [bots, total] = await Promise.all([
       prisma.aiBot.findMany({
@@ -19,6 +32,7 @@ export const GET = adminRoute(
           name: true,
           systemPrompt: true,
           aiProviderId: true,
+          ownerId: true,
           aiProvider: {
             select: {
               id: true,
@@ -28,6 +42,14 @@ export const GET = adminRoute(
           },
           createdAt: true,
           updatedAt: true,
+          sharedWith: {
+            where: {
+              OR: [{ userId: user.userId }, { userId: null }],
+            },
+            select: {
+              permission: true,
+            },
+          },
         },
         orderBy: { name: 'asc' },
         skip,
@@ -37,19 +59,31 @@ export const GET = adminRoute(
     ]);
 
     return NextResponse.json({
-      items: bots.map((bot) => ({
-        ...bot,
-        createdAt: bot.createdAt.toISOString(),
-        updatedAt: bot.updatedAt.toISOString(),
-      })),
+      items: bots.map((bot) => {
+        const isOwner = bot.ownerId === user.userId;
+        const sharedPermission = bot.sharedWith[0]?.permission;
+        const canEdit = isOwner || sharedPermission === 'WRITE';
+
+        return {
+          id: bot.id,
+          name: bot.name,
+          systemPrompt: bot.systemPrompt,
+          aiProviderId: bot.aiProviderId,
+          aiProvider: bot.aiProvider,
+          createdAt: bot.createdAt.toISOString(),
+          updatedAt: bot.updatedAt.toISOString(),
+          canEdit,
+          isOwner,
+        };
+      }),
       ...getPaginationMeta(total, page, limit),
     });
   },
   { errorLogPrefix: 'List AI bots' }
 );
 
-// POST /api/ai-bots - Create a new AiBot (Admin only)
-export const POST = adminRoute(
+// POST /api/ai-bots - Create a new AiBot
+export const POST = authRoute(
   async ({ user, body }) => {
     const { name, aiProviderId, systemPrompt } = body;
 
@@ -65,7 +99,7 @@ export const POST = adminRoute(
       return NextResponse.json(
         {
           error: 'aiBotNameExists',
-          message: 'errors.aiBotNameExists',
+          message: 'aiBotNameExists',
           params: { name },
         },
         { status: 409 }
@@ -84,7 +118,7 @@ export const POST = adminRoute(
       return NextResponse.json(
         {
           error: 'aiProviderNotFound',
-          message: 'errors.aiProviderNotFound',
+          message: 'aiProviderNotFound',
         },
         { status: 400 }
       );

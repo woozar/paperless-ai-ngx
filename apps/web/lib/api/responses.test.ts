@@ -8,15 +8,15 @@ describe('ApiResponses', () => {
       const data = await response.json();
 
       expect(response.status).toBe(404);
-      expect(data.message).toBe('error.notFound');
+      expect(data.message).toBe('notFound');
     });
 
     it('returns custom message when provided', async () => {
-      const response = ApiResponses.notFound('error.customNotFound');
+      const response = ApiResponses.notFound('customNotFound');
       const data = await response.json();
 
       expect(response.status).toBe(404);
-      expect(data.message).toBe('error.customNotFound');
+      expect(data.message).toBe('customNotFound');
     });
   });
 
@@ -26,15 +26,15 @@ describe('ApiResponses', () => {
       const data = await response.json();
 
       expect(response.status).toBe(400);
-      expect(data.message).toBe('error.invalidRequest');
+      expect(data.message).toBe('invalidRequest');
     });
 
     it('returns custom message when provided', async () => {
-      const response = ApiResponses.badRequest('error.customBadRequest');
+      const response = ApiResponses.badRequest('customBadRequest');
       const data = await response.json();
 
       expect(response.status).toBe(400);
-      expect(data.message).toBe('error.customBadRequest');
+      expect(data.message).toBe('customBadRequest');
     });
   });
 
@@ -44,15 +44,15 @@ describe('ApiResponses', () => {
       const data = await response.json();
 
       expect(response.status).toBe(409);
-      expect(data.message).toBe('error.conflict');
+      expect(data.message).toBe('conflict');
     });
 
     it('returns custom message when provided', async () => {
-      const response = ApiResponses.conflict('error.customConflict');
+      const response = ApiResponses.conflict('customConflict');
       const data = await response.json();
 
       expect(response.status).toBe(409);
-      expect(data.message).toBe('error.customConflict');
+      expect(data.message).toBe('customConflict');
     });
   });
 
@@ -62,15 +62,15 @@ describe('ApiResponses', () => {
       const data = await response.json();
 
       expect(response.status).toBe(500);
-      expect(data.message).toBe('error.serverError');
+      expect(data.message).toBe('serverError');
     });
 
     it('returns custom message when provided', async () => {
-      const response = ApiResponses.serverError('error.customServerError');
+      const response = ApiResponses.serverError('customServerError');
       const data = await response.json();
 
       expect(response.status).toBe(500);
-      expect(data.message).toBe('error.customServerError');
+      expect(data.message).toBe('customServerError');
     });
   });
 
@@ -80,7 +80,7 @@ describe('ApiResponses', () => {
       const data = await response.json();
 
       expect(response.status).toBe(409);
-      expect(data.message).toBe('error.usernameExists');
+      expect(data.message).toBe('usernameExists');
       expect(data.params).toBeUndefined();
     });
 
@@ -89,7 +89,7 @@ describe('ApiResponses', () => {
       const data = await response.json();
 
       expect(response.status).toBe(409);
-      expect(data.message).toBe('error.usernameExists');
+      expect(data.message).toBe('usernameExists');
       expect(data.params).toEqual({ username: 'testuser' });
     });
   });

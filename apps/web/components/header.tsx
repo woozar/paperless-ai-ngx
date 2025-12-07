@@ -23,14 +23,31 @@ export function Header() {
   const navigation = useMemo(
     () => [
       {
+        // Items visible to all authenticated users
         items: [
           {
             href: '/',
             label: t('dashboard'),
             icon: LayoutDashboard,
           },
+          {
+            href: '/admin/paperless-instances',
+            label: t('paperlessInstances'),
+            icon: Database,
+          },
+          {
+            href: '/admin/ai-providers',
+            label: t('aiProviders'),
+            icon: Cpu,
+          },
+          {
+            href: '/admin/ai-bots',
+            label: t('aiBots'),
+            icon: Bot,
+          },
         ],
       },
+      // Admin-only items
       ...(user?.role === 'ADMIN'
         ? [
             {
@@ -39,21 +56,6 @@ export function Header() {
                   href: '/admin/users',
                   label: t('users'),
                   icon: Users,
-                },
-                {
-                  href: '/admin/paperless-instances',
-                  label: t('paperlessInstances'),
-                  icon: Database,
-                },
-                {
-                  href: '/admin/ai-providers',
-                  label: t('aiProviders'),
-                  icon: Cpu,
-                },
-                {
-                  href: '/admin/ai-bots',
-                  label: t('aiBots'),
-                  icon: Bot,
                 },
                 {
                   href: '/admin/settings',

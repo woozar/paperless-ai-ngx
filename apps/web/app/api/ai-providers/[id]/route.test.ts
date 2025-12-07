@@ -65,7 +65,7 @@ describe('GET /api/ai-providers/[id]', () => {
     const data = await response.json();
 
     expect(response.status).toBe(404);
-    expect(data.message).toBe('errors.aiProviderNotFound');
+    expect(data.message).toBe('aiProviderNotFound');
   });
 
   it('returns provider details', async () => {
@@ -123,7 +123,7 @@ describe('PATCH /api/ai-providers/[id]', () => {
     const data = await response.json();
 
     expect(response.status).toBe(404);
-    expect(data.message).toBe('errors.aiProviderNotFound');
+    expect(data.message).toBe('aiProviderNotFound');
   });
 
   it('returns 409 when new name already exists', async () => {
@@ -146,7 +146,7 @@ describe('PATCH /api/ai-providers/[id]', () => {
     const data = await response.json();
 
     expect(response.status).toBe(409);
-    expect(data.message).toBe('errors.aiProviderNameExists');
+    expect(data.message).toBe('aiProviderNameExists');
   });
 
   it('successfully updates provider', async () => {
@@ -372,7 +372,7 @@ describe('DELETE /api/ai-providers/[id]', () => {
     const data = await response.json();
 
     expect(response.status).toBe(404);
-    expect(data.message).toBe('errors.aiProviderNotFound');
+    expect(data.message).toBe('aiProviderNotFound');
   });
 
   it('returns 400 when provider is in use by bots', async () => {
@@ -390,7 +390,7 @@ describe('DELETE /api/ai-providers/[id]', () => {
     const data = await response.json();
 
     expect(response.status).toBe(400);
-    expect(data.message).toBe('errors.aiProviderInUse');
+    expect(data.message).toBe('aiProviderInUse');
     expect(data.params.count).toBe(2);
   });
 

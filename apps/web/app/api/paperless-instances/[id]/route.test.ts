@@ -59,7 +59,7 @@ describe('GET /api/paperless-instances/[id]', () => {
     const data = await response.json();
 
     expect(response.status).toBe(404);
-    expect(data.message).toBe('errors.paperlessInstanceNotFound');
+    expect(data.message).toBe('paperlessInstanceNotFound');
   });
 
   it('returns instance details', async () => {
@@ -115,7 +115,7 @@ describe('PATCH /api/paperless-instances/[id]', () => {
     const data = await response.json();
 
     expect(response.status).toBe(404);
-    expect(data.message).toBe('errors.paperlessInstanceNotFound');
+    expect(data.message).toBe('paperlessInstanceNotFound');
   });
 
   it('returns 409 when new name already exists', async () => {
@@ -138,7 +138,7 @@ describe('PATCH /api/paperless-instances/[id]', () => {
     const data = await response.json();
 
     expect(response.status).toBe(409);
-    expect(data.message).toBe('errors.paperlessInstanceNameExists');
+    expect(data.message).toBe('paperlessInstanceNameExists');
   });
 
   it('successfully updates instance', async () => {
@@ -269,7 +269,7 @@ describe('DELETE /api/paperless-instances/[id]', () => {
     const data = await response.json();
 
     expect(response.status).toBe(404);
-    expect(data.message).toBe('errors.paperlessInstanceNotFound');
+    expect(data.message).toBe('paperlessInstanceNotFound');
   });
 
   it('successfully deletes instance', async () => {

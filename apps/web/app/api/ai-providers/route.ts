@@ -2,15 +2,28 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@repo/database';
 import { CreateAiProviderRequestSchema } from '@/lib/api/schemas/ai-providers';
 import { getPaginationParams, getPaginationMeta } from '@/lib/api/schemas/common';
-import { adminRoute } from '@/lib/api/route-wrapper';
+import { authRoute } from '@/lib/api/route-wrapper';
 import { encrypt } from '@/lib/crypto/encryption';
 
-// GET /api/ai-providers - List all AiProviders (Admin only, paginated)
-export const GET = adminRoute(
+// GET /api/ai-providers - List all AiProviders (owned or shared with user)
+export const GET = authRoute(
   async ({ user, request }) => {
     const { page, limit } = getPaginationParams(request);
     const skip = (page - 1) * limit;
-    const where = { ownerId: user.userId };
+
+    // Find providers the user owns OR has access to (via sharing)
+    const where = {
+      OR: [
+        { ownerId: user.userId },
+        {
+          sharedWith: {
+            some: {
+              OR: [{ userId: user.userId }, { userId: null }],
+            },
+          },
+        },
+      ],
+    };
 
     const [providers, total] = await Promise.all([
       prisma.aiProvider.findMany({
@@ -22,9 +35,18 @@ export const GET = adminRoute(
           model: true,
           baseUrl: true,
           isActive: true,
+          ownerId: true,
           createdAt: true,
           updatedAt: true,
           apiKey: false,
+          sharedWith: {
+            where: {
+              OR: [{ userId: user.userId }, { userId: null }],
+            },
+            select: {
+              permission: true,
+            },
+          },
         },
         orderBy: { name: 'asc' },
         skip,
@@ -34,19 +56,32 @@ export const GET = adminRoute(
     ]);
 
     return NextResponse.json({
-      items: providers.map((provider) => ({
-        ...provider,
-        createdAt: provider.createdAt.toISOString(),
-        updatedAt: provider.updatedAt.toISOString(),
-      })),
+      items: providers.map((provider) => {
+        const isOwner = provider.ownerId === user.userId;
+        const sharedPermission = provider.sharedWith[0]?.permission;
+        const canEdit = isOwner || sharedPermission === 'WRITE';
+
+        return {
+          id: provider.id,
+          name: provider.name,
+          provider: provider.provider,
+          model: provider.model,
+          baseUrl: provider.baseUrl,
+          isActive: provider.isActive,
+          createdAt: provider.createdAt.toISOString(),
+          updatedAt: provider.updatedAt.toISOString(),
+          canEdit,
+          isOwner,
+        };
+      }),
       ...getPaginationMeta(total, page, limit),
     });
   },
   { errorLogPrefix: 'List AI providers' }
 );
 
-// POST /api/ai-providers - Create a new AiProvider (Admin only)
-export const POST = adminRoute(
+// POST /api/ai-providers - Create a new AiProvider
+export const POST = authRoute(
   async ({ user, body }) => {
     const { name, provider, model, apiKey, baseUrl } = body;
 
@@ -62,7 +97,7 @@ export const POST = adminRoute(
       return NextResponse.json(
         {
           error: 'aiProviderNameExists',
-          message: 'errors.aiProviderNameExists',
+          message: 'aiProviderNameExists',
           params: { name },
         },
         { status: 409 }

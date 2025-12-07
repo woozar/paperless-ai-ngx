@@ -1,15 +1,24 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@repo/database';
 import { UpdateAiBotRequestSchema } from '@/lib/api/schemas/ai-bots';
-import { adminRoute } from '@/lib/api/route-wrapper';
+import { authRoute } from '@/lib/api/route-wrapper';
 
-// GET /api/ai-bots/[id] - Get AiBot by ID (Admin only)
-export const GET = adminRoute<never, { id: string }>(
+// GET /api/ai-bots/[id] - Get AiBot by ID
+export const GET = authRoute<never, { id: string }>(
   async ({ user, params }) => {
     const bot = await prisma.aiBot.findFirst({
       where: {
         id: params.id,
-        ownerId: user.userId,
+        OR: [
+          { ownerId: user.userId },
+          {
+            sharedWith: {
+              some: {
+                OR: [{ userId: user.userId }, { userId: null }],
+              },
+            },
+          },
+        ],
       },
       select: {
         id: true,
@@ -32,7 +41,7 @@ export const GET = adminRoute<never, { id: string }>(
       return NextResponse.json(
         {
           error: 'aiBotNotFound',
-          message: 'errors.aiBotNotFound',
+          message: 'aiBotNotFound',
         },
         { status: 404 }
       );
@@ -47,14 +56,24 @@ export const GET = adminRoute<never, { id: string }>(
   { errorLogPrefix: 'Get AI bot' }
 );
 
-// PATCH /api/ai-bots/[id] - Update AiBot (Admin only)
-export const PATCH = adminRoute<typeof UpdateAiBotRequestSchema, { id: string }>(
+// PATCH /api/ai-bots/[id] - Update AiBot (owner or WRITE permission)
+export const PATCH = authRoute<typeof UpdateAiBotRequestSchema, { id: string }>(
   async ({ user, params, body }) => {
-    // Check if bot exists and belongs to user
+    // Check if bot exists and user has write access
     const existingBot = await prisma.aiBot.findFirst({
       where: {
         id: params.id,
-        ownerId: user.userId,
+        OR: [
+          { ownerId: user.userId },
+          {
+            sharedWith: {
+              some: {
+                OR: [{ userId: user.userId }, { userId: null }],
+                permission: 'WRITE',
+              },
+            },
+          },
+        ],
       },
     });
 
@@ -62,7 +81,7 @@ export const PATCH = adminRoute<typeof UpdateAiBotRequestSchema, { id: string }>
       return NextResponse.json(
         {
           error: 'aiBotNotFound',
-          message: 'errors.aiBotNotFound',
+          message: 'aiBotNotFound',
         },
         { status: 404 }
       );
@@ -84,7 +103,7 @@ export const PATCH = adminRoute<typeof UpdateAiBotRequestSchema, { id: string }>
         return NextResponse.json(
           {
             error: 'aiBotNameExists',
-            message: 'errors.aiBotNameExists',
+            message: 'aiBotNameExists',
             params: { name },
           },
           { status: 409 }
@@ -105,7 +124,7 @@ export const PATCH = adminRoute<typeof UpdateAiBotRequestSchema, { id: string }>
         return NextResponse.json(
           {
             error: 'aiProviderNotFound',
-            message: 'errors.aiProviderNotFound',
+            message: 'aiProviderNotFound',
           },
           { status: 400 }
         );
@@ -157,8 +176,8 @@ export const PATCH = adminRoute<typeof UpdateAiBotRequestSchema, { id: string }>
   }
 );
 
-// DELETE /api/ai-bots/[id] - Delete AiBot (Admin only)
-export const DELETE = adminRoute<never, { id: string }>(
+// DELETE /api/ai-bots/[id] - Delete AiBot (owner only)
+export const DELETE = authRoute<never, { id: string }>(
   async ({ user, params }) => {
     // Check if bot exists and belongs to user
     const existingBot = await prisma.aiBot.findFirst({
@@ -172,7 +191,7 @@ export const DELETE = adminRoute<never, { id: string }>(
       return NextResponse.json(
         {
           error: 'aiBotNotFound',
-          message: 'errors.aiBotNotFound',
+          message: 'aiBotNotFound',
         },
         { status: 404 }
       );

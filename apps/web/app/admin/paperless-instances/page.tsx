@@ -23,13 +23,14 @@ import {
   EditInstanceDialog,
   DeleteInstanceDialog,
 } from './_components';
+import { ShareDialog } from '@/components/sharing/share-dialog';
 
 export default function PaperlessInstancesPage() {
   const t = useTranslations('admin.paperlessInstances');
   const { showError } = useErrorDisplay('admin.paperlessInstances');
   const formatDate = useFormatDate();
   const router = useRouter();
-  const { user: currentUser, isLoading: isAuthLoading } = useAuth();
+  const { isLoading: isAuthLoading } = useAuth();
   const client = useApi();
 
   const [instances, setInstances] = useState<Omit<PaperlessInstanceListItem, 'apiToken'>[]>([]);
@@ -46,6 +47,10 @@ export default function PaperlessInstancesPage() {
     'apiToken'
   > | null>(null);
   const [deletingInstance, setDeletingInstance] = useState<Omit<
+    PaperlessInstanceListItem,
+    'apiToken'
+  > | null>(null);
+  const [sharingInstance, setSharingInstance] = useState<Omit<
     PaperlessInstanceListItem,
     'apiToken'
   > | null>(null);
@@ -108,12 +113,10 @@ export default function PaperlessInstancesPage() {
   );
 
   useEffect(() => {
-    if (!isAuthLoading && currentUser?.role !== 'ADMIN') {
-      router.push('/');
-      return;
+    if (!isAuthLoading) {
+      loadInstances(page, limit);
     }
-    loadInstances(page, limit);
-  }, [isAuthLoading, currentUser, router, loadInstances, page, limit]);
+  }, [isAuthLoading, loadInstances, page, limit]);
 
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
@@ -128,10 +131,6 @@ export default function PaperlessInstancesPage() {
     loadInstances(page, limit);
   };
 
-  if (currentUser?.role !== 'ADMIN') {
-    return null;
-  }
-
   const renderTableContent = () => {
     if (isLoading) {
       return <InstanceTableSkeleton />;
@@ -143,6 +142,7 @@ export default function PaperlessInstancesPage() {
         instance={instance}
         onEdit={setEditingInstance}
         onDelete={setDeletingInstance}
+        onShare={setSharingInstance}
         onImport={handleImport}
         isImporting={importingInstanceId === instance.id}
         formatDate={formatDate}
@@ -214,6 +214,16 @@ export default function PaperlessInstancesPage() {
         instance={deletingInstance}
         onSuccess={reloadCurrentPage}
       />
+
+      {sharingInstance && (
+        <ShareDialog
+          open={!!sharingInstance}
+          onOpenChange={(open) => !open && setSharingInstance(null)}
+          resourceType="paperless-instances"
+          resourceId={sharingInstance.id}
+          resourceName={sharingInstance.name}
+        />
+      )}
     </AppShell>
   );
 }

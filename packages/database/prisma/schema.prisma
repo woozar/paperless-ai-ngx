@@ -62,10 +62,11 @@ enum Permission {
 }
 
 // Join table: User <-> PaperlessInstance (shared access)
+// Note: userId=NULL means "shared with all users"
 model UserPaperlessInstanceAccess {
   id         String            @id @default(cuid())
-  user       User              @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId     String
+  user       User?             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String?
   instance   PaperlessInstance @relation(fields: [instanceId], references: [id], onDelete: Cascade)
   instanceId String
   permission Permission        @default(READ)
@@ -77,10 +78,11 @@ model UserPaperlessInstanceAccess {
 }
 
 // Join table: User <-> AiProvider (shared access)
+// Note: userId=NULL means "shared with all users"
 model UserAiProviderAccess {
   id           String     @id @default(cuid())
-  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId       String
+  user         User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String?
   aiProvider   AiProvider @relation(fields: [aiProviderId], references: [id], onDelete: Cascade)
   aiProviderId String
   permission   Permission @default(READ)
@@ -92,10 +94,11 @@ model UserAiProviderAccess {
 }
 
 // Join table: User <-> AiBot (shared access)
+// Note: userId=NULL means "shared with all users"
 model UserAiBotAccess {
   id         String     @id @default(cuid())
-  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId     String
+  user       User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String?
   aiBot      AiBot      @relation(fields: [aiBotId], references: [id], onDelete: Cascade)
   aiBotId    String
   permission Permission @default(READ)

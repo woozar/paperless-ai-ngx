@@ -123,13 +123,28 @@ describe('BotTableRow', () => {
       expect(screen.queryByTestId('share-bot-bot-123')).not.toBeInTheDocument();
     });
 
-    it('renders share button when sharing mode is ADVANCED', () => {
+    it('renders share button when sharing mode is ADVANCED and onShare is provided', () => {
       mockUseSettings.mockReturnValue({
         settings: { 'security.sharing.mode': 'ADVANCED' } as Settings,
         updateSetting: vi.fn(),
       });
-      renderBotTableRow(defaultProps);
+      renderBotTableRow({ ...defaultProps, onShare: vi.fn() });
       expect(screen.getByTestId('share-bot-bot-123')).toBeInTheDocument();
+    });
+
+    it('calls onShare when share button is clicked', async () => {
+      const user = userEvent.setup({ delay: null });
+      const mockOnShare = vi.fn();
+      mockUseSettings.mockReturnValue({
+        settings: { 'security.sharing.mode': 'ADVANCED' } as Settings,
+        updateSetting: vi.fn(),
+      });
+      renderBotTableRow({ ...defaultProps, onShare: mockOnShare });
+
+      const shareButton = screen.getByTestId('share-bot-bot-123');
+      await user.click(shareButton);
+
+      expect(mockOnShare).toHaveBeenCalledWith(mockBot);
     });
   });
 });

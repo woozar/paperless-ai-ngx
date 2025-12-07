@@ -7,11 +7,17 @@ import { Edit, Trash2, Download, Loader2, UserPlus } from 'lucide-react';
 import type { PaperlessInstanceListItem } from '@repo/api-client';
 import { useSettings } from '@/components/settings-provider';
 
+type InstanceWithPermissions = Omit<PaperlessInstanceListItem, 'apiToken'> & {
+  canEdit?: boolean;
+  isOwner?: boolean;
+};
+
 type InstanceTableRowProps = Readonly<{
-  instance: Omit<PaperlessInstanceListItem, 'apiToken'>;
-  onEdit: (instance: Omit<PaperlessInstanceListItem, 'apiToken'>) => void;
-  onDelete: (instance: Omit<PaperlessInstanceListItem, 'apiToken'>) => void;
-  onImport: (instance: Omit<PaperlessInstanceListItem, 'apiToken'>) => void;
+  instance: InstanceWithPermissions;
+  onEdit: (instance: InstanceWithPermissions) => void;
+  onDelete: (instance: InstanceWithPermissions) => void;
+  onShare?: (instance: InstanceWithPermissions) => void;
+  onImport: (instance: InstanceWithPermissions) => void;
   isImporting: boolean;
   formatDate: (dateString: string) => string;
 }>;
@@ -20,6 +26,7 @@ export const InstanceTableRow = memo(function InstanceTableRow({
   instance,
   onEdit,
   onDelete,
+  onShare,
   onImport,
   isImporting,
   formatDate,
@@ -28,6 +35,10 @@ export const InstanceTableRow = memo(function InstanceTableRow({
   const tCommon = useTranslations('common');
   const { settings } = useSettings();
   const showShareButton = settings['security.sharing.mode'] === 'ADVANCED';
+
+  // Default to true for backwards compatibility (owner can always edit)
+  const canEdit = instance.canEdit ?? true;
+  const isOwner = instance.isOwner ?? true;
 
   return (
     <TableRow>
@@ -38,10 +49,15 @@ export const InstanceTableRow = memo(function InstanceTableRow({
       </TableCell>
       <TableCell className="text-right">
         <div className="flex justify-end gap-2">
-          {showShareButton && (
+          {showShareButton && onShare && isOwner && (
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="outline" size="icon" data-testid={`share-instance-${instance.id}`}>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => onShare(instance)}
+                  data-testid={`share-instance-${instance.id}`}
+                >
                   <UserPlus className="h-4 w-4" />
                   <span className="sr-only">{tCommon('share')}</span>
                 </Button>
@@ -49,38 +65,57 @@ export const InstanceTableRow = memo(function InstanceTableRow({
               <TooltipContent>{tCommon('shareTooltip')}</TooltipContent>
             </Tooltip>
           )}
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => onImport(instance)}
-            disabled={isImporting}
-            data-testid={`import-instance-${instance.id}`}
-          >
-            {isImporting ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              <Download className="h-4 w-4" />
-            )}
-            <span className="sr-only">{t('importDocuments')}</span>
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => onEdit(instance)}
-            data-testid={`edit-instance-${instance.id}`}
-          >
-            <Edit className="h-4 w-4" />
-            <span className="sr-only">{t('editInstance')}</span>
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => onDelete(instance)}
-            data-testid={`delete-instance-${instance.id}`}
-          >
-            <Trash2 className="h-4 w-4" />
-            <span className="sr-only">{t('deleteInstance')}</span>
-          </Button>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => onImport(instance)}
+                disabled={isImporting}
+                data-testid={`import-instance-${instance.id}`}
+              >
+                {isImporting ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Download className="h-4 w-4" />
+                )}
+                <span className="sr-only">{t('importDocuments')}</span>
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>{t('importDocuments')}</TooltipContent>
+          </Tooltip>
+          {canEdit && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => onEdit(instance)}
+                  data-testid={`edit-instance-${instance.id}`}
+                >
+                  <Edit className="h-4 w-4" />
+                  <span className="sr-only">{t('editInstance')}</span>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>{t('editInstance')}</TooltipContent>
+            </Tooltip>
+          )}
+          {isOwner && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => onDelete(instance)}
+                  data-testid={`delete-instance-${instance.id}`}
+                >
+                  <Trash2 className="h-4 w-4" />
+                  <span className="sr-only">{t('deleteInstance')}</span>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>{t('deleteInstance')}</TooltipContent>
+            </Tooltip>
+          )}
         </div>
       </TableCell>
     </TableRow>

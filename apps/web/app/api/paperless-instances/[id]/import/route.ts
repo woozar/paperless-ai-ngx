@@ -1,17 +1,26 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@repo/database';
 import { PaperlessClient, PaperlessDocument } from '@repo/paperless-client';
-import { adminRoute } from '@/lib/api/route-wrapper';
+import { authRoute } from '@/lib/api/route-wrapper';
 import { decrypt } from '@/lib/crypto/encryption';
 
-// POST /api/paperless-instances/[id]/import - Import documents from Paperless (Admin only)
-export const POST = adminRoute<never, { id: string }>(
+// POST /api/paperless-instances/[id]/import - Import documents from Paperless (owner or any permission)
+export const POST = authRoute<never, { id: string }>(
   async ({ user, params }) => {
-    // Get instance with encrypted token
+    // Get instance with encrypted token - any access level can import
     const instance = await prisma.paperlessInstance.findFirst({
       where: {
         id: params.id,
-        ownerId: user.userId,
+        OR: [
+          { ownerId: user.userId },
+          {
+            sharedWith: {
+              some: {
+                OR: [{ userId: user.userId }, { userId: null }],
+              },
+            },
+          },
+        ],
       },
     });
 
@@ -19,7 +28,7 @@ export const POST = adminRoute<never, { id: string }>(
       return NextResponse.json(
         {
           error: 'paperlessInstanceNotFound',
-          message: 'errors.paperlessInstanceNotFound',
+          message: 'paperlessInstanceNotFound',
         },
         { status: 404 }
       );

@@ -61,15 +61,14 @@ vi.mock('next/navigation', () => ({
   usePathname: () => '/admin/paperless-instances',
 }));
 
+const mockIsAuthLoading = vi.fn();
 vi.mock('@/components/auth-provider', () => ({
-  useAuth: () => ({ user: mockUser(), isLoading: false }),
+  useAuth: () => ({ user: mockUser(), isLoading: mockIsAuthLoading() }),
 }));
 
+const mockSettings = vi.fn();
 vi.mock('@/components/settings-provider', () => ({
-  useSettings: () => ({
-    settings: { 'security.sharing.mode': 'BASIC' as const },
-    updateSetting: vi.fn(),
-  }),
+  useSettings: () => mockSettings(),
 }));
 
 const mockPostPaperlessInstances = vi.fn();
@@ -138,6 +137,11 @@ describe('PaperlessInstancesPage', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mockUser.mockReturnValue({ id: 'user-1', username: 'admin', role: 'ADMIN' });
+    mockIsAuthLoading.mockReturnValue(false);
+    mockSettings.mockReturnValue({
+      settings: { 'security.sharing.mode': 'BASIC' as const },
+      updateSetting: vi.fn(),
+    });
     mockGetPaperlessInstancesByIdStats.mockResolvedValue({
       data: { documents: 0, processingQueue: 0 },
     });
@@ -151,22 +155,13 @@ describe('PaperlessInstancesPage', () => {
     });
   });
 
-  it('redirects non-admin users to home', async () => {
-    mockUser.mockReturnValue({ id: 'user-2', username: 'testuser', role: 'DEFAULT' });
+  it('does not load instances while auth is loading', async () => {
+    mockIsAuthLoading.mockReturnValue(true);
 
     renderWithIntl(<PaperlessInstancesPage />);
 
-    await waitFor(() => {
-      expect(mockPush).toHaveBeenCalledWith('/');
-    });
-  });
-
-  it('renders null for non-admin users', () => {
-    mockUser.mockReturnValue({ id: 'user-2', username: 'testuser', role: 'DEFAULT' });
-
-    const { container } = renderWithIntl(<PaperlessInstancesPage />);
-
-    expect(container.firstChild).toBeNull();
+    // Should not call the API while auth is loading
+    expect(mockGetPaperlessInstances).not.toHaveBeenCalled();
   });
 
   it('loads and displays instances', async () => {
@@ -547,6 +542,51 @@ describe('PaperlessInstancesPage', () => {
 
       await waitFor(() => {
         expect(vi.mocked(toast.error)).toHaveBeenCalledWith('Failed to load Paperless instances');
+      });
+    });
+  });
+
+  describe('share dialog', () => {
+    it('opens and closes share dialog when share button is clicked in ADVANCED mode', async () => {
+      const user = userEvent.setup({ delay: null });
+      mockSettings.mockReturnValue({
+        settings: { 'security.sharing.mode': 'ADVANCED' as const },
+        updateSetting: vi.fn(),
+      });
+
+      const instancesWithOwner = mockInstances.map((instance) => ({
+        ...instance,
+        isOwner: true,
+        canEdit: true,
+      }));
+      mockGetPaperlessInstances.mockResolvedValueOnce({
+        data: {
+          items: instancesWithOwner,
+          total: instancesWithOwner.length,
+          page: 1,
+          limit: 10,
+          totalPages: 1,
+        },
+        error: undefined,
+      });
+
+      renderWithIntl(<PaperlessInstancesPage />);
+
+      await waitFor(() => {
+        expect(screen.getByTestId('share-instance-instance-1')).toBeInTheDocument();
+      });
+
+      await user.click(screen.getByTestId('share-instance-instance-1'));
+
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+
+      // Close by pressing escape
+      await user.keyboard('{Escape}');
+
+      await waitFor(() => {
+        expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
       });
     });
   });

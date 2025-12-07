@@ -58,6 +58,7 @@ describe('GET /api/ai-bots', () => {
         name: 'Support Bot',
         systemPrompt: 'You are a helpful support assistant',
         aiProviderId: 'provider-1',
+        ownerId: 'admin-1',
         aiProvider: {
           id: 'provider-1',
           name: 'OpenAI',
@@ -65,6 +66,7 @@ describe('GET /api/ai-bots', () => {
         isActive: true,
         createdAt: mockDate,
         updatedAt: mockDate,
+        sharedWith: [],
       },
     ]);
     mockedPrisma.aiBot.count.mockResolvedValueOnce(1);
@@ -96,6 +98,39 @@ describe('GET /api/ai-bots', () => {
     expect(data.total).toBe(0);
   });
 
+  it('returns canEdit=true for shared bot with WRITE permission', async () => {
+    const mockDate = new Date('2024-01-15T10:00:00Z');
+    mockAdmin();
+    mockedPrisma.aiBot.findMany.mockResolvedValueOnce([
+      {
+        id: 'bot-1',
+        name: 'Shared Bot',
+        systemPrompt: 'System prompt',
+        aiProviderId: 'provider-1',
+        ownerId: 'other-user',
+        aiProvider: {
+          id: 'provider-1',
+          name: 'OpenAI',
+        },
+        isActive: true,
+        createdAt: mockDate,
+        updatedAt: mockDate,
+        sharedWith: [{ permission: 'WRITE' }],
+      },
+    ]);
+    mockedPrisma.aiBot.count.mockResolvedValueOnce(1);
+
+    const request = new NextRequest('http://localhost/api/ai-bots');
+
+    const response = await GET(request);
+    const data = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(data.items).toHaveLength(1);
+    expect(data.items[0].canEdit).toBe(true);
+    expect(data.items[0].isOwner).toBe(false);
+  });
+
   it('returns bots ordered by name', async () => {
     const mockDate = new Date('2024-01-15T10:00:00Z');
     mockAdmin();
@@ -105,6 +140,7 @@ describe('GET /api/ai-bots', () => {
         name: 'Bot A',
         systemPrompt: 'System A',
         aiProviderId: 'provider-1',
+        ownerId: 'admin-1',
         aiProvider: {
           id: 'provider-1',
           name: 'OpenAI',
@@ -112,12 +148,14 @@ describe('GET /api/ai-bots', () => {
         isActive: true,
         createdAt: mockDate,
         updatedAt: mockDate,
+        sharedWith: [],
       },
       {
         id: 'bot-2',
         name: 'Bot B',
         systemPrompt: 'System B',
         aiProviderId: 'provider-1',
+        ownerId: 'admin-1',
         aiProvider: {
           id: 'provider-1',
           name: 'OpenAI',
@@ -125,6 +163,7 @@ describe('GET /api/ai-bots', () => {
         isActive: true,
         createdAt: mockDate,
         updatedAt: mockDate,
+        sharedWith: [],
       },
     ]);
     mockedPrisma.aiBot.count.mockResolvedValueOnce(2);
@@ -184,7 +223,7 @@ describe('POST /api/ai-bots', () => {
     const data = await response.json();
 
     expect(response.status).toBe(409);
-    expect(data.message).toBe('errors.aiBotNameExists');
+    expect(data.message).toBe('aiBotNameExists');
   });
 
   it('returns 400 when aiProvider does not exist', async () => {
@@ -205,7 +244,7 @@ describe('POST /api/ai-bots', () => {
     const data = await response.json();
 
     expect(response.status).toBe(400);
-    expect(data.message).toBe('errors.aiProviderNotFound');
+    expect(data.message).toBe('aiProviderNotFound');
   });
 
   it('successfully creates bot', async () => {

@@ -113,7 +113,7 @@ describe('POST /api/users', () => {
     const data = await response.json();
 
     expect(response.status).toBe(409);
-    expect(data.message).toBe('error.usernameExists');
+    expect(data.message).toBe('usernameExists');
   });
 
   it('returns 500 when salt is not configured', async () => {
@@ -130,7 +130,7 @@ describe('POST /api/users', () => {
     const data = await response.json();
 
     expect(response.status).toBe(500);
-    expect(data.message).toBe('error.applicationNotConfigured');
+    expect(data.message).toBe('applicationNotConfigured');
   });
 
   it('successfully creates user', async () => {

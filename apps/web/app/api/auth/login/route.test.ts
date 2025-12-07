@@ -49,7 +49,7 @@ describe('POST /api/auth/login', () => {
     const data = await response.json();
 
     expect(response.status).toBe(400);
-    expect(data.message).toBe('error.invalidUsernameOrPassword');
+    expect(data.message).toBe('invalidUsernameOrPassword');
   });
 
   it('returns 401 when user is not found', async () => {
@@ -64,7 +64,7 @@ describe('POST /api/auth/login', () => {
     const data = await response.json();
 
     expect(response.status).toBe(401);
-    expect(data.message).toBe('error.invalidCredentials');
+    expect(data.message).toBe('invalidCredentials');
   });
 
   it('returns 401 when user account is suspended', async () => {
@@ -86,7 +86,7 @@ describe('POST /api/auth/login', () => {
     const data = await response.json();
 
     expect(response.status).toBe(401);
-    expect(data.message).toBe('error.accountSuspended');
+    expect(data.message).toBe('accountSuspended');
   });
 
   it('returns 500 when salt is not configured', async () => {
@@ -110,7 +110,7 @@ describe('POST /api/auth/login', () => {
     const data = await response.json();
 
     expect(response.status).toBe(500);
-    expect(data.message).toBe('error.applicationNotConfigured');
+    expect(data.message).toBe('applicationNotConfigured');
   });
 
   it('returns 401 when password is incorrect', async () => {
@@ -134,7 +134,7 @@ describe('POST /api/auth/login', () => {
     const data = await response.json();
 
     expect(response.status).toBe(401);
-    expect(data.message).toBe('error.invalidCredentials');
+    expect(data.message).toBe('invalidCredentials');
   });
 
   it('returns token and user on successful login', async () => {

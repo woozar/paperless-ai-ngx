@@ -22,13 +22,14 @@ import {
   EditBotDialog,
   DeleteBotDialog,
 } from './_components';
+import { ShareDialog } from '@/components/sharing/share-dialog';
 
 export default function AiBotsPage() {
   const t = useTranslations('admin.aiBots');
   const { showError } = useErrorDisplay('admin.aiBots');
   const formatDate = useFormatDate();
   const router = useRouter();
-  const { user: currentUser, isLoading: isAuthLoading } = useAuth();
+  const { isLoading: isAuthLoading } = useAuth();
   const client = useApi();
 
   const [bots, setBots] = useState<AiBotListItem[]>([]);
@@ -41,6 +42,7 @@ export default function AiBotsPage() {
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [editingBot, setEditingBot] = useState<AiBotListItem | null>(null);
   const [deletingBot, setDeletingBot] = useState<AiBotListItem | null>(null);
+  const [sharingBot, setSharingBot] = useState<AiBotListItem | null>(null);
 
   const loadBots = useCallback(
     async (currentPage: number, currentLimit: number) => {
@@ -74,12 +76,10 @@ export default function AiBotsPage() {
   );
 
   useEffect(() => {
-    if (!isAuthLoading && currentUser?.role !== 'ADMIN') {
-      router.push('/');
-      return;
+    if (!isAuthLoading) {
+      loadBots(page, limit);
     }
-    loadBots(page, limit);
-  }, [isAuthLoading, currentUser, router, loadBots, page, limit]);
+  }, [isAuthLoading, loadBots, page, limit]);
 
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
@@ -94,10 +94,6 @@ export default function AiBotsPage() {
     loadBots(page, limit);
   };
 
-  if (currentUser?.role !== 'ADMIN') {
-    return null;
-  }
-
   const renderTableContent = () => {
     if (isLoading) {
       return <BotTableSkeleton />;
@@ -109,6 +105,7 @@ export default function AiBotsPage() {
         bot={bot}
         onEdit={setEditingBot}
         onDelete={setDeletingBot}
+        onShare={setSharingBot}
         formatDate={formatDate}
       />
     ));
@@ -178,6 +175,16 @@ export default function AiBotsPage() {
         bot={deletingBot}
         onSuccess={reloadCurrentPage}
       />
+
+      {sharingBot && (
+        <ShareDialog
+          open={!!sharingBot}
+          onOpenChange={(open) => !open && setSharingBot(null)}
+          resourceType="ai-bots"
+          resourceId={sharingBot.id}
+          resourceName={sharingBot.name}
+        />
+      )}
     </AppShell>
   );
 }

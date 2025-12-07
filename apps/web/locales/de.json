@@ -11,6 +11,7 @@
     "search": "Suchen",
     "share": "Teilen",
     "shareTooltip": "Zugriff für andere Benutzer freigeben",
+    "remove": "Entfernen",
     "settings": "Einstellungen",
     "dashboard": "Dashboard",
     "documents": "Dokumente",
@@ -23,6 +24,38 @@
       "showing": "{start} bis {end} von {total}",
       "rowsPerPage": "Zeilen pro Seite",
       "pageOf": "Seite {page} von {totalPages}"
+    }
+  },
+  "sharing": {
+    "title": "Teilen",
+    "description": "Verwalte, wer Zugriff auf diese Ressource hat",
+    "user": "Benutzer",
+    "shareWith": "Teilen mit",
+    "allUsers": "Alle Benutzer",
+    "selectUser": "Benutzer auswählen",
+    "permission": "Berechtigung",
+    "permissions": {
+      "READ": "Lesen",
+      "WRITE": "Schreiben",
+      "ADMIN": "Admin"
+    },
+    "permissionDescriptions": {
+      "READ": "Kann diese Ressource ansehen",
+      "WRITE": "Kann diese Ressource ansehen und bearbeiten",
+      "ADMIN": "Kann diese Ressource ansehen, bearbeiten und teilen"
+    },
+    "currentShares": "Aktuelle Freigaben",
+    "noShares": "Diese Ressource ist mit niemandem geteilt",
+    "addShare": "Freigabe hinzufügen",
+    "removeShare": "Freigabe entfernen",
+    "shareAdded": "Freigabe erfolgreich hinzugefügt",
+    "shareRemoved": "Freigabe erfolgreich entfernt",
+    "shareUpdated": "Freigabe erfolgreich aktualisiert",
+    "error": {
+      "loadFailed": "Freigaben konnten nicht geladen werden",
+      "addFailed": "Freigabe konnte nicht hinzugefügt werden",
+      "updateFailed": "Freigabe konnte nicht aktualisiert werden",
+      "removeFailed": "Freigabe konnte nicht entfernt werden"
     }
   },
   "home": {
@@ -102,16 +135,34 @@
   },
   "errors": {
     "generic": "Ein Fehler ist aufgetreten",
+    "serverError": "Ein unerwarteter Serverfehler ist aufgetreten",
     "notFound": "Nicht gefunden",
     "unauthorized": "Nicht autorisiert",
+    "forbidden": "Du hast keine Berechtigung für diese Aktion",
+    "invalidRequest": "Ungültige Anfrage",
     "connectionFailed": "Verbindung fehlgeschlagen",
+    "invalidCredentials": "Ungültiger Benutzername oder Passwort",
+    "accountSuspended": "Dein Konto wurde gesperrt",
+    "invalidPasswordFormat": "Ungültiges Passwortformat",
+    "invalidUsernameOrPassword": "Ungültiges Format für Benutzername oder Passwort",
+    "currentPasswordIncorrect": "Aktuelles Passwort ist falsch",
+    "lastAdmin": "Der letzte Admin-Benutzer kann nicht entfernt werden",
+    "cannotDeleteSelf": "Du kannst dein eigenes Konto nicht löschen",
+    "conflict": "Ein Konflikt ist aufgetreten",
+    "usernameExists": "Benutzername \"{username}\" existiert bereits",
+    "applicationNotConfigured": "Anwendung ist nicht richtig konfiguriert",
+    "settingsParseError": "Einstellung {key} konnte nicht gelesen werden",
+    "settingsValidationError": "Ungültiger Wert für Einstellung {key}",
     "paperlessInstanceNotFound": "Paperless-Instanz nicht gefunden",
     "paperlessInstanceNameExists": "Eine Paperless-Instanz mit dem Namen \"{name}\" existiert bereits",
     "aiProviderNotFound": "KI-Anbieter nicht gefunden",
     "aiProviderNameExists": "Ein KI-Anbieter mit dem Namen \"{name}\" existiert bereits",
     "aiProviderInUse": "KI-Anbieter kann nicht gelöscht werden, da {count, plural, one {1 Bot ihn verwendet} other {# Bots ihn verwenden}}",
     "aiBotNotFound": "KI-Bot nicht gefunden",
-    "aiBotNameExists": "Ein KI-Bot mit dem Namen \"{name}\" existiert bereits"
+    "aiBotNameExists": "Ein KI-Bot mit dem Namen \"{name}\" existiert bereits",
+    "userNotFound": "Benutzer nicht gefunden",
+    "cannotShareWithSelf": "Du kannst eine Ressource nicht mit dir selbst teilen",
+    "shareNotFound": "Freigabe nicht gefunden"
   },
   "admin": {
     "users": {

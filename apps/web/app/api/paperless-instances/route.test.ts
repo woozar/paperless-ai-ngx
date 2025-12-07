@@ -56,9 +56,11 @@ describe('GET /api/paperless-instances', () => {
         id: 'instance-1',
         name: 'My Paperless',
         apiUrl: 'https://paperless.example.com',
+        ownerId: 'admin-1',
         isActive: true,
         createdAt: mockDate,
         updatedAt: mockDate,
+        sharedWith: [],
       },
     ]);
     mockedPrisma.paperlessInstance.count.mockResolvedValueOnce(1);
@@ -73,6 +75,34 @@ describe('GET /api/paperless-instances', () => {
     expect(data.items[0].name).toBe('My Paperless');
     expect(data.items[0].apiToken).toBe('***');
     expect(data.total).toBe(1);
+  });
+
+  it('returns canEdit=true for shared instance with WRITE permission', async () => {
+    const mockDate = new Date('2024-01-15T10:00:00Z');
+    mockAdmin();
+    mockedPrisma.paperlessInstance.findMany.mockResolvedValueOnce([
+      {
+        id: 'instance-1',
+        name: 'Shared Instance',
+        apiUrl: 'https://paperless.example.com',
+        ownerId: 'other-user',
+        isActive: true,
+        createdAt: mockDate,
+        updatedAt: mockDate,
+        sharedWith: [{ permission: 'WRITE' }],
+      },
+    ]);
+    mockedPrisma.paperlessInstance.count.mockResolvedValueOnce(1);
+
+    const request = new NextRequest('http://localhost/api/paperless-instances');
+
+    const response = await GET(request);
+    const data = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(data.items).toHaveLength(1);
+    expect(data.items[0].canEdit).toBe(true);
+    expect(data.items[0].isOwner).toBe(false);
   });
 });
 
@@ -119,7 +149,7 @@ describe('POST /api/paperless-instances', () => {
     const data = await response.json();
 
     expect(response.status).toBe(409);
-    expect(data.message).toBe('errors.paperlessInstanceNameExists');
+    expect(data.message).toBe('paperlessInstanceNameExists');
   });
 
   it('successfully creates instance', async () => {

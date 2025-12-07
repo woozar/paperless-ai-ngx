@@ -1,15 +1,24 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@repo/database';
-import { adminRoute } from '@/lib/api/route-wrapper';
+import { authRoute } from '@/lib/api/route-wrapper';
 
-// GET /api/paperless-instances/[id]/stats - Get document counts for a PaperlessInstance (Admin only)
-export const GET = adminRoute<never, { id: string }>(
+// GET /api/paperless-instances/[id]/stats - Get document counts for a PaperlessInstance
+export const GET = authRoute<never, { id: string }>(
   async ({ user, params }) => {
-    // Check if instance exists and belongs to user
+    // Check if instance exists and user has access
     const instance = await prisma.paperlessInstance.findFirst({
       where: {
         id: params.id,
-        ownerId: user.userId,
+        OR: [
+          { ownerId: user.userId },
+          {
+            sharedWith: {
+              some: {
+                OR: [{ userId: user.userId }, { userId: null }],
+              },
+            },
+          },
+        ],
       },
       select: { id: true },
     });
@@ -18,7 +27,7 @@ export const GET = adminRoute<never, { id: string }>(
       return NextResponse.json(
         {
           error: 'paperlessInstanceNotFound',
-          message: 'errors.paperlessInstanceNotFound',
+          message: 'paperlessInstanceNotFound',
         },
         { status: 404 }
       );

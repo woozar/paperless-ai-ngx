@@ -58,9 +58,11 @@ describe('GET /api/ai-providers', () => {
         provider: 'openai',
         model: 'gpt-4',
         baseUrl: null,
+        ownerId: 'admin-1',
         isActive: true,
         createdAt: mockDate,
         updatedAt: mockDate,
+        sharedWith: [],
       },
     ]);
     mockedPrisma.aiProvider.count.mockResolvedValueOnce(1);
@@ -90,6 +92,36 @@ describe('GET /api/ai-providers', () => {
     expect(response.status).toBe(200);
     expect(data.items).toHaveLength(0);
     expect(data.total).toBe(0);
+  });
+
+  it('returns canEdit=true for shared provider with WRITE permission', async () => {
+    const mockDate = new Date('2024-01-15T10:00:00Z');
+    mockAdmin();
+    mockedPrisma.aiProvider.findMany.mockResolvedValueOnce([
+      {
+        id: 'provider-1',
+        name: 'Shared Provider',
+        provider: 'openai',
+        model: 'gpt-4',
+        baseUrl: null,
+        ownerId: 'other-user',
+        isActive: true,
+        createdAt: mockDate,
+        updatedAt: mockDate,
+        sharedWith: [{ permission: 'WRITE' }],
+      },
+    ]);
+    mockedPrisma.aiProvider.count.mockResolvedValueOnce(1);
+
+    const request = new NextRequest('http://localhost/api/ai-providers');
+
+    const response = await GET(request);
+    const data = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(data.items).toHaveLength(1);
+    expect(data.items[0].canEdit).toBe(true);
+    expect(data.items[0].isOwner).toBe(false);
   });
 });
 
@@ -138,7 +170,7 @@ describe('POST /api/ai-providers', () => {
     const data = await response.json();
 
     expect(response.status).toBe(409);
-    expect(data.message).toBe('errors.aiProviderNameExists');
+    expect(data.message).toBe('aiProviderNameExists');
   });
 
   it('successfully creates provider', async () => {

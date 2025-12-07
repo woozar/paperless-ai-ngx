@@ -725,6 +725,38 @@ For E2E tests, the following conditions must be met:
 
 ---
 
+### US-ADMIN-024: View and restore deleted users
+
+| Field            | Value                                   |
+| ---------------- | --------------------------------------- |
+| **Route**        | `/admin/users`                          |
+| **Permission**   | `admin`                                 |
+| **Precondition** | Logged in as admin, deleted users exist |
+| **Test Data**    | Users with `deletedAt` set              |
+
+**As an** admin
+**I want to** view deleted users and restore them
+**so that** I can recover accidentally deleted accounts
+
+**Steps:**
+
+1. Navigate to `/admin/users`
+2. Click "Show deleted users" button
+3. Dialog opens with list of deleted users
+4. Click "Restore" button next to a deleted user
+
+**Expected Result:**
+
+- Deleted users dialog shows all soft-deleted users
+- User is restored and removed from the deleted list
+- Success toast "User restored" is shown
+- User appears in the main user list again
+- User can log in again
+
+**Status:** ✅ Implemented
+
+---
+
 ## Internationalization
 
 ### US-I18N-001: Display German language
@@ -1168,6 +1200,134 @@ For E2E tests, the following conditions must be met:
 
 ---
 
+## Resource Sharing
+
+### US-SHARING-001: Share resource with specific user
+
+| Field            | Value                                                                 |
+| ---------------- | --------------------------------------------------------------------- |
+| **Route**        | `/admin/ai-providers`, `/admin/ai-bots`, `/admin/paperless-instances` |
+| **Permission**   | `user` (owner or ADMIN permission on resource)                        |
+| **Precondition** | Logged in, user owns a resource or has ADMIN permission               |
+| **Test Data**    | Resource exists, other users exist                                    |
+
+**As a** resource owner
+**I want to** share my resource with a specific user
+**so that** they can access it with defined permissions
+
+**Steps:**
+
+1. Navigate to the resource list page (AI Providers, AI Bots, or Paperless Instances)
+2. Click the share icon next to a resource you own
+3. In the Share dialog, click the "Add share" dropdown
+4. Select a user from the list
+5. Select a permission level (READ, WRITE, or ADMIN)
+6. Click the confirm button
+
+**Expected Result:**
+
+- Share is added to the list
+- Success toast "Share added" is shown
+- User can now access the resource with the selected permission level
+- READ: User can view the resource
+- WRITE: User can view and edit the resource
+- ADMIN: User can view, edit, and reshare the resource
+
+**Status:** ✅ Implemented
+
+---
+
+### US-SHARING-002: Share resource with all users
+
+| Field            | Value                                                                 |
+| ---------------- | --------------------------------------------------------------------- |
+| **Route**        | `/admin/ai-providers`, `/admin/ai-bots`, `/admin/paperless-instances` |
+| **Permission**   | `user` (owner or ADMIN permission on resource)                        |
+| **Precondition** | Logged in, user owns a resource or has ADMIN permission               |
+| **Test Data**    | Resource exists                                                       |
+
+**As a** resource owner
+**I want to** share my resource with all users
+**so that** everyone can access it
+
+**Steps:**
+
+1. Navigate to the resource list page
+2. Click the share icon next to a resource you own
+3. In the Share dialog, click the "Add share" dropdown
+4. Select "All users"
+5. Select a permission level
+6. Click the confirm button
+
+**Expected Result:**
+
+- Share entry for "All users" is added to the list
+- All users in the system can now access the resource
+- "All users" option is no longer available in dropdown (only one "all users" share allowed)
+
+**Status:** ✅ Implemented
+
+---
+
+### US-SHARING-003: Change share permission
+
+| Field            | Value                                                                 |
+| ---------------- | --------------------------------------------------------------------- |
+| **Route**        | `/admin/ai-providers`, `/admin/ai-bots`, `/admin/paperless-instances` |
+| **Permission**   | `user` (owner or ADMIN permission on resource)                        |
+| **Precondition** | Resource has existing shares                                          |
+| **Test Data**    | Resource with shares exists                                           |
+
+**As a** resource owner
+**I want to** change the permission level of an existing share
+**so that** I can adjust access as needed
+
+**Steps:**
+
+1. Open the Share dialog for a resource
+2. Find an existing share entry
+3. Click the permission dropdown
+4. Select a different permission level
+
+**Expected Result:**
+
+- Permission is updated immediately
+- Success toast "Share updated" is shown
+- User's access level changes accordingly
+
+**Status:** ✅ Implemented
+
+---
+
+### US-SHARING-004: Remove share
+
+| Field            | Value                                                                 |
+| ---------------- | --------------------------------------------------------------------- |
+| **Route**        | `/admin/ai-providers`, `/admin/ai-bots`, `/admin/paperless-instances` |
+| **Permission**   | `user` (owner or ADMIN permission on resource)                        |
+| **Precondition** | Resource has existing shares                                          |
+| **Test Data**    | Resource with shares exists                                           |
+
+**As a** resource owner
+**I want to** remove a share
+**so that** I can revoke access from a user
+
+**Steps:**
+
+1. Open the Share dialog for a resource
+2. Find the share entry to remove
+3. Click the trash icon next to it
+
+**Expected Result:**
+
+- Share is removed from the list
+- Success toast "Share removed" is shown
+- User can no longer access the resource (unless they have access through "all users" share)
+
+**Status:** ✅ Implemented
+
+---
+
 ## Settings (Admin)
 
 ### US-SETTINGS-001: View settings page
@@ -1227,9 +1387,42 @@ For E2E tests, the following conditions must be met:
 
 ---
 
-## Sidebar and Navigation
+### US-SETTINGS-003: Change theme (Light/Dark/System)
 
-### US-NAV-004: Sidebar shows user info and version
+| Field            | Value             |
+| ---------------- | ----------------- |
+| **Route**        | `/admin/settings` |
+| **Permission**   | `user`            |
+| **Precondition** | Logged in         |
+| **Test Data**    | -                 |
+
+**As a** user
+**I want to** switch between light, dark, and system theme
+**so that** I can use the app in my preferred visual mode
+
+**Steps:**
+
+1. Navigate to `/admin/settings`
+2. Find the "Appearance" section with "Theme" setting
+3. Click the theme dropdown
+4. Select "Light", "Dark", or "System"
+
+**Expected Result:**
+
+- Theme changes immediately upon selection
+- "Light": App uses light color scheme
+- "Dark": App uses dark color scheme
+- "System": App follows OS/browser preference
+- Setting persists across page reloads
+- Setting is stored locally (no server sync)
+
+**Status:** ✅ Implemented
+
+---
+
+## Header and Navigation
+
+### US-NAV-004: Header shows user info and navigation
 
 | Field            | Value     |
 | ---------------- | --------- |
@@ -1239,22 +1432,24 @@ For E2E tests, the following conditions must be met:
 | **Test Data**    | -         |
 
 **As a** logged-in user
-**I want to** see my user info and the app version in the sidebar
-**so that** I know who I'm logged in as and which version I'm using
+**I want to** see my user info and navigation in the header
+**so that** I can navigate the app and know who I'm logged in as
 
 **Steps:**
 
 1. Log in
-2. Observe the sidebar footer
+2. Observe the header bar
 
 **Expected Result:**
 
-- User avatar with initials is displayed
+- App logo and name are displayed on the left
+- Navigation links are shown (Dashboard, Paperless Instances, AI Providers, AI Bots)
+- Admin-only links (Users, Settings) are visible only for admins
+- User avatar with initials is displayed on the right
 - Username is shown
-- User role (admin/user) is displayed
 - Logout button is visible
-- GitHub link is present
-- Application version number is shown
+- GitHub link with version tooltip is present
+- On mobile: Navigation collapses into a hamburger menu
 
 **Status:** ✅ Implemented
 

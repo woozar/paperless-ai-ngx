@@ -87,7 +87,11 @@
   - WRITE: Read and edit
   - ADMIN: Read, edit, and reshare
 - [x] Join Tables: UserPaperlessInstanceAccess, UserAiProviderAccess, UserAiBotAccess
-- [ ] UI: Sharing UI only visible when `security.sharing.mode = advanced`
+- [x] Sharing API endpoints (GET/POST/DELETE for access entries)
+- [x] Share Modal component with two modes:
+  - [x] Share with specific user (user dropdown + permission level)
+  - [x] Share with all users (permission level only)
+- [x] UI: Sharing UI only visible when `security.sharing.mode = advanced`
 - [ ] UI: Explanation of permission levels in Share Modal (especially ADMIN/Resharing)
 
 ## Phase 3a: Object Management UI
@@ -127,33 +131,7 @@
 - [x] 100% Test Coverage
 - [x] i18n (de/en)
 
-## Phase 3b: Setup Wizard
-
-- [ ] Setup page (`/setup`)
-- [ ] Paperless-ngx URL + Token entry
-- [ ] Connection test
-- [ ] AI Provider selection (OpenAI, Google, Anthropic)
-- [ ] API Key entry
-- [ ] Model selection
-- [ ] Step-by-step creation of PaperlessInstance, AiProvider, AiBot
-
-## Phase 4: Docker & Testing Setup
-
-- [ ] Docker Compose for Production (app + postgres + mcp-server)
-- [ ] Dockerfile for Web App
-- [ ] Dockerfile for MCP Server
-- [x] Configure Vitest Unit/Integration Tests
-- [ ] Playwright E2E Tests Setup
-  - [ ] Implement E2E tests based on USER-STORIES.md
-  - [ ] Test fixtures for user data (testuser, blockeduser, admin)
-  - [ ] Each User Story = 1 E2E Test
-- [ ] docker-compose.test.yml for E2E Tests
-- [ ] GitHub Actions CI/CD Pipeline
-- [x] SonarQube Integration for static code analysis
-  - [x] Shell script for analysis (`scripts/sonar-analysis.sh`)
-  - [x] Uses ENV: `SONAR_SERVER`, `SONAR_KEY`, `SONAR_TOKEN`
-
-## Phase 5: Customizable Dashboard System
+## Phase 4: Customizable Dashboard System
 
 ### Database Schema
 
@@ -273,6 +251,32 @@
   - [ ] Reduce chart complexity on mobile (fewer data points)
   - [ ] Skeleton loading for each tile independently
 
+## Phase 4b: Setup Wizard
+
+- [ ] Setup page (`/setup`)
+- [ ] Paperless-ngx URL + Token entry
+- [ ] Connection test
+- [ ] AI Provider selection (OpenAI, Google, Anthropic)
+- [ ] API Key entry
+- [ ] Model selection
+- [ ] Step-by-step creation of PaperlessInstance, AiProvider, AiBot
+
+## Phase 5: Docker & Testing Setup
+
+- [ ] Docker Compose for Production (app + postgres + mcp-server)
+- [ ] Dockerfile for Web App
+- [ ] Dockerfile for MCP Server
+- [x] Configure Vitest Unit/Integration Tests
+- [ ] Playwright E2E Tests Setup
+  - [ ] Implement E2E tests based on USER-STORIES.md
+  - [ ] Test fixtures for user data (testuser, blockeduser, admin)
+  - [ ] Each User Story = 1 E2E Test
+- [ ] docker-compose.test.yml for E2E Tests
+- [ ] GitHub Actions CI/CD Pipeline
+- [x] SonarQube Integration for static code analysis
+  - [x] Shell script for analysis (`scripts/sonar-analysis.sh`)
+  - [x] Uses ENV: `SONAR_SERVER`, `SONAR_KEY`, `SONAR_TOKEN`
+
 ## Phase 5a: Document Processing
 
 - [ ] Document List (`/documents`)
@@ -352,8 +356,8 @@
 
 ## Next Steps (Priority)
 
-1. **Setup Wizard** (Phase 3b) - Step-by-step wizard to create instances, providers, and bots
-2. **Docker Compose Setup** (Phase 4) - Make the app production-ready deployable
-3. **Customizable Dashboard System** (Phase 5) - Grid-based dashboard with drag & drop tiles
-4. **Document Processing** (Phase 5a) - Document list and detail views
-5. **AI Analysis** (Phase 6) - Implement core document analysis feature
+1. **Docker Compose Setup** (Phase 4) - Make the app production-ready deployable
+2. **Customizable Dashboard System** (Phase 5) - Grid-based dashboard with drag & drop tiles
+3. **Document Processing** (Phase 5a) - Document list and detail views
+4. **AI Analysis** (Phase 6) - Implement core document analysis feature
+5. **Setup Wizard** (Phase 3b) - Step-by-step wizard to create instances, providers, and bots

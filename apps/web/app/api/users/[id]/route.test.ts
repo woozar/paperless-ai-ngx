@@ -66,7 +66,7 @@ describe('GET /api/users/[id]', () => {
     const data = await response.json();
 
     expect(response.status).toBe(404);
-    expect(data.message).toBe('error.userNotFound');
+    expect(data.message).toBe('userNotFound');
   });
 
   it('returns user data on success', async () => {
@@ -124,7 +124,7 @@ describe('PATCH /api/users/[id]', () => {
     const data = await response.json();
 
     expect(response.status).toBe(404);
-    expect(data.message).toBe('error.userNotFound');
+    expect(data.message).toBe('userNotFound');
   });
 
   it('returns 400 when demoting last admin', async () => {
@@ -146,7 +146,7 @@ describe('PATCH /api/users/[id]', () => {
     const data = await response.json();
 
     expect(response.status).toBe(400);
-    expect(data.message).toBe('error.lastAdmin');
+    expect(data.message).toBe('lastAdmin');
   });
 
   it('allows demoting admin when multiple admins exist', async () => {
@@ -213,7 +213,7 @@ describe('PATCH /api/users/[id]', () => {
     const data = await response.json();
 
     expect(response.status).toBe(409);
-    expect(data.message).toBe('error.usernameExists');
+    expect(data.message).toBe('usernameExists');
   });
 
   it('successfully updates user', async () => {
@@ -306,7 +306,7 @@ describe('PATCH /api/users/[id]', () => {
     const data = await response.json();
 
     expect(response.status).toBe(500);
-    expect(data.message).toBe('error.applicationNotConfigured');
+    expect(data.message).toBe('applicationNotConfigured');
   });
 
   it('updates only role when only role is provided', async () => {
@@ -394,7 +394,7 @@ describe('PATCH /api/users/[id]', () => {
 
     expect(response.status).toBe(400);
     const data = await response.json();
-    expect(data.message).toBe('error.lastAdmin');
+    expect(data.message).toBe('lastAdmin');
     expect(mockedPrisma.user.update).not.toHaveBeenCalled();
   });
 });
@@ -416,7 +416,7 @@ describe('DELETE /api/users/[id]', () => {
     const data = await response.json();
 
     expect(response.status).toBe(404);
-    expect(data.message).toBe('error.userNotFound');
+    expect(data.message).toBe('userNotFound');
   });
 
   it('returns 400 when trying to delete yourself', async () => {
@@ -435,7 +435,7 @@ describe('DELETE /api/users/[id]', () => {
     const data = await response.json();
 
     expect(response.status).toBe(400);
-    expect(data.message).toBe('error.cannotDeleteSelf');
+    expect(data.message).toBe('cannotDeleteSelf');
   });
 
   it('returns 400 when deleting last admin', async () => {
@@ -455,7 +455,7 @@ describe('DELETE /api/users/[id]', () => {
     const data = await response.json();
 
     expect(response.status).toBe(400);
-    expect(data.message).toBe('error.lastAdmin');
+    expect(data.message).toBe('lastAdmin');
   });
 
   it('allows soft-deleting admin when multiple admins exist', async () => {

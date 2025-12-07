@@ -165,13 +165,28 @@ describe('InstanceTableRow', () => {
       expect(screen.queryByTestId('share-instance-instance-123')).not.toBeInTheDocument();
     });
 
-    it('renders share button when sharing mode is ADVANCED', () => {
+    it('renders share button when sharing mode is ADVANCED and onShare is provided', () => {
       mockUseSettings.mockReturnValue({
         settings: { 'security.sharing.mode': 'ADVANCED' } as Settings,
         updateSetting: vi.fn(),
       });
-      renderInstanceTableRow(defaultProps);
+      renderInstanceTableRow({ ...defaultProps, onShare: vi.fn() });
       expect(screen.getByTestId('share-instance-instance-123')).toBeInTheDocument();
+    });
+
+    it('calls onShare when share button is clicked', async () => {
+      const user = userEvent.setup({ delay: null });
+      const mockOnShare = vi.fn();
+      mockUseSettings.mockReturnValue({
+        settings: { 'security.sharing.mode': 'ADVANCED' } as Settings,
+        updateSetting: vi.fn(),
+      });
+      renderInstanceTableRow({ ...defaultProps, onShare: mockOnShare });
+
+      const shareButton = screen.getByTestId('share-instance-instance-123');
+      await user.click(shareButton);
+
+      expect(mockOnShare).toHaveBeenCalledWith(mockInstance);
     });
   });
 });

@@ -135,7 +135,7 @@ describe('POST /api/paperless-instances/[id]/import', () => {
     const data = await response.json();
 
     expect(response.status).toBe(404);
-    expect(data.message).toBe('errors.paperlessInstanceNotFound');
+    expect(data.message).toBe('paperlessInstanceNotFound');
   });
 
   it('successfully imports documents from Paperless', async () => {

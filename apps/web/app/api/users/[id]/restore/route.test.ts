@@ -55,7 +55,7 @@ describe('POST /api/users/[id]/restore', () => {
     const data = await response.json();
 
     expect(response.status).toBe(404);
-    expect(data.message).toBe('error.userNotFound');
+    expect(data.message).toBe('userNotFound');
   });
 
   it('successfully restores a soft-deleted user', async () => {

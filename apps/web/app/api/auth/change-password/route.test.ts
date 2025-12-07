@@ -62,7 +62,7 @@ describe('POST /api/auth/change-password', () => {
     const data = await response.json();
 
     expect(response.status).toBe(400);
-    expect(data.message).toBe('error.invalidPasswordFormat');
+    expect(data.message).toBe('invalidPasswordFormat');
   });
 
   it('returns 500 when salt is not configured', async () => {
@@ -79,7 +79,7 @@ describe('POST /api/auth/change-password', () => {
     const data = await response.json();
 
     expect(response.status).toBe(500);
-    expect(data.message).toBe('error.applicationNotConfigured');
+    expect(data.message).toBe('applicationNotConfigured');
   });
 
   it('returns 404 when user not found', async () => {
@@ -96,7 +96,7 @@ describe('POST /api/auth/change-password', () => {
     const data = await response.json();
 
     expect(response.status).toBe(404);
-    expect(data.message).toBe('error.userNotFound');
+    expect(data.message).toBe('userNotFound');
   });
 
   it('returns 400 when current password is incorrect', async () => {
@@ -117,7 +117,7 @@ describe('POST /api/auth/change-password', () => {
     const data = await response.json();
 
     expect(response.status).toBe(400);
-    expect(data.message).toBe('error.currentPasswordIncorrect');
+    expect(data.message).toBe('currentPasswordIncorrect');
   });
 
   it('successfully changes password', async () => {

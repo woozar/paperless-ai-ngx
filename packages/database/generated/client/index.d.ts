@@ -4959,7 +4959,7 @@ export namespace Prisma {
 
   export type UserPaperlessInstanceAccessGroupByOutputType = {
     id: string;
-    userId: string;
+    userId: string | null;
     instanceId: string;
     permission: $Enums.Permission;
     createdAt: Date;
@@ -4991,7 +4991,7 @@ export namespace Prisma {
       instanceId?: boolean;
       permission?: boolean;
       createdAt?: boolean;
-      user?: boolean | UserDefaultArgs<ExtArgs>;
+      user?: boolean | UserPaperlessInstanceAccess$userArgs<ExtArgs>;
       instance?: boolean | PaperlessInstanceDefaultArgs<ExtArgs>;
     },
     ExtArgs['result']['userPaperlessInstanceAccess']
@@ -5006,7 +5006,7 @@ export namespace Prisma {
       instanceId?: boolean;
       permission?: boolean;
       createdAt?: boolean;
-      user?: boolean | UserDefaultArgs<ExtArgs>;
+      user?: boolean | UserPaperlessInstanceAccess$userArgs<ExtArgs>;
       instance?: boolean | PaperlessInstanceDefaultArgs<ExtArgs>;
     },
     ExtArgs['result']['userPaperlessInstanceAccess']
@@ -5021,7 +5021,7 @@ export namespace Prisma {
       instanceId?: boolean;
       permission?: boolean;
       createdAt?: boolean;
-      user?: boolean | UserDefaultArgs<ExtArgs>;
+      user?: boolean | UserPaperlessInstanceAccess$userArgs<ExtArgs>;
       instance?: boolean | PaperlessInstanceDefaultArgs<ExtArgs>;
     },
     ExtArgs['result']['userPaperlessInstanceAccess']
@@ -5044,19 +5044,19 @@ export namespace Prisma {
   export type UserPaperlessInstanceAccessInclude<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
-    user?: boolean | UserDefaultArgs<ExtArgs>;
+    user?: boolean | UserPaperlessInstanceAccess$userArgs<ExtArgs>;
     instance?: boolean | PaperlessInstanceDefaultArgs<ExtArgs>;
   };
   export type UserPaperlessInstanceAccessIncludeCreateManyAndReturn<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
-    user?: boolean | UserDefaultArgs<ExtArgs>;
+    user?: boolean | UserPaperlessInstanceAccess$userArgs<ExtArgs>;
     instance?: boolean | PaperlessInstanceDefaultArgs<ExtArgs>;
   };
   export type UserPaperlessInstanceAccessIncludeUpdateManyAndReturn<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
-    user?: boolean | UserDefaultArgs<ExtArgs>;
+    user?: boolean | UserPaperlessInstanceAccess$userArgs<ExtArgs>;
     instance?: boolean | PaperlessInstanceDefaultArgs<ExtArgs>;
   };
 
@@ -5065,13 +5065,13 @@ export namespace Prisma {
   > = {
     name: 'UserPaperlessInstanceAccess';
     objects: {
-      user: Prisma.$UserPayload<ExtArgs>;
+      user: Prisma.$UserPayload<ExtArgs> | null;
       instance: Prisma.$PaperlessInstancePayload<ExtArgs>;
     };
     scalars: $Extensions.GetPayloadResult<
       {
         id: string;
-        userId: string;
+        userId: string | null;
         instanceId: string;
         permission: $Enums.Permission;
         createdAt: Date;
@@ -5611,12 +5611,16 @@ export namespace Prisma {
     GlobalOmitOptions = {},
   > extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(
-      args?: Subset<T, UserDefaultArgs<ExtArgs>>
+    user<T extends UserPaperlessInstanceAccess$userArgs<ExtArgs> = {}>(
+      args?: Subset<T, UserPaperlessInstanceAccess$userArgs<ExtArgs>>
     ): Prisma__UserClient<
-      | $Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findUniqueOrThrow', GlobalOmitOptions>
-      | Null,
-      Null,
+      $Result.GetResult<
+        Prisma.$UserPayload<ExtArgs>,
+        T,
+        'findUniqueOrThrow',
+        GlobalOmitOptions
+      > | null,
+      null,
       ExtArgs,
       GlobalOmitOptions
     >;
@@ -6123,6 +6127,27 @@ export namespace Prisma {
   };
 
   /**
+   * UserPaperlessInstanceAccess.user
+   */
+  export type UserPaperlessInstanceAccess$userArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null;
+    where?: UserWhereInput;
+  };
+
+  /**
    * UserPaperlessInstanceAccess without action
    */
   export type UserPaperlessInstanceAccessDefaultArgs<
@@ -6281,7 +6306,7 @@ export namespace Prisma {
 
   export type UserAiProviderAccessGroupByOutputType = {
     id: string;
-    userId: string;
+    userId: string | null;
     aiProviderId: string;
     permission: $Enums.Permission;
     createdAt: Date;
@@ -6312,7 +6337,7 @@ export namespace Prisma {
       aiProviderId?: boolean;
       permission?: boolean;
       createdAt?: boolean;
-      user?: boolean | UserDefaultArgs<ExtArgs>;
+      user?: boolean | UserAiProviderAccess$userArgs<ExtArgs>;
       aiProvider?: boolean | AiProviderDefaultArgs<ExtArgs>;
     },
     ExtArgs['result']['userAiProviderAccess']
@@ -6327,7 +6352,7 @@ export namespace Prisma {
       aiProviderId?: boolean;
       permission?: boolean;
       createdAt?: boolean;
-      user?: boolean | UserDefaultArgs<ExtArgs>;
+      user?: boolean | UserAiProviderAccess$userArgs<ExtArgs>;
       aiProvider?: boolean | AiProviderDefaultArgs<ExtArgs>;
     },
     ExtArgs['result']['userAiProviderAccess']
@@ -6342,7 +6367,7 @@ export namespace Prisma {
       aiProviderId?: boolean;
       permission?: boolean;
       createdAt?: boolean;
-      user?: boolean | UserDefaultArgs<ExtArgs>;
+      user?: boolean | UserAiProviderAccess$userArgs<ExtArgs>;
       aiProvider?: boolean | AiProviderDefaultArgs<ExtArgs>;
     },
     ExtArgs['result']['userAiProviderAccess']
@@ -6365,19 +6390,19 @@ export namespace Prisma {
   export type UserAiProviderAccessInclude<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
-    user?: boolean | UserDefaultArgs<ExtArgs>;
+    user?: boolean | UserAiProviderAccess$userArgs<ExtArgs>;
     aiProvider?: boolean | AiProviderDefaultArgs<ExtArgs>;
   };
   export type UserAiProviderAccessIncludeCreateManyAndReturn<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
-    user?: boolean | UserDefaultArgs<ExtArgs>;
+    user?: boolean | UserAiProviderAccess$userArgs<ExtArgs>;
     aiProvider?: boolean | AiProviderDefaultArgs<ExtArgs>;
   };
   export type UserAiProviderAccessIncludeUpdateManyAndReturn<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
-    user?: boolean | UserDefaultArgs<ExtArgs>;
+    user?: boolean | UserAiProviderAccess$userArgs<ExtArgs>;
     aiProvider?: boolean | AiProviderDefaultArgs<ExtArgs>;
   };
 
@@ -6386,13 +6411,13 @@ export namespace Prisma {
   > = {
     name: 'UserAiProviderAccess';
     objects: {
-      user: Prisma.$UserPayload<ExtArgs>;
+      user: Prisma.$UserPayload<ExtArgs> | null;
       aiProvider: Prisma.$AiProviderPayload<ExtArgs>;
     };
     scalars: $Extensions.GetPayloadResult<
       {
         id: string;
-        userId: string;
+        userId: string | null;
         aiProviderId: string;
         permission: $Enums.Permission;
         createdAt: Date;
@@ -6932,12 +6957,16 @@ export namespace Prisma {
     GlobalOmitOptions = {},
   > extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(
-      args?: Subset<T, UserDefaultArgs<ExtArgs>>
+    user<T extends UserAiProviderAccess$userArgs<ExtArgs> = {}>(
+      args?: Subset<T, UserAiProviderAccess$userArgs<ExtArgs>>
     ): Prisma__UserClient<
-      | $Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findUniqueOrThrow', GlobalOmitOptions>
-      | Null,
-      Null,
+      $Result.GetResult<
+        Prisma.$UserPayload<ExtArgs>,
+        T,
+        'findUniqueOrThrow',
+        GlobalOmitOptions
+      > | null,
+      null,
       ExtArgs,
       GlobalOmitOptions
     >;
@@ -7426,6 +7455,27 @@ export namespace Prisma {
   };
 
   /**
+   * UserAiProviderAccess.user
+   */
+  export type UserAiProviderAccess$userArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null;
+    where?: UserWhereInput;
+  };
+
+  /**
    * UserAiProviderAccess without action
    */
   export type UserAiProviderAccessDefaultArgs<
@@ -7582,7 +7632,7 @@ export namespace Prisma {
 
   export type UserAiBotAccessGroupByOutputType = {
     id: string;
-    userId: string;
+    userId: string | null;
     aiBotId: string;
     permission: $Enums.Permission;
     createdAt: Date;
@@ -7613,7 +7663,7 @@ export namespace Prisma {
       aiBotId?: boolean;
       permission?: boolean;
       createdAt?: boolean;
-      user?: boolean | UserDefaultArgs<ExtArgs>;
+      user?: boolean | UserAiBotAccess$userArgs<ExtArgs>;
       aiBot?: boolean | AiBotDefaultArgs<ExtArgs>;
     },
     ExtArgs['result']['userAiBotAccess']
@@ -7628,7 +7678,7 @@ export namespace Prisma {
       aiBotId?: boolean;
       permission?: boolean;
       createdAt?: boolean;
-      user?: boolean | UserDefaultArgs<ExtArgs>;
+      user?: boolean | UserAiBotAccess$userArgs<ExtArgs>;
       aiBot?: boolean | AiBotDefaultArgs<ExtArgs>;
     },
     ExtArgs['result']['userAiBotAccess']
@@ -7643,7 +7693,7 @@ export namespace Prisma {
       aiBotId?: boolean;
       permission?: boolean;
       createdAt?: boolean;
-      user?: boolean | UserDefaultArgs<ExtArgs>;
+      user?: boolean | UserAiBotAccess$userArgs<ExtArgs>;
       aiBot?: boolean | AiBotDefaultArgs<ExtArgs>;
     },
     ExtArgs['result']['userAiBotAccess']
@@ -7666,19 +7716,19 @@ export namespace Prisma {
   export type UserAiBotAccessInclude<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
-    user?: boolean | UserDefaultArgs<ExtArgs>;
+    user?: boolean | UserAiBotAccess$userArgs<ExtArgs>;
     aiBot?: boolean | AiBotDefaultArgs<ExtArgs>;
   };
   export type UserAiBotAccessIncludeCreateManyAndReturn<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
-    user?: boolean | UserDefaultArgs<ExtArgs>;
+    user?: boolean | UserAiBotAccess$userArgs<ExtArgs>;
     aiBot?: boolean | AiBotDefaultArgs<ExtArgs>;
   };
   export type UserAiBotAccessIncludeUpdateManyAndReturn<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
-    user?: boolean | UserDefaultArgs<ExtArgs>;
+    user?: boolean | UserAiBotAccess$userArgs<ExtArgs>;
     aiBot?: boolean | AiBotDefaultArgs<ExtArgs>;
   };
 
@@ -7687,13 +7737,13 @@ export namespace Prisma {
   > = {
     name: 'UserAiBotAccess';
     objects: {
-      user: Prisma.$UserPayload<ExtArgs>;
+      user: Prisma.$UserPayload<ExtArgs> | null;
       aiBot: Prisma.$AiBotPayload<ExtArgs>;
     };
     scalars: $Extensions.GetPayloadResult<
       {
         id: string;
-        userId: string;
+        userId: string | null;
         aiBotId: string;
         permission: $Enums.Permission;
         createdAt: Date;
@@ -8208,12 +8258,16 @@ export namespace Prisma {
     GlobalOmitOptions = {},
   > extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(
-      args?: Subset<T, UserDefaultArgs<ExtArgs>>
+    user<T extends UserAiBotAccess$userArgs<ExtArgs> = {}>(
+      args?: Subset<T, UserAiBotAccess$userArgs<ExtArgs>>
     ): Prisma__UserClient<
-      | $Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findUniqueOrThrow', GlobalOmitOptions>
-      | Null,
-      Null,
+      $Result.GetResult<
+        Prisma.$UserPayload<ExtArgs>,
+        T,
+        'findUniqueOrThrow',
+        GlobalOmitOptions
+      > | null,
+      null,
       ExtArgs,
       GlobalOmitOptions
     >;
@@ -8682,6 +8736,27 @@ export namespace Prisma {
      * Limit how many UserAiBotAccesses to delete.
      */
     limit?: number;
+  };
+
+  /**
+   * UserAiBotAccess.user
+   */
+  export type UserAiBotAccess$userArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null;
+    where?: UserWhereInput;
   };
 
   /**
@@ -18975,17 +19050,17 @@ export namespace Prisma {
     OR?: UserPaperlessInstanceAccessWhereInput[];
     NOT?: UserPaperlessInstanceAccessWhereInput | UserPaperlessInstanceAccessWhereInput[];
     id?: StringFilter<'UserPaperlessInstanceAccess'> | string;
-    userId?: StringFilter<'UserPaperlessInstanceAccess'> | string;
+    userId?: StringNullableFilter<'UserPaperlessInstanceAccess'> | string | null;
     instanceId?: StringFilter<'UserPaperlessInstanceAccess'> | string;
     permission?: EnumPermissionFilter<'UserPaperlessInstanceAccess'> | $Enums.Permission;
     createdAt?: DateTimeFilter<'UserPaperlessInstanceAccess'> | Date | string;
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>;
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null;
     instance?: XOR<PaperlessInstanceScalarRelationFilter, PaperlessInstanceWhereInput>;
   };
 
   export type UserPaperlessInstanceAccessOrderByWithRelationInput = {
     id?: SortOrder;
-    userId?: SortOrder;
+    userId?: SortOrderInput | SortOrder;
     instanceId?: SortOrder;
     permission?: SortOrder;
     createdAt?: SortOrder;
@@ -19000,11 +19075,11 @@ export namespace Prisma {
       AND?: UserPaperlessInstanceAccessWhereInput | UserPaperlessInstanceAccessWhereInput[];
       OR?: UserPaperlessInstanceAccessWhereInput[];
       NOT?: UserPaperlessInstanceAccessWhereInput | UserPaperlessInstanceAccessWhereInput[];
-      userId?: StringFilter<'UserPaperlessInstanceAccess'> | string;
+      userId?: StringNullableFilter<'UserPaperlessInstanceAccess'> | string | null;
       instanceId?: StringFilter<'UserPaperlessInstanceAccess'> | string;
       permission?: EnumPermissionFilter<'UserPaperlessInstanceAccess'> | $Enums.Permission;
       createdAt?: DateTimeFilter<'UserPaperlessInstanceAccess'> | Date | string;
-      user?: XOR<UserScalarRelationFilter, UserWhereInput>;
+      user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null;
       instance?: XOR<PaperlessInstanceScalarRelationFilter, PaperlessInstanceWhereInput>;
     },
     'id' | 'userId_instanceId'
@@ -19012,7 +19087,7 @@ export namespace Prisma {
 
   export type UserPaperlessInstanceAccessOrderByWithAggregationInput = {
     id?: SortOrder;
-    userId?: SortOrder;
+    userId?: SortOrderInput | SortOrder;
     instanceId?: SortOrder;
     permission?: SortOrder;
     createdAt?: SortOrder;
@@ -19030,7 +19105,7 @@ export namespace Prisma {
       | UserPaperlessInstanceAccessScalarWhereWithAggregatesInput
       | UserPaperlessInstanceAccessScalarWhereWithAggregatesInput[];
     id?: StringWithAggregatesFilter<'UserPaperlessInstanceAccess'> | string;
-    userId?: StringWithAggregatesFilter<'UserPaperlessInstanceAccess'> | string;
+    userId?: StringNullableWithAggregatesFilter<'UserPaperlessInstanceAccess'> | string | null;
     instanceId?: StringWithAggregatesFilter<'UserPaperlessInstanceAccess'> | string;
     permission?:
       | EnumPermissionWithAggregatesFilter<'UserPaperlessInstanceAccess'>
@@ -19043,17 +19118,17 @@ export namespace Prisma {
     OR?: UserAiProviderAccessWhereInput[];
     NOT?: UserAiProviderAccessWhereInput | UserAiProviderAccessWhereInput[];
     id?: StringFilter<'UserAiProviderAccess'> | string;
-    userId?: StringFilter<'UserAiProviderAccess'> | string;
+    userId?: StringNullableFilter<'UserAiProviderAccess'> | string | null;
     aiProviderId?: StringFilter<'UserAiProviderAccess'> | string;
     permission?: EnumPermissionFilter<'UserAiProviderAccess'> | $Enums.Permission;
     createdAt?: DateTimeFilter<'UserAiProviderAccess'> | Date | string;
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>;
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null;
     aiProvider?: XOR<AiProviderScalarRelationFilter, AiProviderWhereInput>;
   };
 
   export type UserAiProviderAccessOrderByWithRelationInput = {
     id?: SortOrder;
-    userId?: SortOrder;
+    userId?: SortOrderInput | SortOrder;
     aiProviderId?: SortOrder;
     permission?: SortOrder;
     createdAt?: SortOrder;
@@ -19068,11 +19143,11 @@ export namespace Prisma {
       AND?: UserAiProviderAccessWhereInput | UserAiProviderAccessWhereInput[];
       OR?: UserAiProviderAccessWhereInput[];
       NOT?: UserAiProviderAccessWhereInput | UserAiProviderAccessWhereInput[];
-      userId?: StringFilter<'UserAiProviderAccess'> | string;
+      userId?: StringNullableFilter<'UserAiProviderAccess'> | string | null;
       aiProviderId?: StringFilter<'UserAiProviderAccess'> | string;
       permission?: EnumPermissionFilter<'UserAiProviderAccess'> | $Enums.Permission;
       createdAt?: DateTimeFilter<'UserAiProviderAccess'> | Date | string;
-      user?: XOR<UserScalarRelationFilter, UserWhereInput>;
+      user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null;
       aiProvider?: XOR<AiProviderScalarRelationFilter, AiProviderWhereInput>;
     },
     'id' | 'userId_aiProviderId'
@@ -19080,7 +19155,7 @@ export namespace Prisma {
 
   export type UserAiProviderAccessOrderByWithAggregationInput = {
     id?: SortOrder;
-    userId?: SortOrder;
+    userId?: SortOrderInput | SortOrder;
     aiProviderId?: SortOrder;
     permission?: SortOrder;
     createdAt?: SortOrder;
@@ -19098,7 +19173,7 @@ export namespace Prisma {
       | UserAiProviderAccessScalarWhereWithAggregatesInput
       | UserAiProviderAccessScalarWhereWithAggregatesInput[];
     id?: StringWithAggregatesFilter<'UserAiProviderAccess'> | string;
-    userId?: StringWithAggregatesFilter<'UserAiProviderAccess'> | string;
+    userId?: StringNullableWithAggregatesFilter<'UserAiProviderAccess'> | string | null;
     aiProviderId?: StringWithAggregatesFilter<'UserAiProviderAccess'> | string;
     permission?: EnumPermissionWithAggregatesFilter<'UserAiProviderAccess'> | $Enums.Permission;
     createdAt?: DateTimeWithAggregatesFilter<'UserAiProviderAccess'> | Date | string;
@@ -19109,17 +19184,17 @@ export namespace Prisma {
     OR?: UserAiBotAccessWhereInput[];
     NOT?: UserAiBotAccessWhereInput | UserAiBotAccessWhereInput[];
     id?: StringFilter<'UserAiBotAccess'> | string;
-    userId?: StringFilter<'UserAiBotAccess'> | string;
+    userId?: StringNullableFilter<'UserAiBotAccess'> | string | null;
     aiBotId?: StringFilter<'UserAiBotAccess'> | string;
     permission?: EnumPermissionFilter<'UserAiBotAccess'> | $Enums.Permission;
     createdAt?: DateTimeFilter<'UserAiBotAccess'> | Date | string;
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>;
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null;
     aiBot?: XOR<AiBotScalarRelationFilter, AiBotWhereInput>;
   };
 
   export type UserAiBotAccessOrderByWithRelationInput = {
     id?: SortOrder;
-    userId?: SortOrder;
+    userId?: SortOrderInput | SortOrder;
     aiBotId?: SortOrder;
     permission?: SortOrder;
     createdAt?: SortOrder;
@@ -19134,11 +19209,11 @@ export namespace Prisma {
       AND?: UserAiBotAccessWhereInput | UserAiBotAccessWhereInput[];
       OR?: UserAiBotAccessWhereInput[];
       NOT?: UserAiBotAccessWhereInput | UserAiBotAccessWhereInput[];
-      userId?: StringFilter<'UserAiBotAccess'> | string;
+      userId?: StringNullableFilter<'UserAiBotAccess'> | string | null;
       aiBotId?: StringFilter<'UserAiBotAccess'> | string;
       permission?: EnumPermissionFilter<'UserAiBotAccess'> | $Enums.Permission;
       createdAt?: DateTimeFilter<'UserAiBotAccess'> | Date | string;
-      user?: XOR<UserScalarRelationFilter, UserWhereInput>;
+      user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null;
       aiBot?: XOR<AiBotScalarRelationFilter, AiBotWhereInput>;
     },
     'id' | 'userId_aiBotId'
@@ -19146,7 +19221,7 @@ export namespace Prisma {
 
   export type UserAiBotAccessOrderByWithAggregationInput = {
     id?: SortOrder;
-    userId?: SortOrder;
+    userId?: SortOrderInput | SortOrder;
     aiBotId?: SortOrder;
     permission?: SortOrder;
     createdAt?: SortOrder;
@@ -19164,7 +19239,7 @@ export namespace Prisma {
       | UserAiBotAccessScalarWhereWithAggregatesInput
       | UserAiBotAccessScalarWhereWithAggregatesInput[];
     id?: StringWithAggregatesFilter<'UserAiBotAccess'> | string;
-    userId?: StringWithAggregatesFilter<'UserAiBotAccess'> | string;
+    userId?: StringNullableWithAggregatesFilter<'UserAiBotAccess'> | string | null;
     aiBotId?: StringWithAggregatesFilter<'UserAiBotAccess'> | string;
     permission?: EnumPermissionWithAggregatesFilter<'UserAiBotAccess'> | $Enums.Permission;
     createdAt?: DateTimeWithAggregatesFilter<'UserAiBotAccess'> | Date | string;
@@ -19980,13 +20055,13 @@ export namespace Prisma {
     id?: string;
     permission?: $Enums.Permission;
     createdAt?: Date | string;
-    user: UserCreateNestedOneWithoutSharedPaperlessInstancesInput;
+    user?: UserCreateNestedOneWithoutSharedPaperlessInstancesInput;
     instance: PaperlessInstanceCreateNestedOneWithoutSharedWithInput;
   };
 
   export type UserPaperlessInstanceAccessUncheckedCreateInput = {
     id?: string;
-    userId: string;
+    userId?: string | null;
     instanceId: string;
     permission?: $Enums.Permission;
     createdAt?: Date | string;
@@ -19996,13 +20071,13 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     permission?: EnumPermissionFieldUpdateOperationsInput | $Enums.Permission;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    user?: UserUpdateOneRequiredWithoutSharedPaperlessInstancesNestedInput;
+    user?: UserUpdateOneWithoutSharedPaperlessInstancesNestedInput;
     instance?: PaperlessInstanceUpdateOneRequiredWithoutSharedWithNestedInput;
   };
 
   export type UserPaperlessInstanceAccessUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string;
-    userId?: StringFieldUpdateOperationsInput | string;
+    userId?: NullableStringFieldUpdateOperationsInput | string | null;
     instanceId?: StringFieldUpdateOperationsInput | string;
     permission?: EnumPermissionFieldUpdateOperationsInput | $Enums.Permission;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
@@ -20010,7 +20085,7 @@ export namespace Prisma {
 
   export type UserPaperlessInstanceAccessCreateManyInput = {
     id?: string;
-    userId: string;
+    userId?: string | null;
     instanceId: string;
     permission?: $Enums.Permission;
     createdAt?: Date | string;
@@ -20024,7 +20099,7 @@ export namespace Prisma {
 
   export type UserPaperlessInstanceAccessUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string;
-    userId?: StringFieldUpdateOperationsInput | string;
+    userId?: NullableStringFieldUpdateOperationsInput | string | null;
     instanceId?: StringFieldUpdateOperationsInput | string;
     permission?: EnumPermissionFieldUpdateOperationsInput | $Enums.Permission;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
@@ -20034,13 +20109,13 @@ export namespace Prisma {
     id?: string;
     permission?: $Enums.Permission;
     createdAt?: Date | string;
-    user: UserCreateNestedOneWithoutSharedAiProvidersInput;
+    user?: UserCreateNestedOneWithoutSharedAiProvidersInput;
     aiProvider: AiProviderCreateNestedOneWithoutSharedWithInput;
   };
 
   export type UserAiProviderAccessUncheckedCreateInput = {
     id?: string;
-    userId: string;
+    userId?: string | null;
     aiProviderId: string;
     permission?: $Enums.Permission;
     createdAt?: Date | string;
@@ -20050,13 +20125,13 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     permission?: EnumPermissionFieldUpdateOperationsInput | $Enums.Permission;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    user?: UserUpdateOneRequiredWithoutSharedAiProvidersNestedInput;
+    user?: UserUpdateOneWithoutSharedAiProvidersNestedInput;
     aiProvider?: AiProviderUpdateOneRequiredWithoutSharedWithNestedInput;
   };
 
   export type UserAiProviderAccessUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string;
-    userId?: StringFieldUpdateOperationsInput | string;
+    userId?: NullableStringFieldUpdateOperationsInput | string | null;
     aiProviderId?: StringFieldUpdateOperationsInput | string;
     permission?: EnumPermissionFieldUpdateOperationsInput | $Enums.Permission;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
@@ -20064,7 +20139,7 @@ export namespace Prisma {
 
   export type UserAiProviderAccessCreateManyInput = {
     id?: string;
-    userId: string;
+    userId?: string | null;
     aiProviderId: string;
     permission?: $Enums.Permission;
     createdAt?: Date | string;
@@ -20078,7 +20153,7 @@ export namespace Prisma {
 
   export type UserAiProviderAccessUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string;
-    userId?: StringFieldUpdateOperationsInput | string;
+    userId?: NullableStringFieldUpdateOperationsInput | string | null;
     aiProviderId?: StringFieldUpdateOperationsInput | string;
     permission?: EnumPermissionFieldUpdateOperationsInput | $Enums.Permission;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
@@ -20088,13 +20163,13 @@ export namespace Prisma {
     id?: string;
     permission?: $Enums.Permission;
     createdAt?: Date | string;
-    user: UserCreateNestedOneWithoutSharedAiBotsInput;
+    user?: UserCreateNestedOneWithoutSharedAiBotsInput;
     aiBot: AiBotCreateNestedOneWithoutSharedWithInput;
   };
 
   export type UserAiBotAccessUncheckedCreateInput = {
     id?: string;
-    userId: string;
+    userId?: string | null;
     aiBotId: string;
     permission?: $Enums.Permission;
     createdAt?: Date | string;
@@ -20104,13 +20179,13 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     permission?: EnumPermissionFieldUpdateOperationsInput | $Enums.Permission;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    user?: UserUpdateOneRequiredWithoutSharedAiBotsNestedInput;
+    user?: UserUpdateOneWithoutSharedAiBotsNestedInput;
     aiBot?: AiBotUpdateOneRequiredWithoutSharedWithNestedInput;
   };
 
   export type UserAiBotAccessUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string;
-    userId?: StringFieldUpdateOperationsInput | string;
+    userId?: NullableStringFieldUpdateOperationsInput | string | null;
     aiBotId?: StringFieldUpdateOperationsInput | string;
     permission?: EnumPermissionFieldUpdateOperationsInput | $Enums.Permission;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
@@ -20118,7 +20193,7 @@ export namespace Prisma {
 
   export type UserAiBotAccessCreateManyInput = {
     id?: string;
-    userId: string;
+    userId?: string | null;
     aiBotId: string;
     permission?: $Enums.Permission;
     createdAt?: Date | string;
@@ -20132,7 +20207,7 @@ export namespace Prisma {
 
   export type UserAiBotAccessUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string;
-    userId?: StringFieldUpdateOperationsInput | string;
+    userId?: NullableStringFieldUpdateOperationsInput | string | null;
     aiBotId?: StringFieldUpdateOperationsInput | string;
     permission?: EnumPermissionFieldUpdateOperationsInput | $Enums.Permission;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
@@ -21013,6 +21088,21 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>;
   };
 
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null;
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null;
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null;
+    lt?: string | StringFieldRefInput<$PrismaModel>;
+    lte?: string | StringFieldRefInput<$PrismaModel>;
+    gt?: string | StringFieldRefInput<$PrismaModel>;
+    gte?: string | StringFieldRefInput<$PrismaModel>;
+    contains?: string | StringFieldRefInput<$PrismaModel>;
+    startsWith?: string | StringFieldRefInput<$PrismaModel>;
+    endsWith?: string | StringFieldRefInput<$PrismaModel>;
+    mode?: QueryMode;
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null;
+  };
+
   export type EnumPermissionFilter<$PrismaModel = never> = {
     equals?: $Enums.Permission | EnumPermissionFieldRefInput<$PrismaModel>;
     in?: $Enums.Permission[] | ListEnumPermissionFieldRefInput<$PrismaModel>;
@@ -21020,14 +21110,19 @@ export namespace Prisma {
     not?: NestedEnumPermissionFilter<$PrismaModel> | $Enums.Permission;
   };
 
-  export type UserScalarRelationFilter = {
-    is?: UserWhereInput;
-    isNot?: UserWhereInput;
+  export type UserNullableScalarRelationFilter = {
+    is?: UserWhereInput | null;
+    isNot?: UserWhereInput | null;
   };
 
   export type PaperlessInstanceScalarRelationFilter = {
     is?: PaperlessInstanceWhereInput;
     isNot?: PaperlessInstanceWhereInput;
+  };
+
+  export type SortOrderInput = {
+    sort: SortOrder;
+    nulls?: NullsOrder;
   };
 
   export type UserPaperlessInstanceAccessUserIdInstanceIdCompoundUniqueInput = {
@@ -21057,6 +21152,24 @@ export namespace Prisma {
     instanceId?: SortOrder;
     permission?: SortOrder;
     createdAt?: SortOrder;
+  };
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null;
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null;
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null;
+    lt?: string | StringFieldRefInput<$PrismaModel>;
+    lte?: string | StringFieldRefInput<$PrismaModel>;
+    gt?: string | StringFieldRefInput<$PrismaModel>;
+    gte?: string | StringFieldRefInput<$PrismaModel>;
+    contains?: string | StringFieldRefInput<$PrismaModel>;
+    startsWith?: string | StringFieldRefInput<$PrismaModel>;
+    endsWith?: string | StringFieldRefInput<$PrismaModel>;
+    mode?: QueryMode;
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null;
+    _count?: NestedIntNullableFilter<$PrismaModel>;
+    _min?: NestedStringNullableFilter<$PrismaModel>;
+    _max?: NestedStringNullableFilter<$PrismaModel>;
   };
 
   export type EnumPermissionWithAggregatesFilter<$PrismaModel = never> = {
@@ -21137,6 +21250,11 @@ export namespace Prisma {
     createdAt?: SortOrder;
   };
 
+  export type UserScalarRelationFilter = {
+    is?: UserWhereInput;
+    isNot?: UserWhereInput;
+  };
+
   export type PaperlessDocumentListRelationFilter = {
     every?: PaperlessDocumentWhereInput;
     some?: PaperlessDocumentWhereInput;
@@ -21187,26 +21305,6 @@ export namespace Prisma {
     ownerId?: SortOrder;
   };
 
-  export type StringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null;
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null;
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null;
-    lt?: string | StringFieldRefInput<$PrismaModel>;
-    lte?: string | StringFieldRefInput<$PrismaModel>;
-    gt?: string | StringFieldRefInput<$PrismaModel>;
-    gte?: string | StringFieldRefInput<$PrismaModel>;
-    contains?: string | StringFieldRefInput<$PrismaModel>;
-    startsWith?: string | StringFieldRefInput<$PrismaModel>;
-    endsWith?: string | StringFieldRefInput<$PrismaModel>;
-    mode?: QueryMode;
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null;
-  };
-
-  export type SortOrderInput = {
-    sort: SortOrder;
-    nulls?: NullsOrder;
-  };
-
   export type AiProviderCountOrderByAggregateInput = {
     id?: SortOrder;
     name?: SortOrder;
@@ -21244,24 +21342,6 @@ export namespace Prisma {
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
     ownerId?: SortOrder;
-  };
-
-  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null;
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null;
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null;
-    lt?: string | StringFieldRefInput<$PrismaModel>;
-    lte?: string | StringFieldRefInput<$PrismaModel>;
-    gt?: string | StringFieldRefInput<$PrismaModel>;
-    gte?: string | StringFieldRefInput<$PrismaModel>;
-    contains?: string | StringFieldRefInput<$PrismaModel>;
-    startsWith?: string | StringFieldRefInput<$PrismaModel>;
-    endsWith?: string | StringFieldRefInput<$PrismaModel>;
-    mode?: QueryMode;
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null;
-    _count?: NestedIntNullableFilter<$PrismaModel>;
-    _min?: NestedStringNullableFilter<$PrismaModel>;
-    _max?: NestedStringNullableFilter<$PrismaModel>;
   };
 
   export type AiBotCountOrderByAggregateInput = {
@@ -22328,13 +22408,15 @@ export namespace Prisma {
     set?: $Enums.Permission;
   };
 
-  export type UserUpdateOneRequiredWithoutSharedPaperlessInstancesNestedInput = {
+  export type UserUpdateOneWithoutSharedPaperlessInstancesNestedInput = {
     create?: XOR<
       UserCreateWithoutSharedPaperlessInstancesInput,
       UserUncheckedCreateWithoutSharedPaperlessInstancesInput
     >;
     connectOrCreate?: UserCreateOrConnectWithoutSharedPaperlessInstancesInput;
     upsert?: UserUpsertWithoutSharedPaperlessInstancesInput;
+    disconnect?: UserWhereInput | boolean;
+    delete?: UserWhereInput | boolean;
     connect?: UserWhereUniqueInput;
     update?: XOR<
       XOR<
@@ -22362,6 +22444,10 @@ export namespace Prisma {
     >;
   };
 
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null;
+  };
+
   export type UserCreateNestedOneWithoutSharedAiProvidersInput = {
     create?: XOR<
       UserCreateWithoutSharedAiProvidersInput,
@@ -22380,13 +22466,15 @@ export namespace Prisma {
     connect?: AiProviderWhereUniqueInput;
   };
 
-  export type UserUpdateOneRequiredWithoutSharedAiProvidersNestedInput = {
+  export type UserUpdateOneWithoutSharedAiProvidersNestedInput = {
     create?: XOR<
       UserCreateWithoutSharedAiProvidersInput,
       UserUncheckedCreateWithoutSharedAiProvidersInput
     >;
     connectOrCreate?: UserCreateOrConnectWithoutSharedAiProvidersInput;
     upsert?: UserUpsertWithoutSharedAiProvidersInput;
+    disconnect?: UserWhereInput | boolean;
+    delete?: UserWhereInput | boolean;
     connect?: UserWhereUniqueInput;
     update?: XOR<
       XOR<
@@ -22426,10 +22514,12 @@ export namespace Prisma {
     connect?: AiBotWhereUniqueInput;
   };
 
-  export type UserUpdateOneRequiredWithoutSharedAiBotsNestedInput = {
+  export type UserUpdateOneWithoutSharedAiBotsNestedInput = {
     create?: XOR<UserCreateWithoutSharedAiBotsInput, UserUncheckedCreateWithoutSharedAiBotsInput>;
     connectOrCreate?: UserCreateOrConnectWithoutSharedAiBotsInput;
     upsert?: UserUpsertWithoutSharedAiBotsInput;
+    disconnect?: UserWhereInput | boolean;
+    delete?: UserWhereInput | boolean;
     connect?: UserWhereUniqueInput;
     update?: XOR<
       XOR<UserUpdateToOneWithWhereWithoutSharedAiBotsInput, UserUpdateWithoutSharedAiBotsInput>,
@@ -22847,10 +22937,6 @@ export namespace Prisma {
       | AiUsageMetricCreateOrConnectWithoutAiProviderInput[];
     createMany?: AiUsageMetricCreateManyAiProviderInputEnvelope;
     connect?: AiUsageMetricWhereUniqueInput | AiUsageMetricWhereUniqueInput[];
-  };
-
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null;
   };
 
   export type UserUpdateOneRequiredWithoutOwnedAiProvidersNestedInput = {
@@ -23606,23 +23692,6 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>;
   };
 
-  export type NestedEnumPermissionFilter<$PrismaModel = never> = {
-    equals?: $Enums.Permission | EnumPermissionFieldRefInput<$PrismaModel>;
-    in?: $Enums.Permission[] | ListEnumPermissionFieldRefInput<$PrismaModel>;
-    notIn?: $Enums.Permission[] | ListEnumPermissionFieldRefInput<$PrismaModel>;
-    not?: NestedEnumPermissionFilter<$PrismaModel> | $Enums.Permission;
-  };
-
-  export type NestedEnumPermissionWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Permission | EnumPermissionFieldRefInput<$PrismaModel>;
-    in?: $Enums.Permission[] | ListEnumPermissionFieldRefInput<$PrismaModel>;
-    notIn?: $Enums.Permission[] | ListEnumPermissionFieldRefInput<$PrismaModel>;
-    not?: NestedEnumPermissionWithAggregatesFilter<$PrismaModel> | $Enums.Permission;
-    _count?: NestedIntFilter<$PrismaModel>;
-    _min?: NestedEnumPermissionFilter<$PrismaModel>;
-    _max?: NestedEnumPermissionFilter<$PrismaModel>;
-  };
-
   export type NestedStringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null;
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null;
@@ -23635,6 +23704,13 @@ export namespace Prisma {
     startsWith?: string | StringFieldRefInput<$PrismaModel>;
     endsWith?: string | StringFieldRefInput<$PrismaModel>;
     not?: NestedStringNullableFilter<$PrismaModel> | string | null;
+  };
+
+  export type NestedEnumPermissionFilter<$PrismaModel = never> = {
+    equals?: $Enums.Permission | EnumPermissionFieldRefInput<$PrismaModel>;
+    in?: $Enums.Permission[] | ListEnumPermissionFieldRefInput<$PrismaModel>;
+    notIn?: $Enums.Permission[] | ListEnumPermissionFieldRefInput<$PrismaModel>;
+    not?: NestedEnumPermissionFilter<$PrismaModel> | $Enums.Permission;
   };
 
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -23663,6 +23739,16 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>;
     gte?: number | IntFieldRefInput<$PrismaModel>;
     not?: NestedIntNullableFilter<$PrismaModel> | number | null;
+  };
+
+  export type NestedEnumPermissionWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Permission | EnumPermissionFieldRefInput<$PrismaModel>;
+    in?: $Enums.Permission[] | ListEnumPermissionFieldRefInput<$PrismaModel>;
+    notIn?: $Enums.Permission[] | ListEnumPermissionFieldRefInput<$PrismaModel>;
+    not?: NestedEnumPermissionWithAggregatesFilter<$PrismaModel> | $Enums.Permission;
+    _count?: NestedIntFilter<$PrismaModel>;
+    _min?: NestedEnumPermissionFilter<$PrismaModel>;
+    _max?: NestedEnumPermissionFilter<$PrismaModel>;
   };
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -24155,7 +24241,7 @@ export namespace Prisma {
       | UserPaperlessInstanceAccessScalarWhereInput
       | UserPaperlessInstanceAccessScalarWhereInput[];
     id?: StringFilter<'UserPaperlessInstanceAccess'> | string;
-    userId?: StringFilter<'UserPaperlessInstanceAccess'> | string;
+    userId?: StringNullableFilter<'UserPaperlessInstanceAccess'> | string | null;
     instanceId?: StringFilter<'UserPaperlessInstanceAccess'> | string;
     permission?: EnumPermissionFilter<'UserPaperlessInstanceAccess'> | $Enums.Permission;
     createdAt?: DateTimeFilter<'UserPaperlessInstanceAccess'> | Date | string;
@@ -24194,7 +24280,7 @@ export namespace Prisma {
     OR?: UserAiProviderAccessScalarWhereInput[];
     NOT?: UserAiProviderAccessScalarWhereInput | UserAiProviderAccessScalarWhereInput[];
     id?: StringFilter<'UserAiProviderAccess'> | string;
-    userId?: StringFilter<'UserAiProviderAccess'> | string;
+    userId?: StringNullableFilter<'UserAiProviderAccess'> | string | null;
     aiProviderId?: StringFilter<'UserAiProviderAccess'> | string;
     permission?: EnumPermissionFilter<'UserAiProviderAccess'> | $Enums.Permission;
     createdAt?: DateTimeFilter<'UserAiProviderAccess'> | Date | string;
@@ -24233,7 +24319,7 @@ export namespace Prisma {
     OR?: UserAiBotAccessScalarWhereInput[];
     NOT?: UserAiBotAccessScalarWhereInput | UserAiBotAccessScalarWhereInput[];
     id?: StringFilter<'UserAiBotAccess'> | string;
-    userId?: StringFilter<'UserAiBotAccess'> | string;
+    userId?: StringNullableFilter<'UserAiBotAccess'> | string | null;
     aiBotId?: StringFilter<'UserAiBotAccess'> | string;
     permission?: EnumPermissionFilter<'UserAiBotAccess'> | $Enums.Permission;
     createdAt?: DateTimeFilter<'UserAiBotAccess'> | Date | string;
@@ -24822,12 +24908,12 @@ export namespace Prisma {
     id?: string;
     permission?: $Enums.Permission;
     createdAt?: Date | string;
-    user: UserCreateNestedOneWithoutSharedPaperlessInstancesInput;
+    user?: UserCreateNestedOneWithoutSharedPaperlessInstancesInput;
   };
 
   export type UserPaperlessInstanceAccessUncheckedCreateWithoutInstanceInput = {
     id?: string;
-    userId: string;
+    userId?: string | null;
     permission?: $Enums.Permission;
     createdAt?: Date | string;
   };
@@ -25149,12 +25235,12 @@ export namespace Prisma {
     id?: string;
     permission?: $Enums.Permission;
     createdAt?: Date | string;
-    user: UserCreateNestedOneWithoutSharedAiProvidersInput;
+    user?: UserCreateNestedOneWithoutSharedAiProvidersInput;
   };
 
   export type UserAiProviderAccessUncheckedCreateWithoutAiProviderInput = {
     id?: string;
-    userId: string;
+    userId?: string | null;
     permission?: $Enums.Permission;
     createdAt?: Date | string;
   };
@@ -25451,12 +25537,12 @@ export namespace Prisma {
     id?: string;
     permission?: $Enums.Permission;
     createdAt?: Date | string;
-    user: UserCreateNestedOneWithoutSharedAiBotsInput;
+    user?: UserCreateNestedOneWithoutSharedAiBotsInput;
   };
 
   export type UserAiBotAccessUncheckedCreateWithoutAiBotInput = {
     id?: string;
-    userId: string;
+    userId?: string | null;
     permission?: $Enums.Permission;
     createdAt?: Date | string;
   };
@@ -26506,7 +26592,7 @@ export namespace Prisma {
 
   export type UserPaperlessInstanceAccessCreateManyInstanceInput = {
     id?: string;
-    userId: string;
+    userId?: string | null;
     permission?: $Enums.Permission;
     createdAt?: Date | string;
   };
@@ -26541,19 +26627,19 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     permission?: EnumPermissionFieldUpdateOperationsInput | $Enums.Permission;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    user?: UserUpdateOneRequiredWithoutSharedPaperlessInstancesNestedInput;
+    user?: UserUpdateOneWithoutSharedPaperlessInstancesNestedInput;
   };
 
   export type UserPaperlessInstanceAccessUncheckedUpdateWithoutInstanceInput = {
     id?: StringFieldUpdateOperationsInput | string;
-    userId?: StringFieldUpdateOperationsInput | string;
+    userId?: NullableStringFieldUpdateOperationsInput | string | null;
     permission?: EnumPermissionFieldUpdateOperationsInput | $Enums.Permission;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
   };
 
   export type UserPaperlessInstanceAccessUncheckedUpdateManyWithoutInstanceInput = {
     id?: StringFieldUpdateOperationsInput | string;
-    userId?: StringFieldUpdateOperationsInput | string;
+    userId?: NullableStringFieldUpdateOperationsInput | string | null;
     permission?: EnumPermissionFieldUpdateOperationsInput | $Enums.Permission;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
   };
@@ -26640,7 +26726,7 @@ export namespace Prisma {
 
   export type UserAiProviderAccessCreateManyAiProviderInput = {
     id?: string;
-    userId: string;
+    userId?: string | null;
     permission?: $Enums.Permission;
     createdAt?: Date | string;
   };
@@ -26672,19 +26758,19 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     permission?: EnumPermissionFieldUpdateOperationsInput | $Enums.Permission;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    user?: UserUpdateOneRequiredWithoutSharedAiProvidersNestedInput;
+    user?: UserUpdateOneWithoutSharedAiProvidersNestedInput;
   };
 
   export type UserAiProviderAccessUncheckedUpdateWithoutAiProviderInput = {
     id?: StringFieldUpdateOperationsInput | string;
-    userId?: StringFieldUpdateOperationsInput | string;
+    userId?: NullableStringFieldUpdateOperationsInput | string | null;
     permission?: EnumPermissionFieldUpdateOperationsInput | $Enums.Permission;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
   };
 
   export type UserAiProviderAccessUncheckedUpdateManyWithoutAiProviderInput = {
     id?: StringFieldUpdateOperationsInput | string;
-    userId?: StringFieldUpdateOperationsInput | string;
+    userId?: NullableStringFieldUpdateOperationsInput | string | null;
     permission?: EnumPermissionFieldUpdateOperationsInput | $Enums.Permission;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
   };
@@ -26764,7 +26850,7 @@ export namespace Prisma {
 
   export type UserAiBotAccessCreateManyAiBotInput = {
     id?: string;
-    userId: string;
+    userId?: string | null;
     permission?: $Enums.Permission;
     createdAt?: Date | string;
   };
@@ -26787,19 +26873,19 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     permission?: EnumPermissionFieldUpdateOperationsInput | $Enums.Permission;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    user?: UserUpdateOneRequiredWithoutSharedAiBotsNestedInput;
+    user?: UserUpdateOneWithoutSharedAiBotsNestedInput;
   };
 
   export type UserAiBotAccessUncheckedUpdateWithoutAiBotInput = {
     id?: StringFieldUpdateOperationsInput | string;
-    userId?: StringFieldUpdateOperationsInput | string;
+    userId?: NullableStringFieldUpdateOperationsInput | string | null;
     permission?: EnumPermissionFieldUpdateOperationsInput | $Enums.Permission;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
   };
 
   export type UserAiBotAccessUncheckedUpdateManyWithoutAiBotInput = {
     id?: StringFieldUpdateOperationsInput | string;
-    userId?: StringFieldUpdateOperationsInput | string;
+    userId?: NullableStringFieldUpdateOperationsInput | string | null;
     permission?: EnumPermissionFieldUpdateOperationsInput | $Enums.Permission;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
   };

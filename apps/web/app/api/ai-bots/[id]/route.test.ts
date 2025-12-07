@@ -60,7 +60,7 @@ describe('GET /api/ai-bots/[id]', () => {
     const data = await response.json();
 
     expect(response.status).toBe(404);
-    expect(data.message).toBe('errors.aiBotNotFound');
+    expect(data.message).toBe('aiBotNotFound');
   });
 
   it('returns bot details', async () => {
@@ -122,7 +122,7 @@ describe('PATCH /api/ai-bots/[id]', () => {
     const data = await response.json();
 
     expect(response.status).toBe(404);
-    expect(data.message).toBe('errors.aiBotNotFound');
+    expect(data.message).toBe('aiBotNotFound');
   });
 
   it('returns 409 when new name already exists', async () => {
@@ -145,7 +145,7 @@ describe('PATCH /api/ai-bots/[id]', () => {
     const data = await response.json();
 
     expect(response.status).toBe(409);
-    expect(data.message).toBe('errors.aiBotNameExists');
+    expect(data.message).toBe('aiBotNameExists');
   });
 
   it('successfully updates bot name', async () => {
@@ -230,7 +230,7 @@ describe('PATCH /api/ai-bots/[id]', () => {
     const data = await response.json();
 
     expect(response.status).toBe(400);
-    expect(data.message).toBe('errors.aiProviderNotFound');
+    expect(data.message).toBe('aiProviderNotFound');
   });
 
   it('successfully updates bot provider', async () => {
@@ -319,7 +319,7 @@ describe('DELETE /api/ai-bots/[id]', () => {
     const data = await response.json();
 
     expect(response.status).toBe(404);
-    expect(data.message).toBe('errors.aiBotNotFound');
+    expect(data.message).toBe('aiBotNotFound');
   });
 
   it('successfully deletes bot', async () => {

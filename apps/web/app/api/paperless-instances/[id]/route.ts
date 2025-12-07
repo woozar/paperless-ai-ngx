@@ -1,16 +1,25 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@repo/database';
 import { UpdatePaperlessInstanceRequestSchema } from '@/lib/api/schemas/paperless-instances';
-import { adminRoute } from '@/lib/api/route-wrapper';
+import { authRoute } from '@/lib/api/route-wrapper';
 import { encrypt } from '@/lib/crypto/encryption';
 
-// GET /api/paperless-instances/[id] - Get PaperlessInstance by ID (Admin only)
-export const GET = adminRoute<never, { id: string }>(
+// GET /api/paperless-instances/[id] - Get PaperlessInstance by ID
+export const GET = authRoute<never, { id: string }>(
   async ({ user, params }) => {
     const instance = await prisma.paperlessInstance.findFirst({
       where: {
         id: params.id,
-        ownerId: user.userId,
+        OR: [
+          { ownerId: user.userId },
+          {
+            sharedWith: {
+              some: {
+                OR: [{ userId: user.userId }, { userId: null }],
+              },
+            },
+          },
+        ],
       },
       select: {
         id: true,
@@ -25,7 +34,7 @@ export const GET = adminRoute<never, { id: string }>(
       return NextResponse.json(
         {
           error: 'paperlessInstanceNotFound',
-          message: 'errors.paperlessInstanceNotFound',
+          message: 'paperlessInstanceNotFound',
         },
         { status: 404 }
       );
@@ -41,14 +50,24 @@ export const GET = adminRoute<never, { id: string }>(
   { errorLogPrefix: 'Get paperless instance' }
 );
 
-// PATCH /api/paperless-instances/[id] - Update PaperlessInstance (Admin only)
-export const PATCH = adminRoute<typeof UpdatePaperlessInstanceRequestSchema, { id: string }>(
+// PATCH /api/paperless-instances/[id] - Update PaperlessInstance (owner or WRITE permission)
+export const PATCH = authRoute<typeof UpdatePaperlessInstanceRequestSchema, { id: string }>(
   async ({ user, params, body }) => {
-    // Check if instance exists and belongs to user
+    // Check if instance exists and user has write access
     const existingInstance = await prisma.paperlessInstance.findFirst({
       where: {
         id: params.id,
-        ownerId: user.userId,
+        OR: [
+          { ownerId: user.userId },
+          {
+            sharedWith: {
+              some: {
+                OR: [{ userId: user.userId }, { userId: null }],
+                permission: 'WRITE',
+              },
+            },
+          },
+        ],
       },
     });
 
@@ -56,7 +75,7 @@ export const PATCH = adminRoute<typeof UpdatePaperlessInstanceRequestSchema, { i
       return NextResponse.json(
         {
           error: 'paperlessInstanceNotFound',
-          message: 'errors.paperlessInstanceNotFound',
+          message: 'paperlessInstanceNotFound',
         },
         { status: 404 }
       );
@@ -78,7 +97,7 @@ export const PATCH = adminRoute<typeof UpdatePaperlessInstanceRequestSchema, { i
         return NextResponse.json(
           {
             error: 'paperlessInstanceNameExists',
-            message: 'errors.paperlessInstanceNameExists',
+            message: 'paperlessInstanceNameExists',
             params: { name },
           },
           { status: 409 }
@@ -128,8 +147,8 @@ export const PATCH = adminRoute<typeof UpdatePaperlessInstanceRequestSchema, { i
   }
 );
 
-// DELETE /api/paperless-instances/[id] - Delete PaperlessInstance (Admin only)
-export const DELETE = adminRoute<never, { id: string }>(
+// DELETE /api/paperless-instances/[id] - Delete PaperlessInstance (owner only)
+export const DELETE = authRoute<never, { id: string }>(
   async ({ user, params }) => {
     // Check if instance exists and belongs to user
     const existingInstance = await prisma.paperlessInstance.findFirst({
@@ -143,7 +162,7 @@ export const DELETE = adminRoute<never, { id: string }>(
       return NextResponse.json(
         {
           error: 'paperlessInstanceNotFound',
-          message: 'errors.paperlessInstanceNotFound',
+          message: 'paperlessInstanceNotFound',
         },
         { status: 404 }
       );

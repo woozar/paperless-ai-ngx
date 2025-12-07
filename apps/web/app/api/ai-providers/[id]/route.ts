@@ -1,16 +1,25 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@repo/database';
 import { UpdateAiProviderRequestSchema } from '@/lib/api/schemas/ai-providers';
-import { adminRoute } from '@/lib/api/route-wrapper';
+import { authRoute } from '@/lib/api/route-wrapper';
 import { encrypt } from '@/lib/crypto/encryption';
 
-// GET /api/ai-providers/[id] - Get AiProvider by ID (Admin only)
-export const GET = adminRoute<never, { id: string }>(
+// GET /api/ai-providers/[id] - Get AiProvider by ID
+export const GET = authRoute<never, { id: string }>(
   async ({ user, params }) => {
     const provider = await prisma.aiProvider.findFirst({
       where: {
         id: params.id,
-        ownerId: user.userId,
+        OR: [
+          { ownerId: user.userId },
+          {
+            sharedWith: {
+              some: {
+                OR: [{ userId: user.userId }, { userId: null }],
+              },
+            },
+          },
+        ],
       },
       select: {
         id: true,
@@ -29,7 +38,7 @@ export const GET = adminRoute<never, { id: string }>(
       return NextResponse.json(
         {
           error: 'aiProviderNotFound',
-          message: 'errors.aiProviderNotFound',
+          message: 'aiProviderNotFound',
         },
         { status: 404 }
       );
@@ -44,14 +53,24 @@ export const GET = adminRoute<never, { id: string }>(
   { errorLogPrefix: 'Get AI provider' }
 );
 
-// PATCH /api/ai-providers/[id] - Update AiProvider (Admin only)
-export const PATCH = adminRoute<typeof UpdateAiProviderRequestSchema, { id: string }>(
+// PATCH /api/ai-providers/[id] - Update AiProvider (owner or WRITE permission)
+export const PATCH = authRoute<typeof UpdateAiProviderRequestSchema, { id: string }>(
   async ({ user, params, body }) => {
-    // Check if provider exists and belongs to user
+    // Check if provider exists and user has write access
     const existingProvider = await prisma.aiProvider.findFirst({
       where: {
         id: params.id,
-        ownerId: user.userId,
+        OR: [
+          { ownerId: user.userId },
+          {
+            sharedWith: {
+              some: {
+                OR: [{ userId: user.userId }, { userId: null }],
+                permission: 'WRITE',
+              },
+            },
+          },
+        ],
       },
     });
 
@@ -59,7 +78,7 @@ export const PATCH = adminRoute<typeof UpdateAiProviderRequestSchema, { id: stri
       return NextResponse.json(
         {
           error: 'aiProviderNotFound',
-          message: 'errors.aiProviderNotFound',
+          message: 'aiProviderNotFound',
         },
         { status: 404 }
       );
@@ -81,7 +100,7 @@ export const PATCH = adminRoute<typeof UpdateAiProviderRequestSchema, { id: stri
         return NextResponse.json(
           {
             error: 'aiProviderNameExists',
-            message: 'errors.aiProviderNameExists',
+            message: 'aiProviderNameExists',
             params: { name },
           },
           { status: 409 }
@@ -140,7 +159,7 @@ export const PATCH = adminRoute<typeof UpdateAiProviderRequestSchema, { id: stri
 );
 
 // DELETE /api/ai-providers/[id] - Delete AiProvider (Admin only)
-export const DELETE = adminRoute<never, { id: string }>(
+export const DELETE = authRoute<never, { id: string }>(
   async ({ user, params }) => {
     // Check if provider exists and belongs to user
     const existingProvider = await prisma.aiProvider.findFirst({
@@ -154,7 +173,7 @@ export const DELETE = adminRoute<never, { id: string }>(
       return NextResponse.json(
         {
           error: 'aiProviderNotFound',
-          message: 'errors.aiProviderNotFound',
+          message: 'aiProviderNotFound',
         },
         { status: 404 }
       );
@@ -169,7 +188,7 @@ export const DELETE = adminRoute<never, { id: string }>(
       return NextResponse.json(
         {
           error: 'aiProviderInUse',
-          message: 'errors.aiProviderInUse',
+          message: 'aiProviderInUse',
           params: { count: botCount },
         },
         { status: 400 }
