@@ -163,6 +163,22 @@ The application uses a unified toast notification system (sonner) for user feedb
   - Check off acceptance criteria when implemented
   - Format: `US-[CATEGORY]-[NR]` (e.g., `US-AUTH-001`)
 - **ROADMAP.md** contains planned features and current progress
+- **README.md Release Notes** must be kept up-to-date
+  - Write user-focused entries describing the value for the user
+  - Avoid technical implementation details
+  - Focus on what users can now do, not how it was built
+
+```markdown
+// ✅ Good - User-focused
+
+- Share AI bots with other users
+- Deploy with a single command
+
+// ❌ Bad - Technical details
+
+- Added UserAiBotAccess join table
+- Docker Compose with turbo prune optimization
+```
 
 ## Code Coverage
 

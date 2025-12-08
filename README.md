@@ -6,67 +6,49 @@ A web application for managing AI-powered document processing with [Paperless-ng
 
 ### v1.9.0
 
-- Docker Compose production setup (web + postgres + mcp-server)
-- Dockerfile for Web App with Next.js standalone output
-- Dockerfile for MCP Server with esbuild bundling
-- Turbo prune optimization for Docker builds
+- Deploy with a single `docker compose up` command
 
 ### v1.8.0
 
-- Resource sharing for AI bots, providers, and Paperless instances
-- Resharing capability for users with FULL permission
-- Soft delete for users with restore functionality
+- Share AI bots, providers, and Paperless instances with other users
+- Users with full access can reshare resources
+- Deactivate users instead of deleting them, with option to restore
 
 ### v1.7.0
 
-- Header navigation (replaces sidebar)
-- Theme settings (light/dark/system)
-- User info moved to header dropdown
+- New header navigation for easier access
+- Switch between light, dark, and system theme
 
 ### v1.6.0
 
-- Pagination for admin pages
-- React performance optimization with targeted memoization
-- Shared TableSkeleton component
+- Browse large lists with pagination
+- Faster page loads
 
 ### v1.5.0
 
-- Login page translations (DE/EN hero section)
-- DRY route wrapper refactoring
-- UI design improvements with refined styling and animations
+- German and English translations for login page
+- Improved visual design
 
 ### v1.4.0
 
-- Settings system with auto-generated UI
-- Shared form components
+- Admins can configure application settings
 
 ### v1.3.0
 
-- Delete warning with document count for Paperless instances
+- See how many documents will be affected before deleting a Paperless instance
 
 ### v1.2.0
 
-- Admin pages for AI providers, AI bots, and Paperless instances
-- Document import from Paperless instances
+- Manage AI providers, AI bots, and Paperless instances
+- Import documents from Paperless instances
 
 ### v1.1.0
 
-- API routes for PaperlessInstance, AiProvider, and AiBot
-- Encryption utilities
-- Renamed AiAccess → AiProvider
+- Secure storage for API keys and tokens
 
-### v1.0.2
+### v1.0.0
 
-- MCP server with 100% test coverage
-- Comprehensive README for paperless-client package
-- Favicon
-
-### v1.0.1
-
-- Initial application
-- Unit test coverage
-- Username validation
-- Login/logout flow
+- Initial release with user authentication and MCP server
 
 ## Getting Started
 
