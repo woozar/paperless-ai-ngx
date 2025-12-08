@@ -4,6 +4,31 @@ A web application for managing AI-powered document processing with [Paperless-ng
 
 ## Release Notes
 
+### v1.9.0
+
+- Docker Compose production setup (web + postgres + mcp-server)
+- Dockerfile for Web App with Next.js standalone output
+- Dockerfile for MCP Server with esbuild bundling
+- Turbo prune optimization for Docker builds
+
+### v1.8.0
+
+- Resource sharing for AI bots, providers, and Paperless instances
+- Resharing capability for users with FULL permission
+- Soft delete for users with restore functionality
+
+### v1.7.0
+
+- Header navigation (replaces sidebar)
+- Theme settings (light/dark/system)
+- User info moved to header dropdown
+
+### v1.6.0
+
+- Pagination for admin pages
+- React performance optimization with targeted memoization
+- Shared TableSkeleton component
+
 ### v1.5.0
 
 - Login page translations (DE/EN hero section)
@@ -86,6 +111,31 @@ pnpm test
 # Run tests with coverage
 pnpm test:coverage
 ```
+
+### Docker
+
+```bash
+# Build and start all services
+docker compose up -d --build
+
+# View logs
+docker compose logs -f
+
+# Stop services
+docker compose down
+```
+
+The Docker setup includes:
+
+- **web**: Next.js application on port 3000
+- **postgres**: PostgreSQL 17 database
+- **mcp-server**: MCP server on port 3001
+
+Environment variables are configured in `docker-compose.yml`. For production, update:
+
+- `JWT_SECRET` - Secret for JWT tokens (min 32 characters)
+- `ENCRYPTION_KEY` - Secret for API key encryption (min 32 characters)
+- `ADMIN_INITIAL_PASSWORD` - Initial admin password
 
 ## Project Structure
 

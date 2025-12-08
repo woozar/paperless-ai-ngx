@@ -75,7 +75,7 @@ export function Header() {
 
   return (
     <header className="bg-background/95 border-border/40 supports-backdrop-filter:bg-background/60 sticky top-0 z-50 w-full border-b backdrop-blur-md">
-      <div className="flex h-16 items-center justify-between px-4 lg:px-8">
+      <div className="flex h-16 items-center justify-between">
         {/* Left: Logo and Desktop Nav */}
         <div className="flex items-center gap-8">
           <div className="flex items-center gap-3 pr-4">

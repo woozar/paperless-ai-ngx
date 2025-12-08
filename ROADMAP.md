@@ -262,9 +262,9 @@
 
 ## Phase 5: Docker & Testing Setup
 
-- [ ] Docker Compose for Production (app + postgres + mcp-server)
-- [ ] Dockerfile for Web App
-- [ ] Dockerfile for MCP Server
+- [x] Docker Compose for Production (app + postgres + mcp-server)
+- [x] Dockerfile for Web App
+- [x] Dockerfile for MCP Server
 - [x] Configure Vitest Unit/Integration Tests
 - [ ] Playwright E2E Tests Setup
   - [ ] Implement E2E tests based on USER-STORIES.md
@@ -355,8 +355,8 @@
 
 ## Next Steps (Priority)
 
-1. **Docker Compose Setup** (Phase 4) - Make the app production-ready deployable
-2. **Customizable Dashboard System** (Phase 5) - Grid-based dashboard with drag & drop tiles
-3. **Document Processing** (Phase 5a) - Document list and detail views
-4. **AI Analysis** (Phase 6) - Implement core document analysis feature
-5. **Setup Wizard** (Phase 3b) - Step-by-step wizard to create instances, providers, and bots
+1. **Customizable Dashboard System** (Phase 4) - Grid-based dashboard with drag & drop tiles
+2. **Document Processing** (Phase 5a) - Document list and detail views
+3. **AI Analysis** (Phase 6) - Implement core document analysis feature
+4. **Setup Wizard** (Phase 4b) - Step-by-step wizard to create instances, providers, and bots
+5. **Playwright E2E Tests** (Phase 5) - E2E testing based on USER-STORIES.md

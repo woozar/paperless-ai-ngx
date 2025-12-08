@@ -1,9 +1,6 @@
 import { z } from 'zod';
-import * as dotenv from 'dotenv';
 import { randomBytes } from 'node:crypto';
 import { logger } from './logger.js';
-
-dotenv.config();
 
 const configSchema = z.object({
   // Server Configuration

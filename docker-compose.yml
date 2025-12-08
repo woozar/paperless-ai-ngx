@@ -1,0 +1,66 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: paperless-ai-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-paperless}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-paperless}
+      POSTGRES_DB: ${POSTGRES_DB:-paperless-ai-ngx}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'pg_isready -U ${POSTGRES_USER:-paperless} -d ${POSTGRES_DB:-paperless-ai-ngx}',
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - paperless-ai-network
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    container_name: paperless-ai-web
+    restart: unless-stopped
+    ports:
+      - '${WEB_PORT:-3000}:3000'
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-paperless}:${POSTGRES_PASSWORD:-paperless}@postgres:5432/${POSTGRES_DB:-paperless-ai-ngx}
+      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET is required}
+      ADMIN_INITIAL_PASSWORD: ${ADMIN_INITIAL_PASSWORD:-changeme}
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY:?ENCRYPTION_KEY is required}
+      NODE_ENV: production
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - paperless-ai-network
+
+  mcp-server:
+    build:
+      context: .
+      dockerfile: apps/mcp-server/Dockerfile
+    container_name: paperless-ai-mcp
+    restart: unless-stopped
+    ports:
+      - '${MCP_PORT:-3001}:3001'
+    environment:
+      MCP_PORT: 3001
+      MCP_HOST: '0.0.0.0'
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+      JWT_SECRET: ${MCP_JWT_SECRET:-}
+      API_TOKEN: ${MCP_API_TOKEN:-}
+    networks:
+      - paperless-ai-network
+
+volumes:
+  postgres_data:
+
+networks:
+  paperless-ai-network:
+    driver: bridge

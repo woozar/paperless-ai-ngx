@@ -6,6 +6,8 @@ const withNextIntl = createNextIntlPlugin('./i18n/request.ts');
 const nextConfig = {
   // Enable React Compiler (Next.js 16 feature)
   reactCompiler: true,
+  // Standalone output for Docker deployment
+  output: 'standalone',
 };
 
 export default withNextIntl(nextConfig);
