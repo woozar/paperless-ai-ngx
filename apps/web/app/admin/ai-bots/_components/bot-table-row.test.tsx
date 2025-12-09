@@ -40,6 +40,7 @@ const mockBot: AiBotListItem = {
     provider: 'openai',
   },
   systemPrompt: 'You are a helpful assistant',
+  responseLanguage: 'DOCUMENT',
   createdAt: '2024-01-15T10:30:00Z',
   updatedAt: '2024-01-15T10:30:00Z',
 };

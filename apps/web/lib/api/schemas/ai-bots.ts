@@ -5,12 +5,18 @@ import { registerCrudPaths, createNameSchema, createOptionalNameSchema } from '.
 
 extendZodWithOpenApi(z);
 
+// Response language options for AI bots
+export const ResponseLanguageSchema = z
+  .enum(['DOCUMENT', 'GERMAN', 'ENGLISH'])
+  .openapi('ResponseLanguage');
+
 // AiBot in list (with provider relation)
 export const AiBotListItemSchema = z
   .object({
     id: z.string(),
     name: z.string(),
     systemPrompt: z.string(),
+    responseLanguage: ResponseLanguageSchema,
     aiProviderId: z.string(),
     aiProvider: z.object({
       id: z.string(),
@@ -28,6 +34,7 @@ export const CreateAiBotRequestSchema = z
     name: createNameSchema(),
     aiProviderId: z.string().min(1, 'AI Provider is required'),
     systemPrompt: z.string().min(1, 'System prompt is required'),
+    responseLanguage: ResponseLanguageSchema.optional().default('DOCUMENT'),
   })
   .openapi('CreateAiBotRequest');
 
@@ -37,10 +44,12 @@ export const UpdateAiBotRequestSchema = z
     name: createOptionalNameSchema(),
     aiProviderId: z.string().min(1).optional(),
     systemPrompt: z.string().min(1).optional(),
+    responseLanguage: ResponseLanguageSchema.optional(),
   })
   .openapi('UpdateAiBotRequest');
 
 // Register schemas
+registry.register('ResponseLanguage', ResponseLanguageSchema);
 registry.register('AiBotListItem', AiBotListItemSchema);
 registry.register('CreateAiBotRequest', CreateAiBotRequestSchema);
 registry.register('UpdateAiBotRequest', UpdateAiBotRequestSchema);

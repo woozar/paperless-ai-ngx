@@ -123,10 +123,13 @@ export type UpdateAiProviderRequest = {
   isActive?: boolean;
 };
 
+export type ResponseLanguage = 'DOCUMENT' | 'GERMAN' | 'ENGLISH';
+
 export type AiBotListItem = {
   id: string;
   name: string;
   systemPrompt: string;
+  responseLanguage: ResponseLanguage;
   aiProviderId: string;
   aiProvider: {
     id: string;
@@ -141,12 +144,14 @@ export type CreateAiBotRequest = {
   name: string;
   aiProviderId: string;
   systemPrompt: string;
+  responseLanguage?: ResponseLanguage & unknown;
 };
 
 export type UpdateAiBotRequest = {
   name?: string;
   aiProviderId?: string;
   systemPrompt?: string;
+  responseLanguage?: ResponseLanguage;
 };
 
 export type Permission = 'READ' | 'WRITE' | 'FULL';
@@ -166,6 +171,80 @@ export type ShareAccessList = {
 export type CreateShareRequest = {
   userId: string | null;
   permission: Permission;
+};
+
+export type DocumentStatus = 'processed' | 'unprocessed';
+
+export type DocumentListItem = {
+  id: string;
+  paperlessId: number;
+  title: string;
+  status: DocumentStatus;
+  importedAt: string;
+  lastProcessedAt: string | null;
+};
+
+export type SuggestedItem = {
+  id?: number;
+  name: string;
+} | null;
+
+export type SuggestedTag = {
+  id: number;
+  name: string;
+};
+
+export type DocumentAnalysisResult = {
+  suggestedTitle: string;
+  suggestedCorrespondent: SuggestedItem;
+  suggestedDocumentType: SuggestedItem;
+  suggestedTags: Array<SuggestedTag>;
+  confidence: number;
+  reasoning: string;
+} | null;
+
+export type DocumentProcessingResult = {
+  id: string;
+  processedAt: string;
+  aiProvider: string;
+  tokensUsed: number;
+  changes: DocumentAnalysisResult;
+  toolCalls: Array<{
+    toolName: string;
+    input: {
+      [key: string]: unknown;
+    };
+  }> | null;
+  originalTitle: string | null;
+};
+
+export type PaginationQuery = {
+  page?: number;
+  limit?: number;
+};
+
+export type DocumentFilterQuery = PaginationQuery & {
+  status?: 'all' | 'processed' | 'unprocessed';
+};
+
+export type DocumentListResponse = {
+  items: Array<DocumentListItem>;
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+};
+
+export type AnalyzeDocumentRequest = {
+  aiBotId: string;
+};
+
+export type AnalyzeDocumentResponse = {
+  success: true;
+  result: DocumentAnalysisResult & {
+    [key: string]: unknown;
+  };
+  tokensUsed: number;
 };
 
 export type ErrorResponse = {
@@ -1514,6 +1593,131 @@ export type DeletePaperlessInstancesByIdSharingByAccessIdResponses = {
 
 export type DeletePaperlessInstancesByIdSharingByAccessIdResponse =
   DeletePaperlessInstancesByIdSharingByAccessIdResponses[keyof DeletePaperlessInstancesByIdSharingByAccessIdResponses];
+
+export type GetPaperlessInstancesByIdDocumentsData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: {
+    page?: number;
+    limit?: number;
+    status?: 'all' | 'processed' | 'unprocessed';
+  };
+  url: '/paperless-instances/{id}/documents';
+};
+
+export type GetPaperlessInstancesByIdDocumentsErrors = {
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not authorized
+   */
+  403: ErrorResponse;
+  /**
+   * Not found
+   */
+  404: ErrorResponse;
+};
+
+export type GetPaperlessInstancesByIdDocumentsError =
+  GetPaperlessInstancesByIdDocumentsErrors[keyof GetPaperlessInstancesByIdDocumentsErrors];
+
+export type GetPaperlessInstancesByIdDocumentsResponses = {
+  /**
+   * List of documents
+   */
+  200: DocumentListResponse;
+};
+
+export type GetPaperlessInstancesByIdDocumentsResponse =
+  GetPaperlessInstancesByIdDocumentsResponses[keyof GetPaperlessInstancesByIdDocumentsResponses];
+
+export type PostPaperlessInstancesByIdDocumentsByDocumentIdAnalyzeData = {
+  body?: AnalyzeDocumentRequest;
+  path: {
+    id: string;
+    documentId: string;
+  };
+  query?: never;
+  url: '/paperless-instances/{id}/documents/{documentId}/analyze';
+};
+
+export type PostPaperlessInstancesByIdDocumentsByDocumentIdAnalyzeErrors = {
+  /**
+   * Bad request
+   */
+  400: ErrorResponse;
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not authorized
+   */
+  403: ErrorResponse;
+  /**
+   * Not found
+   */
+  404: ErrorResponse;
+  /**
+   * Internal server error
+   */
+  500: ErrorResponse;
+};
+
+export type PostPaperlessInstancesByIdDocumentsByDocumentIdAnalyzeError =
+  PostPaperlessInstancesByIdDocumentsByDocumentIdAnalyzeErrors[keyof PostPaperlessInstancesByIdDocumentsByDocumentIdAnalyzeErrors];
+
+export type PostPaperlessInstancesByIdDocumentsByDocumentIdAnalyzeResponses = {
+  /**
+   * Document analysis result
+   */
+  200: AnalyzeDocumentResponse;
+};
+
+export type PostPaperlessInstancesByIdDocumentsByDocumentIdAnalyzeResponse =
+  PostPaperlessInstancesByIdDocumentsByDocumentIdAnalyzeResponses[keyof PostPaperlessInstancesByIdDocumentsByDocumentIdAnalyzeResponses];
+
+export type GetPaperlessInstancesByIdDocumentsByDocumentIdResultData = {
+  body?: never;
+  path: {
+    id: string;
+    documentId: string;
+  };
+  query?: never;
+  url: '/paperless-instances/{id}/documents/{documentId}/result';
+};
+
+export type GetPaperlessInstancesByIdDocumentsByDocumentIdResultErrors = {
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not authorized
+   */
+  403: ErrorResponse;
+  /**
+   * Not found
+   */
+  404: ErrorResponse;
+};
+
+export type GetPaperlessInstancesByIdDocumentsByDocumentIdResultError =
+  GetPaperlessInstancesByIdDocumentsByDocumentIdResultErrors[keyof GetPaperlessInstancesByIdDocumentsByDocumentIdResultErrors];
+
+export type GetPaperlessInstancesByIdDocumentsByDocumentIdResultResponses = {
+  /**
+   * Document processing result
+   */
+  200: DocumentProcessingResult;
+};
+
+export type GetPaperlessInstancesByIdDocumentsByDocumentIdResultResponse =
+  GetPaperlessInstancesByIdDocumentsByDocumentIdResultResponses[keyof GetPaperlessInstancesByIdDocumentsByDocumentIdResultResponses];
 
 export type ClientOptions = {
   baseUrl: `${string}://${string}/api` | (string & {});

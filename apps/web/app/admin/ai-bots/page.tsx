@@ -1,9 +1,7 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
-import { useRouter } from 'next/navigation';
-import { useAuth } from '@/components/auth-provider';
 import { useErrorDisplay } from '@/hooks/use-error-display';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -11,6 +9,7 @@ import { Plus, Bot } from 'lucide-react';
 import { AppShell } from '@/components/app-shell';
 import { useApi } from '@/lib/use-api';
 import { useFormatDate } from '@/hooks/use-format-date';
+import { usePaginatedList, type FetchResult } from '@/hooks/use-paginated-list';
 import { getAiBots } from '@repo/api-client';
 import { TablePagination } from '@/components/table-pagination';
 
@@ -28,71 +27,41 @@ export default function AiBotsPage() {
   const t = useTranslations('admin.aiBots');
   const { showError } = useErrorDisplay('admin.aiBots');
   const formatDate = useFormatDate();
-  const router = useRouter();
-  const { isLoading: isAuthLoading } = useAuth();
   const client = useApi();
 
-  const [bots, setBots] = useState<AiBotListItem[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
-  const [total, setTotal] = useState(0);
-  const [totalPages, setTotalPages] = useState(0);
+  const fetchBots = useCallback(
+    async (page: number, limit: number): Promise<FetchResult<AiBotListItem>> => {
+      const response = await getAiBots({
+        client,
+        query: { page, limit },
+      });
+      if (response.error) {
+        return { data: undefined, error: { status: response.response.status } };
+      }
+      return { data: response.data, error: undefined };
+    },
+    [client]
+  );
+
+  const {
+    items: bots,
+    isLoading,
+    page,
+    limit,
+    total,
+    totalPages,
+    handlePageChange,
+    handleLimitChange,
+    reload,
+  } = usePaginatedList({
+    fetchFn: fetchBots,
+    onError: () => showError('loadFailed'),
+  });
 
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [editingBot, setEditingBot] = useState<AiBotListItem | null>(null);
   const [deletingBot, setDeletingBot] = useState<AiBotListItem | null>(null);
   const [sharingBot, setSharingBot] = useState<AiBotListItem | null>(null);
-
-  const loadBots = useCallback(
-    async (currentPage: number, currentLimit: number) => {
-      setIsLoading(true);
-
-      try {
-        const response = await getAiBots({
-          client,
-          query: { page: currentPage, limit: currentLimit },
-        });
-
-        if (response.error) {
-          if (response.response.status === 403) {
-            router.push('/');
-            return;
-          }
-          showError('loadFailed');
-          return;
-        }
-
-        setBots(response.data.items);
-        setTotal(response.data.total);
-        setTotalPages(response.data.totalPages);
-      } catch {
-        showError('loadFailed');
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    [router, showError, client]
-  );
-
-  useEffect(() => {
-    if (!isAuthLoading) {
-      loadBots(page, limit);
-    }
-  }, [isAuthLoading, loadBots, page, limit]);
-
-  const handlePageChange = (newPage: number) => {
-    setPage(newPage);
-  };
-
-  const handleLimitChange = (newLimit: number) => {
-    setLimit(newLimit);
-    setPage(1);
-  };
-
-  const reloadCurrentPage = () => {
-    loadBots(page, limit);
-  };
 
   const renderTableContent = () => {
     if (isLoading) {
@@ -156,24 +125,20 @@ export default function AiBotsPage() {
         )}
       </div>
 
-      <CreateBotDialog
-        open={isCreateOpen}
-        onOpenChange={setIsCreateOpen}
-        onSuccess={reloadCurrentPage}
-      />
+      <CreateBotDialog open={isCreateOpen} onOpenChange={setIsCreateOpen} onSuccess={reload} />
 
       <EditBotDialog
         open={!!editingBot}
         onOpenChange={(open) => !open && setEditingBot(null)}
         bot={editingBot}
-        onSuccess={reloadCurrentPage}
+        onSuccess={reload}
       />
 
       <DeleteBotDialog
         open={!!deletingBot}
         onOpenChange={(open) => !open && setDeletingBot(null)}
         bot={deletingBot}
-        onSuccess={reloadCurrentPage}
+        onSuccess={reload}
       />
 
       {sharingBot && (

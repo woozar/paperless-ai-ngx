@@ -11614,6 +11614,7 @@ export namespace Prisma {
     id: string | null;
     name: string | null;
     systemPrompt: string | null;
+    responseLanguage: string | null;
     createdAt: Date | null;
     updatedAt: Date | null;
     ownerId: string | null;
@@ -11624,6 +11625,7 @@ export namespace Prisma {
     id: string | null;
     name: string | null;
     systemPrompt: string | null;
+    responseLanguage: string | null;
     createdAt: Date | null;
     updatedAt: Date | null;
     ownerId: string | null;
@@ -11634,6 +11636,7 @@ export namespace Prisma {
     id: number;
     name: number;
     systemPrompt: number;
+    responseLanguage: number;
     createdAt: number;
     updatedAt: number;
     ownerId: number;
@@ -11645,6 +11648,7 @@ export namespace Prisma {
     id?: true;
     name?: true;
     systemPrompt?: true;
+    responseLanguage?: true;
     createdAt?: true;
     updatedAt?: true;
     ownerId?: true;
@@ -11655,6 +11659,7 @@ export namespace Prisma {
     id?: true;
     name?: true;
     systemPrompt?: true;
+    responseLanguage?: true;
     createdAt?: true;
     updatedAt?: true;
     ownerId?: true;
@@ -11665,6 +11670,7 @@ export namespace Prisma {
     id?: true;
     name?: true;
     systemPrompt?: true;
+    responseLanguage?: true;
     createdAt?: true;
     updatedAt?: true;
     ownerId?: true;
@@ -11748,6 +11754,7 @@ export namespace Prisma {
     id: string;
     name: string;
     systemPrompt: string;
+    responseLanguage: string;
     createdAt: Date;
     updatedAt: Date;
     ownerId: string;
@@ -11775,6 +11782,7 @@ export namespace Prisma {
         id?: boolean;
         name?: boolean;
         systemPrompt?: boolean;
+        responseLanguage?: boolean;
         createdAt?: boolean;
         updatedAt?: boolean;
         ownerId?: boolean;
@@ -11795,6 +11803,7 @@ export namespace Prisma {
       id?: boolean;
       name?: boolean;
       systemPrompt?: boolean;
+      responseLanguage?: boolean;
       createdAt?: boolean;
       updatedAt?: boolean;
       ownerId?: boolean;
@@ -11812,6 +11821,7 @@ export namespace Prisma {
       id?: boolean;
       name?: boolean;
       systemPrompt?: boolean;
+      responseLanguage?: boolean;
       createdAt?: boolean;
       updatedAt?: boolean;
       ownerId?: boolean;
@@ -11826,6 +11836,7 @@ export namespace Prisma {
     id?: boolean;
     name?: boolean;
     systemPrompt?: boolean;
+    responseLanguage?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     ownerId?: boolean;
@@ -11834,7 +11845,14 @@ export namespace Prisma {
 
   export type AiBotOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
     $Extensions.GetOmit<
-      'id' | 'name' | 'systemPrompt' | 'createdAt' | 'updatedAt' | 'ownerId' | 'aiProviderId',
+      | 'id'
+      | 'name'
+      | 'systemPrompt'
+      | 'responseLanguage'
+      | 'createdAt'
+      | 'updatedAt'
+      | 'ownerId'
+      | 'aiProviderId',
       ExtArgs['result']['aiBot']
     >;
   export type AiBotInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -11870,6 +11888,7 @@ export namespace Prisma {
         id: string;
         name: string;
         systemPrompt: string;
+        responseLanguage: string;
         createdAt: Date;
         updatedAt: Date;
         ownerId: string;
@@ -12421,6 +12440,7 @@ export namespace Prisma {
     readonly id: FieldRef<'AiBot', 'String'>;
     readonly name: FieldRef<'AiBot', 'String'>;
     readonly systemPrompt: FieldRef<'AiBot', 'String'>;
+    readonly responseLanguage: FieldRef<'AiBot', 'String'>;
     readonly createdAt: FieldRef<'AiBot', 'DateTime'>;
     readonly updatedAt: FieldRef<'AiBot', 'DateTime'>;
     readonly ownerId: FieldRef<'AiBot', 'String'>;
@@ -14378,6 +14398,7 @@ export namespace Prisma {
     aiProvider: number;
     tokensUsed: number;
     changes: number;
+    toolCalls: number;
     originalTitle: number;
     originalCorrespondent: number;
     originalDocumentType: number;
@@ -14428,6 +14449,7 @@ export namespace Prisma {
     aiProvider?: true;
     tokensUsed?: true;
     changes?: true;
+    toolCalls?: true;
     originalTitle?: true;
     originalCorrespondent?: true;
     originalDocumentType?: true;
@@ -14537,6 +14559,7 @@ export namespace Prisma {
     aiProvider: string;
     tokensUsed: number;
     changes: JsonValue | null;
+    toolCalls: JsonValue | null;
     originalTitle: string | null;
     originalCorrespondent: string | null;
     originalDocumentType: string | null;
@@ -14573,6 +14596,7 @@ export namespace Prisma {
       aiProvider?: boolean;
       tokensUsed?: boolean;
       changes?: boolean;
+      toolCalls?: boolean;
       originalTitle?: boolean;
       originalCorrespondent?: boolean;
       originalDocumentType?: boolean;
@@ -14594,6 +14618,7 @@ export namespace Prisma {
       aiProvider?: boolean;
       tokensUsed?: boolean;
       changes?: boolean;
+      toolCalls?: boolean;
       originalTitle?: boolean;
       originalCorrespondent?: boolean;
       originalDocumentType?: boolean;
@@ -14615,6 +14640,7 @@ export namespace Prisma {
       aiProvider?: boolean;
       tokensUsed?: boolean;
       changes?: boolean;
+      toolCalls?: boolean;
       originalTitle?: boolean;
       originalCorrespondent?: boolean;
       originalDocumentType?: boolean;
@@ -14633,6 +14659,7 @@ export namespace Prisma {
     aiProvider?: boolean;
     tokensUsed?: boolean;
     changes?: boolean;
+    toolCalls?: boolean;
     originalTitle?: boolean;
     originalCorrespondent?: boolean;
     originalDocumentType?: boolean;
@@ -14650,6 +14677,7 @@ export namespace Prisma {
     | 'aiProvider'
     | 'tokensUsed'
     | 'changes'
+    | 'toolCalls'
     | 'originalTitle'
     | 'originalCorrespondent'
     | 'originalDocumentType'
@@ -14689,6 +14717,7 @@ export namespace Prisma {
         aiProvider: string;
         tokensUsed: number;
         changes: Prisma.JsonValue | null;
+        toolCalls: Prisma.JsonValue | null;
         originalTitle: string | null;
         originalCorrespondent: string | null;
         originalDocumentType: string | null;
@@ -15282,6 +15311,7 @@ export namespace Prisma {
     readonly aiProvider: FieldRef<'DocumentProcessingResult', 'String'>;
     readonly tokensUsed: FieldRef<'DocumentProcessingResult', 'Int'>;
     readonly changes: FieldRef<'DocumentProcessingResult', 'Json'>;
+    readonly toolCalls: FieldRef<'DocumentProcessingResult', 'Json'>;
     readonly originalTitle: FieldRef<'DocumentProcessingResult', 'String'>;
     readonly originalCorrespondent: FieldRef<'DocumentProcessingResult', 'String'>;
     readonly originalDocumentType: FieldRef<'DocumentProcessingResult', 'String'>;
@@ -18690,6 +18720,7 @@ export namespace Prisma {
     id: 'id';
     name: 'name';
     systemPrompt: 'systemPrompt';
+    responseLanguage: 'responseLanguage';
     createdAt: 'createdAt';
     updatedAt: 'updatedAt';
     ownerId: 'ownerId';
@@ -18721,6 +18752,7 @@ export namespace Prisma {
     aiProvider: 'aiProvider';
     tokensUsed: 'tokensUsed';
     changes: 'changes';
+    toolCalls: 'toolCalls';
     originalTitle: 'originalTitle';
     originalCorrespondent: 'originalCorrespondent';
     originalDocumentType: 'originalDocumentType';
@@ -19425,6 +19457,7 @@ export namespace Prisma {
     id?: StringFilter<'AiBot'> | string;
     name?: StringFilter<'AiBot'> | string;
     systemPrompt?: StringFilter<'AiBot'> | string;
+    responseLanguage?: StringFilter<'AiBot'> | string;
     createdAt?: DateTimeFilter<'AiBot'> | Date | string;
     updatedAt?: DateTimeFilter<'AiBot'> | Date | string;
     ownerId?: StringFilter<'AiBot'> | string;
@@ -19439,6 +19472,7 @@ export namespace Prisma {
     id?: SortOrder;
     name?: SortOrder;
     systemPrompt?: SortOrder;
+    responseLanguage?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
     ownerId?: SortOrder;
@@ -19457,6 +19491,7 @@ export namespace Prisma {
       NOT?: AiBotWhereInput | AiBotWhereInput[];
       name?: StringFilter<'AiBot'> | string;
       systemPrompt?: StringFilter<'AiBot'> | string;
+      responseLanguage?: StringFilter<'AiBot'> | string;
       createdAt?: DateTimeFilter<'AiBot'> | Date | string;
       updatedAt?: DateTimeFilter<'AiBot'> | Date | string;
       ownerId?: StringFilter<'AiBot'> | string;
@@ -19473,6 +19508,7 @@ export namespace Prisma {
     id?: SortOrder;
     name?: SortOrder;
     systemPrompt?: SortOrder;
+    responseLanguage?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
     ownerId?: SortOrder;
@@ -19489,6 +19525,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<'AiBot'> | string;
     name?: StringWithAggregatesFilter<'AiBot'> | string;
     systemPrompt?: StringWithAggregatesFilter<'AiBot'> | string;
+    responseLanguage?: StringWithAggregatesFilter<'AiBot'> | string;
     createdAt?: DateTimeWithAggregatesFilter<'AiBot'> | Date | string;
     updatedAt?: DateTimeWithAggregatesFilter<'AiBot'> | Date | string;
     ownerId?: StringWithAggregatesFilter<'AiBot'> | string;
@@ -19597,6 +19634,7 @@ export namespace Prisma {
     aiProvider?: StringFilter<'DocumentProcessingResult'> | string;
     tokensUsed?: IntFilter<'DocumentProcessingResult'> | number;
     changes?: JsonNullableFilter<'DocumentProcessingResult'>;
+    toolCalls?: JsonNullableFilter<'DocumentProcessingResult'>;
     originalTitle?: StringNullableFilter<'DocumentProcessingResult'> | string | null;
     originalCorrespondent?: StringNullableFilter<'DocumentProcessingResult'> | string | null;
     originalDocumentType?: StringNullableFilter<'DocumentProcessingResult'> | string | null;
@@ -19613,6 +19651,7 @@ export namespace Prisma {
     aiProvider?: SortOrder;
     tokensUsed?: SortOrder;
     changes?: SortOrderInput | SortOrder;
+    toolCalls?: SortOrderInput | SortOrder;
     originalTitle?: SortOrderInput | SortOrder;
     originalCorrespondent?: SortOrderInput | SortOrder;
     originalDocumentType?: SortOrderInput | SortOrder;
@@ -19633,6 +19672,7 @@ export namespace Prisma {
       aiProvider?: StringFilter<'DocumentProcessingResult'> | string;
       tokensUsed?: IntFilter<'DocumentProcessingResult'> | number;
       changes?: JsonNullableFilter<'DocumentProcessingResult'>;
+      toolCalls?: JsonNullableFilter<'DocumentProcessingResult'>;
       originalTitle?: StringNullableFilter<'DocumentProcessingResult'> | string | null;
       originalCorrespondent?: StringNullableFilter<'DocumentProcessingResult'> | string | null;
       originalDocumentType?: StringNullableFilter<'DocumentProcessingResult'> | string | null;
@@ -19651,6 +19691,7 @@ export namespace Prisma {
     aiProvider?: SortOrder;
     tokensUsed?: SortOrder;
     changes?: SortOrderInput | SortOrder;
+    toolCalls?: SortOrderInput | SortOrder;
     originalTitle?: SortOrderInput | SortOrder;
     originalCorrespondent?: SortOrderInput | SortOrder;
     originalDocumentType?: SortOrderInput | SortOrder;
@@ -19678,6 +19719,7 @@ export namespace Prisma {
     aiProvider?: StringWithAggregatesFilter<'DocumentProcessingResult'> | string;
     tokensUsed?: IntWithAggregatesFilter<'DocumentProcessingResult'> | number;
     changes?: JsonNullableWithAggregatesFilter<'DocumentProcessingResult'>;
+    toolCalls?: JsonNullableWithAggregatesFilter<'DocumentProcessingResult'>;
     originalTitle?: StringNullableWithAggregatesFilter<'DocumentProcessingResult'> | string | null;
     originalCorrespondent?:
       | StringNullableWithAggregatesFilter<'DocumentProcessingResult'>
@@ -20400,6 +20442,7 @@ export namespace Prisma {
     id?: string;
     name: string;
     systemPrompt: string;
+    responseLanguage?: string;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     owner: UserCreateNestedOneWithoutOwnedAiBotsInput;
@@ -20412,6 +20455,7 @@ export namespace Prisma {
     id?: string;
     name: string;
     systemPrompt: string;
+    responseLanguage?: string;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownerId: string;
@@ -20424,6 +20468,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
+    responseLanguage?: StringFieldUpdateOperationsInput | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     owner?: UserUpdateOneRequiredWithoutOwnedAiBotsNestedInput;
@@ -20436,6 +20481,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
+    responseLanguage?: StringFieldUpdateOperationsInput | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownerId?: StringFieldUpdateOperationsInput | string;
@@ -20448,6 +20494,7 @@ export namespace Prisma {
     id?: string;
     name: string;
     systemPrompt: string;
+    responseLanguage?: string;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownerId: string;
@@ -20458,6 +20505,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
+    responseLanguage?: StringFieldUpdateOperationsInput | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
   };
@@ -20466,6 +20514,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
+    responseLanguage?: StringFieldUpdateOperationsInput | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownerId?: StringFieldUpdateOperationsInput | string;
@@ -20572,6 +20621,7 @@ export namespace Prisma {
     aiProvider: string;
     tokensUsed?: number;
     changes?: NullableJsonNullValueInput | InputJsonValue;
+    toolCalls?: NullableJsonNullValueInput | InputJsonValue;
     originalTitle?: string | null;
     originalCorrespondent?: string | null;
     originalDocumentType?: string | null;
@@ -20587,6 +20637,7 @@ export namespace Prisma {
     aiProvider: string;
     tokensUsed?: number;
     changes?: NullableJsonNullValueInput | InputJsonValue;
+    toolCalls?: NullableJsonNullValueInput | InputJsonValue;
     originalTitle?: string | null;
     originalCorrespondent?: string | null;
     originalDocumentType?: string | null;
@@ -20602,6 +20653,7 @@ export namespace Prisma {
     aiProvider?: StringFieldUpdateOperationsInput | string;
     tokensUsed?: IntFieldUpdateOperationsInput | number;
     changes?: NullableJsonNullValueInput | InputJsonValue;
+    toolCalls?: NullableJsonNullValueInput | InputJsonValue;
     originalTitle?: NullableStringFieldUpdateOperationsInput | string | null;
     originalCorrespondent?: NullableStringFieldUpdateOperationsInput | string | null;
     originalDocumentType?: NullableStringFieldUpdateOperationsInput | string | null;
@@ -20617,6 +20669,7 @@ export namespace Prisma {
     aiProvider?: StringFieldUpdateOperationsInput | string;
     tokensUsed?: IntFieldUpdateOperationsInput | number;
     changes?: NullableJsonNullValueInput | InputJsonValue;
+    toolCalls?: NullableJsonNullValueInput | InputJsonValue;
     originalTitle?: NullableStringFieldUpdateOperationsInput | string | null;
     originalCorrespondent?: NullableStringFieldUpdateOperationsInput | string | null;
     originalDocumentType?: NullableStringFieldUpdateOperationsInput | string | null;
@@ -20632,6 +20685,7 @@ export namespace Prisma {
     aiProvider: string;
     tokensUsed?: number;
     changes?: NullableJsonNullValueInput | InputJsonValue;
+    toolCalls?: NullableJsonNullValueInput | InputJsonValue;
     originalTitle?: string | null;
     originalCorrespondent?: string | null;
     originalDocumentType?: string | null;
@@ -20647,6 +20701,7 @@ export namespace Prisma {
     aiProvider?: StringFieldUpdateOperationsInput | string;
     tokensUsed?: IntFieldUpdateOperationsInput | number;
     changes?: NullableJsonNullValueInput | InputJsonValue;
+    toolCalls?: NullableJsonNullValueInput | InputJsonValue;
     originalTitle?: NullableStringFieldUpdateOperationsInput | string | null;
     originalCorrespondent?: NullableStringFieldUpdateOperationsInput | string | null;
     originalDocumentType?: NullableStringFieldUpdateOperationsInput | string | null;
@@ -20661,6 +20716,7 @@ export namespace Prisma {
     aiProvider?: StringFieldUpdateOperationsInput | string;
     tokensUsed?: IntFieldUpdateOperationsInput | number;
     changes?: NullableJsonNullValueInput | InputJsonValue;
+    toolCalls?: NullableJsonNullValueInput | InputJsonValue;
     originalTitle?: NullableStringFieldUpdateOperationsInput | string | null;
     originalCorrespondent?: NullableStringFieldUpdateOperationsInput | string | null;
     originalDocumentType?: NullableStringFieldUpdateOperationsInput | string | null;
@@ -21348,6 +21404,7 @@ export namespace Prisma {
     id?: SortOrder;
     name?: SortOrder;
     systemPrompt?: SortOrder;
+    responseLanguage?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
     ownerId?: SortOrder;
@@ -21358,6 +21415,7 @@ export namespace Prisma {
     id?: SortOrder;
     name?: SortOrder;
     systemPrompt?: SortOrder;
+    responseLanguage?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
     ownerId?: SortOrder;
@@ -21368,6 +21426,7 @@ export namespace Prisma {
     id?: SortOrder;
     name?: SortOrder;
     systemPrompt?: SortOrder;
+    responseLanguage?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
     ownerId?: SortOrder;
@@ -21545,6 +21604,7 @@ export namespace Prisma {
     aiProvider?: SortOrder;
     tokensUsed?: SortOrder;
     changes?: SortOrder;
+    toolCalls?: SortOrder;
     originalTitle?: SortOrder;
     originalCorrespondent?: SortOrder;
     originalDocumentType?: SortOrder;
@@ -23953,6 +24013,7 @@ export namespace Prisma {
     id?: string;
     name: string;
     systemPrompt: string;
+    responseLanguage?: string;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     aiProvider: AiProviderCreateNestedOneWithoutBotsInput;
@@ -23964,6 +24025,7 @@ export namespace Prisma {
     id?: string;
     name: string;
     systemPrompt: string;
+    responseLanguage?: string;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     aiProviderId: string;
@@ -24198,6 +24260,7 @@ export namespace Prisma {
     id?: StringFilter<'AiBot'> | string;
     name?: StringFilter<'AiBot'> | string;
     systemPrompt?: StringFilter<'AiBot'> | string;
+    responseLanguage?: StringFilter<'AiBot'> | string;
     createdAt?: DateTimeFilter<'AiBot'> | Date | string;
     updatedAt?: DateTimeFilter<'AiBot'> | Date | string;
     ownerId?: StringFilter<'AiBot'> | string;
@@ -24761,6 +24824,7 @@ export namespace Prisma {
     id?: string;
     name: string;
     systemPrompt: string;
+    responseLanguage?: string;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     owner: UserCreateNestedOneWithoutOwnedAiBotsInput;
@@ -24772,6 +24836,7 @@ export namespace Prisma {
     id?: string;
     name: string;
     systemPrompt: string;
+    responseLanguage?: string;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownerId: string;
@@ -24844,6 +24909,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
+    responseLanguage?: StringFieldUpdateOperationsInput | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     owner?: UserUpdateOneRequiredWithoutOwnedAiBotsNestedInput;
@@ -24855,6 +24921,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
+    responseLanguage?: StringFieldUpdateOperationsInput | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownerId?: StringFieldUpdateOperationsInput | string;
@@ -25264,6 +25331,7 @@ export namespace Prisma {
     id?: string;
     name: string;
     systemPrompt: string;
+    responseLanguage?: string;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     owner: UserCreateNestedOneWithoutOwnedAiBotsInput;
@@ -25275,6 +25343,7 @@ export namespace Prisma {
     id?: string;
     name: string;
     systemPrompt: string;
+    responseLanguage?: string;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownerId: string;
@@ -25778,6 +25847,7 @@ export namespace Prisma {
     aiProvider: string;
     tokensUsed?: number;
     changes?: NullableJsonNullValueInput | InputJsonValue;
+    toolCalls?: NullableJsonNullValueInput | InputJsonValue;
     originalTitle?: string | null;
     originalCorrespondent?: string | null;
     originalDocumentType?: string | null;
@@ -25792,6 +25862,7 @@ export namespace Prisma {
     aiProvider: string;
     tokensUsed?: number;
     changes?: NullableJsonNullValueInput | InputJsonValue;
+    toolCalls?: NullableJsonNullValueInput | InputJsonValue;
     originalTitle?: string | null;
     originalCorrespondent?: string | null;
     originalDocumentType?: string | null;
@@ -25896,6 +25967,7 @@ export namespace Prisma {
     aiProvider?: StringFilter<'DocumentProcessingResult'> | string;
     tokensUsed?: IntFilter<'DocumentProcessingResult'> | number;
     changes?: JsonNullableFilter<'DocumentProcessingResult'>;
+    toolCalls?: JsonNullableFilter<'DocumentProcessingResult'>;
     originalTitle?: StringNullableFilter<'DocumentProcessingResult'> | string | null;
     originalCorrespondent?: StringNullableFilter<'DocumentProcessingResult'> | string | null;
     originalDocumentType?: StringNullableFilter<'DocumentProcessingResult'> | string | null;
@@ -26145,6 +26217,7 @@ export namespace Prisma {
     id?: string;
     name: string;
     systemPrompt: string;
+    responseLanguage?: string;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     owner: UserCreateNestedOneWithoutOwnedAiBotsInput;
@@ -26156,6 +26229,7 @@ export namespace Prisma {
     id?: string;
     name: string;
     systemPrompt: string;
+    responseLanguage?: string;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownerId: string;
@@ -26296,6 +26370,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
+    responseLanguage?: StringFieldUpdateOperationsInput | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     owner?: UserUpdateOneRequiredWithoutOwnedAiBotsNestedInput;
@@ -26307,6 +26382,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
+    responseLanguage?: StringFieldUpdateOperationsInput | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownerId?: StringFieldUpdateOperationsInput | string;
@@ -26339,6 +26415,7 @@ export namespace Prisma {
     id?: string;
     name: string;
     systemPrompt: string;
+    responseLanguage?: string;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     aiProviderId: string;
@@ -26458,6 +26535,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
+    responseLanguage?: StringFieldUpdateOperationsInput | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     aiProvider?: AiProviderUpdateOneRequiredWithoutBotsNestedInput;
@@ -26469,6 +26547,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
+    responseLanguage?: StringFieldUpdateOperationsInput | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     aiProviderId?: StringFieldUpdateOperationsInput | string;
@@ -26480,6 +26559,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
+    responseLanguage?: StringFieldUpdateOperationsInput | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     aiProviderId?: StringFieldUpdateOperationsInput | string;
@@ -26735,6 +26815,7 @@ export namespace Prisma {
     id?: string;
     name: string;
     systemPrompt: string;
+    responseLanguage?: string;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownerId: string;
@@ -26779,6 +26860,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
+    responseLanguage?: StringFieldUpdateOperationsInput | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     owner?: UserUpdateOneRequiredWithoutOwnedAiBotsNestedInput;
@@ -26790,6 +26872,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
+    responseLanguage?: StringFieldUpdateOperationsInput | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownerId?: StringFieldUpdateOperationsInput | string;
@@ -26801,6 +26884,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
+    responseLanguage?: StringFieldUpdateOperationsInput | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownerId?: StringFieldUpdateOperationsInput | string;
@@ -26938,6 +27022,7 @@ export namespace Prisma {
     aiProvider: string;
     tokensUsed?: number;
     changes?: NullableJsonNullValueInput | InputJsonValue;
+    toolCalls?: NullableJsonNullValueInput | InputJsonValue;
     originalTitle?: string | null;
     originalCorrespondent?: string | null;
     originalDocumentType?: string | null;
@@ -26952,6 +27037,7 @@ export namespace Prisma {
     aiProvider?: StringFieldUpdateOperationsInput | string;
     tokensUsed?: IntFieldUpdateOperationsInput | number;
     changes?: NullableJsonNullValueInput | InputJsonValue;
+    toolCalls?: NullableJsonNullValueInput | InputJsonValue;
     originalTitle?: NullableStringFieldUpdateOperationsInput | string | null;
     originalCorrespondent?: NullableStringFieldUpdateOperationsInput | string | null;
     originalDocumentType?: NullableStringFieldUpdateOperationsInput | string | null;
@@ -26966,6 +27052,7 @@ export namespace Prisma {
     aiProvider?: StringFieldUpdateOperationsInput | string;
     tokensUsed?: IntFieldUpdateOperationsInput | number;
     changes?: NullableJsonNullValueInput | InputJsonValue;
+    toolCalls?: NullableJsonNullValueInput | InputJsonValue;
     originalTitle?: NullableStringFieldUpdateOperationsInput | string | null;
     originalCorrespondent?: NullableStringFieldUpdateOperationsInput | string | null;
     originalDocumentType?: NullableStringFieldUpdateOperationsInput | string | null;
@@ -26980,6 +27067,7 @@ export namespace Prisma {
     aiProvider?: StringFieldUpdateOperationsInput | string;
     tokensUsed?: IntFieldUpdateOperationsInput | number;
     changes?: NullableJsonNullValueInput | InputJsonValue;
+    toolCalls?: NullableJsonNullValueInput | InputJsonValue;
     originalTitle?: NullableStringFieldUpdateOperationsInput | string | null;
     originalCorrespondent?: NullableStringFieldUpdateOperationsInput | string | null;
     originalDocumentType?: NullableStringFieldUpdateOperationsInput | string | null;

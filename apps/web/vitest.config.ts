@@ -29,6 +29,7 @@ export default defineConfig({
         '**/locales/**',
         '**/test-utils/**',
         '**/_components/index.ts',
+        '**/lib/api/schemas/index.ts', // Barrel export with side-effects only
         '**/instrumentation.ts',
         '**/route-wrapper/types.ts', // Only TypeScript types, no runtime code
       ],

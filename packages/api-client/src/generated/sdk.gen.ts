@@ -112,6 +112,15 @@ import type {
   DeletePaperlessInstancesByIdSharingByAccessIdData,
   DeletePaperlessInstancesByIdSharingByAccessIdResponses,
   DeletePaperlessInstancesByIdSharingByAccessIdErrors,
+  GetPaperlessInstancesByIdDocumentsData,
+  GetPaperlessInstancesByIdDocumentsResponses,
+  GetPaperlessInstancesByIdDocumentsErrors,
+  PostPaperlessInstancesByIdDocumentsByDocumentIdAnalyzeData,
+  PostPaperlessInstancesByIdDocumentsByDocumentIdAnalyzeResponses,
+  PostPaperlessInstancesByIdDocumentsByDocumentIdAnalyzeErrors,
+  GetPaperlessInstancesByIdDocumentsByDocumentIdResultData,
+  GetPaperlessInstancesByIdDocumentsByDocumentIdResultResponses,
+  GetPaperlessInstancesByIdDocumentsByDocumentIdResultErrors,
 } from './types.gen';
 import { client as _heyApiClient } from './client.gen';
 
@@ -755,6 +764,65 @@ export const deletePaperlessInstancesByIdSharingByAccessId = <ThrowOnError exten
     ThrowOnError
   >({
     url: '/paperless-instances/{id}/sharing/{accessId}',
+    ...options,
+  });
+};
+
+/**
+ * List documents for a Paperless instance
+ * Returns a paginated list of documents imported from the Paperless instance
+ */
+export const getPaperlessInstancesByIdDocuments = <ThrowOnError extends boolean = false>(
+  options: Options<GetPaperlessInstancesByIdDocumentsData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<
+    GetPaperlessInstancesByIdDocumentsResponses,
+    GetPaperlessInstancesByIdDocumentsErrors,
+    ThrowOnError
+  >({
+    url: '/paperless-instances/{id}/documents',
+    ...options,
+  });
+};
+
+/**
+ * Analyze a document with AI
+ * Uses the specified AI bot to analyze the document and suggest metadata (title, tags, correspondent, document type)
+ */
+export const postPaperlessInstancesByIdDocumentsByDocumentIdAnalyze = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<PostPaperlessInstancesByIdDocumentsByDocumentIdAnalyzeData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostPaperlessInstancesByIdDocumentsByDocumentIdAnalyzeResponses,
+    PostPaperlessInstancesByIdDocumentsByDocumentIdAnalyzeErrors,
+    ThrowOnError
+  >({
+    url: '/paperless-instances/{id}/documents/{documentId}/analyze',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * Get latest processing result for a document
+ * Returns the most recent AI analysis result for the specified document
+ */
+export const getPaperlessInstancesByIdDocumentsByDocumentIdResult = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<GetPaperlessInstancesByIdDocumentsByDocumentIdResultData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<
+    GetPaperlessInstancesByIdDocumentsByDocumentIdResultResponses,
+    GetPaperlessInstancesByIdDocumentsByDocumentIdResultErrors,
+    ThrowOnError
+  >({
+    url: '/paperless-instances/{id}/documents/{documentId}/result',
     ...options,
   });
 };

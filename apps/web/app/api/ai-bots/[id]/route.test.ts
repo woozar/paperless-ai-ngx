@@ -301,6 +301,39 @@ describe('PATCH /api/ai-bots/[id]', () => {
     expect(response.status).toBe(200);
     expect(data.isActive).toBe(false);
   });
+
+  it('successfully updates bot responseLanguage', async () => {
+    const mockDate = new Date('2024-01-15T10:00:00Z');
+    mockAdmin();
+    mockedPrisma.aiBot.findFirst.mockResolvedValueOnce({
+      id: 'bot-1',
+      name: 'Support Bot',
+    });
+    mockedPrisma.aiBot.update.mockResolvedValueOnce({
+      id: 'bot-1',
+      name: 'Support Bot',
+      systemPrompt: 'You are helpful',
+      responseLanguage: 'GERMAN',
+      aiProviderId: 'provider-1',
+      aiProvider: {
+        id: 'provider-1',
+        name: 'OpenAI',
+      },
+      isActive: true,
+      createdAt: mockDate,
+      updatedAt: mockDate,
+    });
+
+    const request = new NextRequest('http://localhost/api/ai-bots/bot-1', {
+      method: 'PATCH',
+      body: JSON.stringify({ responseLanguage: 'GERMAN' }),
+    });
+    const response = await PATCH(request, mockContext('bot-1'));
+    const data = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(data.responseLanguage).toBe('GERMAN');
+  });
 });
 
 describe('DELETE /api/ai-bots/[id]', () => {

@@ -24,6 +24,7 @@ export const GET = authRoute<never, { id: string }>(
         id: true,
         name: true,
         systemPrompt: true,
+        responseLanguage: true,
         aiProviderId: true,
         aiProvider: {
           select: {
@@ -87,7 +88,7 @@ export const PATCH = authRoute<typeof UpdateAiBotRequestSchema, { id: string }>(
       );
     }
 
-    const { name, aiProviderId, systemPrompt } = body;
+    const { name, aiProviderId, systemPrompt, responseLanguage } = body;
 
     // Check name uniqueness if changing
     if (name && name !== existingBot.name) {
@@ -136,12 +137,14 @@ export const PATCH = authRoute<typeof UpdateAiBotRequestSchema, { id: string }>(
       name?: string;
       aiProviderId?: string;
       systemPrompt?: string;
+      responseLanguage?: string;
     };
 
     const updateData: UpdateData = {};
     if (name !== undefined) updateData.name = name;
     if (aiProviderId !== undefined) updateData.aiProviderId = aiProviderId;
     if (systemPrompt !== undefined) updateData.systemPrompt = systemPrompt;
+    if (responseLanguage !== undefined) updateData.responseLanguage = responseLanguage;
 
     // Update bot
     const bot = await prisma.aiBot.update({
@@ -151,6 +154,7 @@ export const PATCH = authRoute<typeof UpdateAiBotRequestSchema, { id: string }>(
         id: true,
         name: true,
         systemPrompt: true,
+        responseLanguage: true,
         aiProviderId: true,
         aiProvider: {
           select: {

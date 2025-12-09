@@ -13,6 +13,7 @@ describe('AiBotListItemSchema', () => {
         name: 'My OpenAI',
         provider: 'openai',
       },
+      responseLanguage: 'DOCUMENT',
       isActive: true,
       createdAt: '2024-01-15T10:00:00.000Z',
       updatedAt: '2024-01-15T10:00:00.000Z',

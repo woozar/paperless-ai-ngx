@@ -1,9 +1,7 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
-import { useRouter } from 'next/navigation';
-import { useAuth } from '@/components/auth-provider';
 import { useErrorDisplay } from '@/hooks/use-error-display';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -11,6 +9,7 @@ import { Plus, Cpu } from 'lucide-react';
 import { AppShell } from '@/components/app-shell';
 import { useApi } from '@/lib/use-api';
 import { useFormatDate } from '@/hooks/use-format-date';
+import { usePaginatedList, type FetchResult } from '@/hooks/use-paginated-list';
 import { getAiProviders } from '@repo/api-client';
 import { TablePagination } from '@/components/table-pagination';
 
@@ -24,83 +23,48 @@ import {
 } from './_components';
 import { ShareDialog } from '@/components/sharing/share-dialog';
 
+type ProviderItem = Omit<AiProviderListItem, 'apiKey'>;
+
 export default function AiProvidersPage() {
   const t = useTranslations('admin.aiProviders');
   const { showError } = useErrorDisplay('admin.aiProviders');
   const formatDate = useFormatDate();
-  const router = useRouter();
-  const { isLoading: isAuthLoading } = useAuth();
   const client = useApi();
 
-  const [providers, setProviders] = useState<Omit<AiProviderListItem, 'apiKey'>[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
-  const [total, setTotal] = useState(0);
-  const [totalPages, setTotalPages] = useState(0);
+  const fetchProviders = useCallback(
+    async (page: number, limit: number): Promise<FetchResult<ProviderItem>> => {
+      const response = await getAiProviders({
+        client,
+        query: { page, limit },
+      });
+      if (response.error) {
+        return { data: undefined, error: { status: response.response.status } };
+      }
+      return { data: response.data, error: undefined };
+    },
+    [client]
+  );
+
+  const {
+    items: providers,
+    isLoading,
+    page,
+    limit,
+    total,
+    totalPages,
+    handlePageChange,
+    handleLimitChange,
+    reload,
+  } = usePaginatedList({
+    fetchFn: fetchProviders,
+    onError: () => showError('loadFailed'),
+  });
 
   // Dialog states
   const [isCreateOpen, setIsCreateOpen] = useState(false);
-  const [editingProvider, setEditingProvider] = useState<Omit<AiProviderListItem, 'apiKey'> | null>(
-    null
-  );
-  const [deletingProvider, setDeletingProvider] = useState<Omit<
-    AiProviderListItem,
-    'apiKey'
-  > | null>(null);
-  const [sharingProvider, setSharingProvider] = useState<Omit<AiProviderListItem, 'apiKey'> | null>(
-    null
-  );
-
-  const loadProviders = useCallback(
-    async (currentPage: number, currentLimit: number) => {
-      setIsLoading(true);
-
-      try {
-        const response = await getAiProviders({
-          client,
-          query: { page: currentPage, limit: currentLimit },
-        });
-
-        if (response.error) {
-          if (response.response.status === 403) {
-            router.push('/');
-            return;
-          }
-          showError('loadFailed');
-          return;
-        }
-
-        setProviders(response.data.items);
-        setTotal(response.data.total);
-        setTotalPages(response.data.totalPages);
-      } catch {
-        showError('loadFailed');
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    [router, showError, client]
-  );
-
-  useEffect(() => {
-    if (!isAuthLoading) {
-      loadProviders(page, limit);
-    }
-  }, [isAuthLoading, loadProviders, page, limit]);
-
-  const handlePageChange = (newPage: number) => {
-    setPage(newPage);
-  };
-
-  const handleLimitChange = (newLimit: number) => {
-    setLimit(newLimit);
-    setPage(1);
-  };
-
-  const reloadCurrentPage = () => {
-    loadProviders(page, limit);
-  };
+  const [editingProvider, setEditingProvider] = useState<ProviderItem | null>(null);
+  const [deletingProvider, setDeletingProvider] = useState<ProviderItem | null>(null);
+  const [sharingProvider, setSharingProvider] = useState<ProviderItem | null>(null);
 
   const renderTableContent = () => {
     if (isLoading) {
@@ -165,24 +129,20 @@ export default function AiProvidersPage() {
         )}
       </div>
 
-      <CreateProviderDialog
-        open={isCreateOpen}
-        onOpenChange={setIsCreateOpen}
-        onSuccess={reloadCurrentPage}
-      />
+      <CreateProviderDialog open={isCreateOpen} onOpenChange={setIsCreateOpen} onSuccess={reload} />
 
       <EditProviderDialog
         open={!!editingProvider}
         onOpenChange={(open) => !open && setEditingProvider(null)}
         provider={editingProvider}
-        onSuccess={reloadCurrentPage}
+        onSuccess={reload}
       />
 
       <DeleteProviderDialog
         open={!!deletingProvider}
         onOpenChange={(open) => !open && setDeletingProvider(null)}
         provider={deletingProvider}
-        onSuccess={reloadCurrentPage}
+        onSuccess={reload}
       />
 
       {sharingProvider && (

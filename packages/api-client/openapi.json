@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Paperless AI API",
-    "version": "1.8.0",
+    "version": "1.9.0",
     "description": "API for Paperless AI document processing"
   },
   "servers": [
@@ -398,6 +398,10 @@
           }
         }
       },
+      "ResponseLanguage": {
+        "type": "string",
+        "enum": ["DOCUMENT", "GERMAN", "ENGLISH"]
+      },
       "AiBotListItem": {
         "type": "object",
         "properties": {
@@ -409,6 +413,9 @@
           },
           "systemPrompt": {
             "type": "string"
+          },
+          "responseLanguage": {
+            "$ref": "#/components/schemas/ResponseLanguage"
           },
           "aiProviderId": {
             "type": "string"
@@ -441,6 +448,7 @@
           "id",
           "name",
           "systemPrompt",
+          "responseLanguage",
           "aiProviderId",
           "aiProvider",
           "createdAt",
@@ -462,6 +470,16 @@
           "systemPrompt": {
             "type": "string",
             "minLength": 1
+          },
+          "responseLanguage": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ResponseLanguage"
+              },
+              {
+                "default": "DOCUMENT"
+              }
+            ]
           }
         },
         "required": ["name", "aiProviderId", "systemPrompt"]
@@ -481,6 +499,9 @@
           "systemPrompt": {
             "type": "string",
             "minLength": 1
+          },
+          "responseLanguage": {
+            "$ref": "#/components/schemas/ResponseLanguage"
           }
         }
       },
@@ -533,6 +554,237 @@
           }
         },
         "required": ["userId", "permission"]
+      },
+      "DocumentStatus": {
+        "type": "string",
+        "enum": ["processed", "unprocessed"]
+      },
+      "DocumentListItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "paperlessId": {
+            "type": "number"
+          },
+          "title": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/DocumentStatus"
+          },
+          "importedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastProcessedAt": {
+            "type": ["string", "null"],
+            "format": "date-time"
+          }
+        },
+        "required": ["id", "paperlessId", "title", "status", "importedAt", "lastProcessedAt"]
+      },
+      "SuggestedItem": {
+        "type": ["object", "null"],
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": ["name"]
+      },
+      "SuggestedTag": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": ["id", "name"]
+      },
+      "DocumentAnalysisResult": {
+        "type": ["object", "null"],
+        "properties": {
+          "suggestedTitle": {
+            "type": "string"
+          },
+          "suggestedCorrespondent": {
+            "$ref": "#/components/schemas/SuggestedItem"
+          },
+          "suggestedDocumentType": {
+            "$ref": "#/components/schemas/SuggestedItem"
+          },
+          "suggestedTags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SuggestedTag"
+            }
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "reasoning": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "suggestedTitle",
+          "suggestedCorrespondent",
+          "suggestedDocumentType",
+          "suggestedTags",
+          "confidence",
+          "reasoning"
+        ]
+      },
+      "DocumentProcessingResult": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "processedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "aiProvider": {
+            "type": "string"
+          },
+          "tokensUsed": {
+            "type": "number"
+          },
+          "changes": {
+            "$ref": "#/components/schemas/DocumentAnalysisResult"
+          },
+          "toolCalls": {
+            "type": ["array", "null"],
+            "items": {
+              "type": "object",
+              "properties": {
+                "toolName": {
+                  "type": "string"
+                },
+                "input": {
+                  "type": "object",
+                  "additionalProperties": {}
+                }
+              },
+              "required": ["toolName", "input"]
+            }
+          },
+          "originalTitle": {
+            "type": ["string", "null"]
+          }
+        },
+        "required": [
+          "id",
+          "processedAt",
+          "aiProvider",
+          "tokensUsed",
+          "changes",
+          "toolCalls",
+          "originalTitle"
+        ]
+      },
+      "PaginationQuery": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "integer",
+            "minimum": 1,
+            "default": 1,
+            "example": 1
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 10,
+            "example": 10
+          }
+        }
+      },
+      "DocumentFilterQuery": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/PaginationQuery"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "string",
+                "enum": ["all", "processed", "unprocessed"],
+                "default": "all"
+              }
+            }
+          }
+        ]
+      },
+      "DocumentListResponse": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DocumentListItem"
+            }
+          },
+          "total": {
+            "type": "integer"
+          },
+          "page": {
+            "type": "integer"
+          },
+          "limit": {
+            "type": "integer"
+          },
+          "totalPages": {
+            "type": "integer"
+          }
+        },
+        "required": ["items", "total", "page", "limit", "totalPages"]
+      },
+      "AnalyzeDocumentRequest": {
+        "type": "object",
+        "properties": {
+          "aiBotId": {
+            "type": "string",
+            "format": "cuid"
+          }
+        },
+        "required": ["aiBotId"]
+      },
+      "AnalyzeDocumentResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "enum": [true]
+          },
+          "result": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DocumentAnalysisResult"
+              },
+              {
+                "type": "object"
+              }
+            ]
+          },
+          "tokensUsed": {
+            "type": "number"
+          }
+        },
+        "required": ["success", "result", "tokensUsed"]
       },
       "ErrorResponse": {
         "type": "object",
@@ -2835,6 +3087,261 @@
           },
           "401": {
             "description": "Not authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/paperless-instances/{id}/documents": {
+      "get": {
+        "tags": ["Documents"],
+        "summary": "List documents for a Paperless instance",
+        "description": "Returns a paginated list of documents imported from the Paperless instance",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "example": 1
+            },
+            "required": false,
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 10,
+              "example": 10
+            },
+            "required": false,
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": ["all", "processed", "unprocessed"],
+              "default": "all"
+            },
+            "required": false,
+            "name": "status",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of documents",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/paperless-instances/{id}/documents/{documentId}/analyze": {
+      "post": {
+        "tags": ["Documents"],
+        "summary": "Analyze a document with AI",
+        "description": "Uses the specified AI bot to analyze the document and suggest metadata (title, tags, correspondent, document type)",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "name": "documentId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnalyzeDocumentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Document analysis result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalyzeDocumentResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/paperless-instances/{id}/documents/{documentId}/result": {
+      "get": {
+        "tags": ["Documents"],
+        "summary": "Get latest processing result for a document",
+        "description": "Returns the most recent AI analysis result for the specified document",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "name": "documentId",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Document processing result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentProcessingResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not authorized",
             "content": {
               "application/json": {
                 "schema": {

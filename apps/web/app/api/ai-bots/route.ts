@@ -31,6 +31,7 @@ export const GET = authRoute(
           id: true,
           name: true,
           systemPrompt: true,
+          responseLanguage: true,
           aiProviderId: true,
           ownerId: true,
           aiProvider: {
@@ -69,6 +70,7 @@ export const GET = authRoute(
           id: bot.id,
           name: bot.name,
           systemPrompt: bot.systemPrompt,
+          responseLanguage: bot.responseLanguage,
           aiProviderId: bot.aiProviderId,
           aiProvider: bot.aiProvider,
           createdAt: bot.createdAt.toISOString(),
@@ -87,7 +89,7 @@ export const GET = authRoute(
 // POST /api/ai-bots - Create a new AiBot
 export const POST = authRoute(
   async ({ user, body }) => {
-    const { name, aiProviderId, systemPrompt } = body;
+    const { name, aiProviderId, systemPrompt, responseLanguage } = body;
 
     // Check if name already exists for this owner
     const existing = await prisma.aiBot.findFirst({
@@ -131,6 +133,7 @@ export const POST = authRoute(
       data: {
         name,
         systemPrompt,
+        responseLanguage,
         aiProviderId,
         ownerId: user.userId,
       },
@@ -138,6 +141,7 @@ export const POST = authRoute(
         id: true,
         name: true,
         systemPrompt: true,
+        responseLanguage: true,
         aiProviderId: true,
         aiProvider: {
           select: {

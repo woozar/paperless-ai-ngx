@@ -162,7 +162,8 @@
     "aiBotNameExists": "An AI bot with the name \"{name}\" already exists",
     "userNotFound": "User not found",
     "cannotShareWithSelf": "You cannot share a resource with yourself",
-    "shareNotFound": "Share not found"
+    "shareNotFound": "Share not found",
+    "documentNotFound": "Document not found"
   },
   "admin": {
     "users": {
@@ -280,6 +281,60 @@
       "noProviders": "No providers found",
       "baseUrlRequired": "Base URL is required for Ollama and custom providers"
     },
+    "documents": {
+      "title": "Documents",
+      "description": "View and analyze imported documents",
+      "backToInstances": "Back to Instances",
+      "noDocuments": "No documents found. Import documents from your Paperless instance first.",
+      "filter": {
+        "all": "All",
+        "processed": "Processed",
+        "unprocessed": "Unprocessed"
+      },
+      "table": {
+        "title": "Title",
+        "status": "Status",
+        "importedAt": "Imported",
+        "actions": "Actions"
+      },
+      "status": {
+        "processed": "Processed",
+        "unprocessed": "Unprocessed"
+      },
+      "analyze": {
+        "button": "Analyze with AI",
+        "title": "Analyze Document",
+        "description": "Analyzing: {title}",
+        "selectBot": "Select AI Bot",
+        "selectBotPlaceholder": "Choose an AI bot...",
+        "start": "Start Analysis",
+        "analyzing": "Analyzing...",
+        "completed": "Analysis Complete",
+        "success": "Document analyzed successfully",
+        "cancel": "Cancel",
+        "close": "Close",
+        "suggestedTitle": "Suggested Title",
+        "suggestedCorrespondent": "Suggested Correspondent",
+        "suggestedDocumentType": "Suggested Document Type",
+        "suggestedTags": "Suggested Tags",
+        "confidence": "Confidence",
+        "reasoning": "Reasoning",
+        "noCorrespondentFound": "No matching correspondent found",
+        "noDocumentTypeFound": "No matching document type found",
+        "new": "New"
+      },
+      "result": {
+        "title": "Analysis Result",
+        "noResult": "No analysis result available",
+        "viewButton": "View Result"
+      },
+      "error": {
+        "loadFailed": "Failed to load documents",
+        "loadBotsFailed": "Failed to load AI bots",
+        "analyzeFailed": "Failed to analyze document",
+        "loadResultFailed": "Failed to load analysis result"
+      }
+    },
     "aiBots": {
       "title": "AI Bots",
       "description": "Manage AI bot configurations",
@@ -291,6 +346,12 @@
       "systemPromptPlaceholder": "You are a helpful assistant that analyzes documents...",
       "aiProvider": "AI Provider",
       "selectProvider": "Select a provider",
+      "responseLanguage": "Response Language",
+      "responseLanguageOptions": {
+        "DOCUMENT": "Based on document",
+        "GERMAN": "German",
+        "ENGLISH": "English"
+      },
       "status": "Status",
       "actions": "Actions",
       "active": "Active",

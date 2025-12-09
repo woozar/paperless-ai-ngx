@@ -76,6 +76,7 @@ export function EditBotDialog({ open, onOpenChange, bot, onSuccess }: EditBotDia
         name: bot.name,
         aiProviderId: bot.aiProviderId,
         systemPrompt: bot.systemPrompt,
+        responseLanguage: bot.responseLanguage,
       }}
       dynamicOptions={{ aiProviderId: providers }}
     />

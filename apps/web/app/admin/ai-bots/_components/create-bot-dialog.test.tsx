@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { screen, waitFor, act } from '@testing-library/react';
+import { screen, waitFor, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { toast } from 'sonner';
 import { CreateBotDialog } from './create-bot-dialog';
@@ -8,7 +8,7 @@ import type { AiProviderListItem } from '@repo/api-client';
 
 const mockPostAiBots = vi.fn();
 const mockGetAiProviders = vi.fn();
-let mockOnProviderChange: ((value: string) => void) | undefined;
+let mockSelectCallbacks: Map<string, (value: string) => void> = new Map();
 
 const mockProviders: AiProviderListItem[] = [
   {
@@ -33,11 +33,25 @@ vi.mock('@repo/api-client', async () => {
   };
 });
 
+let selectIndex = 0;
+
 vi.mock('@/components/ui/select', () => ({
   Select: ({ children, onValueChange, value }: any) => {
-    mockOnProviderChange = onValueChange;
+    const id = `select-${selectIndex++}`;
+    mockSelectCallbacks.set(id, onValueChange);
     return (
-      <div data-testid="mock-select" data-value={value}>
+      <div data-testid="mock-select" data-value={value} data-select-id={id}>
+        <select
+          data-testid="select-native"
+          value={value || ''}
+          onChange={(e) => onValueChange(e.target.value)}
+        >
+          <option value="">Select...</option>
+          <option value="provider-1">Provider 1</option>
+          <option value="DOCUMENT">Based on document</option>
+          <option value="GERMAN">German</option>
+          <option value="ENGLISH">English</option>
+        </select>
         {children}
       </div>
     );
@@ -45,7 +59,7 @@ vi.mock('@/components/ui/select', () => ({
   SelectTrigger: ({ children, ...props }: any) => <button {...props}>{children}</button>,
   SelectValue: () => <div>Value</div>,
   SelectContent: ({ children }: any) => <div>{children}</div>,
-  SelectItem: ({ children }: any) => <div>{children}</div>,
+  SelectItem: ({ children }: any) => <span className="flex items-center gap-2">{children}</span>,
 }));
 
 vi.mock('sonner', () => ({
@@ -64,6 +78,8 @@ describe('CreateBotDialog', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    mockSelectCallbacks = new Map();
+    selectIndex = 0;
     mockGetAiProviders.mockResolvedValue({
       data: {
         items: mockProviders,
@@ -116,9 +132,10 @@ describe('CreateBotDialog', () => {
     await user.type(nameInput, 'New Bot');
     await user.type(systemPromptInput, 'Be helpful');
 
-    act(() => {
-      mockOnProviderChange?.('provider-1');
-    });
+    // Select provider using the native select
+    const selects = screen.getAllByTestId('select-native');
+    // First select is aiProviderId, second is responseLanguage
+    fireEvent.change(selects[0], { target: { value: 'provider-1' } });
 
     const submitButton = screen.getByTestId('create-bot-submit-button');
     await user.click(submitButton);
@@ -131,6 +148,7 @@ describe('CreateBotDialog', () => {
             name: 'New Bot',
             aiProviderId: 'provider-1',
             systemPrompt: 'Be helpful',
+            responseLanguage: 'DOCUMENT',
           },
         })
       );
@@ -161,9 +179,8 @@ describe('CreateBotDialog', () => {
     await user.type(nameInput, 'New Bot');
     await user.type(systemPromptInput, 'Be helpful');
 
-    act(() => {
-      mockOnProviderChange?.('provider-1');
-    });
+    const selects = screen.getAllByTestId('select-native');
+    fireEvent.change(selects[0], { target: { value: 'provider-1' } });
 
     const submitButton = screen.getByTestId('create-bot-submit-button');
     await user.click(submitButton);
@@ -198,9 +215,8 @@ describe('CreateBotDialog', () => {
     await user.type(nameInput, 'New Bot');
     await user.type(systemPromptInput, 'Be helpful');
 
-    act(() => {
-      mockOnProviderChange?.('provider-1');
-    });
+    const selects = screen.getAllByTestId('select-native');
+    fireEvent.change(selects[0], { target: { value: 'provider-1' } });
 
     const submitButton = screen.getByTestId('create-bot-submit-button');
     await user.click(submitButton);

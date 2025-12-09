@@ -165,6 +165,40 @@ describe('GET /api/ai-bots', () => {
     expect(data.items[0].isOwner).toBe(false);
   });
 
+  it('returns canEdit=false and canShare=false for shared bot with READ permission', async () => {
+    const mockDate = new Date('2024-01-15T10:00:00Z');
+    mockAdmin();
+    mockedPrisma.aiBot.findMany.mockResolvedValueOnce([
+      {
+        id: 'bot-1',
+        name: 'Shared Bot with READ',
+        systemPrompt: 'System prompt',
+        aiProviderId: 'provider-1',
+        ownerId: 'other-user',
+        aiProvider: {
+          id: 'provider-1',
+          name: 'OpenAI',
+        },
+        isActive: true,
+        createdAt: mockDate,
+        updatedAt: mockDate,
+        sharedWith: [{ permission: 'READ' }],
+      },
+    ]);
+    mockedPrisma.aiBot.count.mockResolvedValueOnce(1);
+
+    const request = new NextRequest('http://localhost/api/ai-bots');
+
+    const response = await GET(request);
+    const data = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(data.items).toHaveLength(1);
+    expect(data.items[0].canEdit).toBe(false);
+    expect(data.items[0].canShare).toBe(false);
+    expect(data.items[0].isOwner).toBe(false);
+  });
+
   it('returns bots ordered by name', async () => {
     const mockDate = new Date('2024-01-15T10:00:00Z');
     mockAdmin();

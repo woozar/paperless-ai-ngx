@@ -47,15 +47,15 @@ RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 nextjs
 
 # Copy standalone build
-COPY --from=builder --chown=nextjs:nodejs /app/apps/web/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/apps/web/.next/static ./apps/web/.next/static
-COPY --from=builder --chown=nextjs:nodejs /app/apps/web/public ./apps/web/public
+COPY --from=builder --chmod=755 /app/apps/web/.next/standalone ./
+COPY --from=builder --chmod=755 /app/apps/web/.next/static ./apps/web/.next/static
+COPY --from=builder --chmod=755 /app/apps/web/public ./apps/web/public
 
 # Copy Prisma for migrations
-COPY --from=builder --chown=nextjs:nodejs /app/packages/database/prisma ./packages/database/prisma
-COPY --from=builder --chown=nextjs:nodejs /app/packages/database/prisma.config.ts ./packages/database/prisma.config.ts
-COPY --from=builder --chown=nextjs:nodejs /app/node_modules/.pnpm ./node_modules/.pnpm
-COPY --from=builder --chown=nextjs:nodejs /app/node_modules/.bin ./node_modules/.bin
+COPY --from=builder --chmod=755 /app/packages/database/prisma ./packages/database/prisma
+COPY --from=builder --chmod=755 /app/packages/database/prisma.config.ts ./packages/database/prisma.config.ts
+COPY --from=builder --chmod=755 /app/node_modules/.pnpm ./node_modules/.pnpm
+COPY --from=builder --chmod=755 /app/node_modules/.bin ./node_modules/.bin
 # Create package.json for the runner to enable ESM imports in prisma config
 RUN echo '{"type":"module"}' > /app/packages/database/package.json
 

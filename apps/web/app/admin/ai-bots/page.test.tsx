@@ -132,6 +132,7 @@ const mockBots: AiBotListItem[] = [
       provider: 'openai',
     },
     systemPrompt: 'You are a support assistant',
+    responseLanguage: 'DOCUMENT',
     createdAt: '2024-01-15T10:30:00Z',
     updatedAt: '2024-01-15T10:30:00Z',
   },
@@ -145,6 +146,7 @@ const mockBots: AiBotListItem[] = [
       provider: 'openai',
     },
     systemPrompt: 'You help with coding',
+    responseLanguage: 'ENGLISH',
     createdAt: '2024-02-20T14:00:00Z',
     updatedAt: '2024-02-20T14:00:00Z',
   },
@@ -525,9 +527,10 @@ describe('AiBotsPage', () => {
       // For the provider select, we need to trigger the value change
       // Since the dialog uses dynamicOptions from getAiProviders response,
       // and we mock the Select component to use native select, we can use fireEvent
-      const selectNative = screen.queryByTestId('select-native');
-      if (selectNative) {
-        fireEvent.change(selectNative, { target: { value: 'provider-1' } });
+      // There are now multiple selects (aiProviderId and responseLanguage), select the first one
+      const selects = screen.getAllByTestId('select-native');
+      if (selects.length > 0) {
+        fireEvent.change(selects[0], { target: { value: 'provider-1' } });
       }
 
       // Submit the form

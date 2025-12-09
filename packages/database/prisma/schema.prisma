@@ -166,11 +166,12 @@ model AiProvider {
 }
 
 model AiBot {
-  id           String   @id @default(cuid())
-  name         String
-  systemPrompt String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id               String   @id @default(cuid())
+  name             String
+  systemPrompt     String
+  responseLanguage String   @default("DOCUMENT")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
   // Owner
   owner   User   @relation(fields: [ownerId], references: [id], onDelete: Restrict)
@@ -226,8 +227,11 @@ model DocumentProcessingResult {
   aiProvider  String
   tokensUsed  Int      @default(0)
 
-  // Store what was changed
+  // Store what was changed (AI suggestions)
   changes Json?
+
+  // Store tool calls made during analysis
+  toolCalls Json?
 
   // Original values before processing
   originalTitle         String?

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/components/auth-provider';
@@ -11,6 +11,7 @@ import { Plus, UserCog, UserX } from 'lucide-react';
 import { AppShell } from '@/components/app-shell';
 import { useApi } from '@/lib/use-api';
 import { useFormatDate } from '@/hooks/use-format-date';
+import { usePaginatedList, type FetchResult } from '@/hooks/use-paginated-list';
 import { getUsers } from '@repo/api-client';
 import { TablePagination } from '@/components/table-pagination';
 
@@ -32,70 +33,47 @@ export default function UsersPage() {
   const { user: currentUser, isLoading: isAuthLoading } = useAuth();
   const client = useApi();
 
-  const [users, setUsers] = useState<UserListItem[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
-  const [total, setTotal] = useState(0);
-  const [totalPages, setTotalPages] = useState(0);
+  // Admin role check
+  useEffect(() => {
+    if (!isAuthLoading && currentUser?.role !== 'ADMIN') {
+      router.push('/');
+    }
+  }, [isAuthLoading, currentUser, router]);
+
+  const fetchUsers = useCallback(
+    async (page: number, limit: number): Promise<FetchResult<UserListItem>> => {
+      const response = await getUsers({
+        client,
+        query: { page, limit },
+      });
+      if (response.error) {
+        return { data: undefined, error: { status: response.response.status } };
+      }
+      return { data: response.data, error: undefined };
+    },
+    [client]
+  );
+
+  const {
+    items: users,
+    isLoading,
+    page,
+    limit,
+    total,
+    totalPages,
+    handlePageChange,
+    handleLimitChange,
+    reload,
+  } = usePaginatedList({
+    fetchFn: fetchUsers,
+    onError: () => showError('loadFailed'),
+  });
 
   // Dialog states
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isRestoreOpen, setIsRestoreOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<UserListItem | null>(null);
   const [deletingUser, setDeletingUser] = useState<UserListItem | null>(null);
-
-  const loadUsers = useCallback(
-    async (currentPage: number, currentLimit: number) => {
-      setIsLoading(true);
-
-      try {
-        const response = await getUsers({
-          client,
-          query: { page: currentPage, limit: currentLimit },
-        });
-
-        if (response.error) {
-          if (response.response.status === 403) {
-            router.push('/');
-            return;
-          }
-          showError('loadFailed');
-          return;
-        }
-
-        setUsers(response.data.items);
-        setTotal(response.data.total);
-        setTotalPages(response.data.totalPages);
-      } catch {
-        showError('loadFailed');
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    [router, showError, client]
-  );
-
-  useEffect(() => {
-    if (!isAuthLoading && currentUser?.role !== 'ADMIN') {
-      router.push('/');
-      return;
-    }
-    loadUsers(page, limit);
-  }, [isAuthLoading, currentUser, router, loadUsers, page, limit]);
-
-  const handlePageChange = (newPage: number) => {
-    setPage(newPage);
-  };
-
-  const handleLimitChange = (newLimit: number) => {
-    setLimit(newLimit);
-    setPage(1); // Reset to first page when changing limit
-  };
-
-  const reloadCurrentPage = () => {
-    loadUsers(page, limit);
-  };
 
   if (currentUser?.role !== 'ADMIN') {
     return null;
@@ -169,31 +147,23 @@ export default function UsersPage() {
         )}
       </div>
 
-      <CreateUserDialog
-        open={isCreateOpen}
-        onOpenChange={setIsCreateOpen}
-        onSuccess={reloadCurrentPage}
-      />
+      <CreateUserDialog open={isCreateOpen} onOpenChange={setIsCreateOpen} onSuccess={reload} />
 
       <EditUserDialog
         open={!!editingUser}
         onOpenChange={(open) => !open && setEditingUser(null)}
         user={editingUser}
-        onSuccess={reloadCurrentPage}
+        onSuccess={reload}
       />
 
       <DeleteUserDialog
         open={!!deletingUser}
         onOpenChange={(open) => !open && setDeletingUser(null)}
         user={deletingUser}
-        onSuccess={reloadCurrentPage}
+        onSuccess={reload}
       />
 
-      <RestoreUsersDialog
-        open={isRestoreOpen}
-        onOpenChange={setIsRestoreOpen}
-        onSuccess={reloadCurrentPage}
-      />
+      <RestoreUsersDialog open={isRestoreOpen} onOpenChange={setIsRestoreOpen} onSuccess={reload} />
     </AppShell>
   );
 }

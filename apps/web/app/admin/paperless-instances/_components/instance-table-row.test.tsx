@@ -6,6 +6,11 @@ import { InstanceTableRow } from './instance-table-row';
 import type { PaperlessInstanceListItem } from '@repo/api-client';
 import type { Settings } from '@/lib/api/schemas/settings';
 
+const mockPush = vi.fn();
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({ push: mockPush }),
+}));
+
 const mockUseSettings = vi.fn(() => ({
   settings: { 'security.sharing.mode': 'BASIC' } as Settings,
   updateSetting: vi.fn(),
@@ -57,6 +62,7 @@ describe('InstanceTableRow', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    mockPush.mockClear();
   });
 
   it('renders instance name', () => {
@@ -153,6 +159,23 @@ describe('InstanceTableRow', () => {
     await user.click(importButton);
 
     expect(mockOnImport).not.toHaveBeenCalled();
+  });
+
+  describe('documents button', () => {
+    it('renders documents button with correct testid', () => {
+      renderInstanceTableRow(defaultProps);
+      expect(screen.getByTestId('documents-instance-instance-123')).toBeInTheDocument();
+    });
+
+    it('navigates to documents page when documents button is clicked', async () => {
+      const user = userEvent.setup({ delay: null });
+      renderInstanceTableRow(defaultProps);
+
+      const documentsButton = screen.getByTestId('documents-instance-instance-123');
+      await user.click(documentsButton);
+
+      expect(mockPush).toHaveBeenCalledWith('/admin/paperless-instances/instance-123/documents');
+    });
   });
 
   describe('share button', () => {

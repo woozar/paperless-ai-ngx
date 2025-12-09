@@ -11,11 +11,13 @@ const mockBot: AiBotListItem = {
   name: 'Test Bot',
   aiProviderId: 'provider-1',
   systemPrompt: 'You are a helpful assistant',
+  responseLanguage: 'DOCUMENT',
   createdAt: '2024-01-15T10:30:00Z',
   updatedAt: '2024-01-15T10:30:00Z',
   aiProvider: {
     id: 'provider-1',
     name: 'OpenAI',
+    provider: 'openai',
   },
 };
 

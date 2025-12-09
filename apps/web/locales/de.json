@@ -162,7 +162,8 @@
     "aiBotNameExists": "Ein KI-Bot mit dem Namen \"{name}\" existiert bereits",
     "userNotFound": "Benutzer nicht gefunden",
     "cannotShareWithSelf": "Du kannst eine Ressource nicht mit dir selbst teilen",
-    "shareNotFound": "Freigabe nicht gefunden"
+    "shareNotFound": "Freigabe nicht gefunden",
+    "documentNotFound": "Dokument nicht gefunden"
   },
   "admin": {
     "users": {
@@ -280,6 +281,60 @@
       "noProviders": "Keine Anbieter gefunden",
       "baseUrlRequired": "Basis-URL ist erforderlich für Ollama und benutzerdefinierte Anbieter"
     },
+    "documents": {
+      "title": "Dokumente",
+      "description": "Importierte Dokumente ansehen und analysieren",
+      "backToInstances": "Zurück zu Instanzen",
+      "noDocuments": "Keine Dokumente gefunden. Importiere zuerst Dokumente aus deiner Paperless-Instanz.",
+      "filter": {
+        "all": "Alle",
+        "processed": "Verarbeitet",
+        "unprocessed": "Unverarbeitet"
+      },
+      "table": {
+        "title": "Titel",
+        "status": "Status",
+        "importedAt": "Importiert",
+        "actions": "Aktionen"
+      },
+      "status": {
+        "processed": "Verarbeitet",
+        "unprocessed": "Unverarbeitet"
+      },
+      "analyze": {
+        "button": "Mit KI analysieren",
+        "title": "Dokument analysieren",
+        "description": "Analysiere: {title}",
+        "selectBot": "KI-Bot auswählen",
+        "selectBotPlaceholder": "KI-Bot wählen...",
+        "start": "Analyse starten",
+        "analyzing": "Analysiere...",
+        "completed": "Analyse abgeschlossen",
+        "success": "Dokument erfolgreich analysiert",
+        "cancel": "Abbrechen",
+        "close": "Schließen",
+        "suggestedTitle": "Vorgeschlagener Titel",
+        "suggestedCorrespondent": "Vorgeschlagener Korrespondent",
+        "suggestedDocumentType": "Vorgeschlagener Dokumenttyp",
+        "suggestedTags": "Vorgeschlagene Tags",
+        "confidence": "Konfidenz",
+        "reasoning": "Begründung",
+        "noCorrespondentFound": "Kein passender Korrespondent gefunden",
+        "noDocumentTypeFound": "Kein passender Dokumenttyp gefunden",
+        "new": "Neu"
+      },
+      "result": {
+        "title": "Analyseergebnis",
+        "noResult": "Kein Ergebnis gefunden",
+        "viewButton": "Ergebnis anzeigen"
+      },
+      "error": {
+        "loadFailed": "Fehler beim Laden der Dokumente",
+        "loadBotsFailed": "Fehler beim Laden der KI-Bots",
+        "analyzeFailed": "Fehler bei der Dokumentanalyse",
+        "loadResultFailed": "Fehler beim Laden des Ergebnisses"
+      }
+    },
     "aiBots": {
       "title": "KI-Bots",
       "description": "KI-Bot Konfigurationen verwalten",
@@ -291,6 +346,12 @@
       "systemPromptPlaceholder": "Du bist ein hilfreicher Assistent, der Dokumente analysiert...",
       "aiProvider": "KI-Anbieter",
       "selectProvider": "Anbieter auswählen",
+      "responseLanguage": "Antwortsprache",
+      "responseLanguageOptions": {
+        "DOCUMENT": "Je nach Dokument",
+        "GERMAN": "Deutsch",
+        "ENGLISH": "Englisch"
+      },
       "status": "Status",
       "actions": "Aktionen",
       "active": "Aktiv",

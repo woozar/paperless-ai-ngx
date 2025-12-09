@@ -1,9 +1,10 @@
 import { memo } from 'react';
 import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
 import { TableRow, TableCell } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { Edit, Trash2, Download, Loader2, UserPlus } from 'lucide-react';
+import { Edit, Trash2, Download, Loader2, UserPlus, FileText } from 'lucide-react';
 import type { PaperlessInstanceListItem } from '@repo/api-client';
 import { useSettings } from '@/components/settings-provider';
 
@@ -35,6 +36,7 @@ export const InstanceTableRow = memo(function InstanceTableRow({
   const t = useTranslations('admin.paperlessInstances');
   const tCommon = useTranslations('common');
   const { settings } = useSettings();
+  const router = useRouter();
   const showShareButton = settings['security.sharing.mode'] === 'ADVANCED';
 
   // Default to true for backwards compatibility (owner can always edit/share)
@@ -51,6 +53,20 @@ export const InstanceTableRow = memo(function InstanceTableRow({
       </TableCell>
       <TableCell className="text-right">
         <div className="flex justify-end gap-2">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => router.push(`/admin/paperless-instances/${instance.id}/documents`)}
+                data-testid={`documents-instance-${instance.id}`}
+              >
+                <FileText className="h-4 w-4" />
+                <span className="sr-only">{tCommon('documents')}</span>
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>{tCommon('documents')}</TooltipContent>
+          </Tooltip>
           {showShareButton && onShare && canShare && (
             <Tooltip>
               <TooltipTrigger asChild>

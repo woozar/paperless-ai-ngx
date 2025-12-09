@@ -29,7 +29,7 @@
     "@repo/database": "workspace:*",
     "@repo/paperless-client": "workspace:*",
     "@repo/types": "workspace:*",
-    "ai": "^5.0.101",
+    "ai": "^5.0.108",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "jose": "^6.1.2",

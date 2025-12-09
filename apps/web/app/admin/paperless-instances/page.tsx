@@ -1,9 +1,7 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
-import { useRouter } from 'next/navigation';
-import { useAuth } from '@/components/auth-provider';
 import { useErrorDisplay } from '@/hooks/use-error-display';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -11,6 +9,7 @@ import { Plus, Database } from 'lucide-react';
 import { AppShell } from '@/components/app-shell';
 import { useApi } from '@/lib/use-api';
 import { useFormatDate } from '@/hooks/use-format-date';
+import { usePaginatedList, type FetchResult } from '@/hooks/use-paginated-list';
 import { getPaperlessInstances, postPaperlessInstancesByIdImport } from '@repo/api-client';
 import { toast } from 'sonner';
 import { TablePagination } from '@/components/table-pagination';
@@ -25,70 +24,52 @@ import {
 } from './_components';
 import { ShareDialog } from '@/components/sharing/share-dialog';
 
+type InstanceItem = Omit<PaperlessInstanceListItem, 'apiToken'>;
+
 export default function PaperlessInstancesPage() {
   const t = useTranslations('admin.paperlessInstances');
   const { showError } = useErrorDisplay('admin.paperlessInstances');
   const formatDate = useFormatDate();
-  const router = useRouter();
-  const { isLoading: isAuthLoading } = useAuth();
   const client = useApi();
 
-  const [instances, setInstances] = useState<Omit<PaperlessInstanceListItem, 'apiToken'>[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
-  const [total, setTotal] = useState(0);
-  const [totalPages, setTotalPages] = useState(0);
+  const fetchInstances = useCallback(
+    async (page: number, limit: number): Promise<FetchResult<InstanceItem>> => {
+      const response = await getPaperlessInstances({
+        client,
+        query: { page, limit },
+      });
+      if (response.error) {
+        return { data: undefined, error: { status: response.response.status } };
+      }
+      return { data: response.data, error: undefined };
+    },
+    [client]
+  );
+
+  const {
+    items: instances,
+    isLoading,
+    page,
+    limit,
+    total,
+    totalPages,
+    handlePageChange,
+    handleLimitChange,
+    reload,
+  } = usePaginatedList({
+    fetchFn: fetchInstances,
+    onError: () => showError('loadFailed'),
+  });
 
   // Dialog states
   const [isCreateOpen, setIsCreateOpen] = useState(false);
-  const [editingInstance, setEditingInstance] = useState<Omit<
-    PaperlessInstanceListItem,
-    'apiToken'
-  > | null>(null);
-  const [deletingInstance, setDeletingInstance] = useState<Omit<
-    PaperlessInstanceListItem,
-    'apiToken'
-  > | null>(null);
-  const [sharingInstance, setSharingInstance] = useState<Omit<
-    PaperlessInstanceListItem,
-    'apiToken'
-  > | null>(null);
+  const [editingInstance, setEditingInstance] = useState<InstanceItem | null>(null);
+  const [deletingInstance, setDeletingInstance] = useState<InstanceItem | null>(null);
+  const [sharingInstance, setSharingInstance] = useState<InstanceItem | null>(null);
   const [importingInstanceId, setImportingInstanceId] = useState<string | null>(null);
 
-  const loadInstances = useCallback(
-    async (currentPage: number, currentLimit: number) => {
-      setIsLoading(true);
-
-      try {
-        const response = await getPaperlessInstances({
-          client,
-          query: { page: currentPage, limit: currentLimit },
-        });
-
-        if (response.error) {
-          if (response.response.status === 403) {
-            router.push('/');
-            return;
-          }
-          showError('loadFailed');
-          return;
-        }
-
-        setInstances(response.data.items);
-        setTotal(response.data.total);
-        setTotalPages(response.data.totalPages);
-      } catch {
-        showError('loadFailed');
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    [router, showError, client]
-  );
-
   const handleImport = useCallback(
-    async (instance: Omit<PaperlessInstanceListItem, 'apiToken'>) => {
+    async (instance: InstanceItem) => {
       setImportingInstanceId(instance.id);
 
       try {
@@ -111,25 +92,6 @@ export default function PaperlessInstancesPage() {
     },
     [client, showError, t]
   );
-
-  useEffect(() => {
-    if (!isAuthLoading) {
-      loadInstances(page, limit);
-    }
-  }, [isAuthLoading, loadInstances, page, limit]);
-
-  const handlePageChange = (newPage: number) => {
-    setPage(newPage);
-  };
-
-  const handleLimitChange = (newLimit: number) => {
-    setLimit(newLimit);
-    setPage(1);
-  };
-
-  const reloadCurrentPage = () => {
-    loadInstances(page, limit);
-  };
 
   const renderTableContent = () => {
     if (isLoading) {
@@ -195,24 +157,20 @@ export default function PaperlessInstancesPage() {
         )}
       </div>
 
-      <CreateInstanceDialog
-        open={isCreateOpen}
-        onOpenChange={setIsCreateOpen}
-        onSuccess={reloadCurrentPage}
-      />
+      <CreateInstanceDialog open={isCreateOpen} onOpenChange={setIsCreateOpen} onSuccess={reload} />
 
       <EditInstanceDialog
         open={!!editingInstance}
         onOpenChange={(open) => !open && setEditingInstance(null)}
         instance={editingInstance}
-        onSuccess={reloadCurrentPage}
+        onSuccess={reload}
       />
 
       <DeleteInstanceDialog
         open={!!deletingInstance}
         onOpenChange={(open) => !open && setDeletingInstance(null)}
         instance={deletingInstance}
-        onSuccess={reloadCurrentPage}
+        onSuccess={reload}
       />
 
       {sharingInstance && (
