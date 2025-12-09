@@ -278,29 +278,29 @@
 
 ## Phase 5a: Document Processing
 
-- [ ] Document List (`/documents`)
-  - [ ] Show unprocessed documents
-  - [ ] Filter by status
-  - [ ] Trigger manual processing
-- [ ] Document Detail Page (`/documents/[id]`)
-  - [ ] Preview
-  - [ ] AI analysis result
-  - [ ] Confirm/reject changes
+- [x] Document List (`/admin/paperless-instances/[id]/documents`)
+  - [x] Show all documents from instance
+  - [x] Filter by status (all/processed/unprocessed)
+  - [x] Trigger manual AI analysis
+- [x] View Analysis Results Dialog
+  - [x] Show AI analysis result
+  - [x] Show tool calls and parameters
+  - [x] Token usage display
 
 ## Phase 6: AI Document Analysis
 
-- [ ] AI Service Integration (Vercel AI SDK)
-  - [ ] OpenAI Provider
-  - [ ] Google Gemini Provider
-  - [ ] Anthropic Claude Provider
-- [ ] Document Analysis Prompt
-  - [ ] Extract title
-  - [ ] Suggest tags (from existing ones)
-  - [ ] Recognize correspondent
-  - [ ] Classify document type
-  - [ ] Extract date
-- [ ] Paperless-ngx Update API
-- [ ] Token Usage Tracking
+- [x] AI Service Integration (Vercel AI SDK)
+  - [x] OpenAI Provider
+  - [x] Google Gemini Provider
+  - [x] Anthropic Claude Provider
+  - [x] Ollama Provider (local)
+- [x] Document Analysis with Tool Calling
+  - [x] Search tags tool
+  - [x] Search correspondents tool
+  - [x] Search document types tool
+- [x] Response Language Setting (Document/German/English)
+- [x] Token Usage Tracking
+- [ ] Paperless-ngx Update API (apply changes to documents)
 
 ## Phase 7: Scheduled Processing
 

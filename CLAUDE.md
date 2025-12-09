@@ -158,10 +158,11 @@ The application uses a unified toast notification system (sonner) for user feedb
 
 ## Documentation
 
-- **USER-STORIES.md** must be updated with every UI change
-  - Add new features as user stories
-  - Check off acceptance criteria when implemented
+- **`user-stories/`** folder must be updated with every UI change
+  - One file per user story (e.g., `user-stories/auth/US-AUTH-001.md`)
+  - Add new features as user stories in the appropriate category folder
   - Format: `US-[CATEGORY]-[NR]` (e.g., `US-AUTH-001`)
+  - Categories: `auth/`, `nav/`, `admin/`, `i18n/`, `sharing/`, `settings/`, `doc/`
 - **ROADMAP.md** contains planned features and current progress
 - **README.md Release Notes** must be kept up-to-date
   - Write user-focused entries describing the value for the user
