@@ -1,19 +1,18 @@
 'use client';
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/components/auth-provider';
 import { useErrorDisplay } from '@/hooks/use-error-display';
 import { Button } from '@/components/ui/button';
-import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { PaginatedTable, type ColumnDefinition } from '@/components/paginated-table';
 import { Plus, UserCog, UserX } from 'lucide-react';
 import { AppShell } from '@/components/app-shell';
 import { useApi } from '@/lib/use-api';
 import { useFormatDate } from '@/hooks/use-format-date';
 import { usePaginatedList, type FetchResult } from '@/hooks/use-paginated-list';
 import { getUsers } from '@repo/api-client';
-import { TablePagination } from '@/components/table-pagination';
 
 import type { UserListItem } from '@repo/api-client';
 import {
@@ -69,6 +68,16 @@ export default function UsersPage() {
     onError: () => showError('loadFailed'),
   });
 
+  const columns: ColumnDefinition[] = useMemo(
+    () => [
+      { label: t('username') },
+      { label: t('role') },
+      { label: t('createdAt') },
+      { label: t('actions'), align: 'right' },
+    ],
+    [t]
+  );
+
   // Dialog states
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isRestoreOpen, setIsRestoreOpen] = useState(false);
@@ -119,32 +128,20 @@ export default function UsersPage() {
           </div>
         </div>
 
-        {!isLoading && users.length === 0 && total === 0 ? (
-          <div className="text-muted-foreground py-12 text-center">{t('noUsers')}</div>
-        ) : (
-          <div className="bg-card rounded-md border shadow-sm">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>{t('username')}</TableHead>
-                  <TableHead>{t('role')}</TableHead>
-                  <TableHead>{t('createdAt')}</TableHead>
-                  <TableHead className="text-right">{t('actions')}</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>{renderTableContent()}</TableBody>
-            </Table>
-            <TablePagination
-              page={page}
-              limit={limit}
-              total={total}
-              totalPages={totalPages}
-              isLoading={isLoading}
-              onPageChange={handlePageChange}
-              onLimitChange={handleLimitChange}
-            />
-          </div>
-        )}
+        <PaginatedTable
+          isEmpty={!isLoading && users.length === 0 && total === 0}
+          isLoading={isLoading}
+          emptyMessage={t('noUsers')}
+          columns={columns}
+          page={page}
+          limit={limit}
+          total={total}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+          onLimitChange={handleLimitChange}
+        >
+          {renderTableContent()}
+        </PaginatedTable>
       </div>
 
       <CreateUserDialog open={isCreateOpen} onOpenChange={setIsCreateOpen} onSuccess={reload} />

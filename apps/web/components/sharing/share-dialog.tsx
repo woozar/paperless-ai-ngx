@@ -30,9 +30,12 @@ import {
 import type { Permission, ShareAccessItem } from '@/lib/api/schemas/sharing';
 import { useApi } from '@/lib/use-api';
 import {
-  getAiProvidersByIdSharing,
-  postAiProvidersByIdSharing,
-  deleteAiProvidersByIdSharingByAccessId,
+  getAiAccountsByIdSharing,
+  postAiAccountsByIdSharing,
+  deleteAiAccountsByIdSharingByAccessId,
+  getAiModelsByIdSharing,
+  postAiModelsByIdSharing,
+  deleteAiModelsByIdSharingByAccessId,
   getAiBotsByIdSharing,
   postAiBotsByIdSharing,
   deleteAiBotsByIdSharingByAccessId,
@@ -42,7 +45,7 @@ import {
   getUsers,
 } from '@repo/api-client';
 
-export type ResourceType = 'ai-providers' | 'ai-bots' | 'paperless-instances';
+export type ResourceType = 'ai-accounts' | 'ai-models' | 'ai-bots' | 'paperless-instances';
 
 type ShareDialogProps = Readonly<{
   open: boolean;
@@ -62,10 +65,15 @@ const ALL_USERS_VALUE = '__all_users__';
 
 // API function mappings per resource type
 const apiMappings = {
-  'ai-providers': {
-    getSharing: getAiProvidersByIdSharing,
-    postSharing: postAiProvidersByIdSharing,
-    deleteSharing: deleteAiProvidersByIdSharingByAccessId,
+  'ai-accounts': {
+    getSharing: getAiAccountsByIdSharing,
+    postSharing: postAiAccountsByIdSharing,
+    deleteSharing: deleteAiAccountsByIdSharingByAccessId,
+  },
+  'ai-models': {
+    getSharing: getAiModelsByIdSharing,
+    postSharing: postAiModelsByIdSharing,
+    deleteSharing: deleteAiModelsByIdSharingByAccessId,
   },
   'ai-bots': {
     getSharing: getAiBotsByIdSharing,

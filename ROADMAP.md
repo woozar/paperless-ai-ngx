@@ -81,12 +81,12 @@
 
 ### Sharing & Permissions
 
-- [x] Owner + Sharing Model in Prisma Schema for: PaperlessInstance, AiProvider, AiBot
+- [x] Owner + Sharing Model in Prisma Schema for: PaperlessInstance, AiAccount, AiModel, AiBot
 - [x] Permission Levels Enum: READ, WRITE, FULL
   - READ: Read only
   - WRITE: Read and edit
   - FULL: Read, edit, and reshare
-- [x] Join Tables: UserPaperlessInstanceAccess, UserAiProviderAccess, UserAiBotAccess
+- [x] Join Tables: UserPaperlessInstanceAccess, UserAiAccountAccess, UserAiModelAccess, UserAiBotAccess
 - [x] Sharing API endpoints (GET/POST/DELETE for access entries)
 - [x] Share Modal component with two modes:
   - [x] Share with specific user (user dropdown + permission level)
@@ -111,13 +111,23 @@
 - [x] 100% Test Coverage
 - [x] i18n (de/en)
 
-### AiProvider Management (renamed from AiAccess)
+### AiAccount Management (renamed from AiProvider)
 
 - [x] API Routes with encryption
-- [x] Admin page `/admin/ai-providers`
+- [x] Admin page `/admin/ai-accounts`
 - [x] Provider dropdown (openai, anthropic, ollama, google, custom)
 - [x] Conditional baseUrl field
-- [x] Prevent delete when referenced by AiBots
+- [x] Prevent delete when referenced by AiModels
+- [x] 100% Test Coverage
+- [x] i18n (de/en)
+
+### AiModel Management (NEW)
+
+- [x] Separate entity for AI models (linked to AiAccount)
+- [x] API Routes with sharing support
+- [x] Admin page `/admin/ai-models`
+- [x] AiAccount dropdown (only user's own accounts)
+- [x] Token price configuration (input/output)
 - [x] 100% Test Coverage
 - [x] i18n (de/en)
 
@@ -125,10 +135,18 @@
 
 - [x] API Routes
 - [x] Admin page `/admin/ai-bots`
-- [x] AiProvider dropdown (only user's own providers)
-- [x] "No providers available" handling
+- [x] AiModel dropdown (only user's own/shared models)
+- [x] "No models available" handling
 - [x] 100% Test Coverage
 - [x] i18n (de/en)
+
+### Services Overview Page (NEW)
+
+- [x] Consolidated admin page `/admin/services`
+- [x] Collapsible sections for all service types
+- [x] Paperless Instances, AI Accounts, AI Models, AI Bots in one view
+- [x] Quick access to create/edit/delete/share actions
+- [x] 100% Test Coverage
 
 ## Phase 4: Customizable Dashboard System
 

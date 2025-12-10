@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeAll, beforeEach } from 'vitest';
-import { screen, waitFor } from '@testing-library/react';
+import { screen, waitFor, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { GroupCard, type SettingField } from './group-card';
 import { renderWithIntl, messages } from '@/test-utils/render-with-intl';
@@ -25,12 +25,16 @@ const mockT = vi.fn((key: string) => getNestedValue(messages, key));
 describe('GroupCard', () => {
   const mockOnFieldChange = vi.fn();
 
+  const defaultSettings: Settings = {
+    'display.general.currency': 'EUR',
+    'ai.context.identity': '',
+    'security.sharing.mode': 'BASIC',
+  };
+
   const defaultProps = {
     sectionKey: 'security',
     groupKey: 'sharing',
-    settings: {
-      'security.sharing.mode': 'BASIC',
-    } as Settings,
+    settings: defaultSettings,
     savingKey: null,
     onFieldChange: mockOnFieldChange,
     t: mockT as unknown as ReturnType<typeof import('next-intl').useTranslations>,
@@ -87,11 +91,13 @@ describe('GroupCard', () => {
   });
 
   it('renders boolean field as switch', () => {
+    // Note: Currently no boolean settings exist in the schema,
+    // but we test the component's capability with a mock field
     const fields: SettingField[] = [
       {
-        key: 'general.features.enabled' as keyof Settings,
-        section: 'general',
-        group: 'features',
+        key: 'security.sharing.mode' as keyof Settings, // Using existing key for type compatibility
+        section: 'security',
+        group: 'sharing',
         name: 'enabled',
         type: 'boolean',
       },
@@ -100,24 +106,22 @@ describe('GroupCard', () => {
     renderWithIntl(
       <GroupCard
         {...defaultProps}
-        sectionKey="general"
-        groupKey="features"
         fields={fields}
-        settings={{ 'general.features.enabled': true } as Settings}
+        settings={{ ...defaultSettings, 'security.sharing.mode': true as unknown as 'BASIC' }}
       />
     );
 
-    const switchEl = screen.getByTestId('setting-general.features.enabled');
+    const switchEl = screen.getByTestId('setting-security.sharing.mode');
     expect(switchEl).toHaveRole('switch');
   });
 
   it('renders string field as text input', () => {
     const fields: SettingField[] = [
       {
-        key: 'general.features.name' as keyof Settings,
-        section: 'general',
-        group: 'features',
-        name: 'name',
+        key: 'ai.context.identity',
+        section: 'ai',
+        group: 'context',
+        name: 'identity',
         type: 'string',
       },
     ];
@@ -125,24 +129,24 @@ describe('GroupCard', () => {
     renderWithIntl(
       <GroupCard
         {...defaultProps}
-        sectionKey="general"
-        groupKey="features"
+        sectionKey="ai"
+        groupKey="context"
         fields={fields}
-        settings={{ 'general.features.name': 'test-value' } as Settings}
+        settings={{ ...defaultSettings, 'ai.context.identity': 'test-value' }}
       />
     );
 
-    const input = screen.getByTestId('setting-general.features.name');
+    const input = screen.getByTestId('setting-ai.context.identity');
     expect(input).toHaveValue('test-value');
   });
 
   it('renders secret field as password input', () => {
     const fields: SettingField[] = [
       {
-        key: 'security.api.key' as keyof Settings,
-        section: 'security',
-        group: 'api',
-        name: 'key',
+        key: 'ai.context.identity',
+        section: 'ai',
+        group: 'context',
+        name: 'identity',
         type: 'string',
         isSecret: true,
       },
@@ -151,14 +155,14 @@ describe('GroupCard', () => {
     renderWithIntl(
       <GroupCard
         {...defaultProps}
-        sectionKey="security"
-        groupKey="api"
+        sectionKey="ai"
+        groupKey="context"
         fields={fields}
-        settings={{ 'security.api.key': 'secret-123' } as Settings}
+        settings={{ ...defaultSettings, 'ai.context.identity': 'secret-123' }}
       />
     );
 
-    const input = screen.getByTestId('setting-security.api.key');
+    const input = screen.getByTestId('setting-ai.context.identity');
     expect(input).toHaveAttribute('type', 'password');
   });
 
@@ -193,9 +197,9 @@ describe('GroupCard', () => {
     const user = userEvent.setup();
     const fields: SettingField[] = [
       {
-        key: 'general.features.enabled' as keyof Settings,
-        section: 'general',
-        group: 'features',
+        key: 'security.sharing.mode' as keyof Settings,
+        section: 'security',
+        group: 'sharing',
         name: 'enabled',
         type: 'boolean',
       },
@@ -204,14 +208,12 @@ describe('GroupCard', () => {
     renderWithIntl(
       <GroupCard
         {...defaultProps}
-        sectionKey="general"
-        groupKey="features"
         fields={fields}
-        settings={{ 'general.features.enabled': true } as Settings}
+        settings={{ ...defaultSettings, 'security.sharing.mode': true as unknown as 'BASIC' }}
       />
     );
 
-    const switchEl = screen.getByTestId('setting-general.features.enabled');
+    const switchEl = screen.getByTestId('setting-security.sharing.mode');
     await user.click(switchEl);
 
     expect(mockOnFieldChange).toHaveBeenCalledWith(fields[0], false);
@@ -240,9 +242,9 @@ describe('GroupCard', () => {
   it('shows loading spinner for boolean field when saving', () => {
     const fields: SettingField[] = [
       {
-        key: 'general.features.enabled' as keyof Settings,
-        section: 'general',
-        group: 'features',
+        key: 'security.sharing.mode' as keyof Settings,
+        section: 'security',
+        group: 'sharing',
         name: 'enabled',
         type: 'boolean',
       },
@@ -251,15 +253,170 @@ describe('GroupCard', () => {
     const { container } = renderWithIntl(
       <GroupCard
         {...defaultProps}
-        sectionKey="general"
-        groupKey="features"
         fields={fields}
-        settings={{ 'general.features.enabled': true } as Settings}
-        savingKey="general.features.enabled"
+        settings={{ ...defaultSettings, 'security.sharing.mode': true as unknown as 'BASIC' }}
+        savingKey="security.sharing.mode"
       />
     );
 
     // Loader2 icon has animate-spin class
     expect(container.querySelector('.animate-spin')).toBeInTheDocument();
+  });
+
+  it('saves string field on blur', async () => {
+    const user = userEvent.setup();
+    const fields: SettingField[] = [
+      {
+        key: 'ai.context.identity',
+        section: 'ai',
+        group: 'context',
+        name: 'identity',
+        type: 'string',
+      },
+    ];
+
+    renderWithIntl(
+      <GroupCard
+        {...defaultProps}
+        sectionKey="ai"
+        groupKey="context"
+        fields={fields}
+        settings={{ ...defaultSettings, 'ai.context.identity': 'initial' }}
+      />
+    );
+
+    const input = screen.getByTestId('setting-ai.context.identity');
+    await user.clear(input);
+    await user.type(input, 'new-value');
+    await user.tab(); // Trigger blur
+
+    expect(mockOnFieldChange).toHaveBeenCalledWith(fields[0], 'new-value');
+  });
+
+  it('saves string field on Enter key', async () => {
+    const user = userEvent.setup();
+    const fields: SettingField[] = [
+      {
+        key: 'ai.context.identity',
+        section: 'ai',
+        group: 'context',
+        name: 'identity',
+        type: 'string',
+      },
+    ];
+
+    renderWithIntl(
+      <GroupCard
+        {...defaultProps}
+        sectionKey="ai"
+        groupKey="context"
+        fields={fields}
+        settings={{ ...defaultSettings, 'ai.context.identity': 'initial' }}
+      />
+    );
+
+    const input = screen.getByTestId('setting-ai.context.identity');
+    await user.clear(input);
+    await user.type(input, 'enter-value{Enter}');
+
+    expect(mockOnFieldChange).toHaveBeenCalledWith(fields[0], 'enter-value');
+  });
+
+  it('saves string field after debounce delay', async () => {
+    vi.useFakeTimers();
+    const fields: SettingField[] = [
+      {
+        key: 'ai.context.identity',
+        section: 'ai',
+        group: 'context',
+        name: 'identity',
+        type: 'string',
+      },
+    ];
+
+    renderWithIntl(
+      <GroupCard
+        {...defaultProps}
+        sectionKey="ai"
+        groupKey="context"
+        fields={fields}
+        settings={{ ...defaultSettings, 'ai.context.identity': 'initial' }}
+      />
+    );
+
+    const input = screen.getByTestId('setting-ai.context.identity');
+
+    // Simulate typing by firing change events directly
+    await act(async () => {
+      input.focus();
+      await vi.runOnlyPendingTimersAsync();
+    });
+
+    // Manually dispatch input event
+    await act(async () => {
+      Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')?.set?.call(
+        input,
+        'debounced'
+      );
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+
+    // onChange should not be called immediately
+    expect(mockOnFieldChange).not.toHaveBeenCalled();
+
+    // Advance timers past debounce delay (2000ms)
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(2500);
+    });
+
+    expect(mockOnFieldChange).toHaveBeenCalledWith(fields[0], 'debounced');
+
+    vi.useRealTimers();
+  });
+
+  it('clears timeout on unmount', async () => {
+    vi.useFakeTimers();
+    const fields: SettingField[] = [
+      {
+        key: 'ai.context.identity',
+        section: 'ai',
+        group: 'context',
+        name: 'identity',
+        type: 'string',
+      },
+    ];
+
+    const { unmount } = renderWithIntl(
+      <GroupCard
+        {...defaultProps}
+        sectionKey="ai"
+        groupKey="context"
+        fields={fields}
+        settings={{ ...defaultSettings, 'ai.context.identity': 'initial' }}
+      />
+    );
+
+    const input = screen.getByTestId('setting-ai.context.identity');
+
+    // Fire input change
+    await act(async () => {
+      Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')?.set?.call(
+        input,
+        'unmount-test'
+      );
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+
+    // Unmount before debounce completes
+    unmount();
+
+    // Advance time - should not throw or call handler
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(2500);
+    });
+
+    expect(mockOnFieldChange).not.toHaveBeenCalled();
+
+    vi.useRealTimers();
   });
 });

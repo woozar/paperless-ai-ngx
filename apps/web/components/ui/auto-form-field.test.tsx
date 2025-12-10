@@ -1,8 +1,32 @@
 import { describe, it, expect, vi } from 'vitest';
-import { screen, fireEvent } from '@testing-library/react';
+import { screen, fireEvent, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { IntlProvider } from 'next-intl';
 import { AutoFormField } from './auto-form-field';
 import { renderWithIntl } from '@/test-utils/render-with-intl';
+
+// Mock useSettings for currency field tests
+const mockUseSettings = vi.fn();
+vi.mock('@/components/settings-provider', () => ({
+  useSettings: () => mockUseSettings(),
+}));
+
+const messages = { common: {}, admin: {}, auth: {}, error: {} };
+
+function renderWithSettings(ui: React.ReactElement, currency?: string | undefined) {
+  mockUseSettings.mockReturnValue({
+    settings: {
+      'display.general.currency': currency,
+    },
+    isLoading: false,
+    updateSetting: vi.fn(),
+  });
+  return render(
+    <IntlProvider locale="de" messages={messages}>
+      {ui}
+    </IntlProvider>
+  );
+}
 
 // Mock Radix UI Select for jsdom compatibility
 vi.mock('@radix-ui/react-select', () => ({
@@ -259,6 +283,90 @@ describe('AutoFormField', () => {
       // Verify the select root has onValueChange handler
       const root = screen.getByTestId('select-root');
       expect(root).toHaveAttribute('data-on-value-change', 'true');
+    });
+  });
+
+  describe('number field', () => {
+    it('renders number input with decimal inputmode', () => {
+      renderWithIntl(
+        <AutoFormField type="number" value="123" onChange={vi.fn()} testId="test-field" />
+      );
+
+      const input = screen.getByTestId('test-field');
+      expect(input).toHaveAttribute('type', 'text');
+      expect(input).toHaveAttribute('inputmode', 'decimal');
+      expect(input).toHaveValue('123');
+    });
+
+    it('filters non-numeric characters except comma and dot', () => {
+      const onChange = vi.fn();
+      renderWithIntl(
+        <AutoFormField type="number" value="" onChange={onChange} testId="test-field" />
+      );
+
+      const input = screen.getByTestId('test-field');
+      fireEvent.change(input, { target: { value: 'abc123.45,67xyz' } });
+
+      expect(onChange).toHaveBeenCalledWith('123.45,67');
+    });
+  });
+
+  describe('currency field', () => {
+    it('renders currency input with EUR icon', () => {
+      renderWithSettings(
+        <AutoFormField type="currency" value="12,50" onChange={vi.fn()} testId="test-field" />,
+        'EUR'
+      );
+
+      const input = screen.getByTestId('test-field');
+      expect(input).toHaveAttribute('type', 'text');
+      expect(input).toHaveAttribute('inputmode', 'decimal');
+      expect(input).toHaveValue('12,50');
+    });
+
+    it('renders with USD icon when currency is USD', () => {
+      renderWithSettings(
+        <AutoFormField type="currency" value="10.00" onChange={vi.fn()} testId="test-field" />,
+        'USD'
+      );
+
+      const input = screen.getByTestId('test-field');
+      expect(input).toHaveValue('10.00');
+    });
+
+    it('uses EUR as fallback when currency setting is undefined', () => {
+      renderWithSettings(
+        <AutoFormField type="currency" value="5,00" onChange={vi.fn()} testId="test-field" />,
+        undefined
+      );
+
+      const input = screen.getByTestId('test-field');
+      expect(input).toBeInTheDocument();
+      expect(input).toHaveValue('5,00');
+    });
+
+    it('uses Euro icon as fallback for unknown currency', () => {
+      renderWithSettings(
+        <AutoFormField type="currency" value="7,50" onChange={vi.fn()} testId="test-field" />,
+        'GBP'
+      );
+
+      const input = screen.getByTestId('test-field');
+      expect(input).toBeInTheDocument();
+      expect(input).toHaveValue('7,50');
+    });
+
+    it('filters non-numeric characters except comma and dot', () => {
+      const onChange = vi.fn();
+      renderWithSettings(
+        <AutoFormField type="currency" value="" onChange={onChange} testId="test-field" />,
+        'EUR'
+      );
+
+      const input = screen.getByTestId('test-field');
+      fireEvent.change(input, { target: { value: 'EUR99.99' } });
+
+      expect(onChange).toHaveBeenCalledWith('99.99');
     });
   });
 

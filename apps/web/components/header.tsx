@@ -9,9 +9,15 @@ import { useAuth } from '@/components/auth-provider';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet';
-import { LayoutDashboard, Users, Database, Cpu, Bot, Settings, LogOut, Menu } from 'lucide-react';
+import { LayoutDashboard, Users, Settings, LogOut, Menu, Layers } from 'lucide-react';
 import { GithubIcon } from '@/components/icons/github';
 import { version } from '@/lib/version';
+
+type NavItem = {
+  href: string;
+  label: string;
+  icon: React.ComponentType<{ className?: string }>;
+};
 
 export function Header() {
   const t = useTranslations('common');
@@ -20,49 +26,30 @@ export function Header() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
 
-  const navigation = useMemo(
+  const navigation = useMemo<NavItem[]>(
     () => [
       {
-        // Items visible to all authenticated users
-        items: [
-          {
-            href: '/',
-            label: t('dashboard'),
-            icon: LayoutDashboard,
-          },
-          {
-            href: '/admin/paperless-instances',
-            label: t('paperlessInstances'),
-            icon: Database,
-          },
-          {
-            href: '/admin/ai-providers',
-            label: t('aiProviders'),
-            icon: Cpu,
-          },
-          {
-            href: '/admin/ai-bots',
-            label: t('aiBots'),
-            icon: Bot,
-          },
-        ],
+        href: '/',
+        label: t('dashboard'),
+        icon: LayoutDashboard,
+      },
+      {
+        href: '/admin/services',
+        label: t('services'),
+        icon: Layers,
       },
       // Admin-only items
       ...(user?.role === 'ADMIN'
         ? [
             {
-              items: [
-                {
-                  href: '/admin/users',
-                  label: t('users'),
-                  icon: Users,
-                },
-                {
-                  href: '/admin/settings',
-                  label: t('settings'),
-                  icon: Settings,
-                },
-              ],
+              href: '/admin/users',
+              label: t('users'),
+              icon: Users,
+            },
+            {
+              href: '/admin/settings',
+              label: t('settings'),
+              icon: Settings,
             },
           ]
         : []),
@@ -70,8 +57,9 @@ export function Header() {
     [user?.role, t]
   );
 
-  // Flatten navigation for the top bar
-  const allNavItems = navigation.flatMap((group) => group.items);
+  // Check if services page or any sub-tab is active
+  const isServicesActive =
+    pathname === '/admin/services' || pathname.startsWith('/admin/services/');
 
   return (
     <header className="bg-background/95 border-border/40 supports-backdrop-filter:bg-background/60 sticky top-0 z-50 w-full border-b backdrop-blur-md">
@@ -91,11 +79,11 @@ export function Header() {
             </span>
           </div>
 
-          {/* Desktop Navigation - Clean Text Links */}
+          {/* Desktop Navigation */}
           <nav className="hidden items-center gap-6 md:flex">
-            {allNavItems.map((link) => {
-              const isActive = pathname === link.href;
-
+            {navigation.map((link) => {
+              const isActive =
+                link.href === '/admin/services' ? isServicesActive : pathname === link.href;
               return (
                 <Link
                   key={link.href}
@@ -166,18 +154,21 @@ export function Header() {
               </div>
               <div className="flex h-[calc(100vh-4rem)] flex-col justify-between p-6">
                 <nav className="flex flex-col gap-4">
-                  {allNavItems.map((link) => {
-                    const isActive = pathname === link.href;
+                  {navigation.map((link) => {
+                    const Icon = link.icon;
+                    const isActive =
+                      link.href === '/admin/services' ? isServicesActive : pathname === link.href;
                     return (
                       <Link
                         key={link.href}
                         href={link.href}
                         onClick={() => setIsOpen(false)}
                         className={cn(
-                          'hover:text-primary text-sm font-medium transition-colors',
+                          'hover:text-primary flex items-center gap-2 text-sm font-medium transition-colors',
                           isActive ? 'text-primary' : 'text-muted-foreground'
                         )}
                       >
+                        <Icon className="h-4 w-4" />
                         {link.label}
                       </Link>
                     );

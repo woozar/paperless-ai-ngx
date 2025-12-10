@@ -39,7 +39,7 @@ vi.mock('@/components/ui/select', async () => {
             <option value="20">20</option>
             <option value="50">50</option>
             <option value="100">100</option>
-            <option value="provider-1">Provider 1</option>
+            <option value="model-1">Model 1</option>
           </select>
           {children}
         </div>
@@ -62,7 +62,7 @@ vi.mock('sonner', () => ({
 const mockPush = vi.fn();
 const mockUser = vi.fn();
 const mockGetAiBots = vi.fn();
-const mockGetAiProviders = vi.fn();
+const mockGetAiModels = vi.fn();
 
 const mockRouter = { push: mockPush };
 vi.mock('next/navigation', () => ({
@@ -87,7 +87,7 @@ vi.mock('@repo/api-client', async () => {
   return {
     ...actual,
     getAiBots: (...args: any[]) => mockGetAiBots(...args),
-    getAiProviders: (...args: any[]) => mockGetAiProviders(...args),
+    getAiModels: (...args: any[]) => mockGetAiModels(...args),
     postAiBots: (...args: any[]) => mockPostAiBots(...args),
   };
 });
@@ -125,11 +125,16 @@ const mockBots: AiBotListItem[] = [
   {
     id: 'bot-1',
     name: 'Support Bot',
-    aiProviderId: 'provider-1',
-    aiProvider: {
-      id: 'provider-1',
-      name: 'OpenAI',
-      provider: 'openai',
+    aiModelId: 'model-1',
+    aiModel: {
+      id: 'model-1',
+      name: 'GPT-4',
+      modelIdentifier: 'gpt-4',
+      aiAccount: {
+        id: 'account-1',
+        name: 'OpenAI',
+        provider: 'openai',
+      },
     },
     systemPrompt: 'You are a support assistant',
     responseLanguage: 'DOCUMENT',
@@ -139,11 +144,16 @@ const mockBots: AiBotListItem[] = [
   {
     id: 'bot-2',
     name: 'Code Assistant',
-    aiProviderId: 'provider-1',
-    aiProvider: {
-      id: 'provider-1',
-      name: 'OpenAI',
-      provider: 'openai',
+    aiModelId: 'model-1',
+    aiModel: {
+      id: 'model-1',
+      name: 'GPT-4',
+      modelIdentifier: 'gpt-4',
+      aiAccount: {
+        id: 'account-1',
+        name: 'OpenAI',
+        provider: 'openai',
+      },
     },
     systemPrompt: 'You help with coding',
     responseLanguage: 'ENGLISH',
@@ -164,9 +174,15 @@ describe('AiBotsPage', () => {
       settings: { 'security.sharing.mode': 'BASIC' as const },
       updateSetting: vi.fn(),
     });
-    mockGetAiProviders.mockResolvedValue({
+    mockGetAiModels.mockResolvedValue({
       data: {
-        items: [{ id: 'provider-1', name: 'OpenAI', provider: 'openai' }],
+        items: [
+          {
+            id: 'model-1',
+            name: 'GPT-4',
+            aiAccount: { id: 'account-1', name: 'OpenAI', provider: 'openai' },
+          },
+        ],
         total: 1,
         page: 1,
         limit: 10,
@@ -512,9 +528,9 @@ describe('AiBotsPage', () => {
         expect(screen.getByRole('dialog')).toBeInTheDocument();
       });
 
-      // Wait for providers to be loaded
+      // Wait for models to be loaded
       await waitFor(() => {
-        expect(mockGetAiProviders).toHaveBeenCalled();
+        expect(mockGetAiModels).toHaveBeenCalled();
       });
 
       // Fill the form - name and systemPrompt inputs
@@ -524,13 +540,13 @@ describe('AiBotsPage', () => {
       await user.type(nameInput, 'New Bot');
       await user.type(systemPromptInput, 'A helpful bot');
 
-      // For the provider select, we need to trigger the value change
-      // Since the dialog uses dynamicOptions from getAiProviders response,
+      // For the model select, we need to trigger the value change
+      // Since the dialog uses dynamicOptions from getAiModels response,
       // and we mock the Select component to use native select, we can use fireEvent
-      // There are now multiple selects (aiProviderId and responseLanguage), select the first one
+      // There are now multiple selects (aiModelId and responseLanguage), select the first one
       const selects = screen.getAllByTestId('select-native');
-      if (selects.length > 0) {
-        fireEvent.change(selects[0], { target: { value: 'provider-1' } });
+      if (selects[0]) {
+        fireEvent.change(selects[0], { target: { value: 'model-1' } });
       }
 
       // Submit the form

@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useErrorDisplay } from '@/hooks/use-error-display';
 import { Button } from '@/components/ui/button';
-import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { PaginatedTable, type ColumnDefinition } from '@/components/paginated-table';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { FileText, ArrowLeft } from 'lucide-react';
 import { AppShell } from '@/components/app-shell';
@@ -13,7 +13,6 @@ import { useApi } from '@/lib/use-api';
 import { useFormatDate } from '@/hooks/use-format-date';
 import { usePaginatedList, type FetchResult } from '@/hooks/use-paginated-list';
 import { getPaperlessInstancesByIdDocuments } from '@repo/api-client';
-import { TablePagination } from '@/components/table-pagination';
 
 import type { DocumentListItem } from '@repo/api-client';
 import {
@@ -77,6 +76,16 @@ export default function DocumentsPage() {
     notFoundRedirect: '/admin/paperless-instances',
     params: fetchParams,
   });
+
+  const columns: ColumnDefinition[] = useMemo(
+    () => [
+      { label: t('table.title') },
+      { label: t('table.status') },
+      { label: t('table.importedAt') },
+      { label: t('table.actions'), align: 'right' },
+    ],
+    [t]
+  );
 
   const [analyzingDocument, setAnalyzingDocument] = useState<DocumentListItem | null>(null);
   const [viewingDocument, setViewingDocument] = useState<DocumentListItem | null>(null);
@@ -142,32 +151,20 @@ export default function DocumentsPage() {
           </TabsList>
         </Tabs>
 
-        {!isLoading && documents.length === 0 && total === 0 ? (
-          <div className="text-muted-foreground py-12 text-center">{t('noDocuments')}</div>
-        ) : (
-          <div className="bg-card rounded-md border shadow-sm">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>{t('table.title')}</TableHead>
-                  <TableHead>{t('table.status')}</TableHead>
-                  <TableHead>{t('table.importedAt')}</TableHead>
-                  <TableHead className="text-right">{t('table.actions')}</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>{renderTableContent()}</TableBody>
-            </Table>
-            <TablePagination
-              page={page}
-              limit={limit}
-              total={total}
-              totalPages={totalPages}
-              isLoading={isLoading}
-              onPageChange={handlePageChange}
-              onLimitChange={handleLimitChange}
-            />
-          </div>
-        )}
+        <PaginatedTable
+          isEmpty={!isLoading && documents.length === 0 && total === 0}
+          isLoading={isLoading}
+          emptyMessage={t('noDocuments')}
+          columns={columns}
+          page={page}
+          limit={limit}
+          total={total}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+          onLimitChange={handleLimitChange}
+        >
+          {renderTableContent()}
+        </PaginatedTable>
       </div>
 
       <AnalyzeDocumentDialog

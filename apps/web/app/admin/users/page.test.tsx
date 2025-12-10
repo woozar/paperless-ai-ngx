@@ -159,12 +159,14 @@ describe('UsersPage', () => {
     });
   });
 
-  it('renders null for non-admin users', () => {
+  it('renders null for non-admin users', async () => {
     mockUser.mockReturnValue({ id: 'user-2', username: 'testuser', role: 'DEFAULT' });
 
     const { container } = renderWithIntl(<UsersPage />);
 
-    expect(container.firstChild).toBeNull();
+    await waitFor(() => {
+      expect(container.firstChild).toBeNull();
+    });
   });
 
   it('loads and displays users', async () => {

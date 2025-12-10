@@ -7,7 +7,11 @@ import type { AiBotListItem } from '@repo/api-client';
 import type { Settings } from '@/lib/api/schemas/settings';
 
 const mockUseSettings = vi.fn(() => ({
-  settings: { 'security.sharing.mode': 'BASIC' } as Settings,
+  settings: {
+    'security.sharing.mode': 'BASIC',
+    'display.general.currency': 'EUR',
+    'ai.context.identity': '',
+  } as Settings,
   updateSetting: vi.fn(),
 }));
 
@@ -19,6 +23,7 @@ function renderBotTableRow(props: {
   bot: AiBotListItem;
   onEdit: (bot: AiBotListItem) => void;
   onDelete: (bot: AiBotListItem) => void;
+  onShare?: (bot: AiBotListItem) => void;
   formatDate: (date: string) => string;
 }) {
   return renderWithIntl(
@@ -33,11 +38,16 @@ function renderBotTableRow(props: {
 const mockBot: AiBotListItem = {
   id: 'bot-123',
   name: 'Test Bot',
-  aiProviderId: 'provider-1',
-  aiProvider: {
-    id: 'provider-1',
-    name: 'OpenAI',
-    provider: 'openai',
+  aiModelId: 'model-1',
+  aiModel: {
+    id: 'model-1',
+    name: 'GPT-4',
+    modelIdentifier: 'gpt-4',
+    aiAccount: {
+      id: 'account-1',
+      name: 'OpenAI',
+      provider: 'openai',
+    },
   },
   systemPrompt: 'You are a helpful assistant',
   responseLanguage: 'DOCUMENT',
@@ -62,9 +72,9 @@ describe('BotTableRow', () => {
     expect(screen.getByText('Test Bot')).toBeInTheDocument();
   });
 
-  it('renders AI provider name', () => {
+  it('renders AI model name', () => {
     renderBotTableRow(defaultProps);
-    expect(screen.getByText('OpenAI')).toBeInTheDocument();
+    expect(screen.getByText('GPT-4')).toBeInTheDocument();
   });
 
   it('formats and displays creation date', () => {
@@ -117,7 +127,11 @@ describe('BotTableRow', () => {
   describe('share button', () => {
     it('does not render share button when sharing mode is BASIC', () => {
       mockUseSettings.mockReturnValue({
-        settings: { 'security.sharing.mode': 'BASIC' },
+        settings: {
+          'security.sharing.mode': 'BASIC',
+          'display.general.currency': 'EUR',
+          'ai.context.identity': '',
+        },
         updateSetting: vi.fn(),
       });
       renderBotTableRow(defaultProps);
@@ -126,7 +140,11 @@ describe('BotTableRow', () => {
 
     it('renders share button when sharing mode is ADVANCED and onShare is provided', () => {
       mockUseSettings.mockReturnValue({
-        settings: { 'security.sharing.mode': 'ADVANCED' } as Settings,
+        settings: {
+          'security.sharing.mode': 'ADVANCED',
+          'display.general.currency': 'EUR',
+          'ai.context.identity': '',
+        },
         updateSetting: vi.fn(),
       });
       renderBotTableRow({ ...defaultProps, onShare: vi.fn() });
@@ -137,7 +155,11 @@ describe('BotTableRow', () => {
       const user = userEvent.setup({ delay: null });
       const mockOnShare = vi.fn();
       mockUseSettings.mockReturnValue({
-        settings: { 'security.sharing.mode': 'ADVANCED' } as Settings,
+        settings: {
+          'security.sharing.mode': 'ADVANCED',
+          'display.general.currency': 'EUR',
+          'ai.context.identity': '',
+        },
         updateSetting: vi.fn(),
       });
       renderBotTableRow({ ...defaultProps, onShare: mockOnShare });

@@ -4,21 +4,26 @@ import userEvent from '@testing-library/user-event';
 import { toast } from 'sonner';
 import { CreateBotDialog } from './create-bot-dialog';
 import { renderWithIntl } from '@/test-utils/render-with-intl';
-import type { AiProviderListItem } from '@repo/api-client';
+import type { AiModelListItem } from '@repo/api-client';
 
 const mockPostAiBots = vi.fn();
-const mockGetAiProviders = vi.fn();
+const mockGetAiModels = vi.fn();
 let mockSelectCallbacks: Map<string, (value: string) => void> = new Map();
 
-const mockProviders: AiProviderListItem[] = [
+const mockModels: AiModelListItem[] = [
   {
-    id: 'provider-1',
-    name: 'OpenAI',
-    provider: 'openai',
-    model: 'gpt-4',
-    apiKey: 'sk-test-key',
-    baseUrl: null,
+    id: 'model-1',
+    name: 'GPT-4',
+    modelIdentifier: 'gpt-4',
+    inputTokenPrice: null,
+    outputTokenPrice: null,
     isActive: true,
+    aiAccountId: 'account-1',
+    aiAccount: {
+      id: 'account-1',
+      name: 'OpenAI',
+      provider: 'openai',
+    },
     createdAt: '2024-01-15T10:30:00Z',
     updatedAt: '2024-01-15T10:30:00Z',
   },
@@ -29,7 +34,7 @@ vi.mock('@repo/api-client', async () => {
   return {
     ...actual,
     postAiBots: (...args: any[]) => mockPostAiBots(...args),
-    getAiProviders: (...args: any[]) => mockGetAiProviders(...args),
+    getAiModels: (...args: any[]) => mockGetAiModels(...args),
   };
 });
 
@@ -47,7 +52,7 @@ vi.mock('@/components/ui/select', () => ({
           onChange={(e) => onValueChange(e.target.value)}
         >
           <option value="">Select...</option>
-          <option value="provider-1">Provider 1</option>
+          <option value="model-1">Model 1</option>
           <option value="DOCUMENT">Based on document</option>
           <option value="GERMAN">German</option>
           <option value="ENGLISH">English</option>
@@ -80,10 +85,10 @@ describe('CreateBotDialog', () => {
     vi.clearAllMocks();
     mockSelectCallbacks = new Map();
     selectIndex = 0;
-    mockGetAiProviders.mockResolvedValue({
+    mockGetAiModels.mockResolvedValue({
       data: {
-        items: mockProviders,
-        total: mockProviders.length,
+        items: mockModels,
+        total: mockModels.length,
         page: 1,
         limit: 10,
         totalPages: 1,
@@ -123,7 +128,7 @@ describe('CreateBotDialog', () => {
     });
 
     await waitFor(() => {
-      expect(mockGetAiProviders).toHaveBeenCalled();
+      expect(mockGetAiModels).toHaveBeenCalled();
     });
 
     const nameInput = screen.getByTestId('create-bot-name-input');
@@ -132,10 +137,10 @@ describe('CreateBotDialog', () => {
     await user.type(nameInput, 'New Bot');
     await user.type(systemPromptInput, 'Be helpful');
 
-    // Select provider using the native select
+    // Select model using the native select
     const selects = screen.getAllByTestId('select-native');
-    // First select is aiProviderId, second is responseLanguage
-    fireEvent.change(selects[0], { target: { value: 'provider-1' } });
+    // First select is aiModelId, second is responseLanguage
+    fireEvent.change(selects[0]!, { target: { value: 'model-1' } });
 
     const submitButton = screen.getByTestId('create-bot-submit-button');
     await user.click(submitButton);
@@ -146,7 +151,7 @@ describe('CreateBotDialog', () => {
           client: expect.any(Object),
           body: {
             name: 'New Bot',
-            aiProviderId: 'provider-1',
+            aiModelId: 'model-1',
             systemPrompt: 'Be helpful',
             responseLanguage: 'DOCUMENT',
           },
@@ -170,7 +175,7 @@ describe('CreateBotDialog', () => {
     });
 
     await waitFor(() => {
-      expect(mockGetAiProviders).toHaveBeenCalled();
+      expect(mockGetAiModels).toHaveBeenCalled();
     });
 
     const nameInput = screen.getByTestId('create-bot-name-input');
@@ -180,7 +185,7 @@ describe('CreateBotDialog', () => {
     await user.type(systemPromptInput, 'Be helpful');
 
     const selects = screen.getAllByTestId('select-native');
-    fireEvent.change(selects[0], { target: { value: 'provider-1' } });
+    fireEvent.change(selects[0]!, { target: { value: 'model-1' } });
 
     const submitButton = screen.getByTestId('create-bot-submit-button');
     await user.click(submitButton);
@@ -206,7 +211,7 @@ describe('CreateBotDialog', () => {
     });
 
     await waitFor(() => {
-      expect(mockGetAiProviders).toHaveBeenCalled();
+      expect(mockGetAiModels).toHaveBeenCalled();
     });
 
     const nameInput = screen.getByTestId('create-bot-name-input');
@@ -216,7 +221,7 @@ describe('CreateBotDialog', () => {
     await user.type(systemPromptInput, 'Be helpful');
 
     const selects = screen.getAllByTestId('select-native');
-    fireEvent.change(selects[0], { target: { value: 'provider-1' } });
+    fireEvent.change(selects[0]!, { target: { value: 'model-1' } });
 
     const submitButton = screen.getByTestId('create-bot-submit-button');
     await user.click(submitButton);
@@ -226,8 +231,8 @@ describe('CreateBotDialog', () => {
     });
   });
 
-  it('shows error when loading providers fails', async () => {
-    mockGetAiProviders.mockResolvedValueOnce({
+  it('shows error when loading models fails', async () => {
+    mockGetAiModels.mockResolvedValueOnce({
       data: undefined,
       error: { message: 'error.serverError' },
     });

@@ -7,9 +7,12 @@ import { renderWithIntl } from '@/test-utils/render-with-intl';
 
 // Mock the API client functions
 vi.mock('@repo/api-client', () => ({
-  getAiProvidersByIdSharing: vi.fn(),
-  postAiProvidersByIdSharing: vi.fn(),
-  deleteAiProvidersByIdSharingByAccessId: vi.fn(),
+  getAiAccountsByIdSharing: vi.fn(),
+  postAiAccountsByIdSharing: vi.fn(),
+  deleteAiAccountsByIdSharingByAccessId: vi.fn(),
+  getAiModelsByIdSharing: vi.fn(),
+  postAiModelsByIdSharing: vi.fn(),
+  deleteAiModelsByIdSharingByAccessId: vi.fn(),
   getAiBotsByIdSharing: vi.fn(),
   postAiBotsByIdSharing: vi.fn(),
   deleteAiBotsByIdSharingByAccessId: vi.fn(),
@@ -32,9 +35,9 @@ vi.mock('sonner', () => ({
 }));
 
 import {
-  getAiProvidersByIdSharing,
-  postAiProvidersByIdSharing,
-  deleteAiProvidersByIdSharingByAccessId,
+  getAiAccountsByIdSharing,
+  postAiAccountsByIdSharing,
+  deleteAiAccountsByIdSharingByAccessId,
   getUsers,
 } from '@repo/api-client';
 import type { ShareAccessItem } from '@/lib/api/schemas/sharing';
@@ -77,9 +80,9 @@ describe('ShareDialog', () => {
   const defaultProps = {
     open: true,
     onOpenChange: vi.fn(),
-    resourceType: 'ai-providers' as const,
-    resourceId: 'provider-1',
-    resourceName: 'Test Provider',
+    resourceType: 'ai-accounts' as const,
+    resourceId: 'account-1',
+    resourceName: 'Test Account',
   };
 
   beforeEach(() => {
@@ -88,7 +91,7 @@ describe('ShareDialog', () => {
 
   describe('rendering', () => {
     it('renders dialog when open', async () => {
-      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(mockShareList([]));
+      vi.mocked(getAiAccountsByIdSharing).mockResolvedValueOnce(mockShareList([]));
       vi.mocked(getUsers).mockResolvedValueOnce(mockUserList([]));
 
       renderWithIntl(<ShareDialog {...defaultProps} />);
@@ -96,7 +99,7 @@ describe('ShareDialog', () => {
       await waitFor(() => {
         expect(screen.getByRole('dialog')).toBeInTheDocument();
       });
-      expect(screen.getByText('Test Provider')).toBeInTheDocument();
+      expect(screen.getByText('Test Account')).toBeInTheDocument();
     });
 
     it('does not render when closed', () => {
@@ -105,7 +108,7 @@ describe('ShareDialog', () => {
     });
 
     it('shows loading state while fetching shares', async () => {
-      vi.mocked(getAiProvidersByIdSharing).mockImplementation(
+      vi.mocked(getAiAccountsByIdSharing).mockImplementation(
         (() => new Promise((resolve) => setTimeout(() => resolve(mockShareList([])), 100))) as any
       );
       vi.mocked(getUsers).mockResolvedValueOnce(mockUserList([]));
@@ -118,7 +121,7 @@ describe('ShareDialog', () => {
     });
 
     it('shows empty message when no shares exist', async () => {
-      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(mockShareList([]));
+      vi.mocked(getAiAccountsByIdSharing).mockResolvedValueOnce(mockShareList([]));
       vi.mocked(getUsers).mockResolvedValueOnce(mockUserList([]));
 
       renderWithIntl(<ShareDialog {...defaultProps} />);
@@ -131,7 +134,7 @@ describe('ShareDialog', () => {
 
   describe('displaying shares', () => {
     it('displays list of existing shares', async () => {
-      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(
+      vi.mocked(getAiAccountsByIdSharing).mockResolvedValueOnce(
         mockShareList([
           {
             id: 'access-1',
@@ -154,7 +157,7 @@ describe('ShareDialog', () => {
     });
 
     it('displays "All Users" for shares with null userId', async () => {
-      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(
+      vi.mocked(getAiAccountsByIdSharing).mockResolvedValueOnce(
         mockShareList([
           {
             id: 'access-1',
@@ -179,11 +182,11 @@ describe('ShareDialog', () => {
     it('adds share for specific user', async () => {
       const user = userEvent.setup({ delay: null });
 
-      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(mockShareList([]));
+      vi.mocked(getAiAccountsByIdSharing).mockResolvedValueOnce(mockShareList([]));
       vi.mocked(getUsers).mockResolvedValueOnce(
         mockUserList([{ id: 'user-2', username: 'otheruser' }])
       );
-      vi.mocked(postAiProvidersByIdSharing).mockResolvedValueOnce(
+      vi.mocked(postAiAccountsByIdSharing).mockResolvedValueOnce(
         mockShareItem({
           id: 'access-1',
           userId: 'user-2',
@@ -220,9 +223,9 @@ describe('ShareDialog', () => {
     it('adds share for all users', async () => {
       const user = userEvent.setup({ delay: null });
 
-      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(mockShareList([]));
+      vi.mocked(getAiAccountsByIdSharing).mockResolvedValueOnce(mockShareList([]));
       vi.mocked(getUsers).mockResolvedValueOnce(mockUserList([]));
-      vi.mocked(postAiProvidersByIdSharing).mockResolvedValueOnce(
+      vi.mocked(postAiAccountsByIdSharing).mockResolvedValueOnce(
         mockShareItem({
           id: 'access-1',
           userId: null,
@@ -255,7 +258,7 @@ describe('ShareDialog', () => {
     it('hides "All Users" option when already shared with all', async () => {
       const user = userEvent.setup({ delay: null });
 
-      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(
+      vi.mocked(getAiAccountsByIdSharing).mockResolvedValueOnce(
         mockShareList([
           {
             id: 'access-1',
@@ -283,9 +286,9 @@ describe('ShareDialog', () => {
     it('shows error toast on API failure', async () => {
       const user = userEvent.setup({ delay: null });
 
-      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(mockShareList([]));
+      vi.mocked(getAiAccountsByIdSharing).mockResolvedValueOnce(mockShareList([]));
       vi.mocked(getUsers).mockResolvedValueOnce(mockUserList([]));
-      vi.mocked(postAiProvidersByIdSharing).mockResolvedValueOnce(mockError('serverError'));
+      vi.mocked(postAiAccountsByIdSharing).mockResolvedValueOnce(mockError('serverError'));
 
       renderWithIntl(<ShareDialog {...defaultProps} />);
 
@@ -311,7 +314,7 @@ describe('ShareDialog', () => {
     it('removes share when clicking remove button', async () => {
       const user = userEvent.setup({ delay: null });
 
-      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(
+      vi.mocked(getAiAccountsByIdSharing).mockResolvedValueOnce(
         mockShareList([
           {
             id: 'access-1',
@@ -323,7 +326,7 @@ describe('ShareDialog', () => {
         ])
       );
       vi.mocked(getUsers).mockResolvedValueOnce(mockUserList([]));
-      vi.mocked(deleteAiProvidersByIdSharingByAccessId).mockResolvedValueOnce(mockDeleteResponse());
+      vi.mocked(deleteAiAccountsByIdSharingByAccessId).mockResolvedValueOnce(mockDeleteResponse());
 
       renderWithIntl(<ShareDialog {...defaultProps} />);
 
@@ -342,7 +345,7 @@ describe('ShareDialog', () => {
     it('shows error toast when remove fails', async () => {
       const user = userEvent.setup({ delay: null });
 
-      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(
+      vi.mocked(getAiAccountsByIdSharing).mockResolvedValueOnce(
         mockShareList([
           {
             id: 'access-1',
@@ -354,7 +357,7 @@ describe('ShareDialog', () => {
         ])
       );
       vi.mocked(getUsers).mockResolvedValueOnce(mockUserList([]));
-      vi.mocked(deleteAiProvidersByIdSharingByAccessId).mockResolvedValueOnce(
+      vi.mocked(deleteAiAccountsByIdSharingByAccessId).mockResolvedValueOnce(
         mockError('serverError')
       );
 
@@ -375,7 +378,7 @@ describe('ShareDialog', () => {
     it('shows error toast when remove network fails', async () => {
       const user = userEvent.setup({ delay: null });
 
-      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(
+      vi.mocked(getAiAccountsByIdSharing).mockResolvedValueOnce(
         mockShareList([
           {
             id: 'access-1',
@@ -387,7 +390,7 @@ describe('ShareDialog', () => {
         ])
       );
       vi.mocked(getUsers).mockResolvedValueOnce(mockUserList([]));
-      vi.mocked(deleteAiProvidersByIdSharingByAccessId).mockRejectedValueOnce(
+      vi.mocked(deleteAiAccountsByIdSharingByAccessId).mockRejectedValueOnce(
         new Error('Network error')
       );
 
@@ -410,7 +413,7 @@ describe('ShareDialog', () => {
     it('allows changing permission for new share', async () => {
       const user = userEvent.setup({ delay: null });
 
-      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(mockShareList([]));
+      vi.mocked(getAiAccountsByIdSharing).mockResolvedValueOnce(mockShareList([]));
       vi.mocked(getUsers).mockResolvedValueOnce(mockUserList([]));
 
       renderWithIntl(<ShareDialog {...defaultProps} />);
@@ -435,7 +438,7 @@ describe('ShareDialog', () => {
     it('auto-saves when permission is changed for existing share', async () => {
       const user = userEvent.setup({ delay: null });
 
-      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(
+      vi.mocked(getAiAccountsByIdSharing).mockResolvedValueOnce(
         mockShareList([
           {
             id: 'access-1',
@@ -447,7 +450,7 @@ describe('ShareDialog', () => {
         ])
       );
       vi.mocked(getUsers).mockResolvedValueOnce(mockUserList([]));
-      vi.mocked(postAiProvidersByIdSharing).mockResolvedValueOnce(
+      vi.mocked(postAiAccountsByIdSharing).mockResolvedValueOnce(
         mockShareItem({
           id: 'access-1',
           userId: 'user-2',
@@ -477,7 +480,7 @@ describe('ShareDialog', () => {
     it('shows error toast when permission update returns error', async () => {
       const user = userEvent.setup({ delay: null });
 
-      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(
+      vi.mocked(getAiAccountsByIdSharing).mockResolvedValueOnce(
         mockShareList([
           {
             id: 'access-1',
@@ -489,7 +492,7 @@ describe('ShareDialog', () => {
         ])
       );
       vi.mocked(getUsers).mockResolvedValueOnce(mockUserList([]));
-      vi.mocked(postAiProvidersByIdSharing).mockResolvedValueOnce(mockError('serverError'));
+      vi.mocked(postAiAccountsByIdSharing).mockResolvedValueOnce(mockError('serverError'));
 
       renderWithIntl(<ShareDialog {...defaultProps} />);
 
@@ -511,7 +514,7 @@ describe('ShareDialog', () => {
     it('shows error toast when permission update network fails', async () => {
       const user = userEvent.setup({ delay: null });
 
-      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(
+      vi.mocked(getAiAccountsByIdSharing).mockResolvedValueOnce(
         mockShareList([
           {
             id: 'access-1',
@@ -523,7 +526,7 @@ describe('ShareDialog', () => {
         ])
       );
       vi.mocked(getUsers).mockResolvedValueOnce(mockUserList([]));
-      vi.mocked(postAiProvidersByIdSharing).mockRejectedValueOnce(new Error('Network error'));
+      vi.mocked(postAiAccountsByIdSharing).mockRejectedValueOnce(new Error('Network error'));
 
       renderWithIntl(<ShareDialog {...defaultProps} />);
 
@@ -547,9 +550,9 @@ describe('ShareDialog', () => {
     it('shows error toast when add share network fails', async () => {
       const user = userEvent.setup({ delay: null });
 
-      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(mockShareList([]));
+      vi.mocked(getAiAccountsByIdSharing).mockResolvedValueOnce(mockShareList([]));
       vi.mocked(getUsers).mockResolvedValueOnce(mockUserList([]));
-      vi.mocked(postAiProvidersByIdSharing).mockRejectedValueOnce(new Error('Network error'));
+      vi.mocked(postAiAccountsByIdSharing).mockRejectedValueOnce(new Error('Network error'));
 
       renderWithIntl(<ShareDialog {...defaultProps} />);
 
@@ -571,7 +574,7 @@ describe('ShareDialog', () => {
     });
 
     it('shows error toast when load shares fails', async () => {
-      vi.mocked(getAiProvidersByIdSharing).mockRejectedValueOnce(new Error('Network error'));
+      vi.mocked(getAiAccountsByIdSharing).mockRejectedValueOnce(new Error('Network error'));
       vi.mocked(getUsers).mockResolvedValueOnce(mockUserList([]));
 
       renderWithIntl(<ShareDialog {...defaultProps} />);
@@ -582,7 +585,7 @@ describe('ShareDialog', () => {
     });
 
     it('shows error toast when load shares returns error', async () => {
-      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(mockError('serverError'));
+      vi.mocked(getAiAccountsByIdSharing).mockResolvedValueOnce(mockError('serverError'));
       vi.mocked(getUsers).mockResolvedValueOnce(mockUserList([]));
 
       renderWithIntl(<ShareDialog {...defaultProps} />);
@@ -593,7 +596,7 @@ describe('ShareDialog', () => {
     });
 
     it('silently handles when load users fails', async () => {
-      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(mockShareList([]));
+      vi.mocked(getAiAccountsByIdSharing).mockResolvedValueOnce(mockShareList([]));
       vi.mocked(getUsers).mockRejectedValueOnce(new Error('Network error'));
 
       renderWithIntl(<ShareDialog {...defaultProps} />);
@@ -605,7 +608,7 @@ describe('ShareDialog', () => {
     });
 
     it('silently handles when load users returns no data', async () => {
-      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(mockShareList([]));
+      vi.mocked(getAiAccountsByIdSharing).mockResolvedValueOnce(mockShareList([]));
       vi.mocked(getUsers).mockResolvedValueOnce(mockError('serverError'));
 
       renderWithIntl(<ShareDialog {...defaultProps} />);
@@ -621,7 +624,7 @@ describe('ShareDialog', () => {
     it('does not add share when in user mode without selected user', async () => {
       const user = userEvent.setup({ delay: null });
 
-      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(mockShareList([]));
+      vi.mocked(getAiAccountsByIdSharing).mockResolvedValueOnce(mockShareList([]));
       vi.mocked(getUsers).mockResolvedValueOnce(mockUserList([]));
 
       renderWithIntl(<ShareDialog {...defaultProps} />);
@@ -638,7 +641,7 @@ describe('ShareDialog', () => {
       await user.click(addButton);
 
       // Should not make a POST request
-      expect(postAiProvidersByIdSharing).not.toHaveBeenCalled();
+      expect(postAiAccountsByIdSharing).not.toHaveBeenCalled();
     });
   });
 
@@ -646,9 +649,9 @@ describe('ShareDialog', () => {
     it('adds new share when response succeeds', async () => {
       const user = userEvent.setup({ delay: null });
 
-      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(mockShareList([]));
+      vi.mocked(getAiAccountsByIdSharing).mockResolvedValueOnce(mockShareList([]));
       vi.mocked(getUsers).mockResolvedValueOnce(mockUserList([]));
-      vi.mocked(postAiProvidersByIdSharing).mockResolvedValueOnce(
+      vi.mocked(postAiAccountsByIdSharing).mockResolvedValueOnce(
         mockShareItem({
           id: 'access-1',
           userId: null,
@@ -682,7 +685,7 @@ describe('ShareDialog', () => {
     it('does not call API when same permission is selected', async () => {
       const user = userEvent.setup({ delay: null });
 
-      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(
+      vi.mocked(getAiAccountsByIdSharing).mockResolvedValueOnce(
         mockShareList([
           {
             id: 'access-1',
@@ -708,13 +711,13 @@ describe('ShareDialog', () => {
       await user.click(readOption);
 
       // Should not make a POST request
-      expect(postAiProvidersByIdSharing).not.toHaveBeenCalled();
+      expect(postAiAccountsByIdSharing).not.toHaveBeenCalled();
     });
 
     it('updates share in list when permission change succeeds with multiple shares', async () => {
       const user = userEvent.setup({ delay: null });
 
-      vi.mocked(getAiProvidersByIdSharing).mockResolvedValueOnce(
+      vi.mocked(getAiAccountsByIdSharing).mockResolvedValueOnce(
         mockShareList([
           {
             id: 'access-1',
@@ -733,7 +736,7 @@ describe('ShareDialog', () => {
         ])
       );
       vi.mocked(getUsers).mockResolvedValueOnce(mockUserList([]));
-      vi.mocked(postAiProvidersByIdSharing).mockResolvedValueOnce(
+      vi.mocked(postAiAccountsByIdSharing).mockResolvedValueOnce(
         mockShareItem({
           id: 'access-1',
           userId: 'user-2',

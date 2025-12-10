@@ -32,13 +32,20 @@ export const GET = authRoute(
           name: true,
           systemPrompt: true,
           responseLanguage: true,
-          aiProviderId: true,
+          aiModelId: true,
           ownerId: true,
-          aiProvider: {
+          aiModel: {
             select: {
               id: true,
               name: true,
-              provider: true,
+              modelIdentifier: true,
+              aiAccount: {
+                select: {
+                  id: true,
+                  name: true,
+                  provider: true,
+                },
+              },
             },
           },
           createdAt: true,
@@ -71,8 +78,8 @@ export const GET = authRoute(
           name: bot.name,
           systemPrompt: bot.systemPrompt,
           responseLanguage: bot.responseLanguage,
-          aiProviderId: bot.aiProviderId,
-          aiProvider: bot.aiProvider,
+          aiModelId: bot.aiModelId,
+          aiModel: bot.aiModel,
           createdAt: bot.createdAt.toISOString(),
           updatedAt: bot.updatedAt.toISOString(),
           canEdit,
@@ -89,7 +96,7 @@ export const GET = authRoute(
 // POST /api/ai-bots - Create a new AiBot
 export const POST = authRoute(
   async ({ user, body }) => {
-    const { name, aiProviderId, systemPrompt, responseLanguage } = body;
+    const { name, aiModelId, systemPrompt, responseLanguage } = body;
 
     // Check if name already exists for this owner
     const existing = await prisma.aiBot.findFirst({
@@ -110,19 +117,28 @@ export const POST = authRoute(
       );
     }
 
-    // Verify that the AI provider exists and belongs to the user
-    const provider = await prisma.aiProvider.findFirst({
+    // Verify that the AI model exists and user has access
+    const model = await prisma.aiModel.findFirst({
       where: {
-        id: aiProviderId,
-        ownerId: user.userId,
+        id: aiModelId,
+        OR: [
+          { ownerId: user.userId },
+          {
+            sharedWith: {
+              some: {
+                OR: [{ userId: user.userId }, { userId: null }],
+              },
+            },
+          },
+        ],
       },
     });
 
-    if (!provider) {
+    if (!model) {
       return NextResponse.json(
         {
-          error: 'aiProviderNotFound',
-          message: 'aiProviderNotFound',
+          error: 'aiModelNotFound',
+          message: 'aiModelNotFound',
         },
         { status: 400 }
       );
@@ -134,7 +150,7 @@ export const POST = authRoute(
         name,
         systemPrompt,
         responseLanguage,
-        aiProviderId,
+        aiModelId,
         ownerId: user.userId,
       },
       select: {
@@ -142,12 +158,19 @@ export const POST = authRoute(
         name: true,
         systemPrompt: true,
         responseLanguage: true,
-        aiProviderId: true,
-        aiProvider: {
+        aiModelId: true,
+        aiModel: {
           select: {
             id: true,
             name: true,
-            provider: true,
+            modelIdentifier: true,
+            aiAccount: {
+              select: {
+                id: true,
+                name: true,
+                provider: true,
+              },
+            },
           },
         },
         createdAt: true,

@@ -7,14 +7,18 @@ describe('AiBotListItemSchema', () => {
       id: 'bot-1',
       name: 'Document Analyzer',
       systemPrompt: 'You are a helpful assistant that analyzes documents',
-      aiProviderId: 'provider-1',
-      aiProvider: {
-        id: 'provider-1',
-        name: 'My OpenAI',
-        provider: 'openai',
+      aiModelId: 'model-1',
+      aiModel: {
+        id: 'model-1',
+        name: 'GPT-4',
+        modelIdentifier: 'gpt-4',
+        aiAccount: {
+          id: 'account-1',
+          name: 'My OpenAI',
+          provider: 'openai',
+        },
       },
       responseLanguage: 'DOCUMENT',
-      isActive: true,
       createdAt: '2024-01-15T10:00:00.000Z',
       updatedAt: '2024-01-15T10:00:00.000Z',
     });
@@ -29,12 +33,12 @@ describe('AiBotListItemSchema', () => {
     expect(result.success).toBe(false);
   });
 
-  it('rejects missing aiProvider relation', () => {
+  it('rejects missing aiModel relation', () => {
     const result = AiBotListItemSchema.safeParse({
       id: 'bot-1',
       name: 'Document Analyzer',
       systemPrompt: 'You are a helpful assistant',
-      aiProviderId: 'provider-1',
+      aiModelId: 'model-1',
       isActive: true,
       createdAt: '2024-01-15T10:00:00.000Z',
       updatedAt: '2024-01-15T10:00:00.000Z',
@@ -47,7 +51,7 @@ describe('CreateAiBotRequestSchema', () => {
   it('validates correct create request', () => {
     const result = CreateAiBotRequestSchema.safeParse({
       name: 'Document Analyzer',
-      aiProviderId: 'provider-1',
+      aiModelId: 'model-1',
       systemPrompt: 'You are a helpful assistant that analyzes documents',
     });
     expect(result.success).toBe(true);
@@ -56,7 +60,7 @@ describe('CreateAiBotRequestSchema', () => {
   it('rejects empty name', () => {
     const result = CreateAiBotRequestSchema.safeParse({
       name: '',
-      aiProviderId: 'provider-1',
+      aiModelId: 'model-1',
       systemPrompt: 'You are a helpful assistant',
     });
     expect(result.success).toBe(false);
@@ -65,7 +69,7 @@ describe('CreateAiBotRequestSchema', () => {
   it('rejects whitespace-only name', () => {
     const result = CreateAiBotRequestSchema.safeParse({
       name: '   ',
-      aiProviderId: 'provider-1',
+      aiModelId: 'model-1',
       systemPrompt: 'You are a helpful assistant',
     });
     expect(result.success).toBe(false);
@@ -74,16 +78,16 @@ describe('CreateAiBotRequestSchema', () => {
   it('rejects name longer than 100 characters', () => {
     const result = CreateAiBotRequestSchema.safeParse({
       name: 'a'.repeat(101),
-      aiProviderId: 'provider-1',
+      aiModelId: 'model-1',
       systemPrompt: 'You are a helpful assistant',
     });
     expect(result.success).toBe(false);
   });
 
-  it('rejects empty aiProviderId', () => {
+  it('rejects empty aiModelId', () => {
     const result = CreateAiBotRequestSchema.safeParse({
       name: 'Document Analyzer',
-      aiProviderId: '',
+      aiModelId: '',
       systemPrompt: 'You are a helpful assistant',
     });
     expect(result.success).toBe(false);
@@ -92,7 +96,7 @@ describe('CreateAiBotRequestSchema', () => {
   it('rejects empty systemPrompt', () => {
     const result = CreateAiBotRequestSchema.safeParse({
       name: 'Document Analyzer',
-      aiProviderId: 'provider-1',
+      aiModelId: 'model-1',
       systemPrompt: '',
     });
     expect(result.success).toBe(false);
@@ -101,7 +105,7 @@ describe('CreateAiBotRequestSchema', () => {
   it('trims name before validation', () => {
     const result = CreateAiBotRequestSchema.safeParse({
       name: '  Document Analyzer  ',
-      aiProviderId: 'provider-1',
+      aiModelId: 'model-1',
       systemPrompt: 'You are a helpful assistant',
     });
     expect(result.success).toBe(true);
@@ -119,9 +123,9 @@ describe('UpdateAiBotRequestSchema', () => {
     expect(result.success).toBe(true);
   });
 
-  it('validates update with aiProviderId only', () => {
+  it('validates update with aiModelId only', () => {
     const result = UpdateAiBotRequestSchema.safeParse({
-      aiProviderId: 'provider-2',
+      aiModelId: 'model-2',
     });
     expect(result.success).toBe(true);
   });
@@ -168,9 +172,9 @@ describe('UpdateAiBotRequestSchema', () => {
     expect(result.success).toBe(false);
   });
 
-  it('rejects empty aiProviderId in update', () => {
+  it('rejects empty aiModelId in update', () => {
     const result = UpdateAiBotRequestSchema.safeParse({
-      aiProviderId: '',
+      aiModelId: '',
     });
     expect(result.success).toBe(false);
   });

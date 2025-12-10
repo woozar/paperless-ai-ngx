@@ -48,7 +48,7 @@ function mockUser(userId = 'user-1') {
   vi.mocked(getAuthUser).mockResolvedValueOnce({
     userId,
     username: 'user',
-    role: 'USER',
+    role: 'DEFAULT',
   });
 }
 

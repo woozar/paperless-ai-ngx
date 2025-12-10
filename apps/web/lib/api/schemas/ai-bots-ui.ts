@@ -20,10 +20,10 @@ const baseAiBotFields = {
     .min(1, 'Name is required')
     .max(100, 'Name must be at most 100 characters')
     .meta({ inputType: 'text', labelKey: 'name' }),
-  aiProviderId: z
+  aiModelId: z
     .string()
-    .min(1, 'AI Provider is required')
-    .meta({ inputType: 'select', labelKey: 'aiProvider' }),
+    .min(1, 'AI Model is required')
+    .meta({ inputType: 'select', labelKey: 'aiModel' }),
   systemPrompt: z
     .string()
     .min(1, 'System prompt is required')
@@ -33,26 +33,21 @@ const baseAiBotFields = {
 // UI-enhanced schema for creating AI bots
 export const CreateAiBotFormSchema = z.object({
   ...baseAiBotFields,
-  responseLanguage: z
-    .enum(responseLanguageOptions)
-    .default('DOCUMENT')
-    .meta({
-      inputType: 'select',
-      labelKey: 'responseLanguage',
-      options: responseLanguageSelectOptions,
-    }),
+  responseLanguage: z.enum(responseLanguageOptions).default('DOCUMENT').meta({
+    inputType: 'select',
+    labelKey: 'responseLanguage',
+    options: responseLanguageSelectOptions,
+  }),
 });
 
 // UI-enhanced schema for editing AI bots
 export const EditAiBotFormSchema = z.object({
   ...baseAiBotFields,
-  responseLanguage: z
-    .enum(responseLanguageOptions)
-    .meta({
-      inputType: 'select',
-      labelKey: 'responseLanguage',
-      options: responseLanguageSelectOptions,
-    }),
+  responseLanguage: z.enum(responseLanguageOptions).meta({
+    inputType: 'select',
+    labelKey: 'responseLanguage',
+    options: responseLanguageSelectOptions,
+  }),
 });
 
 export type CreateAiBotFormData = z.infer<typeof CreateAiBotFormSchema>;

@@ -44,8 +44,8 @@ export const BotTableRow = memo(function BotTableRow({
       <TableCell className="font-medium">{bot.name}</TableCell>
       <TableCell>
         <div className="flex items-center gap-2">
-          <ProviderLogo provider={bot.aiProvider.provider} size={20} />
-          <span>{bot.aiProvider.name}</span>
+          <ProviderLogo provider={bot.aiModel.aiAccount.provider} size={20} />
+          <span>{bot.aiModel.name}</span>
         </div>
       </TableCell>
       <TableCell className="text-muted-foreground text-sm">{formatDate(bot.createdAt)}</TableCell>

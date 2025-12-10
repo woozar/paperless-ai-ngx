@@ -4,13 +4,20 @@ A web application for managing AI-powered document processing with [Paperless-ng
 
 ## Release Notes
 
+### v1.10.0
+
+- Separate AI accounts (credentials) from AI models (configuration and pricing)
+- Configure token prices per model for cost tracking
+- New Services overview page with all service types in one place
+- Share AI models with other users
+
 ### v1.9.0
 
 - Deploy with a single `docker compose up` command
 
 ### v1.8.0
 
-- Share AI bots, providers, and Paperless instances with other users
+- Share AI bots, accounts, and Paperless instances with other users
 - Users with full access can reshare resources
 - Deactivate users instead of deleting them, with option to restore
 

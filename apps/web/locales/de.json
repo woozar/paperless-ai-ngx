@@ -17,8 +17,10 @@
     "documents": "Dokumente",
     "users": "Benutzer",
     "paperlessInstances": "Paperless Server",
-    "aiProviders": "KI-Anbieter",
+    "aiAccounts": "KI-Accounts",
+    "aiModels": "KI-Modelle",
     "aiBots": "KI-Bots",
+    "services": "Dienste",
     "admin": "Verwaltung",
     "pagination": {
       "showing": "{start} bis {end} von {total}",
@@ -155,9 +157,12 @@
     "settingsValidationError": "Ungültiger Wert für Einstellung {key}",
     "paperlessInstanceNotFound": "Paperless-Instanz nicht gefunden",
     "paperlessInstanceNameExists": "Eine Paperless-Instanz mit dem Namen \"{name}\" existiert bereits",
-    "aiProviderNotFound": "KI-Anbieter nicht gefunden",
-    "aiProviderNameExists": "Ein KI-Anbieter mit dem Namen \"{name}\" existiert bereits",
-    "aiProviderInUse": "KI-Anbieter kann nicht gelöscht werden, da {count, plural, one {1 Bot ihn verwendet} other {# Bots ihn verwenden}}",
+    "aiAccountNotFound": "KI-Account nicht gefunden",
+    "aiAccountNameExists": "Ein KI-Account mit dem Namen \"{name}\" existiert bereits",
+    "aiAccountInUse": "KI-Account kann nicht gelöscht werden, da {count, plural, one {1 Modell ihn verwendet} other {# Modelle ihn verwenden}}",
+    "aiModelNotFound": "KI-Modell nicht gefunden",
+    "aiModelNameExists": "Ein KI-Modell mit dem Namen \"{name}\" existiert bereits",
+    "aiModelInUse": "KI-Modell kann nicht gelöscht werden, da {count, plural, one {1 Bot es verwendet} other {# Bots es verwenden}}",
     "aiBotNotFound": "KI-Bot nicht gefunden",
     "aiBotNameExists": "Ein KI-Bot mit dem Namen \"{name}\" existiert bereits",
     "userNotFound": "Benutzer nicht gefunden",
@@ -166,6 +171,10 @@
     "documentNotFound": "Dokument nicht gefunden"
   },
   "admin": {
+    "services": {
+      "title": "Dienste",
+      "description": "Externe Dienste und KI-Konfiguration verwalten"
+    },
     "users": {
       "title": "Benutzerverwaltung",
       "description": "Benutzer und Berechtigungen verwalten",
@@ -243,15 +252,14 @@
       "importDocuments": "Dokumente importieren",
       "importSuccess": "{count, plural, one {1 Dokument importiert} other {# Dokumente importiert}}"
     },
-    "aiProviders": {
-      "title": "KI-Anbieter",
-      "description": "KI-Anbieter Konfigurationen verwalten",
-      "createProvider": "Anbieter erstellen",
-      "editProvider": "Anbieter bearbeiten",
-      "deleteProvider": "Anbieter löschen",
+    "aiAccounts": {
+      "title": "KI-Accounts",
+      "description": "KI-Account Konfigurationen verwalten",
+      "createAccount": "Account erstellen",
+      "editAccount": "Account bearbeiten",
+      "deleteAccount": "Account löschen",
       "name": "Name",
       "provider": "Anbieter",
-      "model": "Modell",
       "apiKey": "API-Schlüssel",
       "baseUrl": "Basis-URL",
       "baseUrlPlaceholder": "https://api.example.com",
@@ -267,19 +275,52 @@
         "ollama": "Ollama",
         "custom": "Benutzerdefiniert"
       },
-      "confirmDelete": "Zur Bestätigung den Anbieternamen eingeben:",
-      "confirmDeleteDescription": "Diese Aktion kann nicht rückgängig gemacht werden. Stelle sicher, dass keine Bots diesen Anbieter verwenden.",
-      "providerCreated": "Anbieter erfolgreich erstellt",
-      "providerUpdated": "Anbieter erfolgreich aktualisiert",
-      "providerDeleted": "Anbieter erfolgreich gelöscht",
+      "confirmDelete": "Zur Bestätigung den Account-Namen eingeben:",
+      "confirmDeleteDescription": "Diese Aktion kann nicht rückgängig gemacht werden. Stelle sicher, dass keine Modelle diesen Account verwenden.",
+      "accountCreated": "Account erfolgreich erstellt",
+      "accountUpdated": "Account erfolgreich aktualisiert",
+      "accountDeleted": "Account erfolgreich gelöscht",
       "error": {
-        "loadFailed": "Fehler beim Laden der Anbieter",
-        "createFailed": "Fehler beim Erstellen des Anbieters",
-        "updateFailed": "Fehler beim Aktualisieren des Anbieters",
-        "deleteFailed": "Fehler beim Löschen des Anbieters"
+        "loadFailed": "Fehler beim Laden der Accounts",
+        "createFailed": "Fehler beim Erstellen des Accounts",
+        "updateFailed": "Fehler beim Aktualisieren des Accounts",
+        "deleteFailed": "Fehler beim Löschen des Accounts"
       },
-      "noProviders": "Keine Anbieter gefunden",
+      "noAccounts": "Keine Accounts gefunden",
       "baseUrlRequired": "Basis-URL ist erforderlich für Ollama und benutzerdefinierte Anbieter"
+    },
+    "aiModels": {
+      "title": "KI-Modelle",
+      "description": "KI-Modell Konfigurationen verwalten",
+      "createModel": "Modell erstellen",
+      "editModel": "Modell bearbeiten",
+      "deleteModel": "Modell löschen",
+      "name": "Name",
+      "modelIdentifier": "Modell-ID",
+      "modelIdentifierPlaceholder": "z.B. gpt-4.1-mini, claude-3-opus",
+      "aiAccount": "KI-Account",
+      "selectAccount": "Account auswählen",
+      "inputTokenPrice": "Preis für 1 Mio Input-Tokens",
+      "outputTokenPrice": "Preis für 1 Mio Output-Tokens",
+      "status": "Status",
+      "actions": "Aktionen",
+      "active": "Aktiv",
+      "inactive": "Inaktiv",
+      "createdAt": "Erstellt",
+      "confirmDelete": "Zur Bestätigung den Modellnamen eingeben:",
+      "confirmDeleteDescription": "Diese Aktion kann nicht rückgängig gemacht werden. Stelle sicher, dass keine Bots dieses Modell verwenden.",
+      "modelCreated": "Modell erfolgreich erstellt",
+      "modelUpdated": "Modell erfolgreich aktualisiert",
+      "modelDeleted": "Modell erfolgreich gelöscht",
+      "error": {
+        "loadFailed": "Fehler beim Laden der Modelle",
+        "createFailed": "Fehler beim Erstellen des Modells",
+        "updateFailed": "Fehler beim Aktualisieren des Modells",
+        "deleteFailed": "Fehler beim Löschen des Modells",
+        "loadAccountsFailed": "Fehler beim Laden der KI-Accounts"
+      },
+      "noModels": "Keine Modelle gefunden",
+      "noAccountsAvailable": "Keine KI-Accounts verfügbar. Bitte erstelle zuerst einen."
     },
     "documents": {
       "title": "Dokumente",
@@ -344,8 +385,8 @@
       "name": "Name",
       "systemPrompt": "System-Prompt",
       "systemPromptPlaceholder": "Du bist ein hilfreicher Assistent, der Dokumente analysiert...",
-      "aiProvider": "KI-Anbieter",
-      "selectProvider": "Anbieter auswählen",
+      "aiModel": "KI-Modell",
+      "selectModel": "Modell auswählen",
       "responseLanguage": "Antwortsprache",
       "responseLanguageOptions": {
         "DOCUMENT": "Je nach Dokument",
@@ -367,15 +408,16 @@
         "createFailed": "Fehler beim Erstellen des Bots",
         "updateFailed": "Fehler beim Aktualisieren des Bots",
         "deleteFailed": "Fehler beim Löschen des Bots",
-        "loadProvidersFailed": "Fehler beim Laden der KI-Anbieter"
+        "loadModelsFailed": "Fehler beim Laden der KI-Modelle"
       },
       "noBots": "Keine Bots gefunden",
-      "noProvidersAvailable": "Keine KI-Anbieter verfügbar. Bitte erstelle zuerst einen."
+      "noModelsAvailable": "Keine KI-Modelle verfügbar. Bitte erstelle zuerst eines."
     },
     "settings": {
       "title": "Einstellungen",
       "saved": "Einstellung gespeichert",
       "saveFailed": "Fehler beim Speichern der Einstellung",
+      "unsaved": "nicht gespeichert",
       "appearance": {
         "title": "Erscheinungsbild",
         "theme": {
@@ -404,6 +446,32 @@
               "basic": "Einfach - Ressourcen gehören nur ihrem Ersteller",
               "advanced": "Erweitert - Ressourcen können mit anderen Benutzern geteilt werden"
             }
+          }
+        }
+      },
+      "display": {
+        "title": "Anzeige",
+        "general": {
+          "title": "Allgemein",
+          "description": "Allgemeine Anzeigeeinstellungen",
+          "currency": {
+            "title": "Währung",
+            "description": "Währung für Preisangaben (z.B. Token-Preise)",
+            "values": {
+              "eur": "Euro (€)",
+              "usd": "US-Dollar ($)"
+            }
+          }
+        }
+      },
+      "ai": {
+        "title": "KI",
+        "context": {
+          "title": "Kontext",
+          "description": "Informationen, die der KI bei der Dokumentenanalyse helfen",
+          "identity": {
+            "title": "Eigene Identität",
+            "description": "Dein Name oder Firmenname. Hilft der KI z.B. bei Verträgen zu erkennen, wer der Korrespondent ist, wenn du selbst einer der Vertragspartner bist."
           }
         }
       }

@@ -25,12 +25,19 @@ export const GET = authRoute<never, { id: string }>(
         name: true,
         systemPrompt: true,
         responseLanguage: true,
-        aiProviderId: true,
-        aiProvider: {
+        aiModelId: true,
+        aiModel: {
           select: {
             id: true,
             name: true,
-            provider: true,
+            modelIdentifier: true,
+            aiAccount: {
+              select: {
+                id: true,
+                name: true,
+                provider: true,
+              },
+            },
           },
         },
         createdAt: true,
@@ -88,7 +95,7 @@ export const PATCH = authRoute<typeof UpdateAiBotRequestSchema, { id: string }>(
       );
     }
 
-    const { name, aiProviderId, systemPrompt, responseLanguage } = body;
+    const { name, aiModelId, systemPrompt, responseLanguage } = body;
 
     // Check name uniqueness if changing
     if (name && name !== existingBot.name) {
@@ -112,20 +119,29 @@ export const PATCH = authRoute<typeof UpdateAiBotRequestSchema, { id: string }>(
       }
     }
 
-    // Verify that the AI provider exists and belongs to the user if changing
-    if (aiProviderId) {
-      const provider = await prisma.aiProvider.findFirst({
+    // Verify that the AI model exists and user has access if changing
+    if (aiModelId) {
+      const model = await prisma.aiModel.findFirst({
         where: {
-          id: aiProviderId,
-          ownerId: user.userId,
+          id: aiModelId,
+          OR: [
+            { ownerId: user.userId },
+            {
+              sharedWith: {
+                some: {
+                  OR: [{ userId: user.userId }, { userId: null }],
+                },
+              },
+            },
+          ],
         },
       });
 
-      if (!provider) {
+      if (!model) {
         return NextResponse.json(
           {
-            error: 'aiProviderNotFound',
-            message: 'aiProviderNotFound',
+            error: 'aiModelNotFound',
+            message: 'aiModelNotFound',
           },
           { status: 400 }
         );
@@ -135,14 +151,14 @@ export const PATCH = authRoute<typeof UpdateAiBotRequestSchema, { id: string }>(
     // Build update data
     type UpdateData = {
       name?: string;
-      aiProviderId?: string;
+      aiModelId?: string;
       systemPrompt?: string;
       responseLanguage?: string;
     };
 
     const updateData: UpdateData = {};
     if (name !== undefined) updateData.name = name;
-    if (aiProviderId !== undefined) updateData.aiProviderId = aiProviderId;
+    if (aiModelId !== undefined) updateData.aiModelId = aiModelId;
     if (systemPrompt !== undefined) updateData.systemPrompt = systemPrompt;
     if (responseLanguage !== undefined) updateData.responseLanguage = responseLanguage;
 
@@ -155,12 +171,19 @@ export const PATCH = authRoute<typeof UpdateAiBotRequestSchema, { id: string }>(
         name: true,
         systemPrompt: true,
         responseLanguage: true,
-        aiProviderId: true,
-        aiProvider: {
+        aiModelId: true,
+        aiModel: {
           select: {
             id: true,
             name: true,
-            provider: true,
+            modelIdentifier: true,
+            aiAccount: {
+              select: {
+                id: true,
+                name: true,
+                provider: true,
+              },
+            },
           },
         },
         createdAt: true,

@@ -8,13 +8,20 @@ import type { AiBotListItem } from '@repo/api-client';
 const mockBot: AiBotListItem = {
   id: 'bot-123',
   name: 'Test Bot',
-  aiProviderId: 'provider-1',
+  aiModelId: 'model-1',
   systemPrompt: 'You are a helpful assistant',
+  responseLanguage: 'DOCUMENT',
   createdAt: '2024-01-15T10:30:00Z',
   updatedAt: '2024-01-15T10:30:00Z',
-  aiProvider: {
-    id: 'provider-1',
-    name: 'OpenAI',
+  aiModel: {
+    id: 'model-1',
+    name: 'GPT-4',
+    modelIdentifier: 'gpt-4',
+    aiAccount: {
+      id: 'account-1',
+      name: 'OpenAI',
+      provider: 'openai',
+    },
   },
 };
 

@@ -330,7 +330,7 @@ describe('AutoSettingsPage', () => {
   });
 
   it('calls updateSetting when text input is changed', async () => {
-    const user = userEvent.setup();
+    const user = userEvent.setup({ delay: null });
     renderWithIntl(<AutoSettingsPage />);
 
     // Click on General tab to see the general settings
@@ -346,6 +346,9 @@ describe('AutoSettingsPage', () => {
     const input = screen.getByTestId('setting-general.features.name');
     await user.clear(input);
     await user.type(input, 'new-value');
+
+    // Blur triggers immediate save (instead of waiting for debounce)
+    await user.tab();
 
     await waitFor(() => {
       expect(mockUpdateSetting).toHaveBeenCalled();

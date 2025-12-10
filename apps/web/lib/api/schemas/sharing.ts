@@ -137,6 +137,7 @@ function registerSharingPaths(resourcePath: string, tag: string) {
 }
 
 // Register sharing paths for all resources
-registerSharingPaths('/ai-providers', 'AiProviders');
+registerSharingPaths('/ai-accounts', 'AiAccounts');
+registerSharingPaths('/ai-models', 'AiModels');
 registerSharingPaths('/ai-bots', 'AiBots');
 registerSharingPaths('/paperless-instances', 'PaperlessInstances');

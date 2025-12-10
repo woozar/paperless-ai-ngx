@@ -17,8 +17,10 @@
     "documents": "Documents",
     "users": "Users",
     "paperlessInstances": "Paperless Instances",
-    "aiProviders": "AI Providers",
+    "aiAccounts": "AI Accounts",
+    "aiModels": "AI Models",
     "aiBots": "AI Bots",
+    "services": "Services",
     "admin": "Administration",
     "pagination": {
       "showing": "Showing {start} to {end} of {total}",
@@ -155,9 +157,12 @@
     "settingsValidationError": "Invalid value for setting {key}",
     "paperlessInstanceNotFound": "Paperless instance not found",
     "paperlessInstanceNameExists": "A Paperless instance with the name \"{name}\" already exists",
-    "aiProviderNotFound": "AI provider not found",
-    "aiProviderNameExists": "An AI provider with the name \"{name}\" already exists",
-    "aiProviderInUse": "Cannot delete AI provider because it is used by {count, plural, one {1 bot} other {# bots}}",
+    "aiAccountNotFound": "AI account not found",
+    "aiAccountNameExists": "An AI account with the name \"{name}\" already exists",
+    "aiAccountInUse": "Cannot delete AI account because it is used by {count, plural, one {1 model} other {# models}}",
+    "aiModelNotFound": "AI model not found",
+    "aiModelNameExists": "An AI model with the name \"{name}\" already exists",
+    "aiModelInUse": "Cannot delete AI model because it is used by {count, plural, one {1 bot} other {# bots}}",
     "aiBotNotFound": "AI bot not found",
     "aiBotNameExists": "An AI bot with the name \"{name}\" already exists",
     "userNotFound": "User not found",
@@ -166,6 +171,10 @@
     "documentNotFound": "Document not found"
   },
   "admin": {
+    "services": {
+      "title": "Services",
+      "description": "Manage external services and AI configuration"
+    },
     "users": {
       "title": "User Management",
       "description": "Manage users and their permissions",
@@ -243,15 +252,14 @@
       "importDocuments": "Import Documents",
       "importSuccess": "{count, plural, one {1 document imported} other {# documents imported}}"
     },
-    "aiProviders": {
-      "title": "AI Providers",
-      "description": "Manage AI provider configurations",
-      "createProvider": "Create Provider",
-      "editProvider": "Edit Provider",
-      "deleteProvider": "Delete Provider",
+    "aiAccounts": {
+      "title": "AI Accounts",
+      "description": "Manage AI account configurations",
+      "createAccount": "Create Account",
+      "editAccount": "Edit Account",
+      "deleteAccount": "Delete Account",
       "name": "Name",
       "provider": "Provider",
-      "model": "Model",
       "apiKey": "API Key",
       "baseUrl": "Base URL",
       "baseUrlPlaceholder": "https://api.example.com",
@@ -267,19 +275,52 @@
         "ollama": "Ollama",
         "custom": "Custom"
       },
-      "confirmDelete": "To confirm deletion, type the provider name:",
-      "confirmDeleteDescription": "This action cannot be undone. Make sure no bots are using this provider.",
-      "providerCreated": "Provider created successfully",
-      "providerUpdated": "Provider updated successfully",
-      "providerDeleted": "Provider deleted successfully",
+      "confirmDelete": "To confirm deletion, type the account name:",
+      "confirmDeleteDescription": "This action cannot be undone. Make sure no models are using this account.",
+      "accountCreated": "Account created successfully",
+      "accountUpdated": "Account updated successfully",
+      "accountDeleted": "Account deleted successfully",
       "error": {
-        "loadFailed": "Failed to load providers",
-        "createFailed": "Failed to create provider",
-        "updateFailed": "Failed to update provider",
-        "deleteFailed": "Failed to delete provider"
+        "loadFailed": "Failed to load accounts",
+        "createFailed": "Failed to create account",
+        "updateFailed": "Failed to update account",
+        "deleteFailed": "Failed to delete account"
       },
-      "noProviders": "No providers found",
+      "noAccounts": "No accounts found",
       "baseUrlRequired": "Base URL is required for Ollama and custom providers"
+    },
+    "aiModels": {
+      "title": "AI Models",
+      "description": "Manage AI model configurations",
+      "createModel": "Create Model",
+      "editModel": "Edit Model",
+      "deleteModel": "Delete Model",
+      "name": "Name",
+      "modelIdentifier": "Model ID",
+      "modelIdentifierPlaceholder": "e.g. gpt-4.1-mini, claude-3-opus",
+      "aiAccount": "AI Account",
+      "selectAccount": "Select an account",
+      "inputTokenPrice": "Price per 1M Input Tokens",
+      "outputTokenPrice": "Price per 1M Output Tokens",
+      "status": "Status",
+      "actions": "Actions",
+      "active": "Active",
+      "inactive": "Inactive",
+      "createdAt": "Created",
+      "confirmDelete": "To confirm deletion, type the model name:",
+      "confirmDeleteDescription": "This action cannot be undone. Make sure no bots are using this model.",
+      "modelCreated": "Model created successfully",
+      "modelUpdated": "Model updated successfully",
+      "modelDeleted": "Model deleted successfully",
+      "error": {
+        "loadFailed": "Failed to load models",
+        "createFailed": "Failed to create model",
+        "updateFailed": "Failed to update model",
+        "deleteFailed": "Failed to delete model",
+        "loadAccountsFailed": "Failed to load AI accounts"
+      },
+      "noModels": "No models found",
+      "noAccountsAvailable": "No AI accounts available. Please create one first."
     },
     "documents": {
       "title": "Documents",
@@ -344,8 +385,8 @@
       "name": "Name",
       "systemPrompt": "System Prompt",
       "systemPromptPlaceholder": "You are a helpful assistant that analyzes documents...",
-      "aiProvider": "AI Provider",
-      "selectProvider": "Select a provider",
+      "aiModel": "AI Model",
+      "selectModel": "Select a model",
       "responseLanguage": "Response Language",
       "responseLanguageOptions": {
         "DOCUMENT": "Based on document",
@@ -367,15 +408,16 @@
         "createFailed": "Failed to create bot",
         "updateFailed": "Failed to update bot",
         "deleteFailed": "Failed to delete bot",
-        "loadProvidersFailed": "Failed to load AI providers"
+        "loadModelsFailed": "Failed to load AI models"
       },
       "noBots": "No bots found",
-      "noProvidersAvailable": "No AI providers available. Please create one first."
+      "noModelsAvailable": "No AI models available. Please create one first."
     },
     "settings": {
       "title": "Settings",
       "saved": "Setting saved",
       "saveFailed": "Failed to save setting",
+      "unsaved": "unsaved",
       "appearance": {
         "title": "Appearance",
         "theme": {
@@ -404,6 +446,32 @@
               "basic": "Basic - Resources belong only to their creator",
               "advanced": "Advanced - Resources can be shared with other users"
             }
+          }
+        }
+      },
+      "display": {
+        "title": "Display",
+        "general": {
+          "title": "General",
+          "description": "General display settings",
+          "currency": {
+            "title": "Currency",
+            "description": "Currency for price displays (e.g., token prices)",
+            "values": {
+              "eur": "Euro (€)",
+              "usd": "US Dollar ($)"
+            }
+          }
+        }
+      },
+      "ai": {
+        "title": "AI",
+        "context": {
+          "title": "Context",
+          "description": "Information that helps the AI analyze documents",
+          "identity": {
+            "title": "Your Identity",
+            "description": "Your name or company name. Helps the AI identify the correspondent in contracts when you are one of the parties involved."
           }
         }
       }

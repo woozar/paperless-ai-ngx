@@ -10,18 +10,23 @@ export const ResponseLanguageSchema = z
   .enum(['DOCUMENT', 'GERMAN', 'ENGLISH'])
   .openapi('ResponseLanguage');
 
-// AiBot in list (with provider relation)
+// AiBot in list (with model relation)
 export const AiBotListItemSchema = z
   .object({
     id: z.string(),
     name: z.string(),
     systemPrompt: z.string(),
     responseLanguage: ResponseLanguageSchema,
-    aiProviderId: z.string(),
-    aiProvider: z.object({
+    aiModelId: z.string(),
+    aiModel: z.object({
       id: z.string(),
       name: z.string(),
-      provider: z.string(),
+      modelIdentifier: z.string(),
+      aiAccount: z.object({
+        id: z.string(),
+        name: z.string(),
+        provider: z.string(),
+      }),
     }),
     createdAt: z.iso.datetime(),
     updatedAt: z.iso.datetime(),
@@ -32,7 +37,7 @@ export const AiBotListItemSchema = z
 export const CreateAiBotRequestSchema = z
   .object({
     name: createNameSchema(),
-    aiProviderId: z.string().min(1, 'AI Provider is required'),
+    aiModelId: z.string().min(1, 'AI Model is required'),
     systemPrompt: z.string().min(1, 'System prompt is required'),
     responseLanguage: ResponseLanguageSchema.optional().default('DOCUMENT'),
   })
@@ -42,7 +47,7 @@ export const CreateAiBotRequestSchema = z
 export const UpdateAiBotRequestSchema = z
   .object({
     name: createOptionalNameSchema(),
-    aiProviderId: z.string().min(1).optional(),
+    aiModelId: z.string().min(1).optional(),
     systemPrompt: z.string().min(1).optional(),
     responseLanguage: ResponseLanguageSchema.optional(),
   })

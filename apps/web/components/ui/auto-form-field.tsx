@@ -13,6 +13,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { useSettings } from '@/components/settings-provider';
+import { Euro, DollarSign } from 'lucide-react';
 
 export type AutoFormFieldType =
   | 'text'
@@ -21,7 +23,9 @@ export type AutoFormFieldType =
   | 'url'
   | 'select'
   | 'textarea'
-  | 'switch';
+  | 'switch'
+  | 'number'
+  | 'currency';
 
 export type SelectOption = {
   value: string;
@@ -49,6 +53,53 @@ export type AutoFormFieldProps = Readonly<{
   /** Number of rows for textarea */
   rows?: number;
 }>;
+
+const CURRENCY_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
+  EUR: Euro,
+  USD: DollarSign,
+};
+
+/**
+ * Currency input field that shows the currency symbol from settings
+ */
+function CurrencyField({
+  id,
+  testId,
+  value,
+  onChange,
+  disabled,
+}: {
+  id?: string;
+  testId?: string;
+  value: string;
+  onChange: (value: string) => void;
+  disabled: boolean;
+}) {
+  const { settings } = useSettings();
+  const currency = settings['display.general.currency'] || 'EUR';
+  const CurrencyIcon = CURRENCY_ICONS[currency] || Euro;
+
+  return (
+    <div className="relative">
+      <Input
+        id={id}
+        data-testid={testId}
+        type="text"
+        inputMode="decimal"
+        value={value}
+        onChange={(e) => {
+          // Allow digits, comma and dot for decimal input
+          const val = e.target.value.replace(/[^0-9.,]/g, '');
+          onChange(val);
+        }}
+        disabled={disabled}
+        autoComplete="off"
+        className="pr-9"
+      />
+      <CurrencyIcon className="text-muted-foreground pointer-events-none absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2" />
+    </div>
+  );
+}
 
 /**
  * Auto-form field component that renders the appropriate input based on type.
@@ -152,6 +203,35 @@ export function AutoFormField({
           onChange={(e) => onChange(e.target.value)}
           disabled={disabled}
           autoComplete="new-password"
+        />
+      );
+
+    case 'number':
+      return (
+        <Input
+          id={id}
+          data-testid={testId}
+          type="text"
+          inputMode="decimal"
+          value={value as string}
+          onChange={(e) => {
+            // Allow digits, comma and dot for decimal input
+            const val = e.target.value.replace(/[^0-9.,]/g, '');
+            onChange(val);
+          }}
+          disabled={disabled}
+          autoComplete="off"
+        />
+      );
+
+    case 'currency':
+      return (
+        <CurrencyField
+          id={id}
+          testId={testId}
+          value={value as string}
+          onChange={onChange}
+          disabled={disabled}
         />
       );
 

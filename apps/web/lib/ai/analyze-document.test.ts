@@ -21,6 +21,9 @@ vi.mock('@repo/database', () => ({
     documentProcessingResult: {
       create: vi.fn(),
     },
+    setting: {
+      findUnique: vi.fn(),
+    },
   },
   Prisma: {},
 }));
@@ -60,7 +63,11 @@ const mockDocument = {
   title: 'Invoice 001',
   content: 'This is an invoice from ACME Corp for $500.',
   importedAt: new Date(),
+  createdAt: new Date(),
+  updatedAt: new Date(),
+  correspondentId: null,
   paperlessInstanceId: 'instance-1',
+  tagIds: [10], // Document already has tag with id 10
   paperlessInstance: {
     id: 'instance-1',
     apiUrl: 'https://paperless.example.com',
@@ -78,18 +85,31 @@ const mockBot = {
   systemPrompt: 'Analyze documents',
   responseLanguage: 'DOCUMENT',
   ownerId: 'admin-1',
-  aiProviderId: 'provider-1',
+  aiModelId: 'model-1',
   createdAt: new Date(),
   updatedAt: new Date(),
-  aiProvider: {
-    id: 'provider-1',
-    provider: 'openai',
-    model: 'gpt-4',
-    apiKey: 'encrypted-key',
-    baseUrl: null,
-    name: 'OpenAI',
+  aiModel: {
+    id: 'model-1',
+    name: 'GPT-4',
+    modelIdentifier: 'gpt-4',
+    inputTokenPrice: null,
+    outputTokenPrice: null,
+    isActive: true,
+    ownerId: 'admin-1',
+    aiAccountId: 'account-1',
     createdAt: new Date(),
     updatedAt: new Date(),
+    aiAccount: {
+      id: 'account-1',
+      provider: 'openai',
+      apiKey: 'encrypted-key',
+      baseUrl: null,
+      name: 'OpenAI',
+      isActive: true,
+      ownerId: 'admin-1',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
   },
 };
 
@@ -129,6 +149,7 @@ describe('analyzeDocument', () => {
     vi.mocked(prisma.aiBot.findUnique).mockResolvedValue(mockBot);
     vi.mocked(prisma.aiUsageMetric.create).mockResolvedValue({} as never);
     vi.mocked(prisma.documentProcessingResult.create).mockResolvedValue({} as never);
+    vi.mocked(prisma.setting.findUnique).mockResolvedValue(null); // Default: no identity set
     mockGenerateText.mockResolvedValue(mockAiResponse);
   });
 
@@ -173,7 +194,8 @@ describe('analyzeDocument', () => {
         totalTokens: 700,
         documentId: 100,
         userId: 'user-1',
-        aiProviderId: 'provider-1',
+        aiAccountId: 'account-1',
+        aiModelId: 'model-1',
         aiBotId: 'bot-1',
       }),
     });
@@ -208,7 +230,7 @@ describe('analyzeDocument', () => {
   it('creates AI SDK provider with correct config', async () => {
     await analyzeDocument(defaultParams);
 
-    expect(mockCreateAiSdkProvider).toHaveBeenCalledWith(mockBot.aiProvider);
+    expect(mockCreateAiSdkProvider).toHaveBeenCalledWith(mockBot.aiModel.aiAccount);
   });
 
   it('handles response with JSON in text', async () => {
@@ -301,10 +323,10 @@ describe('analyzeDocument', () => {
     expect(result.tokensUsed).toBe(0);
   });
 
-  it('defaults to DOCUMENT language when responseLanguage is null', async () => {
+  it('defaults to DOCUMENT language when responseLanguage is empty', async () => {
     vi.mocked(prisma.aiBot.findUnique).mockResolvedValue({
       ...mockBot,
-      responseLanguage: null,
+      responseLanguage: '',
     });
 
     await analyzeDocument(defaultParams);
@@ -314,5 +336,128 @@ describe('analyzeDocument', () => {
         prompt: expect.stringContaining('Respond in the same language as the document'),
       })
     );
+  });
+
+  it('includes user identity in prompt when setting is configured', async () => {
+    vi.mocked(prisma.setting.findUnique).mockResolvedValue({
+      settingKey: 'ai.context.identity',
+      settingValue: 'John Doe',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+
+    await analyzeDocument(defaultParams);
+
+    expect(mockGenerateText).toHaveBeenCalledWith(
+      expect.objectContaining({
+        prompt: expect.stringContaining('USER IDENTITY: The document owner is "John Doe"'),
+      })
+    );
+  });
+
+  it('does not include user identity in prompt when setting is empty', async () => {
+    vi.mocked(prisma.setting.findUnique).mockResolvedValue({
+      settingKey: 'ai.context.identity',
+      settingValue: '',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+
+    await analyzeDocument(defaultParams);
+
+    expect(mockGenerateText).toHaveBeenCalledWith(
+      expect.objectContaining({
+        prompt: expect.not.stringContaining('USER IDENTITY'),
+      })
+    );
+  });
+
+  it('does not include user identity in prompt when setting is whitespace only', async () => {
+    vi.mocked(prisma.setting.findUnique).mockResolvedValue({
+      settingKey: 'ai.context.identity',
+      settingValue: '   ',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+
+    await analyzeDocument(defaultParams);
+
+    expect(mockGenerateText).toHaveBeenCalledWith(
+      expect.objectContaining({
+        prompt: expect.not.stringContaining('USER IDENTITY'),
+      })
+    );
+  });
+
+  it('does not include user identity in prompt when setting does not exist', async () => {
+    vi.mocked(prisma.setting.findUnique).mockResolvedValue(null);
+
+    await analyzeDocument(defaultParams);
+
+    expect(mockGenerateText).toHaveBeenCalledWith(
+      expect.objectContaining({
+        prompt: expect.not.stringContaining('USER IDENTITY'),
+      })
+    );
+  });
+
+  it('marks existing tags with isExisting: true', async () => {
+    // mockDocument has tagIds: [10], so tag with id 10 should have isExisting: true
+    const result = await analyzeDocument(defaultParams);
+
+    expect(result.result.suggestedTags).toHaveLength(1);
+    expect(result.result.suggestedTags[0]).toEqual({
+      id: 10,
+      name: 'Finance',
+      isExisting: true,
+    });
+  });
+
+  it('marks new tags with isExisting: false', async () => {
+    // AI suggests tag with id 20, which is not in document's tagIds [10]
+    mockGenerateText.mockResolvedValueOnce({
+      ...mockAiResponse,
+      text: JSON.stringify({
+        suggestedTitle: 'Invoice from ACME Corp',
+        suggestedCorrespondent: { id: 1, name: 'ACME Corp' },
+        suggestedDocumentType: { id: 2, name: 'Invoice' },
+        suggestedTags: [{ id: 20, name: 'New Tag' }],
+        confidence: 0.92,
+        reasoning: 'The document is clearly an invoice.',
+      }),
+    });
+
+    const result = await analyzeDocument(defaultParams);
+
+    expect(result.result.suggestedTags[0]).toEqual({
+      id: 20,
+      name: 'New Tag',
+      isExisting: false,
+    });
+  });
+
+  it('correctly marks both existing and new tags', async () => {
+    // Document has tagIds: [10], AI suggests tags with ids 10 and 30
+    mockGenerateText.mockResolvedValueOnce({
+      ...mockAiResponse,
+      text: JSON.stringify({
+        suggestedTitle: 'Invoice from ACME Corp',
+        suggestedCorrespondent: { id: 1, name: 'ACME Corp' },
+        suggestedDocumentType: { id: 2, name: 'Invoice' },
+        suggestedTags: [
+          { id: 10, name: 'Finance' },
+          { id: 30, name: 'Important' },
+        ],
+        confidence: 0.92,
+        reasoning: 'The document is an invoice.',
+      }),
+    });
+
+    const result = await analyzeDocument(defaultParams);
+
+    expect(result.result.suggestedTags).toEqual([
+      { id: 10, name: 'Finance', isExisting: true },
+      { id: 30, name: 'Important', isExisting: false },
+    ]);
   });
 });

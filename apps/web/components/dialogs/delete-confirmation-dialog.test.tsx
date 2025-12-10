@@ -147,7 +147,8 @@ describe('DeleteConfirmationDialog', () => {
     await user.click(submitButton);
 
     await waitFor(() => {
-      expect(vi.mocked(toast.error)).toHaveBeenCalledWith('Failed to delete provider');
+      // The component now uses showError('deleteFailed') which calls toast.error with a translated message
+      expect(vi.mocked(toast.error)).toHaveBeenCalled();
     });
   });
 

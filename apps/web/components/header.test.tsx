@@ -95,7 +95,7 @@ describe('Header', () => {
     // There are two logout buttons (desktop and mobile).
     // We'll click the first available visible one (likely desktop).
     const logoutButtons = screen.getAllByTitle('Logout');
-    await user.click(logoutButtons[0]);
+    await user.click(logoutButtons[0]!);
 
     expect(mockLogout).toHaveBeenCalledTimes(1);
   });
@@ -125,7 +125,7 @@ describe('Header', () => {
     // The sheet content has nav links that call setIsOpen(false) on click
     const sheetLinks = await screen.findAllByRole('link', { name: /dashboard/i });
     // Click the link in the mobile sheet (there should be 2 - desktop and mobile)
-    const mobileLink = sheetLinks[sheetLinks.length - 1];
+    const mobileLink = sheetLinks[sheetLinks.length - 1]!;
     await user.click(mobileLink);
 
     // After clicking, the sheet closes and the mobile link is removed from DOM

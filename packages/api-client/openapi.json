@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Paperless AI API",
-    "version": "1.9.0",
+    "version": "1.11.0",
     "description": "API for Paperless AI document processing"
   },
   "servers": [
@@ -299,7 +299,7 @@
         "type": "string",
         "enum": ["openai", "anthropic", "ollama", "google", "custom"]
       },
-      "AiProviderListItem": {
+      "AiAccountListItem": {
         "type": "object",
         "properties": {
           "id": {
@@ -310,9 +310,6 @@
           },
           "provider": {
             "$ref": "#/components/schemas/AiProviderType"
-          },
-          "model": {
-            "type": "string"
           },
           "apiKey": {
             "type": "string"
@@ -336,7 +333,6 @@
           "id",
           "name",
           "provider",
-          "model",
           "apiKey",
           "baseUrl",
           "isActive",
@@ -344,7 +340,7 @@
           "updatedAt"
         ]
       },
-      "CreateAiProviderRequest": {
+      "CreateAiAccountRequest": {
         "type": "object",
         "properties": {
           "name": {
@@ -354,10 +350,6 @@
           },
           "provider": {
             "$ref": "#/components/schemas/AiProviderType"
-          },
-          "model": {
-            "type": "string",
-            "minLength": 1
           },
           "apiKey": {
             "type": "string",
@@ -368,9 +360,9 @@
             "format": "uri"
           }
         },
-        "required": ["name", "provider", "model", "apiKey"]
+        "required": ["name", "provider", "apiKey"]
       },
-      "UpdateAiProviderRequest": {
+      "UpdateAiAccountRequest": {
         "type": "object",
         "properties": {
           "name": {
@@ -380,10 +372,6 @@
           },
           "provider": {
             "$ref": "#/components/schemas/AiProviderType"
-          },
-          "model": {
-            "type": "string",
-            "minLength": 1
           },
           "apiKey": {
             "type": "string",
@@ -398,11 +386,7 @@
           }
         }
       },
-      "ResponseLanguage": {
-        "type": "string",
-        "enum": ["DOCUMENT", "GERMAN", "ENGLISH"]
-      },
-      "AiBotListItem": {
+      "AiModelListItem": {
         "type": "object",
         "properties": {
           "id": {
@@ -411,16 +395,22 @@
           "name": {
             "type": "string"
           },
-          "systemPrompt": {
+          "modelIdentifier": {
             "type": "string"
           },
-          "responseLanguage": {
-            "$ref": "#/components/schemas/ResponseLanguage"
+          "inputTokenPrice": {
+            "type": ["number", "null"]
           },
-          "aiProviderId": {
+          "outputTokenPrice": {
+            "type": ["number", "null"]
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "aiAccountId": {
             "type": "string"
           },
-          "aiProvider": {
+          "aiAccount": {
             "type": "object",
             "properties": {
               "id": {
@@ -447,10 +437,140 @@
         "required": [
           "id",
           "name",
+          "modelIdentifier",
+          "inputTokenPrice",
+          "outputTokenPrice",
+          "isActive",
+          "aiAccountId",
+          "aiAccount",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "CreateAiModelRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "modelIdentifier": {
+            "type": "string",
+            "minLength": 1
+          },
+          "aiAccountId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "inputTokenPrice": {
+            "type": ["number", "null"],
+            "exclusiveMinimum": 0
+          },
+          "outputTokenPrice": {
+            "type": ["number", "null"],
+            "exclusiveMinimum": 0
+          }
+        },
+        "required": ["name", "modelIdentifier", "aiAccountId"]
+      },
+      "UpdateAiModelRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "modelIdentifier": {
+            "type": "string",
+            "minLength": 1
+          },
+          "aiAccountId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "inputTokenPrice": {
+            "type": ["number", "null"],
+            "exclusiveMinimum": 0
+          },
+          "outputTokenPrice": {
+            "type": ["number", "null"],
+            "exclusiveMinimum": 0
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ResponseLanguage": {
+        "type": "string",
+        "enum": ["DOCUMENT", "GERMAN", "ENGLISH"]
+      },
+      "AiBotListItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "systemPrompt": {
+            "type": "string"
+          },
+          "responseLanguage": {
+            "$ref": "#/components/schemas/ResponseLanguage"
+          },
+          "aiModelId": {
+            "type": "string"
+          },
+          "aiModel": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "modelIdentifier": {
+                "type": "string"
+              },
+              "aiAccount": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "provider": {
+                    "type": "string"
+                  }
+                },
+                "required": ["id", "name", "provider"]
+              }
+            },
+            "required": ["id", "name", "modelIdentifier", "aiAccount"]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "name",
           "systemPrompt",
           "responseLanguage",
-          "aiProviderId",
-          "aiProvider",
+          "aiModelId",
+          "aiModel",
           "createdAt",
           "updatedAt"
         ]
@@ -463,7 +583,7 @@
             "minLength": 1,
             "maxLength": 100
           },
-          "aiProviderId": {
+          "aiModelId": {
             "type": "string",
             "minLength": 1
           },
@@ -482,7 +602,7 @@
             ]
           }
         },
-        "required": ["name", "aiProviderId", "systemPrompt"]
+        "required": ["name", "aiModelId", "systemPrompt"]
       },
       "UpdateAiBotRequest": {
         "type": "object",
@@ -492,7 +612,7 @@
             "minLength": 1,
             "maxLength": 100
           },
-          "aiProviderId": {
+          "aiModelId": {
             "type": "string",
             "minLength": 1
           },
@@ -1879,10 +1999,10 @@
         }
       }
     },
-    "/ai-providers": {
+    "/ai-accounts": {
       "get": {
-        "summary": "List all AiProviders (Admin only)",
-        "tags": ["AiProviders"],
+        "summary": "List all AiAccounts (Admin only)",
+        "tags": ["AiAccounts"],
         "parameters": [
           {
             "schema": {
@@ -1910,7 +2030,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Paginated list of AiProviders",
+            "description": "Paginated list of AiAccounts",
             "content": {
               "application/json": {
                 "schema": {
@@ -1919,7 +2039,7 @@
                     "items": {
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/AiProviderListItem"
+                        "$ref": "#/components/schemas/AiAccountListItem"
                       }
                     },
                     "total": {
@@ -1967,24 +2087,24 @@
         }
       },
       "post": {
-        "summary": "Create a new AiProvider (Admin only)",
-        "tags": ["AiProviders"],
+        "summary": "Create a new AiAccount (Admin only)",
+        "tags": ["AiAccounts"],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateAiProviderRequest"
+                "$ref": "#/components/schemas/CreateAiAccountRequest"
               }
             }
           }
         },
         "responses": {
           "201": {
-            "description": "AiProvider created",
+            "description": "AiAccount created",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AiProviderListItem"
+                  "$ref": "#/components/schemas/AiAccountListItem"
                 }
               }
             }
@@ -2032,10 +2152,10 @@
         }
       }
     },
-    "/ai-providers/{id}": {
+    "/ai-accounts/{id}": {
       "get": {
-        "summary": "Get AiProvider by ID (Admin only)",
-        "tags": ["AiProviders"],
+        "summary": "Get AiAccount by ID (Admin only)",
+        "tags": ["AiAccounts"],
         "parameters": [
           {
             "schema": {
@@ -2048,11 +2168,11 @@
         ],
         "responses": {
           "200": {
-            "description": "AiProvider details",
+            "description": "AiAccount details",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AiProviderListItem"
+                  "$ref": "#/components/schemas/AiAccountListItem"
                 }
               }
             }
@@ -2090,8 +2210,8 @@
         }
       },
       "patch": {
-        "summary": "Update AiProvider (Admin only)",
-        "tags": ["AiProviders"],
+        "summary": "Update AiAccount (Admin only)",
+        "tags": ["AiAccounts"],
         "parameters": [
           {
             "schema": {
@@ -2106,18 +2226,18 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateAiProviderRequest"
+                "$ref": "#/components/schemas/UpdateAiAccountRequest"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "AiProvider updated",
+            "description": "AiAccount updated",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AiProviderListItem"
+                  "$ref": "#/components/schemas/AiAccountListItem"
                 }
               }
             }
@@ -2175,8 +2295,8 @@
         }
       },
       "delete": {
-        "summary": "Delete AiProvider (Admin only)",
-        "tags": ["AiProviders"],
+        "summary": "Delete AiAccount (Admin only)",
+        "tags": ["AiAccounts"],
         "parameters": [
           {
             "schema": {
@@ -2189,7 +2309,362 @@
         ],
         "responses": {
           "204": {
-            "description": "AiProvider deleted"
+            "description": "AiAccount deleted"
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ai-models": {
+      "get": {
+        "summary": "List all AiModels (Admin only)",
+        "tags": ["AiModels"],
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "example": 1
+            },
+            "required": false,
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 10,
+              "example": 10
+            },
+            "required": false,
+            "name": "limit",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated list of AiModels",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/AiModelListItem"
+                      }
+                    },
+                    "total": {
+                      "type": "integer",
+                      "example": 100
+                    },
+                    "page": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "limit": {
+                      "type": "integer",
+                      "example": 10
+                    },
+                    "totalPages": {
+                      "type": "integer",
+                      "example": 10
+                    }
+                  },
+                  "required": ["items", "total", "page", "limit", "totalPages"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new AiModel (Admin only)",
+        "tags": ["AiModels"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAiModelRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "AiModel created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AiModelListItem"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ai-models/{id}": {
+      "get": {
+        "summary": "Get AiModel by ID (Admin only)",
+        "tags": ["AiModels"],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "AiModel details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AiModelListItem"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update AiModel (Admin only)",
+        "tags": ["AiModels"],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAiModelRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "AiModel updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AiModelListItem"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete AiModel (Admin only)",
+        "tags": ["AiModels"],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "AiModel deleted"
           },
           "400": {
             "description": "Bad request",
@@ -2592,10 +3067,10 @@
         }
       }
     },
-    "/ai-providers/{id}/sharing": {
+    "/ai-accounts/{id}/sharing": {
       "get": {
-        "summary": "List shares for AiProviders",
-        "tags": ["AiProviders"],
+        "summary": "List shares for AiAccounts",
+        "tags": ["AiAccounts"],
         "parameters": [
           {
             "schema": {
@@ -2640,8 +3115,8 @@
         }
       },
       "post": {
-        "summary": "Share AiProviders with user or all users",
-        "tags": ["AiProviders"],
+        "summary": "Share AiAccounts with user or all users",
+        "tags": ["AiAccounts"],
         "parameters": [
           {
             "schema": {
@@ -2715,10 +3190,182 @@
         }
       }
     },
-    "/ai-providers/{id}/sharing/{accessId}": {
+    "/ai-accounts/{id}/sharing/{accessId}": {
       "delete": {
-        "summary": "Remove share from AiProviders",
-        "tags": ["AiProviders"],
+        "summary": "Remove share from AiAccounts",
+        "tags": ["AiAccounts"],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "name": "accessId",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Share removed"
+          },
+          "401": {
+            "description": "Not authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ai-models/{id}/sharing": {
+      "get": {
+        "summary": "List shares for AiModels",
+        "tags": ["AiModels"],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of shares",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShareAccessList"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Share AiModels with user or all users",
+        "tags": ["AiModels"],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateShareRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Share updated (already existed)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShareAccessItem"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Share created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShareAccessItem"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ai-models/{id}/sharing/{accessId}": {
+      "delete": {
+        "summary": "Remove share from AiModels",
+        "tags": ["AiModels"],
         "parameters": [
           {
             "schema": {

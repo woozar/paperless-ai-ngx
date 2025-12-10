@@ -9,7 +9,7 @@ vi.mock('@repo/database', () => ({
       update: vi.fn(),
       delete: vi.fn(),
     },
-    aiProvider: {
+    aiModel: {
       findFirst: vi.fn(),
     },
   },
@@ -29,8 +29,8 @@ const mockedPrisma = mockPrisma<{
     update: typeof prisma.aiBot.update;
     delete: typeof prisma.aiBot.delete;
   };
-  aiProvider: {
-    findFirst: typeof prisma.aiProvider.findFirst;
+  aiModel: {
+    findFirst: typeof prisma.aiModel.findFirst;
   };
 }>(prisma);
 
@@ -70,10 +70,16 @@ describe('GET /api/ai-bots/[id]', () => {
       id: 'bot-1',
       name: 'Support Bot',
       systemPrompt: 'You are a helpful support assistant',
-      aiProviderId: 'provider-1',
-      aiProvider: {
-        id: 'provider-1',
-        name: 'OpenAI',
+      aiModelId: 'model-1',
+      aiModel: {
+        id: 'model-1',
+        name: 'GPT-4',
+        modelIdentifier: 'gpt-4',
+        aiAccount: {
+          id: 'account-1',
+          name: 'OpenAI',
+          provider: 'openai',
+        },
       },
       isActive: true,
       createdAt: mockDate,
@@ -87,7 +93,7 @@ describe('GET /api/ai-bots/[id]', () => {
     expect(response.status).toBe(200);
     expect(data.name).toBe('Support Bot');
     expect(data.systemPrompt).toBe('You are a helpful support assistant');
-    expect(data.aiProvider.name).toBe('OpenAI');
+    expect(data.aiModel.name).toBe('GPT-4');
   });
 });
 
@@ -161,10 +167,16 @@ describe('PATCH /api/ai-bots/[id]', () => {
       id: 'bot-1',
       name: 'New Name',
       systemPrompt: 'You are helpful',
-      aiProviderId: 'provider-1',
-      aiProvider: {
-        id: 'provider-1',
-        name: 'OpenAI',
+      aiModelId: 'model-1',
+      aiModel: {
+        id: 'model-1',
+        name: 'GPT-4',
+        modelIdentifier: 'gpt-4',
+        aiAccount: {
+          id: 'account-1',
+          name: 'OpenAI',
+          provider: 'openai',
+        },
       },
       isActive: true,
       createdAt: mockDate,
@@ -193,10 +205,16 @@ describe('PATCH /api/ai-bots/[id]', () => {
       id: 'bot-1',
       name: 'Support Bot',
       systemPrompt: 'New system prompt',
-      aiProviderId: 'provider-1',
-      aiProvider: {
-        id: 'provider-1',
-        name: 'OpenAI',
+      aiModelId: 'model-1',
+      aiModel: {
+        id: 'model-1',
+        name: 'GPT-4',
+        modelIdentifier: 'gpt-4',
+        aiAccount: {
+          id: 'account-1',
+          name: 'OpenAI',
+          provider: 'openai',
+        },
       },
       isActive: true,
       createdAt: mockDate,
@@ -214,44 +232,56 @@ describe('PATCH /api/ai-bots/[id]', () => {
     expect(data.systemPrompt).toBe('New system prompt');
   });
 
-  it('returns 400 when changing to non-existent provider', async () => {
+  it('returns 400 when changing to non-existent model', async () => {
     mockAdmin();
     mockedPrisma.aiBot.findFirst.mockResolvedValueOnce({
       id: 'bot-1',
       name: 'Support Bot',
     });
-    mockedPrisma.aiProvider.findFirst.mockResolvedValueOnce(null);
+    mockedPrisma.aiModel.findFirst.mockResolvedValueOnce(null);
 
     const request = new NextRequest('http://localhost/api/ai-bots/bot-1', {
       method: 'PATCH',
-      body: JSON.stringify({ aiProviderId: 'nonexistent-provider' }),
+      body: JSON.stringify({ aiModelId: 'nonexistent-model' }),
     });
     const response = await PATCH(request, mockContext('bot-1'));
     const data = await response.json();
 
     expect(response.status).toBe(400);
-    expect(data.message).toBe('aiProviderNotFound');
+    expect(data.message).toBe('aiModelNotFound');
   });
 
-  it('successfully updates bot provider', async () => {
+  it('successfully updates bot model', async () => {
     const mockDate = new Date('2024-01-15T10:00:00Z');
     mockAdmin();
     mockedPrisma.aiBot.findFirst.mockResolvedValueOnce({
       id: 'bot-1',
       name: 'Support Bot',
     });
-    mockedPrisma.aiProvider.findFirst.mockResolvedValueOnce({
-      id: 'provider-2',
-      name: 'Anthropic',
+    mockedPrisma.aiModel.findFirst.mockResolvedValueOnce({
+      id: 'model-2',
+      name: 'Claude 3.5 Sonnet',
+      modelIdentifier: 'claude-3-5-sonnet',
+      aiAccount: {
+        id: 'account-2',
+        name: 'Anthropic',
+        provider: 'anthropic',
+      },
     });
     mockedPrisma.aiBot.update.mockResolvedValueOnce({
       id: 'bot-1',
       name: 'Support Bot',
       systemPrompt: 'You are helpful',
-      aiProviderId: 'provider-2',
-      aiProvider: {
-        id: 'provider-2',
-        name: 'Anthropic',
+      aiModelId: 'model-2',
+      aiModel: {
+        id: 'model-2',
+        name: 'Claude 3.5 Sonnet',
+        modelIdentifier: 'claude-3-5-sonnet',
+        aiAccount: {
+          id: 'account-2',
+          name: 'Anthropic',
+          provider: 'anthropic',
+        },
       },
       isActive: true,
       createdAt: mockDate,
@@ -260,14 +290,14 @@ describe('PATCH /api/ai-bots/[id]', () => {
 
     const request = new NextRequest('http://localhost/api/ai-bots/bot-1', {
       method: 'PATCH',
-      body: JSON.stringify({ aiProviderId: 'provider-2' }),
+      body: JSON.stringify({ aiModelId: 'model-2' }),
     });
     const response = await PATCH(request, mockContext('bot-1'));
     const data = await response.json();
 
     expect(response.status).toBe(200);
-    expect(data.aiProvider.id).toBe('provider-2');
-    expect(data.aiProvider.name).toBe('Anthropic');
+    expect(data.aiModel.id).toBe('model-2');
+    expect(data.aiModel.name).toBe('Claude 3.5 Sonnet');
   });
 
   it('updates isActive status', async () => {
@@ -281,10 +311,16 @@ describe('PATCH /api/ai-bots/[id]', () => {
       id: 'bot-1',
       name: 'Support Bot',
       systemPrompt: 'You are helpful',
-      aiProviderId: 'provider-1',
-      aiProvider: {
-        id: 'provider-1',
-        name: 'OpenAI',
+      aiModelId: 'model-1',
+      aiModel: {
+        id: 'model-1',
+        name: 'GPT-4',
+        modelIdentifier: 'gpt-4',
+        aiAccount: {
+          id: 'account-1',
+          name: 'OpenAI',
+          provider: 'openai',
+        },
       },
       isActive: false,
       createdAt: mockDate,
@@ -314,10 +350,16 @@ describe('PATCH /api/ai-bots/[id]', () => {
       name: 'Support Bot',
       systemPrompt: 'You are helpful',
       responseLanguage: 'GERMAN',
-      aiProviderId: 'provider-1',
-      aiProvider: {
-        id: 'provider-1',
-        name: 'OpenAI',
+      aiModelId: 'model-1',
+      aiModel: {
+        id: 'model-1',
+        name: 'GPT-4',
+        modelIdentifier: 'gpt-4',
+        aiAccount: {
+          id: 'account-1',
+          name: 'OpenAI',
+          provider: 'openai',
+        },
       },
       isActive: true,
       createdAt: mockDate,

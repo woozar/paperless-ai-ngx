@@ -37,8 +37,36 @@ const mockDocument: DocumentListItem = {
 };
 
 const mockBots: AiBotListItem[] = [
-  { id: 'bot-1', name: 'GPT-4 Bot', providerName: 'OpenAI' },
-  { id: 'bot-2', name: 'Claude Bot', providerName: 'Anthropic' },
+  {
+    id: 'bot-1',
+    name: 'GPT-4 Bot',
+    systemPrompt: 'You are a helpful assistant',
+    responseLanguage: 'DOCUMENT',
+    aiModelId: 'model-1',
+    aiModel: {
+      id: 'model-1',
+      name: 'GPT-4',
+      modelIdentifier: 'gpt-4',
+      aiAccount: { id: 'account-1', name: 'OpenAI', provider: 'openai' },
+    },
+    createdAt: '2024-01-15T10:00:00Z',
+    updatedAt: '2024-01-15T10:00:00Z',
+  },
+  {
+    id: 'bot-2',
+    name: 'Claude Bot',
+    systemPrompt: 'You are a helpful assistant',
+    responseLanguage: 'DOCUMENT',
+    aiModelId: 'model-2',
+    aiModel: {
+      id: 'model-2',
+      name: 'Claude',
+      modelIdentifier: 'claude-3',
+      aiAccount: { id: 'account-2', name: 'Anthropic', provider: 'anthropic' },
+    },
+    createdAt: '2024-01-15T10:00:00Z',
+    updatedAt: '2024-01-15T10:00:00Z',
+  },
 ];
 
 const mockAnalysisResult = {
@@ -353,7 +381,7 @@ describe('AnalyzeDocumentDialog', () => {
     // Close button should now show "close" text instead of "cancel"
     // Use getAllByRole since there may be multiple close buttons (dialog X button and text button)
     const closeButtons = screen.getAllByRole('button', { name: /close/i });
-    await user.click(closeButtons[0]);
+    await user.click(closeButtons[0]!);
 
     expect(mockOnOpenChange).toHaveBeenCalledWith(false);
   });
@@ -367,6 +395,48 @@ describe('AnalyzeDocumentDialog', () => {
 
     // The description should be empty, so Test Document should not appear
     expect(screen.queryByText(/Test Document/)).not.toBeInTheDocument();
+  });
+
+  it('displays existing and new tags with different styles', async () => {
+    const user = userEvent.setup({ delay: null });
+    mockPostAnalyze.mockResolvedValue({
+      data: {
+        success: true,
+        result: {
+          ...mockAnalysisResult,
+          suggestedTags: [
+            { id: 10, name: 'Existing Tag', isExisting: true },
+            { id: 20, name: 'New Tag', isExisting: false },
+          ],
+        },
+        tokensUsed: 1000,
+      },
+    });
+
+    renderWithIntl(<AnalyzeDocumentDialog {...defaultProps} />);
+
+    await waitFor(() => {
+      expect(mockGetAiBots).toHaveBeenCalled();
+    });
+
+    const selectTrigger = screen.getByTestId('select-bot');
+    await user.click(selectTrigger);
+    await user.click(screen.getByText('GPT-4 Bot'));
+    await user.click(screen.getByTestId('start-analysis'));
+
+    await waitFor(() => {
+      expect(screen.getByText('Existing Tag')).toBeInTheDocument();
+      expect(screen.getByText('New Tag')).toBeInTheDocument();
+    });
+
+    // Check that existing tag has outline variant (title attribute for tooltip)
+    const existingTagBadge = screen.getByText('Existing Tag').closest('[title]');
+    expect(existingTagBadge).toHaveAttribute('title', 'Existing');
+
+    // Check that new tag has secondary variant and + prefix
+    const newTagBadge = screen.getByText('New Tag').closest('[title]');
+    expect(newTagBadge).toHaveAttribute('title', 'New');
+    expect(screen.getByText('+')).toBeInTheDocument();
   });
 
   it('does not call API when document is null but bot is selected', async () => {

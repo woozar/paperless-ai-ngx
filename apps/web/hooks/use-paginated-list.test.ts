@@ -14,7 +14,8 @@ vi.mock('@/components/auth-provider', () => ({
 type TestItem = { id: string; name: string };
 
 describe('usePaginatedList', () => {
-  const mockFetchFn = vi.fn<[number, number, undefined], Promise<FetchResult<TestItem>>>();
+  const mockFetchFn =
+    vi.fn<(page: number, limit: number, params: undefined) => Promise<FetchResult<TestItem>>>();
   const mockOnError = vi.fn();
 
   const defaultItems: TestItem[] = [
@@ -261,10 +262,8 @@ describe('usePaginatedList', () => {
 
   it('passes params to fetchFn', async () => {
     type ParamType = { filter: string };
-    const mockFetchWithParams = vi.fn<
-      [number, number, ParamType],
-      Promise<FetchResult<TestItem>>
-    >();
+    const mockFetchWithParams =
+      vi.fn<(page: number, limit: number, params: ParamType) => Promise<FetchResult<TestItem>>>();
     mockFetchWithParams.mockResolvedValue({
       data: { items: defaultItems, total: 2, totalPages: 1 },
       error: undefined,
@@ -285,10 +284,8 @@ describe('usePaginatedList', () => {
 
   it('refetches when params change', async () => {
     type ParamType = { filter: string };
-    const mockFetchWithParams = vi.fn<
-      [number, number, ParamType],
-      Promise<FetchResult<TestItem>>
-    >();
+    const mockFetchWithParams =
+      vi.fn<(page: number, limit: number, params: ParamType) => Promise<FetchResult<TestItem>>>();
     mockFetchWithParams.mockResolvedValue({
       data: { items: defaultItems, total: 2, totalPages: 1 },
       error: undefined,

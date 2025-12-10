@@ -167,7 +167,9 @@ export function AutoFormDialog<TSchema extends z.ZodObject<z.ZodRawShape>>({
     setIsSubmitting(true);
 
     try {
-      const response = await onSubmit(formData as z.infer<TSchema>);
+      // Parse formData through schema to apply transforms (e.g., string -> number for currency)
+      const parsedData = schema.parse(formData) as z.infer<TSchema>;
+      const response = await onSubmit(parsedData);
 
       if (response.error) {
         showApiError(response.error);
@@ -183,6 +185,7 @@ export function AutoFormDialog<TSchema extends z.ZodObject<z.ZodRawShape>>({
     }
   }, [
     formData,
+    schema,
     onSubmit,
     showApiError,
     showSuccess,

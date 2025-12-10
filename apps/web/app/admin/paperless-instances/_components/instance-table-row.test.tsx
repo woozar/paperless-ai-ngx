@@ -12,7 +12,11 @@ vi.mock('next/navigation', () => ({
 }));
 
 const mockUseSettings = vi.fn(() => ({
-  settings: { 'security.sharing.mode': 'BASIC' } as Settings,
+  settings: {
+    'security.sharing.mode': 'BASIC',
+    'display.general.currency': 'EUR',
+    'ai.context.identity': '',
+  } as Settings,
   updateSetting: vi.fn(),
 }));
 
@@ -25,6 +29,7 @@ function renderInstanceTableRow(props: {
   onEdit: (instance: Omit<PaperlessInstanceListItem, 'apiToken'>) => void;
   onDelete: (instance: Omit<PaperlessInstanceListItem, 'apiToken'>) => void;
   onImport: (instance: Omit<PaperlessInstanceListItem, 'apiToken'>) => void;
+  onShare?: (instance: Omit<PaperlessInstanceListItem, 'apiToken'>) => void;
   isImporting: boolean;
   formatDate: (date: string) => string;
 }) {
@@ -190,7 +195,11 @@ describe('InstanceTableRow', () => {
 
     it('renders share button when sharing mode is ADVANCED and onShare is provided', () => {
       mockUseSettings.mockReturnValue({
-        settings: { 'security.sharing.mode': 'ADVANCED' } as Settings,
+        settings: {
+          'security.sharing.mode': 'ADVANCED',
+          'display.general.currency': 'EUR',
+          'ai.context.identity': '',
+        },
         updateSetting: vi.fn(),
       });
       renderInstanceTableRow({ ...defaultProps, onShare: vi.fn() });
@@ -201,7 +210,11 @@ describe('InstanceTableRow', () => {
       const user = userEvent.setup({ delay: null });
       const mockOnShare = vi.fn();
       mockUseSettings.mockReturnValue({
-        settings: { 'security.sharing.mode': 'ADVANCED' } as Settings,
+        settings: {
+          'security.sharing.mode': 'ADVANCED',
+          'display.general.currency': 'EUR',
+          'ai.context.identity': '',
+        },
         updateSetting: vi.fn(),
       });
       renderInstanceTableRow({ ...defaultProps, onShare: mockOnShare });

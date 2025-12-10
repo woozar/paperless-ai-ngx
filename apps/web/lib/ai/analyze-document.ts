@@ -2,17 +2,37 @@ import { generateText, stepCountIs } from 'ai';
 import { prisma, Prisma } from '@repo/database';
 import { PaperlessClient } from '@repo/paperless-client';
 import { decrypt } from '@/lib/crypto/encryption';
-import { createAiSdkProvider, getModelId } from './provider-factory';
+import { createAiSdkProvider } from './provider-factory';
 import { createPaperlessTools } from './tools/paperless-tools';
 import {
   DocumentAnalysisResultSchema,
   type DocumentAnalysisResult,
 } from './schemas/document-analysis';
+import {
+  getSettingsDefaults,
+  parseStoredSettingValue,
+  type Settings,
+} from '@/lib/api/schemas/settings';
 
 export interface AnalyzeDocumentParams {
   documentId: string;
   aiBotId: string;
   userId: string;
+}
+
+/**
+ * Get a single setting value from the database, falling back to default.
+ */
+async function getSetting<K extends keyof Settings>(key: K): Promise<Settings[K]> {
+  const dbSetting = await prisma.setting.findUnique({
+    where: { settingKey: key },
+  });
+
+  if (!dbSetting) {
+    return getSettingsDefaults()[key];
+  }
+
+  return parseStoredSettingValue(key, dbSetting.settingValue) as Settings[K];
 }
 
 export interface AnalyzeDocumentResponse {
@@ -42,11 +62,15 @@ export async function analyzeDocument(
     throw new Error('Document not found');
   }
 
-  // Load AI bot with its provider
+  // Load AI bot with its model and account
   const aiBot = await prisma.aiBot.findUnique({
     where: { id: aiBotId },
     include: {
-      aiProvider: true,
+      aiModel: {
+        include: {
+          aiAccount: true,
+        },
+      },
     },
   });
 
@@ -60,16 +84,24 @@ export async function analyzeDocument(
     token: decrypt(document.paperlessInstance.apiToken),
   });
 
-  // Create AI provider
-  const aiSdkProvider = createAiSdkProvider(aiBot.aiProvider);
-  const modelId = getModelId(aiBot.aiProvider);
+  // Create AI provider from the account
+  const aiSdkProvider = createAiSdkProvider(aiBot.aiModel.aiAccount);
+  const modelId = aiBot.aiModel.modelIdentifier;
 
   // Create tools for the AI
   const tools = createPaperlessTools(paperlessClient);
 
+  // Load user identity from settings
+  const userIdentity = await getSetting('ai.context.identity');
+
   // Build the prompt with document content
   const responseLanguage = (aiBot.responseLanguage as ResponseLanguage) ?? 'DOCUMENT';
-  const prompt = buildAnalysisPrompt(document.title, document.content, responseLanguage);
+  const prompt = buildAnalysisPrompt(
+    document.title,
+    document.content,
+    responseLanguage,
+    userIdentity
+  );
 
   // Call the AI with tools enabled
   const response = await generateText({
@@ -99,14 +131,15 @@ export async function analyzeDocument(
   // Track usage metrics
   await prisma.aiUsageMetric.create({
     data: {
-      provider: aiBot.aiProvider.provider,
-      model: aiBot.aiProvider.model,
+      provider: aiBot.aiModel.aiAccount.provider,
+      model: aiBot.aiModel.modelIdentifier,
       promptTokens: inputTokens,
       completionTokens: outputTokens,
       totalTokens,
       documentId: document.paperlessId,
       userId,
-      aiProviderId: aiBot.aiProvider.id,
+      aiAccountId: aiBot.aiModel.aiAccount.id,
+      aiModelId: aiBot.aiModel.id,
       aiBotId: aiBot.id,
     },
   });
@@ -115,7 +148,7 @@ export async function analyzeDocument(
   await prisma.documentProcessingResult.create({
     data: {
       documentId: document.id,
-      aiProvider: `${aiBot.aiProvider.provider}/${aiBot.aiProvider.model}`,
+      aiProvider: `${aiBot.aiModel.aiAccount.provider}/${aiBot.aiModel.modelIdentifier}`,
       tokensUsed: totalTokens,
       changes: analysisResult as object,
       toolCalls: allToolCalls as Prisma.InputJsonValue,
@@ -155,7 +188,8 @@ ${baseInstruction}`;
 function buildAnalysisPrompt(
   title: string,
   content: string,
-  responseLanguage: ResponseLanguage
+  responseLanguage: ResponseLanguage,
+  userIdentity: string
 ): string {
   // Truncate content if too long
   const maxContentLength = 8000;
@@ -164,7 +198,13 @@ function buildAnalysisPrompt(
 
   const languageInstruction = getLanguageInstruction(responseLanguage);
 
+  // Build identity context if provided
+  const identityContext = userIdentity.trim()
+    ? `\nUSER IDENTITY: The document owner is "${userIdentity}". When analyzing contracts or correspondence, if this name appears as one of the parties, the OTHER party should be identified as the correspondent.\n`
+    : '';
+
   return `Analyze the following document and suggest appropriate metadata.
+${identityContext}
 
 ${languageInstruction}
 

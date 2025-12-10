@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useCallback } from 'react';
 import { AutoFormDialog } from '@/components/dialogs/auto-form-dialog';
 import { CreateAiBotFormSchema } from '@/lib/api/schemas/ai-bots-ui';
-import { postAiBots, getAiProviders } from '@repo/api-client';
+import { postAiBots, getAiModels } from '@repo/api-client';
 import { useApi } from '@/lib/use-api';
-import { useErrorDisplay } from '@/hooks/use-error-display';
+import { useDynamicOptions } from '@/hooks/use-dynamic-options';
+import type { AiModelListItem } from '@repo/api-client';
 
 type CreateBotDialogProps = Readonly<{
   open: boolean;
@@ -15,27 +16,22 @@ type CreateBotDialogProps = Readonly<{
 
 export function CreateBotDialog({ open, onOpenChange, onSuccess }: CreateBotDialogProps) {
   const client = useApi();
-  const { showError } = useErrorDisplay('admin.aiBots');
-  const [providers, setProviders] = useState<Array<{ value: string; label: string }>>([]);
 
-  useEffect(() => {
-    if (open) {
-      // Load providers when dialog opens
-      getAiProviders({ client }).then((response) => {
-        if (response.error) {
-          showError('loadProvidersFailed');
-          setProviders([]);
-        } else {
-          setProviders(
-            response.data.items.map((p) => ({
-              value: p.id,
-              label: p.name,
-            }))
-          );
-        }
-      });
-    }
-  }, [open, client, showError]);
+  const mapModel = useCallback(
+    (m: AiModelListItem) => ({
+      value: m.id,
+      label: `${m.name} (${m.aiAccount.name})`,
+    }),
+    []
+  );
+
+  const models = useDynamicOptions({
+    open,
+    fetchFn: getAiModels,
+    mapFn: mapModel,
+    translationNamespace: 'admin.aiBots',
+    errorKey: 'loadModelsFailed',
+  });
 
   return (
     <AutoFormDialog
@@ -50,7 +46,7 @@ export function CreateBotDialog({ open, onOpenChange, onSuccess }: CreateBotDial
       onSubmit={(data) => postAiBots({ client, body: data })}
       onSuccess={onSuccess}
       testIdPrefix="create-bot"
-      dynamicOptions={{ aiProviderId: providers }}
+      dynamicOptions={{ aiModelId: models }}
     />
   );
 }

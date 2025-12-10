@@ -180,36 +180,72 @@ export const aiBotSharingRoutes = createSharingRoutes({
     }),
 });
 
-export const aiProviderSharingRoutes = createSharingRoutes({
-  notFoundError: 'aiProviderNotFound',
-  logPrefix: 'AI provider',
+export const aiAccountSharingRoutes = createSharingRoutes({
+  notFoundError: 'aiAccountNotFound',
+  logPrefix: 'AI account',
   findResource: (id, userId) =>
-    prisma.aiProvider.findFirst({
+    prisma.aiAccount.findFirst({
       where: {
         id,
         OR: [{ ownerId: userId }, { sharedWith: { some: { userId, permission: 'FULL' } } }],
       },
     }),
-  findShares: (aiProviderId) =>
-    prisma.userAiProviderAccess.findMany({
-      where: { aiProviderId },
+  findShares: (aiAccountId) =>
+    prisma.userAiAccountAccess.findMany({
+      where: { aiAccountId },
       include: includeUser,
       orderBy: { createdAt: 'desc' },
     }),
-  findShare: (aiProviderId, userId) =>
-    prisma.userAiProviderAccess.findFirst({
+  findShare: (aiAccountId, userId) =>
+    prisma.userAiAccountAccess.findFirst({
       where: {
-        aiProviderId,
+        aiAccountId,
         userId: userId ?? { equals: null },
       },
     }),
-  createShare: (aiProviderId, userId, permission) =>
-    prisma.userAiProviderAccess.create({
-      data: { aiProviderId, userId, permission },
+  createShare: (aiAccountId, userId, permission) =>
+    prisma.userAiAccountAccess.create({
+      data: { aiAccountId, userId, permission },
       include: includeUser,
     }),
   updateShare: (id, permission) =>
-    prisma.userAiProviderAccess.update({
+    prisma.userAiAccountAccess.update({
+      where: { id },
+      data: { permission },
+      include: includeUser,
+    }),
+});
+
+export const aiModelSharingRoutes = createSharingRoutes({
+  notFoundError: 'aiModelNotFound',
+  logPrefix: 'AI model',
+  findResource: (id, userId) =>
+    prisma.aiModel.findFirst({
+      where: {
+        id,
+        OR: [{ ownerId: userId }, { sharedWith: { some: { userId, permission: 'FULL' } } }],
+      },
+    }),
+  findShares: (aiModelId) =>
+    prisma.userAiModelAccess.findMany({
+      where: { aiModelId },
+      include: includeUser,
+      orderBy: { createdAt: 'desc' },
+    }),
+  findShare: (aiModelId, userId) =>
+    prisma.userAiModelAccess.findFirst({
+      where: {
+        aiModelId,
+        userId: userId ?? { equals: null },
+      },
+    }),
+  createShare: (aiModelId, userId, permission) =>
+    prisma.userAiModelAccess.create({
+      data: { aiModelId, userId, permission },
+      include: includeUser,
+    }),
+  updateShare: (id, permission) =>
+    prisma.userAiModelAccess.update({
       where: { id },
       data: { permission },
       include: includeUser,

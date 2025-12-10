@@ -94,11 +94,10 @@ export type PaperlessInstanceStatsResponse = {
 
 export type AiProviderType = 'openai' | 'anthropic' | 'ollama' | 'google' | 'custom';
 
-export type AiProviderListItem = {
+export type AiAccountListItem = {
   id: string;
   name: string;
   provider: AiProviderType;
-  model: string;
   apiKey: string;
   baseUrl: string | null;
   isActive: boolean;
@@ -106,20 +105,52 @@ export type AiProviderListItem = {
   updatedAt: string;
 };
 
-export type CreateAiProviderRequest = {
+export type CreateAiAccountRequest = {
   name: string;
   provider: AiProviderType;
-  model: string;
   apiKey: string;
   baseUrl?: string;
 };
 
-export type UpdateAiProviderRequest = {
+export type UpdateAiAccountRequest = {
   name?: string;
   provider?: AiProviderType;
-  model?: string;
   apiKey?: string;
   baseUrl?: string | null;
+  isActive?: boolean;
+};
+
+export type AiModelListItem = {
+  id: string;
+  name: string;
+  modelIdentifier: string;
+  inputTokenPrice: number | null;
+  outputTokenPrice: number | null;
+  isActive: boolean;
+  aiAccountId: string;
+  aiAccount: {
+    id: string;
+    name: string;
+    provider: string;
+  };
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type CreateAiModelRequest = {
+  name: string;
+  modelIdentifier: string;
+  aiAccountId: string;
+  inputTokenPrice?: number | null;
+  outputTokenPrice?: number | null;
+};
+
+export type UpdateAiModelRequest = {
+  name?: string;
+  modelIdentifier?: string;
+  aiAccountId?: string;
+  inputTokenPrice?: number | null;
+  outputTokenPrice?: number | null;
   isActive?: boolean;
 };
 
@@ -130,11 +161,16 @@ export type AiBotListItem = {
   name: string;
   systemPrompt: string;
   responseLanguage: ResponseLanguage;
-  aiProviderId: string;
-  aiProvider: {
+  aiModelId: string;
+  aiModel: {
     id: string;
     name: string;
-    provider: string;
+    modelIdentifier: string;
+    aiAccount: {
+      id: string;
+      name: string;
+      provider: string;
+    };
   };
   createdAt: string;
   updatedAt: string;
@@ -142,14 +178,14 @@ export type AiBotListItem = {
 
 export type CreateAiBotRequest = {
   name: string;
-  aiProviderId: string;
+  aiModelId: string;
   systemPrompt: string;
   responseLanguage?: ResponseLanguage & unknown;
 };
 
 export type UpdateAiBotRequest = {
   name?: string;
-  aiProviderId?: string;
+  aiModelId?: string;
   systemPrompt?: string;
   responseLanguage?: ResponseLanguage;
 };
@@ -883,17 +919,17 @@ export type GetPaperlessInstancesByIdStatsResponses = {
 export type GetPaperlessInstancesByIdStatsResponse =
   GetPaperlessInstancesByIdStatsResponses[keyof GetPaperlessInstancesByIdStatsResponses];
 
-export type GetAiProvidersData = {
+export type GetAiAccountsData = {
   body?: never;
   path?: never;
   query?: {
     page?: number;
     limit?: number;
   };
-  url: '/ai-providers';
+  url: '/ai-accounts';
 };
 
-export type GetAiProvidersErrors = {
+export type GetAiAccountsErrors = {
   /**
    * Not authenticated
    */
@@ -904,14 +940,14 @@ export type GetAiProvidersErrors = {
   403: ErrorResponse;
 };
 
-export type GetAiProvidersError = GetAiProvidersErrors[keyof GetAiProvidersErrors];
+export type GetAiAccountsError = GetAiAccountsErrors[keyof GetAiAccountsErrors];
 
-export type GetAiProvidersResponses = {
+export type GetAiAccountsResponses = {
   /**
-   * Paginated list of AiProviders
+   * Paginated list of AiAccounts
    */
   200: {
-    items: Array<AiProviderListItem>;
+    items: Array<AiAccountListItem>;
     total: number;
     page: number;
     limit: number;
@@ -919,16 +955,16 @@ export type GetAiProvidersResponses = {
   };
 };
 
-export type GetAiProvidersResponse = GetAiProvidersResponses[keyof GetAiProvidersResponses];
+export type GetAiAccountsResponse = GetAiAccountsResponses[keyof GetAiAccountsResponses];
 
-export type PostAiProvidersData = {
-  body?: CreateAiProviderRequest;
+export type PostAiAccountsData = {
+  body?: CreateAiAccountRequest;
   path?: never;
   query?: never;
-  url: '/ai-providers';
+  url: '/ai-accounts';
 };
 
-export type PostAiProvidersErrors = {
+export type PostAiAccountsErrors = {
   /**
    * Bad request
    */
@@ -947,27 +983,27 @@ export type PostAiProvidersErrors = {
   409: ErrorResponse;
 };
 
-export type PostAiProvidersError = PostAiProvidersErrors[keyof PostAiProvidersErrors];
+export type PostAiAccountsError = PostAiAccountsErrors[keyof PostAiAccountsErrors];
 
-export type PostAiProvidersResponses = {
+export type PostAiAccountsResponses = {
   /**
-   * AiProvider created
+   * AiAccount created
    */
-  201: AiProviderListItem;
+  201: AiAccountListItem;
 };
 
-export type PostAiProvidersResponse = PostAiProvidersResponses[keyof PostAiProvidersResponses];
+export type PostAiAccountsResponse = PostAiAccountsResponses[keyof PostAiAccountsResponses];
 
-export type DeleteAiProvidersByIdData = {
+export type DeleteAiAccountsByIdData = {
   body?: never;
   path: {
     id: string;
   };
   query?: never;
-  url: '/ai-providers/{id}';
+  url: '/ai-accounts/{id}';
 };
 
-export type DeleteAiProvidersByIdErrors = {
+export type DeleteAiAccountsByIdErrors = {
   /**
    * Bad request
    */
@@ -986,29 +1022,29 @@ export type DeleteAiProvidersByIdErrors = {
   404: ErrorResponse;
 };
 
-export type DeleteAiProvidersByIdError =
-  DeleteAiProvidersByIdErrors[keyof DeleteAiProvidersByIdErrors];
+export type DeleteAiAccountsByIdError =
+  DeleteAiAccountsByIdErrors[keyof DeleteAiAccountsByIdErrors];
 
-export type DeleteAiProvidersByIdResponses = {
+export type DeleteAiAccountsByIdResponses = {
   /**
-   * AiProvider deleted
+   * AiAccount deleted
    */
   204: void;
 };
 
-export type DeleteAiProvidersByIdResponse =
-  DeleteAiProvidersByIdResponses[keyof DeleteAiProvidersByIdResponses];
+export type DeleteAiAccountsByIdResponse =
+  DeleteAiAccountsByIdResponses[keyof DeleteAiAccountsByIdResponses];
 
-export type GetAiProvidersByIdData = {
+export type GetAiAccountsByIdData = {
   body?: never;
   path: {
     id: string;
   };
   query?: never;
-  url: '/ai-providers/{id}';
+  url: '/ai-accounts/{id}';
 };
 
-export type GetAiProvidersByIdErrors = {
+export type GetAiAccountsByIdErrors = {
   /**
    * Not authenticated
    */
@@ -1023,28 +1059,28 @@ export type GetAiProvidersByIdErrors = {
   404: ErrorResponse;
 };
 
-export type GetAiProvidersByIdError = GetAiProvidersByIdErrors[keyof GetAiProvidersByIdErrors];
+export type GetAiAccountsByIdError = GetAiAccountsByIdErrors[keyof GetAiAccountsByIdErrors];
 
-export type GetAiProvidersByIdResponses = {
+export type GetAiAccountsByIdResponses = {
   /**
-   * AiProvider details
+   * AiAccount details
    */
-  200: AiProviderListItem;
+  200: AiAccountListItem;
 };
 
-export type GetAiProvidersByIdResponse =
-  GetAiProvidersByIdResponses[keyof GetAiProvidersByIdResponses];
+export type GetAiAccountsByIdResponse =
+  GetAiAccountsByIdResponses[keyof GetAiAccountsByIdResponses];
 
-export type PatchAiProvidersByIdData = {
-  body?: UpdateAiProviderRequest;
+export type PatchAiAccountsByIdData = {
+  body?: UpdateAiAccountRequest;
   path: {
     id: string;
   };
   query?: never;
-  url: '/ai-providers/{id}';
+  url: '/ai-accounts/{id}';
 };
 
-export type PatchAiProvidersByIdErrors = {
+export type PatchAiAccountsByIdErrors = {
   /**
    * Bad request
    */
@@ -1067,18 +1103,211 @@ export type PatchAiProvidersByIdErrors = {
   409: ErrorResponse;
 };
 
-export type PatchAiProvidersByIdError =
-  PatchAiProvidersByIdErrors[keyof PatchAiProvidersByIdErrors];
+export type PatchAiAccountsByIdError = PatchAiAccountsByIdErrors[keyof PatchAiAccountsByIdErrors];
 
-export type PatchAiProvidersByIdResponses = {
+export type PatchAiAccountsByIdResponses = {
   /**
-   * AiProvider updated
+   * AiAccount updated
    */
-  200: AiProviderListItem;
+  200: AiAccountListItem;
 };
 
-export type PatchAiProvidersByIdResponse =
-  PatchAiProvidersByIdResponses[keyof PatchAiProvidersByIdResponses];
+export type PatchAiAccountsByIdResponse =
+  PatchAiAccountsByIdResponses[keyof PatchAiAccountsByIdResponses];
+
+export type GetAiModelsData = {
+  body?: never;
+  path?: never;
+  query?: {
+    page?: number;
+    limit?: number;
+  };
+  url: '/ai-models';
+};
+
+export type GetAiModelsErrors = {
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not authorized
+   */
+  403: ErrorResponse;
+};
+
+export type GetAiModelsError = GetAiModelsErrors[keyof GetAiModelsErrors];
+
+export type GetAiModelsResponses = {
+  /**
+   * Paginated list of AiModels
+   */
+  200: {
+    items: Array<AiModelListItem>;
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
+};
+
+export type GetAiModelsResponse = GetAiModelsResponses[keyof GetAiModelsResponses];
+
+export type PostAiModelsData = {
+  body?: CreateAiModelRequest;
+  path?: never;
+  query?: never;
+  url: '/ai-models';
+};
+
+export type PostAiModelsErrors = {
+  /**
+   * Bad request
+   */
+  400: ErrorResponse;
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not authorized
+   */
+  403: ErrorResponse;
+  /**
+   * Conflict
+   */
+  409: ErrorResponse;
+};
+
+export type PostAiModelsError = PostAiModelsErrors[keyof PostAiModelsErrors];
+
+export type PostAiModelsResponses = {
+  /**
+   * AiModel created
+   */
+  201: AiModelListItem;
+};
+
+export type PostAiModelsResponse = PostAiModelsResponses[keyof PostAiModelsResponses];
+
+export type DeleteAiModelsByIdData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/ai-models/{id}';
+};
+
+export type DeleteAiModelsByIdErrors = {
+  /**
+   * Bad request
+   */
+  400: ErrorResponse;
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not authorized
+   */
+  403: ErrorResponse;
+  /**
+   * Not found
+   */
+  404: ErrorResponse;
+};
+
+export type DeleteAiModelsByIdError = DeleteAiModelsByIdErrors[keyof DeleteAiModelsByIdErrors];
+
+export type DeleteAiModelsByIdResponses = {
+  /**
+   * AiModel deleted
+   */
+  204: void;
+};
+
+export type DeleteAiModelsByIdResponse =
+  DeleteAiModelsByIdResponses[keyof DeleteAiModelsByIdResponses];
+
+export type GetAiModelsByIdData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/ai-models/{id}';
+};
+
+export type GetAiModelsByIdErrors = {
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not authorized
+   */
+  403: ErrorResponse;
+  /**
+   * Not found
+   */
+  404: ErrorResponse;
+};
+
+export type GetAiModelsByIdError = GetAiModelsByIdErrors[keyof GetAiModelsByIdErrors];
+
+export type GetAiModelsByIdResponses = {
+  /**
+   * AiModel details
+   */
+  200: AiModelListItem;
+};
+
+export type GetAiModelsByIdResponse = GetAiModelsByIdResponses[keyof GetAiModelsByIdResponses];
+
+export type PatchAiModelsByIdData = {
+  body?: UpdateAiModelRequest;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/ai-models/{id}';
+};
+
+export type PatchAiModelsByIdErrors = {
+  /**
+   * Bad request
+   */
+  400: ErrorResponse;
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not authorized
+   */
+  403: ErrorResponse;
+  /**
+   * Not found
+   */
+  404: ErrorResponse;
+  /**
+   * Conflict
+   */
+  409: ErrorResponse;
+};
+
+export type PatchAiModelsByIdError = PatchAiModelsByIdErrors[keyof PatchAiModelsByIdErrors];
+
+export type PatchAiModelsByIdResponses = {
+  /**
+   * AiModel updated
+   */
+  200: AiModelListItem;
+};
+
+export type PatchAiModelsByIdResponse =
+  PatchAiModelsByIdResponses[keyof PatchAiModelsByIdResponses];
 
 export type GetAiBotsData = {
   body?: never;
@@ -1270,16 +1499,16 @@ export type PatchAiBotsByIdResponses = {
 
 export type PatchAiBotsByIdResponse = PatchAiBotsByIdResponses[keyof PatchAiBotsByIdResponses];
 
-export type GetAiProvidersByIdSharingData = {
+export type GetAiAccountsByIdSharingData = {
   body?: never;
   path: {
     id: string;
   };
   query?: never;
-  url: '/ai-providers/{id}/sharing';
+  url: '/ai-accounts/{id}/sharing';
 };
 
-export type GetAiProvidersByIdSharingErrors = {
+export type GetAiAccountsByIdSharingErrors = {
   /**
    * Not authenticated
    */
@@ -1290,29 +1519,29 @@ export type GetAiProvidersByIdSharingErrors = {
   404: ErrorResponse;
 };
 
-export type GetAiProvidersByIdSharingError =
-  GetAiProvidersByIdSharingErrors[keyof GetAiProvidersByIdSharingErrors];
+export type GetAiAccountsByIdSharingError =
+  GetAiAccountsByIdSharingErrors[keyof GetAiAccountsByIdSharingErrors];
 
-export type GetAiProvidersByIdSharingResponses = {
+export type GetAiAccountsByIdSharingResponses = {
   /**
    * List of shares
    */
   200: ShareAccessList;
 };
 
-export type GetAiProvidersByIdSharingResponse =
-  GetAiProvidersByIdSharingResponses[keyof GetAiProvidersByIdSharingResponses];
+export type GetAiAccountsByIdSharingResponse =
+  GetAiAccountsByIdSharingResponses[keyof GetAiAccountsByIdSharingResponses];
 
-export type PostAiProvidersByIdSharingData = {
+export type PostAiAccountsByIdSharingData = {
   body?: CreateShareRequest;
   path: {
     id: string;
   };
   query?: never;
-  url: '/ai-providers/{id}/sharing';
+  url: '/ai-accounts/{id}/sharing';
 };
 
-export type PostAiProvidersByIdSharingErrors = {
+export type PostAiAccountsByIdSharingErrors = {
   /**
    * Bad request
    */
@@ -1327,10 +1556,10 @@ export type PostAiProvidersByIdSharingErrors = {
   404: ErrorResponse;
 };
 
-export type PostAiProvidersByIdSharingError =
-  PostAiProvidersByIdSharingErrors[keyof PostAiProvidersByIdSharingErrors];
+export type PostAiAccountsByIdSharingError =
+  PostAiAccountsByIdSharingErrors[keyof PostAiAccountsByIdSharingErrors];
 
-export type PostAiProvidersByIdSharingResponses = {
+export type PostAiAccountsByIdSharingResponses = {
   /**
    * Share updated (already existed)
    */
@@ -1341,20 +1570,20 @@ export type PostAiProvidersByIdSharingResponses = {
   201: ShareAccessItem;
 };
 
-export type PostAiProvidersByIdSharingResponse =
-  PostAiProvidersByIdSharingResponses[keyof PostAiProvidersByIdSharingResponses];
+export type PostAiAccountsByIdSharingResponse =
+  PostAiAccountsByIdSharingResponses[keyof PostAiAccountsByIdSharingResponses];
 
-export type DeleteAiProvidersByIdSharingByAccessIdData = {
+export type DeleteAiAccountsByIdSharingByAccessIdData = {
   body?: never;
   path: {
     id: string;
     accessId: string;
   };
   query?: never;
-  url: '/ai-providers/{id}/sharing/{accessId}';
+  url: '/ai-accounts/{id}/sharing/{accessId}';
 };
 
-export type DeleteAiProvidersByIdSharingByAccessIdErrors = {
+export type DeleteAiAccountsByIdSharingByAccessIdErrors = {
   /**
    * Not authenticated
    */
@@ -1365,18 +1594,126 @@ export type DeleteAiProvidersByIdSharingByAccessIdErrors = {
   404: ErrorResponse;
 };
 
-export type DeleteAiProvidersByIdSharingByAccessIdError =
-  DeleteAiProvidersByIdSharingByAccessIdErrors[keyof DeleteAiProvidersByIdSharingByAccessIdErrors];
+export type DeleteAiAccountsByIdSharingByAccessIdError =
+  DeleteAiAccountsByIdSharingByAccessIdErrors[keyof DeleteAiAccountsByIdSharingByAccessIdErrors];
 
-export type DeleteAiProvidersByIdSharingByAccessIdResponses = {
+export type DeleteAiAccountsByIdSharingByAccessIdResponses = {
   /**
    * Share removed
    */
   204: void;
 };
 
-export type DeleteAiProvidersByIdSharingByAccessIdResponse =
-  DeleteAiProvidersByIdSharingByAccessIdResponses[keyof DeleteAiProvidersByIdSharingByAccessIdResponses];
+export type DeleteAiAccountsByIdSharingByAccessIdResponse =
+  DeleteAiAccountsByIdSharingByAccessIdResponses[keyof DeleteAiAccountsByIdSharingByAccessIdResponses];
+
+export type GetAiModelsByIdSharingData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/ai-models/{id}/sharing';
+};
+
+export type GetAiModelsByIdSharingErrors = {
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not found
+   */
+  404: ErrorResponse;
+};
+
+export type GetAiModelsByIdSharingError =
+  GetAiModelsByIdSharingErrors[keyof GetAiModelsByIdSharingErrors];
+
+export type GetAiModelsByIdSharingResponses = {
+  /**
+   * List of shares
+   */
+  200: ShareAccessList;
+};
+
+export type GetAiModelsByIdSharingResponse =
+  GetAiModelsByIdSharingResponses[keyof GetAiModelsByIdSharingResponses];
+
+export type PostAiModelsByIdSharingData = {
+  body?: CreateShareRequest;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/ai-models/{id}/sharing';
+};
+
+export type PostAiModelsByIdSharingErrors = {
+  /**
+   * Bad request
+   */
+  400: ErrorResponse;
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not found
+   */
+  404: ErrorResponse;
+};
+
+export type PostAiModelsByIdSharingError =
+  PostAiModelsByIdSharingErrors[keyof PostAiModelsByIdSharingErrors];
+
+export type PostAiModelsByIdSharingResponses = {
+  /**
+   * Share updated (already existed)
+   */
+  200: ShareAccessItem;
+  /**
+   * Share created
+   */
+  201: ShareAccessItem;
+};
+
+export type PostAiModelsByIdSharingResponse =
+  PostAiModelsByIdSharingResponses[keyof PostAiModelsByIdSharingResponses];
+
+export type DeleteAiModelsByIdSharingByAccessIdData = {
+  body?: never;
+  path: {
+    id: string;
+    accessId: string;
+  };
+  query?: never;
+  url: '/ai-models/{id}/sharing/{accessId}';
+};
+
+export type DeleteAiModelsByIdSharingByAccessIdErrors = {
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not found
+   */
+  404: ErrorResponse;
+};
+
+export type DeleteAiModelsByIdSharingByAccessIdError =
+  DeleteAiModelsByIdSharingByAccessIdErrors[keyof DeleteAiModelsByIdSharingByAccessIdErrors];
+
+export type DeleteAiModelsByIdSharingByAccessIdResponses = {
+  /**
+   * Share removed
+   */
+  204: void;
+};
+
+export type DeleteAiModelsByIdSharingByAccessIdResponse =
+  DeleteAiModelsByIdSharingByAccessIdResponses[keyof DeleteAiModelsByIdSharingByAccessIdResponses];
 
 export type GetAiBotsByIdSharingData = {
   body?: never;

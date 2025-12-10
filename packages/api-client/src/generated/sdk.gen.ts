@@ -55,21 +55,36 @@ import type {
   GetPaperlessInstancesByIdStatsData,
   GetPaperlessInstancesByIdStatsResponses,
   GetPaperlessInstancesByIdStatsErrors,
-  GetAiProvidersData,
-  GetAiProvidersResponses,
-  GetAiProvidersErrors,
-  PostAiProvidersData,
-  PostAiProvidersResponses,
-  PostAiProvidersErrors,
-  DeleteAiProvidersByIdData,
-  DeleteAiProvidersByIdResponses,
-  DeleteAiProvidersByIdErrors,
-  GetAiProvidersByIdData,
-  GetAiProvidersByIdResponses,
-  GetAiProvidersByIdErrors,
-  PatchAiProvidersByIdData,
-  PatchAiProvidersByIdResponses,
-  PatchAiProvidersByIdErrors,
+  GetAiAccountsData,
+  GetAiAccountsResponses,
+  GetAiAccountsErrors,
+  PostAiAccountsData,
+  PostAiAccountsResponses,
+  PostAiAccountsErrors,
+  DeleteAiAccountsByIdData,
+  DeleteAiAccountsByIdResponses,
+  DeleteAiAccountsByIdErrors,
+  GetAiAccountsByIdData,
+  GetAiAccountsByIdResponses,
+  GetAiAccountsByIdErrors,
+  PatchAiAccountsByIdData,
+  PatchAiAccountsByIdResponses,
+  PatchAiAccountsByIdErrors,
+  GetAiModelsData,
+  GetAiModelsResponses,
+  GetAiModelsErrors,
+  PostAiModelsData,
+  PostAiModelsResponses,
+  PostAiModelsErrors,
+  DeleteAiModelsByIdData,
+  DeleteAiModelsByIdResponses,
+  DeleteAiModelsByIdErrors,
+  GetAiModelsByIdData,
+  GetAiModelsByIdResponses,
+  GetAiModelsByIdErrors,
+  PatchAiModelsByIdData,
+  PatchAiModelsByIdResponses,
+  PatchAiModelsByIdErrors,
   GetAiBotsData,
   GetAiBotsResponses,
   GetAiBotsErrors,
@@ -85,15 +100,24 @@ import type {
   PatchAiBotsByIdData,
   PatchAiBotsByIdResponses,
   PatchAiBotsByIdErrors,
-  GetAiProvidersByIdSharingData,
-  GetAiProvidersByIdSharingResponses,
-  GetAiProvidersByIdSharingErrors,
-  PostAiProvidersByIdSharingData,
-  PostAiProvidersByIdSharingResponses,
-  PostAiProvidersByIdSharingErrors,
-  DeleteAiProvidersByIdSharingByAccessIdData,
-  DeleteAiProvidersByIdSharingByAccessIdResponses,
-  DeleteAiProvidersByIdSharingByAccessIdErrors,
+  GetAiAccountsByIdSharingData,
+  GetAiAccountsByIdSharingResponses,
+  GetAiAccountsByIdSharingErrors,
+  PostAiAccountsByIdSharingData,
+  PostAiAccountsByIdSharingResponses,
+  PostAiAccountsByIdSharingErrors,
+  DeleteAiAccountsByIdSharingByAccessIdData,
+  DeleteAiAccountsByIdSharingByAccessIdResponses,
+  DeleteAiAccountsByIdSharingByAccessIdErrors,
+  GetAiModelsByIdSharingData,
+  GetAiModelsByIdSharingResponses,
+  GetAiModelsByIdSharingErrors,
+  PostAiModelsByIdSharingData,
+  PostAiModelsByIdSharingResponses,
+  PostAiModelsByIdSharingErrors,
+  DeleteAiModelsByIdSharingByAccessIdData,
+  DeleteAiModelsByIdSharingByAccessIdResponses,
+  DeleteAiModelsByIdSharingByAccessIdErrors,
   GetAiBotsByIdSharingData,
   GetAiBotsByIdSharingResponses,
   GetAiBotsByIdSharingErrors,
@@ -441,33 +465,33 @@ export const getPaperlessInstancesByIdStats = <ThrowOnError extends boolean = fa
 };
 
 /**
- * List all AiProviders (Admin only)
+ * List all AiAccounts (Admin only)
  */
-export const getAiProviders = <ThrowOnError extends boolean = false>(
-  options?: Options<GetAiProvidersData, ThrowOnError>
+export const getAiAccounts = <ThrowOnError extends boolean = false>(
+  options?: Options<GetAiAccountsData, ThrowOnError>
 ) => {
   return (options?.client ?? _heyApiClient).get<
-    GetAiProvidersResponses,
-    GetAiProvidersErrors,
+    GetAiAccountsResponses,
+    GetAiAccountsErrors,
     ThrowOnError
   >({
-    url: '/ai-providers',
+    url: '/ai-accounts',
     ...options,
   });
 };
 
 /**
- * Create a new AiProvider (Admin only)
+ * Create a new AiAccount (Admin only)
  */
-export const postAiProviders = <ThrowOnError extends boolean = false>(
-  options?: Options<PostAiProvidersData, ThrowOnError>
+export const postAiAccounts = <ThrowOnError extends boolean = false>(
+  options?: Options<PostAiAccountsData, ThrowOnError>
 ) => {
   return (options?.client ?? _heyApiClient).post<
-    PostAiProvidersResponses,
-    PostAiProvidersErrors,
+    PostAiAccountsResponses,
+    PostAiAccountsErrors,
     ThrowOnError
   >({
-    url: '/ai-providers',
+    url: '/ai-accounts',
     ...options,
     headers: {
       'Content-Type': 'application/json',
@@ -477,49 +501,137 @@ export const postAiProviders = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * Delete AiProvider (Admin only)
+ * Delete AiAccount (Admin only)
  */
-export const deleteAiProvidersById = <ThrowOnError extends boolean = false>(
-  options: Options<DeleteAiProvidersByIdData, ThrowOnError>
+export const deleteAiAccountsById = <ThrowOnError extends boolean = false>(
+  options: Options<DeleteAiAccountsByIdData, ThrowOnError>
 ) => {
   return (options.client ?? _heyApiClient).delete<
-    DeleteAiProvidersByIdResponses,
-    DeleteAiProvidersByIdErrors,
+    DeleteAiAccountsByIdResponses,
+    DeleteAiAccountsByIdErrors,
     ThrowOnError
   >({
-    url: '/ai-providers/{id}',
+    url: '/ai-accounts/{id}',
     ...options,
   });
 };
 
 /**
- * Get AiProvider by ID (Admin only)
+ * Get AiAccount by ID (Admin only)
  */
-export const getAiProvidersById = <ThrowOnError extends boolean = false>(
-  options: Options<GetAiProvidersByIdData, ThrowOnError>
+export const getAiAccountsById = <ThrowOnError extends boolean = false>(
+  options: Options<GetAiAccountsByIdData, ThrowOnError>
 ) => {
   return (options.client ?? _heyApiClient).get<
-    GetAiProvidersByIdResponses,
-    GetAiProvidersByIdErrors,
+    GetAiAccountsByIdResponses,
+    GetAiAccountsByIdErrors,
     ThrowOnError
   >({
-    url: '/ai-providers/{id}',
+    url: '/ai-accounts/{id}',
     ...options,
   });
 };
 
 /**
- * Update AiProvider (Admin only)
+ * Update AiAccount (Admin only)
  */
-export const patchAiProvidersById = <ThrowOnError extends boolean = false>(
-  options: Options<PatchAiProvidersByIdData, ThrowOnError>
+export const patchAiAccountsById = <ThrowOnError extends boolean = false>(
+  options: Options<PatchAiAccountsByIdData, ThrowOnError>
 ) => {
   return (options.client ?? _heyApiClient).patch<
-    PatchAiProvidersByIdResponses,
-    PatchAiProvidersByIdErrors,
+    PatchAiAccountsByIdResponses,
+    PatchAiAccountsByIdErrors,
     ThrowOnError
   >({
-    url: '/ai-providers/{id}',
+    url: '/ai-accounts/{id}',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * List all AiModels (Admin only)
+ */
+export const getAiModels = <ThrowOnError extends boolean = false>(
+  options?: Options<GetAiModelsData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).get<
+    GetAiModelsResponses,
+    GetAiModelsErrors,
+    ThrowOnError
+  >({
+    url: '/ai-models',
+    ...options,
+  });
+};
+
+/**
+ * Create a new AiModel (Admin only)
+ */
+export const postAiModels = <ThrowOnError extends boolean = false>(
+  options?: Options<PostAiModelsData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).post<
+    PostAiModelsResponses,
+    PostAiModelsErrors,
+    ThrowOnError
+  >({
+    url: '/ai-models',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * Delete AiModel (Admin only)
+ */
+export const deleteAiModelsById = <ThrowOnError extends boolean = false>(
+  options: Options<DeleteAiModelsByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).delete<
+    DeleteAiModelsByIdResponses,
+    DeleteAiModelsByIdErrors,
+    ThrowOnError
+  >({
+    url: '/ai-models/{id}',
+    ...options,
+  });
+};
+
+/**
+ * Get AiModel by ID (Admin only)
+ */
+export const getAiModelsById = <ThrowOnError extends boolean = false>(
+  options: Options<GetAiModelsByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<
+    GetAiModelsByIdResponses,
+    GetAiModelsByIdErrors,
+    ThrowOnError
+  >({
+    url: '/ai-models/{id}',
+    ...options,
+  });
+};
+
+/**
+ * Update AiModel (Admin only)
+ */
+export const patchAiModelsById = <ThrowOnError extends boolean = false>(
+  options: Options<PatchAiModelsByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).patch<
+    PatchAiModelsByIdResponses,
+    PatchAiModelsByIdErrors,
+    ThrowOnError
+  >({
+    url: '/ai-models/{id}',
     ...options,
     headers: {
       'Content-Type': 'application/json',
@@ -613,33 +725,33 @@ export const patchAiBotsById = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * List shares for AiProviders
+ * List shares for AiAccounts
  */
-export const getAiProvidersByIdSharing = <ThrowOnError extends boolean = false>(
-  options: Options<GetAiProvidersByIdSharingData, ThrowOnError>
+export const getAiAccountsByIdSharing = <ThrowOnError extends boolean = false>(
+  options: Options<GetAiAccountsByIdSharingData, ThrowOnError>
 ) => {
   return (options.client ?? _heyApiClient).get<
-    GetAiProvidersByIdSharingResponses,
-    GetAiProvidersByIdSharingErrors,
+    GetAiAccountsByIdSharingResponses,
+    GetAiAccountsByIdSharingErrors,
     ThrowOnError
   >({
-    url: '/ai-providers/{id}/sharing',
+    url: '/ai-accounts/{id}/sharing',
     ...options,
   });
 };
 
 /**
- * Share AiProviders with user or all users
+ * Share AiAccounts with user or all users
  */
-export const postAiProvidersByIdSharing = <ThrowOnError extends boolean = false>(
-  options: Options<PostAiProvidersByIdSharingData, ThrowOnError>
+export const postAiAccountsByIdSharing = <ThrowOnError extends boolean = false>(
+  options: Options<PostAiAccountsByIdSharingData, ThrowOnError>
 ) => {
   return (options.client ?? _heyApiClient).post<
-    PostAiProvidersByIdSharingResponses,
-    PostAiProvidersByIdSharingErrors,
+    PostAiAccountsByIdSharingResponses,
+    PostAiAccountsByIdSharingErrors,
     ThrowOnError
   >({
-    url: '/ai-providers/{id}/sharing',
+    url: '/ai-accounts/{id}/sharing',
     ...options,
     headers: {
       'Content-Type': 'application/json',
@@ -649,17 +761,69 @@ export const postAiProvidersByIdSharing = <ThrowOnError extends boolean = false>
 };
 
 /**
- * Remove share from AiProviders
+ * Remove share from AiAccounts
  */
-export const deleteAiProvidersByIdSharingByAccessId = <ThrowOnError extends boolean = false>(
-  options: Options<DeleteAiProvidersByIdSharingByAccessIdData, ThrowOnError>
+export const deleteAiAccountsByIdSharingByAccessId = <ThrowOnError extends boolean = false>(
+  options: Options<DeleteAiAccountsByIdSharingByAccessIdData, ThrowOnError>
 ) => {
   return (options.client ?? _heyApiClient).delete<
-    DeleteAiProvidersByIdSharingByAccessIdResponses,
-    DeleteAiProvidersByIdSharingByAccessIdErrors,
+    DeleteAiAccountsByIdSharingByAccessIdResponses,
+    DeleteAiAccountsByIdSharingByAccessIdErrors,
     ThrowOnError
   >({
-    url: '/ai-providers/{id}/sharing/{accessId}',
+    url: '/ai-accounts/{id}/sharing/{accessId}',
+    ...options,
+  });
+};
+
+/**
+ * List shares for AiModels
+ */
+export const getAiModelsByIdSharing = <ThrowOnError extends boolean = false>(
+  options: Options<GetAiModelsByIdSharingData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<
+    GetAiModelsByIdSharingResponses,
+    GetAiModelsByIdSharingErrors,
+    ThrowOnError
+  >({
+    url: '/ai-models/{id}/sharing',
+    ...options,
+  });
+};
+
+/**
+ * Share AiModels with user or all users
+ */
+export const postAiModelsByIdSharing = <ThrowOnError extends boolean = false>(
+  options: Options<PostAiModelsByIdSharingData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostAiModelsByIdSharingResponses,
+    PostAiModelsByIdSharingErrors,
+    ThrowOnError
+  >({
+    url: '/ai-models/{id}/sharing',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * Remove share from AiModels
+ */
+export const deleteAiModelsByIdSharingByAccessId = <ThrowOnError extends boolean = false>(
+  options: Options<DeleteAiModelsByIdSharingByAccessIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).delete<
+    DeleteAiModelsByIdSharingByAccessIdResponses,
+    DeleteAiModelsByIdSharingByAccessIdErrors,
+    ThrowOnError
+  >({
+    url: '/ai-models/{id}/sharing/{accessId}',
     ...options,
   });
 };

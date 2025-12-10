@@ -4,45 +4,56 @@ import userEvent from '@testing-library/user-event';
 import { toast } from 'sonner';
 import { EditBotDialog } from './edit-bot-dialog';
 import { renderWithIntl } from '@/test-utils/render-with-intl';
-import type { AiBotListItem, AiProviderListItem } from '@repo/api-client';
+import type { AiBotListItem, AiModelListItem } from '@repo/api-client';
 
 const mockBot: AiBotListItem = {
   id: 'bot-123',
   name: 'Test Bot',
-  aiProviderId: 'provider-1',
+  aiModelId: 'model-1',
   systemPrompt: 'You are a helpful assistant',
   responseLanguage: 'DOCUMENT',
   createdAt: '2024-01-15T10:30:00Z',
   updatedAt: '2024-01-15T10:30:00Z',
-  aiProvider: {
-    id: 'provider-1',
-    name: 'OpenAI',
-    provider: 'openai',
+  aiModel: {
+    id: 'model-1',
+    name: 'GPT-4',
+    modelIdentifier: 'gpt-4',
+    aiAccount: {
+      id: 'account-1',
+      name: 'OpenAI',
+      provider: 'openai',
+    },
   },
 };
 
-const mockProviders: Omit<AiProviderListItem, 'apiKey'>[] = [
+const mockModels: AiModelListItem[] = [
   {
-    id: 'provider-1',
-    name: 'OpenAI',
-    provider: 'openai',
-    model: 'gpt-4',
-    baseUrl: null,
+    id: 'model-1',
+    name: 'GPT-4',
+    modelIdentifier: 'gpt-4',
+    inputTokenPrice: null,
+    outputTokenPrice: null,
     isActive: true,
+    aiAccountId: 'account-1',
+    aiAccount: {
+      id: 'account-1',
+      name: 'OpenAI',
+      provider: 'openai',
+    },
     createdAt: '2024-01-15T10:30:00Z',
     updatedAt: '2024-01-15T10:30:00Z',
   },
 ];
 
 const mockPatchAiBotsById = vi.fn();
-const mockGetAiProviders = vi.fn();
+const mockGetAiModels = vi.fn();
 
 vi.mock('@repo/api-client', async () => {
   const actual = await vi.importActual('@repo/api-client');
   return {
     ...actual,
     patchAiBotsById: (...args: any[]) => mockPatchAiBotsById(...args),
-    getAiProviders: (...args: any[]) => mockGetAiProviders(...args),
+    getAiModels: (...args: any[]) => mockGetAiModels(...args),
   };
 });
 
@@ -75,10 +86,10 @@ describe('EditBotDialog', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    mockGetAiProviders.mockResolvedValue({
+    mockGetAiModels.mockResolvedValue({
       data: {
-        items: mockProviders,
-        total: mockProviders.length,
+        items: mockModels,
+        total: mockModels.length,
         page: 1,
         limit: 10,
         totalPages: 1,
@@ -188,8 +199,8 @@ describe('EditBotDialog', () => {
     });
   });
 
-  it('shows error when loading providers fails', async () => {
-    mockGetAiProviders.mockResolvedValueOnce({
+  it('shows error when loading models fails', async () => {
+    mockGetAiModels.mockResolvedValueOnce({
       data: undefined,
       error: { message: 'error.serverError' },
     });

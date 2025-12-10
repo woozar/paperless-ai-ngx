@@ -11,10 +11,21 @@ export const SharingModeSchema = z
   .default('BASIC')
   .openapi('SharingMode');
 
+// Currency enum
+export const CurrencySchema = z.enum(['EUR', 'USD']).default('EUR').openapi('Currency');
+
+// User identity (for AI context)
+export const UserIdentitySchema = z.string().default('').openapi('UserIdentity');
+
 // Settings schema with defaults - keys are 3-part: section.group.setting
 // IMPORTANT: All settings MUST have a default value to ensure getSettingsDefaults() works correctly
 export const SettingsSchema = z
   .object({
+    // Display settings
+    'display.general.currency': CurrencySchema,
+    // AI settings
+    'ai.context.identity': UserIdentitySchema,
+    // Security settings
     'security.sharing.mode': SharingModeSchema,
   })
   .openapi('Settings');
@@ -98,6 +109,7 @@ export const UpdateSettingValueRequestSchema = z
 
 // Register schemas
 registry.register('SharingMode', SharingModeSchema);
+registry.register('Currency', CurrencySchema);
 registry.register('Settings', SettingsSchema);
 registry.register('SettingsResponse', SettingsResponseSchema);
 registry.register('UpdateSettingValueRequest', UpdateSettingValueRequestSchema);

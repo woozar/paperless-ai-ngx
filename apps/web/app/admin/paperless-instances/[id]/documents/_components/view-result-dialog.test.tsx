@@ -149,7 +149,7 @@ describe('ViewResultDialog', () => {
     // Get the close buttons - there are two (X button and text button)
     const closeButtons = screen.getAllByRole('button', { name: /close/i });
     // Click the text close button (the one in the footer, not the X)
-    await user.click(closeButtons[0]);
+    await user.click(closeButtons[0]!);
 
     expect(mockOnOpenChange).toHaveBeenCalledWith(false);
   });
@@ -271,5 +271,36 @@ describe('ViewResultDialog', () => {
         path: { id: 'instance-123', documentId: 'doc-123' },
       });
     });
+  });
+
+  it('displays existing and new tags with different styles', async () => {
+    mockGetResult.mockResolvedValueOnce({
+      data: {
+        ...mockResult,
+        changes: {
+          ...mockResult.changes,
+          suggestedTags: [
+            { id: 10, name: 'Existing Tag', isExisting: true },
+            { id: 20, name: 'New Tag', isExisting: false },
+          ],
+        },
+      },
+    });
+
+    renderWithIntl(<ViewResultDialog {...defaultProps} />);
+
+    await waitFor(() => {
+      expect(screen.getByText('Existing Tag')).toBeInTheDocument();
+      expect(screen.getByText('New Tag')).toBeInTheDocument();
+    });
+
+    // Check that existing tag has outline variant (title attribute for tooltip)
+    const existingTagBadge = screen.getByText('Existing Tag').closest('[title]');
+    expect(existingTagBadge).toHaveAttribute('title', 'Existing');
+
+    // Check that new tag has secondary variant and + prefix
+    const newTagBadge = screen.getByText('New Tag').closest('[title]');
+    expect(newTagBadge).toHaveAttribute('title', 'New');
+    expect(screen.getByText('+')).toBeInTheDocument();
   });
 });

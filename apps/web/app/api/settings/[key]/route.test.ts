@@ -62,7 +62,9 @@ describe('PUT /api/settings/[key]', () => {
       () => ['security.sharing.mode'] as (keyof typeof settingsModule.SettingsSchema.shape)[]
     );
     vi.mocked(settingsModule.getSettingsDefaults).mockImplementation(() => ({
-      'security.sharing.mode': 'BASIC',
+      'security.sharing.mode': 'BASIC' as const,
+      'display.general.currency': 'EUR' as const,
+      'ai.context.identity': '',
     }));
     vi.mocked(settingsModule.getSettingValueSchema).mockImplementation(
       (key: string) =>

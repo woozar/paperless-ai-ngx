@@ -39,12 +39,14 @@ model User {
 
   // Owned resources
   ownedPaperlessInstances PaperlessInstance[]
-  ownedAiProviders        AiProvider[]
+  ownedAiAccounts         AiAccount[]
+  ownedAiModels           AiModel[]
   ownedAiBots             AiBot[]
 
   // Shared access
   sharedPaperlessInstances UserPaperlessInstanceAccess[]
-  sharedAiProviders        UserAiProviderAccess[]
+  sharedAiAccounts         UserAiAccountAccess[]
+  sharedAiModels           UserAiModelAccess[]
   sharedAiBots             UserAiBotAccess[]
 
   // Usage tracking
@@ -77,20 +79,36 @@ model UserPaperlessInstanceAccess {
   @@index([instanceId])
 }
 
-// Join table: User <-> AiProvider (shared access)
+// Join table: User <-> AiAccount (shared access)
 // Note: userId=NULL means "shared with all users"
-model UserAiProviderAccess {
-  id           String     @id @default(cuid())
-  user         User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId       String?
-  aiProvider   AiProvider @relation(fields: [aiProviderId], references: [id], onDelete: Cascade)
-  aiProviderId String
-  permission   Permission @default(READ)
-  createdAt    DateTime   @default(now())
+model UserAiAccountAccess {
+  id          String     @id @default(cuid())
+  user        User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String?
+  aiAccount   AiAccount  @relation(fields: [aiAccountId], references: [id], onDelete: Cascade)
+  aiAccountId String
+  permission  Permission @default(READ)
+  createdAt   DateTime   @default(now())
 
-  @@unique([userId, aiProviderId])
+  @@unique([userId, aiAccountId])
   @@index([userId])
-  @@index([aiProviderId])
+  @@index([aiAccountId])
+}
+
+// Join table: User <-> AiModel (shared access)
+// Note: userId=NULL means "shared with all users"
+model UserAiModelAccess {
+  id         String     @id @default(cuid())
+  user       User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String?
+  aiModel    AiModel    @relation(fields: [aiModelId], references: [id], onDelete: Cascade)
+  aiModelId  String
+  permission Permission @default(READ)
+  createdAt  DateTime   @default(now())
+
+  @@unique([userId, aiModelId])
+  @@index([userId])
+  @@index([aiModelId])
 }
 
 // Join table: User <-> AiBot (shared access)
@@ -139,11 +157,10 @@ model PaperlessInstance {
 // AI Configuration
 // =============================================================================
 
-model AiProvider {
+model AiAccount {
   id        String   @id @default(cuid())
   name      String
   provider  String // openai | anthropic | ollama | google | custom
-  model     String
   apiKey    String // Never expose in UI after saving
   baseUrl   String? // Optional for Custom/Ollama endpoints
   isActive  Boolean  @default(true) // Soft-delete for audit trail
@@ -155,13 +172,43 @@ model AiProvider {
   ownerId String
 
   // Shared access
-  sharedWith UserAiProviderAccess[]
+  sharedWith UserAiAccountAccess[]
+
+  // Related models
+  models         AiModel[]
+  aiUsageMetrics AiUsageMetric[]
+
+  @@index([ownerId])
+  @@index([isActive])
+}
+
+model AiModel {
+  id               String   @id @default(cuid())
+  name             String
+  modelIdentifier  String // e.g. "gpt-4.1-mini", "claude-3-opus"
+  inputTokenPrice  Float? // Price per 1M input tokens
+  outputTokenPrice Float? // Price per 1M output tokens
+  isActive         Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  // Owner
+  owner   User   @relation(fields: [ownerId], references: [id], onDelete: Restrict)
+  ownerId String
+
+  // AI Account (parent)
+  aiAccount   AiAccount @relation(fields: [aiAccountId], references: [id], onDelete: Restrict)
+  aiAccountId String
+
+  // Shared access
+  sharedWith UserAiModelAccess[]
 
   // Related bots
   bots           AiBot[]
   aiUsageMetrics AiUsageMetric[]
 
   @@index([ownerId])
+  @@index([aiAccountId])
   @@index([isActive])
 }
 
@@ -177,9 +224,9 @@ model AiBot {
   owner   User   @relation(fields: [ownerId], references: [id], onDelete: Restrict)
   ownerId String
 
-  // AI Provider configuration
-  aiProvider   AiProvider @relation(fields: [aiProviderId], references: [id], onDelete: Restrict)
-  aiProviderId String
+  // AI Model configuration
+  aiModel   AiModel @relation(fields: [aiModelId], references: [id], onDelete: Restrict)
+  aiModelId String
 
   // Shared access
   sharedWith UserAiBotAccess[]
@@ -188,7 +235,7 @@ model AiBot {
   aiUsageMetrics AiUsageMetric[]
 
   @@index([ownerId])
-  @@index([aiProviderId])
+  @@index([aiModelId])
 }
 
 // =============================================================================
@@ -291,8 +338,12 @@ model AiUsageMetric {
   user   User   @relation(fields: [userId], references: [id])
   userId String
 
-  aiProvider   AiProvider @relation(fields: [aiProviderId], references: [id], onDelete: Restrict)
-  aiProviderId String
+  aiAccount   AiAccount @relation(fields: [aiAccountId], references: [id], onDelete: Restrict)
+  aiAccountId String
+
+  // Which model was used (optional, for tracking)
+  aiModel   AiModel? @relation(fields: [aiModelId], references: [id], onDelete: SetNull)
+  aiModelId String?
 
   // Which bot was used (optional, for tracking)
   aiBot   AiBot?  @relation(fields: [aiBotId], references: [id], onDelete: SetNull)
@@ -301,5 +352,6 @@ model AiUsageMetric {
   @@index([createdAt])
   @@index([provider])
   @@index([userId])
+  @@index([aiModelId])
   @@index([aiBotId])
 }

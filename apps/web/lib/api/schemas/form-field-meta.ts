@@ -3,7 +3,15 @@ import { z } from 'zod';
 /**
  * Field input types supported by AutoFormDialog
  */
-export type FieldInputType = 'text' | 'password' | 'apiKey' | 'url' | 'select' | 'textarea';
+export type FieldInputType =
+  | 'text'
+  | 'password'
+  | 'apiKey'
+  | 'url'
+  | 'select'
+  | 'textarea'
+  | 'number'
+  | 'currency';
 
 /**
  * Option for select fields with static options

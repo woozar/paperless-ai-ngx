@@ -10,7 +10,7 @@ vi.mock('@repo/database', () => ({
       create: vi.fn(),
       count: vi.fn(),
     },
-    aiProvider: {
+    aiModel: {
       findFirst: vi.fn(),
     },
   },
@@ -31,8 +31,8 @@ const mockedPrisma = mockPrisma<{
     create: typeof prisma.aiBot.create;
     count: typeof prisma.aiBot.count;
   };
-  aiProvider: {
-    findFirst: typeof prisma.aiProvider.findFirst;
+  aiModel: {
+    findFirst: typeof prisma.aiModel.findFirst;
   };
 }>(prisma);
 
@@ -57,11 +57,16 @@ describe('GET /api/ai-bots', () => {
         id: 'bot-1',
         name: 'Support Bot',
         systemPrompt: 'You are a helpful support assistant',
-        aiProviderId: 'provider-1',
+        aiModelId: 'model-1',
         ownerId: 'admin-1',
-        aiProvider: {
-          id: 'provider-1',
-          name: 'OpenAI',
+        aiModel: {
+          id: 'model-1',
+          name: 'GPT-4',
+          aiAccount: {
+            id: 'account-1',
+            name: 'OpenAI',
+            provider: 'openai',
+          },
         },
         isActive: true,
         createdAt: mockDate,
@@ -106,11 +111,16 @@ describe('GET /api/ai-bots', () => {
         id: 'bot-1',
         name: 'Shared Bot',
         systemPrompt: 'System prompt',
-        aiProviderId: 'provider-1',
+        aiModelId: 'model-1',
         ownerId: 'other-user',
-        aiProvider: {
-          id: 'provider-1',
-          name: 'OpenAI',
+        aiModel: {
+          id: 'model-1',
+          name: 'GPT-4',
+          aiAccount: {
+            id: 'account-1',
+            name: 'OpenAI',
+            provider: 'openai',
+          },
         },
         isActive: true,
         createdAt: mockDate,
@@ -139,11 +149,16 @@ describe('GET /api/ai-bots', () => {
         id: 'bot-1',
         name: 'Shared Bot with FULL',
         systemPrompt: 'System prompt',
-        aiProviderId: 'provider-1',
+        aiModelId: 'model-1',
         ownerId: 'other-user',
-        aiProvider: {
-          id: 'provider-1',
-          name: 'OpenAI',
+        aiModel: {
+          id: 'model-1',
+          name: 'GPT-4',
+          aiAccount: {
+            id: 'account-1',
+            name: 'OpenAI',
+            provider: 'openai',
+          },
         },
         isActive: true,
         createdAt: mockDate,
@@ -173,11 +188,16 @@ describe('GET /api/ai-bots', () => {
         id: 'bot-1',
         name: 'Shared Bot with READ',
         systemPrompt: 'System prompt',
-        aiProviderId: 'provider-1',
+        aiModelId: 'model-1',
         ownerId: 'other-user',
-        aiProvider: {
-          id: 'provider-1',
-          name: 'OpenAI',
+        aiModel: {
+          id: 'model-1',
+          name: 'GPT-4',
+          aiAccount: {
+            id: 'account-1',
+            name: 'OpenAI',
+            provider: 'openai',
+          },
         },
         isActive: true,
         createdAt: mockDate,
@@ -207,11 +227,16 @@ describe('GET /api/ai-bots', () => {
         id: 'bot-1',
         name: 'Bot A',
         systemPrompt: 'System A',
-        aiProviderId: 'provider-1',
+        aiModelId: 'model-1',
         ownerId: 'admin-1',
-        aiProvider: {
-          id: 'provider-1',
-          name: 'OpenAI',
+        aiModel: {
+          id: 'model-1',
+          name: 'GPT-4',
+          aiAccount: {
+            id: 'account-1',
+            name: 'OpenAI',
+            provider: 'openai',
+          },
         },
         isActive: true,
         createdAt: mockDate,
@@ -222,11 +247,16 @@ describe('GET /api/ai-bots', () => {
         id: 'bot-2',
         name: 'Bot B',
         systemPrompt: 'System B',
-        aiProviderId: 'provider-1',
+        aiModelId: 'model-1',
         ownerId: 'admin-1',
-        aiProvider: {
-          id: 'provider-1',
-          name: 'OpenAI',
+        aiModel: {
+          id: 'model-1',
+          name: 'GPT-4',
+          aiAccount: {
+            id: 'account-1',
+            name: 'OpenAI',
+            provider: 'openai',
+          },
         },
         isActive: true,
         createdAt: mockDate,
@@ -261,7 +291,7 @@ describe('POST /api/ai-bots', () => {
       body: JSON.stringify({
         name: '',
         systemPrompt: '',
-        aiProviderId: '',
+        aiModelId: '',
       }),
     });
 
@@ -283,7 +313,7 @@ describe('POST /api/ai-bots', () => {
       body: JSON.stringify({
         name: 'Support Bot',
         systemPrompt: 'You are helpful',
-        aiProviderId: 'provider-1',
+        aiModelId: 'model-1',
       }),
     });
 
@@ -294,17 +324,17 @@ describe('POST /api/ai-bots', () => {
     expect(data.message).toBe('aiBotNameExists');
   });
 
-  it('returns 400 when aiProvider does not exist', async () => {
+  it('returns 400 when aiModel does not exist', async () => {
     mockAdmin();
     mockedPrisma.aiBot.findFirst.mockResolvedValueOnce(null);
-    mockedPrisma.aiProvider.findFirst.mockResolvedValueOnce(null);
+    mockedPrisma.aiModel.findFirst.mockResolvedValueOnce(null);
 
     const request = new NextRequest('http://localhost/api/ai-bots', {
       method: 'POST',
       body: JSON.stringify({
         name: 'Support Bot',
         systemPrompt: 'You are helpful',
-        aiProviderId: 'nonexistent-provider',
+        aiModelId: 'nonexistent-model',
       }),
     });
 
@@ -312,25 +342,35 @@ describe('POST /api/ai-bots', () => {
     const data = await response.json();
 
     expect(response.status).toBe(400);
-    expect(data.message).toBe('aiProviderNotFound');
+    expect(data.message).toBe('aiModelNotFound');
   });
 
   it('successfully creates bot', async () => {
     const mockDate = new Date('2024-01-15T10:00:00Z');
     mockAdmin();
     mockedPrisma.aiBot.findFirst.mockResolvedValueOnce(null);
-    mockedPrisma.aiProvider.findFirst.mockResolvedValueOnce({
-      id: 'provider-1',
-      name: 'OpenAI',
+    mockedPrisma.aiModel.findFirst.mockResolvedValueOnce({
+      id: 'model-1',
+      name: 'GPT-4',
+      aiAccount: {
+        id: 'account-1',
+        name: 'OpenAI',
+        provider: 'openai',
+      },
     });
     mockedPrisma.aiBot.create.mockResolvedValueOnce({
       id: 'bot-1',
       name: 'Support Bot',
       systemPrompt: 'You are a helpful support assistant',
-      aiProviderId: 'provider-1',
-      aiProvider: {
-        id: 'provider-1',
-        name: 'OpenAI',
+      aiModelId: 'model-1',
+      aiModel: {
+        id: 'model-1',
+        name: 'GPT-4',
+        aiAccount: {
+          id: 'account-1',
+          name: 'OpenAI',
+          provider: 'openai',
+        },
       },
       isActive: true,
       createdAt: mockDate,
@@ -342,7 +382,7 @@ describe('POST /api/ai-bots', () => {
       body: JSON.stringify({
         name: 'Support Bot',
         systemPrompt: 'You are a helpful support assistant',
-        aiProviderId: 'provider-1',
+        aiModelId: 'model-1',
       }),
     });
 
@@ -352,25 +392,35 @@ describe('POST /api/ai-bots', () => {
     expect(response.status).toBe(201);
     expect(data.name).toBe('Support Bot');
     expect(data.systemPrompt).toBe('You are a helpful support assistant');
-    expect(data.aiProvider.name).toBe('OpenAI');
+    expect(data.aiModel.name).toBe('GPT-4');
   });
 
-  it('creates bot with different providers', async () => {
+  it('creates bot with different models', async () => {
     const mockDate = new Date('2024-01-15T10:00:00Z');
     mockAdmin();
     mockedPrisma.aiBot.findFirst.mockResolvedValueOnce(null);
-    mockedPrisma.aiProvider.findFirst.mockResolvedValueOnce({
-      id: 'provider-2',
-      name: 'Anthropic',
+    mockedPrisma.aiModel.findFirst.mockResolvedValueOnce({
+      id: 'model-2',
+      name: 'Claude 3',
+      aiAccount: {
+        id: 'account-2',
+        name: 'Anthropic',
+        provider: 'anthropic',
+      },
     });
     mockedPrisma.aiBot.create.mockResolvedValueOnce({
       id: 'bot-2',
       name: 'Claude Bot',
       systemPrompt: 'You are Claude',
-      aiProviderId: 'provider-2',
-      aiProvider: {
-        id: 'provider-2',
-        name: 'Anthropic',
+      aiModelId: 'model-2',
+      aiModel: {
+        id: 'model-2',
+        name: 'Claude 3',
+        aiAccount: {
+          id: 'account-2',
+          name: 'Anthropic',
+          provider: 'anthropic',
+        },
       },
       isActive: true,
       createdAt: mockDate,
@@ -382,7 +432,7 @@ describe('POST /api/ai-bots', () => {
       body: JSON.stringify({
         name: 'Claude Bot',
         systemPrompt: 'You are Claude',
-        aiProviderId: 'provider-2',
+        aiModelId: 'model-2',
       }),
     });
 
@@ -391,6 +441,6 @@ describe('POST /api/ai-bots', () => {
 
     expect(response.status).toBe(201);
     expect(data.name).toBe('Claude Bot');
-    expect(data.aiProvider.name).toBe('Anthropic');
+    expect(data.aiModel.name).toBe('Claude 3');
   });
 });
