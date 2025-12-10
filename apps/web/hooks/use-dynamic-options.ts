@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useApi } from '@/lib/use-api';
 import { useErrorDisplay } from '@/hooks/use-error-display';
-import type { Client } from '@repo/api-client';
+import type { Client } from '@repo/api-client/client';
 
 type SelectOption = { value: string; label: string };
 

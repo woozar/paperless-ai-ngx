@@ -15,6 +15,7 @@ import { Badge } from '@/components/ui/badge';
 import { Loader2, FileText, Clock, Cpu } from 'lucide-react';
 import { getPaperlessInstancesByIdDocumentsByDocumentIdResult } from '@repo/api-client';
 import type { DocumentListItem, DocumentProcessingResult } from '@repo/api-client';
+import { SuggestedTagsList } from './suggested-tags-list';
 import { useApi } from '@/lib/use-api';
 import { useErrorDisplay } from '@/hooks/use-error-display';
 import { useFormatDate } from '@/hooks/use-format-date';
@@ -115,7 +116,10 @@ export function ViewResultDialog({
               {changes.suggestedCorrespondent ? (
                 <p>
                   {!changes.suggestedCorrespondent.id && (
-                    <Badge variant="outline" className="mr-2">
+                    <Badge
+                      variant="outline"
+                      className="mr-2 border-green-500 text-green-700 dark:text-green-400"
+                    >
                       {t('analyze.new')}
                     </Badge>
                   )}
@@ -133,7 +137,10 @@ export function ViewResultDialog({
               {changes.suggestedDocumentType ? (
                 <p>
                   {!changes.suggestedDocumentType.id && (
-                    <Badge variant="outline" className="mr-2">
+                    <Badge
+                      variant="outline"
+                      className="mr-2 border-green-500 text-green-700 dark:text-green-400"
+                    >
                       {t('analyze.new')}
                     </Badge>
                   )}
@@ -149,13 +156,7 @@ export function ViewResultDialog({
                 <Label className="text-muted-foreground text-xs">
                   {t('analyze.suggestedTags')}
                 </Label>
-                <div className="mt-1 flex flex-wrap gap-1">
-                  {changes.suggestedTags.map((tag) => (
-                    <Badge key={tag.id} variant="secondary">
-                      {tag.name}
-                    </Badge>
-                  ))}
-                </div>
+                <SuggestedTagsList tags={changes.suggestedTags} />
               </div>
             )}
 

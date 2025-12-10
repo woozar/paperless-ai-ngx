@@ -78,10 +78,34 @@ describe('DocumentAnalysisResultSchema', () => {
     expect(result.success).toBe(false);
   });
 
-  it('rejects tags without id', () => {
+  it('accepts existing tags with id', () => {
     const result = DocumentAnalysisResultSchema.safeParse({
       ...validResult,
-      suggestedTags: [{ name: 'Tag without ID' }],
+      suggestedTags: [{ id: 10, name: 'Existing Tag' }],
+    });
+    expect(result.success).toBe(true);
+  });
+
+  it('accepts new tags with name only', () => {
+    const result = DocumentAnalysisResultSchema.safeParse({
+      ...validResult,
+      suggestedTags: [{ name: 'New Tag' }],
+    });
+    expect(result.success).toBe(true);
+  });
+
+  it('accepts mix of existing and new tags', () => {
+    const result = DocumentAnalysisResultSchema.safeParse({
+      ...validResult,
+      suggestedTags: [{ id: 10, name: 'Existing Tag' }, { name: 'New Tag' }],
+    });
+    expect(result.success).toBe(true);
+  });
+
+  it('rejects tags without id or name', () => {
+    const result = DocumentAnalysisResultSchema.safeParse({
+      ...validResult,
+      suggestedTags: [{}],
     });
     expect(result.success).toBe(false);
   });

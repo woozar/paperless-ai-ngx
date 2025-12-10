@@ -362,7 +362,9 @@
         "reasoning": "Begründung",
         "noCorrespondentFound": "Kein passender Korrespondent gefunden",
         "noDocumentTypeFound": "Kein passender Dokumenttyp gefunden",
-        "new": "Neu"
+        "new": "Neu",
+        "existingTag": "Bereits vorhanden",
+        "newTag": "Neu vorgeschlagen"
       },
       "result": {
         "title": "Analyseergebnis",

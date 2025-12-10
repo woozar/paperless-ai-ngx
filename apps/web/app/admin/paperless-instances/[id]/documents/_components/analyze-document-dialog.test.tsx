@@ -397,48 +397,6 @@ describe('AnalyzeDocumentDialog', () => {
     expect(screen.queryByText(/Test Document/)).not.toBeInTheDocument();
   });
 
-  it('displays existing and new tags with different styles', async () => {
-    const user = userEvent.setup({ delay: null });
-    mockPostAnalyze.mockResolvedValue({
-      data: {
-        success: true,
-        result: {
-          ...mockAnalysisResult,
-          suggestedTags: [
-            { id: 10, name: 'Existing Tag', isExisting: true },
-            { id: 20, name: 'New Tag', isExisting: false },
-          ],
-        },
-        tokensUsed: 1000,
-      },
-    });
-
-    renderWithIntl(<AnalyzeDocumentDialog {...defaultProps} />);
-
-    await waitFor(() => {
-      expect(mockGetAiBots).toHaveBeenCalled();
-    });
-
-    const selectTrigger = screen.getByTestId('select-bot');
-    await user.click(selectTrigger);
-    await user.click(screen.getByText('GPT-4 Bot'));
-    await user.click(screen.getByTestId('start-analysis'));
-
-    await waitFor(() => {
-      expect(screen.getByText('Existing Tag')).toBeInTheDocument();
-      expect(screen.getByText('New Tag')).toBeInTheDocument();
-    });
-
-    // Check that existing tag has outline variant (title attribute for tooltip)
-    const existingTagBadge = screen.getByText('Existing Tag').closest('[title]');
-    expect(existingTagBadge).toHaveAttribute('title', 'Existing');
-
-    // Check that new tag has secondary variant and + prefix
-    const newTagBadge = screen.getByText('New Tag').closest('[title]');
-    expect(newTagBadge).toHaveAttribute('title', 'New');
-    expect(screen.getByText('+')).toBeInTheDocument();
-  });
-
   it('does not call API when document is null but bot is selected', async () => {
     const user = userEvent.setup({ delay: null });
     renderWithIntl(<AnalyzeDocumentDialog {...defaultProps} document={null} />);

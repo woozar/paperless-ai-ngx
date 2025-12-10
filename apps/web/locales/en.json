@@ -362,7 +362,9 @@
         "reasoning": "Reasoning",
         "noCorrespondentFound": "No matching correspondent found",
         "noDocumentTypeFound": "No matching document type found",
-        "new": "New"
+        "new": "New",
+        "existingTag": "Existing",
+        "newTag": "New"
       },
       "result": {
         "title": "Analysis Result",

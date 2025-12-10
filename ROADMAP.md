@@ -318,6 +318,10 @@
   - [x] Search document types tool
 - [x] Response Language Setting (Document/German/English)
 - [x] Token Usage Tracking
+- [x] Tag Suggestions UI
+  - [x] Existing tags (blue border) vs new tags (green border with +)
+  - [x] New correspondents/document types with green "New" badge
+  - [x] SuggestedTagsList component for reusability
 - [ ] Paperless-ngx Update API (apply changes to documents)
 
 ## Phase 7: Scheduled Processing

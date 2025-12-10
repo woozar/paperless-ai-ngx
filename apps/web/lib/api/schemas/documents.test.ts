@@ -107,16 +107,20 @@ describe('SuggestedItemSchema', () => {
 });
 
 describe('SuggestedTagSchema', () => {
-  it('accepts tag with id and name', () => {
+  it('accepts existing tag with id and name', () => {
     expect(SuggestedTagSchema.safeParse({ id: 1, name: 'Test' }).success).toBe(true);
   });
 
-  it('rejects tag without id', () => {
-    expect(SuggestedTagSchema.safeParse({ name: 'Test' }).success).toBe(false);
+  it('accepts existing tag with id only', () => {
+    expect(SuggestedTagSchema.safeParse({ id: 1 }).success).toBe(true);
   });
 
-  it('rejects tag without name', () => {
-    expect(SuggestedTagSchema.safeParse({ id: 1 }).success).toBe(false);
+  it('accepts new tag with name only', () => {
+    expect(SuggestedTagSchema.safeParse({ name: 'New Tag' }).success).toBe(true);
+  });
+
+  it('rejects tag without id or name', () => {
+    expect(SuggestedTagSchema.safeParse({}).success).toBe(false);
   });
 });
 

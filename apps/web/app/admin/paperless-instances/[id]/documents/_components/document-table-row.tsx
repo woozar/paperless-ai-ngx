@@ -29,7 +29,14 @@ export const DocumentTableRow = memo(function DocumentTableRow({
         {document.title}
       </TableCell>
       <TableCell>
-        <Badge variant={document.status === 'processed' ? 'secondary' : 'outline'}>
+        <Badge
+          variant="outline"
+          className={
+            document.status === 'processed'
+              ? 'border-blue-500 text-blue-700 dark:text-blue-400'
+              : undefined
+          }
+        >
           {t(`status.${document.status}`)}
         </Badge>
       </TableCell>

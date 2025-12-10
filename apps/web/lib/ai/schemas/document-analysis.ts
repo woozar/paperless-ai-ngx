@@ -9,6 +9,20 @@ const SuggestedItemSchema = z.object({
   name: z.string().describe('Name of the item'),
 });
 
+// Existing tag: id required, name optional (for display)
+const ExistingTagSchema = z.object({
+  id: z.number().describe('ID of existing tag'),
+  name: z.string().optional().describe('Name of the tag (for display)'),
+});
+
+// New tag: only name (no id)
+const NewTagSchema = z.object({
+  name: z.string().describe('Name of new tag to create'),
+});
+
+// A suggested tag is either existing (has id) or new (only name)
+const SuggestedTagSchema = z.union([ExistingTagSchema, NewTagSchema]);
+
 export const DocumentAnalysisResultSchema = z.object({
   suggestedTitle: z.string().describe('Suggested title for the document'),
   suggestedCorrespondent: SuggestedItemSchema.describe(
@@ -18,13 +32,8 @@ export const DocumentAnalysisResultSchema = z.object({
     'REQUIRED - Suggested document type - include id if existing, omit id for new'
   ),
   suggestedTags: z
-    .array(
-      z.object({
-        id: z.number().describe('ID of existing tag'),
-        name: z.string().describe('Name of the tag'),
-      })
-    )
-    .describe('Suggested tags for the document (only existing tags)'),
+    .array(SuggestedTagSchema)
+    .describe('Suggested tags - existing tags have id, new tags have name only'),
   confidence: z.number().min(0).max(1).describe('Confidence score from 0 to 1'),
   reasoning: z.string().describe('Explanation of why these suggestions were made'),
 });

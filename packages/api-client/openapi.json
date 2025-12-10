@@ -718,16 +718,32 @@
         "required": ["name"]
       },
       "SuggestedTag": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "number"
+        "anyOf": [
+          {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "number",
+                "description": "ID of existing tag"
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the tag (for display)"
+              }
+            },
+            "required": ["id"]
           },
-          "name": {
-            "type": "string"
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Name of new tag to create"
+              }
+            },
+            "required": ["name"]
           }
-        },
-        "required": ["id", "name"]
+        ]
       },
       "DocumentAnalysisResult": {
         "type": ["object", "null"],

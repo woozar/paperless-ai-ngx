@@ -225,10 +225,23 @@ export type SuggestedItem = {
   name: string;
 } | null;
 
-export type SuggestedTag = {
-  id: number;
-  name: string;
-};
+export type SuggestedTag =
+  | {
+      /**
+       * ID of existing tag
+       */
+      id: number;
+      /**
+       * Name of the tag (for display)
+       */
+      name?: string;
+    }
+  | {
+      /**
+       * Name of new tag to create
+       */
+      name: string;
+    };
 
 export type DocumentAnalysisResult = {
   suggestedTitle: string;

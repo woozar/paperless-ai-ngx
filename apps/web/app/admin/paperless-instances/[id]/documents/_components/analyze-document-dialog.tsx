@@ -25,6 +25,7 @@ import {
   postPaperlessInstancesByIdDocumentsByDocumentIdAnalyze,
 } from '@repo/api-client';
 import type { DocumentListItem, AiBotListItem, DocumentAnalysisResult } from '@repo/api-client';
+import { SuggestedTagsList } from './suggested-tags-list';
 import { useApi } from '@/lib/use-api';
 import { useErrorDisplay } from '@/hooks/use-error-display';
 import { toast } from 'sonner';
@@ -161,7 +162,10 @@ export function AnalyzeDocumentDialog({
                   {result.suggestedCorrespondent ? (
                     <p>
                       {!result.suggestedCorrespondent.id && (
-                        <Badge variant="outline" className="mr-2">
+                        <Badge
+                          variant="outline"
+                          className="mr-2 border-green-500 text-green-700 dark:text-green-400"
+                        >
                           {t('analyze.new')}
                         </Badge>
                       )}
@@ -181,7 +185,10 @@ export function AnalyzeDocumentDialog({
                   {result.suggestedDocumentType ? (
                     <p>
                       {!result.suggestedDocumentType.id && (
-                        <Badge variant="outline" className="mr-2">
+                        <Badge
+                          variant="outline"
+                          className="mr-2 border-green-500 text-green-700 dark:text-green-400"
+                        >
                           {t('analyze.new')}
                         </Badge>
                       )}
@@ -199,13 +206,7 @@ export function AnalyzeDocumentDialog({
                     <Label className="text-muted-foreground text-xs">
                       {t('analyze.suggestedTags')}
                     </Label>
-                    <div className="mt-1 flex flex-wrap gap-1">
-                      {result.suggestedTags.map((tag) => (
-                        <Badge key={tag.id} variant="secondary">
-                          {tag.name}
-                        </Badge>
-                      ))}
-                    </div>
+                    <SuggestedTagsList tags={result.suggestedTags} />
                   </div>
                 )}
 

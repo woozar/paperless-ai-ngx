@@ -45,12 +45,20 @@ export const SuggestedItemSchema = z
   .nullable()
   .openapi('SuggestedItem');
 
-// AI suggestion for tag (existing only)
+// Existing tag: id required, name optional (for display)
+const ExistingTagSchema = z.object({
+  id: z.number().describe('ID of existing tag'),
+  name: z.string().optional().describe('Name of the tag (for display)'),
+});
+
+// New tag: only name (no id)
+const NewTagSchema = z.object({
+  name: z.string().describe('Name of new tag to create'),
+});
+
+// AI suggestion for tag: either existing (has id) or new (only name)
 export const SuggestedTagSchema = z
-  .object({
-    id: z.number(),
-    name: z.string(),
-  })
+  .union([ExistingTagSchema, NewTagSchema])
   .openapi('SuggestedTag');
 
 // Document analysis result

@@ -33,6 +33,7 @@ vi.mock('@repo/paperless-client', () => ({
     getTags = vi.fn().mockResolvedValue({ results: [] });
     getCorrespondents = vi.fn().mockResolvedValue({ results: [] });
     getDocumentTypes = vi.fn().mockResolvedValue({ results: [] });
+    getDocument = vi.fn().mockResolvedValue({ tags: [10] }); // Same as mockDocument.tagIds
   },
 }));
 
@@ -401,53 +402,25 @@ describe('analyzeDocument', () => {
     );
   });
 
-  it('marks existing tags with isExisting: true', async () => {
-    // mockDocument has tagIds: [10], so tag with id 10 should have isExisting: true
+  it('returns suggested tags from AI response', async () => {
     const result = await analyzeDocument(defaultParams);
 
     expect(result.result.suggestedTags).toHaveLength(1);
     expect(result.result.suggestedTags[0]).toEqual({
       id: 10,
       name: 'Finance',
-      isExisting: true,
     });
   });
 
-  it('marks new tags with isExisting: false', async () => {
-    // AI suggests tag with id 20, which is not in document's tagIds [10]
+  it('handles both existing and new tags', async () => {
+    // AI suggests existing tag (with id) and new tag (name only)
     mockGenerateText.mockResolvedValueOnce({
       ...mockAiResponse,
       text: JSON.stringify({
         suggestedTitle: 'Invoice from ACME Corp',
         suggestedCorrespondent: { id: 1, name: 'ACME Corp' },
         suggestedDocumentType: { id: 2, name: 'Invoice' },
-        suggestedTags: [{ id: 20, name: 'New Tag' }],
-        confidence: 0.92,
-        reasoning: 'The document is clearly an invoice.',
-      }),
-    });
-
-    const result = await analyzeDocument(defaultParams);
-
-    expect(result.result.suggestedTags[0]).toEqual({
-      id: 20,
-      name: 'New Tag',
-      isExisting: false,
-    });
-  });
-
-  it('correctly marks both existing and new tags', async () => {
-    // Document has tagIds: [10], AI suggests tags with ids 10 and 30
-    mockGenerateText.mockResolvedValueOnce({
-      ...mockAiResponse,
-      text: JSON.stringify({
-        suggestedTitle: 'Invoice from ACME Corp',
-        suggestedCorrespondent: { id: 1, name: 'ACME Corp' },
-        suggestedDocumentType: { id: 2, name: 'Invoice' },
-        suggestedTags: [
-          { id: 10, name: 'Finance' },
-          { id: 30, name: 'Important' },
-        ],
+        suggestedTags: [{ id: 10, name: 'Finance' }, { name: 'New Tag' }],
         confidence: 0.92,
         reasoning: 'The document is an invoice.',
       }),
@@ -455,9 +428,6 @@ describe('analyzeDocument', () => {
 
     const result = await analyzeDocument(defaultParams);
 
-    expect(result.result.suggestedTags).toEqual([
-      { id: 10, name: 'Finance', isExisting: true },
-      { id: 30, name: 'Important', isExisting: false },
-    ]);
+    expect(result.result.suggestedTags).toEqual([{ id: 10, name: 'Finance' }, { name: 'New Tag' }]);
   });
 });

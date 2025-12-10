@@ -95,7 +95,8 @@ export async function analyzeDocument(
   const userIdentity = await getSetting('ai.context.identity');
 
   // Build the prompt with document content
-  const responseLanguage = (aiBot.responseLanguage as ResponseLanguage) ?? 'DOCUMENT';
+  // v8 ignore next -- @preserve - defensive fallback, responseLanguage has DB default
+  const responseLanguage = (aiBot.responseLanguage as ResponseLanguage) || 'DOCUMENT';
   const prompt = buildAnalysisPrompt(
     document.title,
     document.content,
@@ -213,13 +214,13 @@ IMPORTANT: Before making suggestions, you MUST use the available tools to:
 2. Search for existing correspondents (searchCorrespondents)
 3. Search for existing document types (searchDocumentTypes)
 
-Only suggest items that exist in Paperless. Do not suggest new items.
+Prefer existing items in Paperless, but you may suggest new items to be created if no good match exists.
 
 FIELD DEFINITIONS:
 - suggestedTitle: A clear, descriptive title for the document. Do NOT include the sender/company name here - that belongs in the correspondent field. Good examples: "Rechnung Nr. 12345", "Vertrag vom 01.01.2024", "Stromabrechnung Q1 2024"
 - suggestedCorrespondent: REQUIRED - The sender, company, or organization that created/sent this document. You MUST always provide a correspondent. Include "id" if an existing correspondent matches, omit "id" if suggesting a new one to be created. Never leave this empty or null.
 - suggestedDocumentType: REQUIRED - The type/category of document. You MUST always provide a document type. Include "id" if an existing type matches, omit "id" if suggesting a new one to be created. Never leave this empty or null.
-- suggestedTags: Relevant keywords/categories that help organize the document (only existing tags with id)
+- suggestedTags: Relevant keywords/categories that help organize the document. Include "id" for existing tags, omit "id" for new tags to be created.
 
 Document Title: ${title}
 
@@ -231,7 +232,7 @@ After using the tools, provide your analysis in the following JSON format:
   "suggestedTitle": "A clear, descriptive title WITHOUT the company name",
   "suggestedCorrespondent": { "id": 123, "name": "Existing Company" } OR { "name": "New Company to create" },
   "suggestedDocumentType": { "id": 123, "name": "Existing Type" } OR { "name": "New Type to create" },
-  "suggestedTags": [{ "id": 123, "name": "Tag1" }, { "id": 456, "name": "Tag2" }],
+  "suggestedTags": [{ "id": 123, "name": "Existing Tag" }, { "name": "New Tag to create" }],
   "confidence": 0.85,
   "reasoning": "Brief explanation of your suggestions"
 }
