@@ -16041,6 +16041,7 @@ export namespace Prisma {
     title: string | null;
     content: string | null;
     correspondentId: number | null;
+    documentDate: Date | null;
     importedAt: Date | null;
     createdAt: Date | null;
     updatedAt: Date | null;
@@ -16053,6 +16054,7 @@ export namespace Prisma {
     title: string | null;
     content: string | null;
     correspondentId: number | null;
+    documentDate: Date | null;
     importedAt: Date | null;
     createdAt: Date | null;
     updatedAt: Date | null;
@@ -16066,6 +16068,7 @@ export namespace Prisma {
     content: number;
     correspondentId: number;
     tagIds: number;
+    documentDate: number;
     importedAt: number;
     createdAt: number;
     updatedAt: number;
@@ -16091,6 +16094,7 @@ export namespace Prisma {
     title?: true;
     content?: true;
     correspondentId?: true;
+    documentDate?: true;
     importedAt?: true;
     createdAt?: true;
     updatedAt?: true;
@@ -16103,6 +16107,7 @@ export namespace Prisma {
     title?: true;
     content?: true;
     correspondentId?: true;
+    documentDate?: true;
     importedAt?: true;
     createdAt?: true;
     updatedAt?: true;
@@ -16116,6 +16121,7 @@ export namespace Prisma {
     content?: true;
     correspondentId?: true;
     tagIds?: true;
+    documentDate?: true;
     importedAt?: true;
     createdAt?: true;
     updatedAt?: true;
@@ -16221,6 +16227,7 @@ export namespace Prisma {
     content: string;
     correspondentId: number | null;
     tagIds: number[];
+    documentDate: Date | null;
     importedAt: Date;
     createdAt: Date;
     updatedAt: Date;
@@ -16255,6 +16262,7 @@ export namespace Prisma {
       content?: boolean;
       correspondentId?: boolean;
       tagIds?: boolean;
+      documentDate?: boolean;
       importedAt?: boolean;
       createdAt?: boolean;
       updatedAt?: boolean;
@@ -16276,6 +16284,7 @@ export namespace Prisma {
       content?: boolean;
       correspondentId?: boolean;
       tagIds?: boolean;
+      documentDate?: boolean;
       importedAt?: boolean;
       createdAt?: boolean;
       updatedAt?: boolean;
@@ -16295,6 +16304,7 @@ export namespace Prisma {
       content?: boolean;
       correspondentId?: boolean;
       tagIds?: boolean;
+      documentDate?: boolean;
       importedAt?: boolean;
       createdAt?: boolean;
       updatedAt?: boolean;
@@ -16311,6 +16321,7 @@ export namespace Prisma {
     content?: boolean;
     correspondentId?: boolean;
     tagIds?: boolean;
+    documentDate?: boolean;
     importedAt?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
@@ -16326,6 +16337,7 @@ export namespace Prisma {
     | 'content'
     | 'correspondentId'
     | 'tagIds'
+    | 'documentDate'
     | 'importedAt'
     | 'createdAt'
     | 'updatedAt'
@@ -16366,6 +16378,7 @@ export namespace Prisma {
         content: string;
         correspondentId: number | null;
         tagIds: number[];
+        documentDate: Date | null;
         importedAt: Date;
         createdAt: Date;
         updatedAt: Date;
@@ -16943,6 +16956,7 @@ export namespace Prisma {
     readonly content: FieldRef<'PaperlessDocument', 'String'>;
     readonly correspondentId: FieldRef<'PaperlessDocument', 'Int'>;
     readonly tagIds: FieldRef<'PaperlessDocument', 'Int[]'>;
+    readonly documentDate: FieldRef<'PaperlessDocument', 'DateTime'>;
     readonly importedAt: FieldRef<'PaperlessDocument', 'DateTime'>;
     readonly createdAt: FieldRef<'PaperlessDocument', 'DateTime'>;
     readonly updatedAt: FieldRef<'PaperlessDocument', 'DateTime'>;
@@ -17436,18 +17450,24 @@ export namespace Prisma {
   };
 
   export type DocumentProcessingResultAvgAggregateOutputType = {
-    tokensUsed: number | null;
+    inputTokens: number | null;
+    outputTokens: number | null;
+    estimatedCost: number | null;
   };
 
   export type DocumentProcessingResultSumAggregateOutputType = {
-    tokensUsed: number | null;
+    inputTokens: number | null;
+    outputTokens: number | null;
+    estimatedCost: number | null;
   };
 
   export type DocumentProcessingResultMinAggregateOutputType = {
     id: string | null;
     processedAt: Date | null;
     aiProvider: string | null;
-    tokensUsed: number | null;
+    inputTokens: number | null;
+    outputTokens: number | null;
+    estimatedCost: number | null;
     originalTitle: string | null;
     originalCorrespondent: string | null;
     originalDocumentType: string | null;
@@ -17460,7 +17480,9 @@ export namespace Prisma {
     id: string | null;
     processedAt: Date | null;
     aiProvider: string | null;
-    tokensUsed: number | null;
+    inputTokens: number | null;
+    outputTokens: number | null;
+    estimatedCost: number | null;
     originalTitle: string | null;
     originalCorrespondent: string | null;
     originalDocumentType: string | null;
@@ -17473,7 +17495,9 @@ export namespace Prisma {
     id: number;
     processedAt: number;
     aiProvider: number;
-    tokensUsed: number;
+    inputTokens: number;
+    outputTokens: number;
+    estimatedCost: number;
     changes: number;
     toolCalls: number;
     originalTitle: number;
@@ -17487,18 +17511,24 @@ export namespace Prisma {
   };
 
   export type DocumentProcessingResultAvgAggregateInputType = {
-    tokensUsed?: true;
+    inputTokens?: true;
+    outputTokens?: true;
+    estimatedCost?: true;
   };
 
   export type DocumentProcessingResultSumAggregateInputType = {
-    tokensUsed?: true;
+    inputTokens?: true;
+    outputTokens?: true;
+    estimatedCost?: true;
   };
 
   export type DocumentProcessingResultMinAggregateInputType = {
     id?: true;
     processedAt?: true;
     aiProvider?: true;
-    tokensUsed?: true;
+    inputTokens?: true;
+    outputTokens?: true;
+    estimatedCost?: true;
     originalTitle?: true;
     originalCorrespondent?: true;
     originalDocumentType?: true;
@@ -17511,7 +17541,9 @@ export namespace Prisma {
     id?: true;
     processedAt?: true;
     aiProvider?: true;
-    tokensUsed?: true;
+    inputTokens?: true;
+    outputTokens?: true;
+    estimatedCost?: true;
     originalTitle?: true;
     originalCorrespondent?: true;
     originalDocumentType?: true;
@@ -17524,7 +17556,9 @@ export namespace Prisma {
     id?: true;
     processedAt?: true;
     aiProvider?: true;
-    tokensUsed?: true;
+    inputTokens?: true;
+    outputTokens?: true;
+    estimatedCost?: true;
     changes?: true;
     toolCalls?: true;
     originalTitle?: true;
@@ -17634,7 +17668,9 @@ export namespace Prisma {
     id: string;
     processedAt: Date;
     aiProvider: string;
-    tokensUsed: number;
+    inputTokens: number;
+    outputTokens: number;
+    estimatedCost: number | null;
     changes: JsonValue | null;
     toolCalls: JsonValue | null;
     originalTitle: string | null;
@@ -17671,7 +17707,9 @@ export namespace Prisma {
       id?: boolean;
       processedAt?: boolean;
       aiProvider?: boolean;
-      tokensUsed?: boolean;
+      inputTokens?: boolean;
+      outputTokens?: boolean;
+      estimatedCost?: boolean;
       changes?: boolean;
       toolCalls?: boolean;
       originalTitle?: boolean;
@@ -17693,7 +17731,9 @@ export namespace Prisma {
       id?: boolean;
       processedAt?: boolean;
       aiProvider?: boolean;
-      tokensUsed?: boolean;
+      inputTokens?: boolean;
+      outputTokens?: boolean;
+      estimatedCost?: boolean;
       changes?: boolean;
       toolCalls?: boolean;
       originalTitle?: boolean;
@@ -17715,7 +17755,9 @@ export namespace Prisma {
       id?: boolean;
       processedAt?: boolean;
       aiProvider?: boolean;
-      tokensUsed?: boolean;
+      inputTokens?: boolean;
+      outputTokens?: boolean;
+      estimatedCost?: boolean;
       changes?: boolean;
       toolCalls?: boolean;
       originalTitle?: boolean;
@@ -17734,7 +17776,9 @@ export namespace Prisma {
     id?: boolean;
     processedAt?: boolean;
     aiProvider?: boolean;
-    tokensUsed?: boolean;
+    inputTokens?: boolean;
+    outputTokens?: boolean;
+    estimatedCost?: boolean;
     changes?: boolean;
     toolCalls?: boolean;
     originalTitle?: boolean;
@@ -17752,7 +17796,9 @@ export namespace Prisma {
     | 'id'
     | 'processedAt'
     | 'aiProvider'
-    | 'tokensUsed'
+    | 'inputTokens'
+    | 'outputTokens'
+    | 'estimatedCost'
     | 'changes'
     | 'toolCalls'
     | 'originalTitle'
@@ -17792,7 +17838,9 @@ export namespace Prisma {
         id: string;
         processedAt: Date;
         aiProvider: string;
-        tokensUsed: number;
+        inputTokens: number;
+        outputTokens: number;
+        estimatedCost: number | null;
         changes: Prisma.JsonValue | null;
         toolCalls: Prisma.JsonValue | null;
         originalTitle: string | null;
@@ -18386,7 +18434,9 @@ export namespace Prisma {
     readonly id: FieldRef<'DocumentProcessingResult', 'String'>;
     readonly processedAt: FieldRef<'DocumentProcessingResult', 'DateTime'>;
     readonly aiProvider: FieldRef<'DocumentProcessingResult', 'String'>;
-    readonly tokensUsed: FieldRef<'DocumentProcessingResult', 'Int'>;
+    readonly inputTokens: FieldRef<'DocumentProcessingResult', 'Int'>;
+    readonly outputTokens: FieldRef<'DocumentProcessingResult', 'Int'>;
+    readonly estimatedCost: FieldRef<'DocumentProcessingResult', 'Float'>;
     readonly changes: FieldRef<'DocumentProcessingResult', 'Json'>;
     readonly toolCalls: FieldRef<'DocumentProcessingResult', 'Json'>;
     readonly originalTitle: FieldRef<'DocumentProcessingResult', 'String'>;
@@ -21895,6 +21945,7 @@ export namespace Prisma {
     content: 'content';
     correspondentId: 'correspondentId';
     tagIds: 'tagIds';
+    documentDate: 'documentDate';
     importedAt: 'importedAt';
     createdAt: 'createdAt';
     updatedAt: 'updatedAt';
@@ -21908,7 +21959,9 @@ export namespace Prisma {
     id: 'id';
     processedAt: 'processedAt';
     aiProvider: 'aiProvider';
-    tokensUsed: 'tokensUsed';
+    inputTokens: 'inputTokens';
+    outputTokens: 'outputTokens';
+    estimatedCost: 'estimatedCost';
     changes: 'changes';
     toolCalls: 'toolCalls';
     originalTitle: 'originalTitle';
@@ -22865,6 +22918,7 @@ export namespace Prisma {
     content?: StringFilter<'PaperlessDocument'> | string;
     correspondentId?: IntNullableFilter<'PaperlessDocument'> | number | null;
     tagIds?: IntNullableListFilter<'PaperlessDocument'>;
+    documentDate?: DateTimeNullableFilter<'PaperlessDocument'> | Date | string | null;
     importedAt?: DateTimeFilter<'PaperlessDocument'> | Date | string;
     createdAt?: DateTimeFilter<'PaperlessDocument'> | Date | string;
     updatedAt?: DateTimeFilter<'PaperlessDocument'> | Date | string;
@@ -22880,6 +22934,7 @@ export namespace Prisma {
     content?: SortOrder;
     correspondentId?: SortOrderInput | SortOrder;
     tagIds?: SortOrder;
+    documentDate?: SortOrderInput | SortOrder;
     importedAt?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
@@ -22900,6 +22955,7 @@ export namespace Prisma {
       content?: StringFilter<'PaperlessDocument'> | string;
       correspondentId?: IntNullableFilter<'PaperlessDocument'> | number | null;
       tagIds?: IntNullableListFilter<'PaperlessDocument'>;
+      documentDate?: DateTimeNullableFilter<'PaperlessDocument'> | Date | string | null;
       importedAt?: DateTimeFilter<'PaperlessDocument'> | Date | string;
       createdAt?: DateTimeFilter<'PaperlessDocument'> | Date | string;
       updatedAt?: DateTimeFilter<'PaperlessDocument'> | Date | string;
@@ -22917,6 +22973,7 @@ export namespace Prisma {
     content?: SortOrder;
     correspondentId?: SortOrderInput | SortOrder;
     tagIds?: SortOrder;
+    documentDate?: SortOrderInput | SortOrder;
     importedAt?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
@@ -22942,6 +22999,7 @@ export namespace Prisma {
     content?: StringWithAggregatesFilter<'PaperlessDocument'> | string;
     correspondentId?: IntNullableWithAggregatesFilter<'PaperlessDocument'> | number | null;
     tagIds?: IntNullableListFilter<'PaperlessDocument'>;
+    documentDate?: DateTimeNullableWithAggregatesFilter<'PaperlessDocument'> | Date | string | null;
     importedAt?: DateTimeWithAggregatesFilter<'PaperlessDocument'> | Date | string;
     createdAt?: DateTimeWithAggregatesFilter<'PaperlessDocument'> | Date | string;
     updatedAt?: DateTimeWithAggregatesFilter<'PaperlessDocument'> | Date | string;
@@ -22955,7 +23013,9 @@ export namespace Prisma {
     id?: StringFilter<'DocumentProcessingResult'> | string;
     processedAt?: DateTimeFilter<'DocumentProcessingResult'> | Date | string;
     aiProvider?: StringFilter<'DocumentProcessingResult'> | string;
-    tokensUsed?: IntFilter<'DocumentProcessingResult'> | number;
+    inputTokens?: IntFilter<'DocumentProcessingResult'> | number;
+    outputTokens?: IntFilter<'DocumentProcessingResult'> | number;
+    estimatedCost?: FloatNullableFilter<'DocumentProcessingResult'> | number | null;
     changes?: JsonNullableFilter<'DocumentProcessingResult'>;
     toolCalls?: JsonNullableFilter<'DocumentProcessingResult'>;
     originalTitle?: StringNullableFilter<'DocumentProcessingResult'> | string | null;
@@ -22972,7 +23032,9 @@ export namespace Prisma {
     id?: SortOrder;
     processedAt?: SortOrder;
     aiProvider?: SortOrder;
-    tokensUsed?: SortOrder;
+    inputTokens?: SortOrder;
+    outputTokens?: SortOrder;
+    estimatedCost?: SortOrderInput | SortOrder;
     changes?: SortOrderInput | SortOrder;
     toolCalls?: SortOrderInput | SortOrder;
     originalTitle?: SortOrderInput | SortOrder;
@@ -22993,7 +23055,9 @@ export namespace Prisma {
       NOT?: DocumentProcessingResultWhereInput | DocumentProcessingResultWhereInput[];
       processedAt?: DateTimeFilter<'DocumentProcessingResult'> | Date | string;
       aiProvider?: StringFilter<'DocumentProcessingResult'> | string;
-      tokensUsed?: IntFilter<'DocumentProcessingResult'> | number;
+      inputTokens?: IntFilter<'DocumentProcessingResult'> | number;
+      outputTokens?: IntFilter<'DocumentProcessingResult'> | number;
+      estimatedCost?: FloatNullableFilter<'DocumentProcessingResult'> | number | null;
       changes?: JsonNullableFilter<'DocumentProcessingResult'>;
       toolCalls?: JsonNullableFilter<'DocumentProcessingResult'>;
       originalTitle?: StringNullableFilter<'DocumentProcessingResult'> | string | null;
@@ -23012,7 +23076,9 @@ export namespace Prisma {
     id?: SortOrder;
     processedAt?: SortOrder;
     aiProvider?: SortOrder;
-    tokensUsed?: SortOrder;
+    inputTokens?: SortOrder;
+    outputTokens?: SortOrder;
+    estimatedCost?: SortOrderInput | SortOrder;
     changes?: SortOrderInput | SortOrder;
     toolCalls?: SortOrderInput | SortOrder;
     originalTitle?: SortOrderInput | SortOrder;
@@ -23040,7 +23106,9 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<'DocumentProcessingResult'> | string;
     processedAt?: DateTimeWithAggregatesFilter<'DocumentProcessingResult'> | Date | string;
     aiProvider?: StringWithAggregatesFilter<'DocumentProcessingResult'> | string;
-    tokensUsed?: IntWithAggregatesFilter<'DocumentProcessingResult'> | number;
+    inputTokens?: IntWithAggregatesFilter<'DocumentProcessingResult'> | number;
+    outputTokens?: IntWithAggregatesFilter<'DocumentProcessingResult'> | number;
+    estimatedCost?: FloatNullableWithAggregatesFilter<'DocumentProcessingResult'> | number | null;
     changes?: JsonNullableWithAggregatesFilter<'DocumentProcessingResult'>;
     toolCalls?: JsonNullableWithAggregatesFilter<'DocumentProcessingResult'>;
     originalTitle?: StringNullableWithAggregatesFilter<'DocumentProcessingResult'> | string | null;
@@ -24015,6 +24083,7 @@ export namespace Prisma {
     content: string;
     correspondentId?: number | null;
     tagIds?: PaperlessDocumentCreatetagIdsInput | number[];
+    documentDate?: Date | string | null;
     importedAt?: Date | string;
     createdAt?: Date | string;
     updatedAt?: Date | string;
@@ -24029,6 +24098,7 @@ export namespace Prisma {
     content: string;
     correspondentId?: number | null;
     tagIds?: PaperlessDocumentCreatetagIdsInput | number[];
+    documentDate?: Date | string | null;
     importedAt?: Date | string;
     createdAt?: Date | string;
     updatedAt?: Date | string;
@@ -24043,6 +24113,7 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string;
     correspondentId?: NullableIntFieldUpdateOperationsInput | number | null;
     tagIds?: PaperlessDocumentUpdatetagIdsInput | number[];
+    documentDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     importedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
@@ -24057,6 +24128,7 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string;
     correspondentId?: NullableIntFieldUpdateOperationsInput | number | null;
     tagIds?: PaperlessDocumentUpdatetagIdsInput | number[];
+    documentDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     importedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
@@ -24071,6 +24143,7 @@ export namespace Prisma {
     content: string;
     correspondentId?: number | null;
     tagIds?: PaperlessDocumentCreatetagIdsInput | number[];
+    documentDate?: Date | string | null;
     importedAt?: Date | string;
     createdAt?: Date | string;
     updatedAt?: Date | string;
@@ -24084,6 +24157,7 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string;
     correspondentId?: NullableIntFieldUpdateOperationsInput | number | null;
     tagIds?: PaperlessDocumentUpdatetagIdsInput | number[];
+    documentDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     importedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
@@ -24096,6 +24170,7 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string;
     correspondentId?: NullableIntFieldUpdateOperationsInput | number | null;
     tagIds?: PaperlessDocumentUpdatetagIdsInput | number[];
+    documentDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     importedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
@@ -24106,7 +24181,9 @@ export namespace Prisma {
     id?: string;
     processedAt?: Date | string;
     aiProvider: string;
-    tokensUsed?: number;
+    inputTokens?: number;
+    outputTokens?: number;
+    estimatedCost?: number | null;
     changes?: NullableJsonNullValueInput | InputJsonValue;
     toolCalls?: NullableJsonNullValueInput | InputJsonValue;
     originalTitle?: string | null;
@@ -24122,7 +24199,9 @@ export namespace Prisma {
     id?: string;
     processedAt?: Date | string;
     aiProvider: string;
-    tokensUsed?: number;
+    inputTokens?: number;
+    outputTokens?: number;
+    estimatedCost?: number | null;
     changes?: NullableJsonNullValueInput | InputJsonValue;
     toolCalls?: NullableJsonNullValueInput | InputJsonValue;
     originalTitle?: string | null;
@@ -24138,7 +24217,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     processedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     aiProvider?: StringFieldUpdateOperationsInput | string;
-    tokensUsed?: IntFieldUpdateOperationsInput | number;
+    inputTokens?: IntFieldUpdateOperationsInput | number;
+    outputTokens?: IntFieldUpdateOperationsInput | number;
+    estimatedCost?: NullableFloatFieldUpdateOperationsInput | number | null;
     changes?: NullableJsonNullValueInput | InputJsonValue;
     toolCalls?: NullableJsonNullValueInput | InputJsonValue;
     originalTitle?: NullableStringFieldUpdateOperationsInput | string | null;
@@ -24154,7 +24235,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     processedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     aiProvider?: StringFieldUpdateOperationsInput | string;
-    tokensUsed?: IntFieldUpdateOperationsInput | number;
+    inputTokens?: IntFieldUpdateOperationsInput | number;
+    outputTokens?: IntFieldUpdateOperationsInput | number;
+    estimatedCost?: NullableFloatFieldUpdateOperationsInput | number | null;
     changes?: NullableJsonNullValueInput | InputJsonValue;
     toolCalls?: NullableJsonNullValueInput | InputJsonValue;
     originalTitle?: NullableStringFieldUpdateOperationsInput | string | null;
@@ -24170,7 +24253,9 @@ export namespace Prisma {
     id?: string;
     processedAt?: Date | string;
     aiProvider: string;
-    tokensUsed?: number;
+    inputTokens?: number;
+    outputTokens?: number;
+    estimatedCost?: number | null;
     changes?: NullableJsonNullValueInput | InputJsonValue;
     toolCalls?: NullableJsonNullValueInput | InputJsonValue;
     originalTitle?: string | null;
@@ -24186,7 +24271,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     processedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     aiProvider?: StringFieldUpdateOperationsInput | string;
-    tokensUsed?: IntFieldUpdateOperationsInput | number;
+    inputTokens?: IntFieldUpdateOperationsInput | number;
+    outputTokens?: IntFieldUpdateOperationsInput | number;
+    estimatedCost?: NullableFloatFieldUpdateOperationsInput | number | null;
     changes?: NullableJsonNullValueInput | InputJsonValue;
     toolCalls?: NullableJsonNullValueInput | InputJsonValue;
     originalTitle?: NullableStringFieldUpdateOperationsInput | string | null;
@@ -24201,7 +24288,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     processedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     aiProvider?: StringFieldUpdateOperationsInput | string;
-    tokensUsed?: IntFieldUpdateOperationsInput | number;
+    inputTokens?: IntFieldUpdateOperationsInput | number;
+    outputTokens?: IntFieldUpdateOperationsInput | number;
+    estimatedCost?: NullableFloatFieldUpdateOperationsInput | number | null;
     changes?: NullableJsonNullValueInput | InputJsonValue;
     toolCalls?: NullableJsonNullValueInput | InputJsonValue;
     originalTitle?: NullableStringFieldUpdateOperationsInput | string | null;
@@ -25083,6 +25172,17 @@ export namespace Prisma {
     isEmpty?: boolean;
   };
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null;
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null;
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null;
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null;
+  };
+
   export type DocumentProcessingResultListRelationFilter = {
     every?: DocumentProcessingResultWhereInput;
     some?: DocumentProcessingResultWhereInput;
@@ -25105,6 +25205,7 @@ export namespace Prisma {
     content?: SortOrder;
     correspondentId?: SortOrder;
     tagIds?: SortOrder;
+    documentDate?: SortOrder;
     importedAt?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
@@ -25123,6 +25224,7 @@ export namespace Prisma {
     title?: SortOrder;
     content?: SortOrder;
     correspondentId?: SortOrder;
+    documentDate?: SortOrder;
     importedAt?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
@@ -25135,6 +25237,7 @@ export namespace Prisma {
     title?: SortOrder;
     content?: SortOrder;
     correspondentId?: SortOrder;
+    documentDate?: SortOrder;
     importedAt?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
@@ -25177,6 +25280,20 @@ export namespace Prisma {
     _sum?: NestedIntNullableFilter<$PrismaModel>;
     _min?: NestedIntNullableFilter<$PrismaModel>;
     _max?: NestedIntNullableFilter<$PrismaModel>;
+  };
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null;
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null;
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null;
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null;
+    _count?: NestedIntNullableFilter<$PrismaModel>;
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>;
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>;
   };
   export type JsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -25222,7 +25339,9 @@ export namespace Prisma {
     id?: SortOrder;
     processedAt?: SortOrder;
     aiProvider?: SortOrder;
-    tokensUsed?: SortOrder;
+    inputTokens?: SortOrder;
+    outputTokens?: SortOrder;
+    estimatedCost?: SortOrder;
     changes?: SortOrder;
     toolCalls?: SortOrder;
     originalTitle?: SortOrder;
@@ -25235,14 +25354,18 @@ export namespace Prisma {
   };
 
   export type DocumentProcessingResultAvgOrderByAggregateInput = {
-    tokensUsed?: SortOrder;
+    inputTokens?: SortOrder;
+    outputTokens?: SortOrder;
+    estimatedCost?: SortOrder;
   };
 
   export type DocumentProcessingResultMaxOrderByAggregateInput = {
     id?: SortOrder;
     processedAt?: SortOrder;
     aiProvider?: SortOrder;
-    tokensUsed?: SortOrder;
+    inputTokens?: SortOrder;
+    outputTokens?: SortOrder;
+    estimatedCost?: SortOrder;
     originalTitle?: SortOrder;
     originalCorrespondent?: SortOrder;
     originalDocumentType?: SortOrder;
@@ -25255,7 +25378,9 @@ export namespace Prisma {
     id?: SortOrder;
     processedAt?: SortOrder;
     aiProvider?: SortOrder;
-    tokensUsed?: SortOrder;
+    inputTokens?: SortOrder;
+    outputTokens?: SortOrder;
+    estimatedCost?: SortOrder;
     originalTitle?: SortOrder;
     originalCorrespondent?: SortOrder;
     originalDocumentType?: SortOrder;
@@ -25265,7 +25390,9 @@ export namespace Prisma {
   };
 
   export type DocumentProcessingResultSumOrderByAggregateInput = {
-    tokensUsed?: SortOrder;
+    inputTokens?: SortOrder;
+    outputTokens?: SortOrder;
+    estimatedCost?: SortOrder;
   };
   export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -25295,17 +25422,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>;
     _min?: NestedJsonNullableFilter<$PrismaModel>;
     _max?: NestedJsonNullableFilter<$PrismaModel>;
-  };
-
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null;
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null;
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null;
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null;
   };
 
   export type ProcessingQueueCountOrderByAggregateInput = {
@@ -25363,20 +25479,6 @@ export namespace Prisma {
     paperlessId?: SortOrder;
     priority?: SortOrder;
     attempts?: SortOrder;
-  };
-
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null;
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null;
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null;
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null;
-    _count?: NestedIntNullableFilter<$PrismaModel>;
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>;
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>;
   };
 
   export type AiModelNullableScalarRelationFilter = {
@@ -27503,6 +27605,10 @@ export namespace Prisma {
     push?: number | number[];
   };
 
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null;
+  };
+
   export type PaperlessInstanceUpdateOneRequiredWithoutDocumentsNestedInput = {
     create?: XOR<
       PaperlessInstanceCreateWithoutDocumentsInput,
@@ -27626,10 +27732,6 @@ export namespace Prisma {
     >;
     connectOrCreate?: PaperlessInstanceCreateOrConnectWithoutProcessingQueueInput;
     connect?: PaperlessInstanceWhereUniqueInput;
-  };
-
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null;
   };
 
   export type PaperlessInstanceUpdateOneRequiredWithoutProcessingQueueNestedInput = {
@@ -27937,6 +28039,17 @@ export namespace Prisma {
     _max?: NestedFloatNullableFilter<$PrismaModel>;
   };
 
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null;
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null;
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null;
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null;
+  };
+
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>;
     in?: number[] | ListIntFieldRefInput<$PrismaModel>;
@@ -27979,6 +28092,20 @@ export namespace Prisma {
     _min?: NestedIntNullableFilter<$PrismaModel>;
     _max?: NestedIntNullableFilter<$PrismaModel>;
   };
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null;
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null;
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null;
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null;
+    _count?: NestedIntNullableFilter<$PrismaModel>;
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>;
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>;
+  };
   export type NestedJsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<
@@ -28004,31 +28131,6 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>;
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>;
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter;
-  };
-
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null;
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null;
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null;
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null;
-  };
-
-  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null;
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null;
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null;
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null;
-    _count?: NestedIntNullableFilter<$PrismaModel>;
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>;
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>;
   };
 
   export type PaperlessInstanceCreateWithoutOwnerInput = {
@@ -29445,6 +29547,7 @@ export namespace Prisma {
     content: string;
     correspondentId?: number | null;
     tagIds?: PaperlessDocumentCreatetagIdsInput | number[];
+    documentDate?: Date | string | null;
     importedAt?: Date | string;
     createdAt?: Date | string;
     updatedAt?: Date | string;
@@ -29458,6 +29561,7 @@ export namespace Prisma {
     content: string;
     correspondentId?: number | null;
     tagIds?: PaperlessDocumentCreatetagIdsInput | number[];
+    documentDate?: Date | string | null;
     importedAt?: Date | string;
     createdAt?: Date | string;
     updatedAt?: Date | string;
@@ -29646,6 +29750,7 @@ export namespace Prisma {
     content?: StringFilter<'PaperlessDocument'> | string;
     correspondentId?: IntNullableFilter<'PaperlessDocument'> | number | null;
     tagIds?: IntNullableListFilter<'PaperlessDocument'>;
+    documentDate?: DateTimeNullableFilter<'PaperlessDocument'> | Date | string | null;
     importedAt?: DateTimeFilter<'PaperlessDocument'> | Date | string;
     createdAt?: DateTimeFilter<'PaperlessDocument'> | Date | string;
     updatedAt?: DateTimeFilter<'PaperlessDocument'> | Date | string;
@@ -30653,7 +30758,9 @@ export namespace Prisma {
     id?: string;
     processedAt?: Date | string;
     aiProvider: string;
-    tokensUsed?: number;
+    inputTokens?: number;
+    outputTokens?: number;
+    estimatedCost?: number | null;
     changes?: NullableJsonNullValueInput | InputJsonValue;
     toolCalls?: NullableJsonNullValueInput | InputJsonValue;
     originalTitle?: string | null;
@@ -30668,7 +30775,9 @@ export namespace Prisma {
     id?: string;
     processedAt?: Date | string;
     aiProvider: string;
-    tokensUsed?: number;
+    inputTokens?: number;
+    outputTokens?: number;
+    estimatedCost?: number | null;
     changes?: NullableJsonNullValueInput | InputJsonValue;
     toolCalls?: NullableJsonNullValueInput | InputJsonValue;
     originalTitle?: string | null;
@@ -30773,7 +30882,9 @@ export namespace Prisma {
     id?: StringFilter<'DocumentProcessingResult'> | string;
     processedAt?: DateTimeFilter<'DocumentProcessingResult'> | Date | string;
     aiProvider?: StringFilter<'DocumentProcessingResult'> | string;
-    tokensUsed?: IntFilter<'DocumentProcessingResult'> | number;
+    inputTokens?: IntFilter<'DocumentProcessingResult'> | number;
+    outputTokens?: IntFilter<'DocumentProcessingResult'> | number;
+    estimatedCost?: FloatNullableFilter<'DocumentProcessingResult'> | number | null;
     changes?: JsonNullableFilter<'DocumentProcessingResult'>;
     toolCalls?: JsonNullableFilter<'DocumentProcessingResult'>;
     originalTitle?: StringNullableFilter<'DocumentProcessingResult'> | string | null;
@@ -30792,6 +30903,7 @@ export namespace Prisma {
     content: string;
     correspondentId?: number | null;
     tagIds?: PaperlessDocumentCreatetagIdsInput | number[];
+    documentDate?: Date | string | null;
     importedAt?: Date | string;
     createdAt?: Date | string;
     updatedAt?: Date | string;
@@ -30805,6 +30917,7 @@ export namespace Prisma {
     content: string;
     correspondentId?: number | null;
     tagIds?: PaperlessDocumentCreatetagIdsInput | number[];
+    documentDate?: Date | string | null;
     importedAt?: Date | string;
     createdAt?: Date | string;
     updatedAt?: Date | string;
@@ -30846,6 +30959,7 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string;
     correspondentId?: NullableIntFieldUpdateOperationsInput | number | null;
     tagIds?: PaperlessDocumentUpdatetagIdsInput | number[];
+    documentDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     importedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
@@ -30859,6 +30973,7 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string;
     correspondentId?: NullableIntFieldUpdateOperationsInput | number | null;
     tagIds?: PaperlessDocumentUpdatetagIdsInput | number[];
+    documentDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     importedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
@@ -31666,6 +31781,7 @@ export namespace Prisma {
     content: string;
     correspondentId?: number | null;
     tagIds?: PaperlessDocumentCreatetagIdsInput | number[];
+    documentDate?: Date | string | null;
     importedAt?: Date | string;
     createdAt?: Date | string;
     updatedAt?: Date | string;
@@ -31713,6 +31829,7 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string;
     correspondentId?: NullableIntFieldUpdateOperationsInput | number | null;
     tagIds?: PaperlessDocumentUpdatetagIdsInput | number[];
+    documentDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     importedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
@@ -31726,6 +31843,7 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string;
     correspondentId?: NullableIntFieldUpdateOperationsInput | number | null;
     tagIds?: PaperlessDocumentUpdatetagIdsInput | number[];
+    documentDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     importedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
@@ -31739,6 +31857,7 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string;
     correspondentId?: NullableIntFieldUpdateOperationsInput | number | null;
     tagIds?: PaperlessDocumentUpdatetagIdsInput | number[];
+    documentDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     importedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
@@ -32152,7 +32271,9 @@ export namespace Prisma {
     id?: string;
     processedAt?: Date | string;
     aiProvider: string;
-    tokensUsed?: number;
+    inputTokens?: number;
+    outputTokens?: number;
+    estimatedCost?: number | null;
     changes?: NullableJsonNullValueInput | InputJsonValue;
     toolCalls?: NullableJsonNullValueInput | InputJsonValue;
     originalTitle?: string | null;
@@ -32167,7 +32288,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     processedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     aiProvider?: StringFieldUpdateOperationsInput | string;
-    tokensUsed?: IntFieldUpdateOperationsInput | number;
+    inputTokens?: IntFieldUpdateOperationsInput | number;
+    outputTokens?: IntFieldUpdateOperationsInput | number;
+    estimatedCost?: NullableFloatFieldUpdateOperationsInput | number | null;
     changes?: NullableJsonNullValueInput | InputJsonValue;
     toolCalls?: NullableJsonNullValueInput | InputJsonValue;
     originalTitle?: NullableStringFieldUpdateOperationsInput | string | null;
@@ -32182,7 +32305,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     processedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     aiProvider?: StringFieldUpdateOperationsInput | string;
-    tokensUsed?: IntFieldUpdateOperationsInput | number;
+    inputTokens?: IntFieldUpdateOperationsInput | number;
+    outputTokens?: IntFieldUpdateOperationsInput | number;
+    estimatedCost?: NullableFloatFieldUpdateOperationsInput | number | null;
     changes?: NullableJsonNullValueInput | InputJsonValue;
     toolCalls?: NullableJsonNullValueInput | InputJsonValue;
     originalTitle?: NullableStringFieldUpdateOperationsInput | string | null;
@@ -32197,7 +32322,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     processedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     aiProvider?: StringFieldUpdateOperationsInput | string;
-    tokensUsed?: IntFieldUpdateOperationsInput | number;
+    inputTokens?: IntFieldUpdateOperationsInput | number;
+    outputTokens?: IntFieldUpdateOperationsInput | number;
+    estimatedCost?: NullableFloatFieldUpdateOperationsInput | number | null;
     changes?: NullableJsonNullValueInput | InputJsonValue;
     toolCalls?: NullableJsonNullValueInput | InputJsonValue;
     originalTitle?: NullableStringFieldUpdateOperationsInput | string | null;

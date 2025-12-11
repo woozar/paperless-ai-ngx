@@ -124,7 +124,9 @@ describe('GET /api/paperless-instances/[id]/documents/[documentId]/result', () =
       id: 'result-1',
       processedAt: mockDate,
       aiProvider: 'OpenAI GPT-4',
-      tokensUsed: 1500,
+      inputTokens: 1000,
+      outputTokens: 500,
+      estimatedCost: 0.0025,
       changes: {
         suggestedTitle: 'Invoice from ACME',
         suggestedCorrespondent: { id: 1, name: 'ACME Corp' },
@@ -147,7 +149,9 @@ describe('GET /api/paperless-instances/[id]/documents/[documentId]/result', () =
     expect(data.id).toBe('result-1');
     expect(data.processedAt).toBe('2024-01-15T12:00:00.000Z');
     expect(data.aiProvider).toBe('OpenAI GPT-4');
-    expect(data.tokensUsed).toBe(1500);
+    expect(data.inputTokens).toBe(1000);
+    expect(data.outputTokens).toBe(500);
+    expect(data.estimatedCost).toBe(0.0025);
     expect(data.changes.suggestedTitle).toBe('Invoice from ACME');
     expect(data.changes.suggestedCorrespondent.name).toBe('ACME Corp');
     expect(data.changes.confidence).toBe(0.92);
@@ -171,7 +175,9 @@ describe('GET /api/paperless-instances/[id]/documents/[documentId]/result', () =
       id: 'result-1',
       processedAt: mockDate,
       aiProvider: 'OpenAI GPT-4',
-      tokensUsed: 500,
+      inputTokens: 300,
+      outputTokens: 200,
+      estimatedCost: null,
       changes: null,
       toolCalls: null,
       originalTitle: null,
@@ -205,7 +211,9 @@ describe('GET /api/paperless-instances/[id]/documents/[documentId]/result', () =
       id: 'result-1',
       processedAt: mockDate,
       aiProvider: 'OpenAI GPT-4',
-      tokensUsed: 1500,
+      inputTokens: 1000,
+      outputTokens: 500,
+      estimatedCost: 0.0025,
       changes: null,
       toolCalls: null,
       originalTitle: null,

@@ -33,9 +33,10 @@ vi.mock('@/components/auth-provider', () => ({
   useAuth: () => mockUseAuth(),
 }));
 
-const mockFormatDate = (date: string) => new Date(date).toLocaleDateString('en-US');
+const mockFormatDateOnly = (date: string) =>
+  new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
 vi.mock('@/hooks/use-format-date', () => ({
-  useFormatDate: () => mockFormatDate,
+  useFormatDateOnly: () => mockFormatDateOnly,
 }));
 
 vi.mock('@/components/app-shell', () => ({
@@ -142,6 +143,7 @@ const mockDocuments: DocumentListItem[] = [
     title: 'Invoice 001',
     status: 'processed',
     importedAt: '2024-01-10T10:00:00Z',
+    documentDate: '2024-01-05T00:00:00Z',
     lastProcessedAt: '2024-01-10T12:00:00Z',
   },
   {
@@ -150,6 +152,7 @@ const mockDocuments: DocumentListItem[] = [
     title: 'Contract 002',
     status: 'unprocessed',
     importedAt: '2024-01-11T10:00:00Z',
+    documentDate: '2024-01-08T00:00:00Z',
     lastProcessedAt: null,
   },
 ];

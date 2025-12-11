@@ -88,7 +88,8 @@ export interface ProcessingHistoryEntry {
   processedAt: Date;
   aiProvider: string;
   changes: DocumentChanges;
-  tokensUsed: number;
+  inputTokens: number;
+  outputTokens: number;
 }
 
 export interface DocumentChanges {

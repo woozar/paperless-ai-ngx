@@ -335,6 +335,7 @@
       "table": {
         "title": "Titel",
         "status": "Status",
+        "documentDate": "Datum",
         "importedAt": "Importiert",
         "actions": "Aktionen"
       },
@@ -358,6 +359,7 @@
         "suggestedCorrespondent": "Vorgeschlagener Korrespondent",
         "suggestedDocumentType": "Vorgeschlagener Dokumenttyp",
         "suggestedTags": "Vorgeschlagene Tags",
+        "suggestedDate": "Extrahiertes Datum",
         "confidence": "Konfidenz",
         "reasoning": "Begründung",
         "noCorrespondentFound": "Kein passender Korrespondent gefunden",
@@ -368,8 +370,10 @@
       },
       "result": {
         "title": "Analyseergebnis",
+        "description": "Analyseergebnis für {title}",
         "noResult": "Kein Ergebnis gefunden",
-        "viewButton": "Ergebnis anzeigen"
+        "viewButton": "Ergebnis anzeigen",
+        "close": "Schließen"
       },
       "error": {
         "loadFailed": "Fehler beim Laden der Dokumente",

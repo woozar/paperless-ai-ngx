@@ -11,6 +11,7 @@ describe('DocumentAnalysisResultSchema', () => {
     suggestedCorrespondent: { id: 1, name: 'ACME Corp' },
     suggestedDocumentType: { id: 2, name: 'Invoice' },
     suggestedTags: [{ id: 10, name: 'Finance' }],
+    suggestedDate: '2024-01-15',
     confidence: 0.85,
     reasoning: 'Document contains invoice details',
   };

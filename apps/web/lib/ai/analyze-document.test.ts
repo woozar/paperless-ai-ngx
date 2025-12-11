@@ -64,6 +64,7 @@ const mockDocument = {
   title: 'Invoice 001',
   content: 'This is an invoice from ACME Corp for $500.',
   importedAt: new Date(),
+  documentDate: new Date('2024-01-15'),
   createdAt: new Date(),
   updatedAt: new Date(),
   correspondentId: null,
@@ -120,6 +121,7 @@ const mockAiResponse = {
     suggestedCorrespondent: { id: 1, name: 'ACME Corp' },
     suggestedDocumentType: { id: 2, name: 'Invoice' },
     suggestedTags: [{ id: 10, name: 'Finance' }],
+    suggestedDate: '2024-01-15',
     confidence: 0.92,
     reasoning: 'The document is clearly an invoice from ACME Corp.',
   }),
@@ -177,10 +179,33 @@ describe('analyzeDocument', () => {
     expect(result.result.confidence).toBe(0.92);
   });
 
-  it('calculates total tokens used', async () => {
+  it('returns input and output tokens separately', async () => {
     const result = await analyzeDocument(defaultParams);
 
-    expect(result.tokensUsed).toBe(700);
+    expect(result.inputTokens).toBe(500);
+    expect(result.outputTokens).toBe(200);
+  });
+
+  it('calculates estimated cost when model has pricing', async () => {
+    vi.mocked(prisma.aiBot.findUnique).mockResolvedValue({
+      ...mockBot,
+      aiModel: {
+        ...mockBot.aiModel,
+        inputTokenPrice: 3.0, // $3 per 1M input tokens
+        outputTokenPrice: 15.0, // $15 per 1M output tokens
+      },
+    } as never);
+
+    const result = await analyzeDocument(defaultParams);
+
+    // (500 * 3 + 200 * 15) / 1_000_000 = (1500 + 3000) / 1_000_000 = 0.0045
+    expect(result.estimatedCost).toBeCloseTo(0.0045);
+  });
+
+  it('returns null estimated cost when model pricing is not set', async () => {
+    const result = await analyzeDocument(defaultParams);
+
+    expect(result.estimatedCost).toBeNull();
   });
 
   it('creates AI usage metric', async () => {
@@ -209,7 +234,8 @@ describe('analyzeDocument', () => {
       data: expect.objectContaining({
         documentId: 'doc-1',
         aiProvider: 'openai/gpt-4',
-        tokensUsed: 700,
+        inputTokens: 500,
+        outputTokens: 200,
         originalTitle: 'Invoice 001',
       }),
     });
@@ -321,7 +347,8 @@ describe('analyzeDocument', () => {
 
     const result = await analyzeDocument(defaultParams);
 
-    expect(result.tokensUsed).toBe(0);
+    expect(result.inputTokens).toBe(0);
+    expect(result.outputTokens).toBe(0);
   });
 
   it('defaults to DOCUMENT language when responseLanguage is empty', async () => {
@@ -421,6 +448,7 @@ describe('analyzeDocument', () => {
         suggestedCorrespondent: { id: 1, name: 'ACME Corp' },
         suggestedDocumentType: { id: 2, name: 'Invoice' },
         suggestedTags: [{ id: 10, name: 'Finance' }, { name: 'New Tag' }],
+        suggestedDate: '2024-01-15',
         confidence: 0.92,
         reasoning: 'The document is an invoice.',
       }),

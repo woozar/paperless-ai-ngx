@@ -34,6 +34,11 @@ export const DocumentAnalysisResultSchema = z.object({
   suggestedTags: z
     .array(SuggestedTagSchema)
     .describe('Suggested tags - existing tags have id, new tags have name only'),
+  suggestedDate: z
+    .string()
+    .nullable()
+    .optional()
+    .describe('Document date in ISO format (YYYY-MM-DD) extracted from document content'),
   confidence: z.number().min(0).max(1).describe('Confidence score from 0 to 1'),
   reasoning: z.string().describe('Explanation of why these suggestions were made'),
 });

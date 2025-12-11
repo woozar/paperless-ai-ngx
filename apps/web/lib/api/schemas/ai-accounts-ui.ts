@@ -35,8 +35,9 @@ export const CreateAiAccountFormSchema = z.object({
     .min(1, 'API key is required')
     .meta({ inputType: 'apiKey', labelKey: 'apiKey' }),
   baseUrl: z
-    .url('Invalid URL format')
+    .union([z.literal(''), z.url('Invalid URL format')])
     .optional()
+    .transform((val) => (val === '' ? undefined : val))
     .meta({
       inputType: 'url',
       labelKey: 'baseUrl',
@@ -62,9 +63,10 @@ export const EditAiAccountFormSchema = z.object({
     .optional()
     .meta({ inputType: 'apiKey', labelKey: 'apiKey' }),
   baseUrl: z
-    .url('Invalid URL format')
+    .union([z.literal(''), z.url('Invalid URL format')])
     .nullable()
     .optional()
+    .transform((val) => (val === '' ? undefined : val))
     .meta({
       inputType: 'url',
       labelKey: 'baseUrl',

@@ -22,8 +22,11 @@ vi.mock('@/lib/use-api', () => ({
 }));
 
 const mockFormatDate = (date: string) => new Date(date).toLocaleDateString('en-US');
+const mockFormatDateOnly = (date: string) =>
+  new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
 vi.mock('@/hooks/use-format-date', () => ({
   useFormatDate: () => mockFormatDate,
+  useFormatDateOnly: () => mockFormatDateOnly,
 }));
 
 const mockDocument: DocumentListItem = {
@@ -32,6 +35,7 @@ const mockDocument: DocumentListItem = {
   title: 'Test Document',
   status: 'processed',
   importedAt: '2024-01-15T10:00:00Z',
+  documentDate: '2024-01-10T00:00:00Z',
   lastProcessedAt: '2024-01-15T12:00:00Z',
 };
 
@@ -39,7 +43,9 @@ const mockResult: DocumentProcessingResult = {
   id: 'result-123',
   processedAt: '2024-01-15T12:00:00Z',
   aiProvider: 'OpenAI GPT-4',
-  tokensUsed: 1500,
+  inputTokens: 1000,
+  outputTokens: 500,
+  estimatedCost: 0.0025,
   changes: {
     suggestedTitle: 'Invoice from ACME Corp',
     suggestedCorrespondent: { id: 1, name: 'ACME Corp' },
@@ -50,6 +56,7 @@ const mockResult: DocumentProcessingResult = {
     ],
     confidence: 0.92,
     reasoning: 'The document clearly shows invoice details from ACME Corp.',
+    suggestedDate: '2024-01-15',
   },
   toolCalls: null,
   originalTitle: 'invoice-123.pdf',
@@ -98,7 +105,9 @@ describe('ViewResultDialog', () => {
       screen.getByText('The document clearly shows invoice details from ACME Corp.')
     ).toBeInTheDocument();
     expect(screen.getByText('OpenAI GPT-4')).toBeInTheDocument();
-    expect(screen.getByText('1500 tokens')).toBeInTheDocument();
+    expect(screen.getByText(/1,000↓/)).toBeInTheDocument();
+    expect(screen.getByText(/500↑/)).toBeInTheDocument();
+    expect(screen.getByText(/0\.0025 \$/)).toBeInTheDocument();
   });
 
   it('shows error when API call fails', async () => {
@@ -128,7 +137,7 @@ describe('ViewResultDialog', () => {
 
     renderWithIntl(<ViewResultDialog {...defaultProps} />);
 
-    expect(screen.getByText('Test Document')).toBeInTheDocument();
+    expect(screen.getByText(/Test Document/)).toBeInTheDocument();
 
     // Wait for async fetch to complete to avoid act() warning
     await waitFor(() => {

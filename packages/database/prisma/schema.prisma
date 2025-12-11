@@ -243,15 +243,16 @@ model AiBot {
 // =============================================================================
 
 model PaperlessDocument {
-  id              String   @id @default(cuid())
+  id              String    @id @default(cuid())
   paperlessId     Int
   title           String
-  content         String   @db.Text
+  content         String    @db.Text
   correspondentId Int?
   tagIds          Int[]
-  importedAt      DateTime @default(now())
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  documentDate    DateTime? // Date of the document from Paperless (created field)
+  importedAt      DateTime  @default(now())
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 
   // Link to Paperless instance
   paperlessInstance   PaperlessInstance @relation(fields: [paperlessInstanceId], references: [id], onDelete: Cascade)
@@ -262,6 +263,7 @@ model PaperlessDocument {
 
   @@unique([paperlessInstanceId, paperlessId])
   @@index([paperlessInstanceId])
+  @@index([paperlessInstanceId, documentDate])
 }
 
 // =============================================================================
@@ -269,10 +271,12 @@ model PaperlessDocument {
 // =============================================================================
 
 model DocumentProcessingResult {
-  id          String   @id @default(cuid())
-  processedAt DateTime @default(now())
-  aiProvider  String
-  tokensUsed  Int      @default(0)
+  id            String   @id @default(cuid())
+  processedAt   DateTime @default(now())
+  aiProvider    String
+  inputTokens   Int      @default(0)
+  outputTokens  Int      @default(0)
+  estimatedCost Float?
 
   // Store what was changed (AI suggestions)
   changes Json?

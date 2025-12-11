@@ -10,7 +10,7 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { FileText, ArrowLeft } from 'lucide-react';
 import { AppShell } from '@/components/app-shell';
 import { useApi } from '@/lib/use-api';
-import { useFormatDate } from '@/hooks/use-format-date';
+import { useFormatDateOnly } from '@/hooks/use-format-date';
 import { usePaginatedList, type FetchResult } from '@/hooks/use-paginated-list';
 import { getPaperlessInstancesByIdDocuments } from '@repo/api-client';
 
@@ -29,7 +29,7 @@ export default function DocumentsPage() {
   const instanceId = params.id;
   const t = useTranslations('admin.documents');
   const { showError } = useErrorDisplay('admin.documents');
-  const formatDate = useFormatDate();
+  const formatDate = useFormatDateOnly();
   const router = useRouter();
   const client = useApi();
 
@@ -81,7 +81,7 @@ export default function DocumentsPage() {
     () => [
       { label: t('table.title') },
       { label: t('table.status') },
-      { label: t('table.importedAt') },
+      { label: t('table.documentDate') },
       { label: t('table.actions'), align: 'right' },
     ],
     [t]

@@ -15,6 +15,7 @@ export const DocumentListItemSchema = z
     paperlessId: z.number(),
     title: z.string(),
     status: DocumentStatusSchema,
+    documentDate: z.iso.datetime().nullable(),
     importedAt: z.iso.datetime(),
     lastProcessedAt: z.iso.datetime().nullable(),
   })
@@ -68,6 +69,7 @@ export const DocumentAnalysisResultSchema = z
     suggestedCorrespondent: SuggestedItemSchema,
     suggestedDocumentType: SuggestedItemSchema,
     suggestedTags: z.array(SuggestedTagSchema),
+    suggestedDate: z.string().nullable().optional(),
     confidence: z.number().min(0).max(1),
     reasoning: z.string(),
   })
@@ -78,7 +80,9 @@ export const AnalyzeDocumentResponseSchema = z
   .object({
     success: z.literal(true),
     result: DocumentAnalysisResultSchema,
-    tokensUsed: z.number(),
+    inputTokens: z.number(),
+    outputTokens: z.number(),
+    estimatedCost: z.number().nullable(),
   })
   .openapi('AnalyzeDocumentResponse');
 
@@ -94,7 +98,9 @@ export const DocumentProcessingResultSchema = z
     id: z.string(),
     processedAt: z.iso.datetime(),
     aiProvider: z.string(),
-    tokensUsed: z.number(),
+    inputTokens: z.number(),
+    outputTokens: z.number(),
+    estimatedCost: z.number().nullable(),
     changes: DocumentAnalysisResultSchema.nullable(),
     toolCalls: z.array(ToolCallSchema).nullable(),
     originalTitle: z.string().nullable(),

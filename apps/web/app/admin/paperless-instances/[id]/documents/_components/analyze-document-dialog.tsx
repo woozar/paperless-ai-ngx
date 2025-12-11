@@ -18,14 +18,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Badge } from '@/components/ui/badge';
 import { Loader2, Sparkles, CheckCircle2 } from 'lucide-react';
 import {
   getAiBots,
   postPaperlessInstancesByIdDocumentsByDocumentIdAnalyze,
 } from '@repo/api-client';
-import type { DocumentListItem, AiBotListItem, DocumentAnalysisResult } from '@repo/api-client';
-import { SuggestedTagsList } from './suggested-tags-list';
+import type { DocumentListItem, AiBotListItem, AnalyzeDocumentResponse } from '@repo/api-client';
+import { AnalysisResultContent } from './analysis-result-content';
 import { useApi } from '@/lib/use-api';
 import { useErrorDisplay } from '@/hooks/use-error-display';
 import { toast } from 'sonner';
@@ -53,7 +52,7 @@ export function AnalyzeDocumentDialog({
   const [selectedBotId, setSelectedBotId] = useState<string>('');
   const [isLoadingBots, setIsLoadingBots] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [result, setResult] = useState<DocumentAnalysisResult | null>(null);
+  const [result, setResult] = useState<AnalyzeDocumentResponse | null>(null);
 
   const loadBots = useCallback(async () => {
     setIsLoadingBots(true);
@@ -93,7 +92,7 @@ export function AnalyzeDocumentDialog({
       if (response.error) {
         showError('analyzeFailed');
       } else {
-        setResult(response.data.result);
+        setResult(response.data);
         toast.success(t('analyze.success'));
         onSuccess?.();
       }
@@ -104,7 +103,7 @@ export function AnalyzeDocumentDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-lg">
+      <DialogContent className="max-h-[80vh] overflow-y-auto sm:max-w-2xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Sparkles className="h-5 w-5" />
@@ -141,85 +140,22 @@ export function AnalyzeDocumentDialog({
 
           {/* Analysis Result */}
           {result && (
-            <div className="space-y-4 rounded-lg border p-4">
+            <div className="space-y-4">
               <div className="flex items-center gap-2 text-green-600">
                 <CheckCircle2 className="h-5 w-5" />
                 <span className="font-medium">{t('analyze.completed')}</span>
               </div>
-
-              <div className="space-y-3">
-                <div>
-                  <Label className="text-muted-foreground text-xs">
-                    {t('analyze.suggestedTitle')}
-                  </Label>
-                  <p className="font-medium">{result.suggestedTitle}</p>
-                </div>
-
-                <div>
-                  <Label className="text-muted-foreground text-xs">
-                    {t('analyze.suggestedCorrespondent')}
-                  </Label>
-                  {result.suggestedCorrespondent ? (
-                    <p>
-                      {!result.suggestedCorrespondent.id && (
-                        <Badge
-                          variant="outline"
-                          className="mr-2 border-green-500 text-green-700 dark:text-green-400"
-                        >
-                          {t('analyze.new')}
-                        </Badge>
-                      )}
-                      {result.suggestedCorrespondent.name}
-                    </p>
-                  ) : (
-                    <p className="text-muted-foreground italic">
-                      {t('analyze.noCorrespondentFound')}
-                    </p>
-                  )}
-                </div>
-
-                <div>
-                  <Label className="text-muted-foreground text-xs">
-                    {t('analyze.suggestedDocumentType')}
-                  </Label>
-                  {result.suggestedDocumentType ? (
-                    <p>
-                      {!result.suggestedDocumentType.id && (
-                        <Badge
-                          variant="outline"
-                          className="mr-2 border-green-500 text-green-700 dark:text-green-400"
-                        >
-                          {t('analyze.new')}
-                        </Badge>
-                      )}
-                      {result.suggestedDocumentType.name}
-                    </p>
-                  ) : (
-                    <p className="text-muted-foreground italic">
-                      {t('analyze.noDocumentTypeFound')}
-                    </p>
-                  )}
-                </div>
-
-                {result.suggestedTags.length > 0 && (
-                  <div>
-                    <Label className="text-muted-foreground text-xs">
-                      {t('analyze.suggestedTags')}
-                    </Label>
-                    <SuggestedTagsList tags={result.suggestedTags} />
-                  </div>
-                )}
-
-                <div>
-                  <Label className="text-muted-foreground text-xs">{t('analyze.confidence')}</Label>
-                  <p>{Math.round(result.confidence * 100)}%</p>
-                </div>
-
-                <div>
-                  <Label className="text-muted-foreground text-xs">{t('analyze.reasoning')}</Label>
-                  <p className="text-muted-foreground text-sm">{result.reasoning}</p>
-                </div>
-              </div>
+              <AnalysisResultContent
+                result={result.result}
+                metadata={{
+                  processedAt: new Date().toISOString(),
+                  // v8 ignore next -- @preserve
+                  aiProvider: bots.find((b) => b.id === selectedBotId)?.name ?? '',
+                  inputTokens: result.inputTokens,
+                  outputTokens: result.outputTokens,
+                  estimatedCost: result.estimatedCost,
+                }}
+              />
             </div>
           )}
 

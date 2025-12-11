@@ -209,6 +209,7 @@ describe('POST /api/paperless-instances/[id]/import', () => {
         content: mockPaperlessDocuments.results[0]!.content,
         correspondentId: 125,
         tagIds: [17, 111],
+        documentDate: new Date('2026-02-07'),
         paperlessInstanceId: 'instance-1',
       },
     });
@@ -332,6 +333,7 @@ describe('POST /api/paperless-instances/[id]/import', () => {
         content: mockPaperlessDocuments.results[1]!.content,
         correspondentId: 166,
         tagIds: [22, 45],
+        documentDate: new Date('2025-01-09'),
         paperlessInstanceId: 'instance-1',
       },
     });

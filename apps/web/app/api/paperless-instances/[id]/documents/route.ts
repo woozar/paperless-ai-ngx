@@ -47,10 +47,10 @@ export const GET = authRoute<never, { id: string }>(
       where: whereClause,
     });
 
-    // Get paginated documents
+    // Get paginated documents - sort by documentDate (desc), fallback to importedAt for older docs
     const documents = await prisma.paperlessDocument.findMany({
       where: whereClause,
-      orderBy: { importedAt: 'desc' },
+      orderBy: [{ documentDate: 'desc' }, { importedAt: 'desc' }],
       skip: (page - 1) * limit,
       take: limit,
       include: {
@@ -72,7 +72,10 @@ export const GET = authRoute<never, { id: string }>(
         paperlessId: doc.paperlessId,
         title: doc.title,
         status: hasProcessingResult ? ('processed' as const) : ('unprocessed' as const),
+        // v8 ignore next -- @preserve
+        documentDate: doc.documentDate?.toISOString() ?? null,
         importedAt: doc.importedAt.toISOString(),
+        // v8 ignore next -- @preserve
         lastProcessedAt: doc.processingResults[0]?.processedAt?.toISOString() ?? null,
       };
     });

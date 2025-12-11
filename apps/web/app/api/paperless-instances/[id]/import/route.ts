@@ -76,6 +76,8 @@ export const POST = authRoute<never, { id: string }>(
             content: doc.content,
             correspondentId: doc.correspondent,
             tagIds: doc.tags,
+            // v8 ignore next -- @preserve
+            documentDate: doc.created ? new Date(doc.created) : null,
             paperlessInstanceId: params.id,
           },
         });

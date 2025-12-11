@@ -41,7 +41,7 @@ export const DocumentTableRow = memo(function DocumentTableRow({
         </Badge>
       </TableCell>
       <TableCell className="text-muted-foreground text-sm">
-        {formatDate(document.importedAt)}
+        {document.documentDate ? formatDate(document.documentDate) : '—'}
       </TableCell>
       <TableCell className="text-right">
         <div className="flex justify-end gap-1">

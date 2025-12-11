@@ -38,7 +38,9 @@ async function getSetting<K extends keyof Settings>(key: K): Promise<Settings[K]
 export interface AnalyzeDocumentResponse {
   success: true;
   result: DocumentAnalysisResult;
-  tokensUsed: number;
+  inputTokens: number;
+  outputTokens: number;
+  estimatedCost: number | null;
 }
 
 /**
@@ -121,6 +123,13 @@ export async function analyzeDocument(
   const outputTokens = response.usage?.outputTokens ?? 0;
   const totalTokens = inputTokens + outputTokens;
 
+  // Calculate estimated cost based on model pricing (per 1M tokens)
+  const { inputTokenPrice, outputTokenPrice } = aiBot.aiModel;
+  const estimatedCost =
+    inputTokenPrice != null && outputTokenPrice != null
+      ? (inputTokens * inputTokenPrice + outputTokens * outputTokenPrice) / 1_000_000
+      : null;
+
   // Extract tool calls from all steps for transparency
   const allToolCalls = response.steps.flatMap((step) =>
     step.toolCalls.map((tc) => ({
@@ -137,6 +146,7 @@ export async function analyzeDocument(
       promptTokens: inputTokens,
       completionTokens: outputTokens,
       totalTokens,
+      estimatedCost,
       documentId: document.paperlessId,
       userId,
       aiAccountId: aiBot.aiModel.aiAccount.id,
@@ -150,7 +160,9 @@ export async function analyzeDocument(
     data: {
       documentId: document.id,
       aiProvider: `${aiBot.aiModel.aiAccount.provider}/${aiBot.aiModel.modelIdentifier}`,
-      tokensUsed: totalTokens,
+      inputTokens,
+      outputTokens,
+      estimatedCost,
       changes: analysisResult as object,
       toolCalls: allToolCalls as Prisma.InputJsonValue,
       originalTitle: document.title,
@@ -160,7 +172,9 @@ export async function analyzeDocument(
   return {
     success: true,
     result: analysisResult,
-    tokensUsed: totalTokens,
+    inputTokens,
+    outputTokens,
+    estimatedCost,
   };
 }
 
@@ -221,6 +235,7 @@ FIELD DEFINITIONS:
 - suggestedCorrespondent: REQUIRED - The sender, company, or organization that created/sent this document. You MUST always provide a correspondent. Include "id" if an existing correspondent matches, omit "id" if suggesting a new one to be created. Never leave this empty or null.
 - suggestedDocumentType: REQUIRED - The type/category of document. You MUST always provide a document type. Include "id" if an existing type matches, omit "id" if suggesting a new one to be created. Never leave this empty or null.
 - suggestedTags: Relevant keywords/categories that help organize the document. Include "id" for existing tags, omit "id" for new tags to be created.
+- suggestedDate: The document's primary date in ISO format (YYYY-MM-DD). This is the date most relevant to the document, e.g. invoice date, letter date, contract date. Return null if no clear date can be extracted.
 
 Document Title: ${title}
 
@@ -233,6 +248,7 @@ After using the tools, provide your analysis in the following JSON format:
   "suggestedCorrespondent": { "id": 123, "name": "Existing Company" } OR { "name": "New Company to create" },
   "suggestedDocumentType": { "id": 123, "name": "Existing Type" } OR { "name": "New Type to create" },
   "suggestedTags": [{ "id": 123, "name": "Existing Tag" }, { "name": "New Tag to create" }],
+  "suggestedDate": "2024-01-15" OR null,
   "confidence": 0.85,
   "reasoning": "Brief explanation of your suggestions"
 }

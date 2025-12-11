@@ -216,6 +216,7 @@ export type DocumentListItem = {
   paperlessId: number;
   title: string;
   status: DocumentStatus;
+  documentDate: string | null;
   importedAt: string;
   lastProcessedAt: string | null;
 };
@@ -248,6 +249,7 @@ export type DocumentAnalysisResult = {
   suggestedCorrespondent: SuggestedItem;
   suggestedDocumentType: SuggestedItem;
   suggestedTags: Array<SuggestedTag>;
+  suggestedDate?: string | null;
   confidence: number;
   reasoning: string;
 } | null;
@@ -256,7 +258,9 @@ export type DocumentProcessingResult = {
   id: string;
   processedAt: string;
   aiProvider: string;
-  tokensUsed: number;
+  inputTokens: number;
+  outputTokens: number;
+  estimatedCost: number | null;
   changes: DocumentAnalysisResult;
   toolCalls: Array<{
     toolName: string;
@@ -293,7 +297,9 @@ export type AnalyzeDocumentResponse = {
   result: DocumentAnalysisResult & {
     [key: string]: unknown;
   };
-  tokensUsed: number;
+  inputTokens: number;
+  outputTokens: number;
+  estimatedCost: number | null;
 };
 
 export type ErrorResponse = {

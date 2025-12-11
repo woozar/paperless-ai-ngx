@@ -33,6 +33,7 @@ const mockDocument: DocumentListItem = {
   title: 'Test Document',
   status: 'unprocessed',
   importedAt: '2024-01-15T10:00:00Z',
+  documentDate: '2024-01-10T00:00:00Z',
   lastProcessedAt: null,
 };
 
@@ -131,7 +132,13 @@ describe('AnalyzeDocumentDialog', () => {
   it('starts analysis when bot is selected and button clicked', async () => {
     const user = userEvent.setup({ delay: null });
     mockPostAnalyze.mockResolvedValue({
-      data: { success: true, result: mockAnalysisResult, tokensUsed: 1000 },
+      data: {
+        success: true,
+        result: mockAnalysisResult,
+        inputTokens: 700,
+        outputTokens: 300,
+        estimatedCost: 0.001,
+      },
     });
 
     renderWithIntl(<AnalyzeDocumentDialog {...defaultProps} />);
@@ -167,7 +174,13 @@ describe('AnalyzeDocumentDialog', () => {
   it('displays analysis result after successful analysis', async () => {
     const user = userEvent.setup({ delay: null });
     mockPostAnalyze.mockResolvedValue({
-      data: { success: true, result: mockAnalysisResult, tokensUsed: 1000 },
+      data: {
+        success: true,
+        result: mockAnalysisResult,
+        inputTokens: 700,
+        outputTokens: 300,
+        estimatedCost: 0.001,
+      },
     });
 
     renderWithIntl(<AnalyzeDocumentDialog {...defaultProps} />);
@@ -195,7 +208,13 @@ describe('AnalyzeDocumentDialog', () => {
   it('calls onSuccess after successful analysis', async () => {
     const user = userEvent.setup({ delay: null });
     mockPostAnalyze.mockResolvedValue({
-      data: { success: true, result: mockAnalysisResult, tokensUsed: 1000 },
+      data: {
+        success: true,
+        result: mockAnalysisResult,
+        inputTokens: 700,
+        outputTokens: 300,
+        estimatedCost: 0.001,
+      },
     });
 
     renderWithIntl(<AnalyzeDocumentDialog {...defaultProps} />);
@@ -253,7 +272,13 @@ describe('AnalyzeDocumentDialog', () => {
   it('resets state when dialog reopens', async () => {
     const user = userEvent.setup({ delay: null });
     mockPostAnalyze.mockResolvedValue({
-      data: { success: true, result: mockAnalysisResult, tokensUsed: 1000 },
+      data: {
+        success: true,
+        result: mockAnalysisResult,
+        inputTokens: 700,
+        outputTokens: 300,
+        estimatedCost: 0.001,
+      },
     });
 
     const { rerender } = renderWithIntl(<AnalyzeDocumentDialog {...defaultProps} />);
@@ -290,7 +315,9 @@ describe('AnalyzeDocumentDialog', () => {
           ...mockAnalysisResult,
           suggestedCorrespondent: { name: 'New Company' },
         },
-        tokensUsed: 1000,
+        inputTokens: 700,
+        outputTokens: 300,
+        estimatedCost: 0.001,
       },
     });
 
@@ -320,7 +347,9 @@ describe('AnalyzeDocumentDialog', () => {
           ...mockAnalysisResult,
           suggestedCorrespondent: null,
         },
-        tokensUsed: 1000,
+        inputTokens: 700,
+        outputTokens: 300,
+        estimatedCost: 0.001,
       },
     });
 
@@ -359,7 +388,13 @@ describe('AnalyzeDocumentDialog', () => {
   it('shows close button after analysis completes', async () => {
     const user = userEvent.setup({ delay: null });
     mockPostAnalyze.mockResolvedValue({
-      data: { success: true, result: mockAnalysisResult, tokensUsed: 1000 },
+      data: {
+        success: true,
+        result: mockAnalysisResult,
+        inputTokens: 700,
+        outputTokens: 300,
+        estimatedCost: 0.001,
+      },
     });
 
     renderWithIntl(<AnalyzeDocumentDialog {...defaultProps} />);
@@ -426,7 +461,9 @@ describe('AnalyzeDocumentDialog', () => {
           ...mockAnalysisResult,
           suggestedDocumentType: { name: 'New Document Type' },
         },
-        tokensUsed: 1000,
+        inputTokens: 700,
+        outputTokens: 300,
+        estimatedCost: 0.001,
       },
     });
 
@@ -458,7 +495,9 @@ describe('AnalyzeDocumentDialog', () => {
           ...mockAnalysisResult,
           suggestedDocumentType: null,
         },
-        tokensUsed: 1000,
+        inputTokens: 700,
+        outputTokens: 300,
+        estimatedCost: 0.001,
       },
     });
 

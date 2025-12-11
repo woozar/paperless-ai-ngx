@@ -25,7 +25,8 @@ const mockUnprocessedDocument: DocumentListItem = {
   paperlessId: 456,
   title: 'Test Document',
   status: 'unprocessed',
-  importedAt: '2024-01-15T10:00:00Z',
+  documentDate: '2024-01-15T10:00:00Z',
+  importedAt: '2024-01-10T10:00:00Z',
   lastProcessedAt: null,
 };
 
@@ -34,7 +35,8 @@ const mockProcessedDocument: DocumentListItem = {
   paperlessId: 789,
   title: 'Processed Document',
   status: 'processed',
-  importedAt: '2024-01-10T08:00:00Z',
+  documentDate: '2024-01-10T08:00:00Z',
+  importedAt: '2024-01-05T08:00:00Z',
   lastProcessedAt: '2024-01-15T12:00:00Z',
 };
 
@@ -76,7 +78,7 @@ describe('DocumentTableRow', () => {
     expect(screen.getByText('Processed')).toBeInTheDocument();
   });
 
-  it('formats and displays imported date', () => {
+  it('formats and displays document date', () => {
     renderDocumentTableRow(defaultPropsUnprocessed);
     expect(mockFormatDate).toHaveBeenCalledWith('2024-01-15T10:00:00Z');
   });
@@ -125,6 +127,18 @@ describe('DocumentTableRow', () => {
     renderDocumentTableRow(defaultPropsUnprocessed);
     const cell = screen.getByText('Test Document').closest('td');
     expect(cell).toHaveAttribute('title', 'Test Document');
+  });
+
+  it('shows em dash when documentDate is null', () => {
+    const documentWithoutDate: DocumentListItem = {
+      ...mockUnprocessedDocument,
+      documentDate: null,
+    };
+    renderDocumentTableRow({
+      ...defaultPropsUnprocessed,
+      document: documentWithoutDate,
+    });
+    expect(screen.getByText('—')).toBeInTheDocument();
   });
 
   it('always renders analyze button regardless of status', () => {

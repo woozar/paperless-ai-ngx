@@ -29,6 +29,7 @@ describe('DocumentListItemSchema', () => {
     paperlessId: 456,
     title: 'Test Document',
     status: 'processed',
+    documentDate: '2024-01-10T00:00:00Z',
     importedAt: '2024-01-15T10:00:00Z',
     lastProcessedAt: '2024-01-15T12:00:00Z',
   };
@@ -177,7 +178,9 @@ describe('AnalyzeDocumentResponseSchema', () => {
       confidence: 0.9,
       reasoning: 'Test',
     },
-    tokensUsed: 1500,
+    inputTokens: 1000,
+    outputTokens: 500,
+    estimatedCost: 0.0025,
   };
 
   it('validates complete response', () => {
@@ -199,7 +202,9 @@ describe('DocumentProcessingResultSchema', () => {
     id: 'result-123',
     processedAt: '2024-01-15T12:00:00Z',
     aiProvider: 'OpenAI GPT-4',
-    tokensUsed: 1500,
+    inputTokens: 1000,
+    outputTokens: 500,
+    estimatedCost: 0.0025,
     changes: {
       suggestedTitle: 'Invoice',
       suggestedCorrespondent: { name: 'Company' },

@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Paperless AI API",
-    "version": "1.11.0",
+    "version": "1.12.0",
     "description": "API for Paperless AI document processing"
   },
   "servers": [
@@ -694,6 +694,10 @@
           "status": {
             "$ref": "#/components/schemas/DocumentStatus"
           },
+          "documentDate": {
+            "type": ["string", "null"],
+            "format": "date-time"
+          },
           "importedAt": {
             "type": "string",
             "format": "date-time"
@@ -703,7 +707,15 @@
             "format": "date-time"
           }
         },
-        "required": ["id", "paperlessId", "title", "status", "importedAt", "lastProcessedAt"]
+        "required": [
+          "id",
+          "paperlessId",
+          "title",
+          "status",
+          "documentDate",
+          "importedAt",
+          "lastProcessedAt"
+        ]
       },
       "SuggestedItem": {
         "type": ["object", "null"],
@@ -763,6 +775,9 @@
               "$ref": "#/components/schemas/SuggestedTag"
             }
           },
+          "suggestedDate": {
+            "type": ["string", "null"]
+          },
           "confidence": {
             "type": "number",
             "minimum": 0,
@@ -794,8 +809,14 @@
           "aiProvider": {
             "type": "string"
           },
-          "tokensUsed": {
+          "inputTokens": {
             "type": "number"
+          },
+          "outputTokens": {
+            "type": "number"
+          },
+          "estimatedCost": {
+            "type": ["number", "null"]
           },
           "changes": {
             "$ref": "#/components/schemas/DocumentAnalysisResult"
@@ -824,7 +845,9 @@
           "id",
           "processedAt",
           "aiProvider",
-          "tokensUsed",
+          "inputTokens",
+          "outputTokens",
+          "estimatedCost",
           "changes",
           "toolCalls",
           "originalTitle"
@@ -916,11 +939,17 @@
               }
             ]
           },
-          "tokensUsed": {
+          "inputTokens": {
             "type": "number"
+          },
+          "outputTokens": {
+            "type": "number"
+          },
+          "estimatedCost": {
+            "type": ["number", "null"]
           }
         },
-        "required": ["success", "result", "tokensUsed"]
+        "required": ["success", "result", "inputTokens", "outputTokens", "estimatedCost"]
       },
       "ErrorResponse": {
         "type": "object",
