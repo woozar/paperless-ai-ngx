@@ -19,9 +19,11 @@
 **Expected Result:**
 
 - Dialog opens showing:
-  - Processing date and AI provider
-  - Token usage
+  - Processing date, document date, and AI model used
+  - Token usage breakdown (input, output, cached tokens)
+  - Analysis cost based on model pricing
   - Suggested changes (title, correspondent, document type, tags)
+  - Tags are visually marked as "existing" or "new" in Paperless
   - Tool calls made during analysis
 
-**Status:** ✅ Implemented
+**Status:** Implemented

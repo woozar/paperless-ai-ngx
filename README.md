@@ -4,6 +4,21 @@ A web application for managing AI-powered document processing with [Paperless-ng
 
 ## Release Notes
 
+### v1.13.0
+
+- Preview documents with integrated PDF viewer
+
+### v1.12.0
+
+- Sort document list by title, status, or date
+- Search documents by title
+
+### v1.11.0
+
+- Analyze documents with AI and get suggestions for tags, correspondent, and document type
+- See analysis costs and detailed token breakdown (input/output/cache)
+- Tags in analysis results show whether they already exist in Paperless
+
 ### v1.10.0
 
 - Separate AI accounts (credentials) from AI models (configuration and pricing)
