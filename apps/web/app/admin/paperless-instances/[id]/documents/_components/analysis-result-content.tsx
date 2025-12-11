@@ -3,10 +3,16 @@
 import { useTranslations } from 'next-intl';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
-import { Clock, Cpu } from 'lucide-react';
+import { Clock, Cpu, ArrowDown, ArrowUp, Euro, DollarSign } from 'lucide-react';
 import { SuggestedTagsList } from './suggested-tags-list';
 import { useFormatDate, useFormatDateOnly } from '@/hooks/use-format-date';
+import { useSettings } from '@/components/settings-provider';
 import type { DocumentAnalysisResult } from '@repo/api-client';
+
+const CURRENCY_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
+  EUR: Euro,
+  USD: DollarSign,
+};
 
 type AnalysisResultContentProps = Readonly<{
   result: NonNullable<DocumentAnalysisResult>;
@@ -23,6 +29,9 @@ export function AnalysisResultContent({ result, metadata }: AnalysisResultConten
   const t = useTranslations('admin.documents');
   const formatDate = useFormatDate();
   const formatDateOnly = useFormatDateOnly();
+  const { settings } = useSettings();
+  const currency = settings['display.general.currency'] || 'EUR';
+  const CurrencyIcon = CURRENCY_ICONS[currency] || Euro;
 
   // Format suggestedDate as date only (no time)
   const formattedSuggestedDate = result.suggestedDate ? formatDateOnly(result.suggestedDate) : null;
@@ -50,20 +59,23 @@ export function AnalysisResultContent({ result, metadata }: AnalysisResultConten
             variant="outline"
             className="border-blue-500 whitespace-nowrap text-blue-700 dark:text-blue-400"
           >
-            {metadata.inputTokens.toLocaleString()}↓
+            {metadata.inputTokens.toLocaleString()}
+            <ArrowDown className="h-3 w-3" />
           </Badge>
           <Badge
             variant="outline"
             className="border-green-500 whitespace-nowrap text-green-700 dark:text-green-400"
           >
-            {metadata.outputTokens.toLocaleString()}↑
+            {metadata.outputTokens.toLocaleString()}
+            <ArrowUp className="h-3 w-3" />
           </Badge>
           {metadata.estimatedCost != null && (
             <Badge
               variant="outline"
               className="border-amber-500 whitespace-nowrap text-amber-700 dark:text-amber-400"
             >
-              {metadata.estimatedCost.toFixed(4)} $
+              {metadata.estimatedCost.toFixed(4)}
+              <CurrencyIcon className="h-3 w-3" />
             </Badge>
           )}
         </div>

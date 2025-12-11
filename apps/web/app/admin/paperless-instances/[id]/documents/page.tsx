@@ -11,7 +11,7 @@ import { FileText, ArrowLeft } from 'lucide-react';
 import { AppShell } from '@/components/app-shell';
 import { useApi } from '@/lib/use-api';
 import { useFormatDateOnly } from '@/hooks/use-format-date';
-import { usePaginatedList, type FetchResult } from '@/hooks/use-paginated-list';
+import { usePaginatedList, type FetchResult, type SortConfig } from '@/hooks/use-paginated-list';
 import { getPaperlessInstancesByIdDocuments } from '@repo/api-client';
 
 import type { DocumentListItem } from '@repo/api-client';
@@ -34,22 +34,32 @@ export default function DocumentsPage() {
   const client = useApi();
 
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
+  const [filters, setFilters] = useState<Record<string, string>>({});
 
-  const fetchParams = useMemo(
-    () => ({ instanceId, status: statusFilter }),
-    [instanceId, statusFilter]
-  );
+  type FetchParams = {
+    instanceId: string;
+    status: StatusFilter;
+    search?: string;
+  };
 
   const fetchDocuments = useCallback(
     async (
       page: number,
       limit: number,
-      params: { instanceId: string; status: StatusFilter }
+      params: FetchParams,
+      sort: SortConfig
     ): Promise<FetchResult<DocumentListItem>> => {
       const response = await getPaperlessInstancesByIdDocuments({
         client,
         path: { id: params.instanceId },
-        query: { page, limit, status: params.status },
+        query: {
+          page,
+          limit,
+          status: params.status,
+          search: params.search || undefined,
+          sortField: sort?.field as 'title' | 'documentDate' | undefined,
+          sortDirection: sort?.direction,
+        },
       });
       if (response.error) {
         return { data: undefined, error: { status: response.response.status } };
@@ -59,15 +69,26 @@ export default function DocumentsPage() {
     [client]
   );
 
+  const fetchParams = useMemo<FetchParams>(
+    () => ({
+      instanceId,
+      status: statusFilter,
+      search: filters.search,
+    }),
+    [instanceId, statusFilter, filters.search]
+  );
+
   const {
     items: documents,
     isLoading,
     page,
     limit,
+    sort,
     total,
     totalPages,
     handlePageChange,
     handleLimitChange,
+    handleSortChange,
     reload,
   } = usePaginatedList({
     fetchFn: fetchDocuments,
@@ -75,13 +96,19 @@ export default function DocumentsPage() {
     forbiddenRedirect: '/admin/paperless-instances',
     notFoundRedirect: '/admin/paperless-instances',
     params: fetchParams,
+    initialSort: { field: 'documentDate', direction: 'desc' },
   });
 
   const columns: ColumnDefinition[] = useMemo(
     () => [
-      { label: t('table.title') },
+      {
+        label: t('table.title'),
+        sortKey: 'title',
+        filterKey: 'search',
+        filterPlaceholder: t('filter.searchTitle'),
+      },
       { label: t('table.status') },
-      { label: t('table.documentDate') },
+      { label: t('table.documentDate'), sortKey: 'documentDate' },
       { label: t('table.actions'), align: 'right' },
     ],
     [t]
@@ -94,6 +121,14 @@ export default function DocumentsPage() {
     setStatusFilter(value as StatusFilter);
     handlePageChange(1);
   };
+
+  const handleFilterChange = useCallback(
+    (key: string, value: string) => {
+      setFilters((prev) => ({ ...prev, [key]: value }));
+      handlePageChange(1);
+    },
+    [handlePageChange]
+  );
 
   const renderTableContent = () => {
     if (isLoading) {
@@ -162,6 +197,10 @@ export default function DocumentsPage() {
           totalPages={totalPages}
           onPageChange={handlePageChange}
           onLimitChange={handleLimitChange}
+          sort={sort}
+          onSortChange={handleSortChange}
+          filters={filters}
+          onFilterChange={handleFilterChange}
         >
           {renderTableContent()}
         </PaginatedTable>

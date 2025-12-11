@@ -5,6 +5,15 @@ import { renderWithIntl } from '@/test-utils/render-with-intl';
 import { ViewResultDialog } from './view-result-dialog';
 import type { DocumentListItem, DocumentProcessingResult } from '@repo/api-client';
 
+vi.mock('@/components/settings-provider', () => ({
+  useSettings: () => ({
+    settings: { 'display.general.currency': 'EUR' },
+    isLoading: false,
+    updateSetting: vi.fn(),
+    refreshSettings: vi.fn(),
+  }),
+}));
+
 const mockGetResult = vi.fn();
 vi.mock('@repo/api-client', () => ({
   getPaperlessInstancesByIdDocumentsByDocumentIdResult: (args: unknown) => mockGetResult(args),
@@ -105,9 +114,9 @@ describe('ViewResultDialog', () => {
       screen.getByText('The document clearly shows invoice details from ACME Corp.')
     ).toBeInTheDocument();
     expect(screen.getByText('OpenAI GPT-4')).toBeInTheDocument();
-    expect(screen.getByText(/1,000↓/)).toBeInTheDocument();
-    expect(screen.getByText(/500↑/)).toBeInTheDocument();
-    expect(screen.getByText(/0\.0025 \$/)).toBeInTheDocument();
+    expect(screen.getByText('1,000')).toBeInTheDocument();
+    expect(screen.getByText('500')).toBeInTheDocument();
+    expect(screen.getByText('0.0025')).toBeInTheDocument();
   });
 
   it('shows error when API call fails', async () => {

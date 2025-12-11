@@ -21,9 +21,20 @@ export const DocumentListItemSchema = z
   })
   .openapi('DocumentListItem');
 
+// Sort direction enum
+export const SortDirectionSchema = z.enum(['asc', 'desc']).openapi('SortDirection');
+
+// Document sortable fields
+export const DocumentSortFieldSchema = z
+  .enum(['title', 'documentDate'])
+  .openapi('DocumentSortField');
+
 // Document list filter query params
 export const DocumentFilterQuerySchema = PaginationQuerySchema.extend({
   status: z.enum(['all', 'processed', 'unprocessed']).default('all').optional(),
+  search: z.string().optional(),
+  sortField: DocumentSortFieldSchema.optional(),
+  sortDirection: SortDirectionSchema.optional(),
 }).openapi('DocumentFilterQuery');
 
 // Document list response

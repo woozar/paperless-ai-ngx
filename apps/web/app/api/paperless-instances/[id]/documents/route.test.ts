@@ -172,8 +172,9 @@ describe('GET /api/paperless-instances/[id]/documents', () => {
   it('filters documents by processed status', async () => {
     mockAdmin();
     mockedPrisma.paperlessInstance.findFirst.mockResolvedValueOnce(mockInstance);
-    mockedPrisma.paperlessDocument.count.mockResolvedValueOnce(2);
-    mockedPrisma.paperlessDocument.findMany.mockResolvedValueOnce(mockDocuments);
+    // Filter is now applied in DB query, so mock returns only processed docs
+    mockedPrisma.paperlessDocument.count.mockResolvedValueOnce(1);
+    mockedPrisma.paperlessDocument.findMany.mockResolvedValueOnce([mockDocuments[0]]);
 
     const request = new NextRequest(
       'http://localhost/api/paperless-instances/instance-1/documents?status=processed'
@@ -189,8 +190,9 @@ describe('GET /api/paperless-instances/[id]/documents', () => {
   it('filters documents by unprocessed status', async () => {
     mockAdmin();
     mockedPrisma.paperlessInstance.findFirst.mockResolvedValueOnce(mockInstance);
-    mockedPrisma.paperlessDocument.count.mockResolvedValueOnce(2);
-    mockedPrisma.paperlessDocument.findMany.mockResolvedValueOnce(mockDocuments);
+    // Filter is now applied in DB query, so mock returns only unprocessed docs
+    mockedPrisma.paperlessDocument.count.mockResolvedValueOnce(1);
+    mockedPrisma.paperlessDocument.findMany.mockResolvedValueOnce([mockDocuments[1]]);
 
     const request = new NextRequest(
       'http://localhost/api/paperless-instances/instance-1/documents?status=unprocessed'
@@ -232,5 +234,122 @@ describe('GET /api/paperless-instances/[id]/documents', () => {
     expect(response.status).toBe(200);
     expect(data.items).toHaveLength(0);
     expect(data.total).toBe(0);
+  });
+
+  it('filters documents by search term', async () => {
+    mockAdmin();
+    mockedPrisma.paperlessInstance.findFirst.mockResolvedValueOnce(mockInstance);
+    mockedPrisma.paperlessDocument.count.mockResolvedValueOnce(1);
+    mockedPrisma.paperlessDocument.findMany.mockResolvedValueOnce([mockDocuments[0]]);
+
+    const request = new NextRequest(
+      'http://localhost/api/paperless-instances/instance-1/documents?search=Invoice'
+    );
+    const response = await GET(request, mockContext('instance-1'));
+    const data = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(data.items).toHaveLength(1);
+    expect(data.items[0].title).toBe('Invoice 001');
+  });
+
+  it('sorts documents by title ascending', async () => {
+    mockAdmin();
+    mockedPrisma.paperlessInstance.findFirst.mockResolvedValueOnce(mockInstance);
+    mockedPrisma.paperlessDocument.count.mockResolvedValueOnce(2);
+    // Mock returns documents sorted by title asc
+    mockedPrisma.paperlessDocument.findMany.mockResolvedValueOnce([
+      mockDocuments[1], // Contract 002
+      mockDocuments[0], // Invoice 001
+    ]);
+
+    const request = new NextRequest(
+      'http://localhost/api/paperless-instances/instance-1/documents?sortField=title&sortDirection=asc'
+    );
+    const response = await GET(request, mockContext('instance-1'));
+    const data = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(data.items[0].title).toBe('Contract 002');
+    expect(data.items[1].title).toBe('Invoice 001');
+  });
+
+  it('sorts documents by documentDate descending', async () => {
+    mockAdmin();
+    mockedPrisma.paperlessInstance.findFirst.mockResolvedValueOnce(mockInstance);
+    mockedPrisma.paperlessDocument.count.mockResolvedValueOnce(2);
+    // Mock returns documents sorted by documentDate desc
+    mockedPrisma.paperlessDocument.findMany.mockResolvedValueOnce([
+      mockDocuments[1], // 2024-01-08
+      mockDocuments[0], // 2024-01-05
+    ]);
+
+    const request = new NextRequest(
+      'http://localhost/api/paperless-instances/instance-1/documents?sortField=documentDate&sortDirection=desc'
+    );
+    const response = await GET(request, mockContext('instance-1'));
+    const data = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(data.items[0].documentDate).toBe('2024-01-08T00:00:00.000Z');
+    expect(data.items[1].documentDate).toBe('2024-01-05T00:00:00.000Z');
+  });
+
+  it('combines search, status filter, and sorting', async () => {
+    mockAdmin();
+    mockedPrisma.paperlessInstance.findFirst.mockResolvedValueOnce(mockInstance);
+    mockedPrisma.paperlessDocument.count.mockResolvedValueOnce(1);
+    mockedPrisma.paperlessDocument.findMany.mockResolvedValueOnce([mockDocuments[0]]);
+
+    const request = new NextRequest(
+      'http://localhost/api/paperless-instances/instance-1/documents?search=Invoice&status=processed&sortField=title&sortDirection=asc'
+    );
+    const response = await GET(request, mockContext('instance-1'));
+    const data = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(data.items).toHaveLength(1);
+    expect(data.items[0].title).toBe('Invoice 001');
+    expect(data.items[0].status).toBe('processed');
+  });
+
+  it('uses default asc direction when sortField is title without sortDirection', async () => {
+    mockAdmin();
+    mockedPrisma.paperlessInstance.findFirst.mockResolvedValueOnce(mockInstance);
+    mockedPrisma.paperlessDocument.count.mockResolvedValueOnce(2);
+    mockedPrisma.paperlessDocument.findMany.mockResolvedValueOnce(mockDocuments);
+
+    const request = new NextRequest(
+      'http://localhost/api/paperless-instances/instance-1/documents?sortField=title'
+    );
+    const response = await GET(request, mockContext('instance-1'));
+
+    expect(response.status).toBe(200);
+    // Verify findMany was called with title sort (default asc)
+    expect(mockedPrisma.paperlessDocument.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({
+        orderBy: [{ title: 'asc' }],
+      })
+    );
+  });
+
+  it('uses default desc direction when sortField is documentDate without sortDirection', async () => {
+    mockAdmin();
+    mockedPrisma.paperlessInstance.findFirst.mockResolvedValueOnce(mockInstance);
+    mockedPrisma.paperlessDocument.count.mockResolvedValueOnce(2);
+    mockedPrisma.paperlessDocument.findMany.mockResolvedValueOnce(mockDocuments);
+
+    const request = new NextRequest(
+      'http://localhost/api/paperless-instances/instance-1/documents?sortField=documentDate'
+    );
+    const response = await GET(request, mockContext('instance-1'));
+
+    expect(response.status).toBe(200);
+    // Verify findMany was called with documentDate sort (default desc)
+    expect(mockedPrisma.paperlessDocument.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({
+        orderBy: [{ documentDate: 'desc' }],
+      })
+    );
   });
 });

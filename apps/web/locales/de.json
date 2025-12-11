@@ -330,7 +330,8 @@
       "filter": {
         "all": "Alle",
         "processed": "Verarbeitet",
-        "unprocessed": "Unverarbeitet"
+        "unprocessed": "Unverarbeitet",
+        "searchTitle": "Titel suchen..."
       },
       "table": {
         "title": "Titel",

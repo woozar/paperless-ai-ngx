@@ -5,6 +5,15 @@ import { renderWithIntl } from '@/test-utils/render-with-intl';
 import { AnalyzeDocumentDialog } from './analyze-document-dialog';
 import type { DocumentListItem, AiBotListItem } from '@repo/api-client';
 
+vi.mock('@/components/settings-provider', () => ({
+  useSettings: () => ({
+    settings: { 'display.general.currency': 'EUR' },
+    isLoading: false,
+    updateSetting: vi.fn(),
+    refreshSettings: vi.fn(),
+  }),
+}));
+
 const mockGetAiBots = vi.fn();
 const mockPostAnalyze = vi.fn();
 

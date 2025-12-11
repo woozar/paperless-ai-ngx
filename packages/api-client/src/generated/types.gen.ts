@@ -271,6 +271,10 @@ export type DocumentProcessingResult = {
   originalTitle: string | null;
 };
 
+export type DocumentSortField = 'title' | 'documentDate';
+
+export type SortDirection = 'asc' | 'desc';
+
 export type PaginationQuery = {
   page?: number;
   limit?: number;
@@ -278,6 +282,9 @@ export type PaginationQuery = {
 
 export type DocumentFilterQuery = PaginationQuery & {
   status?: 'all' | 'processed' | 'unprocessed';
+  search?: string;
+  sortField?: DocumentSortField;
+  sortDirection?: SortDirection;
 };
 
 export type DocumentListResponse = {
@@ -1959,6 +1966,9 @@ export type GetPaperlessInstancesByIdDocumentsData = {
     page?: number;
     limit?: number;
     status?: 'all' | 'processed' | 'unprocessed';
+    search?: string;
+    sortField?: DocumentSortField;
+    sortDirection?: SortDirection;
   };
   url: '/paperless-instances/{id}/documents';
 };

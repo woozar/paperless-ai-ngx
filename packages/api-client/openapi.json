@@ -853,6 +853,14 @@
           "originalTitle"
         ]
       },
+      "DocumentSortField": {
+        "type": "string",
+        "enum": ["title", "documentDate"]
+      },
+      "SortDirection": {
+        "type": "string",
+        "enum": ["asc", "desc"]
+      },
       "PaginationQuery": {
         "type": "object",
         "properties": {
@@ -883,6 +891,15 @@
                 "type": "string",
                 "enum": ["all", "processed", "unprocessed"],
                 "default": "all"
+              },
+              "search": {
+                "type": "string"
+              },
+              "sortField": {
+                "$ref": "#/components/schemas/DocumentSortField"
+              },
+              "sortDirection": {
+                "$ref": "#/components/schemas/SortDirection"
               }
             }
           }
@@ -3845,6 +3862,30 @@
             },
             "required": false,
             "name": "status",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "name": "search",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "$ref": "#/components/schemas/DocumentSortField"
+            },
+            "required": false,
+            "name": "sortField",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "$ref": "#/components/schemas/SortDirection"
+            },
+            "required": false,
+            "name": "sortDirection",
             "in": "query"
           }
         ],

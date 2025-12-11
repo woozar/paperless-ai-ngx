@@ -136,6 +136,15 @@ vi.mock('@/components/table-pagination', () => ({
   ),
 }));
 
+vi.mock('@/components/settings-provider', () => ({
+  useSettings: () => ({
+    settings: { 'display.general.currency': 'EUR' },
+    isLoading: false,
+    updateSetting: vi.fn(),
+    refreshSettings: vi.fn(),
+  }),
+}));
+
 const mockDocuments: DocumentListItem[] = [
   {
     id: 'doc-1',
@@ -432,5 +441,64 @@ describe('DocumentsPage', () => {
     renderWithIntl(<DocumentsPage />);
 
     expect(mockGetDocuments).not.toHaveBeenCalled();
+  });
+
+  it('filters documents by search query', async () => {
+    const user = userEvent.setup({ delay: null });
+
+    renderWithIntl(<DocumentsPage />);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('row-doc-1')).toBeInTheDocument();
+    });
+
+    // Type in the search filter
+    const searchInput = screen.getByTestId('filter-search');
+    await user.type(searchInput, 'Invoice');
+
+    await waitFor(() => {
+      expect(mockGetDocuments).toHaveBeenCalledWith(
+        expect.objectContaining({
+          query: expect.objectContaining({ search: 'Invoice' }),
+        })
+      );
+    });
+  });
+
+  it('sorts documents when sort column is clicked', async () => {
+    const user = userEvent.setup({ delay: null });
+
+    renderWithIntl(<DocumentsPage />);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('row-doc-1')).toBeInTheDocument();
+    });
+
+    // Click on sortable title column
+    const titleSortButton = screen.getByRole('button', { name: /title/i });
+    await user.click(titleSortButton);
+
+    await waitFor(() => {
+      expect(mockGetDocuments).toHaveBeenCalledWith(
+        expect.objectContaining({
+          query: expect.objectContaining({ sortField: 'title', sortDirection: 'asc' }),
+        })
+      );
+    });
+  });
+
+  it('loads with default sort by documentDate descending', async () => {
+    renderWithIntl(<DocumentsPage />);
+
+    await waitFor(() => {
+      expect(mockGetDocuments).toHaveBeenCalledWith(
+        expect.objectContaining({
+          query: expect.objectContaining({
+            sortField: 'documentDate',
+            sortDirection: 'desc',
+          }),
+        })
+      );
+    });
   });
 });

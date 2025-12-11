@@ -3,11 +3,16 @@
 import type { ReactNode } from 'react';
 import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { TablePagination } from '@/components/table-pagination';
+import { Input } from '@/components/ui/input';
+import { ChevronUp, ChevronDown, ChevronsUpDown } from 'lucide-react';
+import type { SortConfig } from '@/hooks/use-paginated-list';
 
 export type ColumnDefinition = {
   label: string;
   align?: 'left' | 'right';
-  // Future: sortKey?: string;
+  sortKey?: string;
+  filterKey?: string;
+  filterPlaceholder?: string;
 };
 
 type PaginatedTableProps = {
@@ -22,7 +27,21 @@ type PaginatedTableProps = {
   totalPages: number;
   onPageChange: (page: number) => void;
   onLimitChange: (limit: number) => void;
+  sort?: SortConfig;
+  onSortChange?: (field: string) => void;
+  filters?: Record<string, string>;
+  onFilterChange?: (key: string, value: string) => void;
 };
+
+function SortIcon({ field, sort }: Readonly<{ field: string; sort?: SortConfig }>) {
+  if (sort?.field !== field) {
+    return <ChevronsUpDown className="ml-1 h-4 w-4 opacity-50" />;
+  }
+  if (sort.direction === 'asc') {
+    return <ChevronUp className="ml-1 h-4 w-4" />;
+  }
+  return <ChevronDown className="ml-1 h-4 w-4" />;
+}
 
 export function PaginatedTable({
   isEmpty,
@@ -36,8 +55,15 @@ export function PaginatedTable({
   totalPages,
   onPageChange,
   onLimitChange,
+  sort,
+  onSortChange,
+  filters,
+  onFilterChange,
 }: Readonly<PaginatedTableProps>) {
-  if (isEmpty) {
+  const hasFilters = columns.some((col) => col.filterKey);
+
+  // Show simple empty message only if no filters are active
+  if (isEmpty && !hasFilters) {
     return <div className="text-muted-foreground py-12 text-center">{emptyMessage}</div>;
   }
 
@@ -51,22 +77,58 @@ export function PaginatedTable({
                 key={col.label}
                 className={col.align === 'right' ? 'text-right' : undefined}
               >
-                {col.label}
+                <div
+                  className={`flex items-center gap-2 ${col.align === 'right' ? 'justify-end' : ''}`}
+                >
+                  {col.sortKey && onSortChange ? (
+                    <button
+                      type="button"
+                      onClick={() => onSortChange(col.sortKey!)}
+                      className="hover:text-foreground inline-flex items-center font-medium"
+                    >
+                      {col.label}
+                      <SortIcon field={col.sortKey} sort={sort} />
+                    </button>
+                  ) : (
+                    <span>{col.label}</span>
+                  )}
+                  {col.filterKey && onFilterChange && (
+                    <Input
+                      placeholder={col.filterPlaceholder ?? ''}
+                      value={filters?.[col.filterKey] ?? ''}
+                      onChange={(e) => onFilterChange(col.filterKey!, e.target.value)}
+                      className="ml-auto h-7 w-40"
+                      data-testid={`filter-${col.filterKey}`}
+                    />
+                  )}
+                </div>
               </TableHead>
             ))}
           </TableRow>
         </TableHeader>
-        <TableBody>{children}</TableBody>
+        <TableBody>
+          {isEmpty ? (
+            <TableRow>
+              <TableHead colSpan={columns.length} className="h-24 text-center">
+                <span className="text-muted-foreground">{emptyMessage}</span>
+              </TableHead>
+            </TableRow>
+          ) : (
+            children
+          )}
+        </TableBody>
       </Table>
-      <TablePagination
-        page={page}
-        limit={limit}
-        total={total}
-        totalPages={totalPages}
-        isLoading={isLoading}
-        onPageChange={onPageChange}
-        onLimitChange={onLimitChange}
-      />
+      {!isEmpty && (
+        <TablePagination
+          page={page}
+          limit={limit}
+          total={total}
+          totalPages={totalPages}
+          isLoading={isLoading}
+          onPageChange={onPageChange}
+          onLimitChange={onLimitChange}
+        />
+      )}
     </div>
   );
 }

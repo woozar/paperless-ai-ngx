@@ -9,6 +9,9 @@ export const GET = authRoute<never, { id: string }>(
     const { page, limit } = getPaginationParams(request);
     const url = new URL(request.url);
     const statusFilter = url.searchParams.get('status') ?? 'all';
+    const search = url.searchParams.get('search') ?? '';
+    const sortField = url.searchParams.get('sortField');
+    const sortDirection = url.searchParams.get('sortDirection') as 'asc' | 'desc' | null;
 
     // Check instance access
     const instance = await prisma.paperlessInstance.findFirst({
@@ -37,20 +40,48 @@ export const GET = authRoute<never, { id: string }>(
       );
     }
 
-    // Build document query
-    const whereClause = {
-      paperlessInstanceId: params.id,
+    // Build document query with status and search filter
+    // Status is computed based on existence of processingResults
+    const buildWhereClause = () => {
+      const base: Record<string, unknown> = { paperlessInstanceId: params.id };
+
+      if (search) {
+        base.title = { contains: search, mode: 'insensitive' };
+      }
+
+      if (statusFilter === 'processed') {
+        return { ...base, processingResults: { some: {} } };
+      }
+      if (statusFilter === 'unprocessed') {
+        return { ...base, processingResults: { none: {} } };
+      }
+      return base;
     };
 
-    // Get total count
+    const whereClause = buildWhereClause();
+
+    // Build orderBy clause
+    const buildOrderBy = () => {
+      if (sortField === 'title') {
+        return [{ title: sortDirection ?? ('asc' as const) }];
+      }
+      if (sortField === 'documentDate') {
+        return [{ documentDate: sortDirection ?? ('desc' as const) }];
+      }
+      return [{ documentDate: 'desc' as const }, { importedAt: 'desc' as const }];
+    };
+
+    const orderBy = buildOrderBy();
+
+    // Get total count (with filter applied)
     const total = await prisma.paperlessDocument.count({
       where: whereClause,
     });
 
-    // Get paginated documents - sort by documentDate (desc), fallback to importedAt for older docs
+    // Get paginated documents
     const documents = await prisma.paperlessDocument.findMany({
       where: whereClause,
-      orderBy: [{ documentDate: 'desc' }, { importedAt: 'desc' }],
+      orderBy,
       skip: (page - 1) * limit,
       take: limit,
       include: {
@@ -80,12 +111,8 @@ export const GET = authRoute<never, { id: string }>(
       };
     });
 
-    // Filter by status if needed (after fetching, since status is computed)
-    const filteredItems =
-      statusFilter === 'all' ? items : items.filter((item) => item.status === statusFilter);
-
     return NextResponse.json({
-      items: filteredItems,
+      items,
       ...getPaginationMeta(total, page, limit),
     });
   },

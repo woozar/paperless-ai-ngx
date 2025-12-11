@@ -1,6 +1,6 @@
 import { renderHook, act, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { usePaginatedList, type FetchResult } from './use-paginated-list';
+import { usePaginatedList, type FetchResult, type SortConfig } from './use-paginated-list';
 
 const mockPush = vi.fn();
 vi.mock('next/navigation', () => ({
@@ -15,7 +15,14 @@ type TestItem = { id: string; name: string };
 
 describe('usePaginatedList', () => {
   const mockFetchFn =
-    vi.fn<(page: number, limit: number, params: undefined) => Promise<FetchResult<TestItem>>>();
+    vi.fn<
+      (
+        page: number,
+        limit: number,
+        params: undefined,
+        sort: SortConfig
+      ) => Promise<FetchResult<TestItem>>
+    >();
   const mockOnError = vi.fn();
 
   const defaultItems: TestItem[] = [
@@ -43,7 +50,7 @@ describe('usePaginatedList', () => {
       expect(result.current.isLoading).toBe(false);
     });
 
-    expect(mockFetchFn).toHaveBeenCalledWith(1, 10, undefined);
+    expect(mockFetchFn).toHaveBeenCalledWith(1, 10, undefined, null);
     expect(result.current.items).toEqual(defaultItems);
     expect(result.current.total).toBe(2);
     expect(result.current.totalPages).toBe(1);
@@ -69,7 +76,7 @@ describe('usePaginatedList', () => {
       expect(result.current.page).toBe(2);
     });
 
-    expect(mockFetchFn).toHaveBeenCalledWith(2, 10, undefined);
+    expect(mockFetchFn).toHaveBeenCalledWith(2, 10, undefined, null);
   });
 
   it('resets to page 1 when handleLimitChange is called', async () => {
@@ -103,7 +110,7 @@ describe('usePaginatedList', () => {
       expect(result.current.limit).toBe(25);
     });
 
-    expect(mockFetchFn).toHaveBeenCalledWith(1, 25, undefined);
+    expect(mockFetchFn).toHaveBeenCalledWith(1, 25, undefined, null);
   });
 
   it('reloads data when reload is called', async () => {
@@ -257,13 +264,20 @@ describe('usePaginatedList', () => {
 
     expect(result.current.page).toBe(2);
     expect(result.current.limit).toBe(25);
-    expect(mockFetchFn).toHaveBeenCalledWith(2, 25, undefined);
+    expect(mockFetchFn).toHaveBeenCalledWith(2, 25, undefined, null);
   });
 
   it('passes params to fetchFn', async () => {
     type ParamType = { filter: string };
     const mockFetchWithParams =
-      vi.fn<(page: number, limit: number, params: ParamType) => Promise<FetchResult<TestItem>>>();
+      vi.fn<
+        (
+          page: number,
+          limit: number,
+          params: ParamType,
+          sort: SortConfig
+        ) => Promise<FetchResult<TestItem>>
+      >();
     mockFetchWithParams.mockResolvedValue({
       data: { items: defaultItems, total: 2, totalPages: 1 },
       error: undefined,
@@ -278,14 +292,21 @@ describe('usePaginatedList', () => {
     );
 
     await waitFor(() => {
-      expect(mockFetchWithParams).toHaveBeenCalledWith(1, 10, { filter: 'active' });
+      expect(mockFetchWithParams).toHaveBeenCalledWith(1, 10, { filter: 'active' }, null);
     });
   });
 
   it('refetches when params change', async () => {
     type ParamType = { filter: string };
     const mockFetchWithParams =
-      vi.fn<(page: number, limit: number, params: ParamType) => Promise<FetchResult<TestItem>>>();
+      vi.fn<
+        (
+          page: number,
+          limit: number,
+          params: ParamType,
+          sort: SortConfig
+        ) => Promise<FetchResult<TestItem>>
+      >();
     mockFetchWithParams.mockResolvedValue({
       data: { items: defaultItems, total: 2, totalPages: 1 },
       error: undefined,
@@ -302,13 +323,80 @@ describe('usePaginatedList', () => {
     );
 
     await waitFor(() => {
-      expect(mockFetchWithParams).toHaveBeenCalledWith(1, 10, { filter: 'active' });
+      expect(mockFetchWithParams).toHaveBeenCalledWith(1, 10, { filter: 'active' }, null);
     });
 
     rerender({ params: { filter: 'inactive' } });
 
     await waitFor(() => {
-      expect(mockFetchWithParams).toHaveBeenCalledWith(1, 10, { filter: 'inactive' });
+      expect(mockFetchWithParams).toHaveBeenCalledWith(1, 10, { filter: 'inactive' }, null);
+    });
+  });
+
+  it('cycles through sort states when handleSortChange is called', async () => {
+    const { result } = renderHook(() =>
+      usePaginatedList({
+        fetchFn: mockFetchFn,
+        onError: mockOnError,
+      })
+    );
+
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false);
+    });
+
+    expect(result.current.sort).toBeNull();
+
+    // First click: null -> asc
+    act(() => {
+      result.current.handleSortChange('title');
+    });
+
+    await waitFor(() => {
+      expect(result.current.sort).toEqual({ field: 'title', direction: 'asc' });
+    });
+
+    // Second click: asc -> desc
+    act(() => {
+      result.current.handleSortChange('title');
+    });
+
+    await waitFor(() => {
+      expect(result.current.sort).toEqual({ field: 'title', direction: 'desc' });
+    });
+
+    // Third click: desc -> null
+    act(() => {
+      result.current.handleSortChange('title');
+    });
+
+    await waitFor(() => {
+      expect(result.current.sort).toBeNull();
+    });
+  });
+
+  it('resets to asc when sorting different field', async () => {
+    const { result } = renderHook(() =>
+      usePaginatedList({
+        fetchFn: mockFetchFn,
+        onError: mockOnError,
+        initialSort: { field: 'title', direction: 'desc' },
+      })
+    );
+
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false);
+    });
+
+    expect(result.current.sort).toEqual({ field: 'title', direction: 'desc' });
+
+    // Clicking on different field should start at asc
+    act(() => {
+      result.current.handleSortChange('date');
+    });
+
+    await waitFor(() => {
+      expect(result.current.sort).toEqual({ field: 'date', direction: 'asc' });
     });
   });
 });

@@ -12,11 +12,19 @@ export type FetchResult<T> =
   | { data: PaginatedResponse<T>; error: undefined }
   | { data: undefined; error: { status: number } };
 
+export type SortDirection = 'asc' | 'desc';
+export type SortConfig = { field: string; direction: SortDirection } | null;
+
 export type UsePaginatedListOptions<T, TParams = void> = {
   /**
    * Function to fetch data. Should return standardized format.
    */
-  fetchFn: (page: number, limit: number, params: TParams) => Promise<FetchResult<T>>;
+  fetchFn: (
+    page: number,
+    limit: number,
+    params: TParams,
+    sort: SortConfig
+  ) => Promise<FetchResult<T>>;
   /**
    * Callback when an error occurs (excluding redirect cases).
    */
@@ -38,6 +46,10 @@ export type UsePaginatedListOptions<T, TParams = void> = {
    */
   initialLimit?: number;
   /**
+   * Initial sort configuration.
+   */
+  initialSort?: SortConfig;
+  /**
    * Extra parameters to pass to fetchFn. When this changes, data is refetched.
    */
   params?: TParams;
@@ -50,6 +62,7 @@ export function usePaginatedList<T, TParams = void>({
   notFoundRedirect,
   initialPage = 1,
   initialLimit = 10,
+  initialSort = null,
   params,
 }: UsePaginatedListOptions<T, TParams>) {
   const router = useRouter();
@@ -59,12 +72,15 @@ export function usePaginatedList<T, TParams = void>({
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(initialPage);
   const [limit, setLimit] = useState(initialLimit);
+  const [sort, setSort] = useState<SortConfig>(initialSort);
   const [total, setTotal] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
 
-  // Store params and onError in refs to use in loadData without causing re-fetches
+  // Store params, sort, and onError in refs to use in loadData without causing re-fetches
   const paramsRef = useRef(params);
   paramsRef.current = params;
+  const sortRef = useRef(sort);
+  sortRef.current = sort;
   const onErrorRef = useRef(onError);
   onErrorRef.current = onError;
 
@@ -73,7 +89,12 @@ export function usePaginatedList<T, TParams = void>({
       setIsLoading(true);
 
       try {
-        const result = await fetchFn(currentPage, currentLimit, paramsRef.current as TParams);
+        const result = await fetchFn(
+          currentPage,
+          currentLimit,
+          paramsRef.current as TParams,
+          sortRef.current
+        );
 
         if (result.error) {
           const status = result.error.status;
@@ -101,12 +122,12 @@ export function usePaginatedList<T, TParams = void>({
     [fetchFn, router, forbiddenRedirect, notFoundRedirect]
   );
 
-  // Reload when auth completes or pagination/params change
+  // Reload when auth completes or pagination/params/sort change
   useEffect(() => {
     if (!isAuthLoading) {
       loadData(page, limit);
     }
-  }, [isAuthLoading, loadData, page, limit, params]);
+  }, [isAuthLoading, loadData, page, limit, params, sort]);
 
   const handlePageChange = useCallback((newPage: number) => {
     setPage(newPage);
@@ -114,6 +135,19 @@ export function usePaginatedList<T, TParams = void>({
 
   const handleLimitChange = useCallback((newLimit: number) => {
     setLimit(newLimit);
+    setPage(1);
+  }, []);
+
+  const handleSortChange = useCallback((field: string) => {
+    setSort((currentSort) => {
+      if (currentSort?.field !== field) {
+        return { field, direction: 'asc' };
+      }
+      if (currentSort.direction === 'asc') {
+        return { field, direction: 'desc' };
+      }
+      return null;
+    });
     setPage(1);
   }, []);
 
@@ -126,10 +160,12 @@ export function usePaginatedList<T, TParams = void>({
     isLoading,
     page,
     limit,
+    sort,
     total,
     totalPages,
     handlePageChange,
     handleLimitChange,
+    handleSortChange,
     reload,
   };
 }
