@@ -55,11 +55,13 @@ vi.mock('./_components', () => ({
     document,
     onAnalyze,
     onViewResult,
+    onPreview,
     formatDate,
   }: {
     document: DocumentListItem;
     onAnalyze: (doc: DocumentListItem) => void;
     onViewResult: (doc: DocumentListItem) => void;
+    onPreview: (doc: DocumentListItem) => void;
     formatDate: (date: string) => string;
   }) => (
     <tr data-testid={`row-${document.id}`}>
@@ -72,6 +74,9 @@ vi.mock('./_components', () => ({
         </button>
         <button onClick={() => onViewResult(document)} data-testid={`view-${document.id}`}>
           View
+        </button>
+        <button onClick={() => onPreview(document)} data-testid={`preview-${document.id}`}>
+          Preview
         </button>
       </td>
     </tr>
@@ -111,6 +116,24 @@ vi.mock('./_components', () => ({
       <div data-testid="view-dialog">
         {document?.title}
         <button onClick={() => onOpenChange(false)} data-testid="close-view-dialog">
+          Close
+        </button>
+      </div>
+    ) : null,
+  PreviewDialog: ({
+    open,
+    document,
+    onOpenChange,
+  }: {
+    open: boolean;
+    document: DocumentListItem | null;
+    onOpenChange: (open: boolean) => void;
+    instanceId: string;
+  }) =>
+    open ? (
+      <div data-testid="preview-dialog">
+        {document?.title}
+        <button onClick={() => onOpenChange(false)} data-testid="close-preview-dialog">
           Close
         </button>
       </div>
@@ -401,6 +424,24 @@ describe('DocumentsPage', () => {
     // Close dialog
     await user.click(screen.getByTestId('close-view-dialog'));
     expect(screen.queryByTestId('view-dialog')).not.toBeInTheDocument();
+  });
+
+  it('closes preview dialog and clears previewing document', async () => {
+    const user = userEvent.setup({ delay: null });
+
+    renderWithIntl(<DocumentsPage />);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('row-doc-1')).toBeInTheDocument();
+    });
+
+    // Open dialog
+    await user.click(screen.getByTestId('preview-doc-1'));
+    expect(screen.getByTestId('preview-dialog')).toBeInTheDocument();
+
+    // Close dialog
+    await user.click(screen.getByTestId('close-preview-dialog'));
+    expect(screen.queryByTestId('preview-dialog')).not.toBeInTheDocument();
   });
 
   it('reloads documents on analysis success', async () => {

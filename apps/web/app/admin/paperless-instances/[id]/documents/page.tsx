@@ -20,6 +20,7 @@ import {
   DocumentTableRow,
   AnalyzeDocumentDialog,
   ViewResultDialog,
+  PreviewDialog,
 } from './_components';
 
 type StatusFilter = 'all' | 'processed' | 'unprocessed';
@@ -116,6 +117,7 @@ export default function DocumentsPage() {
 
   const [analyzingDocument, setAnalyzingDocument] = useState<DocumentListItem | null>(null);
   const [viewingDocument, setViewingDocument] = useState<DocumentListItem | null>(null);
+  const [previewingDocument, setPreviewingDocument] = useState<DocumentListItem | null>(null);
 
   const handleStatusFilterChange = (value: string) => {
     setStatusFilter(value as StatusFilter);
@@ -141,6 +143,7 @@ export default function DocumentsPage() {
         document={doc}
         onAnalyze={setAnalyzingDocument}
         onViewResult={setViewingDocument}
+        onPreview={setPreviewingDocument}
         formatDate={formatDate}
       />
     ));
@@ -218,6 +221,13 @@ export default function DocumentsPage() {
         open={!!viewingDocument}
         onOpenChange={(open) => !open && setViewingDocument(null)}
         document={viewingDocument}
+        instanceId={instanceId}
+      />
+
+      <PreviewDialog
+        open={!!previewingDocument}
+        onOpenChange={(open) => !open && setPreviewingDocument(null)}
+        document={previewingDocument}
         instanceId={instanceId}
       />
     </AppShell>

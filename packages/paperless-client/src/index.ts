@@ -87,6 +87,23 @@ export class PaperlessClient {
     return response.text();
   }
 
+  async getDocumentPreview(id: number): Promise<Response> {
+    const response = await fetch(`${this.baseUrl}/api/documents/${id}/preview/`, {
+      headers: {
+        Authorization: `Token ${this.token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new PaperlessApiError(
+        `Failed to get document preview: ${response.status}`,
+        response.status
+      );
+    }
+
+    return response;
+  }
+
   async updateDocument(
     id: number,
     data: Partial<Pick<PaperlessDocument, 'title' | 'correspondent' | 'document_type' | 'tags'>>

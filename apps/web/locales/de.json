@@ -376,6 +376,13 @@
         "viewButton": "Ergebnis anzeigen",
         "close": "Schließen"
       },
+      "preview": {
+        "title": "Dokument-Vorschau",
+        "description": "Vorschau: {title}",
+        "button": "Vorschau",
+        "close": "Schließen",
+        "loadError": "Fehler beim Laden der Vorschau"
+      },
       "error": {
         "loadFailed": "Fehler beim Laden der Dokumente",
         "loadBotsFailed": "Fehler beim Laden der KI-Bots",

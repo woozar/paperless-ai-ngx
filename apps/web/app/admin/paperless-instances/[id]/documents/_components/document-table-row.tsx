@@ -4,13 +4,14 @@ import { TableRow, TableCell } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { Sparkles, Eye } from 'lucide-react';
+import { Sparkles, Eye, FileSearch } from 'lucide-react';
 import type { DocumentListItem } from '@repo/api-client';
 
 type DocumentTableRowProps = Readonly<{
   document: DocumentListItem;
   onAnalyze: (document: DocumentListItem) => void;
   onViewResult: (document: DocumentListItem) => void;
+  onPreview: (document: DocumentListItem) => void;
   formatDate: (dateString: string) => string;
 }>;
 
@@ -18,6 +19,7 @@ export const DocumentTableRow = memo(function DocumentTableRow({
   document,
   onAnalyze,
   onViewResult,
+  onPreview,
   formatDate,
 }: DocumentTableRowProps) {
   const t = useTranslations('admin.documents');
@@ -74,6 +76,20 @@ export const DocumentTableRow = memo(function DocumentTableRow({
               </Button>
             </TooltipTrigger>
             <TooltipContent>{t('analyze.button')}</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => onPreview(document)}
+                data-testid={`preview-document-${document.id}`}
+              >
+                <FileSearch className="h-4 w-4" />
+                <span className="sr-only">{t('preview.button')}</span>
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>{t('preview.button')}</TooltipContent>
           </Tooltip>
         </div>
       </TableCell>

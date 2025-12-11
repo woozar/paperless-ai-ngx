@@ -9,6 +9,7 @@ function renderDocumentTableRow(props: {
   document: DocumentListItem;
   onAnalyze: (document: DocumentListItem) => void;
   onViewResult: (document: DocumentListItem) => void;
+  onPreview: (document: DocumentListItem) => void;
   formatDate: (date: string) => string;
 }) {
   return renderWithIntl(
@@ -43,12 +44,14 @@ const mockProcessedDocument: DocumentListItem = {
 describe('DocumentTableRow', () => {
   const mockOnAnalyze = vi.fn();
   const mockOnViewResult = vi.fn();
+  const mockOnPreview = vi.fn();
   const mockFormatDate = vi.fn((date: string) => new Date(date).toLocaleDateString('en-US'));
 
   const defaultPropsUnprocessed = {
     document: mockUnprocessedDocument,
     onAnalyze: mockOnAnalyze,
     onViewResult: mockOnViewResult,
+    onPreview: mockOnPreview,
     formatDate: mockFormatDate,
   };
 
@@ -56,6 +59,7 @@ describe('DocumentTableRow', () => {
     document: mockProcessedDocument,
     onAnalyze: mockOnAnalyze,
     onViewResult: mockOnViewResult,
+    onPreview: mockOnPreview,
     formatDate: mockFormatDate,
   };
 
@@ -154,5 +158,20 @@ describe('DocumentTableRow', () => {
     await user.click(analyzeButton);
 
     expect(mockOnAnalyze).toHaveBeenCalledWith(mockProcessedDocument);
+  });
+
+  it('renders preview button for all documents', () => {
+    renderDocumentTableRow(defaultPropsUnprocessed);
+    expect(screen.getByTestId('preview-document-doc-123')).toBeInTheDocument();
+  });
+
+  it('calls onPreview when preview button is clicked', async () => {
+    const user = userEvent.setup({ delay: null });
+    renderDocumentTableRow(defaultPropsUnprocessed);
+
+    const previewButton = screen.getByTestId('preview-document-doc-123');
+    await user.click(previewButton);
+
+    expect(mockOnPreview).toHaveBeenCalledWith(mockUnprocessedDocument);
   });
 });

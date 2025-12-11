@@ -376,6 +376,13 @@
         "viewButton": "View Result",
         "close": "Close"
       },
+      "preview": {
+        "title": "Document Preview",
+        "description": "Preview: {title}",
+        "button": "Preview",
+        "close": "Close",
+        "loadError": "Failed to load preview"
+      },
       "error": {
         "loadFailed": "Failed to load documents",
         "loadBotsFailed": "Failed to load AI bots",
