@@ -116,7 +116,21 @@ export async function analyzeDocument(
   });
 
   // Parse the final response to extract structured data
-  const analysisResult = parseAnalysisResponse(response.text);
+  const rawAnalysisResult = parseAnalysisResponse(response.text);
+
+  // Validate and correct IDs against current Paperless data
+  // (AI sometimes returns incorrect IDs for names)
+  const correctedResult = await validateAndCorrectIds(rawAnalysisResult, paperlessClient);
+
+  // Enrich tags with isAssigned flag based on document's current tags
+  const documentTagIds = new Set(document.tagIds);
+  const analysisResult = {
+    ...correctedResult,
+    suggestedTags: correctedResult.suggestedTags.map((tag) => ({
+      ...tag,
+      isAssigned: 'id' in tag ? documentTagIds.has(tag.id) : false,
+    })),
+  };
 
   // Calculate total tokens used
   const inputTokens = response.usage?.inputTokens ?? 0;
@@ -260,4 +274,105 @@ function parseAnalysisResponse(text: string): DocumentAnalysisResult {
   const jsonString = text.slice(text.indexOf('{'), text.lastIndexOf('}') + 1);
   const parsed = JSON.parse(jsonString);
   return DocumentAnalysisResultSchema.parse(parsed);
+}
+
+/**
+ * Validates and corrects IDs in the analysis result against current Paperless data.
+ * The AI sometimes returns incorrect IDs for names, so we verify each ID matches its name.
+ */
+async function validateAndCorrectIds(
+  result: DocumentAnalysisResult,
+  paperlessClient: PaperlessClient
+): Promise<DocumentAnalysisResult> {
+  // Load all metadata from Paperless
+  const [tagsResponse, correspondentsResponse, documentTypesResponse] = await Promise.all([
+    paperlessClient.getTags(),
+    paperlessClient.getCorrespondents(),
+    paperlessClient.getDocumentTypes(),
+  ]);
+
+  // Build lookup maps: id -> name and name -> id
+  const tagIdToName = new Map(tagsResponse.results.map((t) => [t.id, t.name]));
+  const tagNameToId = new Map(tagsResponse.results.map((t) => [t.name.toLowerCase(), t.id]));
+
+  const correspondentIdToName = new Map(correspondentsResponse.results.map((c) => [c.id, c.name]));
+  const correspondentNameToId = new Map(
+    correspondentsResponse.results.map((c) => [c.name.toLowerCase(), c.id])
+  );
+
+  const docTypeIdToName = new Map(documentTypesResponse.results.map((d) => [d.id, d.name]));
+  const docTypeNameToId = new Map(
+    documentTypesResponse.results.map((d) => [d.name.toLowerCase(), d.id])
+  );
+
+  // Helper to validate/correct a single item with id and name
+  function correctItem(
+    item: { id?: number; name: string },
+    idToName: Map<number, string>,
+    nameToId: Map<string, number>
+  ): { id?: number; name: string } {
+    if (item.id != null) {
+      // Check if the ID matches the name
+      const actualName = idToName.get(item.id);
+      if (actualName?.toLowerCase() === item.name.toLowerCase()) {
+        // ID and name match - all good
+        return item;
+      }
+      // ID doesn't match name - look up correct ID by name
+      const correctId = nameToId.get(item.name.toLowerCase());
+      if (correctId != null) {
+        return { id: correctId, name: item.name };
+      }
+      // Name doesn't exist in Paperless - remove ID (will be created)
+      return { name: item.name };
+    }
+
+    // No ID provided - check if name exists and add ID
+    const existingId = nameToId.get(item.name.toLowerCase());
+    if (existingId != null) {
+      return { id: existingId, name: item.name };
+    }
+    return item;
+  }
+
+  // Correct tags
+  const correctedTags = result.suggestedTags.map((tag) => {
+    if ('id' in tag && tag.id != null) {
+      const actualName = tagIdToName.get(tag.id);
+      if (actualName?.toLowerCase() === tag.name?.toLowerCase()) {
+        return tag;
+      }
+      // ID doesn't match - look up by name
+      const correctId = tag.name ? tagNameToId.get(tag.name.toLowerCase()) : undefined;
+      if (correctId != null) {
+        return { id: correctId, name: tag.name };
+      }
+      // Name doesn't exist - remove ID
+      return { name: tag.name! };
+    }
+    // No ID - check if name exists
+    // v8 ignore next -- @preserve (NewTagSchema requires name when no ID)
+    if (tag.name) {
+      const existingId = tagNameToId.get(tag.name.toLowerCase());
+      if (existingId != null) {
+        return { id: existingId, name: tag.name };
+      }
+    }
+    return tag;
+  });
+
+  return {
+    ...result,
+    suggestedCorrespondent: correctItem(
+      result.suggestedCorrespondent,
+      correspondentIdToName,
+      correspondentNameToId
+    ),
+    suggestedDocumentType: correctItem(
+      result.suggestedDocumentType,
+      docTypeIdToName,
+      docTypeNameToId
+    ),
+    suggestedTags: correctedTags,
+  };
 }

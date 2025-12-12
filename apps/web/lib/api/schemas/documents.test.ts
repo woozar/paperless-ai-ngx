@@ -32,6 +32,7 @@ describe('DocumentListItemSchema', () => {
     documentDate: '2024-01-10T00:00:00Z',
     importedAt: '2024-01-15T10:00:00Z',
     lastProcessedAt: '2024-01-15T12:00:00Z',
+    updatedAt: '2024-01-15T12:00:00Z',
   };
 
   it('validates a complete document list item', () => {

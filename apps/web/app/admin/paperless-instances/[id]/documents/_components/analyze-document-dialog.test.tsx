@@ -44,6 +44,7 @@ const mockDocument: DocumentListItem = {
   importedAt: '2024-01-15T10:00:00Z',
   documentDate: '2024-01-10T00:00:00Z',
   lastProcessedAt: null,
+  updatedAt: '2024-01-15T10:00:00Z',
 };
 
 const mockBots: AiBotListItem[] = [

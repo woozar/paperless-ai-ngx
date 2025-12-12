@@ -249,82 +249,88 @@ describe('GET /api/paperless-instances/[id]/documents/[documentId]/preview', () 
     expect(response.headers.get('content-disposition')).toContain('document.pdf');
   });
 
-  it('returns 502 when Paperless API returns server error (>= 500)', async () => {
-    mockUser();
-    mockedPrisma.paperlessInstance.findFirst.mockResolvedValueOnce({
-      id: 'instance-1',
-      name: 'Test Instance',
-      apiUrl: 'https://paperless.example.com',
-      apiToken: 'test-token',
-    });
-    mockedPrisma.paperlessDocument.findFirst.mockResolvedValueOnce({
-      id: 'doc-1',
-      paperlessId: 123,
-      title: 'Test Document',
+  describe('error handling', () => {
+    beforeEach(() => {
+      vi.spyOn(console, 'error').mockImplementation(() => {});
     });
 
-    mockGetDocumentPreview.mockRejectedValueOnce(
-      new PaperlessApiError('Internal Server Error', 500)
-    );
+    it('returns 502 when Paperless API returns server error (>= 500)', async () => {
+      mockUser();
+      mockedPrisma.paperlessInstance.findFirst.mockResolvedValueOnce({
+        id: 'instance-1',
+        name: 'Test Instance',
+        apiUrl: 'https://paperless.example.com',
+        apiToken: 'test-token',
+      });
+      mockedPrisma.paperlessDocument.findFirst.mockResolvedValueOnce({
+        id: 'doc-1',
+        paperlessId: 123,
+        title: 'Test Document',
+      });
 
-    const request = new NextRequest(
-      'http://localhost/api/paperless-instances/instance-1/documents/doc-1/preview'
-    );
-    const response = await GET(request, mockContext('instance-1', 'doc-1'));
-    const data = await response.json();
+      mockGetDocumentPreview.mockRejectedValueOnce(
+        new PaperlessApiError('Internal Server Error', 500)
+      );
 
-    expect(response.status).toBe(502);
-    expect(data.error).toBe('previewFetchFailed');
-  });
+      const request = new NextRequest(
+        'http://localhost/api/paperless-instances/instance-1/documents/doc-1/preview'
+      );
+      const response = await GET(request, mockContext('instance-1', 'doc-1'));
+      const data = await response.json();
 
-  it('returns original status code when Paperless API returns client error (< 500)', async () => {
-    mockUser();
-    mockedPrisma.paperlessInstance.findFirst.mockResolvedValueOnce({
-      id: 'instance-1',
-      name: 'Test Instance',
-      apiUrl: 'https://paperless.example.com',
-      apiToken: 'test-token',
-    });
-    mockedPrisma.paperlessDocument.findFirst.mockResolvedValueOnce({
-      id: 'doc-1',
-      paperlessId: 123,
-      title: 'Test Document',
-    });
-
-    mockGetDocumentPreview.mockRejectedValueOnce(new PaperlessApiError('Forbidden', 403));
-
-    const request = new NextRequest(
-      'http://localhost/api/paperless-instances/instance-1/documents/doc-1/preview'
-    );
-    const response = await GET(request, mockContext('instance-1', 'doc-1'));
-    const data = await response.json();
-
-    expect(response.status).toBe(403);
-    expect(data.error).toBe('previewFetchFailed');
-  });
-
-  it('rethrows non-PaperlessApiError errors', async () => {
-    mockUser();
-    mockedPrisma.paperlessInstance.findFirst.mockResolvedValueOnce({
-      id: 'instance-1',
-      name: 'Test Instance',
-      apiUrl: 'https://paperless.example.com',
-      apiToken: 'test-token',
-    });
-    mockedPrisma.paperlessDocument.findFirst.mockResolvedValueOnce({
-      id: 'doc-1',
-      paperlessId: 123,
-      title: 'Test Document',
+      expect(response.status).toBe(502);
+      expect(data.error).toBe('previewFetchFailed');
     });
 
-    mockGetDocumentPreview.mockRejectedValueOnce(new Error('Network error'));
+    it('returns original status code when Paperless API returns client error (< 500)', async () => {
+      mockUser();
+      mockedPrisma.paperlessInstance.findFirst.mockResolvedValueOnce({
+        id: 'instance-1',
+        name: 'Test Instance',
+        apiUrl: 'https://paperless.example.com',
+        apiToken: 'test-token',
+      });
+      mockedPrisma.paperlessDocument.findFirst.mockResolvedValueOnce({
+        id: 'doc-1',
+        paperlessId: 123,
+        title: 'Test Document',
+      });
 
-    const request = new NextRequest(
-      'http://localhost/api/paperless-instances/instance-1/documents/doc-1/preview'
-    );
-    const response = await GET(request, mockContext('instance-1', 'doc-1'));
+      mockGetDocumentPreview.mockRejectedValueOnce(new PaperlessApiError('Forbidden', 403));
 
-    // The authRoute wrapper catches thrown errors and returns 500
-    expect(response.status).toBe(500);
+      const request = new NextRequest(
+        'http://localhost/api/paperless-instances/instance-1/documents/doc-1/preview'
+      );
+      const response = await GET(request, mockContext('instance-1', 'doc-1'));
+      const data = await response.json();
+
+      expect(response.status).toBe(403);
+      expect(data.error).toBe('previewFetchFailed');
+    });
+
+    it('rethrows non-PaperlessApiError errors', async () => {
+      mockUser();
+      mockedPrisma.paperlessInstance.findFirst.mockResolvedValueOnce({
+        id: 'instance-1',
+        name: 'Test Instance',
+        apiUrl: 'https://paperless.example.com',
+        apiToken: 'test-token',
+      });
+      mockedPrisma.paperlessDocument.findFirst.mockResolvedValueOnce({
+        id: 'doc-1',
+        paperlessId: 123,
+        title: 'Test Document',
+      });
+
+      mockGetDocumentPreview.mockRejectedValueOnce(new Error('Network error'));
+
+      const request = new NextRequest(
+        'http://localhost/api/paperless-instances/instance-1/documents/doc-1/preview'
+      );
+      const response = await GET(request, mockContext('instance-1', 'doc-1'));
+
+      // The authRoute wrapper catches thrown errors and returns 500
+      expect(response.status).toBe(500);
+    });
   });
 });

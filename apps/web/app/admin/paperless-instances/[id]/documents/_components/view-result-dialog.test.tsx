@@ -46,6 +46,7 @@ const mockDocument: DocumentListItem = {
   importedAt: '2024-01-15T10:00:00Z',
   documentDate: '2024-01-10T00:00:00Z',
   lastProcessedAt: '2024-01-15T12:00:00Z',
+  updatedAt: '2024-01-15T12:00:00Z',
 };
 
 const mockResult: DocumentProcessingResult = {
@@ -92,8 +93,11 @@ describe('ViewResultDialog', () => {
 
     renderWithIntl(<ViewResultDialog {...defaultProps} />);
 
-    // The Loader2 component has animate-spin class
-    expect(document.querySelector('.animate-spin')).toBeInTheDocument();
+    // During loading, the skeleton component shows skeleton elements
+    // We verify the result content is not yet displayed (loading state)
+    expect(screen.queryByText('Invoice from ACME Corp')).not.toBeInTheDocument();
+    // And skeleton badges are shown (the skeleton has Badge components)
+    expect(document.querySelector('[data-slot="badge"]')).toBeInTheDocument();
   });
 
   it('displays result data after successful fetch', async () => {

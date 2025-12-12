@@ -118,6 +118,7 @@ vi.mock('../../paperless-instances/_components', () => ({
     onEdit,
     onDelete,
     onShare,
+    onFilter,
     isImporting,
   }: {
     instance: any;
@@ -125,6 +126,7 @@ vi.mock('../../paperless-instances/_components', () => ({
     onEdit: (instance: any) => void;
     onDelete: (instance: any) => void;
     onShare: (instance: any) => void;
+    onFilter: (instance: any) => void;
     isImporting: boolean;
   }) => (
     <tr data-testid={`instance-row-${instance.id}`}>
@@ -147,6 +149,9 @@ vi.mock('../../paperless-instances/_components', () => ({
         </button>
         <button data-testid={`share-instance-${instance.id}`} onClick={() => onShare(instance)}>
           Share
+        </button>
+        <button data-testid={`filter-instance-${instance.id}`} onClick={() => onFilter(instance)}>
+          Filter
         </button>
       </td>
     </tr>
@@ -176,6 +181,19 @@ vi.mock('../../paperless-instances/_components', () => ({
     open ? (
       <div role="dialog">
         Delete Dialog
+        <button onClick={() => onOpenChange(false)}>Close</button>
+      </div>
+    ) : null,
+  ImportFilterDialog: ({
+    open,
+    onOpenChange,
+  }: {
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
+  }) =>
+    open ? (
+      <div role="dialog">
+        Import Filter Dialog
         <button onClick={() => onOpenChange(false)}>Close</button>
       </div>
     ) : null,

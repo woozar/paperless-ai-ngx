@@ -13,6 +13,7 @@ const mockDocument: DocumentListItem = {
   importedAt: '2024-01-15T10:00:00Z',
   documentDate: '2024-01-10T00:00:00Z',
   lastProcessedAt: null,
+  updatedAt: '2024-01-15T10:00:00Z',
 };
 
 // Mock URL.createObjectURL and URL.revokeObjectURL
@@ -48,16 +49,26 @@ describe('PreviewDialog', () => {
     );
   });
 
-  it('renders dialog with correct title when open', () => {
+  it('renders dialog with correct title when open', async () => {
     renderWithIntl(<PreviewDialog {...defaultProps} />);
 
     expect(screen.getByText('Document Preview')).toBeInTheDocument();
+
+    // Wait for fetch to complete to avoid act() warnings
+    await waitFor(() => {
+      expect(screen.getByTestId('preview-iframe')).toBeInTheDocument();
+    });
   });
 
-  it('displays document title in dialog description', () => {
+  it('displays document title in dialog description', async () => {
     renderWithIntl(<PreviewDialog {...defaultProps} />);
 
     expect(screen.getByText(/Test Document/)).toBeInTheDocument();
+
+    // Wait for fetch to complete to avoid act() warnings
+    await waitFor(() => {
+      expect(screen.getByTestId('preview-iframe')).toBeInTheDocument();
+    });
   });
 
   it('fetches PDF with Authorization header and renders blob URL in iframe', async () => {
@@ -76,10 +87,26 @@ describe('PreviewDialog', () => {
     });
   });
 
-  it('shows loading spinner initially', () => {
+  it('shows loading spinner initially', async () => {
+    // Suppress React act() warning for this test - we intentionally test loading state
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+
+    // Create a pending promise to keep the loading state
+    let resolvePromise: (value: unknown) => void;
+    const pendingPromise = new Promise((resolve) => {
+      resolvePromise = resolve;
+    });
+    vi.mocked(fetch).mockReturnValueOnce(pendingPromise as Promise<Response>);
+
     renderWithIntl(<PreviewDialog {...defaultProps} />);
 
     expect(document.querySelector('.animate-spin')).toBeInTheDocument();
+
+    // Resolve to allow cleanup
+    resolvePromise!({
+      ok: true,
+      blob: vi.fn().mockResolvedValue(new Blob(['mock pdf'], { type: 'application/pdf' })),
+    });
   });
 
   it('hides loading spinner after PDF loads', async () => {

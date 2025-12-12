@@ -13,6 +13,7 @@ export const PaperlessInstanceListItemSchema = z
     name: z.string(),
     apiUrl: z.string(),
     apiToken: z.string(), // Always "***" in responses
+    importFilterTags: z.array(z.number()).default([]),
     createdAt: z.iso.datetime(),
     updatedAt: z.iso.datetime(),
   })
@@ -33,6 +34,7 @@ export const UpdatePaperlessInstanceRequestSchema = z
     name: createOptionalNameSchema(),
     apiUrl: z.url('Invalid URL format').optional(),
     apiToken: z.string().min(1).optional(), // If empty, keep existing
+    importFilterTags: z.array(z.number()).optional(),
   })
   .openapi('UpdatePaperlessInstanceRequest');
 
@@ -40,6 +42,8 @@ export const UpdatePaperlessInstanceRequestSchema = z
 export const ImportDocumentsResponseSchema = z
   .object({
     imported: z.number(),
+    updated: z.number(),
+    unchanged: z.number(),
     total: z.number(),
   })
   .openapi('ImportDocumentsResponse');
@@ -52,12 +56,30 @@ export const PaperlessInstanceStatsResponseSchema = z
   })
   .openapi('PaperlessInstanceStatsResponse');
 
+// Paperless tag item
+export const PaperlessTagSchema = z
+  .object({
+    id: z.number(),
+    name: z.string(),
+    documentCount: z.number(),
+  })
+  .openapi('PaperlessTag');
+
+// Paperless tags list response
+export const PaperlessTagsResponseSchema = z
+  .object({
+    tags: z.array(PaperlessTagSchema),
+  })
+  .openapi('PaperlessTagsResponse');
+
 // Register schemas
 registry.register('PaperlessInstanceListItem', PaperlessInstanceListItemSchema);
 registry.register('CreatePaperlessInstanceRequest', CreatePaperlessInstanceRequestSchema);
 registry.register('UpdatePaperlessInstanceRequest', UpdatePaperlessInstanceRequestSchema);
 registry.register('ImportDocumentsResponse', ImportDocumentsResponseSchema);
 registry.register('PaperlessInstanceStatsResponse', PaperlessInstanceStatsResponseSchema);
+registry.register('PaperlessTag', PaperlessTagSchema);
+registry.register('PaperlessTagsResponse', PaperlessTagsResponseSchema);
 
 // Register all CRUD paths using helper
 registerCrudPaths({
@@ -120,5 +142,32 @@ registry.registerPath({
     401: CommonErrorResponses[401],
     403: CommonErrorResponses[403],
     404: CommonErrorResponses[404],
+  },
+});
+
+// Register tags endpoint to fetch available tags from Paperless instance
+registry.registerPath({
+  method: 'get',
+  path: '/paperless-instances/{id}/tags',
+  summary: 'Get available tags from Paperless instance',
+  tags: ['PaperlessInstances'],
+  request: {
+    params: z.object({
+      id: z.string(),
+    }),
+  },
+  responses: {
+    200: {
+      description: 'List of available tags',
+      content: {
+        'application/json': {
+          schema: PaperlessTagsResponseSchema,
+        },
+      },
+    },
+    401: CommonErrorResponses[401],
+    403: CommonErrorResponses[403],
+    404: CommonErrorResponses[404],
+    500: CommonErrorResponses[500],
   },
 });

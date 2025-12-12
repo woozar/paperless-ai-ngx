@@ -250,7 +250,18 @@
       },
       "noInstances": "No instances found",
       "importDocuments": "Import Documents",
-      "importSuccess": "{count, plural, one {1 document imported} other {# documents imported}}"
+      "importSuccess": "{imported, plural, one {1 new document} other {# new documents}}, {updated, plural, one {1 updated} other {# updated}}",
+      "importFilter": "Import Filter",
+      "importFilterDescription": "Only documents with ALL selected tags will be imported. Leave empty to import all documents.",
+      "importFilterTooltip": "Configure Import Filter",
+      "importFilterUpdated": "Import filter updated successfully",
+      "searchTags": "Search tags...",
+      "selectTags": "Select tags...",
+      "noTagsFound": "No tags found",
+      "allTagsSelected": "All tags are already selected",
+      "cancel": "Cancel",
+      "save": "Save",
+      "updateFailed": "Failed to update import filter"
     },
     "aiAccounts": {
       "title": "AI Accounts",
@@ -337,6 +348,7 @@
         "title": "Title",
         "status": "Status",
         "documentDate": "Date",
+        "updatedAt": "Updated",
         "importedAt": "Imported",
         "actions": "Actions"
       },
@@ -366,8 +378,10 @@
         "noCorrespondentFound": "No matching correspondent found",
         "noDocumentTypeFound": "No matching document type found",
         "new": "New",
-        "existingTag": "Existing",
-        "newTag": "New"
+        "existingTag": "Existing tag, will be added",
+        "newTag": "New tag, will be created",
+        "alreadyAssignedTag": "Already assigned",
+        "removedTag": "Will be removed"
       },
       "result": {
         "title": "Analysis Result",
@@ -382,6 +396,13 @@
         "button": "Preview",
         "close": "Close",
         "loadError": "Failed to load preview"
+      },
+      "apply": {
+        "all": "Apply All Suggestions",
+        "allApplied": "All Applied",
+        "applying": "Applying...",
+        "success": "Applied successfully",
+        "error": "Failed to apply changes"
       },
       "error": {
         "loadFailed": "Failed to load documents",

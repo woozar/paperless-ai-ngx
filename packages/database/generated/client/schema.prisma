@@ -132,12 +132,13 @@ model UserAiBotAccess {
 // =============================================================================
 
 model PaperlessInstance {
-  id        String   @id @default(cuid())
-  name      String
-  apiUrl    String
-  apiToken  String // Never expose in UI after saving
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id               String   @id @default(cuid())
+  name             String
+  apiUrl           String
+  apiToken         String // Never expose in UI after saving
+  importFilterTags Int[]    @default([]) // Only import documents with ALL of these tags (empty = import all)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
   // Owner
   owner   User   @relation(fields: [ownerId], references: [id], onDelete: Restrict)
@@ -149,6 +150,7 @@ model PaperlessInstance {
   // Related documents
   documents       PaperlessDocument[]
   processingQueue ProcessingQueue[]
+  importHistory   ImportHistory[]
 
   @@index([ownerId])
 }
@@ -243,16 +245,17 @@ model AiBot {
 // =============================================================================
 
 model PaperlessDocument {
-  id              String    @id @default(cuid())
-  paperlessId     Int
-  title           String
-  content         String    @db.Text
-  correspondentId Int?
-  tagIds          Int[]
-  documentDate    DateTime? // Date of the document from Paperless (created field)
-  importedAt      DateTime  @default(now())
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  id                String    @id @default(cuid())
+  paperlessId       Int
+  title             String
+  content           String    @db.Text
+  correspondentId   Int?
+  tagIds            Int[]
+  documentDate      DateTime? // Date of the document from Paperless (created field)
+  paperlessModified DateTime? // Last modified timestamp from Paperless (for sync detection)
+  importedAt        DateTime  @default(now())
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
 
   // Link to Paperless instance
   paperlessInstance   PaperlessInstance @relation(fields: [paperlessInstanceId], references: [id], onDelete: Cascade)
@@ -321,6 +324,25 @@ model ProcessingQueue {
   @@index([status, scheduledFor])
   @@index([paperlessId])
   @@index([paperlessInstanceId])
+}
+
+// =============================================================================
+// Import History (for dashboard charts)
+// =============================================================================
+
+model ImportHistory {
+  id                 String   @id @default(cuid())
+  importedAt         DateTime @default(now())
+  documentsImported  Int // New documents created
+  documentsUpdated   Int // Existing documents updated
+  documentsUnchanged Int // Documents that didn't need updating
+  totalInPaperless   Int // Total document count in Paperless at import time
+
+  // Link to Paperless instance
+  paperlessInstance   PaperlessInstance @relation(fields: [paperlessInstanceId], references: [id], onDelete: Cascade)
+  paperlessInstanceId String
+
+  @@index([paperlessInstanceId, importedAt])
 }
 
 // =============================================================================

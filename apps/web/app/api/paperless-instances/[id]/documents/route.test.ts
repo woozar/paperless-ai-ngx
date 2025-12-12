@@ -67,6 +67,7 @@ const mockDocuments = [
     content: 'Content 1',
     documentDate: new Date('2024-01-05T00:00:00Z'),
     importedAt: new Date('2024-01-10T10:00:00Z'),
+    updatedAt: new Date('2024-01-10T12:00:00Z'),
     processingResults: [{ processedAt: new Date('2024-01-10T12:00:00Z') }],
   },
   {
@@ -76,6 +77,7 @@ const mockDocuments = [
     content: 'Content 2',
     documentDate: new Date('2024-01-08T00:00:00Z'),
     importedAt: new Date('2024-01-11T10:00:00Z'),
+    updatedAt: new Date('2024-01-11T10:00:00Z'),
     processingResults: [],
   },
 ];
@@ -349,6 +351,26 @@ describe('GET /api/paperless-instances/[id]/documents', () => {
     expect(mockedPrisma.paperlessDocument.findMany).toHaveBeenCalledWith(
       expect.objectContaining({
         orderBy: [{ documentDate: 'desc' }],
+      })
+    );
+  });
+
+  it('uses default desc direction when sortField is updatedAt without sortDirection', async () => {
+    mockAdmin();
+    mockedPrisma.paperlessInstance.findFirst.mockResolvedValueOnce(mockInstance);
+    mockedPrisma.paperlessDocument.count.mockResolvedValueOnce(2);
+    mockedPrisma.paperlessDocument.findMany.mockResolvedValueOnce(mockDocuments);
+
+    const request = new NextRequest(
+      'http://localhost/api/paperless-instances/instance-1/documents?sortField=updatedAt'
+    );
+    const response = await GET(request, mockContext('instance-1'));
+
+    expect(response.status).toBe(200);
+    // Verify findMany was called with updatedAt sort (default desc)
+    expect(mockedPrisma.paperlessDocument.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({
+        orderBy: [{ updatedAt: 'desc' }],
       })
     );
   });

@@ -1,47 +1,82 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@repo/database';
-import { PaperlessClient, PaperlessDocument } from '@repo/paperless-client';
+import { PaperlessDocument } from '@repo/paperless-client';
 import { authRoute } from '@/lib/api/route-wrapper';
-import { decrypt } from '@/lib/crypto/encryption';
+import {
+  checkInstanceAccess,
+  instanceNotFoundResponse,
+  createPaperlessClient,
+} from '@/lib/api/document-access';
 
-// POST /api/paperless-instances/[id]/import - Import documents from Paperless (owner or any permission)
-export const POST = authRoute<never, { id: string }>(
-  async ({ user, params }) => {
-    // Get instance with encrypted token - any access level can import
-    const instance = await prisma.paperlessInstance.findFirst({
-      where: {
-        id: params.id,
-        OR: [
-          { ownerId: user.userId },
-          {
-            sharedWith: {
-              some: {
-                OR: [{ userId: user.userId }, { userId: null }],
-              },
-            },
-          },
-        ],
+// Helper type for existing document info
+interface ExistingDocInfo {
+  id: string;
+  paperlessId: number;
+  paperlessModified: Date | null;
+}
+
+// Helper to process a single document (create, update, or skip)
+async function processDocument(
+  doc: PaperlessDocument,
+  existingDoc: ExistingDocInfo | undefined,
+  instanceId: string
+): Promise<'imported' | 'updated' | 'unchanged'> {
+  const paperlessModified = doc.modified ? new Date(doc.modified) : null;
+  // v8 ignore next -- @preserve
+  const documentDate = doc.created ? new Date(doc.created) : null;
+
+  if (!existingDoc) {
+    await prisma.paperlessDocument.create({
+      data: {
+        paperlessId: doc.id,
+        title: doc.title,
+        content: doc.content,
+        correspondentId: doc.correspondent,
+        tagIds: doc.tags,
+        documentDate,
+        paperlessModified,
+        paperlessInstanceId: instanceId,
       },
     });
+    return 'imported';
+  }
 
+  if (needsUpdate(existingDoc.paperlessModified, paperlessModified)) {
+    await prisma.paperlessDocument.update({
+      where: { id: existingDoc.id },
+      data: {
+        title: doc.title,
+        content: doc.content,
+        correspondentId: doc.correspondent,
+        tagIds: doc.tags,
+        documentDate,
+        paperlessModified,
+      },
+    });
+    return 'updated';
+  }
+
+  return 'unchanged';
+}
+
+/**
+ * Check if document needs updating based on modified timestamps.
+ */
+function needsUpdate(storedModified: Date | null, paperlessModified: Date | null): boolean {
+  if (!storedModified) return true;
+  if (!paperlessModified) return false;
+  return paperlessModified.getTime() > storedModified.getTime();
+}
+
+// POST /api/paperless-instances/[id]/import - Import/sync documents from Paperless (owner or any permission)
+export const POST = authRoute<never, { id: string }>(
+  async ({ user, params }) => {
+    const instance = await checkInstanceAccess(params.id, user.userId);
     if (!instance) {
-      return NextResponse.json(
-        {
-          error: 'paperlessInstanceNotFound',
-          message: 'paperlessInstanceNotFound',
-        },
-        { status: 404 }
-      );
+      return instanceNotFoundResponse();
     }
 
-    // Decrypt API token
-    const apiToken = decrypt(instance.apiToken);
-
-    // Create Paperless client
-    const client = new PaperlessClient({
-      baseUrl: instance.apiUrl,
-      token: apiToken,
-    });
+    const client = createPaperlessClient(instance);
 
     // Fetch all documents with pagination
     const allDocuments: PaperlessDocument[] = [];
@@ -56,38 +91,51 @@ export const POST = authRoute<never, { id: string }>(
       page++;
     }
 
-    // Get existing document IDs for this instance
+    // Filter documents by required tags (if configured)
+    const filterTags = instance.importFilterTags ?? [];
+    const filteredDocuments =
+      filterTags.length > 0
+        ? allDocuments.filter((doc) => filterTags.every((tagId) => doc.tags.includes(tagId)))
+        : allDocuments;
+
+    // Get existing documents for this instance with their modified timestamps
     const existingDocs = await prisma.paperlessDocument.findMany({
       where: { paperlessInstanceId: params.id },
-      select: { paperlessId: true },
+      select: { id: true, paperlessId: true, paperlessModified: true },
     });
-    const existingIds = new Set(existingDocs.map((d) => d.paperlessId));
+    const existingDocsMap = new Map(existingDocs.map((d) => [d.paperlessId, d]));
 
-    // Filter out documents that already exist
-    const newDocuments = allDocuments.filter((doc) => !existingIds.has(doc.id));
+    // Process documents: create new, update modified, skip unchanged
+    let imported = 0;
+    let updated = 0;
+    let unchanged = 0;
 
-    // Insert only new documents
-    const createdDocuments = await Promise.all(
-      newDocuments.map(async (doc) => {
-        return prisma.paperlessDocument.create({
-          data: {
-            paperlessId: doc.id,
-            title: doc.title,
-            content: doc.content,
-            correspondentId: doc.correspondent,
-            tagIds: doc.tags,
-            // v8 ignore next -- @preserve
-            documentDate: doc.created ? new Date(doc.created) : null,
-            paperlessInstanceId: params.id,
-          },
-        });
-      })
-    );
+    for (const doc of filteredDocuments) {
+      const existingDoc = existingDocsMap.get(doc.id);
+      const result = await processDocument(doc, existingDoc, params.id);
+
+      if (result === 'imported') imported++;
+      else if (result === 'updated') updated++;
+      else unchanged++;
+    }
+
+    // Record import history for dashboard charts
+    await prisma.importHistory.create({
+      data: {
+        paperlessInstanceId: params.id,
+        documentsImported: imported,
+        documentsUpdated: updated,
+        documentsUnchanged: unchanged,
+        totalInPaperless: filteredDocuments.length,
+      },
+    });
 
     return NextResponse.json({
-      imported: createdDocuments.length,
-      total: allDocuments.length,
-      skipped: allDocuments.length - createdDocuments.length,
+      imported,
+      updated,
+      unchanged,
+      total: filteredDocuments.length,
+      filteredOut: allDocuments.length - filteredDocuments.length,
     });
   },
   { errorLogPrefix: 'Import documents' }

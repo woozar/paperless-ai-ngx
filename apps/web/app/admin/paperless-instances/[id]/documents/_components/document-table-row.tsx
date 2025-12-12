@@ -45,6 +45,9 @@ export const DocumentTableRow = memo(function DocumentTableRow({
       <TableCell className="text-muted-foreground text-sm">
         {document.documentDate ? formatDate(document.documentDate) : '—'}
       </TableCell>
+      <TableCell className="text-muted-foreground text-sm">
+        {formatDate(document.updatedAt)}
+      </TableCell>
       <TableCell className="text-right">
         <div className="flex justify-end gap-1">
           {isProcessed && (

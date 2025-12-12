@@ -98,7 +98,9 @@ export function PaperlessInstancesContent() {
           return;
         }
 
-        toast.success(t('importSuccess', { count: response.data.imported }));
+        toast.success(
+          t('importSuccess', { imported: response.data.imported, updated: response.data.updated })
+        );
       } catch {
         showError('importFailed');
       } finally {

@@ -10,10 +10,11 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { Loader2, FileText } from 'lucide-react';
+import { FileText } from 'lucide-react';
 import { getPaperlessInstancesByIdDocumentsByDocumentIdResult } from '@repo/api-client';
 import type { DocumentListItem, DocumentProcessingResult } from '@repo/api-client';
 import { AnalysisResultContent } from './analysis-result-content';
+import { AnalysisResultSkeleton } from './analysis-result-skeleton';
 import { useApi } from '@/lib/use-api';
 import { useErrorDisplay } from '@/hooks/use-error-display';
 
@@ -22,6 +23,7 @@ type ViewResultDialogProps = Readonly<{
   onOpenChange: (open: boolean) => void;
   document: DocumentListItem | null;
   instanceId: string;
+  onApplied?: () => void;
 }>;
 
 export function ViewResultDialog({
@@ -29,6 +31,7 @@ export function ViewResultDialog({
   onOpenChange,
   document,
   instanceId,
+  onApplied,
 }: ViewResultDialogProps) {
   const t = useTranslations('admin.documents');
   const { showError } = useErrorDisplay('admin.documents');
@@ -71,11 +74,7 @@ export function ViewResultDialog({
 
   const renderContent = () => {
     if (isLoading) {
-      return (
-        <div className="flex items-center justify-center py-8">
-          <Loader2 className="text-muted-foreground h-8 w-8 animate-spin" />
-        </div>
-      );
+      return <AnalysisResultSkeleton />;
     }
 
     if (!result || !changes) {
@@ -92,6 +91,9 @@ export function ViewResultDialog({
           outputTokens: result.outputTokens,
           estimatedCost: result.estimatedCost,
         }}
+        instanceId={instanceId}
+        documentId={document?.id}
+        onApplied={onApplied}
       />
     );
   };

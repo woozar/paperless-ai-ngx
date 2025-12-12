@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Paperless AI API",
-    "version": "1.12.0",
+    "version": "1.13.0",
     "description": "API for Paperless AI document processing"
   },
   "servers": [
@@ -223,6 +223,13 @@
           "apiToken": {
             "type": "string"
           },
+          "importFilterTags": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "default": []
+          },
           "createdAt": {
             "type": "string",
             "format": "date-time"
@@ -268,6 +275,12 @@
           "apiToken": {
             "type": "string",
             "minLength": 1
+          },
+          "importFilterTags": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
           }
         }
       },
@@ -277,11 +290,17 @@
           "imported": {
             "type": "number"
           },
+          "updated": {
+            "type": "number"
+          },
+          "unchanged": {
+            "type": "number"
+          },
           "total": {
             "type": "number"
           }
         },
-        "required": ["imported", "total"]
+        "required": ["imported", "updated", "unchanged", "total"]
       },
       "PaperlessInstanceStatsResponse": {
         "type": "object",
@@ -294,6 +313,33 @@
           }
         },
         "required": ["documents", "processingQueue"]
+      },
+      "PaperlessTag": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          },
+          "documentCount": {
+            "type": "number"
+          }
+        },
+        "required": ["id", "name", "documentCount"]
+      },
+      "PaperlessTagsResponse": {
+        "type": "object",
+        "properties": {
+          "tags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PaperlessTag"
+            }
+          }
+        },
+        "required": ["tags"]
       },
       "AiProviderType": {
         "type": "string",
@@ -698,6 +744,10 @@
             "type": ["string", "null"],
             "format": "date-time"
           },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
           "importedAt": {
             "type": "string",
             "format": "date-time"
@@ -713,6 +763,7 @@
           "title",
           "status",
           "documentDate",
+          "updatedAt",
           "importedAt",
           "lastProcessedAt"
         ]
@@ -741,6 +792,14 @@
               "name": {
                 "type": "string",
                 "description": "Name of the tag (for display)"
+              },
+              "isAssigned": {
+                "type": "boolean",
+                "description": "Whether this tag is already assigned to the document"
+              },
+              "isRemoved": {
+                "type": "boolean",
+                "description": "Whether this tag will be removed from the document"
               }
             },
             "required": ["id"]
@@ -751,6 +810,16 @@
               "name": {
                 "type": "string",
                 "description": "Name of new tag to create"
+              },
+              "isAssigned": {
+                "type": "boolean",
+                "enum": [false],
+                "description": "New tags are never already assigned"
+              },
+              "isRemoved": {
+                "type": "boolean",
+                "enum": [false],
+                "description": "New tags cannot be removed"
               }
             },
             "required": ["name"]
@@ -855,7 +924,7 @@
       },
       "DocumentSortField": {
         "type": "string",
-        "enum": ["title", "documentDate"]
+        "enum": ["title", "documentDate", "updatedAt"]
       },
       "SortDirection": {
         "type": "string",
@@ -967,6 +1036,64 @@
           }
         },
         "required": ["success", "result", "inputTokens", "outputTokens", "estimatedCost"]
+      },
+      "ApplyField": {
+        "type": "string",
+        "enum": ["title", "correspondent", "documentType", "tags", "date", "all"]
+      },
+      "ApplyFieldRequest": {
+        "type": "object",
+        "properties": {
+          "field": {
+            "$ref": "#/components/schemas/ApplyField"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number"
+                  },
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": ["name"]
+              },
+              {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/SuggestedTag"
+                }
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": ["field"]
+      },
+      "ApplyFieldResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "enum": [true]
+          },
+          "field": {
+            "$ref": "#/components/schemas/ApplyField"
+          },
+          "appliedValues": {
+            "type": "object",
+            "additionalProperties": {}
+          }
+        },
+        "required": ["success", "field", "appliedValues"]
       },
       "ErrorResponse": {
         "type": "object",
@@ -2050,6 +2177,74 @@
           },
           "404": {
             "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/paperless-instances/{id}/tags": {
+      "get": {
+        "summary": "Get available tags from Paperless instance",
+        "tags": ["PaperlessInstances"],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of available tags",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaperlessTagsResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
             "content": {
               "application/json": {
                 "schema": {
@@ -4089,6 +4284,111 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/paperless-instances/{id}/documents/{documentId}/apply": {
+      "post": {
+        "tags": ["Documents"],
+        "summary": "Apply AI suggestions to a document",
+        "description": "Applies one or all AI-suggested changes to the document in Paperless-ngx. Creates new entities (tags, correspondents, document types) if needed.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "name": "documentId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplyFieldRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Suggestions applied successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplyFieldResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Paperless API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["error", "message"]
                 }
               }
             }

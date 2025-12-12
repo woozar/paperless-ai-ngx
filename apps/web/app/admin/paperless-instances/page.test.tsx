@@ -72,6 +72,7 @@ vi.mock('@/components/settings-provider', () => ({
 }));
 
 const mockPostPaperlessInstances = vi.fn();
+const mockGetPaperlessInstancesByIdTags = vi.fn();
 
 vi.mock('@repo/api-client', async () => {
   const actual = await vi.importActual('@repo/api-client');
@@ -82,6 +83,7 @@ vi.mock('@repo/api-client', async () => {
       mockPostPaperlessInstancesByIdImport(...args),
     getPaperlessInstancesByIdStats: (...args: any[]) => mockGetPaperlessInstancesByIdStats(...args),
     postPaperlessInstances: (...args: any[]) => mockPostPaperlessInstances(...args),
+    getPaperlessInstancesByIdTags: (...args: any[]) => mockGetPaperlessInstancesByIdTags(...args),
   };
 });
 
@@ -120,6 +122,7 @@ const mockInstances: PaperlessInstanceListItem[] = [
     name: 'Production',
     apiUrl: 'http://paperless.prod:8000',
     apiToken: 'prod-token',
+    importFilterTags: [],
     createdAt: '2024-01-15T10:30:00Z',
     updatedAt: '2024-01-15T10:30:00Z',
   },
@@ -128,6 +131,7 @@ const mockInstances: PaperlessInstanceListItem[] = [
     name: 'Development',
     apiUrl: 'http://localhost:8000',
     apiToken: 'dev-token',
+    importFilterTags: [],
     createdAt: '2024-02-20T14:00:00Z',
     updatedAt: '2024-02-20T14:00:00Z',
   },
@@ -144,6 +148,9 @@ describe('PaperlessInstancesPage', () => {
     });
     mockGetPaperlessInstancesByIdStats.mockResolvedValue({
       data: { documents: 0, processingQueue: 0 },
+    });
+    mockGetPaperlessInstancesByIdTags.mockResolvedValue({
+      data: { tags: [{ id: 1, name: 'Tag1', documentCount: 5 }] },
     });
     Object.defineProperty(window, 'localStorage', {
       value: {

@@ -4,6 +4,7 @@ import {
   checkDocumentAccess,
   instanceNotFoundResponse,
   documentNotFoundResponse,
+  createPaperlessClient,
 } from './document-access';
 
 const mockFindFirst = vi.fn();
@@ -18,6 +19,16 @@ vi.mock('@repo/database', () => ({
     },
   },
 }));
+
+vi.mock('@/lib/crypto/encryption', () => ({
+  decrypt: vi.fn((token: string) => `decrypted-${token}`),
+}));
+
+vi.mock('@repo/paperless-client', () => ({
+  PaperlessClient: vi.fn(),
+}));
+
+import { PaperlessClient } from '@repo/paperless-client';
 
 describe('document-access', () => {
   beforeEach(() => {
@@ -107,6 +118,22 @@ describe('document-access', () => {
       expect(body).toEqual({
         error: 'documentNotFound',
         message: 'documentNotFound',
+      });
+    });
+  });
+
+  describe('createPaperlessClient', () => {
+    it('creates PaperlessClient with decrypted token', () => {
+      const instance = {
+        apiUrl: 'https://paperless.example.com',
+        apiToken: 'encrypted-token',
+      };
+
+      createPaperlessClient(instance);
+
+      expect(PaperlessClient).toHaveBeenCalledWith({
+        baseUrl: 'https://paperless.example.com',
+        token: 'decrypted-encrypted-token',
       });
     });
   });

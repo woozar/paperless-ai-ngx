@@ -29,6 +29,7 @@ const mockUnprocessedDocument: DocumentListItem = {
   documentDate: '2024-01-15T10:00:00Z',
   importedAt: '2024-01-10T10:00:00Z',
   lastProcessedAt: null,
+  updatedAt: '2024-01-10T10:00:00Z',
 };
 
 const mockProcessedDocument: DocumentListItem = {
@@ -39,6 +40,7 @@ const mockProcessedDocument: DocumentListItem = {
   documentDate: '2024-01-10T08:00:00Z',
   importedAt: '2024-01-05T08:00:00Z',
   lastProcessedAt: '2024-01-15T12:00:00Z',
+  updatedAt: '2024-01-15T12:00:00Z',
 };
 
 describe('DocumentTableRow', () => {

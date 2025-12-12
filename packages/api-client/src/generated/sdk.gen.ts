@@ -55,6 +55,9 @@ import type {
   GetPaperlessInstancesByIdStatsData,
   GetPaperlessInstancesByIdStatsResponses,
   GetPaperlessInstancesByIdStatsErrors,
+  GetPaperlessInstancesByIdTagsData,
+  GetPaperlessInstancesByIdTagsResponses,
+  GetPaperlessInstancesByIdTagsErrors,
   GetAiAccountsData,
   GetAiAccountsResponses,
   GetAiAccountsErrors,
@@ -145,6 +148,9 @@ import type {
   GetPaperlessInstancesByIdDocumentsByDocumentIdResultData,
   GetPaperlessInstancesByIdDocumentsByDocumentIdResultResponses,
   GetPaperlessInstancesByIdDocumentsByDocumentIdResultErrors,
+  PostPaperlessInstancesByIdDocumentsByDocumentIdApplyData,
+  PostPaperlessInstancesByIdDocumentsByDocumentIdApplyResponses,
+  PostPaperlessInstancesByIdDocumentsByDocumentIdApplyErrors,
 } from './types.gen';
 import { client as _heyApiClient } from './client.gen';
 
@@ -460,6 +466,22 @@ export const getPaperlessInstancesByIdStats = <ThrowOnError extends boolean = fa
     ThrowOnError
   >({
     url: '/paperless-instances/{id}/stats',
+    ...options,
+  });
+};
+
+/**
+ * Get available tags from Paperless instance
+ */
+export const getPaperlessInstancesByIdTags = <ThrowOnError extends boolean = false>(
+  options: Options<GetPaperlessInstancesByIdTagsData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<
+    GetPaperlessInstancesByIdTagsResponses,
+    GetPaperlessInstancesByIdTagsErrors,
+    ThrowOnError
+  >({
+    url: '/paperless-instances/{id}/tags',
     ...options,
   });
 };
@@ -988,5 +1010,28 @@ export const getPaperlessInstancesByIdDocumentsByDocumentIdResult = <
   >({
     url: '/paperless-instances/{id}/documents/{documentId}/result',
     ...options,
+  });
+};
+
+/**
+ * Apply AI suggestions to a document
+ * Applies one or all AI-suggested changes to the document in Paperless-ngx. Creates new entities (tags, correspondents, document types) if needed.
+ */
+export const postPaperlessInstancesByIdDocumentsByDocumentIdApply = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<PostPaperlessInstancesByIdDocumentsByDocumentIdApplyData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostPaperlessInstancesByIdDocumentsByDocumentIdApplyResponses,
+    PostPaperlessInstancesByIdDocumentsByDocumentIdApplyErrors,
+    ThrowOnError
+  >({
+    url: '/paperless-instances/{id}/documents/{documentId}/apply',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
   });
 };

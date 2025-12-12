@@ -32,8 +32,14 @@ export class PaperlessClient {
     });
 
     if (!response.ok) {
+      let errorBody = '';
+      try {
+        errorBody = await response.text();
+      } catch {
+        // ignore
+      }
       throw new PaperlessApiError(
-        `API request failed: ${response.status} ${response.statusText}`,
+        `API request failed: ${response.status} ${response.statusText}${errorBody ? ` - ${errorBody}` : ''}`,
         response.status
       );
     }
@@ -106,7 +112,9 @@ export class PaperlessClient {
 
   async updateDocument(
     id: number,
-    data: Partial<Pick<PaperlessDocument, 'title' | 'correspondent' | 'document_type' | 'tags'>>
+    data: Partial<
+      Pick<PaperlessDocument, 'title' | 'correspondent' | 'document_type' | 'tags' | 'created'>
+    >
   ): Promise<PaperlessDocument> {
     return this.fetch<PaperlessDocument>(`/documents/${id}/`, {
       method: 'PATCH',
@@ -175,6 +183,13 @@ export class PaperlessClient {
         docType.name.toLowerCase().includes(lowercaseQuery) ||
         docType.slug.toLowerCase().includes(lowercaseQuery)
     );
+  }
+
+  async createDocumentType(name: string): Promise<PaperlessDocumentType> {
+    return this.fetch<PaperlessDocumentType>('/document_types/', {
+      method: 'POST',
+      body: JSON.stringify({ name }),
+    });
   }
 
   // Health Check

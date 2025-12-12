@@ -10,6 +10,10 @@ vi.mock('@repo/database', () => ({
     paperlessDocument: {
       findMany: vi.fn(),
       create: vi.fn(),
+      update: vi.fn(),
+    },
+    importHistory: {
+      create: vi.fn(),
     },
   },
 }));
@@ -43,6 +47,10 @@ const mockedPrisma = mockPrisma<{
   paperlessDocument: {
     findMany: typeof prisma.paperlessDocument.findMany;
     create: typeof prisma.paperlessDocument.create;
+    update: typeof prisma.paperlessDocument.update;
+  };
+  importHistory: {
+    create: typeof prisma.importHistory.create;
   };
 }>(prisma);
 
@@ -188,6 +196,16 @@ describe('POST /api/paperless-instances/[id]/import', () => {
         updatedAt: new Date(),
       });
 
+    mockedPrisma.importHistory.create.mockResolvedValueOnce({
+      id: 'history-1',
+      importedAt: new Date(),
+      documentsImported: 2,
+      documentsUpdated: 0,
+      documentsUnchanged: 0,
+      totalInPaperless: 2,
+      paperlessInstanceId: 'instance-1',
+    });
+
     const request = new NextRequest('http://localhost/api/paperless-instances/instance-1/import', {
       method: 'POST',
     });
@@ -196,8 +214,9 @@ describe('POST /api/paperless-instances/[id]/import', () => {
 
     expect(response.status).toBe(200);
     expect(data.imported).toBe(2);
+    expect(data.updated).toBe(0);
+    expect(data.unchanged).toBe(0);
     expect(data.total).toBe(2);
-    expect(data.skipped).toBe(0);
 
     expect(mockGetDocuments).toHaveBeenCalledWith({ page: 1, page_size: 100 });
 
@@ -210,7 +229,19 @@ describe('POST /api/paperless-instances/[id]/import', () => {
         correspondentId: 125,
         tagIds: [17, 111],
         documentDate: new Date('2026-02-07'),
+        paperlessModified: new Date('2025-05-20T21:40:03.069192+02:00'),
         paperlessInstanceId: 'instance-1',
+      },
+    });
+
+    // Verify import history was created
+    expect(mockedPrisma.importHistory.create).toHaveBeenCalledWith({
+      data: {
+        paperlessInstanceId: 'instance-1',
+        documentsImported: 2,
+        documentsUpdated: 0,
+        documentsUnchanged: 0,
+        totalInPaperless: 2,
       },
     });
   });
@@ -259,6 +290,16 @@ describe('POST /api/paperless-instances/[id]/import', () => {
       updatedAt: new Date(),
     });
 
+    mockedPrisma.importHistory.create.mockResolvedValueOnce({
+      id: 'history-1',
+      importedAt: new Date(),
+      documentsImported: 1,
+      documentsUpdated: 0,
+      documentsUnchanged: 0,
+      totalInPaperless: 1,
+      paperlessInstanceId: 'instance-1',
+    });
+
     const request = new NextRequest('http://localhost/api/paperless-instances/instance-1/import', {
       method: 'POST',
     });
@@ -277,7 +318,7 @@ describe('POST /api/paperless-instances/[id]/import', () => {
     );
   });
 
-  it('skips documents that already exist in database', async () => {
+  it('updates documents that were modified in Paperless', async () => {
     mockAdmin();
 
     mockedPrisma.paperlessInstance.findFirst.mockResolvedValueOnce({
@@ -297,21 +338,38 @@ describe('POST /api/paperless-instances/[id]/import', () => {
       next: null,
     });
 
-    // Document 362 already exists in database
-    mockedPrisma.paperlessDocument.findMany.mockResolvedValueOnce([{ paperlessId: 362 }]);
+    // Document 362 exists but with older paperlessModified (needs update)
+    // Document 453 doesn't exist (new)
+    mockedPrisma.paperlessDocument.findMany.mockResolvedValueOnce([
+      {
+        id: 'existing-doc-1',
+        paperlessId: 362,
+        paperlessModified: new Date('2025-01-01T00:00:00.000Z'), // Older than Paperless
+      },
+    ]);
 
-    // Only document 453 should be created
+    // Update existing document
+    mockedPrisma.paperlessDocument.update.mockResolvedValueOnce({
+      id: 'existing-doc-1',
+      paperlessId: 362,
+      title: 'WIZO Konzert in Nürnberg',
+    });
+
+    // Create new document
     mockedPrisma.paperlessDocument.create.mockResolvedValueOnce({
       id: 'doc-2',
       paperlessId: 453,
       title: 'Antrag auf Porsche Approved Reparaturkostenversicherung',
-      content: mockPaperlessDocuments.results[1]!.content,
-      correspondentId: 166,
-      tagIds: [22, 45],
-      paperlessInstanceId: 'instance-1',
+    });
+
+    mockedPrisma.importHistory.create.mockResolvedValueOnce({
+      id: 'history-1',
       importedAt: new Date(),
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      documentsImported: 1,
+      documentsUpdated: 1,
+      documentsUnchanged: 0,
+      totalInPaperless: 2,
+      paperlessInstanceId: 'instance-1',
     });
 
     const request = new NextRequest('http://localhost/api/paperless-instances/instance-1/import', {
@@ -322,21 +380,80 @@ describe('POST /api/paperless-instances/[id]/import', () => {
 
     expect(response.status).toBe(200);
     expect(data.imported).toBe(1);
+    expect(data.updated).toBe(1);
+    expect(data.unchanged).toBe(0);
     expect(data.total).toBe(2);
-    expect(data.skipped).toBe(1);
 
-    expect(mockedPrisma.paperlessDocument.create).toHaveBeenCalledTimes(1);
-    expect(mockedPrisma.paperlessDocument.create).toHaveBeenCalledWith({
+    expect(mockedPrisma.paperlessDocument.update).toHaveBeenCalledTimes(1);
+    expect(mockedPrisma.paperlessDocument.update).toHaveBeenCalledWith({
+      where: { id: 'existing-doc-1' },
       data: {
-        paperlessId: 453,
-        title: 'Antrag auf Porsche Approved Reparaturkostenversicherung',
-        content: mockPaperlessDocuments.results[1]!.content,
-        correspondentId: 166,
-        tagIds: [22, 45],
-        documentDate: new Date('2025-01-09'),
-        paperlessInstanceId: 'instance-1',
+        title: 'WIZO Konzert in Nürnberg',
+        content: mockPaperlessDocuments.results[0]!.content,
+        correspondentId: 125,
+        tagIds: [17, 111],
+        documentDate: new Date('2026-02-07'),
+        paperlessModified: new Date('2025-05-20T21:40:03.069192+02:00'),
       },
     });
+
+    expect(mockedPrisma.paperlessDocument.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('skips unchanged documents', async () => {
+    mockAdmin();
+
+    mockedPrisma.paperlessInstance.findFirst.mockResolvedValueOnce({
+      id: 'instance-1',
+      name: 'My Paperless',
+      apiUrl: 'https://paperless.example.com',
+      apiToken: 'encrypted-token',
+      ownerId: 'admin-1',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+
+    vi.mocked(decrypt).mockReturnValueOnce('decrypted-api-token');
+
+    mockGetDocuments.mockResolvedValueOnce({
+      ...mockPaperlessDocuments,
+      next: null,
+      results: [mockPaperlessDocuments.results[0]], // Only one document
+    });
+
+    // Document exists with same paperlessModified (no update needed)
+    mockedPrisma.paperlessDocument.findMany.mockResolvedValueOnce([
+      {
+        id: 'existing-doc-1',
+        paperlessId: 362,
+        paperlessModified: new Date('2025-05-20T21:40:03.069192+02:00'), // Same as Paperless
+      },
+    ]);
+
+    mockedPrisma.importHistory.create.mockResolvedValueOnce({
+      id: 'history-1',
+      importedAt: new Date(),
+      documentsImported: 0,
+      documentsUpdated: 0,
+      documentsUnchanged: 1,
+      totalInPaperless: 1,
+      paperlessInstanceId: 'instance-1',
+    });
+
+    const request = new NextRequest('http://localhost/api/paperless-instances/instance-1/import', {
+      method: 'POST',
+    });
+    const response = await POST(request, mockContext('instance-1'));
+    const data = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(data.imported).toBe(0);
+    expect(data.updated).toBe(0);
+    expect(data.unchanged).toBe(1);
+    expect(data.total).toBe(1);
+
+    expect(mockedPrisma.paperlessDocument.create).not.toHaveBeenCalled();
+    expect(mockedPrisma.paperlessDocument.update).not.toHaveBeenCalled();
   });
 
   it('fetches all documents with pagination', async () => {
@@ -380,26 +497,22 @@ describe('POST /api/paperless-instances/[id]/import', () => {
         id: 'doc-1',
         paperlessId: 362,
         title: 'WIZO Konzert in Nürnberg',
-        content: mockPaperlessDocuments.results[0]!.content,
-        correspondentId: 125,
-        tagIds: [17, 111],
-        paperlessInstanceId: 'instance-1',
-        importedAt: new Date(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
       })
       .mockResolvedValueOnce({
         id: 'doc-2',
         paperlessId: 453,
         title: 'Antrag auf Porsche Approved Reparaturkostenversicherung',
-        content: mockPaperlessDocuments.results[1]!.content,
-        correspondentId: 166,
-        tagIds: [22, 45],
-        paperlessInstanceId: 'instance-1',
-        importedAt: new Date(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
       });
+
+    mockedPrisma.importHistory.create.mockResolvedValueOnce({
+      id: 'history-1',
+      importedAt: new Date(),
+      documentsImported: 2,
+      documentsUpdated: 0,
+      documentsUnchanged: 0,
+      totalInPaperless: 2,
+      paperlessInstanceId: 'instance-1',
+    });
 
     const request = new NextRequest('http://localhost/api/paperless-instances/instance-1/import', {
       method: 'POST',
@@ -419,7 +532,7 @@ describe('POST /api/paperless-instances/[id]/import', () => {
     expect(mockedPrisma.paperlessDocument.create).toHaveBeenCalledTimes(2);
   });
 
-  it('returns 0 imported when all documents already exist', async () => {
+  it('updates documents with null paperlessModified (initial sync)', async () => {
     mockAdmin();
 
     mockedPrisma.paperlessInstance.findFirst.mockResolvedValueOnce({
@@ -437,13 +550,32 @@ describe('POST /api/paperless-instances/[id]/import', () => {
     mockGetDocuments.mockResolvedValueOnce({
       ...mockPaperlessDocuments,
       next: null,
+      results: [mockPaperlessDocuments.results[0]],
     });
 
-    // All documents already exist
+    // Document exists but has null paperlessModified (needs initial sync)
     mockedPrisma.paperlessDocument.findMany.mockResolvedValueOnce([
-      { paperlessId: 362 },
-      { paperlessId: 453 },
+      {
+        id: 'existing-doc-1',
+        paperlessId: 362,
+        paperlessModified: null, // Never synced before
+      },
     ]);
+
+    mockedPrisma.paperlessDocument.update.mockResolvedValueOnce({
+      id: 'existing-doc-1',
+      paperlessId: 362,
+    });
+
+    mockedPrisma.importHistory.create.mockResolvedValueOnce({
+      id: 'history-1',
+      importedAt: new Date(),
+      documentsImported: 0,
+      documentsUpdated: 1,
+      documentsUnchanged: 0,
+      totalInPaperless: 1,
+      paperlessInstanceId: 'instance-1',
+    });
 
     const request = new NextRequest('http://localhost/api/paperless-instances/instance-1/import', {
       method: 'POST',
@@ -453,9 +585,137 @@ describe('POST /api/paperless-instances/[id]/import', () => {
 
     expect(response.status).toBe(200);
     expect(data.imported).toBe(0);
-    expect(data.total).toBe(2);
-    expect(data.skipped).toBe(2);
+    expect(data.updated).toBe(1);
+    expect(data.unchanged).toBe(0);
+    expect(data.total).toBe(1);
 
+    expect(mockedPrisma.paperlessDocument.update).toHaveBeenCalledTimes(1);
+    expect(mockedPrisma.paperlessDocument.create).not.toHaveBeenCalled();
+  });
+
+  it('filters documents by importFilterTags', async () => {
+    mockAdmin();
+
+    mockedPrisma.paperlessInstance.findFirst.mockResolvedValueOnce({
+      id: 'instance-1',
+      name: 'My Paperless',
+      apiUrl: 'https://paperless.example.com',
+      apiToken: 'encrypted-token',
+      ownerId: 'admin-1',
+      importFilterTags: [17], // Only import documents with tag 17
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+
+    vi.mocked(decrypt).mockReturnValueOnce('decrypted-api-token');
+
+    // Document 362 has tags [17, 111] - matches filter
+    // Document 453 has tags [22, 45] - does NOT match filter
+    mockGetDocuments.mockResolvedValueOnce({
+      ...mockPaperlessDocuments,
+      next: null,
+    });
+
+    mockedPrisma.paperlessDocument.findMany.mockResolvedValueOnce([]);
+
+    mockedPrisma.paperlessDocument.create.mockResolvedValueOnce({
+      id: 'doc-1',
+      paperlessId: 362,
+      title: 'WIZO Konzert in Nürnberg',
+    });
+
+    mockedPrisma.importHistory.create.mockResolvedValueOnce({
+      id: 'history-1',
+      importedAt: new Date(),
+      documentsImported: 1,
+      documentsUpdated: 0,
+      documentsUnchanged: 0,
+      totalInPaperless: 1,
+      paperlessInstanceId: 'instance-1',
+    });
+
+    const request = new NextRequest('http://localhost/api/paperless-instances/instance-1/import', {
+      method: 'POST',
+    });
+    const response = await POST(request, mockContext('instance-1'));
+    const data = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(data.imported).toBe(1);
+    expect(data.total).toBe(1);
+    expect(data.filteredOut).toBe(1); // Document 453 was filtered out
+
+    // Only document 362 should be created (has tag 17)
+    expect(mockedPrisma.paperlessDocument.create).toHaveBeenCalledTimes(1);
+    expect(mockedPrisma.paperlessDocument.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining({
+          paperlessId: 362,
+        }),
+      })
+    );
+  });
+
+  it('skips update when Paperless has no modified date but we have stored date', async () => {
+    mockAdmin();
+
+    mockedPrisma.paperlessInstance.findFirst.mockResolvedValueOnce({
+      id: 'instance-1',
+      name: 'My Paperless',
+      apiUrl: 'https://paperless.example.com',
+      apiToken: 'encrypted-token',
+      ownerId: 'admin-1',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+
+    vi.mocked(decrypt).mockReturnValueOnce('decrypted-api-token');
+
+    // Document without modified date from Paperless
+    mockGetDocuments.mockResolvedValueOnce({
+      ...mockPaperlessDocuments,
+      next: null,
+      results: [
+        {
+          ...mockPaperlessDocuments.results[0],
+          modified: null, // No modified date from Paperless
+        },
+      ],
+    });
+
+    // Document exists with a stored modified date
+    mockedPrisma.paperlessDocument.findMany.mockResolvedValueOnce([
+      {
+        id: 'existing-doc-1',
+        paperlessId: 362,
+        paperlessModified: new Date('2025-01-01T00:00:00.000Z'),
+      },
+    ]);
+
+    mockedPrisma.importHistory.create.mockResolvedValueOnce({
+      id: 'history-1',
+      importedAt: new Date(),
+      documentsImported: 0,
+      documentsUpdated: 0,
+      documentsUnchanged: 1,
+      totalInPaperless: 1,
+      paperlessInstanceId: 'instance-1',
+    });
+
+    const request = new NextRequest('http://localhost/api/paperless-instances/instance-1/import', {
+      method: 'POST',
+    });
+    const response = await POST(request, mockContext('instance-1'));
+    const data = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(data.imported).toBe(0);
+    expect(data.updated).toBe(0);
+    expect(data.unchanged).toBe(1);
+    expect(data.total).toBe(1);
+
+    // Should not update since Paperless has no modified date
+    expect(mockedPrisma.paperlessDocument.update).not.toHaveBeenCalled();
     expect(mockedPrisma.paperlessDocument.create).not.toHaveBeenCalled();
   });
 });

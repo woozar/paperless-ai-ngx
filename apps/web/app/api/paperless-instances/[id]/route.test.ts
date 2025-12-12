@@ -251,6 +251,33 @@ describe('PATCH /api/paperless-instances/[id]', () => {
     expect(response.status).toBe(200);
     expect(data.apiUrl).toBe('https://new-url.example.com');
   });
+
+  it('updates importFilterTags when provided', async () => {
+    const mockDate = new Date();
+    mockAdmin();
+    mockedPrisma.paperlessInstance.findFirst.mockResolvedValueOnce({
+      id: 'instance-1',
+      ownerId: 'admin-1',
+    });
+    mockedPrisma.paperlessInstance.update.mockResolvedValueOnce({
+      id: 'instance-1',
+      name: 'Test Instance',
+      apiUrl: 'https://example.com',
+      importFilterTags: [1, 2, 3],
+      createdAt: mockDate,
+      updatedAt: mockDate,
+    });
+
+    const request = new NextRequest('http://localhost/api/paperless-instances/instance-1', {
+      method: 'PATCH',
+      body: JSON.stringify({ importFilterTags: [1, 2, 3] }),
+    });
+    const response = await PATCH(request, mockContext('instance-1'));
+    const data = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(data.importFilterTags).toEqual([1, 2, 3]);
+  });
 });
 
 describe('DELETE /api/paperless-instances/[id]', () => {

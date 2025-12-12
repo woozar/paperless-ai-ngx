@@ -25,6 +25,7 @@ export const GET = authRoute<never, { id: string }>(
         id: true,
         name: true,
         apiUrl: true,
+        importFilterTags: true,
         createdAt: true,
         updatedAt: true,
       },
@@ -81,7 +82,7 @@ export const PATCH = authRoute<typeof UpdatePaperlessInstanceRequestSchema, { id
       );
     }
 
-    const { name, apiUrl, apiToken } = body;
+    const { name, apiUrl, apiToken, importFilterTags } = body;
 
     // Check name uniqueness if changing
     if (name && name !== existingInstance.name) {
@@ -110,11 +111,13 @@ export const PATCH = authRoute<typeof UpdatePaperlessInstanceRequestSchema, { id
       name?: string;
       apiUrl?: string;
       apiToken?: string;
+      importFilterTags?: number[];
     };
 
     const updateData: UpdateData = {};
     if (name !== undefined) updateData.name = name;
     if (apiUrl !== undefined) updateData.apiUrl = apiUrl;
+    if (importFilterTags !== undefined) updateData.importFilterTags = importFilterTags;
 
     // Encrypt API token if provided
     if (apiToken) {
@@ -129,6 +132,7 @@ export const PATCH = authRoute<typeof UpdatePaperlessInstanceRequestSchema, { id
         id: true,
         name: true,
         apiUrl: true,
+        importFilterTags: true,
         createdAt: true,
         updatedAt: true,
       },

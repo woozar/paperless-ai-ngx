@@ -177,6 +177,7 @@ const mockDocuments: DocumentListItem[] = [
     importedAt: '2024-01-10T10:00:00Z',
     documentDate: '2024-01-05T00:00:00Z',
     lastProcessedAt: '2024-01-10T12:00:00Z',
+    updatedAt: '2024-01-10T12:00:00Z',
   },
   {
     id: 'doc-2',
@@ -186,6 +187,7 @@ const mockDocuments: DocumentListItem[] = [
     importedAt: '2024-01-11T10:00:00Z',
     documentDate: '2024-01-08T00:00:00Z',
     lastProcessedAt: null,
+    updatedAt: '2024-01-11T10:00:00Z',
   },
 ];
 

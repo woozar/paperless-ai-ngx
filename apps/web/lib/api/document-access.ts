@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@repo/database';
+import { PaperlessClient } from '@repo/paperless-client';
+import { decrypt } from '@/lib/crypto/encryption';
 
 /**
  * Checks if a user has access to a Paperless instance.
@@ -60,4 +62,14 @@ export function documentNotFoundResponse() {
     },
     { status: 404 }
   );
+}
+
+/**
+ * Creates a PaperlessClient from an instance with decrypted API token.
+ */
+export function createPaperlessClient(instance: { apiUrl: string; apiToken: string }) {
+  return new PaperlessClient({
+    baseUrl: instance.apiUrl,
+    token: decrypt(instance.apiToken),
+  });
 }

@@ -46,6 +46,7 @@ const mockInstance: Omit<PaperlessInstanceListItem, 'apiToken'> = {
   id: 'instance-123',
   name: 'Test Instance',
   apiUrl: 'http://localhost:8000',
+  importFilterTags: [],
   createdAt: '2024-01-15T10:30:00Z',
   updatedAt: '2024-01-15T10:30:00Z',
 };

@@ -58,7 +58,7 @@ export default function DocumentsPage() {
           limit,
           status: params.status,
           search: params.search || undefined,
-          sortField: sort?.field as 'title' | 'documentDate' | undefined,
+          sortField: sort?.field as 'title' | 'documentDate' | 'updatedAt' | undefined,
           sortDirection: sort?.direction,
         },
       });
@@ -110,6 +110,7 @@ export default function DocumentsPage() {
       },
       { label: t('table.status') },
       { label: t('table.documentDate'), sortKey: 'documentDate' },
+      { label: t('table.updatedAt'), sortKey: 'updatedAt' },
       { label: t('table.actions'), align: 'right' },
     ],
     [t]

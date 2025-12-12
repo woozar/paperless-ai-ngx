@@ -85,10 +85,37 @@ describe('PaperlessClient', () => {
         ok: false,
         status: 401,
         statusText: 'Unauthorized',
+        text: () => Promise.resolve(''),
       });
 
       await expect(client.getDocuments()).rejects.toThrow(PaperlessApiError);
       await expect(client.getDocuments()).rejects.toThrow('API request failed: 401 Unauthorized');
+    });
+
+    it('includes error body in error message when available', async () => {
+      mockFetch.mockResolvedValue({
+        ok: false,
+        status: 400,
+        statusText: 'Bad Request',
+        text: () => Promise.resolve('Invalid parameters'),
+      });
+
+      await expect(client.getDocuments()).rejects.toThrow(
+        'API request failed: 400 Bad Request - Invalid parameters'
+      );
+    });
+
+    it('handles error when response.text() throws', async () => {
+      mockFetch.mockResolvedValue({
+        ok: false,
+        status: 500,
+        statusText: 'Internal Server Error',
+        text: () => Promise.reject(new Error('Cannot read body')),
+      });
+
+      await expect(client.getDocuments()).rejects.toThrow(
+        'API request failed: 500 Internal Server Error'
+      );
     });
   });
 
@@ -426,6 +453,27 @@ describe('PaperlessClient', () => {
 
       expect(result).toHaveLength(1);
       expect(result[0]!.slug).toBe('some-type');
+    });
+  });
+
+  describe('createDocumentType', () => {
+    it('creates a new document type with POST request', async () => {
+      const mockDocumentType = { id: 5, name: 'New Type', slug: 'new-type' };
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve(mockDocumentType),
+      });
+
+      const result = await client.createDocumentType('New Type');
+
+      expect(mockFetch).toHaveBeenCalledWith(
+        `${baseUrl}/api/document_types/`,
+        expect.objectContaining({
+          method: 'POST',
+          body: JSON.stringify({ name: 'New Type' }),
+        })
+      );
+      expect(result).toEqual(mockDocumentType);
     });
   });
 

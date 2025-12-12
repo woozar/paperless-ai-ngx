@@ -9,6 +9,8 @@ const messages = {
       analyze: {
         existingTag: 'Existing',
         newTag: 'New',
+        removedTag: 'Will be removed',
+        alreadyAssignedTag: 'Already assigned',
       },
     },
   },
@@ -64,5 +66,29 @@ describe('SuggestedTagsList', () => {
     renderWithIntl(<SuggestedTagsList tags={[{ id: 42 }]} />);
 
     expect(screen.getByText('#42')).toBeInTheDocument();
+  });
+
+  it('renders removed tags with red border and minus icon', () => {
+    renderWithIntl(
+      <SuggestedTagsList tags={[{ id: 1, name: 'Old Tag', isAssigned: true, isRemoved: true }]} />
+    );
+
+    const badge = screen.getByText('Old Tag').closest('[title]');
+    expect(badge).toHaveAttribute('title', 'Will be removed');
+    expect(badge).toHaveClass('border-red-500');
+    // Minus icon should be present
+    expect(badge?.querySelector('svg')).toHaveClass('lucide-minus');
+  });
+
+  it('renders already assigned tags with gray border and check icon', () => {
+    renderWithIntl(
+      <SuggestedTagsList tags={[{ id: 1, name: 'Assigned Tag', isAssigned: true }]} />
+    );
+
+    const badge = screen.getByText('Assigned Tag').closest('[title]');
+    expect(badge).toHaveAttribute('title', 'Already assigned');
+    expect(badge).toHaveClass('border-gray-400');
+    // Check icon should be present
+    expect(badge?.querySelector('svg')).toHaveClass('lucide-check');
   });
 });

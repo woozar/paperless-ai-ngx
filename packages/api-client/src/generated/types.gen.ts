@@ -66,6 +66,7 @@ export type PaperlessInstanceListItem = {
   name: string;
   apiUrl: string;
   apiToken: string;
+  importFilterTags?: Array<number>;
   createdAt: string;
   updatedAt: string;
 };
@@ -80,16 +81,29 @@ export type UpdatePaperlessInstanceRequest = {
   name?: string;
   apiUrl?: string;
   apiToken?: string;
+  importFilterTags?: Array<number>;
 };
 
 export type ImportDocumentsResponse = {
   imported: number;
+  updated: number;
+  unchanged: number;
   total: number;
 };
 
 export type PaperlessInstanceStatsResponse = {
   documents: number;
   processingQueue: number;
+};
+
+export type PaperlessTag = {
+  id: number;
+  name: string;
+  documentCount: number;
+};
+
+export type PaperlessTagsResponse = {
+  tags: Array<PaperlessTag>;
 };
 
 export type AiProviderType = 'openai' | 'anthropic' | 'ollama' | 'google' | 'custom';
@@ -217,6 +231,7 @@ export type DocumentListItem = {
   title: string;
   status: DocumentStatus;
   documentDate: string | null;
+  updatedAt: string;
   importedAt: string;
   lastProcessedAt: string | null;
 };
@@ -236,12 +251,28 @@ export type SuggestedTag =
        * Name of the tag (for display)
        */
       name?: string;
+      /**
+       * Whether this tag is already assigned to the document
+       */
+      isAssigned?: boolean;
+      /**
+       * Whether this tag will be removed from the document
+       */
+      isRemoved?: boolean;
     }
   | {
       /**
        * Name of new tag to create
        */
       name: string;
+      /**
+       * New tags are never already assigned
+       */
+      isAssigned?: false;
+      /**
+       * New tags cannot be removed
+       */
+      isRemoved?: false;
     };
 
 export type DocumentAnalysisResult = {
@@ -271,7 +302,7 @@ export type DocumentProcessingResult = {
   originalTitle: string | null;
 };
 
-export type DocumentSortField = 'title' | 'documentDate';
+export type DocumentSortField = 'title' | 'documentDate' | 'updatedAt';
 
 export type SortDirection = 'asc' | 'desc';
 
@@ -307,6 +338,28 @@ export type AnalyzeDocumentResponse = {
   inputTokens: number;
   outputTokens: number;
   estimatedCost: number | null;
+};
+
+export type ApplyField = 'title' | 'correspondent' | 'documentType' | 'tags' | 'date' | 'all';
+
+export type ApplyFieldRequest = {
+  field: ApplyField;
+  value?:
+    | string
+    | {
+        id?: number;
+        name: string;
+      }
+    | Array<SuggestedTag>
+    | null;
+};
+
+export type ApplyFieldResponse = {
+  success: true;
+  field: ApplyField;
+  appliedValues: {
+    [key: string]: unknown;
+  };
 };
 
 export type ErrorResponse = {
@@ -944,6 +997,47 @@ export type GetPaperlessInstancesByIdStatsResponses = {
 
 export type GetPaperlessInstancesByIdStatsResponse =
   GetPaperlessInstancesByIdStatsResponses[keyof GetPaperlessInstancesByIdStatsResponses];
+
+export type GetPaperlessInstancesByIdTagsData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/paperless-instances/{id}/tags';
+};
+
+export type GetPaperlessInstancesByIdTagsErrors = {
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not authorized
+   */
+  403: ErrorResponse;
+  /**
+   * Not found
+   */
+  404: ErrorResponse;
+  /**
+   * Internal server error
+   */
+  500: ErrorResponse;
+};
+
+export type GetPaperlessInstancesByIdTagsError =
+  GetPaperlessInstancesByIdTagsErrors[keyof GetPaperlessInstancesByIdTagsErrors];
+
+export type GetPaperlessInstancesByIdTagsResponses = {
+  /**
+   * List of available tags
+   */
+  200: PaperlessTagsResponse;
+};
+
+export type GetPaperlessInstancesByIdTagsResponse =
+  GetPaperlessInstancesByIdTagsResponses[keyof GetPaperlessInstancesByIdTagsResponses];
 
 export type GetAiAccountsData = {
   body?: never;
@@ -2084,6 +2178,55 @@ export type GetPaperlessInstancesByIdDocumentsByDocumentIdResultResponses = {
 
 export type GetPaperlessInstancesByIdDocumentsByDocumentIdResultResponse =
   GetPaperlessInstancesByIdDocumentsByDocumentIdResultResponses[keyof GetPaperlessInstancesByIdDocumentsByDocumentIdResultResponses];
+
+export type PostPaperlessInstancesByIdDocumentsByDocumentIdApplyData = {
+  body?: ApplyFieldRequest;
+  path: {
+    id: string;
+    documentId: string;
+  };
+  query?: never;
+  url: '/paperless-instances/{id}/documents/{documentId}/apply';
+};
+
+export type PostPaperlessInstancesByIdDocumentsByDocumentIdApplyErrors = {
+  /**
+   * Bad request
+   */
+  400: ErrorResponse;
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not authorized
+   */
+  403: ErrorResponse;
+  /**
+   * Not found
+   */
+  404: ErrorResponse;
+  /**
+   * Paperless API error
+   */
+  502: {
+    error: string;
+    message: string;
+  };
+};
+
+export type PostPaperlessInstancesByIdDocumentsByDocumentIdApplyError =
+  PostPaperlessInstancesByIdDocumentsByDocumentIdApplyErrors[keyof PostPaperlessInstancesByIdDocumentsByDocumentIdApplyErrors];
+
+export type PostPaperlessInstancesByIdDocumentsByDocumentIdApplyResponses = {
+  /**
+   * Suggestions applied successfully
+   */
+  200: ApplyFieldResponse;
+};
+
+export type PostPaperlessInstancesByIdDocumentsByDocumentIdApplyResponse =
+  PostPaperlessInstancesByIdDocumentsByDocumentIdApplyResponses[keyof PostPaperlessInstancesByIdDocumentsByDocumentIdApplyResponses];
 
 export type ClientOptions = {
   baseUrl: `${string}://${string}/api` | (string & {});

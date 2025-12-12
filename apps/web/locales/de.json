@@ -250,7 +250,18 @@
       },
       "noInstances": "Keine Instanzen gefunden",
       "importDocuments": "Dokumente importieren",
-      "importSuccess": "{count, plural, one {1 Dokument importiert} other {# Dokumente importiert}}"
+      "importSuccess": "{imported, plural, one {1 neues Dokument} other {# neue Dokumente}}, {updated, plural, one {1 aktualisiert} other {# aktualisiert}}",
+      "importFilter": "Import-Filter",
+      "importFilterDescription": "Nur Dokumente mit ALLEN ausgewählten Tags werden importiert. Leer lassen, um alle Dokumente zu importieren.",
+      "importFilterTooltip": "Import-Filter konfigurieren",
+      "importFilterUpdated": "Import-Filter erfolgreich aktualisiert",
+      "searchTags": "Tags suchen...",
+      "selectTags": "Tags auswählen...",
+      "noTagsFound": "Keine Tags gefunden",
+      "allTagsSelected": "Alle Tags sind bereits ausgewählt",
+      "cancel": "Abbrechen",
+      "save": "Speichern",
+      "updateFailed": "Fehler beim Aktualisieren des Import-Filters"
     },
     "aiAccounts": {
       "title": "KI-Accounts",
@@ -337,6 +348,7 @@
         "title": "Titel",
         "status": "Status",
         "documentDate": "Datum",
+        "updatedAt": "Aktualisiert",
         "importedAt": "Importiert",
         "actions": "Aktionen"
       },
@@ -366,8 +378,10 @@
         "noCorrespondentFound": "Kein passender Korrespondent gefunden",
         "noDocumentTypeFound": "Kein passender Dokumenttyp gefunden",
         "new": "Neu",
-        "existingTag": "Bereits vorhanden",
-        "newTag": "Neu vorgeschlagen"
+        "existingTag": "Existiert, wird hinzugefügt",
+        "newTag": "Neu, wird erstellt",
+        "alreadyAssignedTag": "Bereits zugewiesen",
+        "removedTag": "Wird entfernt"
       },
       "result": {
         "title": "Analyseergebnis",
@@ -382,6 +396,13 @@
         "button": "Vorschau",
         "close": "Schließen",
         "loadError": "Fehler beim Laden der Vorschau"
+      },
+      "apply": {
+        "all": "Alle Vorschläge übernehmen",
+        "allApplied": "Alle übernommen",
+        "applying": "Übernehme...",
+        "success": "Erfolgreich übernommen",
+        "error": "Fehler beim Übernehmen"
       },
       "error": {
         "loadFailed": "Fehler beim Laden der Dokumente",

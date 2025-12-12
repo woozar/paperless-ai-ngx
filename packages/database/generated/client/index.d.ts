@@ -79,6 +79,11 @@ export type DocumentProcessingResult =
  */
 export type ProcessingQueue = $Result.DefaultSelection<Prisma.$ProcessingQueuePayload>;
 /**
+ * Model ImportHistory
+ *
+ */
+export type ImportHistory = $Result.DefaultSelection<Prisma.$ImportHistoryPayload>;
+/**
  * Model AiUsageMetric
  *
  */
@@ -391,6 +396,16 @@ export class PrismaClient<
    * ```
    */
   get processingQueue(): Prisma.ProcessingQueueDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.importHistory`: Exposes CRUD operations for the **ImportHistory** model.
+   * Example usage:
+   * ```ts
+   * // Fetch zero or more ImportHistories
+   * const importHistories = await prisma.importHistory.findMany()
+   * ```
+   */
+  get importHistory(): Prisma.ImportHistoryDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.aiUsageMetric`: Exposes CRUD operations for the **AiUsageMetric** model.
@@ -842,6 +857,7 @@ export namespace Prisma {
     PaperlessDocument: 'PaperlessDocument';
     DocumentProcessingResult: 'DocumentProcessingResult';
     ProcessingQueue: 'ProcessingQueue';
+    ImportHistory: 'ImportHistory';
     AiUsageMetric: 'AiUsageMetric';
   };
 
@@ -877,6 +893,7 @@ export namespace Prisma {
         | 'paperlessDocument'
         | 'documentProcessingResult'
         | 'processingQueue'
+        | 'importHistory'
         | 'aiUsageMetric';
       txIsolationLevel: Prisma.TransactionIsolationLevel;
     };
@@ -1843,6 +1860,80 @@ export namespace Prisma {
           };
         };
       };
+      ImportHistory: {
+        payload: Prisma.$ImportHistoryPayload<ExtArgs>;
+        fields: Prisma.ImportHistoryFieldRefs;
+        operations: {
+          findUnique: {
+            args: Prisma.ImportHistoryFindUniqueArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$ImportHistoryPayload> | null;
+          };
+          findUniqueOrThrow: {
+            args: Prisma.ImportHistoryFindUniqueOrThrowArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$ImportHistoryPayload>;
+          };
+          findFirst: {
+            args: Prisma.ImportHistoryFindFirstArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$ImportHistoryPayload> | null;
+          };
+          findFirstOrThrow: {
+            args: Prisma.ImportHistoryFindFirstOrThrowArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$ImportHistoryPayload>;
+          };
+          findMany: {
+            args: Prisma.ImportHistoryFindManyArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$ImportHistoryPayload>[];
+          };
+          create: {
+            args: Prisma.ImportHistoryCreateArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$ImportHistoryPayload>;
+          };
+          createMany: {
+            args: Prisma.ImportHistoryCreateManyArgs<ExtArgs>;
+            result: BatchPayload;
+          };
+          createManyAndReturn: {
+            args: Prisma.ImportHistoryCreateManyAndReturnArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$ImportHistoryPayload>[];
+          };
+          delete: {
+            args: Prisma.ImportHistoryDeleteArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$ImportHistoryPayload>;
+          };
+          update: {
+            args: Prisma.ImportHistoryUpdateArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$ImportHistoryPayload>;
+          };
+          deleteMany: {
+            args: Prisma.ImportHistoryDeleteManyArgs<ExtArgs>;
+            result: BatchPayload;
+          };
+          updateMany: {
+            args: Prisma.ImportHistoryUpdateManyArgs<ExtArgs>;
+            result: BatchPayload;
+          };
+          updateManyAndReturn: {
+            args: Prisma.ImportHistoryUpdateManyAndReturnArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$ImportHistoryPayload>[];
+          };
+          upsert: {
+            args: Prisma.ImportHistoryUpsertArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$ImportHistoryPayload>;
+          };
+          aggregate: {
+            args: Prisma.ImportHistoryAggregateArgs<ExtArgs>;
+            result: $Utils.Optional<AggregateImportHistory>;
+          };
+          groupBy: {
+            args: Prisma.ImportHistoryGroupByArgs<ExtArgs>;
+            result: $Utils.Optional<ImportHistoryGroupByOutputType>[];
+          };
+          count: {
+            args: Prisma.ImportHistoryCountArgs<ExtArgs>;
+            result: $Utils.Optional<ImportHistoryCountAggregateOutputType> | number;
+          };
+        };
+      };
       AiUsageMetric: {
         payload: Prisma.$AiUsageMetricPayload<ExtArgs>;
         fields: Prisma.AiUsageMetricFieldRefs;
@@ -2026,6 +2117,7 @@ export namespace Prisma {
     paperlessDocument?: PaperlessDocumentOmit;
     documentProcessingResult?: DocumentProcessingResultOmit;
     processingQueue?: ProcessingQueueOmit;
+    importHistory?: ImportHistoryOmit;
     aiUsageMetric?: AiUsageMetricOmit;
   };
 
@@ -2229,6 +2321,7 @@ export namespace Prisma {
     sharedWith: number;
     documents: number;
     processingQueue: number;
+    importHistory: number;
   };
 
   export type PaperlessInstanceCountOutputTypeSelect<
@@ -2237,6 +2330,7 @@ export namespace Prisma {
     sharedWith?: boolean | PaperlessInstanceCountOutputTypeCountSharedWithArgs;
     documents?: boolean | PaperlessInstanceCountOutputTypeCountDocumentsArgs;
     processingQueue?: boolean | PaperlessInstanceCountOutputTypeCountProcessingQueueArgs;
+    importHistory?: boolean | PaperlessInstanceCountOutputTypeCountImportHistoryArgs;
   };
 
   // Custom InputTypes
@@ -2277,6 +2371,15 @@ export namespace Prisma {
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     where?: ProcessingQueueWhereInput;
+  };
+
+  /**
+   * PaperlessInstanceCountOutputType without action
+   */
+  export type PaperlessInstanceCountOutputTypeCountImportHistoryArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    where?: ImportHistoryWhereInput;
   };
 
   /**
@@ -10422,8 +10525,18 @@ export namespace Prisma {
 
   export type AggregatePaperlessInstance = {
     _count: PaperlessInstanceCountAggregateOutputType | null;
+    _avg: PaperlessInstanceAvgAggregateOutputType | null;
+    _sum: PaperlessInstanceSumAggregateOutputType | null;
     _min: PaperlessInstanceMinAggregateOutputType | null;
     _max: PaperlessInstanceMaxAggregateOutputType | null;
+  };
+
+  export type PaperlessInstanceAvgAggregateOutputType = {
+    importFilterTags: number | null;
+  };
+
+  export type PaperlessInstanceSumAggregateOutputType = {
+    importFilterTags: number[];
   };
 
   export type PaperlessInstanceMinAggregateOutputType = {
@@ -10451,10 +10564,19 @@ export namespace Prisma {
     name: number;
     apiUrl: number;
     apiToken: number;
+    importFilterTags: number;
     createdAt: number;
     updatedAt: number;
     ownerId: number;
     _all: number;
+  };
+
+  export type PaperlessInstanceAvgAggregateInputType = {
+    importFilterTags?: true;
+  };
+
+  export type PaperlessInstanceSumAggregateInputType = {
+    importFilterTags?: true;
   };
 
   export type PaperlessInstanceMinAggregateInputType = {
@@ -10482,6 +10604,7 @@ export namespace Prisma {
     name?: true;
     apiUrl?: true;
     apiToken?: true;
+    importFilterTags?: true;
     createdAt?: true;
     updatedAt?: true;
     ownerId?: true;
@@ -10530,6 +10653,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      *
+     * Select which fields to average
+     **/
+    _avg?: PaperlessInstanceAvgAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to sum
+     **/
+    _sum?: PaperlessInstanceSumAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
      * Select which fields to find the minimum value
      **/
     _min?: PaperlessInstanceMinAggregateInputType;
@@ -10561,6 +10696,8 @@ export namespace Prisma {
     take?: number;
     skip?: number;
     _count?: PaperlessInstanceCountAggregateInputType | true;
+    _avg?: PaperlessInstanceAvgAggregateInputType;
+    _sum?: PaperlessInstanceSumAggregateInputType;
     _min?: PaperlessInstanceMinAggregateInputType;
     _max?: PaperlessInstanceMaxAggregateInputType;
   };
@@ -10570,10 +10707,13 @@ export namespace Prisma {
     name: string;
     apiUrl: string;
     apiToken: string;
+    importFilterTags: number[];
     createdAt: Date;
     updatedAt: Date;
     ownerId: string;
     _count: PaperlessInstanceCountAggregateOutputType | null;
+    _avg: PaperlessInstanceAvgAggregateOutputType | null;
+    _sum: PaperlessInstanceSumAggregateOutputType | null;
     _min: PaperlessInstanceMinAggregateOutputType | null;
     _max: PaperlessInstanceMaxAggregateOutputType | null;
   };
@@ -10599,6 +10739,7 @@ export namespace Prisma {
       name?: boolean;
       apiUrl?: boolean;
       apiToken?: boolean;
+      importFilterTags?: boolean;
       createdAt?: boolean;
       updatedAt?: boolean;
       ownerId?: boolean;
@@ -10606,6 +10747,7 @@ export namespace Prisma {
       sharedWith?: boolean | PaperlessInstance$sharedWithArgs<ExtArgs>;
       documents?: boolean | PaperlessInstance$documentsArgs<ExtArgs>;
       processingQueue?: boolean | PaperlessInstance$processingQueueArgs<ExtArgs>;
+      importHistory?: boolean | PaperlessInstance$importHistoryArgs<ExtArgs>;
       _count?: boolean | PaperlessInstanceCountOutputTypeDefaultArgs<ExtArgs>;
     },
     ExtArgs['result']['paperlessInstance']
@@ -10619,6 +10761,7 @@ export namespace Prisma {
       name?: boolean;
       apiUrl?: boolean;
       apiToken?: boolean;
+      importFilterTags?: boolean;
       createdAt?: boolean;
       updatedAt?: boolean;
       ownerId?: boolean;
@@ -10635,6 +10778,7 @@ export namespace Prisma {
       name?: boolean;
       apiUrl?: boolean;
       apiToken?: boolean;
+      importFilterTags?: boolean;
       createdAt?: boolean;
       updatedAt?: boolean;
       ownerId?: boolean;
@@ -10648,6 +10792,7 @@ export namespace Prisma {
     name?: boolean;
     apiUrl?: boolean;
     apiToken?: boolean;
+    importFilterTags?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     ownerId?: boolean;
@@ -10656,7 +10801,14 @@ export namespace Prisma {
   export type PaperlessInstanceOmit<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = $Extensions.GetOmit<
-    'id' | 'name' | 'apiUrl' | 'apiToken' | 'createdAt' | 'updatedAt' | 'ownerId',
+    | 'id'
+    | 'name'
+    | 'apiUrl'
+    | 'apiToken'
+    | 'importFilterTags'
+    | 'createdAt'
+    | 'updatedAt'
+    | 'ownerId',
     ExtArgs['result']['paperlessInstance']
   >;
   export type PaperlessInstanceInclude<
@@ -10666,6 +10818,7 @@ export namespace Prisma {
     sharedWith?: boolean | PaperlessInstance$sharedWithArgs<ExtArgs>;
     documents?: boolean | PaperlessInstance$documentsArgs<ExtArgs>;
     processingQueue?: boolean | PaperlessInstance$processingQueueArgs<ExtArgs>;
+    importHistory?: boolean | PaperlessInstance$importHistoryArgs<ExtArgs>;
     _count?: boolean | PaperlessInstanceCountOutputTypeDefaultArgs<ExtArgs>;
   };
   export type PaperlessInstanceIncludeCreateManyAndReturn<
@@ -10688,6 +10841,7 @@ export namespace Prisma {
       sharedWith: Prisma.$UserPaperlessInstanceAccessPayload<ExtArgs>[];
       documents: Prisma.$PaperlessDocumentPayload<ExtArgs>[];
       processingQueue: Prisma.$ProcessingQueuePayload<ExtArgs>[];
+      importHistory: Prisma.$ImportHistoryPayload<ExtArgs>[];
     };
     scalars: $Extensions.GetPayloadResult<
       {
@@ -10695,6 +10849,7 @@ export namespace Prisma {
         name: string;
         apiUrl: string;
         apiToken: string;
+        importFilterTags: number[];
         createdAt: Date;
         updatedAt: Date;
         ownerId: string;
@@ -11246,6 +11401,12 @@ export namespace Prisma {
       | $Result.GetResult<Prisma.$ProcessingQueuePayload<ExtArgs>, T, 'findMany', GlobalOmitOptions>
       | Null
     >;
+    importHistory<T extends PaperlessInstance$importHistoryArgs<ExtArgs> = {}>(
+      args?: Subset<T, PaperlessInstance$importHistoryArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<
+      | $Result.GetResult<Prisma.$ImportHistoryPayload<ExtArgs>, T, 'findMany', GlobalOmitOptions>
+      | Null
+    >;
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11281,6 +11442,7 @@ export namespace Prisma {
     readonly name: FieldRef<'PaperlessInstance', 'String'>;
     readonly apiUrl: FieldRef<'PaperlessInstance', 'String'>;
     readonly apiToken: FieldRef<'PaperlessInstance', 'String'>;
+    readonly importFilterTags: FieldRef<'PaperlessInstance', 'Int[]'>;
     readonly createdAt: FieldRef<'PaperlessInstance', 'DateTime'>;
     readonly updatedAt: FieldRef<'PaperlessInstance', 'DateTime'>;
     readonly ownerId: FieldRef<'PaperlessInstance', 'String'>;
@@ -11794,6 +11956,32 @@ export namespace Prisma {
     take?: number;
     skip?: number;
     distinct?: ProcessingQueueScalarFieldEnum | ProcessingQueueScalarFieldEnum[];
+  };
+
+  /**
+   * PaperlessInstance.importHistory
+   */
+  export type PaperlessInstance$importHistoryArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the ImportHistory
+     */
+    select?: ImportHistorySelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the ImportHistory
+     */
+    omit?: ImportHistoryOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ImportHistoryInclude<ExtArgs> | null;
+    where?: ImportHistoryWhereInput;
+    orderBy?: ImportHistoryOrderByWithRelationInput | ImportHistoryOrderByWithRelationInput[];
+    cursor?: ImportHistoryWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?: ImportHistoryScalarFieldEnum | ImportHistoryScalarFieldEnum[];
   };
 
   /**
@@ -16042,6 +16230,7 @@ export namespace Prisma {
     content: string | null;
     correspondentId: number | null;
     documentDate: Date | null;
+    paperlessModified: Date | null;
     importedAt: Date | null;
     createdAt: Date | null;
     updatedAt: Date | null;
@@ -16055,6 +16244,7 @@ export namespace Prisma {
     content: string | null;
     correspondentId: number | null;
     documentDate: Date | null;
+    paperlessModified: Date | null;
     importedAt: Date | null;
     createdAt: Date | null;
     updatedAt: Date | null;
@@ -16069,6 +16259,7 @@ export namespace Prisma {
     correspondentId: number;
     tagIds: number;
     documentDate: number;
+    paperlessModified: number;
     importedAt: number;
     createdAt: number;
     updatedAt: number;
@@ -16095,6 +16286,7 @@ export namespace Prisma {
     content?: true;
     correspondentId?: true;
     documentDate?: true;
+    paperlessModified?: true;
     importedAt?: true;
     createdAt?: true;
     updatedAt?: true;
@@ -16108,6 +16300,7 @@ export namespace Prisma {
     content?: true;
     correspondentId?: true;
     documentDate?: true;
+    paperlessModified?: true;
     importedAt?: true;
     createdAt?: true;
     updatedAt?: true;
@@ -16122,6 +16315,7 @@ export namespace Prisma {
     correspondentId?: true;
     tagIds?: true;
     documentDate?: true;
+    paperlessModified?: true;
     importedAt?: true;
     createdAt?: true;
     updatedAt?: true;
@@ -16228,6 +16422,7 @@ export namespace Prisma {
     correspondentId: number | null;
     tagIds: number[];
     documentDate: Date | null;
+    paperlessModified: Date | null;
     importedAt: Date;
     createdAt: Date;
     updatedAt: Date;
@@ -16263,6 +16458,7 @@ export namespace Prisma {
       correspondentId?: boolean;
       tagIds?: boolean;
       documentDate?: boolean;
+      paperlessModified?: boolean;
       importedAt?: boolean;
       createdAt?: boolean;
       updatedAt?: boolean;
@@ -16285,6 +16481,7 @@ export namespace Prisma {
       correspondentId?: boolean;
       tagIds?: boolean;
       documentDate?: boolean;
+      paperlessModified?: boolean;
       importedAt?: boolean;
       createdAt?: boolean;
       updatedAt?: boolean;
@@ -16305,6 +16502,7 @@ export namespace Prisma {
       correspondentId?: boolean;
       tagIds?: boolean;
       documentDate?: boolean;
+      paperlessModified?: boolean;
       importedAt?: boolean;
       createdAt?: boolean;
       updatedAt?: boolean;
@@ -16322,6 +16520,7 @@ export namespace Prisma {
     correspondentId?: boolean;
     tagIds?: boolean;
     documentDate?: boolean;
+    paperlessModified?: boolean;
     importedAt?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
@@ -16338,6 +16537,7 @@ export namespace Prisma {
     | 'correspondentId'
     | 'tagIds'
     | 'documentDate'
+    | 'paperlessModified'
     | 'importedAt'
     | 'createdAt'
     | 'updatedAt'
@@ -16379,6 +16579,7 @@ export namespace Prisma {
         correspondentId: number | null;
         tagIds: number[];
         documentDate: Date | null;
+        paperlessModified: Date | null;
         importedAt: Date;
         createdAt: Date;
         updatedAt: Date;
@@ -16957,6 +17158,7 @@ export namespace Prisma {
     readonly correspondentId: FieldRef<'PaperlessDocument', 'Int'>;
     readonly tagIds: FieldRef<'PaperlessDocument', 'Int[]'>;
     readonly documentDate: FieldRef<'PaperlessDocument', 'DateTime'>;
+    readonly paperlessModified: FieldRef<'PaperlessDocument', 'DateTime'>;
     readonly importedAt: FieldRef<'PaperlessDocument', 'DateTime'>;
     readonly createdAt: FieldRef<'PaperlessDocument', 'DateTime'>;
     readonly updatedAt: FieldRef<'PaperlessDocument', 'DateTime'>;
@@ -20293,6 +20495,1327 @@ export namespace Prisma {
   };
 
   /**
+   * Model ImportHistory
+   */
+
+  export type AggregateImportHistory = {
+    _count: ImportHistoryCountAggregateOutputType | null;
+    _avg: ImportHistoryAvgAggregateOutputType | null;
+    _sum: ImportHistorySumAggregateOutputType | null;
+    _min: ImportHistoryMinAggregateOutputType | null;
+    _max: ImportHistoryMaxAggregateOutputType | null;
+  };
+
+  export type ImportHistoryAvgAggregateOutputType = {
+    documentsImported: number | null;
+    documentsUpdated: number | null;
+    documentsUnchanged: number | null;
+    totalInPaperless: number | null;
+  };
+
+  export type ImportHistorySumAggregateOutputType = {
+    documentsImported: number | null;
+    documentsUpdated: number | null;
+    documentsUnchanged: number | null;
+    totalInPaperless: number | null;
+  };
+
+  export type ImportHistoryMinAggregateOutputType = {
+    id: string | null;
+    importedAt: Date | null;
+    documentsImported: number | null;
+    documentsUpdated: number | null;
+    documentsUnchanged: number | null;
+    totalInPaperless: number | null;
+    paperlessInstanceId: string | null;
+  };
+
+  export type ImportHistoryMaxAggregateOutputType = {
+    id: string | null;
+    importedAt: Date | null;
+    documentsImported: number | null;
+    documentsUpdated: number | null;
+    documentsUnchanged: number | null;
+    totalInPaperless: number | null;
+    paperlessInstanceId: string | null;
+  };
+
+  export type ImportHistoryCountAggregateOutputType = {
+    id: number;
+    importedAt: number;
+    documentsImported: number;
+    documentsUpdated: number;
+    documentsUnchanged: number;
+    totalInPaperless: number;
+    paperlessInstanceId: number;
+    _all: number;
+  };
+
+  export type ImportHistoryAvgAggregateInputType = {
+    documentsImported?: true;
+    documentsUpdated?: true;
+    documentsUnchanged?: true;
+    totalInPaperless?: true;
+  };
+
+  export type ImportHistorySumAggregateInputType = {
+    documentsImported?: true;
+    documentsUpdated?: true;
+    documentsUnchanged?: true;
+    totalInPaperless?: true;
+  };
+
+  export type ImportHistoryMinAggregateInputType = {
+    id?: true;
+    importedAt?: true;
+    documentsImported?: true;
+    documentsUpdated?: true;
+    documentsUnchanged?: true;
+    totalInPaperless?: true;
+    paperlessInstanceId?: true;
+  };
+
+  export type ImportHistoryMaxAggregateInputType = {
+    id?: true;
+    importedAt?: true;
+    documentsImported?: true;
+    documentsUpdated?: true;
+    documentsUnchanged?: true;
+    totalInPaperless?: true;
+    paperlessInstanceId?: true;
+  };
+
+  export type ImportHistoryCountAggregateInputType = {
+    id?: true;
+    importedAt?: true;
+    documentsImported?: true;
+    documentsUpdated?: true;
+    documentsUnchanged?: true;
+    totalInPaperless?: true;
+    paperlessInstanceId?: true;
+    _all?: true;
+  };
+
+  export type ImportHistoryAggregateArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Filter which ImportHistory to aggregate.
+     */
+    where?: ImportHistoryWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of ImportHistories to fetch.
+     */
+    orderBy?: ImportHistoryOrderByWithRelationInput | ImportHistoryOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the start position
+     */
+    cursor?: ImportHistoryWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` ImportHistories from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` ImportHistories.
+     */
+    skip?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Count returned ImportHistories
+     **/
+    _count?: true | ImportHistoryCountAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to average
+     **/
+    _avg?: ImportHistoryAvgAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to sum
+     **/
+    _sum?: ImportHistorySumAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to find the minimum value
+     **/
+    _min?: ImportHistoryMinAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to find the maximum value
+     **/
+    _max?: ImportHistoryMaxAggregateInputType;
+  };
+
+  export type GetImportHistoryAggregateType<T extends ImportHistoryAggregateArgs> = {
+    [P in keyof T & keyof AggregateImportHistory]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateImportHistory[P]>
+      : GetScalarType<T[P], AggregateImportHistory[P]>;
+  };
+
+  export type ImportHistoryGroupByArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    where?: ImportHistoryWhereInput;
+    orderBy?: ImportHistoryOrderByWithAggregationInput | ImportHistoryOrderByWithAggregationInput[];
+    by: ImportHistoryScalarFieldEnum[] | ImportHistoryScalarFieldEnum;
+    having?: ImportHistoryScalarWhereWithAggregatesInput;
+    take?: number;
+    skip?: number;
+    _count?: ImportHistoryCountAggregateInputType | true;
+    _avg?: ImportHistoryAvgAggregateInputType;
+    _sum?: ImportHistorySumAggregateInputType;
+    _min?: ImportHistoryMinAggregateInputType;
+    _max?: ImportHistoryMaxAggregateInputType;
+  };
+
+  export type ImportHistoryGroupByOutputType = {
+    id: string;
+    importedAt: Date;
+    documentsImported: number;
+    documentsUpdated: number;
+    documentsUnchanged: number;
+    totalInPaperless: number;
+    paperlessInstanceId: string;
+    _count: ImportHistoryCountAggregateOutputType | null;
+    _avg: ImportHistoryAvgAggregateOutputType | null;
+    _sum: ImportHistorySumAggregateOutputType | null;
+    _min: ImportHistoryMinAggregateOutputType | null;
+    _max: ImportHistoryMaxAggregateOutputType | null;
+  };
+
+  type GetImportHistoryGroupByPayload<T extends ImportHistoryGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ImportHistoryGroupByOutputType, T['by']> & {
+        [P in keyof T & keyof ImportHistoryGroupByOutputType]: P extends '_count'
+          ? T[P] extends boolean
+            ? number
+            : GetScalarType<T[P], ImportHistoryGroupByOutputType[P]>
+          : GetScalarType<T[P], ImportHistoryGroupByOutputType[P]>;
+      }
+    >
+  >;
+
+  export type ImportHistorySelect<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = $Extensions.GetSelect<
+    {
+      id?: boolean;
+      importedAt?: boolean;
+      documentsImported?: boolean;
+      documentsUpdated?: boolean;
+      documentsUnchanged?: boolean;
+      totalInPaperless?: boolean;
+      paperlessInstanceId?: boolean;
+      paperlessInstance?: boolean | PaperlessInstanceDefaultArgs<ExtArgs>;
+    },
+    ExtArgs['result']['importHistory']
+  >;
+
+  export type ImportHistorySelectCreateManyAndReturn<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = $Extensions.GetSelect<
+    {
+      id?: boolean;
+      importedAt?: boolean;
+      documentsImported?: boolean;
+      documentsUpdated?: boolean;
+      documentsUnchanged?: boolean;
+      totalInPaperless?: boolean;
+      paperlessInstanceId?: boolean;
+      paperlessInstance?: boolean | PaperlessInstanceDefaultArgs<ExtArgs>;
+    },
+    ExtArgs['result']['importHistory']
+  >;
+
+  export type ImportHistorySelectUpdateManyAndReturn<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = $Extensions.GetSelect<
+    {
+      id?: boolean;
+      importedAt?: boolean;
+      documentsImported?: boolean;
+      documentsUpdated?: boolean;
+      documentsUnchanged?: boolean;
+      totalInPaperless?: boolean;
+      paperlessInstanceId?: boolean;
+      paperlessInstance?: boolean | PaperlessInstanceDefaultArgs<ExtArgs>;
+    },
+    ExtArgs['result']['importHistory']
+  >;
+
+  export type ImportHistorySelectScalar = {
+    id?: boolean;
+    importedAt?: boolean;
+    documentsImported?: boolean;
+    documentsUpdated?: boolean;
+    documentsUnchanged?: boolean;
+    totalInPaperless?: boolean;
+    paperlessInstanceId?: boolean;
+  };
+
+  export type ImportHistoryOmit<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = $Extensions.GetOmit<
+    | 'id'
+    | 'importedAt'
+    | 'documentsImported'
+    | 'documentsUpdated'
+    | 'documentsUnchanged'
+    | 'totalInPaperless'
+    | 'paperlessInstanceId',
+    ExtArgs['result']['importHistory']
+  >;
+  export type ImportHistoryInclude<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    paperlessInstance?: boolean | PaperlessInstanceDefaultArgs<ExtArgs>;
+  };
+  export type ImportHistoryIncludeCreateManyAndReturn<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    paperlessInstance?: boolean | PaperlessInstanceDefaultArgs<ExtArgs>;
+  };
+  export type ImportHistoryIncludeUpdateManyAndReturn<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    paperlessInstance?: boolean | PaperlessInstanceDefaultArgs<ExtArgs>;
+  };
+
+  export type $ImportHistoryPayload<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    name: 'ImportHistory';
+    objects: {
+      paperlessInstance: Prisma.$PaperlessInstancePayload<ExtArgs>;
+    };
+    scalars: $Extensions.GetPayloadResult<
+      {
+        id: string;
+        importedAt: Date;
+        documentsImported: number;
+        documentsUpdated: number;
+        documentsUnchanged: number;
+        totalInPaperless: number;
+        paperlessInstanceId: string;
+      },
+      ExtArgs['result']['importHistory']
+    >;
+    composites: {};
+  };
+
+  type ImportHistoryGetPayload<S extends boolean | null | undefined | ImportHistoryDefaultArgs> =
+    $Result.GetResult<Prisma.$ImportHistoryPayload, S>;
+
+  type ImportHistoryCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ImportHistoryFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ImportHistoryCountAggregateInputType | true;
+    };
+
+  export interface ImportHistoryDelegate<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+    GlobalOmitOptions = {},
+  > {
+    [K: symbol]: {
+      types: Prisma.TypeMap<ExtArgs>['model']['ImportHistory'];
+      meta: { name: 'ImportHistory' };
+    };
+    /**
+     * Find zero or one ImportHistory that matches the filter.
+     * @param {ImportHistoryFindUniqueArgs} args - Arguments to find a ImportHistory
+     * @example
+     * // Get one ImportHistory
+     * const importHistory = await prisma.importHistory.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ImportHistoryFindUniqueArgs>(
+      args: SelectSubset<T, ImportHistoryFindUniqueArgs<ExtArgs>>
+    ): Prisma__ImportHistoryClient<
+      $Result.GetResult<
+        Prisma.$ImportHistoryPayload<ExtArgs>,
+        T,
+        'findUnique',
+        GlobalOmitOptions
+      > | null,
+      null,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Find one ImportHistory that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ImportHistoryFindUniqueOrThrowArgs} args - Arguments to find a ImportHistory
+     * @example
+     * // Get one ImportHistory
+     * const importHistory = await prisma.importHistory.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ImportHistoryFindUniqueOrThrowArgs>(
+      args: SelectSubset<T, ImportHistoryFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__ImportHistoryClient<
+      $Result.GetResult<
+        Prisma.$ImportHistoryPayload<ExtArgs>,
+        T,
+        'findUniqueOrThrow',
+        GlobalOmitOptions
+      >,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Find the first ImportHistory that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ImportHistoryFindFirstArgs} args - Arguments to find a ImportHistory
+     * @example
+     * // Get one ImportHistory
+     * const importHistory = await prisma.importHistory.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ImportHistoryFindFirstArgs>(
+      args?: SelectSubset<T, ImportHistoryFindFirstArgs<ExtArgs>>
+    ): Prisma__ImportHistoryClient<
+      $Result.GetResult<
+        Prisma.$ImportHistoryPayload<ExtArgs>,
+        T,
+        'findFirst',
+        GlobalOmitOptions
+      > | null,
+      null,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Find the first ImportHistory that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ImportHistoryFindFirstOrThrowArgs} args - Arguments to find a ImportHistory
+     * @example
+     * // Get one ImportHistory
+     * const importHistory = await prisma.importHistory.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ImportHistoryFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, ImportHistoryFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__ImportHistoryClient<
+      $Result.GetResult<
+        Prisma.$ImportHistoryPayload<ExtArgs>,
+        T,
+        'findFirstOrThrow',
+        GlobalOmitOptions
+      >,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Find zero or more ImportHistories that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ImportHistoryFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ImportHistories
+     * const importHistories = await prisma.importHistory.findMany()
+     *
+     * // Get first 10 ImportHistories
+     * const importHistories = await prisma.importHistory.findMany({ take: 10 })
+     *
+     * // Only select the `id`
+     * const importHistoryWithIdOnly = await prisma.importHistory.findMany({ select: { id: true } })
+     *
+     */
+    findMany<T extends ImportHistoryFindManyArgs>(
+      args?: SelectSubset<T, ImportHistoryFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<
+      $Result.GetResult<Prisma.$ImportHistoryPayload<ExtArgs>, T, 'findMany', GlobalOmitOptions>
+    >;
+
+    /**
+     * Create a ImportHistory.
+     * @param {ImportHistoryCreateArgs} args - Arguments to create a ImportHistory.
+     * @example
+     * // Create one ImportHistory
+     * const ImportHistory = await prisma.importHistory.create({
+     *   data: {
+     *     // ... data to create a ImportHistory
+     *   }
+     * })
+     *
+     */
+    create<T extends ImportHistoryCreateArgs>(
+      args: SelectSubset<T, ImportHistoryCreateArgs<ExtArgs>>
+    ): Prisma__ImportHistoryClient<
+      $Result.GetResult<Prisma.$ImportHistoryPayload<ExtArgs>, T, 'create', GlobalOmitOptions>,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Create many ImportHistories.
+     * @param {ImportHistoryCreateManyArgs} args - Arguments to create many ImportHistories.
+     * @example
+     * // Create many ImportHistories
+     * const importHistory = await prisma.importHistory.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *
+     */
+    createMany<T extends ImportHistoryCreateManyArgs>(
+      args?: SelectSubset<T, ImportHistoryCreateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>;
+
+    /**
+     * Create many ImportHistories and returns the data saved in the database.
+     * @param {ImportHistoryCreateManyAndReturnArgs} args - Arguments to create many ImportHistories.
+     * @example
+     * // Create many ImportHistories
+     * const importHistory = await prisma.importHistory.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *
+     * // Create many ImportHistories and only return the `id`
+     * const importHistoryWithIdOnly = await prisma.importHistory.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     *
+     */
+    createManyAndReturn<T extends ImportHistoryCreateManyAndReturnArgs>(
+      args?: SelectSubset<T, ImportHistoryCreateManyAndReturnArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<
+      $Result.GetResult<
+        Prisma.$ImportHistoryPayload<ExtArgs>,
+        T,
+        'createManyAndReturn',
+        GlobalOmitOptions
+      >
+    >;
+
+    /**
+     * Delete a ImportHistory.
+     * @param {ImportHistoryDeleteArgs} args - Arguments to delete one ImportHistory.
+     * @example
+     * // Delete one ImportHistory
+     * const ImportHistory = await prisma.importHistory.delete({
+     *   where: {
+     *     // ... filter to delete one ImportHistory
+     *   }
+     * })
+     *
+     */
+    delete<T extends ImportHistoryDeleteArgs>(
+      args: SelectSubset<T, ImportHistoryDeleteArgs<ExtArgs>>
+    ): Prisma__ImportHistoryClient<
+      $Result.GetResult<Prisma.$ImportHistoryPayload<ExtArgs>, T, 'delete', GlobalOmitOptions>,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Update one ImportHistory.
+     * @param {ImportHistoryUpdateArgs} args - Arguments to update one ImportHistory.
+     * @example
+     * // Update one ImportHistory
+     * const importHistory = await prisma.importHistory.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     *
+     */
+    update<T extends ImportHistoryUpdateArgs>(
+      args: SelectSubset<T, ImportHistoryUpdateArgs<ExtArgs>>
+    ): Prisma__ImportHistoryClient<
+      $Result.GetResult<Prisma.$ImportHistoryPayload<ExtArgs>, T, 'update', GlobalOmitOptions>,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Delete zero or more ImportHistories.
+     * @param {ImportHistoryDeleteManyArgs} args - Arguments to filter ImportHistories to delete.
+     * @example
+     * // Delete a few ImportHistories
+     * const { count } = await prisma.importHistory.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     *
+     */
+    deleteMany<T extends ImportHistoryDeleteManyArgs>(
+      args?: SelectSubset<T, ImportHistoryDeleteManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>;
+
+    /**
+     * Update zero or more ImportHistories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ImportHistoryUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ImportHistories
+     * const importHistory = await prisma.importHistory.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     *
+     */
+    updateMany<T extends ImportHistoryUpdateManyArgs>(
+      args: SelectSubset<T, ImportHistoryUpdateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>;
+
+    /**
+     * Update zero or more ImportHistories and returns the data updated in the database.
+     * @param {ImportHistoryUpdateManyAndReturnArgs} args - Arguments to update many ImportHistories.
+     * @example
+     * // Update many ImportHistories
+     * const importHistory = await prisma.importHistory.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *
+     * // Update zero or more ImportHistories and only return the `id`
+     * const importHistoryWithIdOnly = await prisma.importHistory.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     *
+     */
+    updateManyAndReturn<T extends ImportHistoryUpdateManyAndReturnArgs>(
+      args: SelectSubset<T, ImportHistoryUpdateManyAndReturnArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<
+      $Result.GetResult<
+        Prisma.$ImportHistoryPayload<ExtArgs>,
+        T,
+        'updateManyAndReturn',
+        GlobalOmitOptions
+      >
+    >;
+
+    /**
+     * Create or update one ImportHistory.
+     * @param {ImportHistoryUpsertArgs} args - Arguments to update or create a ImportHistory.
+     * @example
+     * // Update or create a ImportHistory
+     * const importHistory = await prisma.importHistory.upsert({
+     *   create: {
+     *     // ... data to create a ImportHistory
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ImportHistory we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ImportHistoryUpsertArgs>(
+      args: SelectSubset<T, ImportHistoryUpsertArgs<ExtArgs>>
+    ): Prisma__ImportHistoryClient<
+      $Result.GetResult<Prisma.$ImportHistoryPayload<ExtArgs>, T, 'upsert', GlobalOmitOptions>,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Count the number of ImportHistories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ImportHistoryCountArgs} args - Arguments to filter ImportHistories to count.
+     * @example
+     * // Count the number of ImportHistories
+     * const count = await prisma.importHistory.count({
+     *   where: {
+     *     // ... the filter for the ImportHistories we want to count
+     *   }
+     * })
+     **/
+    count<T extends ImportHistoryCountArgs>(
+      args?: Subset<T, ImportHistoryCountArgs>
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ImportHistoryCountAggregateOutputType>
+        : number
+    >;
+
+    /**
+     * Allows you to perform aggregations operations on a ImportHistory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ImportHistoryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+     **/
+    aggregate<T extends ImportHistoryAggregateArgs>(
+      args: Subset<T, ImportHistoryAggregateArgs>
+    ): Prisma.PrismaPromise<GetImportHistoryAggregateType<T>>;
+
+    /**
+     * Group by ImportHistory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ImportHistoryGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     *
+     **/
+    groupBy<
+      T extends ImportHistoryGroupByArgs,
+      HasSelectOrTake extends Or<Extends<'skip', Keys<T>>, Extends<'take', Keys<T>>>,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ImportHistoryGroupByArgs['orderBy'] }
+        : { orderBy?: ImportHistoryGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+        ? `Error: "by" must not be empty.`
+        : HavingValid extends False
+          ? {
+              [P in HavingFields]: P extends ByFields
+                ? never
+                : P extends string
+                  ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+                  : [Error, 'Field ', P, ` in "having" needs to be provided in "by"`];
+            }[HavingFields]
+          : 'take' extends Keys<T>
+            ? 'orderBy' extends Keys<T>
+              ? ByValid extends True
+                ? {}
+                : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+                  }[OrderFields]
+              : 'Error: If you provide "take", you also need to provide "orderBy"'
+            : 'skip' extends Keys<T>
+              ? 'orderBy' extends Keys<T>
+                ? ByValid extends True
+                  ? {}
+                  : {
+                      [P in OrderFields]: P extends ByFields
+                        ? never
+                        : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+                    }[OrderFields]
+                : 'Error: If you provide "skip", you also need to provide "orderBy"'
+              : ByValid extends True
+                ? {}
+                : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+                  }[OrderFields],
+    >(
+      args: SubsetIntersection<T, ImportHistoryGroupByArgs, OrderByArg> & InputErrors
+    ): {} extends InputErrors
+      ? GetImportHistoryGroupByPayload<T>
+      : Prisma.PrismaPromise<InputErrors>;
+    /**
+     * Fields of the ImportHistory model
+     */
+    readonly fields: ImportHistoryFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ImportHistory.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ImportHistoryClient<
+    T,
+    Null = never,
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+    GlobalOmitOptions = {},
+  > extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    paperlessInstance<T extends PaperlessInstanceDefaultArgs<ExtArgs> = {}>(
+      args?: Subset<T, PaperlessInstanceDefaultArgs<ExtArgs>>
+    ): Prisma__PaperlessInstanceClient<
+      | $Result.GetResult<
+          Prisma.$PaperlessInstancePayload<ExtArgs>,
+          T,
+          'findUniqueOrThrow',
+          GlobalOmitOptions
+        >
+      | Null,
+      Null,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(
+      onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null,
+      onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null
+    ): $Utils.JsPromise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(
+      onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null
+    ): $Utils.JsPromise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>;
+  }
+
+  /**
+   * Fields of the ImportHistory model
+   */
+  interface ImportHistoryFieldRefs {
+    readonly id: FieldRef<'ImportHistory', 'String'>;
+    readonly importedAt: FieldRef<'ImportHistory', 'DateTime'>;
+    readonly documentsImported: FieldRef<'ImportHistory', 'Int'>;
+    readonly documentsUpdated: FieldRef<'ImportHistory', 'Int'>;
+    readonly documentsUnchanged: FieldRef<'ImportHistory', 'Int'>;
+    readonly totalInPaperless: FieldRef<'ImportHistory', 'Int'>;
+    readonly paperlessInstanceId: FieldRef<'ImportHistory', 'String'>;
+  }
+
+  // Custom InputTypes
+  /**
+   * ImportHistory findUnique
+   */
+  export type ImportHistoryFindUniqueArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the ImportHistory
+     */
+    select?: ImportHistorySelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the ImportHistory
+     */
+    omit?: ImportHistoryOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ImportHistoryInclude<ExtArgs> | null;
+    /**
+     * Filter, which ImportHistory to fetch.
+     */
+    where: ImportHistoryWhereUniqueInput;
+  };
+
+  /**
+   * ImportHistory findUniqueOrThrow
+   */
+  export type ImportHistoryFindUniqueOrThrowArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the ImportHistory
+     */
+    select?: ImportHistorySelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the ImportHistory
+     */
+    omit?: ImportHistoryOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ImportHistoryInclude<ExtArgs> | null;
+    /**
+     * Filter, which ImportHistory to fetch.
+     */
+    where: ImportHistoryWhereUniqueInput;
+  };
+
+  /**
+   * ImportHistory findFirst
+   */
+  export type ImportHistoryFindFirstArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the ImportHistory
+     */
+    select?: ImportHistorySelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the ImportHistory
+     */
+    omit?: ImportHistoryOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ImportHistoryInclude<ExtArgs> | null;
+    /**
+     * Filter, which ImportHistory to fetch.
+     */
+    where?: ImportHistoryWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of ImportHistories to fetch.
+     */
+    orderBy?: ImportHistoryOrderByWithRelationInput | ImportHistoryOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for searching for ImportHistories.
+     */
+    cursor?: ImportHistoryWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` ImportHistories from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` ImportHistories.
+     */
+    skip?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     *
+     * Filter by unique combinations of ImportHistories.
+     */
+    distinct?: ImportHistoryScalarFieldEnum | ImportHistoryScalarFieldEnum[];
+  };
+
+  /**
+   * ImportHistory findFirstOrThrow
+   */
+  export type ImportHistoryFindFirstOrThrowArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the ImportHistory
+     */
+    select?: ImportHistorySelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the ImportHistory
+     */
+    omit?: ImportHistoryOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ImportHistoryInclude<ExtArgs> | null;
+    /**
+     * Filter, which ImportHistory to fetch.
+     */
+    where?: ImportHistoryWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of ImportHistories to fetch.
+     */
+    orderBy?: ImportHistoryOrderByWithRelationInput | ImportHistoryOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for searching for ImportHistories.
+     */
+    cursor?: ImportHistoryWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` ImportHistories from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` ImportHistories.
+     */
+    skip?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     *
+     * Filter by unique combinations of ImportHistories.
+     */
+    distinct?: ImportHistoryScalarFieldEnum | ImportHistoryScalarFieldEnum[];
+  };
+
+  /**
+   * ImportHistory findMany
+   */
+  export type ImportHistoryFindManyArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the ImportHistory
+     */
+    select?: ImportHistorySelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the ImportHistory
+     */
+    omit?: ImportHistoryOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ImportHistoryInclude<ExtArgs> | null;
+    /**
+     * Filter, which ImportHistories to fetch.
+     */
+    where?: ImportHistoryWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of ImportHistories to fetch.
+     */
+    orderBy?: ImportHistoryOrderByWithRelationInput | ImportHistoryOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for listing ImportHistories.
+     */
+    cursor?: ImportHistoryWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` ImportHistories from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` ImportHistories.
+     */
+    skip?: number;
+    distinct?: ImportHistoryScalarFieldEnum | ImportHistoryScalarFieldEnum[];
+  };
+
+  /**
+   * ImportHistory create
+   */
+  export type ImportHistoryCreateArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the ImportHistory
+     */
+    select?: ImportHistorySelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the ImportHistory
+     */
+    omit?: ImportHistoryOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ImportHistoryInclude<ExtArgs> | null;
+    /**
+     * The data needed to create a ImportHistory.
+     */
+    data: XOR<ImportHistoryCreateInput, ImportHistoryUncheckedCreateInput>;
+  };
+
+  /**
+   * ImportHistory createMany
+   */
+  export type ImportHistoryCreateManyArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * The data used to create many ImportHistories.
+     */
+    data: ImportHistoryCreateManyInput | ImportHistoryCreateManyInput[];
+    skipDuplicates?: boolean;
+  };
+
+  /**
+   * ImportHistory createManyAndReturn
+   */
+  export type ImportHistoryCreateManyAndReturnArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the ImportHistory
+     */
+    select?: ImportHistorySelectCreateManyAndReturn<ExtArgs> | null;
+    /**
+     * Omit specific fields from the ImportHistory
+     */
+    omit?: ImportHistoryOmit<ExtArgs> | null;
+    /**
+     * The data used to create many ImportHistories.
+     */
+    data: ImportHistoryCreateManyInput | ImportHistoryCreateManyInput[];
+    skipDuplicates?: boolean;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ImportHistoryIncludeCreateManyAndReturn<ExtArgs> | null;
+  };
+
+  /**
+   * ImportHistory update
+   */
+  export type ImportHistoryUpdateArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the ImportHistory
+     */
+    select?: ImportHistorySelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the ImportHistory
+     */
+    omit?: ImportHistoryOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ImportHistoryInclude<ExtArgs> | null;
+    /**
+     * The data needed to update a ImportHistory.
+     */
+    data: XOR<ImportHistoryUpdateInput, ImportHistoryUncheckedUpdateInput>;
+    /**
+     * Choose, which ImportHistory to update.
+     */
+    where: ImportHistoryWhereUniqueInput;
+  };
+
+  /**
+   * ImportHistory updateMany
+   */
+  export type ImportHistoryUpdateManyArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * The data used to update ImportHistories.
+     */
+    data: XOR<ImportHistoryUpdateManyMutationInput, ImportHistoryUncheckedUpdateManyInput>;
+    /**
+     * Filter which ImportHistories to update
+     */
+    where?: ImportHistoryWhereInput;
+    /**
+     * Limit how many ImportHistories to update.
+     */
+    limit?: number;
+  };
+
+  /**
+   * ImportHistory updateManyAndReturn
+   */
+  export type ImportHistoryUpdateManyAndReturnArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the ImportHistory
+     */
+    select?: ImportHistorySelectUpdateManyAndReturn<ExtArgs> | null;
+    /**
+     * Omit specific fields from the ImportHistory
+     */
+    omit?: ImportHistoryOmit<ExtArgs> | null;
+    /**
+     * The data used to update ImportHistories.
+     */
+    data: XOR<ImportHistoryUpdateManyMutationInput, ImportHistoryUncheckedUpdateManyInput>;
+    /**
+     * Filter which ImportHistories to update
+     */
+    where?: ImportHistoryWhereInput;
+    /**
+     * Limit how many ImportHistories to update.
+     */
+    limit?: number;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ImportHistoryIncludeUpdateManyAndReturn<ExtArgs> | null;
+  };
+
+  /**
+   * ImportHistory upsert
+   */
+  export type ImportHistoryUpsertArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the ImportHistory
+     */
+    select?: ImportHistorySelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the ImportHistory
+     */
+    omit?: ImportHistoryOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ImportHistoryInclude<ExtArgs> | null;
+    /**
+     * The filter to search for the ImportHistory to update in case it exists.
+     */
+    where: ImportHistoryWhereUniqueInput;
+    /**
+     * In case the ImportHistory found by the `where` argument doesn't exist, create a new ImportHistory with this data.
+     */
+    create: XOR<ImportHistoryCreateInput, ImportHistoryUncheckedCreateInput>;
+    /**
+     * In case the ImportHistory was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ImportHistoryUpdateInput, ImportHistoryUncheckedUpdateInput>;
+  };
+
+  /**
+   * ImportHistory delete
+   */
+  export type ImportHistoryDeleteArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the ImportHistory
+     */
+    select?: ImportHistorySelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the ImportHistory
+     */
+    omit?: ImportHistoryOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ImportHistoryInclude<ExtArgs> | null;
+    /**
+     * Filter which ImportHistory to delete.
+     */
+    where: ImportHistoryWhereUniqueInput;
+  };
+
+  /**
+   * ImportHistory deleteMany
+   */
+  export type ImportHistoryDeleteManyArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Filter which ImportHistories to delete
+     */
+    where?: ImportHistoryWhereInput;
+    /**
+     * Limit how many ImportHistories to delete.
+     */
+    limit?: number;
+  };
+
+  /**
+   * ImportHistory without action
+   */
+  export type ImportHistoryDefaultArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the ImportHistory
+     */
+    select?: ImportHistorySelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the ImportHistory
+     */
+    omit?: ImportHistoryOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ImportHistoryInclude<ExtArgs> | null;
+  };
+
+  /**
    * Model AiUsageMetric
    */
 
@@ -21885,6 +23408,7 @@ export namespace Prisma {
     name: 'name';
     apiUrl: 'apiUrl';
     apiToken: 'apiToken';
+    importFilterTags: 'importFilterTags';
     createdAt: 'createdAt';
     updatedAt: 'updatedAt';
     ownerId: 'ownerId';
@@ -21946,6 +23470,7 @@ export namespace Prisma {
     correspondentId: 'correspondentId';
     tagIds: 'tagIds';
     documentDate: 'documentDate';
+    paperlessModified: 'paperlessModified';
     importedAt: 'importedAt';
     createdAt: 'createdAt';
     updatedAt: 'updatedAt';
@@ -21993,6 +23518,19 @@ export namespace Prisma {
 
   export type ProcessingQueueScalarFieldEnum =
     (typeof ProcessingQueueScalarFieldEnum)[keyof typeof ProcessingQueueScalarFieldEnum];
+
+  export const ImportHistoryScalarFieldEnum: {
+    id: 'id';
+    importedAt: 'importedAt';
+    documentsImported: 'documentsImported';
+    documentsUpdated: 'documentsUpdated';
+    documentsUnchanged: 'documentsUnchanged';
+    totalInPaperless: 'totalInPaperless';
+    paperlessInstanceId: 'paperlessInstanceId';
+  };
+
+  export type ImportHistoryScalarFieldEnum =
+    (typeof ImportHistoryScalarFieldEnum)[keyof typeof ImportHistoryScalarFieldEnum];
 
   export const AiUsageMetricScalarFieldEnum: {
     id: 'id';
@@ -22112,6 +23650,16 @@ export namespace Prisma {
   >;
 
   /**
+   * Reference to a field of type 'Int[]'
+   */
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>;
+
+  /**
+   * Reference to a field of type 'Int'
+   */
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>;
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>;
@@ -22120,16 +23668,6 @@ export namespace Prisma {
    * Reference to a field of type 'Float[]'
    */
   export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>;
-
-  /**
-   * Reference to a field of type 'Int'
-   */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>;
-
-  /**
-   * Reference to a field of type 'Int[]'
-   */
-  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>;
 
   /**
    * Reference to a field of type 'Json'
@@ -22569,6 +24107,7 @@ export namespace Prisma {
     name?: StringFilter<'PaperlessInstance'> | string;
     apiUrl?: StringFilter<'PaperlessInstance'> | string;
     apiToken?: StringFilter<'PaperlessInstance'> | string;
+    importFilterTags?: IntNullableListFilter<'PaperlessInstance'>;
     createdAt?: DateTimeFilter<'PaperlessInstance'> | Date | string;
     updatedAt?: DateTimeFilter<'PaperlessInstance'> | Date | string;
     ownerId?: StringFilter<'PaperlessInstance'> | string;
@@ -22576,6 +24115,7 @@ export namespace Prisma {
     sharedWith?: UserPaperlessInstanceAccessListRelationFilter;
     documents?: PaperlessDocumentListRelationFilter;
     processingQueue?: ProcessingQueueListRelationFilter;
+    importHistory?: ImportHistoryListRelationFilter;
   };
 
   export type PaperlessInstanceOrderByWithRelationInput = {
@@ -22583,6 +24123,7 @@ export namespace Prisma {
     name?: SortOrder;
     apiUrl?: SortOrder;
     apiToken?: SortOrder;
+    importFilterTags?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
     ownerId?: SortOrder;
@@ -22590,6 +24131,7 @@ export namespace Prisma {
     sharedWith?: UserPaperlessInstanceAccessOrderByRelationAggregateInput;
     documents?: PaperlessDocumentOrderByRelationAggregateInput;
     processingQueue?: ProcessingQueueOrderByRelationAggregateInput;
+    importHistory?: ImportHistoryOrderByRelationAggregateInput;
   };
 
   export type PaperlessInstanceWhereUniqueInput = Prisma.AtLeast<
@@ -22601,6 +24143,7 @@ export namespace Prisma {
       name?: StringFilter<'PaperlessInstance'> | string;
       apiUrl?: StringFilter<'PaperlessInstance'> | string;
       apiToken?: StringFilter<'PaperlessInstance'> | string;
+      importFilterTags?: IntNullableListFilter<'PaperlessInstance'>;
       createdAt?: DateTimeFilter<'PaperlessInstance'> | Date | string;
       updatedAt?: DateTimeFilter<'PaperlessInstance'> | Date | string;
       ownerId?: StringFilter<'PaperlessInstance'> | string;
@@ -22608,6 +24151,7 @@ export namespace Prisma {
       sharedWith?: UserPaperlessInstanceAccessListRelationFilter;
       documents?: PaperlessDocumentListRelationFilter;
       processingQueue?: ProcessingQueueListRelationFilter;
+      importHistory?: ImportHistoryListRelationFilter;
     },
     'id'
   >;
@@ -22617,12 +24161,15 @@ export namespace Prisma {
     name?: SortOrder;
     apiUrl?: SortOrder;
     apiToken?: SortOrder;
+    importFilterTags?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
     ownerId?: SortOrder;
     _count?: PaperlessInstanceCountOrderByAggregateInput;
+    _avg?: PaperlessInstanceAvgOrderByAggregateInput;
     _max?: PaperlessInstanceMaxOrderByAggregateInput;
     _min?: PaperlessInstanceMinOrderByAggregateInput;
+    _sum?: PaperlessInstanceSumOrderByAggregateInput;
   };
 
   export type PaperlessInstanceScalarWhereWithAggregatesInput = {
@@ -22637,6 +24184,7 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<'PaperlessInstance'> | string;
     apiUrl?: StringWithAggregatesFilter<'PaperlessInstance'> | string;
     apiToken?: StringWithAggregatesFilter<'PaperlessInstance'> | string;
+    importFilterTags?: IntNullableListFilter<'PaperlessInstance'>;
     createdAt?: DateTimeWithAggregatesFilter<'PaperlessInstance'> | Date | string;
     updatedAt?: DateTimeWithAggregatesFilter<'PaperlessInstance'> | Date | string;
     ownerId?: StringWithAggregatesFilter<'PaperlessInstance'> | string;
@@ -22919,6 +24467,7 @@ export namespace Prisma {
     correspondentId?: IntNullableFilter<'PaperlessDocument'> | number | null;
     tagIds?: IntNullableListFilter<'PaperlessDocument'>;
     documentDate?: DateTimeNullableFilter<'PaperlessDocument'> | Date | string | null;
+    paperlessModified?: DateTimeNullableFilter<'PaperlessDocument'> | Date | string | null;
     importedAt?: DateTimeFilter<'PaperlessDocument'> | Date | string;
     createdAt?: DateTimeFilter<'PaperlessDocument'> | Date | string;
     updatedAt?: DateTimeFilter<'PaperlessDocument'> | Date | string;
@@ -22935,6 +24484,7 @@ export namespace Prisma {
     correspondentId?: SortOrderInput | SortOrder;
     tagIds?: SortOrder;
     documentDate?: SortOrderInput | SortOrder;
+    paperlessModified?: SortOrderInput | SortOrder;
     importedAt?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
@@ -22956,6 +24506,7 @@ export namespace Prisma {
       correspondentId?: IntNullableFilter<'PaperlessDocument'> | number | null;
       tagIds?: IntNullableListFilter<'PaperlessDocument'>;
       documentDate?: DateTimeNullableFilter<'PaperlessDocument'> | Date | string | null;
+      paperlessModified?: DateTimeNullableFilter<'PaperlessDocument'> | Date | string | null;
       importedAt?: DateTimeFilter<'PaperlessDocument'> | Date | string;
       createdAt?: DateTimeFilter<'PaperlessDocument'> | Date | string;
       updatedAt?: DateTimeFilter<'PaperlessDocument'> | Date | string;
@@ -22974,6 +24525,7 @@ export namespace Prisma {
     correspondentId?: SortOrderInput | SortOrder;
     tagIds?: SortOrder;
     documentDate?: SortOrderInput | SortOrder;
+    paperlessModified?: SortOrderInput | SortOrder;
     importedAt?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
@@ -23000,6 +24552,11 @@ export namespace Prisma {
     correspondentId?: IntNullableWithAggregatesFilter<'PaperlessDocument'> | number | null;
     tagIds?: IntNullableListFilter<'PaperlessDocument'>;
     documentDate?: DateTimeNullableWithAggregatesFilter<'PaperlessDocument'> | Date | string | null;
+    paperlessModified?:
+      | DateTimeNullableWithAggregatesFilter<'PaperlessDocument'>
+      | Date
+      | string
+      | null;
     importedAt?: DateTimeWithAggregatesFilter<'PaperlessDocument'> | Date | string;
     createdAt?: DateTimeWithAggregatesFilter<'PaperlessDocument'> | Date | string;
     updatedAt?: DateTimeWithAggregatesFilter<'PaperlessDocument'> | Date | string;
@@ -23223,6 +24780,80 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<'ProcessingQueue'> | Date | string;
     updatedAt?: DateTimeWithAggregatesFilter<'ProcessingQueue'> | Date | string;
     paperlessInstanceId?: StringWithAggregatesFilter<'ProcessingQueue'> | string;
+  };
+
+  export type ImportHistoryWhereInput = {
+    AND?: ImportHistoryWhereInput | ImportHistoryWhereInput[];
+    OR?: ImportHistoryWhereInput[];
+    NOT?: ImportHistoryWhereInput | ImportHistoryWhereInput[];
+    id?: StringFilter<'ImportHistory'> | string;
+    importedAt?: DateTimeFilter<'ImportHistory'> | Date | string;
+    documentsImported?: IntFilter<'ImportHistory'> | number;
+    documentsUpdated?: IntFilter<'ImportHistory'> | number;
+    documentsUnchanged?: IntFilter<'ImportHistory'> | number;
+    totalInPaperless?: IntFilter<'ImportHistory'> | number;
+    paperlessInstanceId?: StringFilter<'ImportHistory'> | string;
+    paperlessInstance?: XOR<PaperlessInstanceScalarRelationFilter, PaperlessInstanceWhereInput>;
+  };
+
+  export type ImportHistoryOrderByWithRelationInput = {
+    id?: SortOrder;
+    importedAt?: SortOrder;
+    documentsImported?: SortOrder;
+    documentsUpdated?: SortOrder;
+    documentsUnchanged?: SortOrder;
+    totalInPaperless?: SortOrder;
+    paperlessInstanceId?: SortOrder;
+    paperlessInstance?: PaperlessInstanceOrderByWithRelationInput;
+  };
+
+  export type ImportHistoryWhereUniqueInput = Prisma.AtLeast<
+    {
+      id?: string;
+      AND?: ImportHistoryWhereInput | ImportHistoryWhereInput[];
+      OR?: ImportHistoryWhereInput[];
+      NOT?: ImportHistoryWhereInput | ImportHistoryWhereInput[];
+      importedAt?: DateTimeFilter<'ImportHistory'> | Date | string;
+      documentsImported?: IntFilter<'ImportHistory'> | number;
+      documentsUpdated?: IntFilter<'ImportHistory'> | number;
+      documentsUnchanged?: IntFilter<'ImportHistory'> | number;
+      totalInPaperless?: IntFilter<'ImportHistory'> | number;
+      paperlessInstanceId?: StringFilter<'ImportHistory'> | string;
+      paperlessInstance?: XOR<PaperlessInstanceScalarRelationFilter, PaperlessInstanceWhereInput>;
+    },
+    'id'
+  >;
+
+  export type ImportHistoryOrderByWithAggregationInput = {
+    id?: SortOrder;
+    importedAt?: SortOrder;
+    documentsImported?: SortOrder;
+    documentsUpdated?: SortOrder;
+    documentsUnchanged?: SortOrder;
+    totalInPaperless?: SortOrder;
+    paperlessInstanceId?: SortOrder;
+    _count?: ImportHistoryCountOrderByAggregateInput;
+    _avg?: ImportHistoryAvgOrderByAggregateInput;
+    _max?: ImportHistoryMaxOrderByAggregateInput;
+    _min?: ImportHistoryMinOrderByAggregateInput;
+    _sum?: ImportHistorySumOrderByAggregateInput;
+  };
+
+  export type ImportHistoryScalarWhereWithAggregatesInput = {
+    AND?:
+      | ImportHistoryScalarWhereWithAggregatesInput
+      | ImportHistoryScalarWhereWithAggregatesInput[];
+    OR?: ImportHistoryScalarWhereWithAggregatesInput[];
+    NOT?:
+      | ImportHistoryScalarWhereWithAggregatesInput
+      | ImportHistoryScalarWhereWithAggregatesInput[];
+    id?: StringWithAggregatesFilter<'ImportHistory'> | string;
+    importedAt?: DateTimeWithAggregatesFilter<'ImportHistory'> | Date | string;
+    documentsImported?: IntWithAggregatesFilter<'ImportHistory'> | number;
+    documentsUpdated?: IntWithAggregatesFilter<'ImportHistory'> | number;
+    documentsUnchanged?: IntWithAggregatesFilter<'ImportHistory'> | number;
+    totalInPaperless?: IntWithAggregatesFilter<'ImportHistory'> | number;
+    paperlessInstanceId?: StringWithAggregatesFilter<'ImportHistory'> | string;
   };
 
   export type AiUsageMetricWhereInput = {
@@ -23721,12 +25352,14 @@ export namespace Prisma {
     name: string;
     apiUrl: string;
     apiToken: string;
+    importFilterTags?: PaperlessInstanceCreateimportFilterTagsInput | number[];
     createdAt?: Date | string;
     updatedAt?: Date | string;
     owner: UserCreateNestedOneWithoutOwnedPaperlessInstancesInput;
     sharedWith?: UserPaperlessInstanceAccessCreateNestedManyWithoutInstanceInput;
     documents?: PaperlessDocumentCreateNestedManyWithoutPaperlessInstanceInput;
     processingQueue?: ProcessingQueueCreateNestedManyWithoutPaperlessInstanceInput;
+    importHistory?: ImportHistoryCreateNestedManyWithoutPaperlessInstanceInput;
   };
 
   export type PaperlessInstanceUncheckedCreateInput = {
@@ -23734,12 +25367,14 @@ export namespace Prisma {
     name: string;
     apiUrl: string;
     apiToken: string;
+    importFilterTags?: PaperlessInstanceCreateimportFilterTagsInput | number[];
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownerId: string;
     sharedWith?: UserPaperlessInstanceAccessUncheckedCreateNestedManyWithoutInstanceInput;
     documents?: PaperlessDocumentUncheckedCreateNestedManyWithoutPaperlessInstanceInput;
     processingQueue?: ProcessingQueueUncheckedCreateNestedManyWithoutPaperlessInstanceInput;
+    importHistory?: ImportHistoryUncheckedCreateNestedManyWithoutPaperlessInstanceInput;
   };
 
   export type PaperlessInstanceUpdateInput = {
@@ -23747,12 +25382,14 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string;
     apiUrl?: StringFieldUpdateOperationsInput | string;
     apiToken?: StringFieldUpdateOperationsInput | string;
+    importFilterTags?: PaperlessInstanceUpdateimportFilterTagsInput | number[];
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     owner?: UserUpdateOneRequiredWithoutOwnedPaperlessInstancesNestedInput;
     sharedWith?: UserPaperlessInstanceAccessUpdateManyWithoutInstanceNestedInput;
     documents?: PaperlessDocumentUpdateManyWithoutPaperlessInstanceNestedInput;
     processingQueue?: ProcessingQueueUpdateManyWithoutPaperlessInstanceNestedInput;
+    importHistory?: ImportHistoryUpdateManyWithoutPaperlessInstanceNestedInput;
   };
 
   export type PaperlessInstanceUncheckedUpdateInput = {
@@ -23760,12 +25397,14 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string;
     apiUrl?: StringFieldUpdateOperationsInput | string;
     apiToken?: StringFieldUpdateOperationsInput | string;
+    importFilterTags?: PaperlessInstanceUpdateimportFilterTagsInput | number[];
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownerId?: StringFieldUpdateOperationsInput | string;
     sharedWith?: UserPaperlessInstanceAccessUncheckedUpdateManyWithoutInstanceNestedInput;
     documents?: PaperlessDocumentUncheckedUpdateManyWithoutPaperlessInstanceNestedInput;
     processingQueue?: ProcessingQueueUncheckedUpdateManyWithoutPaperlessInstanceNestedInput;
+    importHistory?: ImportHistoryUncheckedUpdateManyWithoutPaperlessInstanceNestedInput;
   };
 
   export type PaperlessInstanceCreateManyInput = {
@@ -23773,6 +25412,7 @@ export namespace Prisma {
     name: string;
     apiUrl: string;
     apiToken: string;
+    importFilterTags?: PaperlessInstanceCreateimportFilterTagsInput | number[];
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownerId: string;
@@ -23783,6 +25423,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string;
     apiUrl?: StringFieldUpdateOperationsInput | string;
     apiToken?: StringFieldUpdateOperationsInput | string;
+    importFilterTags?: PaperlessInstanceUpdateimportFilterTagsInput | number[];
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
   };
@@ -23792,6 +25433,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string;
     apiUrl?: StringFieldUpdateOperationsInput | string;
     apiToken?: StringFieldUpdateOperationsInput | string;
+    importFilterTags?: PaperlessInstanceUpdateimportFilterTagsInput | number[];
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownerId?: StringFieldUpdateOperationsInput | string;
@@ -24084,6 +25726,7 @@ export namespace Prisma {
     correspondentId?: number | null;
     tagIds?: PaperlessDocumentCreatetagIdsInput | number[];
     documentDate?: Date | string | null;
+    paperlessModified?: Date | string | null;
     importedAt?: Date | string;
     createdAt?: Date | string;
     updatedAt?: Date | string;
@@ -24099,6 +25742,7 @@ export namespace Prisma {
     correspondentId?: number | null;
     tagIds?: PaperlessDocumentCreatetagIdsInput | number[];
     documentDate?: Date | string | null;
+    paperlessModified?: Date | string | null;
     importedAt?: Date | string;
     createdAt?: Date | string;
     updatedAt?: Date | string;
@@ -24114,6 +25758,7 @@ export namespace Prisma {
     correspondentId?: NullableIntFieldUpdateOperationsInput | number | null;
     tagIds?: PaperlessDocumentUpdatetagIdsInput | number[];
     documentDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    paperlessModified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     importedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
@@ -24129,6 +25774,7 @@ export namespace Prisma {
     correspondentId?: NullableIntFieldUpdateOperationsInput | number | null;
     tagIds?: PaperlessDocumentUpdatetagIdsInput | number[];
     documentDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    paperlessModified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     importedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
@@ -24144,6 +25790,7 @@ export namespace Prisma {
     correspondentId?: number | null;
     tagIds?: PaperlessDocumentCreatetagIdsInput | number[];
     documentDate?: Date | string | null;
+    paperlessModified?: Date | string | null;
     importedAt?: Date | string;
     createdAt?: Date | string;
     updatedAt?: Date | string;
@@ -24158,6 +25805,7 @@ export namespace Prisma {
     correspondentId?: NullableIntFieldUpdateOperationsInput | number | null;
     tagIds?: PaperlessDocumentUpdatetagIdsInput | number[];
     documentDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    paperlessModified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     importedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
@@ -24171,6 +25819,7 @@ export namespace Prisma {
     correspondentId?: NullableIntFieldUpdateOperationsInput | number | null;
     tagIds?: PaperlessDocumentUpdatetagIdsInput | number[];
     documentDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    paperlessModified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     importedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
@@ -24403,6 +26052,75 @@ export namespace Prisma {
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    paperlessInstanceId?: StringFieldUpdateOperationsInput | string;
+  };
+
+  export type ImportHistoryCreateInput = {
+    id?: string;
+    importedAt?: Date | string;
+    documentsImported: number;
+    documentsUpdated: number;
+    documentsUnchanged: number;
+    totalInPaperless: number;
+    paperlessInstance: PaperlessInstanceCreateNestedOneWithoutImportHistoryInput;
+  };
+
+  export type ImportHistoryUncheckedCreateInput = {
+    id?: string;
+    importedAt?: Date | string;
+    documentsImported: number;
+    documentsUpdated: number;
+    documentsUnchanged: number;
+    totalInPaperless: number;
+    paperlessInstanceId: string;
+  };
+
+  export type ImportHistoryUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    importedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    documentsImported?: IntFieldUpdateOperationsInput | number;
+    documentsUpdated?: IntFieldUpdateOperationsInput | number;
+    documentsUnchanged?: IntFieldUpdateOperationsInput | number;
+    totalInPaperless?: IntFieldUpdateOperationsInput | number;
+    paperlessInstance?: PaperlessInstanceUpdateOneRequiredWithoutImportHistoryNestedInput;
+  };
+
+  export type ImportHistoryUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    importedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    documentsImported?: IntFieldUpdateOperationsInput | number;
+    documentsUpdated?: IntFieldUpdateOperationsInput | number;
+    documentsUnchanged?: IntFieldUpdateOperationsInput | number;
+    totalInPaperless?: IntFieldUpdateOperationsInput | number;
+    paperlessInstanceId?: StringFieldUpdateOperationsInput | string;
+  };
+
+  export type ImportHistoryCreateManyInput = {
+    id?: string;
+    importedAt?: Date | string;
+    documentsImported: number;
+    documentsUpdated: number;
+    documentsUnchanged: number;
+    totalInPaperless: number;
+    paperlessInstanceId: string;
+  };
+
+  export type ImportHistoryUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    importedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    documentsImported?: IntFieldUpdateOperationsInput | number;
+    documentsUpdated?: IntFieldUpdateOperationsInput | number;
+    documentsUnchanged?: IntFieldUpdateOperationsInput | number;
+    totalInPaperless?: IntFieldUpdateOperationsInput | number;
+  };
+
+  export type ImportHistoryUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    importedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    documentsImported?: IntFieldUpdateOperationsInput | number;
+    documentsUpdated?: IntFieldUpdateOperationsInput | number;
+    documentsUnchanged?: IntFieldUpdateOperationsInput | number;
+    totalInPaperless?: IntFieldUpdateOperationsInput | number;
     paperlessInstanceId?: StringFieldUpdateOperationsInput | string;
   };
 
@@ -24942,6 +26660,14 @@ export namespace Prisma {
     createdAt?: SortOrder;
   };
 
+  export type IntNullableListFilter<$PrismaModel = never> = {
+    equals?: number[] | ListIntFieldRefInput<$PrismaModel> | null;
+    has?: number | IntFieldRefInput<$PrismaModel> | null;
+    hasEvery?: number[] | ListIntFieldRefInput<$PrismaModel>;
+    hasSome?: number[] | ListIntFieldRefInput<$PrismaModel>;
+    isEmpty?: boolean;
+  };
+
   export type UserScalarRelationFilter = {
     is?: UserWhereInput;
     isNot?: UserWhereInput;
@@ -24959,6 +26685,12 @@ export namespace Prisma {
     none?: ProcessingQueueWhereInput;
   };
 
+  export type ImportHistoryListRelationFilter = {
+    every?: ImportHistoryWhereInput;
+    some?: ImportHistoryWhereInput;
+    none?: ImportHistoryWhereInput;
+  };
+
   export type PaperlessDocumentOrderByRelationAggregateInput = {
     _count?: SortOrder;
   };
@@ -24967,14 +26699,23 @@ export namespace Prisma {
     _count?: SortOrder;
   };
 
+  export type ImportHistoryOrderByRelationAggregateInput = {
+    _count?: SortOrder;
+  };
+
   export type PaperlessInstanceCountOrderByAggregateInput = {
     id?: SortOrder;
     name?: SortOrder;
     apiUrl?: SortOrder;
     apiToken?: SortOrder;
+    importFilterTags?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
     ownerId?: SortOrder;
+  };
+
+  export type PaperlessInstanceAvgOrderByAggregateInput = {
+    importFilterTags?: SortOrder;
   };
 
   export type PaperlessInstanceMaxOrderByAggregateInput = {
@@ -24995,6 +26736,10 @@ export namespace Prisma {
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
     ownerId?: SortOrder;
+  };
+
+  export type PaperlessInstanceSumOrderByAggregateInput = {
+    importFilterTags?: SortOrder;
   };
 
   export type AiAccountCountOrderByAggregateInput = {
@@ -25164,14 +26909,6 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null;
   };
 
-  export type IntNullableListFilter<$PrismaModel = never> = {
-    equals?: number[] | ListIntFieldRefInput<$PrismaModel> | null;
-    has?: number | IntFieldRefInput<$PrismaModel> | null;
-    hasEvery?: number[] | ListIntFieldRefInput<$PrismaModel>;
-    hasSome?: number[] | ListIntFieldRefInput<$PrismaModel>;
-    isEmpty?: boolean;
-  };
-
   export type DateTimeNullableFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null;
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null;
@@ -25206,6 +26943,7 @@ export namespace Prisma {
     correspondentId?: SortOrder;
     tagIds?: SortOrder;
     documentDate?: SortOrder;
+    paperlessModified?: SortOrder;
     importedAt?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
@@ -25225,6 +26963,7 @@ export namespace Prisma {
     content?: SortOrder;
     correspondentId?: SortOrder;
     documentDate?: SortOrder;
+    paperlessModified?: SortOrder;
     importedAt?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
@@ -25238,6 +26977,7 @@ export namespace Prisma {
     content?: SortOrder;
     correspondentId?: SortOrder;
     documentDate?: SortOrder;
+    paperlessModified?: SortOrder;
     importedAt?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
@@ -25479,6 +27219,50 @@ export namespace Prisma {
     paperlessId?: SortOrder;
     priority?: SortOrder;
     attempts?: SortOrder;
+  };
+
+  export type ImportHistoryCountOrderByAggregateInput = {
+    id?: SortOrder;
+    importedAt?: SortOrder;
+    documentsImported?: SortOrder;
+    documentsUpdated?: SortOrder;
+    documentsUnchanged?: SortOrder;
+    totalInPaperless?: SortOrder;
+    paperlessInstanceId?: SortOrder;
+  };
+
+  export type ImportHistoryAvgOrderByAggregateInput = {
+    documentsImported?: SortOrder;
+    documentsUpdated?: SortOrder;
+    documentsUnchanged?: SortOrder;
+    totalInPaperless?: SortOrder;
+  };
+
+  export type ImportHistoryMaxOrderByAggregateInput = {
+    id?: SortOrder;
+    importedAt?: SortOrder;
+    documentsImported?: SortOrder;
+    documentsUpdated?: SortOrder;
+    documentsUnchanged?: SortOrder;
+    totalInPaperless?: SortOrder;
+    paperlessInstanceId?: SortOrder;
+  };
+
+  export type ImportHistoryMinOrderByAggregateInput = {
+    id?: SortOrder;
+    importedAt?: SortOrder;
+    documentsImported?: SortOrder;
+    documentsUpdated?: SortOrder;
+    documentsUnchanged?: SortOrder;
+    totalInPaperless?: SortOrder;
+    paperlessInstanceId?: SortOrder;
+  };
+
+  export type ImportHistorySumOrderByAggregateInput = {
+    documentsImported?: SortOrder;
+    documentsUpdated?: SortOrder;
+    documentsUnchanged?: SortOrder;
+    totalInPaperless?: SortOrder;
   };
 
   export type AiModelNullableScalarRelationFilter = {
@@ -26503,6 +28287,10 @@ export namespace Prisma {
     >;
   };
 
+  export type PaperlessInstanceCreateimportFilterTagsInput = {
+    set: number[];
+  };
+
   export type UserCreateNestedOneWithoutOwnedPaperlessInstancesInput = {
     create?: XOR<
       UserCreateWithoutOwnedPaperlessInstancesInput,
@@ -26559,6 +28347,21 @@ export namespace Prisma {
     connect?: ProcessingQueueWhereUniqueInput | ProcessingQueueWhereUniqueInput[];
   };
 
+  export type ImportHistoryCreateNestedManyWithoutPaperlessInstanceInput = {
+    create?:
+      | XOR<
+          ImportHistoryCreateWithoutPaperlessInstanceInput,
+          ImportHistoryUncheckedCreateWithoutPaperlessInstanceInput
+        >
+      | ImportHistoryCreateWithoutPaperlessInstanceInput[]
+      | ImportHistoryUncheckedCreateWithoutPaperlessInstanceInput[];
+    connectOrCreate?:
+      | ImportHistoryCreateOrConnectWithoutPaperlessInstanceInput
+      | ImportHistoryCreateOrConnectWithoutPaperlessInstanceInput[];
+    createMany?: ImportHistoryCreateManyPaperlessInstanceInputEnvelope;
+    connect?: ImportHistoryWhereUniqueInput | ImportHistoryWhereUniqueInput[];
+  };
+
   export type UserPaperlessInstanceAccessUncheckedCreateNestedManyWithoutInstanceInput = {
     create?:
       | XOR<
@@ -26604,6 +28407,26 @@ export namespace Prisma {
       | ProcessingQueueCreateOrConnectWithoutPaperlessInstanceInput[];
     createMany?: ProcessingQueueCreateManyPaperlessInstanceInputEnvelope;
     connect?: ProcessingQueueWhereUniqueInput | ProcessingQueueWhereUniqueInput[];
+  };
+
+  export type ImportHistoryUncheckedCreateNestedManyWithoutPaperlessInstanceInput = {
+    create?:
+      | XOR<
+          ImportHistoryCreateWithoutPaperlessInstanceInput,
+          ImportHistoryUncheckedCreateWithoutPaperlessInstanceInput
+        >
+      | ImportHistoryCreateWithoutPaperlessInstanceInput[]
+      | ImportHistoryUncheckedCreateWithoutPaperlessInstanceInput[];
+    connectOrCreate?:
+      | ImportHistoryCreateOrConnectWithoutPaperlessInstanceInput
+      | ImportHistoryCreateOrConnectWithoutPaperlessInstanceInput[];
+    createMany?: ImportHistoryCreateManyPaperlessInstanceInputEnvelope;
+    connect?: ImportHistoryWhereUniqueInput | ImportHistoryWhereUniqueInput[];
+  };
+
+  export type PaperlessInstanceUpdateimportFilterTagsInput = {
+    set?: number[];
+    push?: number | number[];
   };
 
   export type UserUpdateOneRequiredWithoutOwnedPaperlessInstancesNestedInput = {
@@ -26717,6 +28540,34 @@ export namespace Prisma {
     deleteMany?: ProcessingQueueScalarWhereInput | ProcessingQueueScalarWhereInput[];
   };
 
+  export type ImportHistoryUpdateManyWithoutPaperlessInstanceNestedInput = {
+    create?:
+      | XOR<
+          ImportHistoryCreateWithoutPaperlessInstanceInput,
+          ImportHistoryUncheckedCreateWithoutPaperlessInstanceInput
+        >
+      | ImportHistoryCreateWithoutPaperlessInstanceInput[]
+      | ImportHistoryUncheckedCreateWithoutPaperlessInstanceInput[];
+    connectOrCreate?:
+      | ImportHistoryCreateOrConnectWithoutPaperlessInstanceInput
+      | ImportHistoryCreateOrConnectWithoutPaperlessInstanceInput[];
+    upsert?:
+      | ImportHistoryUpsertWithWhereUniqueWithoutPaperlessInstanceInput
+      | ImportHistoryUpsertWithWhereUniqueWithoutPaperlessInstanceInput[];
+    createMany?: ImportHistoryCreateManyPaperlessInstanceInputEnvelope;
+    set?: ImportHistoryWhereUniqueInput | ImportHistoryWhereUniqueInput[];
+    disconnect?: ImportHistoryWhereUniqueInput | ImportHistoryWhereUniqueInput[];
+    delete?: ImportHistoryWhereUniqueInput | ImportHistoryWhereUniqueInput[];
+    connect?: ImportHistoryWhereUniqueInput | ImportHistoryWhereUniqueInput[];
+    update?:
+      | ImportHistoryUpdateWithWhereUniqueWithoutPaperlessInstanceInput
+      | ImportHistoryUpdateWithWhereUniqueWithoutPaperlessInstanceInput[];
+    updateMany?:
+      | ImportHistoryUpdateManyWithWhereWithoutPaperlessInstanceInput
+      | ImportHistoryUpdateManyWithWhereWithoutPaperlessInstanceInput[];
+    deleteMany?: ImportHistoryScalarWhereInput | ImportHistoryScalarWhereInput[];
+  };
+
   export type UserPaperlessInstanceAccessUncheckedUpdateManyWithoutInstanceNestedInput = {
     create?:
       | XOR<
@@ -26809,6 +28660,34 @@ export namespace Prisma {
       | ProcessingQueueUpdateManyWithWhereWithoutPaperlessInstanceInput
       | ProcessingQueueUpdateManyWithWhereWithoutPaperlessInstanceInput[];
     deleteMany?: ProcessingQueueScalarWhereInput | ProcessingQueueScalarWhereInput[];
+  };
+
+  export type ImportHistoryUncheckedUpdateManyWithoutPaperlessInstanceNestedInput = {
+    create?:
+      | XOR<
+          ImportHistoryCreateWithoutPaperlessInstanceInput,
+          ImportHistoryUncheckedCreateWithoutPaperlessInstanceInput
+        >
+      | ImportHistoryCreateWithoutPaperlessInstanceInput[]
+      | ImportHistoryUncheckedCreateWithoutPaperlessInstanceInput[];
+    connectOrCreate?:
+      | ImportHistoryCreateOrConnectWithoutPaperlessInstanceInput
+      | ImportHistoryCreateOrConnectWithoutPaperlessInstanceInput[];
+    upsert?:
+      | ImportHistoryUpsertWithWhereUniqueWithoutPaperlessInstanceInput
+      | ImportHistoryUpsertWithWhereUniqueWithoutPaperlessInstanceInput[];
+    createMany?: ImportHistoryCreateManyPaperlessInstanceInputEnvelope;
+    set?: ImportHistoryWhereUniqueInput | ImportHistoryWhereUniqueInput[];
+    disconnect?: ImportHistoryWhereUniqueInput | ImportHistoryWhereUniqueInput[];
+    delete?: ImportHistoryWhereUniqueInput | ImportHistoryWhereUniqueInput[];
+    connect?: ImportHistoryWhereUniqueInput | ImportHistoryWhereUniqueInput[];
+    update?:
+      | ImportHistoryUpdateWithWhereUniqueWithoutPaperlessInstanceInput
+      | ImportHistoryUpdateWithWhereUniqueWithoutPaperlessInstanceInput[];
+    updateMany?:
+      | ImportHistoryUpdateManyWithWhereWithoutPaperlessInstanceInput
+      | ImportHistoryUpdateManyWithWhereWithoutPaperlessInstanceInput[];
+    deleteMany?: ImportHistoryScalarWhereInput | ImportHistoryScalarWhereInput[];
   };
 
   export type UserCreateNestedOneWithoutOwnedAiAccountsInput = {
@@ -27751,6 +29630,32 @@ export namespace Prisma {
     >;
   };
 
+  export type PaperlessInstanceCreateNestedOneWithoutImportHistoryInput = {
+    create?: XOR<
+      PaperlessInstanceCreateWithoutImportHistoryInput,
+      PaperlessInstanceUncheckedCreateWithoutImportHistoryInput
+    >;
+    connectOrCreate?: PaperlessInstanceCreateOrConnectWithoutImportHistoryInput;
+    connect?: PaperlessInstanceWhereUniqueInput;
+  };
+
+  export type PaperlessInstanceUpdateOneRequiredWithoutImportHistoryNestedInput = {
+    create?: XOR<
+      PaperlessInstanceCreateWithoutImportHistoryInput,
+      PaperlessInstanceUncheckedCreateWithoutImportHistoryInput
+    >;
+    connectOrCreate?: PaperlessInstanceCreateOrConnectWithoutImportHistoryInput;
+    upsert?: PaperlessInstanceUpsertWithoutImportHistoryInput;
+    connect?: PaperlessInstanceWhereUniqueInput;
+    update?: XOR<
+      XOR<
+        PaperlessInstanceUpdateToOneWithWhereWithoutImportHistoryInput,
+        PaperlessInstanceUpdateWithoutImportHistoryInput
+      >,
+      PaperlessInstanceUncheckedUpdateWithoutImportHistoryInput
+    >;
+  };
+
   export type UserCreateNestedOneWithoutAiUsageMetricsInput = {
     create?: XOR<
       UserCreateWithoutAiUsageMetricsInput,
@@ -28138,11 +30043,13 @@ export namespace Prisma {
     name: string;
     apiUrl: string;
     apiToken: string;
+    importFilterTags?: PaperlessInstanceCreateimportFilterTagsInput | number[];
     createdAt?: Date | string;
     updatedAt?: Date | string;
     sharedWith?: UserPaperlessInstanceAccessCreateNestedManyWithoutInstanceInput;
     documents?: PaperlessDocumentCreateNestedManyWithoutPaperlessInstanceInput;
     processingQueue?: ProcessingQueueCreateNestedManyWithoutPaperlessInstanceInput;
+    importHistory?: ImportHistoryCreateNestedManyWithoutPaperlessInstanceInput;
   };
 
   export type PaperlessInstanceUncheckedCreateWithoutOwnerInput = {
@@ -28150,11 +30057,13 @@ export namespace Prisma {
     name: string;
     apiUrl: string;
     apiToken: string;
+    importFilterTags?: PaperlessInstanceCreateimportFilterTagsInput | number[];
     createdAt?: Date | string;
     updatedAt?: Date | string;
     sharedWith?: UserPaperlessInstanceAccessUncheckedCreateNestedManyWithoutInstanceInput;
     documents?: PaperlessDocumentUncheckedCreateNestedManyWithoutPaperlessInstanceInput;
     processingQueue?: ProcessingQueueUncheckedCreateNestedManyWithoutPaperlessInstanceInput;
+    importHistory?: ImportHistoryUncheckedCreateNestedManyWithoutPaperlessInstanceInput;
   };
 
   export type PaperlessInstanceCreateOrConnectWithoutOwnerInput = {
@@ -28468,6 +30377,7 @@ export namespace Prisma {
     name?: StringFilter<'PaperlessInstance'> | string;
     apiUrl?: StringFilter<'PaperlessInstance'> | string;
     apiToken?: StringFilter<'PaperlessInstance'> | string;
+    importFilterTags?: IntNullableListFilter<'PaperlessInstance'>;
     createdAt?: DateTimeFilter<'PaperlessInstance'> | Date | string;
     updatedAt?: DateTimeFilter<'PaperlessInstance'> | Date | string;
     ownerId?: StringFilter<'PaperlessInstance'> | string;
@@ -28815,11 +30725,13 @@ export namespace Prisma {
     name: string;
     apiUrl: string;
     apiToken: string;
+    importFilterTags?: PaperlessInstanceCreateimportFilterTagsInput | number[];
     createdAt?: Date | string;
     updatedAt?: Date | string;
     owner: UserCreateNestedOneWithoutOwnedPaperlessInstancesInput;
     documents?: PaperlessDocumentCreateNestedManyWithoutPaperlessInstanceInput;
     processingQueue?: ProcessingQueueCreateNestedManyWithoutPaperlessInstanceInput;
+    importHistory?: ImportHistoryCreateNestedManyWithoutPaperlessInstanceInput;
   };
 
   export type PaperlessInstanceUncheckedCreateWithoutSharedWithInput = {
@@ -28827,11 +30739,13 @@ export namespace Prisma {
     name: string;
     apiUrl: string;
     apiToken: string;
+    importFilterTags?: PaperlessInstanceCreateimportFilterTagsInput | number[];
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownerId: string;
     documents?: PaperlessDocumentUncheckedCreateNestedManyWithoutPaperlessInstanceInput;
     processingQueue?: ProcessingQueueUncheckedCreateNestedManyWithoutPaperlessInstanceInput;
+    importHistory?: ImportHistoryUncheckedCreateNestedManyWithoutPaperlessInstanceInput;
   };
 
   export type PaperlessInstanceCreateOrConnectWithoutSharedWithInput = {
@@ -28925,11 +30839,13 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string;
     apiUrl?: StringFieldUpdateOperationsInput | string;
     apiToken?: StringFieldUpdateOperationsInput | string;
+    importFilterTags?: PaperlessInstanceUpdateimportFilterTagsInput | number[];
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     owner?: UserUpdateOneRequiredWithoutOwnedPaperlessInstancesNestedInput;
     documents?: PaperlessDocumentUpdateManyWithoutPaperlessInstanceNestedInput;
     processingQueue?: ProcessingQueueUpdateManyWithoutPaperlessInstanceNestedInput;
+    importHistory?: ImportHistoryUpdateManyWithoutPaperlessInstanceNestedInput;
   };
 
   export type PaperlessInstanceUncheckedUpdateWithoutSharedWithInput = {
@@ -28937,11 +30853,13 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string;
     apiUrl?: StringFieldUpdateOperationsInput | string;
     apiToken?: StringFieldUpdateOperationsInput | string;
+    importFilterTags?: PaperlessInstanceUpdateimportFilterTagsInput | number[];
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownerId?: StringFieldUpdateOperationsInput | string;
     documents?: PaperlessDocumentUncheckedUpdateManyWithoutPaperlessInstanceNestedInput;
     processingQueue?: ProcessingQueueUncheckedUpdateManyWithoutPaperlessInstanceNestedInput;
+    importHistory?: ImportHistoryUncheckedUpdateManyWithoutPaperlessInstanceNestedInput;
   };
 
   export type UserCreateWithoutSharedAiAccountsInput = {
@@ -29548,6 +31466,7 @@ export namespace Prisma {
     correspondentId?: number | null;
     tagIds?: PaperlessDocumentCreatetagIdsInput | number[];
     documentDate?: Date | string | null;
+    paperlessModified?: Date | string | null;
     importedAt?: Date | string;
     createdAt?: Date | string;
     updatedAt?: Date | string;
@@ -29562,6 +31481,7 @@ export namespace Prisma {
     correspondentId?: number | null;
     tagIds?: PaperlessDocumentCreatetagIdsInput | number[];
     documentDate?: Date | string | null;
+    paperlessModified?: Date | string | null;
     importedAt?: Date | string;
     createdAt?: Date | string;
     updatedAt?: Date | string;
@@ -29623,6 +31543,39 @@ export namespace Prisma {
     data:
       | ProcessingQueueCreateManyPaperlessInstanceInput
       | ProcessingQueueCreateManyPaperlessInstanceInput[];
+    skipDuplicates?: boolean;
+  };
+
+  export type ImportHistoryCreateWithoutPaperlessInstanceInput = {
+    id?: string;
+    importedAt?: Date | string;
+    documentsImported: number;
+    documentsUpdated: number;
+    documentsUnchanged: number;
+    totalInPaperless: number;
+  };
+
+  export type ImportHistoryUncheckedCreateWithoutPaperlessInstanceInput = {
+    id?: string;
+    importedAt?: Date | string;
+    documentsImported: number;
+    documentsUpdated: number;
+    documentsUnchanged: number;
+    totalInPaperless: number;
+  };
+
+  export type ImportHistoryCreateOrConnectWithoutPaperlessInstanceInput = {
+    where: ImportHistoryWhereUniqueInput;
+    create: XOR<
+      ImportHistoryCreateWithoutPaperlessInstanceInput,
+      ImportHistoryUncheckedCreateWithoutPaperlessInstanceInput
+    >;
+  };
+
+  export type ImportHistoryCreateManyPaperlessInstanceInputEnvelope = {
+    data:
+      | ImportHistoryCreateManyPaperlessInstanceInput
+      | ImportHistoryCreateManyPaperlessInstanceInput[];
     skipDuplicates?: boolean;
   };
 
@@ -29751,6 +31704,7 @@ export namespace Prisma {
     correspondentId?: IntNullableFilter<'PaperlessDocument'> | number | null;
     tagIds?: IntNullableListFilter<'PaperlessDocument'>;
     documentDate?: DateTimeNullableFilter<'PaperlessDocument'> | Date | string | null;
+    paperlessModified?: DateTimeNullableFilter<'PaperlessDocument'> | Date | string | null;
     importedAt?: DateTimeFilter<'PaperlessDocument'> | Date | string;
     createdAt?: DateTimeFilter<'PaperlessDocument'> | Date | string;
     updatedAt?: DateTimeFilter<'PaperlessDocument'> | Date | string;
@@ -29801,6 +31755,47 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<'ProcessingQueue'> | Date | string;
     updatedAt?: DateTimeFilter<'ProcessingQueue'> | Date | string;
     paperlessInstanceId?: StringFilter<'ProcessingQueue'> | string;
+  };
+
+  export type ImportHistoryUpsertWithWhereUniqueWithoutPaperlessInstanceInput = {
+    where: ImportHistoryWhereUniqueInput;
+    update: XOR<
+      ImportHistoryUpdateWithoutPaperlessInstanceInput,
+      ImportHistoryUncheckedUpdateWithoutPaperlessInstanceInput
+    >;
+    create: XOR<
+      ImportHistoryCreateWithoutPaperlessInstanceInput,
+      ImportHistoryUncheckedCreateWithoutPaperlessInstanceInput
+    >;
+  };
+
+  export type ImportHistoryUpdateWithWhereUniqueWithoutPaperlessInstanceInput = {
+    where: ImportHistoryWhereUniqueInput;
+    data: XOR<
+      ImportHistoryUpdateWithoutPaperlessInstanceInput,
+      ImportHistoryUncheckedUpdateWithoutPaperlessInstanceInput
+    >;
+  };
+
+  export type ImportHistoryUpdateManyWithWhereWithoutPaperlessInstanceInput = {
+    where: ImportHistoryScalarWhereInput;
+    data: XOR<
+      ImportHistoryUpdateManyMutationInput,
+      ImportHistoryUncheckedUpdateManyWithoutPaperlessInstanceInput
+    >;
+  };
+
+  export type ImportHistoryScalarWhereInput = {
+    AND?: ImportHistoryScalarWhereInput | ImportHistoryScalarWhereInput[];
+    OR?: ImportHistoryScalarWhereInput[];
+    NOT?: ImportHistoryScalarWhereInput | ImportHistoryScalarWhereInput[];
+    id?: StringFilter<'ImportHistory'> | string;
+    importedAt?: DateTimeFilter<'ImportHistory'> | Date | string;
+    documentsImported?: IntFilter<'ImportHistory'> | number;
+    documentsUpdated?: IntFilter<'ImportHistory'> | number;
+    documentsUnchanged?: IntFilter<'ImportHistory'> | number;
+    totalInPaperless?: IntFilter<'ImportHistory'> | number;
+    paperlessInstanceId?: StringFilter<'ImportHistory'> | string;
   };
 
   export type UserCreateWithoutOwnedAiAccountsInput = {
@@ -30727,11 +32722,13 @@ export namespace Prisma {
     name: string;
     apiUrl: string;
     apiToken: string;
+    importFilterTags?: PaperlessInstanceCreateimportFilterTagsInput | number[];
     createdAt?: Date | string;
     updatedAt?: Date | string;
     owner: UserCreateNestedOneWithoutOwnedPaperlessInstancesInput;
     sharedWith?: UserPaperlessInstanceAccessCreateNestedManyWithoutInstanceInput;
     processingQueue?: ProcessingQueueCreateNestedManyWithoutPaperlessInstanceInput;
+    importHistory?: ImportHistoryCreateNestedManyWithoutPaperlessInstanceInput;
   };
 
   export type PaperlessInstanceUncheckedCreateWithoutDocumentsInput = {
@@ -30739,11 +32736,13 @@ export namespace Prisma {
     name: string;
     apiUrl: string;
     apiToken: string;
+    importFilterTags?: PaperlessInstanceCreateimportFilterTagsInput | number[];
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownerId: string;
     sharedWith?: UserPaperlessInstanceAccessUncheckedCreateNestedManyWithoutInstanceInput;
     processingQueue?: ProcessingQueueUncheckedCreateNestedManyWithoutPaperlessInstanceInput;
+    importHistory?: ImportHistoryUncheckedCreateNestedManyWithoutPaperlessInstanceInput;
   };
 
   export type PaperlessInstanceCreateOrConnectWithoutDocumentsInput = {
@@ -30828,11 +32827,13 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string;
     apiUrl?: StringFieldUpdateOperationsInput | string;
     apiToken?: StringFieldUpdateOperationsInput | string;
+    importFilterTags?: PaperlessInstanceUpdateimportFilterTagsInput | number[];
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     owner?: UserUpdateOneRequiredWithoutOwnedPaperlessInstancesNestedInput;
     sharedWith?: UserPaperlessInstanceAccessUpdateManyWithoutInstanceNestedInput;
     processingQueue?: ProcessingQueueUpdateManyWithoutPaperlessInstanceNestedInput;
+    importHistory?: ImportHistoryUpdateManyWithoutPaperlessInstanceNestedInput;
   };
 
   export type PaperlessInstanceUncheckedUpdateWithoutDocumentsInput = {
@@ -30840,11 +32841,13 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string;
     apiUrl?: StringFieldUpdateOperationsInput | string;
     apiToken?: StringFieldUpdateOperationsInput | string;
+    importFilterTags?: PaperlessInstanceUpdateimportFilterTagsInput | number[];
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownerId?: StringFieldUpdateOperationsInput | string;
     sharedWith?: UserPaperlessInstanceAccessUncheckedUpdateManyWithoutInstanceNestedInput;
     processingQueue?: ProcessingQueueUncheckedUpdateManyWithoutPaperlessInstanceNestedInput;
+    importHistory?: ImportHistoryUncheckedUpdateManyWithoutPaperlessInstanceNestedInput;
   };
 
   export type DocumentProcessingResultUpsertWithWhereUniqueWithoutDocumentInput = {
@@ -30904,6 +32907,7 @@ export namespace Prisma {
     correspondentId?: number | null;
     tagIds?: PaperlessDocumentCreatetagIdsInput | number[];
     documentDate?: Date | string | null;
+    paperlessModified?: Date | string | null;
     importedAt?: Date | string;
     createdAt?: Date | string;
     updatedAt?: Date | string;
@@ -30918,6 +32922,7 @@ export namespace Prisma {
     correspondentId?: number | null;
     tagIds?: PaperlessDocumentCreatetagIdsInput | number[];
     documentDate?: Date | string | null;
+    paperlessModified?: Date | string | null;
     importedAt?: Date | string;
     createdAt?: Date | string;
     updatedAt?: Date | string;
@@ -30960,6 +32965,7 @@ export namespace Prisma {
     correspondentId?: NullableIntFieldUpdateOperationsInput | number | null;
     tagIds?: PaperlessDocumentUpdatetagIdsInput | number[];
     documentDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    paperlessModified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     importedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
@@ -30974,6 +32980,7 @@ export namespace Prisma {
     correspondentId?: NullableIntFieldUpdateOperationsInput | number | null;
     tagIds?: PaperlessDocumentUpdatetagIdsInput | number[];
     documentDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    paperlessModified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     importedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
@@ -30985,11 +32992,13 @@ export namespace Prisma {
     name: string;
     apiUrl: string;
     apiToken: string;
+    importFilterTags?: PaperlessInstanceCreateimportFilterTagsInput | number[];
     createdAt?: Date | string;
     updatedAt?: Date | string;
     owner: UserCreateNestedOneWithoutOwnedPaperlessInstancesInput;
     sharedWith?: UserPaperlessInstanceAccessCreateNestedManyWithoutInstanceInput;
     documents?: PaperlessDocumentCreateNestedManyWithoutPaperlessInstanceInput;
+    importHistory?: ImportHistoryCreateNestedManyWithoutPaperlessInstanceInput;
   };
 
   export type PaperlessInstanceUncheckedCreateWithoutProcessingQueueInput = {
@@ -30997,11 +33006,13 @@ export namespace Prisma {
     name: string;
     apiUrl: string;
     apiToken: string;
+    importFilterTags?: PaperlessInstanceCreateimportFilterTagsInput | number[];
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownerId: string;
     sharedWith?: UserPaperlessInstanceAccessUncheckedCreateNestedManyWithoutInstanceInput;
     documents?: PaperlessDocumentUncheckedCreateNestedManyWithoutPaperlessInstanceInput;
+    importHistory?: ImportHistoryUncheckedCreateNestedManyWithoutPaperlessInstanceInput;
   };
 
   export type PaperlessInstanceCreateOrConnectWithoutProcessingQueueInput = {
@@ -31037,11 +33048,13 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string;
     apiUrl?: StringFieldUpdateOperationsInput | string;
     apiToken?: StringFieldUpdateOperationsInput | string;
+    importFilterTags?: PaperlessInstanceUpdateimportFilterTagsInput | number[];
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     owner?: UserUpdateOneRequiredWithoutOwnedPaperlessInstancesNestedInput;
     sharedWith?: UserPaperlessInstanceAccessUpdateManyWithoutInstanceNestedInput;
     documents?: PaperlessDocumentUpdateManyWithoutPaperlessInstanceNestedInput;
+    importHistory?: ImportHistoryUpdateManyWithoutPaperlessInstanceNestedInput;
   };
 
   export type PaperlessInstanceUncheckedUpdateWithoutProcessingQueueInput = {
@@ -31049,11 +33062,97 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string;
     apiUrl?: StringFieldUpdateOperationsInput | string;
     apiToken?: StringFieldUpdateOperationsInput | string;
+    importFilterTags?: PaperlessInstanceUpdateimportFilterTagsInput | number[];
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownerId?: StringFieldUpdateOperationsInput | string;
     sharedWith?: UserPaperlessInstanceAccessUncheckedUpdateManyWithoutInstanceNestedInput;
     documents?: PaperlessDocumentUncheckedUpdateManyWithoutPaperlessInstanceNestedInput;
+    importHistory?: ImportHistoryUncheckedUpdateManyWithoutPaperlessInstanceNestedInput;
+  };
+
+  export type PaperlessInstanceCreateWithoutImportHistoryInput = {
+    id?: string;
+    name: string;
+    apiUrl: string;
+    apiToken: string;
+    importFilterTags?: PaperlessInstanceCreateimportFilterTagsInput | number[];
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    owner: UserCreateNestedOneWithoutOwnedPaperlessInstancesInput;
+    sharedWith?: UserPaperlessInstanceAccessCreateNestedManyWithoutInstanceInput;
+    documents?: PaperlessDocumentCreateNestedManyWithoutPaperlessInstanceInput;
+    processingQueue?: ProcessingQueueCreateNestedManyWithoutPaperlessInstanceInput;
+  };
+
+  export type PaperlessInstanceUncheckedCreateWithoutImportHistoryInput = {
+    id?: string;
+    name: string;
+    apiUrl: string;
+    apiToken: string;
+    importFilterTags?: PaperlessInstanceCreateimportFilterTagsInput | number[];
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    ownerId: string;
+    sharedWith?: UserPaperlessInstanceAccessUncheckedCreateNestedManyWithoutInstanceInput;
+    documents?: PaperlessDocumentUncheckedCreateNestedManyWithoutPaperlessInstanceInput;
+    processingQueue?: ProcessingQueueUncheckedCreateNestedManyWithoutPaperlessInstanceInput;
+  };
+
+  export type PaperlessInstanceCreateOrConnectWithoutImportHistoryInput = {
+    where: PaperlessInstanceWhereUniqueInput;
+    create: XOR<
+      PaperlessInstanceCreateWithoutImportHistoryInput,
+      PaperlessInstanceUncheckedCreateWithoutImportHistoryInput
+    >;
+  };
+
+  export type PaperlessInstanceUpsertWithoutImportHistoryInput = {
+    update: XOR<
+      PaperlessInstanceUpdateWithoutImportHistoryInput,
+      PaperlessInstanceUncheckedUpdateWithoutImportHistoryInput
+    >;
+    create: XOR<
+      PaperlessInstanceCreateWithoutImportHistoryInput,
+      PaperlessInstanceUncheckedCreateWithoutImportHistoryInput
+    >;
+    where?: PaperlessInstanceWhereInput;
+  };
+
+  export type PaperlessInstanceUpdateToOneWithWhereWithoutImportHistoryInput = {
+    where?: PaperlessInstanceWhereInput;
+    data: XOR<
+      PaperlessInstanceUpdateWithoutImportHistoryInput,
+      PaperlessInstanceUncheckedUpdateWithoutImportHistoryInput
+    >;
+  };
+
+  export type PaperlessInstanceUpdateWithoutImportHistoryInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    name?: StringFieldUpdateOperationsInput | string;
+    apiUrl?: StringFieldUpdateOperationsInput | string;
+    apiToken?: StringFieldUpdateOperationsInput | string;
+    importFilterTags?: PaperlessInstanceUpdateimportFilterTagsInput | number[];
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    owner?: UserUpdateOneRequiredWithoutOwnedPaperlessInstancesNestedInput;
+    sharedWith?: UserPaperlessInstanceAccessUpdateManyWithoutInstanceNestedInput;
+    documents?: PaperlessDocumentUpdateManyWithoutPaperlessInstanceNestedInput;
+    processingQueue?: ProcessingQueueUpdateManyWithoutPaperlessInstanceNestedInput;
+  };
+
+  export type PaperlessInstanceUncheckedUpdateWithoutImportHistoryInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    name?: StringFieldUpdateOperationsInput | string;
+    apiUrl?: StringFieldUpdateOperationsInput | string;
+    apiToken?: StringFieldUpdateOperationsInput | string;
+    importFilterTags?: PaperlessInstanceUpdateimportFilterTagsInput | number[];
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    ownerId?: StringFieldUpdateOperationsInput | string;
+    sharedWith?: UserPaperlessInstanceAccessUncheckedUpdateManyWithoutInstanceNestedInput;
+    documents?: PaperlessDocumentUncheckedUpdateManyWithoutPaperlessInstanceNestedInput;
+    processingQueue?: ProcessingQueueUncheckedUpdateManyWithoutPaperlessInstanceNestedInput;
   };
 
   export type UserCreateWithoutAiUsageMetricsInput = {
@@ -31410,6 +33509,7 @@ export namespace Prisma {
     name: string;
     apiUrl: string;
     apiToken: string;
+    importFilterTags?: PaperlessInstanceCreateimportFilterTagsInput | number[];
     createdAt?: Date | string;
     updatedAt?: Date | string;
   };
@@ -31495,11 +33595,13 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string;
     apiUrl?: StringFieldUpdateOperationsInput | string;
     apiToken?: StringFieldUpdateOperationsInput | string;
+    importFilterTags?: PaperlessInstanceUpdateimportFilterTagsInput | number[];
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     sharedWith?: UserPaperlessInstanceAccessUpdateManyWithoutInstanceNestedInput;
     documents?: PaperlessDocumentUpdateManyWithoutPaperlessInstanceNestedInput;
     processingQueue?: ProcessingQueueUpdateManyWithoutPaperlessInstanceNestedInput;
+    importHistory?: ImportHistoryUpdateManyWithoutPaperlessInstanceNestedInput;
   };
 
   export type PaperlessInstanceUncheckedUpdateWithoutOwnerInput = {
@@ -31507,11 +33609,13 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string;
     apiUrl?: StringFieldUpdateOperationsInput | string;
     apiToken?: StringFieldUpdateOperationsInput | string;
+    importFilterTags?: PaperlessInstanceUpdateimportFilterTagsInput | number[];
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     sharedWith?: UserPaperlessInstanceAccessUncheckedUpdateManyWithoutInstanceNestedInput;
     documents?: PaperlessDocumentUncheckedUpdateManyWithoutPaperlessInstanceNestedInput;
     processingQueue?: ProcessingQueueUncheckedUpdateManyWithoutPaperlessInstanceNestedInput;
+    importHistory?: ImportHistoryUncheckedUpdateManyWithoutPaperlessInstanceNestedInput;
   };
 
   export type PaperlessInstanceUncheckedUpdateManyWithoutOwnerInput = {
@@ -31519,6 +33623,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string;
     apiUrl?: StringFieldUpdateOperationsInput | string;
     apiToken?: StringFieldUpdateOperationsInput | string;
+    importFilterTags?: PaperlessInstanceUpdateimportFilterTagsInput | number[];
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
   };
@@ -31782,6 +33887,7 @@ export namespace Prisma {
     correspondentId?: number | null;
     tagIds?: PaperlessDocumentCreatetagIdsInput | number[];
     documentDate?: Date | string | null;
+    paperlessModified?: Date | string | null;
     importedAt?: Date | string;
     createdAt?: Date | string;
     updatedAt?: Date | string;
@@ -31799,6 +33905,15 @@ export namespace Prisma {
     completedAt?: Date | string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
+  };
+
+  export type ImportHistoryCreateManyPaperlessInstanceInput = {
+    id?: string;
+    importedAt?: Date | string;
+    documentsImported: number;
+    documentsUpdated: number;
+    documentsUnchanged: number;
+    totalInPaperless: number;
   };
 
   export type UserPaperlessInstanceAccessUpdateWithoutInstanceInput = {
@@ -31830,6 +33945,7 @@ export namespace Prisma {
     correspondentId?: NullableIntFieldUpdateOperationsInput | number | null;
     tagIds?: PaperlessDocumentUpdatetagIdsInput | number[];
     documentDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    paperlessModified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     importedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
@@ -31844,6 +33960,7 @@ export namespace Prisma {
     correspondentId?: NullableIntFieldUpdateOperationsInput | number | null;
     tagIds?: PaperlessDocumentUpdatetagIdsInput | number[];
     documentDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    paperlessModified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     importedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
@@ -31858,6 +33975,7 @@ export namespace Prisma {
     correspondentId?: NullableIntFieldUpdateOperationsInput | number | null;
     tagIds?: PaperlessDocumentUpdatetagIdsInput | number[];
     documentDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    paperlessModified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     importedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
@@ -31903,6 +34021,33 @@ export namespace Prisma {
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+  };
+
+  export type ImportHistoryUpdateWithoutPaperlessInstanceInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    importedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    documentsImported?: IntFieldUpdateOperationsInput | number;
+    documentsUpdated?: IntFieldUpdateOperationsInput | number;
+    documentsUnchanged?: IntFieldUpdateOperationsInput | number;
+    totalInPaperless?: IntFieldUpdateOperationsInput | number;
+  };
+
+  export type ImportHistoryUncheckedUpdateWithoutPaperlessInstanceInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    importedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    documentsImported?: IntFieldUpdateOperationsInput | number;
+    documentsUpdated?: IntFieldUpdateOperationsInput | number;
+    documentsUnchanged?: IntFieldUpdateOperationsInput | number;
+    totalInPaperless?: IntFieldUpdateOperationsInput | number;
+  };
+
+  export type ImportHistoryUncheckedUpdateManyWithoutPaperlessInstanceInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    importedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    documentsImported?: IntFieldUpdateOperationsInput | number;
+    documentsUpdated?: IntFieldUpdateOperationsInput | number;
+    documentsUnchanged?: IntFieldUpdateOperationsInput | number;
+    totalInPaperless?: IntFieldUpdateOperationsInput | number;
   };
 
   export type UserAiAccountAccessCreateManyAiAccountInput = {

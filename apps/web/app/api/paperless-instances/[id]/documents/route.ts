@@ -68,6 +68,9 @@ export const GET = authRoute<never, { id: string }>(
       if (sortField === 'documentDate') {
         return [{ documentDate: sortDirection ?? ('desc' as const) }];
       }
+      if (sortField === 'updatedAt') {
+        return [{ updatedAt: sortDirection ?? ('desc' as const) }];
+      }
       return [{ documentDate: 'desc' as const }, { importedAt: 'desc' as const }];
     };
 
@@ -105,6 +108,7 @@ export const GET = authRoute<never, { id: string }>(
         status: hasProcessingResult ? ('processed' as const) : ('unprocessed' as const),
         // v8 ignore next -- @preserve
         documentDate: doc.documentDate?.toISOString() ?? null,
+        updatedAt: doc.updatedAt.toISOString(),
         importedAt: doc.importedAt.toISOString(),
         // v8 ignore next -- @preserve
         lastProcessedAt: doc.processingResults[0]?.processedAt?.toISOString() ?? null,

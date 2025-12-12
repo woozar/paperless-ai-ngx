@@ -10,6 +10,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
+import { AiActionButton } from '@/components/ui/ai-action-button';
 import { Label } from '@/components/ui/label';
 import {
   Select,
@@ -155,6 +156,9 @@ export function AnalyzeDocumentDialog({
                   outputTokens: result.outputTokens,
                   estimatedCost: result.estimatedCost,
                 }}
+                instanceId={instanceId}
+                documentId={document?.id}
+                onApplied={onSuccess}
               />
             </div>
           )}
@@ -165,7 +169,7 @@ export function AnalyzeDocumentDialog({
               {result ? t('analyze.close') : t('analyze.cancel')}
             </Button>
             {!result && (
-              <Button
+              <AiActionButton
                 onClick={handleAnalyze}
                 disabled={!selectedBotId || isAnalyzing}
                 data-testid="start-analysis"
@@ -181,7 +185,7 @@ export function AnalyzeDocumentDialog({
                     {t('analyze.start')}
                   </>
                 )}
-              </Button>
+              </AiActionButton>
             )}
           </div>
         </div>

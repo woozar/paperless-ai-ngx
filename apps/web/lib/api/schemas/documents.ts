@@ -16,6 +16,7 @@ export const DocumentListItemSchema = z
     title: z.string(),
     status: DocumentStatusSchema,
     documentDate: z.iso.datetime().nullable(),
+    updatedAt: z.iso.datetime(),
     importedAt: z.iso.datetime(),
     lastProcessedAt: z.iso.datetime().nullable(),
   })
@@ -26,7 +27,7 @@ export const SortDirectionSchema = z.enum(['asc', 'desc']).openapi('SortDirectio
 
 // Document sortable fields
 export const DocumentSortFieldSchema = z
-  .enum(['title', 'documentDate'])
+  .enum(['title', 'documentDate', 'updatedAt'])
   .openapi('DocumentSortField');
 
 // Document list filter query params
@@ -61,11 +62,18 @@ export const SuggestedItemSchema = z
 const ExistingTagSchema = z.object({
   id: z.number().describe('ID of existing tag'),
   name: z.string().optional().describe('Name of the tag (for display)'),
+  isAssigned: z
+    .boolean()
+    .optional()
+    .describe('Whether this tag is already assigned to the document'),
+  isRemoved: z.boolean().optional().describe('Whether this tag will be removed from the document'),
 });
 
 // New tag: only name (no id)
 const NewTagSchema = z.object({
   name: z.string().describe('Name of new tag to create'),
+  isAssigned: z.literal(false).optional().describe('New tags are never already assigned'),
+  isRemoved: z.literal(false).optional().describe('New tags cannot be removed'),
 });
 
 // AI suggestion for tag: either existing (has id) or new (only name)
@@ -221,5 +229,80 @@ registry.registerPath({
     401: CommonErrorResponses[401],
     403: CommonErrorResponses[403],
     404: CommonErrorResponses[404],
+  },
+});
+
+// Apply field enum
+export const ApplyFieldSchema = z
+  .enum(['title', 'correspondent', 'documentType', 'tags', 'date', 'all'])
+  .openapi('ApplyField');
+
+// Apply field request
+export const ApplyFieldRequestSchema = z
+  .object({
+    field: ApplyFieldSchema,
+    value: z.union([z.string(), SuggestedItemSchema, z.array(SuggestedTagSchema)]).optional(),
+  })
+  .openapi('ApplyFieldRequest');
+
+// Apply field response
+export const ApplyFieldResponseSchema = z
+  .object({
+    success: z.literal(true),
+    field: ApplyFieldSchema,
+    appliedValues: z.record(z.string(), z.any()),
+  })
+  .openapi('ApplyFieldResponse');
+
+// Register schemas
+registry.register('ApplyField', ApplyFieldSchema);
+registry.register('ApplyFieldRequest', ApplyFieldRequestSchema);
+registry.register('ApplyFieldResponse', ApplyFieldResponseSchema);
+
+// Register apply document path
+registry.registerPath({
+  method: 'post',
+  path: '/paperless-instances/{id}/documents/{documentId}/apply',
+  tags: ['Documents'],
+  summary: 'Apply AI suggestions to a document',
+  description:
+    'Applies one or all AI-suggested changes to the document in Paperless-ngx. Creates new entities (tags, correspondents, document types) if needed.',
+  request: {
+    params: z.object({
+      id: z.string(),
+      documentId: z.string(),
+    }),
+    body: {
+      content: {
+        'application/json': {
+          schema: ApplyFieldRequestSchema,
+        },
+      },
+    },
+  },
+  responses: {
+    200: {
+      description: 'Suggestions applied successfully',
+      content: {
+        'application/json': {
+          schema: ApplyFieldResponseSchema,
+        },
+      },
+    },
+    400: CommonErrorResponses[400],
+    401: CommonErrorResponses[401],
+    403: CommonErrorResponses[403],
+    404: CommonErrorResponses[404],
+    502: {
+      description: 'Paperless API error',
+      content: {
+        'application/json': {
+          schema: z.object({
+            error: z.string(),
+            message: z.string(),
+          }),
+        },
+      },
+    },
   },
 });
