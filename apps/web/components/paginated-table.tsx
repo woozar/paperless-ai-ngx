@@ -4,7 +4,7 @@ import type { ReactNode } from 'react';
 import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { TablePagination } from '@/components/table-pagination';
 import { Input } from '@/components/ui/input';
-import { ChevronUp, ChevronDown, ChevronsUpDown } from 'lucide-react';
+import { ChevronUp, ChevronDown, ChevronsUpDown, Filter } from 'lucide-react';
 import type { SortConfig } from '@/hooks/use-paginated-list';
 
 export type ColumnDefinition = {
@@ -93,13 +93,16 @@ export function PaginatedTable({
                     <span>{col.label}</span>
                   )}
                   {col.filterKey && onFilterChange && (
-                    <Input
-                      placeholder={col.filterPlaceholder ?? ''}
-                      value={filters?.[col.filterKey] ?? ''}
-                      onChange={(e) => onFilterChange(col.filterKey!, e.target.value)}
-                      className="ml-auto h-7 w-40"
-                      data-testid={`filter-${col.filterKey}`}
-                    />
+                    <div className="relative ml-auto">
+                      <Filter className="text-muted-foreground absolute top-1/2 left-2 h-3.5 w-3.5 -translate-y-1/2" />
+                      <Input
+                        placeholder={col.filterPlaceholder ?? ''}
+                        value={filters?.[col.filterKey] ?? ''}
+                        onChange={(e) => onFilterChange(col.filterKey!, e.target.value)}
+                        className="h-7 w-40 pl-7"
+                        data-testid={`filter-${col.filterKey}`}
+                      />
+                    </div>
                   )}
                 </div>
               </TableHead>

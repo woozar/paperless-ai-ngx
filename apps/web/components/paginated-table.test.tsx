@@ -172,7 +172,7 @@ describe('PaginatedTable', () => {
   });
 
   describe('filtering', () => {
-    it('renders filter input when column has filterKey', () => {
+    it('renders filter input with filter icon when column has filterKey', () => {
       renderWithIntl(
         <PaginatedTable
           {...defaultProps}
@@ -189,6 +189,10 @@ describe('PaginatedTable', () => {
 
       expect(screen.getByTestId('filter-name')).toBeInTheDocument();
       expect(screen.getByPlaceholderText('Search name...')).toBeInTheDocument();
+      // Search icon is rendered as sibling to input
+      const filterInput = screen.getByTestId('filter-name');
+      const wrapper = filterInput.parentElement;
+      expect(wrapper?.querySelector('svg')).toBeInTheDocument();
     });
 
     it('calls onFilterChange when filter input changes', async () => {
