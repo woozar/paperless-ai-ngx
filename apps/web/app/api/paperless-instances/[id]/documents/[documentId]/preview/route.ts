@@ -38,11 +38,17 @@ export const GET = authRoute(
       // Get content type from original response, default to PDF
       const contentType = previewResponse.headers.get('content-type') || 'application/pdf';
 
+      // Sanitize filename for Content-Disposition header
+      // ASCII-only fallback + RFC 5987 UTF-8 encoded filename for modern browsers
+      const rawTitle = document.title || 'document';
+      const asciiFilename = rawTitle.replaceAll(/[^\x20-\x7E]/g, '_') + '.pdf';
+      const utf8Filename = encodeURIComponent(rawTitle + '.pdf');
+
       // Stream the response through
       return new NextResponse(previewResponse.body, {
         headers: {
           'Content-Type': contentType,
-          'Content-Disposition': `inline; filename="${document.title || 'document'}.pdf"`,
+          'Content-Disposition': `inline; filename="${asciiFilename}"; filename*=UTF-8''${utf8Filename}`,
         },
       });
     } catch (error) {

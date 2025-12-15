@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Paperless AI API",
-    "version": "1.13.0",
+    "version": "1.14.0",
     "description": "API for Paperless AI document processing"
   },
   "servers": [
@@ -230,6 +230,48 @@
             },
             "default": []
           },
+          "autoProcessEnabled": {
+            "type": "boolean",
+            "default": false
+          },
+          "scanCronExpression": {
+            "type": "string",
+            "default": "0 * * * *"
+          },
+          "defaultAiBotId": {
+            "type": ["string", "null"],
+            "default": null
+          },
+          "lastScanAt": {
+            "type": ["string", "null"],
+            "format": "date-time",
+            "default": null
+          },
+          "nextScanAt": {
+            "type": ["string", "null"],
+            "format": "date-time",
+            "default": null
+          },
+          "autoApplyTitle": {
+            "type": "boolean",
+            "default": false
+          },
+          "autoApplyCorrespondent": {
+            "type": "boolean",
+            "default": false
+          },
+          "autoApplyDocumentType": {
+            "type": "boolean",
+            "default": false
+          },
+          "autoApplyTags": {
+            "type": "boolean",
+            "default": false
+          },
+          "autoApplyDate": {
+            "type": "boolean",
+            "default": false
+          },
           "createdAt": {
             "type": "string",
             "format": "date-time"
@@ -281,6 +323,31 @@
             "items": {
               "type": "number"
             }
+          },
+          "autoProcessEnabled": {
+            "type": "boolean"
+          },
+          "scanCronExpression": {
+            "type": "string",
+            "minLength": 9
+          },
+          "defaultAiBotId": {
+            "type": ["string", "null"]
+          },
+          "autoApplyTitle": {
+            "type": "boolean"
+          },
+          "autoApplyCorrespondent": {
+            "type": "boolean"
+          },
+          "autoApplyDocumentType": {
+            "type": "boolean"
+          },
+          "autoApplyTags": {
+            "type": "boolean"
+          },
+          "autoApplyDate": {
+            "type": "boolean"
           }
         }
       },
@@ -1094,6 +1161,155 @@
           }
         },
         "required": ["success", "field", "appliedValues"]
+      },
+      "ProcessingQueueItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "paperlessDocumentId": {
+            "type": "number"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["pending", "processing", "completed", "failed"]
+          },
+          "priority": {
+            "type": "number"
+          },
+          "attempts": {
+            "type": "number"
+          },
+          "maxAttempts": {
+            "type": "number"
+          },
+          "lastError": {
+            "type": ["string", "null"]
+          },
+          "scheduledFor": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "startedAt": {
+            "type": ["string", "null"],
+            "format": "date-time"
+          },
+          "completedAt": {
+            "type": ["string", "null"],
+            "format": "date-time"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "documentId": {
+            "type": ["string", "null"]
+          },
+          "documentTitle": {
+            "type": ["string", "null"]
+          },
+          "aiBotId": {
+            "type": ["string", "null"]
+          },
+          "aiBotName": {
+            "type": ["string", "null"]
+          }
+        },
+        "required": [
+          "id",
+          "paperlessDocumentId",
+          "status",
+          "priority",
+          "attempts",
+          "maxAttempts",
+          "lastError",
+          "scheduledFor",
+          "startedAt",
+          "completedAt",
+          "createdAt",
+          "updatedAt",
+          "documentId",
+          "documentTitle",
+          "aiBotId",
+          "aiBotName"
+        ]
+      },
+      "QueueStats": {
+        "type": "object",
+        "properties": {
+          "pending": {
+            "type": "number"
+          },
+          "processing": {
+            "type": "number"
+          },
+          "completed": {
+            "type": "number"
+          },
+          "failed": {
+            "type": "number"
+          }
+        },
+        "required": ["pending", "processing", "completed", "failed"]
+      },
+      "ProcessingQueueListResponse": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProcessingQueueItem"
+            }
+          },
+          "stats": {
+            "$ref": "#/components/schemas/QueueStats"
+          },
+          "page": {
+            "type": "number"
+          },
+          "limit": {
+            "type": "number"
+          },
+          "total": {
+            "type": "number"
+          },
+          "totalPages": {
+            "type": "number"
+          }
+        },
+        "required": ["items", "stats", "page", "limit", "total", "totalPages"]
+      },
+      "AddToQueueRequest": {
+        "type": "object",
+        "properties": {
+          "paperlessDocumentId": {
+            "type": "number"
+          },
+          "aiBotId": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100,
+            "default": 0
+          }
+        },
+        "required": ["paperlessDocumentId"]
+      },
+      "BulkRetryResponse": {
+        "type": "object",
+        "properties": {
+          "retriedCount": {
+            "type": "number"
+          }
+        },
+        "required": ["retriedCount"]
       },
       "ErrorResponse": {
         "type": "object",
@@ -4389,6 +4605,356 @@
                     }
                   },
                   "required": ["error", "message"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/paperless-instances/{id}/queue": {
+      "get": {
+        "tags": ["ProcessingQueue"],
+        "summary": "List queue items for a Paperless instance",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": ["pending", "processing", "completed", "failed"]
+            },
+            "required": false,
+            "name": "status",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            },
+            "required": false,
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            },
+            "required": false,
+            "name": "limit",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Queue items list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessingQueueListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["ProcessingQueue"],
+        "summary": "Add document to processing queue",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddToQueueRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Document added to queue",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessingQueueItem"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/paperless-instances/{id}/queue/{queueId}": {
+      "delete": {
+        "tags": ["ProcessingQueue"],
+        "summary": "Remove item from queue",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "name": "queueId",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Item removed from queue"
+          },
+          "401": {
+            "description": "Not authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/paperless-instances/{id}/queue/{queueId}/retry": {
+      "post": {
+        "tags": ["ProcessingQueue"],
+        "summary": "Retry a failed queue item",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "name": "queueId",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Item scheduled for retry",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessingQueueItem"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/paperless-instances/{id}/queue/bulk/retry": {
+      "post": {
+        "tags": ["ProcessingQueue"],
+        "summary": "Retry all failed queue items",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Items scheduled for retry",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BulkRetryResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/paperless-instances/{id}/queue/bulk/completed": {
+      "delete": {
+        "tags": ["ProcessingQueue"],
+        "summary": "Delete all completed queue items",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Completed items deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "deletedCount": {
+                      "type": "number"
+                    }
+                  },
+                  "required": ["deletedCount"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }

@@ -11,54 +11,17 @@ import {
 } from '@/lib/api/document-access';
 import { ApplyFieldRequestSchema } from '@/lib/api/schemas/documents';
 import type { DocumentAnalysisResult } from '@repo/api-client';
+import {
+  getOrCreateCorrespondent,
+  getOrCreateDocumentType,
+  getOrCreateTags,
+} from '@/lib/paperless/apply-suggestions';
 
 type ApplyField = 'title' | 'correspondent' | 'documentType' | 'tags' | 'date' | 'all';
 
 interface SuggestedItem {
   id?: number;
   name: string;
-}
-
-// Helper to get or create correspondent
-async function getOrCreateCorrespondent(
-  client: PaperlessClient,
-  correspondent: SuggestedItem
-): Promise<number> {
-  if (correspondent.id) {
-    return correspondent.id;
-  }
-  const created = await client.createCorrespondent(correspondent.name);
-  return created.id;
-}
-
-// Helper to get or create document type
-async function getOrCreateDocumentType(
-  client: PaperlessClient,
-  documentType: SuggestedItem
-): Promise<number> {
-  if (documentType.id) {
-    return documentType.id;
-  }
-  const created = await client.createDocumentType(documentType.name);
-  return created.id;
-}
-
-// Helper to get or create tags
-async function getOrCreateTags(
-  client: PaperlessClient,
-  tags: Array<{ id?: number; name?: string }>
-): Promise<number[]> {
-  const tagIds: number[] = [];
-  for (const tag of tags) {
-    if (tag.id) {
-      tagIds.push(tag.id);
-    } else {
-      // Schema guarantees name exists when id is missing
-      const created = await client.createTag(tag.name!);
-      tagIds.push(created.id);
-    }
-  }
-  return tagIds;
 }
 
 // Update data types
@@ -193,7 +156,7 @@ export const POST = authRoute(
         }
 
         case 'tags': {
-          const tagsValue = value as Array<{ id?: number; name?: string }>;
+          const tagsValue = value as Array<{ id: number } | { name: string }>;
           const tagIds = await getOrCreateTags(client, tagsValue);
           updateData.tags = tagIds;
           localUpdate.tagIds = tagIds;

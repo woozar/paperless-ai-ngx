@@ -1,6 +1,6 @@
 # Paperless AI NGX - Roadmap
 
-## Phase 1: Core Infrastructure (Current)
+## Phase 1: Core Infrastructure ✅
 
 - [x] Turborepo + pnpm Monorepo Setup
 - [x] Next.js 16 App with App Router, Turbopack, React Compiler
@@ -10,7 +10,7 @@
 - [x] Paperless-ngx API Client Package
 - [x] MCP Server (HTTP Transport)
 
-## Phase 3: Authentication & User Management
+## Phase 2: Authentication & User Management ✅
 
 ### Backend Infrastructure
 
@@ -93,7 +93,7 @@
   - [x] Share with all users (permission level only)
 - [x] UI: Sharing UI only visible when `security.sharing.mode = advanced`
 
-## Phase 3a: Object Management UI
+## Phase 3: Object Management UI ✅
 
 ### Infrastructure
 
@@ -148,7 +148,78 @@
 - [x] Quick access to create/edit/delete/share actions
 - [x] 100% Test Coverage
 
-## Phase 4: Customizable Dashboard System
+## Phase 4: Docker Setup ✅
+
+- [x] Docker Compose for Production (app + postgres + mcp-server)
+- [x] Dockerfile for Web App
+- [x] Dockerfile for MCP Server
+- [x] Configure Vitest Unit/Integration Tests
+- [x] SonarQube Integration for static code analysis
+  - [x] Shell script for analysis (`scripts/sonar-analysis.sh`)
+  - [x] Uses ENV: `SONAR_SERVER`, `SONAR_KEY`, `SONAR_TOKEN`
+
+## Phase 5: Document Processing ✅
+
+- [x] Document List (`/admin/paperless-instances/[id]/documents`)
+  - [x] Show all documents from instance
+  - [x] Filter by status (all/processed/unprocessed)
+  - [x] Trigger manual AI analysis
+- [x] View Analysis Results Dialog
+  - [x] Show AI analysis result
+  - [x] Show tool calls and parameters
+  - [x] Token usage display
+
+## Phase 6: AI Document Analysis ✅
+
+- [x] AI Service Integration (Vercel AI SDK)
+  - [x] OpenAI Provider
+  - [x] Google Gemini Provider
+  - [x] Anthropic Claude Provider
+  - [x] Ollama Provider (local)
+- [x] Document Analysis with Tool Calling
+  - [x] Search tags tool
+  - [x] Search correspondents tool
+  - [x] Search document types tool
+- [x] Response Language Setting (Document/German/English)
+- [x] Token Usage Tracking
+- [x] Tag Suggestions UI
+  - [x] Existing tags (blue border) vs new tags (green border with +)
+  - [x] New correspondents/document types with green "New" badge
+  - [x] SuggestedTagsList component for reusability
+- [x] Paperless-ngx Update API (apply changes to documents)
+
+## Phase 7: Scheduled Processing ✅
+
+- [x] node-cron Integration
+- [x] Configurable scan intervals (Cron expressions)
+- [x] Auto-Processing Toggle per Instance
+- [x] Processing Queue Management
+- [x] Retry logic on errors
+- [x] Event-based processor (triggered by scanner, not polling)
+- [x] Auto-Apply suggestions to Paperless (Title, Correspondent, Document Type, Tags, Date)
+- [x] Import Filter Tags (only process documents with specific tags)
+- [x] Queue UI (`/admin/paperless-instances/[id]/queue`)
+
+## Phase 8: Setup Wizard
+
+- [ ] Setup page (`/setup`)
+- [ ] Paperless-ngx URL + Token entry
+- [ ] Connection test
+- [ ] AI Provider selection (OpenAI, Google, Anthropic)
+- [ ] API Key entry
+- [ ] Model selection
+- [ ] Step-by-step creation of PaperlessInstance, AiProvider, AiBot
+
+## Phase 9: Testing & CI/CD
+
+- [ ] Playwright E2E Tests Setup
+  - [ ] Implement E2E tests based on USER-STORIES.md
+  - [ ] Test fixtures for user data (testuser, blockeduser, admin)
+  - [ ] Each User Story = 1 E2E Test
+- [ ] docker-compose.test.yml for E2E Tests
+- [ ] GitHub Actions CI/CD Pipeline
+
+## Phase 10: Customizable Dashboard System
 
 ### Database Schema
 
@@ -268,71 +339,7 @@
   - [ ] Reduce chart complexity on mobile (fewer data points)
   - [ ] Skeleton loading for each tile independently
 
-## Phase 4b: Setup Wizard
-
-- [ ] Setup page (`/setup`)
-- [ ] Paperless-ngx URL + Token entry
-- [ ] Connection test
-- [ ] AI Provider selection (OpenAI, Google, Anthropic)
-- [ ] API Key entry
-- [ ] Model selection
-- [ ] Step-by-step creation of PaperlessInstance, AiProvider, AiBot
-
-## Phase 5: Docker & Testing Setup
-
-- [x] Docker Compose for Production (app + postgres + mcp-server)
-- [x] Dockerfile for Web App
-- [x] Dockerfile for MCP Server
-- [x] Configure Vitest Unit/Integration Tests
-- [ ] Playwright E2E Tests Setup
-  - [ ] Implement E2E tests based on USER-STORIES.md
-  - [ ] Test fixtures for user data (testuser, blockeduser, admin)
-  - [ ] Each User Story = 1 E2E Test
-- [ ] docker-compose.test.yml for E2E Tests
-- [ ] GitHub Actions CI/CD Pipeline
-- [x] SonarQube Integration for static code analysis
-  - [x] Shell script for analysis (`scripts/sonar-analysis.sh`)
-  - [x] Uses ENV: `SONAR_SERVER`, `SONAR_KEY`, `SONAR_TOKEN`
-
-## Phase 5a: Document Processing
-
-- [x] Document List (`/admin/paperless-instances/[id]/documents`)
-  - [x] Show all documents from instance
-  - [x] Filter by status (all/processed/unprocessed)
-  - [x] Trigger manual AI analysis
-- [x] View Analysis Results Dialog
-  - [x] Show AI analysis result
-  - [x] Show tool calls and parameters
-  - [x] Token usage display
-
-## Phase 6: AI Document Analysis
-
-- [x] AI Service Integration (Vercel AI SDK)
-  - [x] OpenAI Provider
-  - [x] Google Gemini Provider
-  - [x] Anthropic Claude Provider
-  - [x] Ollama Provider (local)
-- [x] Document Analysis with Tool Calling
-  - [x] Search tags tool
-  - [x] Search correspondents tool
-  - [x] Search document types tool
-- [x] Response Language Setting (Document/German/English)
-- [x] Token Usage Tracking
-- [x] Tag Suggestions UI
-  - [x] Existing tags (blue border) vs new tags (green border with +)
-  - [x] New correspondents/document types with green "New" badge
-  - [x] SuggestedTagsList component for reusability
-- [ ] Paperless-ngx Update API (apply changes to documents)
-
-## Phase 7: Scheduled Processing
-
-- [ ] node-cron Integration
-- [ ] Configurable scan intervals
-- [ ] Auto-Processing Toggle
-- [ ] Processing Queue Management
-- [ ] Retry logic on errors
-
-## Phase 8: RAG / Chat Feature
+## Phase 11: RAG / Chat Feature
 
 - [ ] Document Indexing Service
 - [ ] Vector Store Integration (optional)
@@ -340,7 +347,7 @@
 - [ ] Semantic Document Search
 - [ ] Context-aware Q&A
 
-## Phase 9: Advanced Features
+## Phase 12: Advanced Features
 
 - [ ] Configure custom prompts
 - [ ] Rules Engine (which documents to process)
@@ -349,7 +356,7 @@
 - [ ] Multi-User Support
 - [ ] API for external integrations
 
-## Phase 10: Polish & Release
+## Phase 13: Polish & Release
 
 - [ ] Error Handling & Logging
 - [ ] Performance Optimization
@@ -361,6 +368,18 @@
 ---
 
 ## Possible Future Features
+
+- [ ] **Re-Analyse bei Dokument-Update**
+
+  - Dokumente automatisch neu analysieren wenn sie in Paperless geändert werden
+  - Neues Feld `lastProcessedPaperlessModified` um externe Änderungen zu erkennen
+  - Schutz vor Endlosschleifen bei Auto-Apply
+
+- [ ] **Dokument-Status-Verwaltung**
+
+  - Soft-Delete: Dokumente die in Paperless gelöscht wurden markieren
+  - Ignorieren: Dokumente von der Analyse ausschließen
+  - Reset: Dokumente zur erneuten Analyse freigeben
 
 - [ ] **Keycloak Integration** (Optional)
   - SSO Login via Keycloak as alternative to local authentication
@@ -377,8 +396,7 @@
 
 ## Next Steps (Priority)
 
-1. **Customizable Dashboard System** (Phase 4) - Grid-based dashboard with drag & drop tiles
-2. **Document Processing** (Phase 5a) - Document list and detail views
-3. **AI Analysis** (Phase 6) - Implement core document analysis feature
-4. **Setup Wizard** (Phase 4b) - Step-by-step wizard to create instances, providers, and bots
-5. **Playwright E2E Tests** (Phase 5) - E2E testing based on USER-STORIES.md
+1. **Scheduled Processing** (Phase 7) - Automatic background processing of new documents
+2. **Setup Wizard** (Phase 8) - Step-by-step wizard to create instances, providers, and bots
+3. **Playwright E2E Tests** (Phase 9) - E2E testing based on USER-STORIES.md
+4. **Customizable Dashboard System** (Phase 10) - Grid-based dashboard with drag & drop tiles

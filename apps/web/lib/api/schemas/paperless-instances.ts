@@ -14,6 +14,18 @@ export const PaperlessInstanceListItemSchema = z
     apiUrl: z.string(),
     apiToken: z.string(), // Always "***" in responses
     importFilterTags: z.array(z.number()).default([]),
+    // Auto-processing configuration
+    autoProcessEnabled: z.boolean().default(false),
+    scanCronExpression: z.string().default('0 * * * *'),
+    defaultAiBotId: z.string().nullable().default(null),
+    lastScanAt: z.iso.datetime().nullable().default(null),
+    nextScanAt: z.iso.datetime().nullable().default(null),
+    // Auto-apply settings
+    autoApplyTitle: z.boolean().default(false),
+    autoApplyCorrespondent: z.boolean().default(false),
+    autoApplyDocumentType: z.boolean().default(false),
+    autoApplyTags: z.boolean().default(false),
+    autoApplyDate: z.boolean().default(false),
     createdAt: z.iso.datetime(),
     updatedAt: z.iso.datetime(),
   })
@@ -28,6 +40,19 @@ export const CreatePaperlessInstanceRequestSchema = z
   })
   .openapi('CreatePaperlessInstanceRequest');
 
+// Cron expression validation helper
+const cronExpressionSchema = z
+  .string()
+  .min(9) // Minimum valid cron: "* * * * *"
+  .refine(
+    (value) => {
+      // Basic cron validation: 5 or 6 space-separated fields
+      const parts = value.trim().split(/\s+/);
+      return parts.length >= 5 && parts.length <= 6;
+    },
+    { message: 'Invalid cron expression format' }
+  );
+
 // Update PaperlessInstance request (partial)
 export const UpdatePaperlessInstanceRequestSchema = z
   .object({
@@ -35,6 +60,16 @@ export const UpdatePaperlessInstanceRequestSchema = z
     apiUrl: z.url('Invalid URL format').optional(),
     apiToken: z.string().min(1).optional(), // If empty, keep existing
     importFilterTags: z.array(z.number()).optional(),
+    // Auto-processing configuration
+    autoProcessEnabled: z.boolean().optional(),
+    scanCronExpression: cronExpressionSchema.optional(),
+    defaultAiBotId: z.string().nullable().optional(),
+    // Auto-apply settings
+    autoApplyTitle: z.boolean().optional(),
+    autoApplyCorrespondent: z.boolean().optional(),
+    autoApplyDocumentType: z.boolean().optional(),
+    autoApplyTags: z.boolean().optional(),
+    autoApplyDate: z.boolean().optional(),
   })
   .openapi('UpdatePaperlessInstanceRequest');
 

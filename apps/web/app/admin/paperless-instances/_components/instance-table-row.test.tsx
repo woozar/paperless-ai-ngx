@@ -184,6 +184,23 @@ describe('InstanceTableRow', () => {
     });
   });
 
+  describe('queue button', () => {
+    it('renders queue button with correct testid', () => {
+      renderInstanceTableRow(defaultProps);
+      expect(screen.getByTestId('queue-instance-instance-123')).toBeInTheDocument();
+    });
+
+    it('navigates to queue page when queue button is clicked', async () => {
+      const user = userEvent.setup({ delay: null });
+      renderInstanceTableRow(defaultProps);
+
+      const queueButton = screen.getByTestId('queue-instance-instance-123');
+      await user.click(queueButton);
+
+      expect(mockPush).toHaveBeenCalledWith('/admin/paperless-instances/instance-123/queue');
+    });
+  });
+
   describe('share button', () => {
     it('does not render share button when sharing mode is BASIC', () => {
       mockUseSettings.mockReturnValue({

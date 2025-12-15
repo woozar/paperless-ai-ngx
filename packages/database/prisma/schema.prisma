@@ -140,6 +140,23 @@ model PaperlessInstance {
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 
+  // Scheduling configuration
+  autoProcessEnabled  Boolean   @default(false)
+  scanCronExpression  String    @default("0 * * * *") // Default: every hour
+  lastScanAt          DateTime?
+  nextScanAt          DateTime?
+
+  // Default AI Bot for auto-processing
+  defaultAiBot   AiBot?  @relation("DefaultAiBotForInstance", fields: [defaultAiBotId], references: [id], onDelete: SetNull)
+  defaultAiBotId String?
+
+  // Auto-apply settings (which fields to automatically apply after AI analysis)
+  autoApplyTitle         Boolean @default(false)
+  autoApplyCorrespondent Boolean @default(false)
+  autoApplyDocumentType  Boolean @default(false)
+  autoApplyTags          Boolean @default(false)
+  autoApplyDate          Boolean @default(false)
+
   // Owner
   owner   User   @relation(fields: [ownerId], references: [id], onDelete: Restrict)
   ownerId String
@@ -153,6 +170,7 @@ model PaperlessInstance {
   importHistory   ImportHistory[]
 
   @@index([ownerId])
+  @@index([autoProcessEnabled, nextScanAt])
 }
 
 // =============================================================================
@@ -236,6 +254,12 @@ model AiBot {
   // Usage tracking
   aiUsageMetrics AiUsageMetric[]
 
+  // Default bot for instances (reverse relation)
+  defaultForInstances PaperlessInstance[] @relation("DefaultAiBotForInstance")
+
+  // Processing queue items using this bot
+  processingQueueItems ProcessingQueue[]
+
   @@index([ownerId])
   @@index([aiModelId])
 }
@@ -263,6 +287,9 @@ model PaperlessDocument {
 
   // AI processing results
   processingResults DocumentProcessingResult[]
+
+  // Processing queue entries
+  processingQueueItems ProcessingQueue[]
 
   @@unique([paperlessInstanceId, paperlessId])
   @@index([paperlessInstanceId])
@@ -305,12 +332,13 @@ model DocumentProcessingResult {
 }
 
 model ProcessingQueue {
-  id           String    @id @default(cuid())
-  paperlessId  Int
-  status       String    @default("pending") // pending | processing | completed | failed
+  id                   String    @id @default(cuid())
+  paperlessDocumentId  Int       // The document ID in Paperless-ngx
+  status               String    @default("pending") // pending | processing | completed | failed
   priority     Int       @default(0)
   attempts     Int       @default(0)
-  lastError    String?
+  maxAttempts  Int       @default(3)
+  lastError    String?   @db.Text
   scheduledFor DateTime  @default(now())
   startedAt    DateTime?
   completedAt  DateTime?
@@ -321,8 +349,17 @@ model ProcessingQueue {
   paperlessInstance   PaperlessInstance @relation(fields: [paperlessInstanceId], references: [id], onDelete: Cascade)
   paperlessInstanceId String
 
+  // Link to document (set after document is imported/found)
+  document   PaperlessDocument? @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  documentId String?
+
+  // AI Bot to use for processing
+  aiBot   AiBot?  @relation(fields: [aiBotId], references: [id], onDelete: SetNull)
+  aiBotId String?
+
+  @@unique([paperlessInstanceId, paperlessDocumentId])
   @@index([status, scheduledFor])
-  @@index([paperlessId])
+  @@index([paperlessDocumentId])
   @@index([paperlessInstanceId])
 }
 

@@ -32,14 +32,14 @@ describe('InstanceTableSkeleton', () => {
     expect(rows.length).toBe(3);
   });
 
-  it('renders 3 action buttons in BASIC mode', () => {
+  it('renders 5 action buttons in BASIC mode', () => {
     const { container } = renderInstanceTableSkeleton();
     const firstRow = container.querySelector('tr');
     const actionButtons = firstRow?.querySelectorAll('td:last-child .h-9');
-    expect(actionButtons?.length).toBe(3);
+    expect(actionButtons?.length).toBe(5);
   });
 
-  it('renders 4 action buttons in ADVANCED mode', () => {
+  it('renders 6 action buttons in ADVANCED mode', () => {
     mockUseSettings.mockReturnValue({
       settings: { 'security.sharing.mode': 'ADVANCED' },
       isLoading: false,
@@ -48,6 +48,6 @@ describe('InstanceTableSkeleton', () => {
     const { container } = renderInstanceTableSkeleton();
     const firstRow = container.querySelector('tr');
     const actionButtons = firstRow?.querySelectorAll('td:last-child .h-9');
-    expect(actionButtons?.length).toBe(4);
+    expect(actionButtons?.length).toBe(6);
   });
 });

@@ -20,7 +20,16 @@ vi.mock('@/lib/crypto/encryption', () => ({
   encrypt: vi.fn(),
 }));
 
+vi.mock('@/lib/scheduler', () => ({
+  calculateNextScanTime: vi.fn(),
+  scheduler: {
+    scheduleInstance: vi.fn(),
+    unscheduleInstance: vi.fn(),
+  },
+}));
+
 import { prisma } from '@repo/database';
+import { calculateNextScanTime, scheduler } from '@/lib/scheduler';
 import { getAuthUser } from '@/lib/auth/jwt';
 import { encrypt } from '@/lib/crypto/encryption';
 import { mockPrisma } from '@/test-utils/prisma-mock';
@@ -277,6 +286,265 @@ describe('PATCH /api/paperless-instances/[id]', () => {
 
     expect(response.status).toBe(200);
     expect(data.importFilterTags).toEqual([1, 2, 3]);
+  });
+
+  it('schedules instance when enabling autoProcessEnabled', async () => {
+    const mockDate = new Date('2024-01-15T10:00:00Z');
+    const nextScanTime = new Date('2024-01-15T10:30:00Z');
+    mockAdmin();
+    mockedPrisma.paperlessInstance.findFirst.mockResolvedValueOnce({
+      id: 'instance-1',
+      name: 'Test Instance',
+      autoProcessEnabled: false,
+      scanCronExpression: '*/30 * * * *',
+    });
+    vi.mocked(calculateNextScanTime).mockReturnValueOnce(nextScanTime);
+    mockedPrisma.paperlessInstance.update.mockResolvedValueOnce({
+      id: 'instance-1',
+      name: 'Test Instance',
+      apiUrl: 'https://example.com',
+      autoProcessEnabled: true,
+      scanCronExpression: '*/30 * * * *',
+      nextScanAt: nextScanTime,
+      lastScanAt: null,
+      createdAt: mockDate,
+      updatedAt: mockDate,
+    });
+
+    const request = new NextRequest('http://localhost/api/paperless-instances/instance-1', {
+      method: 'PATCH',
+      body: JSON.stringify({ autoProcessEnabled: true }),
+    });
+    const response = await PATCH(request, mockContext('instance-1'));
+
+    expect(response.status).toBe(200);
+    expect(calculateNextScanTime).toHaveBeenCalledWith('*/30 * * * *');
+    expect(scheduler.scheduleInstance).toHaveBeenCalledWith(
+      'instance-1',
+      'Test Instance',
+      '*/30 * * * *',
+      nextScanTime
+    );
+  });
+
+  it('unschedules instance and clears nextScanAt when disabling autoProcessEnabled', async () => {
+    const mockDate = new Date('2024-01-15T10:00:00Z');
+    mockAdmin();
+    mockedPrisma.paperlessInstance.findFirst.mockResolvedValueOnce({
+      id: 'instance-1',
+      name: 'Test Instance',
+      autoProcessEnabled: true,
+      scanCronExpression: '*/30 * * * *',
+    });
+    mockedPrisma.paperlessInstance.update.mockResolvedValueOnce({
+      id: 'instance-1',
+      name: 'Test Instance',
+      apiUrl: 'https://example.com',
+      autoProcessEnabled: false,
+      scanCronExpression: '*/30 * * * *',
+      nextScanAt: null,
+      lastScanAt: null,
+      createdAt: mockDate,
+      updatedAt: mockDate,
+    });
+
+    const request = new NextRequest('http://localhost/api/paperless-instances/instance-1', {
+      method: 'PATCH',
+      body: JSON.stringify({ autoProcessEnabled: false }),
+    });
+    const response = await PATCH(request, mockContext('instance-1'));
+
+    expect(response.status).toBe(200);
+    expect(scheduler.unscheduleInstance).toHaveBeenCalledWith('instance-1');
+    // Verify nextScanAt was set to null in the update
+    expect(mockedPrisma.paperlessInstance.update).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining({
+          nextScanAt: null,
+        }),
+      })
+    );
+  });
+
+  it('reschedules instance when updating scanCronExpression while autoProcessEnabled', async () => {
+    const mockDate = new Date('2024-01-15T10:00:00Z');
+    const nextScanTime = new Date('2024-01-15T11:00:00Z');
+    mockAdmin();
+    mockedPrisma.paperlessInstance.findFirst.mockResolvedValueOnce({
+      id: 'instance-1',
+      name: 'Test Instance',
+      autoProcessEnabled: true,
+      scanCronExpression: '*/30 * * * *',
+    });
+    vi.mocked(calculateNextScanTime).mockReturnValueOnce(nextScanTime);
+    mockedPrisma.paperlessInstance.update.mockResolvedValueOnce({
+      id: 'instance-1',
+      name: 'Test Instance',
+      apiUrl: 'https://example.com',
+      autoProcessEnabled: true,
+      scanCronExpression: '0 * * * *',
+      nextScanAt: nextScanTime,
+      lastScanAt: null,
+      createdAt: mockDate,
+      updatedAt: mockDate,
+    });
+
+    const request = new NextRequest('http://localhost/api/paperless-instances/instance-1', {
+      method: 'PATCH',
+      body: JSON.stringify({ scanCronExpression: '0 * * * *' }),
+    });
+    const response = await PATCH(request, mockContext('instance-1'));
+
+    expect(response.status).toBe(200);
+    expect(scheduler.scheduleInstance).toHaveBeenCalledWith(
+      'instance-1',
+      'Test Instance',
+      '0 * * * *',
+      nextScanTime
+    );
+  });
+
+  it('recalculates nextScanAt when updating scanCronExpression with existing autoProcessEnabled', async () => {
+    const mockDate = new Date('2024-01-15T10:00:00Z');
+    const nextScanTime = new Date('2024-01-15T11:00:00Z');
+    mockAdmin();
+    mockedPrisma.paperlessInstance.findFirst.mockResolvedValueOnce({
+      id: 'instance-1',
+      name: 'Test Instance',
+      autoProcessEnabled: true, // Already enabled
+      scanCronExpression: '*/30 * * * *',
+    });
+    vi.mocked(calculateNextScanTime).mockReturnValueOnce(nextScanTime);
+    mockedPrisma.paperlessInstance.update.mockResolvedValueOnce({
+      id: 'instance-1',
+      name: 'Test Instance',
+      apiUrl: 'https://example.com',
+      autoProcessEnabled: true,
+      scanCronExpression: '0 * * * *',
+      nextScanAt: nextScanTime,
+      lastScanAt: null,
+      createdAt: mockDate,
+      updatedAt: mockDate,
+    });
+
+    const request = new NextRequest('http://localhost/api/paperless-instances/instance-1', {
+      method: 'PATCH',
+      body: JSON.stringify({ scanCronExpression: '0 * * * *' }),
+    });
+    const response = await PATCH(request, mockContext('instance-1'));
+
+    expect(response.status).toBe(200);
+    expect(calculateNextScanTime).toHaveBeenCalledWith('0 * * * *');
+  });
+
+  it('does not recalculate nextScanAt when updating scanCronExpression with autoProcessEnabled disabled', async () => {
+    const mockDate = new Date('2024-01-15T10:00:00Z');
+    mockAdmin();
+    mockedPrisma.paperlessInstance.findFirst.mockResolvedValueOnce({
+      id: 'instance-1',
+      name: 'Test Instance',
+      autoProcessEnabled: false, // Disabled
+      scanCronExpression: '*/30 * * * *',
+    });
+    mockedPrisma.paperlessInstance.update.mockResolvedValueOnce({
+      id: 'instance-1',
+      name: 'Test Instance',
+      apiUrl: 'https://example.com',
+      autoProcessEnabled: false,
+      scanCronExpression: '0 * * * *',
+      nextScanAt: null,
+      lastScanAt: null,
+      createdAt: mockDate,
+      updatedAt: mockDate,
+    });
+
+    const request = new NextRequest('http://localhost/api/paperless-instances/instance-1', {
+      method: 'PATCH',
+      body: JSON.stringify({ scanCronExpression: '0 * * * *' }),
+    });
+    const response = await PATCH(request, mockContext('instance-1'));
+
+    expect(response.status).toBe(200);
+    // nextScanAt should not be recalculated when autoProcessEnabled is false
+    expect(calculateNextScanTime).not.toHaveBeenCalled();
+  });
+
+  it('updates auto-apply settings', async () => {
+    const mockDate = new Date('2024-01-15T10:00:00Z');
+    mockAdmin();
+    mockedPrisma.paperlessInstance.findFirst.mockResolvedValueOnce({
+      id: 'instance-1',
+      name: 'Test Instance',
+    });
+    mockedPrisma.paperlessInstance.update.mockResolvedValueOnce({
+      id: 'instance-1',
+      name: 'Test Instance',
+      apiUrl: 'https://example.com',
+      autoApplyTitle: true,
+      autoApplyCorrespondent: true,
+      autoApplyDocumentType: true,
+      autoApplyTags: true,
+      autoApplyDate: true,
+      createdAt: mockDate,
+      updatedAt: mockDate,
+    });
+
+    const request = new NextRequest('http://localhost/api/paperless-instances/instance-1', {
+      method: 'PATCH',
+      body: JSON.stringify({
+        autoApplyTitle: true,
+        autoApplyCorrespondent: true,
+        autoApplyDocumentType: true,
+        autoApplyTags: true,
+        autoApplyDate: true,
+      }),
+    });
+    const response = await PATCH(request, mockContext('instance-1'));
+
+    expect(response.status).toBe(200);
+    expect(mockedPrisma.paperlessInstance.update).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining({
+          autoApplyTitle: true,
+          autoApplyCorrespondent: true,
+          autoApplyDocumentType: true,
+          autoApplyTags: true,
+          autoApplyDate: true,
+        }),
+      })
+    );
+  });
+
+  it('updates defaultAiBotId', async () => {
+    const mockDate = new Date('2024-01-15T10:00:00Z');
+    mockAdmin();
+    mockedPrisma.paperlessInstance.findFirst.mockResolvedValueOnce({
+      id: 'instance-1',
+      name: 'Test Instance',
+    });
+    mockedPrisma.paperlessInstance.update.mockResolvedValueOnce({
+      id: 'instance-1',
+      name: 'Test Instance',
+      apiUrl: 'https://example.com',
+      defaultAiBotId: 'bot-123',
+      createdAt: mockDate,
+      updatedAt: mockDate,
+    });
+
+    const request = new NextRequest('http://localhost/api/paperless-instances/instance-1', {
+      method: 'PATCH',
+      body: JSON.stringify({ defaultAiBotId: 'bot-123' }),
+    });
+    const response = await PATCH(request, mockContext('instance-1'));
+
+    expect(response.status).toBe(200);
+    expect(mockedPrisma.paperlessInstance.update).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining({
+          defaultAiBotId: 'bot-123',
+        }),
+      })
+    );
   });
 });
 

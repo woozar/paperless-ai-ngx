@@ -240,6 +240,7 @@
       "instanceCreated": "Instanz erfolgreich erstellt",
       "instanceUpdated": "Instanz erfolgreich aktualisiert",
       "instanceDeleted": "Instanz erfolgreich gelöscht",
+      "queue": "Warteschlange",
       "deleteWarning": "Dies löscht {documents, plural, =0 {} one {1 Dokument} other {# Dokumente}}{documents, plural, =0 {} other {{processingQueue, plural, =0 {} other { und }}}}{processingQueue, plural, =0 {} one {1 Warteschlangen-Eintrag} other {# Warteschlangen-Einträge}}.",
       "error": {
         "loadFailed": "Fehler beim Laden der Instanzen",
@@ -261,7 +262,26 @@
       "allTagsSelected": "Alle Tags sind bereits ausgewählt",
       "cancel": "Abbrechen",
       "save": "Speichern",
-      "updateFailed": "Fehler beim Aktualisieren des Import-Filters"
+      "updateFailed": "Fehler beim Aktualisieren des Import-Filters",
+      "autoProcessing": {
+        "title": "Automatische Verarbeitung",
+        "enabled": "Auto-Verarbeitung aktivieren",
+        "enabledDescription": "Automatisch nach neuen Dokumenten suchen und mit KI verarbeiten",
+        "scanInterval": "Scan-Intervall (Cron)",
+        "scanIntervalDescription": "Cron-Ausdruck für den Scan-Zeitplan (z.B. '0 * * * *' für jede Stunde)",
+        "defaultAiBot": "Standard KI-Bot",
+        "defaultAiBotDescription": "KI-Bot für die automatische Dokumentenanalyse",
+        "selectAiBot": "KI-Bot auswählen..."
+      },
+      "autoApply": {
+        "title": "Automatisch übernehmen",
+        "description": "KI-Vorschläge nach der Analyse automatisch auf Dokumente anwenden",
+        "title_field": "Titel",
+        "correspondent": "Korrespondent",
+        "documentType": "Dokumenttyp",
+        "tags": "Tags",
+        "date": "Datum"
+      }
     },
     "aiAccounts": {
       "title": "KI-Accounts",
@@ -409,6 +429,55 @@
         "loadBotsFailed": "Fehler beim Laden der KI-Bots",
         "analyzeFailed": "Fehler bei der Dokumentanalyse",
         "loadResultFailed": "Fehler beim Laden des Ergebnisses"
+      }
+    },
+    "queue": {
+      "title": "Verarbeitungswarteschlange",
+      "description": "Dokumente in der Warteschlange anzeigen und verwalten",
+      "noItems": "Keine Einträge in der Warteschlange",
+      "bulkRetry": "Alle fehlgeschlagenen wiederholen",
+      "clearCompleted": "Abgeschlossene löschen",
+      "bulkRetrySuccess": "{count, plural, one {1 Eintrag} other {# Einträge}} zur Wiederholung eingeplant",
+      "bulkDeleteSuccess": "{count, plural, one {1 Eintrag} other {# Einträge}} gelöscht",
+      "retrySuccess": "Eintrag zur Wiederholung eingeplant",
+      "deleteSuccess": "Eintrag aus der Warteschlange entfernt",
+      "filter": {
+        "all": "Alle",
+        "pending": "Ausstehend",
+        "processing": "In Bearbeitung",
+        "completed": "Abgeschlossen",
+        "failed": "Fehlgeschlagen"
+      },
+      "status": {
+        "pending": "Ausstehend",
+        "processing": "In Bearbeitung",
+        "completed": "Abgeschlossen",
+        "failed": "Fehlgeschlagen"
+      },
+      "stats": {
+        "pending": "Ausstehend",
+        "processing": "In Bearbeitung",
+        "completed": "Abgeschlossen",
+        "failed": "Fehlgeschlagen"
+      },
+      "table": {
+        "document": "Dokument",
+        "status": "Status",
+        "attempts": "Fehlerversuche",
+        "aiBot": "KI-Bot",
+        "scheduledFor": "Geplant für",
+        "actions": "Aktionen"
+      },
+      "actions": {
+        "retry": "Wiederholen",
+        "delete": "Löschen"
+      },
+      "error": {
+        "loadFailed": "Fehler beim Laden der Warteschlange",
+        "retryFailed": "Fehler beim Wiederholen",
+        "deleteFailed": "Fehler beim Löschen",
+        "bulkRetryFailed": "Fehler beim Wiederholen der Einträge",
+        "bulkDeleteFailed": "Fehler beim Löschen der Einträge"
       }
     },
     "aiBots": {

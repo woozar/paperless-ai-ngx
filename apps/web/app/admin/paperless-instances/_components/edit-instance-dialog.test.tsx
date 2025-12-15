@@ -18,6 +18,7 @@ const mockInstance: PaperlessInstanceListItem = {
 
 const mockPatchPaperlessInstancesById = vi.fn();
 const mockGetPaperlessInstancesByIdTags = vi.fn();
+const mockGetAiBots = vi.fn();
 
 vi.mock('@repo/api-client', async () => {
   const actual = await vi.importActual('@repo/api-client');
@@ -25,6 +26,7 @@ vi.mock('@repo/api-client', async () => {
     ...actual,
     patchPaperlessInstancesById: (...args: any[]) => mockPatchPaperlessInstancesById(...args),
     getPaperlessInstancesByIdTags: (...args: any[]) => mockGetPaperlessInstancesByIdTags(...args),
+    getAiBots: (...args: any[]) => mockGetAiBots(...args),
   };
 });
 
@@ -55,6 +57,9 @@ describe('EditInstanceDialog', () => {
     });
     mockGetPaperlessInstancesByIdTags.mockResolvedValue({
       data: { tags: [{ id: 1, name: 'Tag1', documentCount: 5 }] },
+    });
+    mockGetAiBots.mockResolvedValue({
+      data: { items: [], total: 0, page: 1, limit: 10, totalPages: 0 },
     });
   });
 
@@ -379,5 +384,408 @@ describe('EditInstanceDialog', () => {
 
     // Dialog should still render, just without tags
     expect(screen.getByTestId('edit-instance-name-input')).toBeInTheDocument();
+  });
+
+  describe('auto-processing settings', () => {
+    it('initializes auto-processing settings from instance', async () => {
+      const instanceWithAutoProcess: PaperlessInstanceListItem = {
+        ...mockInstance,
+        autoProcessEnabled: true,
+        scanCronExpression: '*/30 * * * *',
+        defaultAiBotId: 'bot-123',
+      };
+
+      mockGetAiBots.mockResolvedValueOnce({
+        data: {
+          items: [{ id: 'bot-123', name: 'Test Bot' }],
+          total: 1,
+          page: 1,
+          limit: 10,
+          totalPages: 1,
+        },
+      });
+
+      renderWithIntl(<EditInstanceDialog {...defaultProps} instance={instanceWithAutoProcess} />);
+
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+
+      // Auto-processing switch should be checked
+      const autoProcessSwitch = screen.getByTestId('edit-instance-autoProcessEnabled-switch');
+      expect(autoProcessSwitch).toHaveAttribute('data-state', 'checked');
+
+      // Cron expression input should be visible and have value
+      const cronInput = screen.getByTestId('edit-instance-scanCronExpression-input');
+      expect(cronInput).toHaveValue('*/30 * * * *');
+    });
+
+    it('shows auto-apply section when auto-processing is enabled', async () => {
+      const user = userEvent.setup({ delay: null });
+
+      renderWithIntl(<EditInstanceDialog {...defaultProps} />);
+
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+
+      // Enable auto-processing
+      const autoProcessSwitch = screen.getByTestId('edit-instance-autoProcessEnabled-switch');
+      await user.click(autoProcessSwitch);
+
+      // Auto-apply section should now be visible
+      await waitFor(() => {
+        expect(screen.getByTestId('edit-instance-autoApplyTitle-switch')).toBeInTheDocument();
+      });
+    });
+
+    it('handles autoProcessEnabled change correctly', async () => {
+      const user = userEvent.setup({ delay: null });
+      mockPatchPaperlessInstancesById.mockResolvedValueOnce({ data: {}, error: undefined });
+
+      renderWithIntl(<EditInstanceDialog {...defaultProps} />);
+
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+
+      // Enable auto-processing
+      const autoProcessSwitch = screen.getByTestId('edit-instance-autoProcessEnabled-switch');
+      await user.click(autoProcessSwitch);
+
+      const submitButton = screen.getByTestId('edit-instance-submit-button');
+      await user.click(submitButton);
+
+      await waitFor(() => {
+        expect(mockPatchPaperlessInstancesById).toHaveBeenCalledWith(
+          expect.objectContaining({
+            body: expect.objectContaining({ autoProcessEnabled: true }),
+          })
+        );
+      });
+    });
+
+    it('handles scanCronExpression change correctly', async () => {
+      const user = userEvent.setup({ delay: null });
+      mockPatchPaperlessInstancesById.mockResolvedValueOnce({ data: {}, error: undefined });
+
+      const instanceWithAutoProcess: PaperlessInstanceListItem = {
+        ...mockInstance,
+        autoProcessEnabled: true,
+        scanCronExpression: '0 * * * *',
+      };
+
+      renderWithIntl(<EditInstanceDialog {...defaultProps} instance={instanceWithAutoProcess} />);
+
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+
+      const cronInput = screen.getByTestId('edit-instance-scanCronExpression-input');
+      await user.clear(cronInput);
+      await user.type(cronInput, '*/15 * * * *');
+
+      const submitButton = screen.getByTestId('edit-instance-submit-button');
+      await user.click(submitButton);
+
+      await waitFor(() => {
+        expect(mockPatchPaperlessInstancesById).toHaveBeenCalledWith(
+          expect.objectContaining({
+            body: expect.objectContaining({ scanCronExpression: '*/15 * * * *' }),
+          })
+        );
+      });
+    });
+
+    it('handles defaultAiBotId change correctly', async () => {
+      const user = userEvent.setup({ delay: null });
+      mockPatchPaperlessInstancesById.mockResolvedValueOnce({ data: {}, error: undefined });
+      mockGetAiBots.mockResolvedValueOnce({
+        data: {
+          items: [
+            { id: 'bot-1', name: 'Bot One' },
+            { id: 'bot-2', name: 'Bot Two' },
+          ],
+          total: 2,
+          page: 1,
+          limit: 10,
+          totalPages: 1,
+        },
+      });
+
+      const instanceWithAutoProcess: PaperlessInstanceListItem = {
+        ...mockInstance,
+        autoProcessEnabled: true,
+      };
+
+      renderWithIntl(<EditInstanceDialog {...defaultProps} instance={instanceWithAutoProcess} />);
+
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+
+      // Wait for bots to load and select to be enabled
+      await waitFor(() => {
+        const selectTrigger = screen.getByTestId('edit-instance-defaultAiBotId-select');
+        expect(selectTrigger).toBeInTheDocument();
+        expect(selectTrigger).not.toBeDisabled();
+      });
+
+      // Open the select dropdown
+      const selectTrigger = screen.getByTestId('edit-instance-defaultAiBotId-select');
+      await user.click(selectTrigger);
+
+      // Wait for dropdown options to appear and select one
+      await waitFor(() => {
+        const botOption = screen.getByRole('option', { name: 'Bot One' });
+        expect(botOption).toBeInTheDocument();
+      });
+      await user.click(screen.getByRole('option', { name: 'Bot One' }));
+
+      const submitButton = screen.getByTestId('edit-instance-submit-button');
+      await user.click(submitButton);
+
+      await waitFor(() => {
+        expect(mockPatchPaperlessInstancesById).toHaveBeenCalledWith(
+          expect.objectContaining({
+            body: expect.objectContaining({ defaultAiBotId: 'bot-1' }),
+          })
+        );
+      });
+    });
+
+    it('handles bots API returning no data', async () => {
+      mockGetAiBots.mockResolvedValueOnce({
+        data: undefined,
+        error: { message: 'Failed' },
+      });
+
+      const instanceWithAutoProcess: PaperlessInstanceListItem = {
+        ...mockInstance,
+        autoProcessEnabled: true,
+      };
+
+      renderWithIntl(<EditInstanceDialog {...defaultProps} instance={instanceWithAutoProcess} />);
+
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+
+      // Dialog should still render
+      expect(screen.getByTestId('edit-instance-autoProcessEnabled-switch')).toBeInTheDocument();
+    });
+  });
+
+  describe('auto-apply settings', () => {
+    const instanceWithAutoProcess: PaperlessInstanceListItem = {
+      ...mockInstance,
+      autoProcessEnabled: true,
+      autoApplyTitle: false,
+      autoApplyCorrespondent: false,
+      autoApplyDocumentType: false,
+      autoApplyTags: false,
+      autoApplyDate: false,
+    };
+
+    it('shows all auto-apply switches when auto-processing is enabled', async () => {
+      renderWithIntl(<EditInstanceDialog {...defaultProps} instance={instanceWithAutoProcess} />);
+
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+
+      expect(screen.getByTestId('edit-instance-autoApplyTitle-switch')).toBeInTheDocument();
+      expect(screen.getByTestId('edit-instance-autoApplyCorrespondent-switch')).toBeInTheDocument();
+      expect(screen.getByTestId('edit-instance-autoApplyDocumentType-switch')).toBeInTheDocument();
+      expect(screen.getByTestId('edit-instance-autoApplyTags-switch')).toBeInTheDocument();
+      expect(screen.getByTestId('edit-instance-autoApplyDate-switch')).toBeInTheDocument();
+    });
+
+    it('handles autoApplyTitle change correctly', async () => {
+      const user = userEvent.setup({ delay: null });
+      mockPatchPaperlessInstancesById.mockResolvedValueOnce({ data: {}, error: undefined });
+
+      renderWithIntl(<EditInstanceDialog {...defaultProps} instance={instanceWithAutoProcess} />);
+
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+
+      await user.click(screen.getByTestId('edit-instance-autoApplyTitle-switch'));
+
+      const submitButton = screen.getByTestId('edit-instance-submit-button');
+      await user.click(submitButton);
+
+      await waitFor(() => {
+        expect(mockPatchPaperlessInstancesById).toHaveBeenCalledWith(
+          expect.objectContaining({
+            body: expect.objectContaining({ autoApplyTitle: true }),
+          })
+        );
+      });
+    });
+
+    it('handles autoApplyCorrespondent change correctly', async () => {
+      const user = userEvent.setup({ delay: null });
+      mockPatchPaperlessInstancesById.mockResolvedValueOnce({ data: {}, error: undefined });
+
+      renderWithIntl(<EditInstanceDialog {...defaultProps} instance={instanceWithAutoProcess} />);
+
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+
+      await user.click(screen.getByTestId('edit-instance-autoApplyCorrespondent-switch'));
+
+      const submitButton = screen.getByTestId('edit-instance-submit-button');
+      await user.click(submitButton);
+
+      await waitFor(() => {
+        expect(mockPatchPaperlessInstancesById).toHaveBeenCalledWith(
+          expect.objectContaining({
+            body: expect.objectContaining({ autoApplyCorrespondent: true }),
+          })
+        );
+      });
+    });
+
+    it('handles autoApplyDocumentType change correctly', async () => {
+      const user = userEvent.setup({ delay: null });
+      mockPatchPaperlessInstancesById.mockResolvedValueOnce({ data: {}, error: undefined });
+
+      renderWithIntl(<EditInstanceDialog {...defaultProps} instance={instanceWithAutoProcess} />);
+
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+
+      await user.click(screen.getByTestId('edit-instance-autoApplyDocumentType-switch'));
+
+      const submitButton = screen.getByTestId('edit-instance-submit-button');
+      await user.click(submitButton);
+
+      await waitFor(() => {
+        expect(mockPatchPaperlessInstancesById).toHaveBeenCalledWith(
+          expect.objectContaining({
+            body: expect.objectContaining({ autoApplyDocumentType: true }),
+          })
+        );
+      });
+    });
+
+    it('handles autoApplyTags change correctly', async () => {
+      const user = userEvent.setup({ delay: null });
+      mockPatchPaperlessInstancesById.mockResolvedValueOnce({ data: {}, error: undefined });
+
+      renderWithIntl(<EditInstanceDialog {...defaultProps} instance={instanceWithAutoProcess} />);
+
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+
+      await user.click(screen.getByTestId('edit-instance-autoApplyTags-switch'));
+
+      const submitButton = screen.getByTestId('edit-instance-submit-button');
+      await user.click(submitButton);
+
+      await waitFor(() => {
+        expect(mockPatchPaperlessInstancesById).toHaveBeenCalledWith(
+          expect.objectContaining({
+            body: expect.objectContaining({ autoApplyTags: true }),
+          })
+        );
+      });
+    });
+
+    it('handles autoApplyDate change correctly', async () => {
+      const user = userEvent.setup({ delay: null });
+      mockPatchPaperlessInstancesById.mockResolvedValueOnce({ data: {}, error: undefined });
+
+      renderWithIntl(<EditInstanceDialog {...defaultProps} instance={instanceWithAutoProcess} />);
+
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+
+      await user.click(screen.getByTestId('edit-instance-autoApplyDate-switch'));
+
+      const submitButton = screen.getByTestId('edit-instance-submit-button');
+      await user.click(submitButton);
+
+      await waitFor(() => {
+        expect(mockPatchPaperlessInstancesById).toHaveBeenCalledWith(
+          expect.objectContaining({
+            body: expect.objectContaining({ autoApplyDate: true }),
+          })
+        );
+      });
+    });
+
+    it('initializes auto-apply settings from instance', async () => {
+      const instanceWithAllAutoApply: PaperlessInstanceListItem = {
+        ...mockInstance,
+        autoProcessEnabled: true,
+        autoApplyTitle: true,
+        autoApplyCorrespondent: true,
+        autoApplyDocumentType: true,
+        autoApplyTags: true,
+        autoApplyDate: true,
+      };
+
+      renderWithIntl(<EditInstanceDialog {...defaultProps} instance={instanceWithAllAutoApply} />);
+
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+
+      expect(screen.getByTestId('edit-instance-autoApplyTitle-switch')).toHaveAttribute(
+        'data-state',
+        'checked'
+      );
+      expect(screen.getByTestId('edit-instance-autoApplyCorrespondent-switch')).toHaveAttribute(
+        'data-state',
+        'checked'
+      );
+      expect(screen.getByTestId('edit-instance-autoApplyDocumentType-switch')).toHaveAttribute(
+        'data-state',
+        'checked'
+      );
+      expect(screen.getByTestId('edit-instance-autoApplyTags-switch')).toHaveAttribute(
+        'data-state',
+        'checked'
+      );
+      expect(screen.getByTestId('edit-instance-autoApplyDate-switch')).toHaveAttribute(
+        'data-state',
+        'checked'
+      );
+    });
+  });
+
+  it('resets form state when dialog closes', async () => {
+    const { rerender } = renderWithIntl(<EditInstanceDialog {...defaultProps} />);
+
+    await waitFor(() => {
+      expect(screen.getByRole('dialog')).toBeInTheDocument();
+    });
+
+    // Close dialog
+    rerender(<EditInstanceDialog {...defaultProps} open={false} />);
+
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+
+    // Reopen with different instance
+    const newInstance: PaperlessInstanceListItem = {
+      ...mockInstance,
+      id: 'new-instance',
+      name: 'New Instance',
+    };
+
+    rerender(<EditInstanceDialog {...defaultProps} open={true} instance={newInstance} />);
+
+    await waitFor(() => {
+      expect(screen.getByRole('dialog')).toBeInTheDocument();
+    });
+
+    expect(screen.getByTestId('edit-instance-name-input')).toHaveValue('New Instance');
   });
 });

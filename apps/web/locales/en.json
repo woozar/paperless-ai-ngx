@@ -240,6 +240,7 @@
       "instanceCreated": "Instance created successfully",
       "instanceUpdated": "Instance updated successfully",
       "instanceDeleted": "Instance deleted successfully",
+      "queue": "Processing Queue",
       "deleteWarning": "This will delete {documents, plural, =0 {} one {1 document} other {# documents}}{documents, plural, =0 {} other {{processingQueue, plural, =0 {} other { and }}}}{processingQueue, plural, =0 {} one {1 queue entry} other {# queue entries}}.",
       "error": {
         "loadFailed": "Failed to load instances",
@@ -261,7 +262,26 @@
       "allTagsSelected": "All tags are already selected",
       "cancel": "Cancel",
       "save": "Save",
-      "updateFailed": "Failed to update import filter"
+      "updateFailed": "Failed to update import filter",
+      "autoProcessing": {
+        "title": "Auto Processing",
+        "enabled": "Enable Auto Processing",
+        "enabledDescription": "Automatically scan for new documents and process them with AI",
+        "scanInterval": "Scan Interval (Cron)",
+        "scanIntervalDescription": "Cron expression for scan schedule (e.g., '0 * * * *' for every hour)",
+        "defaultAiBot": "Default AI Bot",
+        "defaultAiBotDescription": "AI bot used for automatic document analysis",
+        "selectAiBot": "Select an AI bot..."
+      },
+      "autoApply": {
+        "title": "Auto Apply",
+        "description": "Automatically apply AI suggestions to documents after analysis",
+        "title_field": "Title",
+        "correspondent": "Correspondent",
+        "documentType": "Document Type",
+        "tags": "Tags",
+        "date": "Date"
+      }
     },
     "aiAccounts": {
       "title": "AI Accounts",
@@ -409,6 +429,55 @@
         "loadBotsFailed": "Failed to load AI bots",
         "analyzeFailed": "Failed to analyze document",
         "loadResultFailed": "Failed to load analysis result"
+      }
+    },
+    "queue": {
+      "title": "Processing Queue",
+      "description": "View and manage documents waiting to be processed",
+      "noItems": "No items in queue",
+      "bulkRetry": "Retry All Failed",
+      "clearCompleted": "Clear Completed",
+      "bulkRetrySuccess": "Retried {count, plural, one {1 item} other {# items}}",
+      "bulkDeleteSuccess": "Deleted {count, plural, one {1 item} other {# items}}",
+      "retrySuccess": "Item scheduled for retry",
+      "deleteSuccess": "Item removed from queue",
+      "filter": {
+        "all": "All",
+        "pending": "Pending",
+        "processing": "Processing",
+        "completed": "Completed",
+        "failed": "Failed"
+      },
+      "status": {
+        "pending": "Pending",
+        "processing": "Processing",
+        "completed": "Completed",
+        "failed": "Failed"
+      },
+      "stats": {
+        "pending": "Pending",
+        "processing": "Processing",
+        "completed": "Completed",
+        "failed": "Failed"
+      },
+      "table": {
+        "document": "Document",
+        "status": "Status",
+        "attempts": "Retries",
+        "aiBot": "AI Bot",
+        "scheduledFor": "Scheduled For",
+        "actions": "Actions"
+      },
+      "actions": {
+        "retry": "Retry",
+        "delete": "Delete"
+      },
+      "error": {
+        "loadFailed": "Failed to load queue",
+        "retryFailed": "Failed to retry item",
+        "deleteFailed": "Failed to delete item",
+        "bulkRetryFailed": "Failed to retry items",
+        "bulkDeleteFailed": "Failed to delete items"
       }
     },
     "aiBots": {

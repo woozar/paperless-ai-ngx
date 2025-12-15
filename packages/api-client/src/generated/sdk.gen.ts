@@ -151,6 +151,24 @@ import type {
   PostPaperlessInstancesByIdDocumentsByDocumentIdApplyData,
   PostPaperlessInstancesByIdDocumentsByDocumentIdApplyResponses,
   PostPaperlessInstancesByIdDocumentsByDocumentIdApplyErrors,
+  GetPaperlessInstancesByIdQueueData,
+  GetPaperlessInstancesByIdQueueResponses,
+  GetPaperlessInstancesByIdQueueErrors,
+  PostPaperlessInstancesByIdQueueData,
+  PostPaperlessInstancesByIdQueueResponses,
+  PostPaperlessInstancesByIdQueueErrors,
+  DeletePaperlessInstancesByIdQueueByQueueIdData,
+  DeletePaperlessInstancesByIdQueueByQueueIdResponses,
+  DeletePaperlessInstancesByIdQueueByQueueIdErrors,
+  PostPaperlessInstancesByIdQueueByQueueIdRetryData,
+  PostPaperlessInstancesByIdQueueByQueueIdRetryResponses,
+  PostPaperlessInstancesByIdQueueByQueueIdRetryErrors,
+  PostPaperlessInstancesByIdQueueBulkRetryData,
+  PostPaperlessInstancesByIdQueueBulkRetryResponses,
+  PostPaperlessInstancesByIdQueueBulkRetryErrors,
+  DeletePaperlessInstancesByIdQueueBulkCompletedData,
+  DeletePaperlessInstancesByIdQueueBulkCompletedResponses,
+  DeletePaperlessInstancesByIdQueueBulkCompletedErrors,
 } from './types.gen';
 import { client as _heyApiClient } from './client.gen';
 
@@ -1033,5 +1051,107 @@ export const postPaperlessInstancesByIdDocumentsByDocumentIdApply = <
       'Content-Type': 'application/json',
       ...options.headers,
     },
+  });
+};
+
+/**
+ * List queue items for a Paperless instance
+ */
+export const getPaperlessInstancesByIdQueue = <ThrowOnError extends boolean = false>(
+  options: Options<GetPaperlessInstancesByIdQueueData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<
+    GetPaperlessInstancesByIdQueueResponses,
+    GetPaperlessInstancesByIdQueueErrors,
+    ThrowOnError
+  >({
+    url: '/paperless-instances/{id}/queue',
+    ...options,
+  });
+};
+
+/**
+ * Add document to processing queue
+ */
+export const postPaperlessInstancesByIdQueue = <ThrowOnError extends boolean = false>(
+  options: Options<PostPaperlessInstancesByIdQueueData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostPaperlessInstancesByIdQueueResponses,
+    PostPaperlessInstancesByIdQueueErrors,
+    ThrowOnError
+  >({
+    url: '/paperless-instances/{id}/queue',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * Remove item from queue
+ */
+export const deletePaperlessInstancesByIdQueueByQueueId = <ThrowOnError extends boolean = false>(
+  options: Options<DeletePaperlessInstancesByIdQueueByQueueIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).delete<
+    DeletePaperlessInstancesByIdQueueByQueueIdResponses,
+    DeletePaperlessInstancesByIdQueueByQueueIdErrors,
+    ThrowOnError
+  >({
+    url: '/paperless-instances/{id}/queue/{queueId}',
+    ...options,
+  });
+};
+
+/**
+ * Retry a failed queue item
+ */
+export const postPaperlessInstancesByIdQueueByQueueIdRetry = <ThrowOnError extends boolean = false>(
+  options: Options<PostPaperlessInstancesByIdQueueByQueueIdRetryData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostPaperlessInstancesByIdQueueByQueueIdRetryResponses,
+    PostPaperlessInstancesByIdQueueByQueueIdRetryErrors,
+    ThrowOnError
+  >({
+    url: '/paperless-instances/{id}/queue/{queueId}/retry',
+    ...options,
+  });
+};
+
+/**
+ * Retry all failed queue items
+ */
+export const postPaperlessInstancesByIdQueueBulkRetry = <ThrowOnError extends boolean = false>(
+  options: Options<PostPaperlessInstancesByIdQueueBulkRetryData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostPaperlessInstancesByIdQueueBulkRetryResponses,
+    PostPaperlessInstancesByIdQueueBulkRetryErrors,
+    ThrowOnError
+  >({
+    url: '/paperless-instances/{id}/queue/bulk/retry',
+    ...options,
+  });
+};
+
+/**
+ * Delete all completed queue items
+ */
+export const deletePaperlessInstancesByIdQueueBulkCompleted = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<DeletePaperlessInstancesByIdQueueBulkCompletedData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).delete<
+    DeletePaperlessInstancesByIdQueueBulkCompletedResponses,
+    DeletePaperlessInstancesByIdQueueBulkCompletedErrors,
+    ThrowOnError
+  >({
+    url: '/paperless-instances/{id}/queue/bulk/completed',
+    ...options,
   });
 };

@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { TableRow, TableCell } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { Edit, Trash2, Download, Loader2, UserPlus, FileText } from 'lucide-react';
+import { Edit, Trash2, Download, Loader2, UserPlus, FileText, ListTodo } from 'lucide-react';
 import type { PaperlessInstanceListItem } from '@repo/api-client';
 import { useSettings } from '@/components/settings-provider';
 
@@ -66,6 +66,20 @@ export const InstanceTableRow = memo(function InstanceTableRow({
               </Button>
             </TooltipTrigger>
             <TooltipContent>{tCommon('documents')}</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => router.push(`/admin/paperless-instances/${instance.id}/queue`)}
+                data-testid={`queue-instance-${instance.id}`}
+              >
+                <ListTodo className="h-4 w-4" />
+                <span className="sr-only">{t('queue')}</span>
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>{t('queue')}</TooltipContent>
           </Tooltip>
           {showShareButton && onShare && canShare && (
             <Tooltip>

@@ -73,6 +73,7 @@ vi.mock('@/components/settings-provider', () => ({
 
 const mockPostPaperlessInstances = vi.fn();
 const mockGetPaperlessInstancesByIdTags = vi.fn();
+const mockGetAiBots = vi.fn();
 
 vi.mock('@repo/api-client', async () => {
   const actual = await vi.importActual('@repo/api-client');
@@ -84,6 +85,7 @@ vi.mock('@repo/api-client', async () => {
     getPaperlessInstancesByIdStats: (...args: any[]) => mockGetPaperlessInstancesByIdStats(...args),
     postPaperlessInstances: (...args: any[]) => mockPostPaperlessInstances(...args),
     getPaperlessInstancesByIdTags: (...args: any[]) => mockGetPaperlessInstancesByIdTags(...args),
+    getAiBots: (...args: any[]) => mockGetAiBots(...args),
   };
 });
 
@@ -151,6 +153,9 @@ describe('PaperlessInstancesPage', () => {
     });
     mockGetPaperlessInstancesByIdTags.mockResolvedValue({
       data: { tags: [{ id: 1, name: 'Tag1', documentCount: 5 }] },
+    });
+    mockGetAiBots.mockResolvedValue({
+      data: { items: [], total: 0, page: 1, limit: 10, totalPages: 0 },
     });
     Object.defineProperty(window, 'localStorage', {
       value: {

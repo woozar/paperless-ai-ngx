@@ -2505,6 +2505,8 @@ export namespace Prisma {
   export type AiBotCountOutputType = {
     sharedWith: number;
     aiUsageMetrics: number;
+    defaultForInstances: number;
+    processingQueueItems: number;
   };
 
   export type AiBotCountOutputTypeSelect<
@@ -2512,6 +2514,8 @@ export namespace Prisma {
   > = {
     sharedWith?: boolean | AiBotCountOutputTypeCountSharedWithArgs;
     aiUsageMetrics?: boolean | AiBotCountOutputTypeCountAiUsageMetricsArgs;
+    defaultForInstances?: boolean | AiBotCountOutputTypeCountDefaultForInstancesArgs;
+    processingQueueItems?: boolean | AiBotCountOutputTypeCountProcessingQueueItemsArgs;
   };
 
   // Custom InputTypes
@@ -2546,17 +2550,37 @@ export namespace Prisma {
   };
 
   /**
+   * AiBotCountOutputType without action
+   */
+  export type AiBotCountOutputTypeCountDefaultForInstancesArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    where?: PaperlessInstanceWhereInput;
+  };
+
+  /**
+   * AiBotCountOutputType without action
+   */
+  export type AiBotCountOutputTypeCountProcessingQueueItemsArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    where?: ProcessingQueueWhereInput;
+  };
+
+  /**
    * Count Type PaperlessDocumentCountOutputType
    */
 
   export type PaperlessDocumentCountOutputType = {
     processingResults: number;
+    processingQueueItems: number;
   };
 
   export type PaperlessDocumentCountOutputTypeSelect<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     processingResults?: boolean | PaperlessDocumentCountOutputTypeCountProcessingResultsArgs;
+    processingQueueItems?: boolean | PaperlessDocumentCountOutputTypeCountProcessingQueueItemsArgs;
   };
 
   // Custom InputTypes
@@ -2579,6 +2603,15 @@ export namespace Prisma {
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     where?: DocumentProcessingResultWhereInput;
+  };
+
+  /**
+   * PaperlessDocumentCountOutputType without action
+   */
+  export type PaperlessDocumentCountOutputTypeCountProcessingQueueItemsArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    where?: ProcessingQueueWhereInput;
   };
 
   /**
@@ -10546,6 +10579,16 @@ export namespace Prisma {
     apiToken: string | null;
     createdAt: Date | null;
     updatedAt: Date | null;
+    autoProcessEnabled: boolean | null;
+    scanCronExpression: string | null;
+    lastScanAt: Date | null;
+    nextScanAt: Date | null;
+    defaultAiBotId: string | null;
+    autoApplyTitle: boolean | null;
+    autoApplyCorrespondent: boolean | null;
+    autoApplyDocumentType: boolean | null;
+    autoApplyTags: boolean | null;
+    autoApplyDate: boolean | null;
     ownerId: string | null;
   };
 
@@ -10556,6 +10599,16 @@ export namespace Prisma {
     apiToken: string | null;
     createdAt: Date | null;
     updatedAt: Date | null;
+    autoProcessEnabled: boolean | null;
+    scanCronExpression: string | null;
+    lastScanAt: Date | null;
+    nextScanAt: Date | null;
+    defaultAiBotId: string | null;
+    autoApplyTitle: boolean | null;
+    autoApplyCorrespondent: boolean | null;
+    autoApplyDocumentType: boolean | null;
+    autoApplyTags: boolean | null;
+    autoApplyDate: boolean | null;
     ownerId: string | null;
   };
 
@@ -10567,6 +10620,16 @@ export namespace Prisma {
     importFilterTags: number;
     createdAt: number;
     updatedAt: number;
+    autoProcessEnabled: number;
+    scanCronExpression: number;
+    lastScanAt: number;
+    nextScanAt: number;
+    defaultAiBotId: number;
+    autoApplyTitle: number;
+    autoApplyCorrespondent: number;
+    autoApplyDocumentType: number;
+    autoApplyTags: number;
+    autoApplyDate: number;
     ownerId: number;
     _all: number;
   };
@@ -10586,6 +10649,16 @@ export namespace Prisma {
     apiToken?: true;
     createdAt?: true;
     updatedAt?: true;
+    autoProcessEnabled?: true;
+    scanCronExpression?: true;
+    lastScanAt?: true;
+    nextScanAt?: true;
+    defaultAiBotId?: true;
+    autoApplyTitle?: true;
+    autoApplyCorrespondent?: true;
+    autoApplyDocumentType?: true;
+    autoApplyTags?: true;
+    autoApplyDate?: true;
     ownerId?: true;
   };
 
@@ -10596,6 +10669,16 @@ export namespace Prisma {
     apiToken?: true;
     createdAt?: true;
     updatedAt?: true;
+    autoProcessEnabled?: true;
+    scanCronExpression?: true;
+    lastScanAt?: true;
+    nextScanAt?: true;
+    defaultAiBotId?: true;
+    autoApplyTitle?: true;
+    autoApplyCorrespondent?: true;
+    autoApplyDocumentType?: true;
+    autoApplyTags?: true;
+    autoApplyDate?: true;
     ownerId?: true;
   };
 
@@ -10607,6 +10690,16 @@ export namespace Prisma {
     importFilterTags?: true;
     createdAt?: true;
     updatedAt?: true;
+    autoProcessEnabled?: true;
+    scanCronExpression?: true;
+    lastScanAt?: true;
+    nextScanAt?: true;
+    defaultAiBotId?: true;
+    autoApplyTitle?: true;
+    autoApplyCorrespondent?: true;
+    autoApplyDocumentType?: true;
+    autoApplyTags?: true;
+    autoApplyDate?: true;
     ownerId?: true;
     _all?: true;
   };
@@ -10710,6 +10803,16 @@ export namespace Prisma {
     importFilterTags: number[];
     createdAt: Date;
     updatedAt: Date;
+    autoProcessEnabled: boolean;
+    scanCronExpression: string;
+    lastScanAt: Date | null;
+    nextScanAt: Date | null;
+    defaultAiBotId: string | null;
+    autoApplyTitle: boolean;
+    autoApplyCorrespondent: boolean;
+    autoApplyDocumentType: boolean;
+    autoApplyTags: boolean;
+    autoApplyDate: boolean;
     ownerId: string;
     _count: PaperlessInstanceCountAggregateOutputType | null;
     _avg: PaperlessInstanceAvgAggregateOutputType | null;
@@ -10742,7 +10845,18 @@ export namespace Prisma {
       importFilterTags?: boolean;
       createdAt?: boolean;
       updatedAt?: boolean;
+      autoProcessEnabled?: boolean;
+      scanCronExpression?: boolean;
+      lastScanAt?: boolean;
+      nextScanAt?: boolean;
+      defaultAiBotId?: boolean;
+      autoApplyTitle?: boolean;
+      autoApplyCorrespondent?: boolean;
+      autoApplyDocumentType?: boolean;
+      autoApplyTags?: boolean;
+      autoApplyDate?: boolean;
       ownerId?: boolean;
+      defaultAiBot?: boolean | PaperlessInstance$defaultAiBotArgs<ExtArgs>;
       owner?: boolean | UserDefaultArgs<ExtArgs>;
       sharedWith?: boolean | PaperlessInstance$sharedWithArgs<ExtArgs>;
       documents?: boolean | PaperlessInstance$documentsArgs<ExtArgs>;
@@ -10764,7 +10878,18 @@ export namespace Prisma {
       importFilterTags?: boolean;
       createdAt?: boolean;
       updatedAt?: boolean;
+      autoProcessEnabled?: boolean;
+      scanCronExpression?: boolean;
+      lastScanAt?: boolean;
+      nextScanAt?: boolean;
+      defaultAiBotId?: boolean;
+      autoApplyTitle?: boolean;
+      autoApplyCorrespondent?: boolean;
+      autoApplyDocumentType?: boolean;
+      autoApplyTags?: boolean;
+      autoApplyDate?: boolean;
       ownerId?: boolean;
+      defaultAiBot?: boolean | PaperlessInstance$defaultAiBotArgs<ExtArgs>;
       owner?: boolean | UserDefaultArgs<ExtArgs>;
     },
     ExtArgs['result']['paperlessInstance']
@@ -10781,7 +10906,18 @@ export namespace Prisma {
       importFilterTags?: boolean;
       createdAt?: boolean;
       updatedAt?: boolean;
+      autoProcessEnabled?: boolean;
+      scanCronExpression?: boolean;
+      lastScanAt?: boolean;
+      nextScanAt?: boolean;
+      defaultAiBotId?: boolean;
+      autoApplyTitle?: boolean;
+      autoApplyCorrespondent?: boolean;
+      autoApplyDocumentType?: boolean;
+      autoApplyTags?: boolean;
+      autoApplyDate?: boolean;
       ownerId?: boolean;
+      defaultAiBot?: boolean | PaperlessInstance$defaultAiBotArgs<ExtArgs>;
       owner?: boolean | UserDefaultArgs<ExtArgs>;
     },
     ExtArgs['result']['paperlessInstance']
@@ -10795,6 +10931,16 @@ export namespace Prisma {
     importFilterTags?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
+    autoProcessEnabled?: boolean;
+    scanCronExpression?: boolean;
+    lastScanAt?: boolean;
+    nextScanAt?: boolean;
+    defaultAiBotId?: boolean;
+    autoApplyTitle?: boolean;
+    autoApplyCorrespondent?: boolean;
+    autoApplyDocumentType?: boolean;
+    autoApplyTags?: boolean;
+    autoApplyDate?: boolean;
     ownerId?: boolean;
   };
 
@@ -10808,12 +10954,23 @@ export namespace Prisma {
     | 'importFilterTags'
     | 'createdAt'
     | 'updatedAt'
+    | 'autoProcessEnabled'
+    | 'scanCronExpression'
+    | 'lastScanAt'
+    | 'nextScanAt'
+    | 'defaultAiBotId'
+    | 'autoApplyTitle'
+    | 'autoApplyCorrespondent'
+    | 'autoApplyDocumentType'
+    | 'autoApplyTags'
+    | 'autoApplyDate'
     | 'ownerId',
     ExtArgs['result']['paperlessInstance']
   >;
   export type PaperlessInstanceInclude<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
+    defaultAiBot?: boolean | PaperlessInstance$defaultAiBotArgs<ExtArgs>;
     owner?: boolean | UserDefaultArgs<ExtArgs>;
     sharedWith?: boolean | PaperlessInstance$sharedWithArgs<ExtArgs>;
     documents?: boolean | PaperlessInstance$documentsArgs<ExtArgs>;
@@ -10824,11 +10981,13 @@ export namespace Prisma {
   export type PaperlessInstanceIncludeCreateManyAndReturn<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
+    defaultAiBot?: boolean | PaperlessInstance$defaultAiBotArgs<ExtArgs>;
     owner?: boolean | UserDefaultArgs<ExtArgs>;
   };
   export type PaperlessInstanceIncludeUpdateManyAndReturn<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
+    defaultAiBot?: boolean | PaperlessInstance$defaultAiBotArgs<ExtArgs>;
     owner?: boolean | UserDefaultArgs<ExtArgs>;
   };
 
@@ -10837,6 +10996,7 @@ export namespace Prisma {
   > = {
     name: 'PaperlessInstance';
     objects: {
+      defaultAiBot: Prisma.$AiBotPayload<ExtArgs> | null;
       owner: Prisma.$UserPayload<ExtArgs>;
       sharedWith: Prisma.$UserPaperlessInstanceAccessPayload<ExtArgs>[];
       documents: Prisma.$PaperlessDocumentPayload<ExtArgs>[];
@@ -10852,6 +11012,16 @@ export namespace Prisma {
         importFilterTags: number[];
         createdAt: Date;
         updatedAt: Date;
+        autoProcessEnabled: boolean;
+        scanCronExpression: string;
+        lastScanAt: Date | null;
+        nextScanAt: Date | null;
+        defaultAiBotId: string | null;
+        autoApplyTitle: boolean;
+        autoApplyCorrespondent: boolean;
+        autoApplyDocumentType: boolean;
+        autoApplyTags: boolean;
+        autoApplyDate: boolean;
         ownerId: string;
       },
       ExtArgs['result']['paperlessInstance']
@@ -11364,6 +11534,19 @@ export namespace Prisma {
     GlobalOmitOptions = {},
   > extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
+    defaultAiBot<T extends PaperlessInstance$defaultAiBotArgs<ExtArgs> = {}>(
+      args?: Subset<T, PaperlessInstance$defaultAiBotArgs<ExtArgs>>
+    ): Prisma__AiBotClient<
+      $Result.GetResult<
+        Prisma.$AiBotPayload<ExtArgs>,
+        T,
+        'findUniqueOrThrow',
+        GlobalOmitOptions
+      > | null,
+      null,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
     owner<T extends UserDefaultArgs<ExtArgs> = {}>(
       args?: Subset<T, UserDefaultArgs<ExtArgs>>
     ): Prisma__UserClient<
@@ -11445,6 +11628,16 @@ export namespace Prisma {
     readonly importFilterTags: FieldRef<'PaperlessInstance', 'Int[]'>;
     readonly createdAt: FieldRef<'PaperlessInstance', 'DateTime'>;
     readonly updatedAt: FieldRef<'PaperlessInstance', 'DateTime'>;
+    readonly autoProcessEnabled: FieldRef<'PaperlessInstance', 'Boolean'>;
+    readonly scanCronExpression: FieldRef<'PaperlessInstance', 'String'>;
+    readonly lastScanAt: FieldRef<'PaperlessInstance', 'DateTime'>;
+    readonly nextScanAt: FieldRef<'PaperlessInstance', 'DateTime'>;
+    readonly defaultAiBotId: FieldRef<'PaperlessInstance', 'String'>;
+    readonly autoApplyTitle: FieldRef<'PaperlessInstance', 'Boolean'>;
+    readonly autoApplyCorrespondent: FieldRef<'PaperlessInstance', 'Boolean'>;
+    readonly autoApplyDocumentType: FieldRef<'PaperlessInstance', 'Boolean'>;
+    readonly autoApplyTags: FieldRef<'PaperlessInstance', 'Boolean'>;
+    readonly autoApplyDate: FieldRef<'PaperlessInstance', 'Boolean'>;
     readonly ownerId: FieldRef<'PaperlessInstance', 'String'>;
   }
 
@@ -11872,6 +12065,27 @@ export namespace Prisma {
      * Limit how many PaperlessInstances to delete.
      */
     limit?: number;
+  };
+
+  /**
+   * PaperlessInstance.defaultAiBot
+   */
+  export type PaperlessInstance$defaultAiBotArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the AiBot
+     */
+    select?: AiBotSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the AiBot
+     */
+    omit?: AiBotOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiBotInclude<ExtArgs> | null;
+    where?: AiBotWhereInput;
   };
 
   /**
@@ -15056,6 +15270,8 @@ export namespace Prisma {
         aiModel?: boolean | AiModelDefaultArgs<ExtArgs>;
         sharedWith?: boolean | AiBot$sharedWithArgs<ExtArgs>;
         aiUsageMetrics?: boolean | AiBot$aiUsageMetricsArgs<ExtArgs>;
+        defaultForInstances?: boolean | AiBot$defaultForInstancesArgs<ExtArgs>;
+        processingQueueItems?: boolean | AiBot$processingQueueItemsArgs<ExtArgs>;
         _count?: boolean | AiBotCountOutputTypeDefaultArgs<ExtArgs>;
       },
       ExtArgs['result']['aiBot']
@@ -15125,6 +15341,8 @@ export namespace Prisma {
     aiModel?: boolean | AiModelDefaultArgs<ExtArgs>;
     sharedWith?: boolean | AiBot$sharedWithArgs<ExtArgs>;
     aiUsageMetrics?: boolean | AiBot$aiUsageMetricsArgs<ExtArgs>;
+    defaultForInstances?: boolean | AiBot$defaultForInstancesArgs<ExtArgs>;
+    processingQueueItems?: boolean | AiBot$processingQueueItemsArgs<ExtArgs>;
     _count?: boolean | AiBotCountOutputTypeDefaultArgs<ExtArgs>;
   };
   export type AiBotIncludeCreateManyAndReturn<
@@ -15147,6 +15365,8 @@ export namespace Prisma {
       aiModel: Prisma.$AiModelPayload<ExtArgs>;
       sharedWith: Prisma.$UserAiBotAccessPayload<ExtArgs>[];
       aiUsageMetrics: Prisma.$AiUsageMetricPayload<ExtArgs>[];
+      defaultForInstances: Prisma.$PaperlessInstancePayload<ExtArgs>[];
+      processingQueueItems: Prisma.$ProcessingQueuePayload<ExtArgs>[];
     };
     scalars: $Extensions.GetPayloadResult<
       {
@@ -15671,6 +15891,23 @@ export namespace Prisma {
       | $Result.GetResult<Prisma.$AiUsageMetricPayload<ExtArgs>, T, 'findMany', GlobalOmitOptions>
       | Null
     >;
+    defaultForInstances<T extends AiBot$defaultForInstancesArgs<ExtArgs> = {}>(
+      args?: Subset<T, AiBot$defaultForInstancesArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<
+      | $Result.GetResult<
+          Prisma.$PaperlessInstancePayload<ExtArgs>,
+          T,
+          'findMany',
+          GlobalOmitOptions
+        >
+      | Null
+    >;
+    processingQueueItems<T extends AiBot$processingQueueItemsArgs<ExtArgs> = {}>(
+      args?: Subset<T, AiBot$processingQueueItemsArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<
+      | $Result.GetResult<Prisma.$ProcessingQueuePayload<ExtArgs>, T, 'findMany', GlobalOmitOptions>
+      | Null
+    >;
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -16181,6 +16418,60 @@ export namespace Prisma {
   };
 
   /**
+   * AiBot.defaultForInstances
+   */
+  export type AiBot$defaultForInstancesArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the PaperlessInstance
+     */
+    select?: PaperlessInstanceSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the PaperlessInstance
+     */
+    omit?: PaperlessInstanceOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaperlessInstanceInclude<ExtArgs> | null;
+    where?: PaperlessInstanceWhereInput;
+    orderBy?:
+      | PaperlessInstanceOrderByWithRelationInput
+      | PaperlessInstanceOrderByWithRelationInput[];
+    cursor?: PaperlessInstanceWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?: PaperlessInstanceScalarFieldEnum | PaperlessInstanceScalarFieldEnum[];
+  };
+
+  /**
+   * AiBot.processingQueueItems
+   */
+  export type AiBot$processingQueueItemsArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the ProcessingQueue
+     */
+    select?: ProcessingQueueSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the ProcessingQueue
+     */
+    omit?: ProcessingQueueOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProcessingQueueInclude<ExtArgs> | null;
+    where?: ProcessingQueueWhereInput;
+    orderBy?: ProcessingQueueOrderByWithRelationInput | ProcessingQueueOrderByWithRelationInput[];
+    cursor?: ProcessingQueueWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?: ProcessingQueueScalarFieldEnum | ProcessingQueueScalarFieldEnum[];
+  };
+
+  /**
    * AiBot without action
    */
   export type AiBotDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
@@ -16465,6 +16756,7 @@ export namespace Prisma {
       paperlessInstanceId?: boolean;
       paperlessInstance?: boolean | PaperlessInstanceDefaultArgs<ExtArgs>;
       processingResults?: boolean | PaperlessDocument$processingResultsArgs<ExtArgs>;
+      processingQueueItems?: boolean | PaperlessDocument$processingQueueItemsArgs<ExtArgs>;
       _count?: boolean | PaperlessDocumentCountOutputTypeDefaultArgs<ExtArgs>;
     },
     ExtArgs['result']['paperlessDocument']
@@ -16549,6 +16841,7 @@ export namespace Prisma {
   > = {
     paperlessInstance?: boolean | PaperlessInstanceDefaultArgs<ExtArgs>;
     processingResults?: boolean | PaperlessDocument$processingResultsArgs<ExtArgs>;
+    processingQueueItems?: boolean | PaperlessDocument$processingQueueItemsArgs<ExtArgs>;
     _count?: boolean | PaperlessDocumentCountOutputTypeDefaultArgs<ExtArgs>;
   };
   export type PaperlessDocumentIncludeCreateManyAndReturn<
@@ -16569,6 +16862,7 @@ export namespace Prisma {
     objects: {
       paperlessInstance: Prisma.$PaperlessInstancePayload<ExtArgs>;
       processingResults: Prisma.$DocumentProcessingResultPayload<ExtArgs>[];
+      processingQueueItems: Prisma.$ProcessingQueuePayload<ExtArgs>[];
     };
     scalars: $Extensions.GetPayloadResult<
       {
@@ -17120,6 +17414,12 @@ export namespace Prisma {
         >
       | Null
     >;
+    processingQueueItems<T extends PaperlessDocument$processingQueueItemsArgs<ExtArgs> = {}>(
+      args?: Subset<T, PaperlessDocument$processingQueueItemsArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<
+      | $Result.GetResult<Prisma.$ProcessingQueuePayload<ExtArgs>, T, 'findMany', GlobalOmitOptions>
+      | Null
+    >;
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -17617,6 +17917,32 @@ export namespace Prisma {
     take?: number;
     skip?: number;
     distinct?: DocumentProcessingResultScalarFieldEnum | DocumentProcessingResultScalarFieldEnum[];
+  };
+
+  /**
+   * PaperlessDocument.processingQueueItems
+   */
+  export type PaperlessDocument$processingQueueItemsArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the ProcessingQueue
+     */
+    select?: ProcessingQueueSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the ProcessingQueue
+     */
+    omit?: ProcessingQueueOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProcessingQueueInclude<ExtArgs> | null;
+    where?: ProcessingQueueWhereInput;
+    orderBy?: ProcessingQueueOrderByWithRelationInput | ProcessingQueueOrderByWithRelationInput[];
+    cursor?: ProcessingQueueWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?: ProcessingQueueScalarFieldEnum | ProcessingQueueScalarFieldEnum[];
   };
 
   /**
@@ -19115,23 +19441,26 @@ export namespace Prisma {
   };
 
   export type ProcessingQueueAvgAggregateOutputType = {
-    paperlessId: number | null;
+    paperlessDocumentId: number | null;
     priority: number | null;
     attempts: number | null;
+    maxAttempts: number | null;
   };
 
   export type ProcessingQueueSumAggregateOutputType = {
-    paperlessId: number | null;
+    paperlessDocumentId: number | null;
     priority: number | null;
     attempts: number | null;
+    maxAttempts: number | null;
   };
 
   export type ProcessingQueueMinAggregateOutputType = {
     id: string | null;
-    paperlessId: number | null;
+    paperlessDocumentId: number | null;
     status: string | null;
     priority: number | null;
     attempts: number | null;
+    maxAttempts: number | null;
     lastError: string | null;
     scheduledFor: Date | null;
     startedAt: Date | null;
@@ -19139,14 +19468,17 @@ export namespace Prisma {
     createdAt: Date | null;
     updatedAt: Date | null;
     paperlessInstanceId: string | null;
+    documentId: string | null;
+    aiBotId: string | null;
   };
 
   export type ProcessingQueueMaxAggregateOutputType = {
     id: string | null;
-    paperlessId: number | null;
+    paperlessDocumentId: number | null;
     status: string | null;
     priority: number | null;
     attempts: number | null;
+    maxAttempts: number | null;
     lastError: string | null;
     scheduledFor: Date | null;
     startedAt: Date | null;
@@ -19154,14 +19486,17 @@ export namespace Prisma {
     createdAt: Date | null;
     updatedAt: Date | null;
     paperlessInstanceId: string | null;
+    documentId: string | null;
+    aiBotId: string | null;
   };
 
   export type ProcessingQueueCountAggregateOutputType = {
     id: number;
-    paperlessId: number;
+    paperlessDocumentId: number;
     status: number;
     priority: number;
     attempts: number;
+    maxAttempts: number;
     lastError: number;
     scheduledFor: number;
     startedAt: number;
@@ -19169,27 +19504,32 @@ export namespace Prisma {
     createdAt: number;
     updatedAt: number;
     paperlessInstanceId: number;
+    documentId: number;
+    aiBotId: number;
     _all: number;
   };
 
   export type ProcessingQueueAvgAggregateInputType = {
-    paperlessId?: true;
+    paperlessDocumentId?: true;
     priority?: true;
     attempts?: true;
+    maxAttempts?: true;
   };
 
   export type ProcessingQueueSumAggregateInputType = {
-    paperlessId?: true;
+    paperlessDocumentId?: true;
     priority?: true;
     attempts?: true;
+    maxAttempts?: true;
   };
 
   export type ProcessingQueueMinAggregateInputType = {
     id?: true;
-    paperlessId?: true;
+    paperlessDocumentId?: true;
     status?: true;
     priority?: true;
     attempts?: true;
+    maxAttempts?: true;
     lastError?: true;
     scheduledFor?: true;
     startedAt?: true;
@@ -19197,14 +19537,17 @@ export namespace Prisma {
     createdAt?: true;
     updatedAt?: true;
     paperlessInstanceId?: true;
+    documentId?: true;
+    aiBotId?: true;
   };
 
   export type ProcessingQueueMaxAggregateInputType = {
     id?: true;
-    paperlessId?: true;
+    paperlessDocumentId?: true;
     status?: true;
     priority?: true;
     attempts?: true;
+    maxAttempts?: true;
     lastError?: true;
     scheduledFor?: true;
     startedAt?: true;
@@ -19212,14 +19555,17 @@ export namespace Prisma {
     createdAt?: true;
     updatedAt?: true;
     paperlessInstanceId?: true;
+    documentId?: true;
+    aiBotId?: true;
   };
 
   export type ProcessingQueueCountAggregateInputType = {
     id?: true;
-    paperlessId?: true;
+    paperlessDocumentId?: true;
     status?: true;
     priority?: true;
     attempts?: true;
+    maxAttempts?: true;
     lastError?: true;
     scheduledFor?: true;
     startedAt?: true;
@@ -19227,6 +19573,8 @@ export namespace Prisma {
     createdAt?: true;
     updatedAt?: true;
     paperlessInstanceId?: true;
+    documentId?: true;
+    aiBotId?: true;
     _all?: true;
   };
 
@@ -19321,10 +19669,11 @@ export namespace Prisma {
 
   export type ProcessingQueueGroupByOutputType = {
     id: string;
-    paperlessId: number;
+    paperlessDocumentId: number;
     status: string;
     priority: number;
     attempts: number;
+    maxAttempts: number;
     lastError: string | null;
     scheduledFor: Date;
     startedAt: Date | null;
@@ -19332,6 +19681,8 @@ export namespace Prisma {
     createdAt: Date;
     updatedAt: Date;
     paperlessInstanceId: string;
+    documentId: string | null;
+    aiBotId: string | null;
     _count: ProcessingQueueCountAggregateOutputType | null;
     _avg: ProcessingQueueAvgAggregateOutputType | null;
     _sum: ProcessingQueueSumAggregateOutputType | null;
@@ -19357,10 +19708,11 @@ export namespace Prisma {
   > = $Extensions.GetSelect<
     {
       id?: boolean;
-      paperlessId?: boolean;
+      paperlessDocumentId?: boolean;
       status?: boolean;
       priority?: boolean;
       attempts?: boolean;
+      maxAttempts?: boolean;
       lastError?: boolean;
       scheduledFor?: boolean;
       startedAt?: boolean;
@@ -19368,7 +19720,11 @@ export namespace Prisma {
       createdAt?: boolean;
       updatedAt?: boolean;
       paperlessInstanceId?: boolean;
+      documentId?: boolean;
+      aiBotId?: boolean;
       paperlessInstance?: boolean | PaperlessInstanceDefaultArgs<ExtArgs>;
+      document?: boolean | ProcessingQueue$documentArgs<ExtArgs>;
+      aiBot?: boolean | ProcessingQueue$aiBotArgs<ExtArgs>;
     },
     ExtArgs['result']['processingQueue']
   >;
@@ -19378,10 +19734,11 @@ export namespace Prisma {
   > = $Extensions.GetSelect<
     {
       id?: boolean;
-      paperlessId?: boolean;
+      paperlessDocumentId?: boolean;
       status?: boolean;
       priority?: boolean;
       attempts?: boolean;
+      maxAttempts?: boolean;
       lastError?: boolean;
       scheduledFor?: boolean;
       startedAt?: boolean;
@@ -19389,7 +19746,11 @@ export namespace Prisma {
       createdAt?: boolean;
       updatedAt?: boolean;
       paperlessInstanceId?: boolean;
+      documentId?: boolean;
+      aiBotId?: boolean;
       paperlessInstance?: boolean | PaperlessInstanceDefaultArgs<ExtArgs>;
+      document?: boolean | ProcessingQueue$documentArgs<ExtArgs>;
+      aiBot?: boolean | ProcessingQueue$aiBotArgs<ExtArgs>;
     },
     ExtArgs['result']['processingQueue']
   >;
@@ -19399,10 +19760,11 @@ export namespace Prisma {
   > = $Extensions.GetSelect<
     {
       id?: boolean;
-      paperlessId?: boolean;
+      paperlessDocumentId?: boolean;
       status?: boolean;
       priority?: boolean;
       attempts?: boolean;
+      maxAttempts?: boolean;
       lastError?: boolean;
       scheduledFor?: boolean;
       startedAt?: boolean;
@@ -19410,17 +19772,22 @@ export namespace Prisma {
       createdAt?: boolean;
       updatedAt?: boolean;
       paperlessInstanceId?: boolean;
+      documentId?: boolean;
+      aiBotId?: boolean;
       paperlessInstance?: boolean | PaperlessInstanceDefaultArgs<ExtArgs>;
+      document?: boolean | ProcessingQueue$documentArgs<ExtArgs>;
+      aiBot?: boolean | ProcessingQueue$aiBotArgs<ExtArgs>;
     },
     ExtArgs['result']['processingQueue']
   >;
 
   export type ProcessingQueueSelectScalar = {
     id?: boolean;
-    paperlessId?: boolean;
+    paperlessDocumentId?: boolean;
     status?: boolean;
     priority?: boolean;
     attempts?: boolean;
+    maxAttempts?: boolean;
     lastError?: boolean;
     scheduledFor?: boolean;
     startedAt?: boolean;
@@ -19428,39 +19795,50 @@ export namespace Prisma {
     createdAt?: boolean;
     updatedAt?: boolean;
     paperlessInstanceId?: boolean;
+    documentId?: boolean;
+    aiBotId?: boolean;
   };
 
   export type ProcessingQueueOmit<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = $Extensions.GetOmit<
     | 'id'
-    | 'paperlessId'
+    | 'paperlessDocumentId'
     | 'status'
     | 'priority'
     | 'attempts'
+    | 'maxAttempts'
     | 'lastError'
     | 'scheduledFor'
     | 'startedAt'
     | 'completedAt'
     | 'createdAt'
     | 'updatedAt'
-    | 'paperlessInstanceId',
+    | 'paperlessInstanceId'
+    | 'documentId'
+    | 'aiBotId',
     ExtArgs['result']['processingQueue']
   >;
   export type ProcessingQueueInclude<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     paperlessInstance?: boolean | PaperlessInstanceDefaultArgs<ExtArgs>;
+    document?: boolean | ProcessingQueue$documentArgs<ExtArgs>;
+    aiBot?: boolean | ProcessingQueue$aiBotArgs<ExtArgs>;
   };
   export type ProcessingQueueIncludeCreateManyAndReturn<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     paperlessInstance?: boolean | PaperlessInstanceDefaultArgs<ExtArgs>;
+    document?: boolean | ProcessingQueue$documentArgs<ExtArgs>;
+    aiBot?: boolean | ProcessingQueue$aiBotArgs<ExtArgs>;
   };
   export type ProcessingQueueIncludeUpdateManyAndReturn<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     paperlessInstance?: boolean | PaperlessInstanceDefaultArgs<ExtArgs>;
+    document?: boolean | ProcessingQueue$documentArgs<ExtArgs>;
+    aiBot?: boolean | ProcessingQueue$aiBotArgs<ExtArgs>;
   };
 
   export type $ProcessingQueuePayload<
@@ -19469,14 +19847,17 @@ export namespace Prisma {
     name: 'ProcessingQueue';
     objects: {
       paperlessInstance: Prisma.$PaperlessInstancePayload<ExtArgs>;
+      document: Prisma.$PaperlessDocumentPayload<ExtArgs> | null;
+      aiBot: Prisma.$AiBotPayload<ExtArgs> | null;
     };
     scalars: $Extensions.GetPayloadResult<
       {
         id: string;
-        paperlessId: number;
+        paperlessDocumentId: number;
         status: string;
         priority: number;
         attempts: number;
+        maxAttempts: number;
         lastError: string | null;
         scheduledFor: Date;
         startedAt: Date | null;
@@ -19484,6 +19865,8 @@ export namespace Prisma {
         createdAt: Date;
         updatedAt: Date;
         paperlessInstanceId: string;
+        documentId: string | null;
+        aiBotId: string | null;
       },
       ExtArgs['result']['processingQueue']
     >;
@@ -20009,6 +20392,32 @@ export namespace Prisma {
       ExtArgs,
       GlobalOmitOptions
     >;
+    document<T extends ProcessingQueue$documentArgs<ExtArgs> = {}>(
+      args?: Subset<T, ProcessingQueue$documentArgs<ExtArgs>>
+    ): Prisma__PaperlessDocumentClient<
+      $Result.GetResult<
+        Prisma.$PaperlessDocumentPayload<ExtArgs>,
+        T,
+        'findUniqueOrThrow',
+        GlobalOmitOptions
+      > | null,
+      null,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+    aiBot<T extends ProcessingQueue$aiBotArgs<ExtArgs> = {}>(
+      args?: Subset<T, ProcessingQueue$aiBotArgs<ExtArgs>>
+    ): Prisma__AiBotClient<
+      $Result.GetResult<
+        Prisma.$AiBotPayload<ExtArgs>,
+        T,
+        'findUniqueOrThrow',
+        GlobalOmitOptions
+      > | null,
+      null,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -20041,10 +20450,11 @@ export namespace Prisma {
    */
   interface ProcessingQueueFieldRefs {
     readonly id: FieldRef<'ProcessingQueue', 'String'>;
-    readonly paperlessId: FieldRef<'ProcessingQueue', 'Int'>;
+    readonly paperlessDocumentId: FieldRef<'ProcessingQueue', 'Int'>;
     readonly status: FieldRef<'ProcessingQueue', 'String'>;
     readonly priority: FieldRef<'ProcessingQueue', 'Int'>;
     readonly attempts: FieldRef<'ProcessingQueue', 'Int'>;
+    readonly maxAttempts: FieldRef<'ProcessingQueue', 'Int'>;
     readonly lastError: FieldRef<'ProcessingQueue', 'String'>;
     readonly scheduledFor: FieldRef<'ProcessingQueue', 'DateTime'>;
     readonly startedAt: FieldRef<'ProcessingQueue', 'DateTime'>;
@@ -20052,6 +20462,8 @@ export namespace Prisma {
     readonly createdAt: FieldRef<'ProcessingQueue', 'DateTime'>;
     readonly updatedAt: FieldRef<'ProcessingQueue', 'DateTime'>;
     readonly paperlessInstanceId: FieldRef<'ProcessingQueue', 'String'>;
+    readonly documentId: FieldRef<'ProcessingQueue', 'String'>;
+    readonly aiBotId: FieldRef<'ProcessingQueue', 'String'>;
   }
 
   // Custom InputTypes
@@ -20472,6 +20884,48 @@ export namespace Prisma {
      * Limit how many ProcessingQueues to delete.
      */
     limit?: number;
+  };
+
+  /**
+   * ProcessingQueue.document
+   */
+  export type ProcessingQueue$documentArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the PaperlessDocument
+     */
+    select?: PaperlessDocumentSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the PaperlessDocument
+     */
+    omit?: PaperlessDocumentOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaperlessDocumentInclude<ExtArgs> | null;
+    where?: PaperlessDocumentWhereInput;
+  };
+
+  /**
+   * ProcessingQueue.aiBot
+   */
+  export type ProcessingQueue$aiBotArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the AiBot
+     */
+    select?: AiBotSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the AiBot
+     */
+    omit?: AiBotOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiBotInclude<ExtArgs> | null;
+    where?: AiBotWhereInput;
   };
 
   /**
@@ -23411,6 +23865,16 @@ export namespace Prisma {
     importFilterTags: 'importFilterTags';
     createdAt: 'createdAt';
     updatedAt: 'updatedAt';
+    autoProcessEnabled: 'autoProcessEnabled';
+    scanCronExpression: 'scanCronExpression';
+    lastScanAt: 'lastScanAt';
+    nextScanAt: 'nextScanAt';
+    defaultAiBotId: 'defaultAiBotId';
+    autoApplyTitle: 'autoApplyTitle';
+    autoApplyCorrespondent: 'autoApplyCorrespondent';
+    autoApplyDocumentType: 'autoApplyDocumentType';
+    autoApplyTags: 'autoApplyTags';
+    autoApplyDate: 'autoApplyDate';
     ownerId: 'ownerId';
   };
 
@@ -23503,10 +23967,11 @@ export namespace Prisma {
 
   export const ProcessingQueueScalarFieldEnum: {
     id: 'id';
-    paperlessId: 'paperlessId';
+    paperlessDocumentId: 'paperlessDocumentId';
     status: 'status';
     priority: 'priority';
     attempts: 'attempts';
+    maxAttempts: 'maxAttempts';
     lastError: 'lastError';
     scheduledFor: 'scheduledFor';
     startedAt: 'startedAt';
@@ -23514,6 +23979,8 @@ export namespace Prisma {
     createdAt: 'createdAt';
     updatedAt: 'updatedAt';
     paperlessInstanceId: 'paperlessInstanceId';
+    documentId: 'documentId';
+    aiBotId: 'aiBotId';
   };
 
   export type ProcessingQueueScalarFieldEnum =
@@ -24110,7 +24577,18 @@ export namespace Prisma {
     importFilterTags?: IntNullableListFilter<'PaperlessInstance'>;
     createdAt?: DateTimeFilter<'PaperlessInstance'> | Date | string;
     updatedAt?: DateTimeFilter<'PaperlessInstance'> | Date | string;
+    autoProcessEnabled?: BoolFilter<'PaperlessInstance'> | boolean;
+    scanCronExpression?: StringFilter<'PaperlessInstance'> | string;
+    lastScanAt?: DateTimeNullableFilter<'PaperlessInstance'> | Date | string | null;
+    nextScanAt?: DateTimeNullableFilter<'PaperlessInstance'> | Date | string | null;
+    defaultAiBotId?: StringNullableFilter<'PaperlessInstance'> | string | null;
+    autoApplyTitle?: BoolFilter<'PaperlessInstance'> | boolean;
+    autoApplyCorrespondent?: BoolFilter<'PaperlessInstance'> | boolean;
+    autoApplyDocumentType?: BoolFilter<'PaperlessInstance'> | boolean;
+    autoApplyTags?: BoolFilter<'PaperlessInstance'> | boolean;
+    autoApplyDate?: BoolFilter<'PaperlessInstance'> | boolean;
     ownerId?: StringFilter<'PaperlessInstance'> | string;
+    defaultAiBot?: XOR<AiBotNullableScalarRelationFilter, AiBotWhereInput> | null;
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>;
     sharedWith?: UserPaperlessInstanceAccessListRelationFilter;
     documents?: PaperlessDocumentListRelationFilter;
@@ -24126,7 +24604,18 @@ export namespace Prisma {
     importFilterTags?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
+    autoProcessEnabled?: SortOrder;
+    scanCronExpression?: SortOrder;
+    lastScanAt?: SortOrderInput | SortOrder;
+    nextScanAt?: SortOrderInput | SortOrder;
+    defaultAiBotId?: SortOrderInput | SortOrder;
+    autoApplyTitle?: SortOrder;
+    autoApplyCorrespondent?: SortOrder;
+    autoApplyDocumentType?: SortOrder;
+    autoApplyTags?: SortOrder;
+    autoApplyDate?: SortOrder;
     ownerId?: SortOrder;
+    defaultAiBot?: AiBotOrderByWithRelationInput;
     owner?: UserOrderByWithRelationInput;
     sharedWith?: UserPaperlessInstanceAccessOrderByRelationAggregateInput;
     documents?: PaperlessDocumentOrderByRelationAggregateInput;
@@ -24146,7 +24635,18 @@ export namespace Prisma {
       importFilterTags?: IntNullableListFilter<'PaperlessInstance'>;
       createdAt?: DateTimeFilter<'PaperlessInstance'> | Date | string;
       updatedAt?: DateTimeFilter<'PaperlessInstance'> | Date | string;
+      autoProcessEnabled?: BoolFilter<'PaperlessInstance'> | boolean;
+      scanCronExpression?: StringFilter<'PaperlessInstance'> | string;
+      lastScanAt?: DateTimeNullableFilter<'PaperlessInstance'> | Date | string | null;
+      nextScanAt?: DateTimeNullableFilter<'PaperlessInstance'> | Date | string | null;
+      defaultAiBotId?: StringNullableFilter<'PaperlessInstance'> | string | null;
+      autoApplyTitle?: BoolFilter<'PaperlessInstance'> | boolean;
+      autoApplyCorrespondent?: BoolFilter<'PaperlessInstance'> | boolean;
+      autoApplyDocumentType?: BoolFilter<'PaperlessInstance'> | boolean;
+      autoApplyTags?: BoolFilter<'PaperlessInstance'> | boolean;
+      autoApplyDate?: BoolFilter<'PaperlessInstance'> | boolean;
       ownerId?: StringFilter<'PaperlessInstance'> | string;
+      defaultAiBot?: XOR<AiBotNullableScalarRelationFilter, AiBotWhereInput> | null;
       owner?: XOR<UserScalarRelationFilter, UserWhereInput>;
       sharedWith?: UserPaperlessInstanceAccessListRelationFilter;
       documents?: PaperlessDocumentListRelationFilter;
@@ -24164,6 +24664,16 @@ export namespace Prisma {
     importFilterTags?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
+    autoProcessEnabled?: SortOrder;
+    scanCronExpression?: SortOrder;
+    lastScanAt?: SortOrderInput | SortOrder;
+    nextScanAt?: SortOrderInput | SortOrder;
+    defaultAiBotId?: SortOrderInput | SortOrder;
+    autoApplyTitle?: SortOrder;
+    autoApplyCorrespondent?: SortOrder;
+    autoApplyDocumentType?: SortOrder;
+    autoApplyTags?: SortOrder;
+    autoApplyDate?: SortOrder;
     ownerId?: SortOrder;
     _count?: PaperlessInstanceCountOrderByAggregateInput;
     _avg?: PaperlessInstanceAvgOrderByAggregateInput;
@@ -24187,6 +24697,16 @@ export namespace Prisma {
     importFilterTags?: IntNullableListFilter<'PaperlessInstance'>;
     createdAt?: DateTimeWithAggregatesFilter<'PaperlessInstance'> | Date | string;
     updatedAt?: DateTimeWithAggregatesFilter<'PaperlessInstance'> | Date | string;
+    autoProcessEnabled?: BoolWithAggregatesFilter<'PaperlessInstance'> | boolean;
+    scanCronExpression?: StringWithAggregatesFilter<'PaperlessInstance'> | string;
+    lastScanAt?: DateTimeNullableWithAggregatesFilter<'PaperlessInstance'> | Date | string | null;
+    nextScanAt?: DateTimeNullableWithAggregatesFilter<'PaperlessInstance'> | Date | string | null;
+    defaultAiBotId?: StringNullableWithAggregatesFilter<'PaperlessInstance'> | string | null;
+    autoApplyTitle?: BoolWithAggregatesFilter<'PaperlessInstance'> | boolean;
+    autoApplyCorrespondent?: BoolWithAggregatesFilter<'PaperlessInstance'> | boolean;
+    autoApplyDocumentType?: BoolWithAggregatesFilter<'PaperlessInstance'> | boolean;
+    autoApplyTags?: BoolWithAggregatesFilter<'PaperlessInstance'> | boolean;
+    autoApplyDate?: BoolWithAggregatesFilter<'PaperlessInstance'> | boolean;
     ownerId?: StringWithAggregatesFilter<'PaperlessInstance'> | string;
   };
 
@@ -24390,6 +24910,8 @@ export namespace Prisma {
     aiModel?: XOR<AiModelScalarRelationFilter, AiModelWhereInput>;
     sharedWith?: UserAiBotAccessListRelationFilter;
     aiUsageMetrics?: AiUsageMetricListRelationFilter;
+    defaultForInstances?: PaperlessInstanceListRelationFilter;
+    processingQueueItems?: ProcessingQueueListRelationFilter;
   };
 
   export type AiBotOrderByWithRelationInput = {
@@ -24405,6 +24927,8 @@ export namespace Prisma {
     aiModel?: AiModelOrderByWithRelationInput;
     sharedWith?: UserAiBotAccessOrderByRelationAggregateInput;
     aiUsageMetrics?: AiUsageMetricOrderByRelationAggregateInput;
+    defaultForInstances?: PaperlessInstanceOrderByRelationAggregateInput;
+    processingQueueItems?: ProcessingQueueOrderByRelationAggregateInput;
   };
 
   export type AiBotWhereUniqueInput = Prisma.AtLeast<
@@ -24424,6 +24948,8 @@ export namespace Prisma {
       aiModel?: XOR<AiModelScalarRelationFilter, AiModelWhereInput>;
       sharedWith?: UserAiBotAccessListRelationFilter;
       aiUsageMetrics?: AiUsageMetricListRelationFilter;
+      defaultForInstances?: PaperlessInstanceListRelationFilter;
+      processingQueueItems?: ProcessingQueueListRelationFilter;
     },
     'id'
   >;
@@ -24474,6 +25000,7 @@ export namespace Prisma {
     paperlessInstanceId?: StringFilter<'PaperlessDocument'> | string;
     paperlessInstance?: XOR<PaperlessInstanceScalarRelationFilter, PaperlessInstanceWhereInput>;
     processingResults?: DocumentProcessingResultListRelationFilter;
+    processingQueueItems?: ProcessingQueueListRelationFilter;
   };
 
   export type PaperlessDocumentOrderByWithRelationInput = {
@@ -24491,6 +25018,7 @@ export namespace Prisma {
     paperlessInstanceId?: SortOrder;
     paperlessInstance?: PaperlessInstanceOrderByWithRelationInput;
     processingResults?: DocumentProcessingResultOrderByRelationAggregateInput;
+    processingQueueItems?: ProcessingQueueOrderByRelationAggregateInput;
   };
 
   export type PaperlessDocumentWhereUniqueInput = Prisma.AtLeast<
@@ -24513,6 +25041,7 @@ export namespace Prisma {
       paperlessInstanceId?: StringFilter<'PaperlessDocument'> | string;
       paperlessInstance?: XOR<PaperlessInstanceScalarRelationFilter, PaperlessInstanceWhereInput>;
       processingResults?: DocumentProcessingResultListRelationFilter;
+      processingQueueItems?: ProcessingQueueListRelationFilter;
     },
     'id' | 'paperlessInstanceId_paperlessId'
   >;
@@ -24688,10 +25217,11 @@ export namespace Prisma {
     OR?: ProcessingQueueWhereInput[];
     NOT?: ProcessingQueueWhereInput | ProcessingQueueWhereInput[];
     id?: StringFilter<'ProcessingQueue'> | string;
-    paperlessId?: IntFilter<'ProcessingQueue'> | number;
+    paperlessDocumentId?: IntFilter<'ProcessingQueue'> | number;
     status?: StringFilter<'ProcessingQueue'> | string;
     priority?: IntFilter<'ProcessingQueue'> | number;
     attempts?: IntFilter<'ProcessingQueue'> | number;
+    maxAttempts?: IntFilter<'ProcessingQueue'> | number;
     lastError?: StringNullableFilter<'ProcessingQueue'> | string | null;
     scheduledFor?: DateTimeFilter<'ProcessingQueue'> | Date | string;
     startedAt?: DateTimeNullableFilter<'ProcessingQueue'> | Date | string | null;
@@ -24699,15 +25229,23 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<'ProcessingQueue'> | Date | string;
     updatedAt?: DateTimeFilter<'ProcessingQueue'> | Date | string;
     paperlessInstanceId?: StringFilter<'ProcessingQueue'> | string;
+    documentId?: StringNullableFilter<'ProcessingQueue'> | string | null;
+    aiBotId?: StringNullableFilter<'ProcessingQueue'> | string | null;
     paperlessInstance?: XOR<PaperlessInstanceScalarRelationFilter, PaperlessInstanceWhereInput>;
+    document?: XOR<
+      PaperlessDocumentNullableScalarRelationFilter,
+      PaperlessDocumentWhereInput
+    > | null;
+    aiBot?: XOR<AiBotNullableScalarRelationFilter, AiBotWhereInput> | null;
   };
 
   export type ProcessingQueueOrderByWithRelationInput = {
     id?: SortOrder;
-    paperlessId?: SortOrder;
+    paperlessDocumentId?: SortOrder;
     status?: SortOrder;
     priority?: SortOrder;
     attempts?: SortOrder;
+    maxAttempts?: SortOrder;
     lastError?: SortOrderInput | SortOrder;
     scheduledFor?: SortOrder;
     startedAt?: SortOrderInput | SortOrder;
@@ -24715,19 +25253,25 @@ export namespace Prisma {
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
     paperlessInstanceId?: SortOrder;
+    documentId?: SortOrderInput | SortOrder;
+    aiBotId?: SortOrderInput | SortOrder;
     paperlessInstance?: PaperlessInstanceOrderByWithRelationInput;
+    document?: PaperlessDocumentOrderByWithRelationInput;
+    aiBot?: AiBotOrderByWithRelationInput;
   };
 
   export type ProcessingQueueWhereUniqueInput = Prisma.AtLeast<
     {
       id?: string;
+      paperlessInstanceId_paperlessDocumentId?: ProcessingQueuePaperlessInstanceIdPaperlessDocumentIdCompoundUniqueInput;
       AND?: ProcessingQueueWhereInput | ProcessingQueueWhereInput[];
       OR?: ProcessingQueueWhereInput[];
       NOT?: ProcessingQueueWhereInput | ProcessingQueueWhereInput[];
-      paperlessId?: IntFilter<'ProcessingQueue'> | number;
+      paperlessDocumentId?: IntFilter<'ProcessingQueue'> | number;
       status?: StringFilter<'ProcessingQueue'> | string;
       priority?: IntFilter<'ProcessingQueue'> | number;
       attempts?: IntFilter<'ProcessingQueue'> | number;
+      maxAttempts?: IntFilter<'ProcessingQueue'> | number;
       lastError?: StringNullableFilter<'ProcessingQueue'> | string | null;
       scheduledFor?: DateTimeFilter<'ProcessingQueue'> | Date | string;
       startedAt?: DateTimeNullableFilter<'ProcessingQueue'> | Date | string | null;
@@ -24735,17 +25279,25 @@ export namespace Prisma {
       createdAt?: DateTimeFilter<'ProcessingQueue'> | Date | string;
       updatedAt?: DateTimeFilter<'ProcessingQueue'> | Date | string;
       paperlessInstanceId?: StringFilter<'ProcessingQueue'> | string;
+      documentId?: StringNullableFilter<'ProcessingQueue'> | string | null;
+      aiBotId?: StringNullableFilter<'ProcessingQueue'> | string | null;
       paperlessInstance?: XOR<PaperlessInstanceScalarRelationFilter, PaperlessInstanceWhereInput>;
+      document?: XOR<
+        PaperlessDocumentNullableScalarRelationFilter,
+        PaperlessDocumentWhereInput
+      > | null;
+      aiBot?: XOR<AiBotNullableScalarRelationFilter, AiBotWhereInput> | null;
     },
-    'id'
+    'id' | 'paperlessInstanceId_paperlessDocumentId'
   >;
 
   export type ProcessingQueueOrderByWithAggregationInput = {
     id?: SortOrder;
-    paperlessId?: SortOrder;
+    paperlessDocumentId?: SortOrder;
     status?: SortOrder;
     priority?: SortOrder;
     attempts?: SortOrder;
+    maxAttempts?: SortOrder;
     lastError?: SortOrderInput | SortOrder;
     scheduledFor?: SortOrder;
     startedAt?: SortOrderInput | SortOrder;
@@ -24753,6 +25305,8 @@ export namespace Prisma {
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
     paperlessInstanceId?: SortOrder;
+    documentId?: SortOrderInput | SortOrder;
+    aiBotId?: SortOrderInput | SortOrder;
     _count?: ProcessingQueueCountOrderByAggregateInput;
     _avg?: ProcessingQueueAvgOrderByAggregateInput;
     _max?: ProcessingQueueMaxOrderByAggregateInput;
@@ -24769,10 +25323,11 @@ export namespace Prisma {
       | ProcessingQueueScalarWhereWithAggregatesInput
       | ProcessingQueueScalarWhereWithAggregatesInput[];
     id?: StringWithAggregatesFilter<'ProcessingQueue'> | string;
-    paperlessId?: IntWithAggregatesFilter<'ProcessingQueue'> | number;
+    paperlessDocumentId?: IntWithAggregatesFilter<'ProcessingQueue'> | number;
     status?: StringWithAggregatesFilter<'ProcessingQueue'> | string;
     priority?: IntWithAggregatesFilter<'ProcessingQueue'> | number;
     attempts?: IntWithAggregatesFilter<'ProcessingQueue'> | number;
+    maxAttempts?: IntWithAggregatesFilter<'ProcessingQueue'> | number;
     lastError?: StringNullableWithAggregatesFilter<'ProcessingQueue'> | string | null;
     scheduledFor?: DateTimeWithAggregatesFilter<'ProcessingQueue'> | Date | string;
     startedAt?: DateTimeNullableWithAggregatesFilter<'ProcessingQueue'> | Date | string | null;
@@ -24780,6 +25335,8 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<'ProcessingQueue'> | Date | string;
     updatedAt?: DateTimeWithAggregatesFilter<'ProcessingQueue'> | Date | string;
     paperlessInstanceId?: StringWithAggregatesFilter<'ProcessingQueue'> | string;
+    documentId?: StringNullableWithAggregatesFilter<'ProcessingQueue'> | string | null;
+    aiBotId?: StringNullableWithAggregatesFilter<'ProcessingQueue'> | string | null;
   };
 
   export type ImportHistoryWhereInput = {
@@ -25355,6 +25912,16 @@ export namespace Prisma {
     importFilterTags?: PaperlessInstanceCreateimportFilterTagsInput | number[];
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    autoProcessEnabled?: boolean;
+    scanCronExpression?: string;
+    lastScanAt?: Date | string | null;
+    nextScanAt?: Date | string | null;
+    autoApplyTitle?: boolean;
+    autoApplyCorrespondent?: boolean;
+    autoApplyDocumentType?: boolean;
+    autoApplyTags?: boolean;
+    autoApplyDate?: boolean;
+    defaultAiBot?: AiBotCreateNestedOneWithoutDefaultForInstancesInput;
     owner: UserCreateNestedOneWithoutOwnedPaperlessInstancesInput;
     sharedWith?: UserPaperlessInstanceAccessCreateNestedManyWithoutInstanceInput;
     documents?: PaperlessDocumentCreateNestedManyWithoutPaperlessInstanceInput;
@@ -25370,6 +25937,16 @@ export namespace Prisma {
     importFilterTags?: PaperlessInstanceCreateimportFilterTagsInput | number[];
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    autoProcessEnabled?: boolean;
+    scanCronExpression?: string;
+    lastScanAt?: Date | string | null;
+    nextScanAt?: Date | string | null;
+    defaultAiBotId?: string | null;
+    autoApplyTitle?: boolean;
+    autoApplyCorrespondent?: boolean;
+    autoApplyDocumentType?: boolean;
+    autoApplyTags?: boolean;
+    autoApplyDate?: boolean;
     ownerId: string;
     sharedWith?: UserPaperlessInstanceAccessUncheckedCreateNestedManyWithoutInstanceInput;
     documents?: PaperlessDocumentUncheckedCreateNestedManyWithoutPaperlessInstanceInput;
@@ -25385,6 +25962,16 @@ export namespace Prisma {
     importFilterTags?: PaperlessInstanceUpdateimportFilterTagsInput | number[];
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    autoProcessEnabled?: BoolFieldUpdateOperationsInput | boolean;
+    scanCronExpression?: StringFieldUpdateOperationsInput | string;
+    lastScanAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    nextScanAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    autoApplyTitle?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyCorrespondent?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyDocumentType?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyTags?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyDate?: BoolFieldUpdateOperationsInput | boolean;
+    defaultAiBot?: AiBotUpdateOneWithoutDefaultForInstancesNestedInput;
     owner?: UserUpdateOneRequiredWithoutOwnedPaperlessInstancesNestedInput;
     sharedWith?: UserPaperlessInstanceAccessUpdateManyWithoutInstanceNestedInput;
     documents?: PaperlessDocumentUpdateManyWithoutPaperlessInstanceNestedInput;
@@ -25400,6 +25987,16 @@ export namespace Prisma {
     importFilterTags?: PaperlessInstanceUpdateimportFilterTagsInput | number[];
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    autoProcessEnabled?: BoolFieldUpdateOperationsInput | boolean;
+    scanCronExpression?: StringFieldUpdateOperationsInput | string;
+    lastScanAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    nextScanAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    defaultAiBotId?: NullableStringFieldUpdateOperationsInput | string | null;
+    autoApplyTitle?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyCorrespondent?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyDocumentType?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyTags?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyDate?: BoolFieldUpdateOperationsInput | boolean;
     ownerId?: StringFieldUpdateOperationsInput | string;
     sharedWith?: UserPaperlessInstanceAccessUncheckedUpdateManyWithoutInstanceNestedInput;
     documents?: PaperlessDocumentUncheckedUpdateManyWithoutPaperlessInstanceNestedInput;
@@ -25415,6 +26012,16 @@ export namespace Prisma {
     importFilterTags?: PaperlessInstanceCreateimportFilterTagsInput | number[];
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    autoProcessEnabled?: boolean;
+    scanCronExpression?: string;
+    lastScanAt?: Date | string | null;
+    nextScanAt?: Date | string | null;
+    defaultAiBotId?: string | null;
+    autoApplyTitle?: boolean;
+    autoApplyCorrespondent?: boolean;
+    autoApplyDocumentType?: boolean;
+    autoApplyTags?: boolean;
+    autoApplyDate?: boolean;
     ownerId: string;
   };
 
@@ -25426,6 +26033,15 @@ export namespace Prisma {
     importFilterTags?: PaperlessInstanceUpdateimportFilterTagsInput | number[];
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    autoProcessEnabled?: BoolFieldUpdateOperationsInput | boolean;
+    scanCronExpression?: StringFieldUpdateOperationsInput | string;
+    lastScanAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    nextScanAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    autoApplyTitle?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyCorrespondent?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyDocumentType?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyTags?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyDate?: BoolFieldUpdateOperationsInput | boolean;
   };
 
   export type PaperlessInstanceUncheckedUpdateManyInput = {
@@ -25436,6 +26052,16 @@ export namespace Prisma {
     importFilterTags?: PaperlessInstanceUpdateimportFilterTagsInput | number[];
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    autoProcessEnabled?: BoolFieldUpdateOperationsInput | boolean;
+    scanCronExpression?: StringFieldUpdateOperationsInput | string;
+    lastScanAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    nextScanAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    defaultAiBotId?: NullableStringFieldUpdateOperationsInput | string | null;
+    autoApplyTitle?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyCorrespondent?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyDocumentType?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyTags?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyDate?: BoolFieldUpdateOperationsInput | boolean;
     ownerId?: StringFieldUpdateOperationsInput | string;
   };
 
@@ -25646,6 +26272,8 @@ export namespace Prisma {
     aiModel: AiModelCreateNestedOneWithoutBotsInput;
     sharedWith?: UserAiBotAccessCreateNestedManyWithoutAiBotInput;
     aiUsageMetrics?: AiUsageMetricCreateNestedManyWithoutAiBotInput;
+    defaultForInstances?: PaperlessInstanceCreateNestedManyWithoutDefaultAiBotInput;
+    processingQueueItems?: ProcessingQueueCreateNestedManyWithoutAiBotInput;
   };
 
   export type AiBotUncheckedCreateInput = {
@@ -25659,6 +26287,8 @@ export namespace Prisma {
     aiModelId: string;
     sharedWith?: UserAiBotAccessUncheckedCreateNestedManyWithoutAiBotInput;
     aiUsageMetrics?: AiUsageMetricUncheckedCreateNestedManyWithoutAiBotInput;
+    defaultForInstances?: PaperlessInstanceUncheckedCreateNestedManyWithoutDefaultAiBotInput;
+    processingQueueItems?: ProcessingQueueUncheckedCreateNestedManyWithoutAiBotInput;
   };
 
   export type AiBotUpdateInput = {
@@ -25672,6 +26302,8 @@ export namespace Prisma {
     aiModel?: AiModelUpdateOneRequiredWithoutBotsNestedInput;
     sharedWith?: UserAiBotAccessUpdateManyWithoutAiBotNestedInput;
     aiUsageMetrics?: AiUsageMetricUpdateManyWithoutAiBotNestedInput;
+    defaultForInstances?: PaperlessInstanceUpdateManyWithoutDefaultAiBotNestedInput;
+    processingQueueItems?: ProcessingQueueUpdateManyWithoutAiBotNestedInput;
   };
 
   export type AiBotUncheckedUpdateInput = {
@@ -25685,6 +26317,8 @@ export namespace Prisma {
     aiModelId?: StringFieldUpdateOperationsInput | string;
     sharedWith?: UserAiBotAccessUncheckedUpdateManyWithoutAiBotNestedInput;
     aiUsageMetrics?: AiUsageMetricUncheckedUpdateManyWithoutAiBotNestedInput;
+    defaultForInstances?: PaperlessInstanceUncheckedUpdateManyWithoutDefaultAiBotNestedInput;
+    processingQueueItems?: ProcessingQueueUncheckedUpdateManyWithoutAiBotNestedInput;
   };
 
   export type AiBotCreateManyInput = {
@@ -25732,6 +26366,7 @@ export namespace Prisma {
     updatedAt?: Date | string;
     paperlessInstance: PaperlessInstanceCreateNestedOneWithoutDocumentsInput;
     processingResults?: DocumentProcessingResultCreateNestedManyWithoutDocumentInput;
+    processingQueueItems?: ProcessingQueueCreateNestedManyWithoutDocumentInput;
   };
 
   export type PaperlessDocumentUncheckedCreateInput = {
@@ -25748,6 +26383,7 @@ export namespace Prisma {
     updatedAt?: Date | string;
     paperlessInstanceId: string;
     processingResults?: DocumentProcessingResultUncheckedCreateNestedManyWithoutDocumentInput;
+    processingQueueItems?: ProcessingQueueUncheckedCreateNestedManyWithoutDocumentInput;
   };
 
   export type PaperlessDocumentUpdateInput = {
@@ -25764,6 +26400,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     paperlessInstance?: PaperlessInstanceUpdateOneRequiredWithoutDocumentsNestedInput;
     processingResults?: DocumentProcessingResultUpdateManyWithoutDocumentNestedInput;
+    processingQueueItems?: ProcessingQueueUpdateManyWithoutDocumentNestedInput;
   };
 
   export type PaperlessDocumentUncheckedUpdateInput = {
@@ -25780,6 +26417,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     paperlessInstanceId?: StringFieldUpdateOperationsInput | string;
     processingResults?: DocumentProcessingResultUncheckedUpdateManyWithoutDocumentNestedInput;
+    processingQueueItems?: ProcessingQueueUncheckedUpdateManyWithoutDocumentNestedInput;
   };
 
   export type PaperlessDocumentCreateManyInput = {
@@ -25953,10 +26591,11 @@ export namespace Prisma {
 
   export type ProcessingQueueCreateInput = {
     id?: string;
-    paperlessId: number;
+    paperlessDocumentId: number;
     status?: string;
     priority?: number;
     attempts?: number;
+    maxAttempts?: number;
     lastError?: string | null;
     scheduledFor?: Date | string;
     startedAt?: Date | string | null;
@@ -25964,14 +26603,17 @@ export namespace Prisma {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     paperlessInstance: PaperlessInstanceCreateNestedOneWithoutProcessingQueueInput;
+    document?: PaperlessDocumentCreateNestedOneWithoutProcessingQueueItemsInput;
+    aiBot?: AiBotCreateNestedOneWithoutProcessingQueueItemsInput;
   };
 
   export type ProcessingQueueUncheckedCreateInput = {
     id?: string;
-    paperlessId: number;
+    paperlessDocumentId: number;
     status?: string;
     priority?: number;
     attempts?: number;
+    maxAttempts?: number;
     lastError?: string | null;
     scheduledFor?: Date | string;
     startedAt?: Date | string | null;
@@ -25979,14 +26621,17 @@ export namespace Prisma {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     paperlessInstanceId: string;
+    documentId?: string | null;
+    aiBotId?: string | null;
   };
 
   export type ProcessingQueueUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string;
-    paperlessId?: IntFieldUpdateOperationsInput | number;
+    paperlessDocumentId?: IntFieldUpdateOperationsInput | number;
     status?: StringFieldUpdateOperationsInput | string;
     priority?: IntFieldUpdateOperationsInput | number;
     attempts?: IntFieldUpdateOperationsInput | number;
+    maxAttempts?: IntFieldUpdateOperationsInput | number;
     lastError?: NullableStringFieldUpdateOperationsInput | string | null;
     scheduledFor?: DateTimeFieldUpdateOperationsInput | Date | string;
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
@@ -25994,14 +26639,17 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     paperlessInstance?: PaperlessInstanceUpdateOneRequiredWithoutProcessingQueueNestedInput;
+    document?: PaperlessDocumentUpdateOneWithoutProcessingQueueItemsNestedInput;
+    aiBot?: AiBotUpdateOneWithoutProcessingQueueItemsNestedInput;
   };
 
   export type ProcessingQueueUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string;
-    paperlessId?: IntFieldUpdateOperationsInput | number;
+    paperlessDocumentId?: IntFieldUpdateOperationsInput | number;
     status?: StringFieldUpdateOperationsInput | string;
     priority?: IntFieldUpdateOperationsInput | number;
     attempts?: IntFieldUpdateOperationsInput | number;
+    maxAttempts?: IntFieldUpdateOperationsInput | number;
     lastError?: NullableStringFieldUpdateOperationsInput | string | null;
     scheduledFor?: DateTimeFieldUpdateOperationsInput | Date | string;
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
@@ -26009,14 +26657,17 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     paperlessInstanceId?: StringFieldUpdateOperationsInput | string;
+    documentId?: NullableStringFieldUpdateOperationsInput | string | null;
+    aiBotId?: NullableStringFieldUpdateOperationsInput | string | null;
   };
 
   export type ProcessingQueueCreateManyInput = {
     id?: string;
-    paperlessId: number;
+    paperlessDocumentId: number;
     status?: string;
     priority?: number;
     attempts?: number;
+    maxAttempts?: number;
     lastError?: string | null;
     scheduledFor?: Date | string;
     startedAt?: Date | string | null;
@@ -26024,14 +26675,17 @@ export namespace Prisma {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     paperlessInstanceId: string;
+    documentId?: string | null;
+    aiBotId?: string | null;
   };
 
   export type ProcessingQueueUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string;
-    paperlessId?: IntFieldUpdateOperationsInput | number;
+    paperlessDocumentId?: IntFieldUpdateOperationsInput | number;
     status?: StringFieldUpdateOperationsInput | string;
     priority?: IntFieldUpdateOperationsInput | number;
     attempts?: IntFieldUpdateOperationsInput | number;
+    maxAttempts?: IntFieldUpdateOperationsInput | number;
     lastError?: NullableStringFieldUpdateOperationsInput | string | null;
     scheduledFor?: DateTimeFieldUpdateOperationsInput | Date | string;
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
@@ -26042,10 +26696,11 @@ export namespace Prisma {
 
   export type ProcessingQueueUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string;
-    paperlessId?: IntFieldUpdateOperationsInput | number;
+    paperlessDocumentId?: IntFieldUpdateOperationsInput | number;
     status?: StringFieldUpdateOperationsInput | string;
     priority?: IntFieldUpdateOperationsInput | number;
     attempts?: IntFieldUpdateOperationsInput | number;
+    maxAttempts?: IntFieldUpdateOperationsInput | number;
     lastError?: NullableStringFieldUpdateOperationsInput | string | null;
     scheduledFor?: DateTimeFieldUpdateOperationsInput | Date | string;
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
@@ -26053,6 +26708,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     paperlessInstanceId?: StringFieldUpdateOperationsInput | string;
+    documentId?: NullableStringFieldUpdateOperationsInput | string | null;
+    aiBotId?: NullableStringFieldUpdateOperationsInput | string | null;
   };
 
   export type ImportHistoryCreateInput = {
@@ -26668,6 +27325,22 @@ export namespace Prisma {
     isEmpty?: boolean;
   };
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null;
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null;
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null;
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null;
+  };
+
+  export type AiBotNullableScalarRelationFilter = {
+    is?: AiBotWhereInput | null;
+    isNot?: AiBotWhereInput | null;
+  };
+
   export type UserScalarRelationFilter = {
     is?: UserWhereInput;
     isNot?: UserWhereInput;
@@ -26711,6 +27384,16 @@ export namespace Prisma {
     importFilterTags?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
+    autoProcessEnabled?: SortOrder;
+    scanCronExpression?: SortOrder;
+    lastScanAt?: SortOrder;
+    nextScanAt?: SortOrder;
+    defaultAiBotId?: SortOrder;
+    autoApplyTitle?: SortOrder;
+    autoApplyCorrespondent?: SortOrder;
+    autoApplyDocumentType?: SortOrder;
+    autoApplyTags?: SortOrder;
+    autoApplyDate?: SortOrder;
     ownerId?: SortOrder;
   };
 
@@ -26725,6 +27408,16 @@ export namespace Prisma {
     apiToken?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
+    autoProcessEnabled?: SortOrder;
+    scanCronExpression?: SortOrder;
+    lastScanAt?: SortOrder;
+    nextScanAt?: SortOrder;
+    defaultAiBotId?: SortOrder;
+    autoApplyTitle?: SortOrder;
+    autoApplyCorrespondent?: SortOrder;
+    autoApplyDocumentType?: SortOrder;
+    autoApplyTags?: SortOrder;
+    autoApplyDate?: SortOrder;
     ownerId?: SortOrder;
   };
 
@@ -26735,11 +27428,35 @@ export namespace Prisma {
     apiToken?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
+    autoProcessEnabled?: SortOrder;
+    scanCronExpression?: SortOrder;
+    lastScanAt?: SortOrder;
+    nextScanAt?: SortOrder;
+    defaultAiBotId?: SortOrder;
+    autoApplyTitle?: SortOrder;
+    autoApplyCorrespondent?: SortOrder;
+    autoApplyDocumentType?: SortOrder;
+    autoApplyTags?: SortOrder;
+    autoApplyDate?: SortOrder;
     ownerId?: SortOrder;
   };
 
   export type PaperlessInstanceSumOrderByAggregateInput = {
     importFilterTags?: SortOrder;
+  };
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null;
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null;
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null;
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null;
+    _count?: NestedIntNullableFilter<$PrismaModel>;
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>;
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>;
   };
 
   export type AiAccountCountOrderByAggregateInput = {
@@ -26909,17 +27626,6 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null;
   };
 
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null;
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null;
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null;
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null;
-  };
-
   export type DocumentProcessingResultListRelationFilter = {
     every?: DocumentProcessingResultWhereInput;
     some?: DocumentProcessingResultWhereInput;
@@ -27020,20 +27726,6 @@ export namespace Prisma {
     _sum?: NestedIntNullableFilter<$PrismaModel>;
     _min?: NestedIntNullableFilter<$PrismaModel>;
     _max?: NestedIntNullableFilter<$PrismaModel>;
-  };
-
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null;
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null;
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null;
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null;
-    _count?: NestedIntNullableFilter<$PrismaModel>;
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>;
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>;
   };
   export type JsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -27164,12 +27856,23 @@ export namespace Prisma {
     _max?: NestedJsonNullableFilter<$PrismaModel>;
   };
 
+  export type PaperlessDocumentNullableScalarRelationFilter = {
+    is?: PaperlessDocumentWhereInput | null;
+    isNot?: PaperlessDocumentWhereInput | null;
+  };
+
+  export type ProcessingQueuePaperlessInstanceIdPaperlessDocumentIdCompoundUniqueInput = {
+    paperlessInstanceId: string;
+    paperlessDocumentId: number;
+  };
+
   export type ProcessingQueueCountOrderByAggregateInput = {
     id?: SortOrder;
-    paperlessId?: SortOrder;
+    paperlessDocumentId?: SortOrder;
     status?: SortOrder;
     priority?: SortOrder;
     attempts?: SortOrder;
+    maxAttempts?: SortOrder;
     lastError?: SortOrder;
     scheduledFor?: SortOrder;
     startedAt?: SortOrder;
@@ -27177,20 +27880,24 @@ export namespace Prisma {
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
     paperlessInstanceId?: SortOrder;
+    documentId?: SortOrder;
+    aiBotId?: SortOrder;
   };
 
   export type ProcessingQueueAvgOrderByAggregateInput = {
-    paperlessId?: SortOrder;
+    paperlessDocumentId?: SortOrder;
     priority?: SortOrder;
     attempts?: SortOrder;
+    maxAttempts?: SortOrder;
   };
 
   export type ProcessingQueueMaxOrderByAggregateInput = {
     id?: SortOrder;
-    paperlessId?: SortOrder;
+    paperlessDocumentId?: SortOrder;
     status?: SortOrder;
     priority?: SortOrder;
     attempts?: SortOrder;
+    maxAttempts?: SortOrder;
     lastError?: SortOrder;
     scheduledFor?: SortOrder;
     startedAt?: SortOrder;
@@ -27198,14 +27905,17 @@ export namespace Prisma {
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
     paperlessInstanceId?: SortOrder;
+    documentId?: SortOrder;
+    aiBotId?: SortOrder;
   };
 
   export type ProcessingQueueMinOrderByAggregateInput = {
     id?: SortOrder;
-    paperlessId?: SortOrder;
+    paperlessDocumentId?: SortOrder;
     status?: SortOrder;
     priority?: SortOrder;
     attempts?: SortOrder;
+    maxAttempts?: SortOrder;
     lastError?: SortOrder;
     scheduledFor?: SortOrder;
     startedAt?: SortOrder;
@@ -27213,12 +27923,15 @@ export namespace Prisma {
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
     paperlessInstanceId?: SortOrder;
+    documentId?: SortOrder;
+    aiBotId?: SortOrder;
   };
 
   export type ProcessingQueueSumOrderByAggregateInput = {
-    paperlessId?: SortOrder;
+    paperlessDocumentId?: SortOrder;
     priority?: SortOrder;
     attempts?: SortOrder;
+    maxAttempts?: SortOrder;
   };
 
   export type ImportHistoryCountOrderByAggregateInput = {
@@ -27268,11 +27981,6 @@ export namespace Prisma {
   export type AiModelNullableScalarRelationFilter = {
     is?: AiModelWhereInput | null;
     isNot?: AiModelWhereInput | null;
-  };
-
-  export type AiBotNullableScalarRelationFilter = {
-    is?: AiBotWhereInput | null;
-    isNot?: AiBotWhereInput | null;
   };
 
   export type AiUsageMetricCountOrderByAggregateInput = {
@@ -28291,6 +28999,15 @@ export namespace Prisma {
     set: number[];
   };
 
+  export type AiBotCreateNestedOneWithoutDefaultForInstancesInput = {
+    create?: XOR<
+      AiBotCreateWithoutDefaultForInstancesInput,
+      AiBotUncheckedCreateWithoutDefaultForInstancesInput
+    >;
+    connectOrCreate?: AiBotCreateOrConnectWithoutDefaultForInstancesInput;
+    connect?: AiBotWhereUniqueInput;
+  };
+
   export type UserCreateNestedOneWithoutOwnedPaperlessInstancesInput = {
     create?: XOR<
       UserCreateWithoutOwnedPaperlessInstancesInput,
@@ -28427,6 +29144,29 @@ export namespace Prisma {
   export type PaperlessInstanceUpdateimportFilterTagsInput = {
     set?: number[];
     push?: number | number[];
+  };
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null;
+  };
+
+  export type AiBotUpdateOneWithoutDefaultForInstancesNestedInput = {
+    create?: XOR<
+      AiBotCreateWithoutDefaultForInstancesInput,
+      AiBotUncheckedCreateWithoutDefaultForInstancesInput
+    >;
+    connectOrCreate?: AiBotCreateOrConnectWithoutDefaultForInstancesInput;
+    upsert?: AiBotUpsertWithoutDefaultForInstancesInput;
+    disconnect?: AiBotWhereInput | boolean;
+    delete?: AiBotWhereInput | boolean;
+    connect?: AiBotWhereUniqueInput;
+    update?: XOR<
+      XOR<
+        AiBotUpdateToOneWithWhereWithoutDefaultForInstancesInput,
+        AiBotUpdateWithoutDefaultForInstancesInput
+      >,
+      AiBotUncheckedUpdateWithoutDefaultForInstancesInput
+    >;
   };
 
   export type UserUpdateOneRequiredWithoutOwnedPaperlessInstancesNestedInput = {
@@ -29274,6 +30014,33 @@ export namespace Prisma {
     connect?: AiUsageMetricWhereUniqueInput | AiUsageMetricWhereUniqueInput[];
   };
 
+  export type PaperlessInstanceCreateNestedManyWithoutDefaultAiBotInput = {
+    create?:
+      | XOR<
+          PaperlessInstanceCreateWithoutDefaultAiBotInput,
+          PaperlessInstanceUncheckedCreateWithoutDefaultAiBotInput
+        >
+      | PaperlessInstanceCreateWithoutDefaultAiBotInput[]
+      | PaperlessInstanceUncheckedCreateWithoutDefaultAiBotInput[];
+    connectOrCreate?:
+      | PaperlessInstanceCreateOrConnectWithoutDefaultAiBotInput
+      | PaperlessInstanceCreateOrConnectWithoutDefaultAiBotInput[];
+    createMany?: PaperlessInstanceCreateManyDefaultAiBotInputEnvelope;
+    connect?: PaperlessInstanceWhereUniqueInput | PaperlessInstanceWhereUniqueInput[];
+  };
+
+  export type ProcessingQueueCreateNestedManyWithoutAiBotInput = {
+    create?:
+      | XOR<ProcessingQueueCreateWithoutAiBotInput, ProcessingQueueUncheckedCreateWithoutAiBotInput>
+      | ProcessingQueueCreateWithoutAiBotInput[]
+      | ProcessingQueueUncheckedCreateWithoutAiBotInput[];
+    connectOrCreate?:
+      | ProcessingQueueCreateOrConnectWithoutAiBotInput
+      | ProcessingQueueCreateOrConnectWithoutAiBotInput[];
+    createMany?: ProcessingQueueCreateManyAiBotInputEnvelope;
+    connect?: ProcessingQueueWhereUniqueInput | ProcessingQueueWhereUniqueInput[];
+  };
+
   export type UserAiBotAccessUncheckedCreateNestedManyWithoutAiBotInput = {
     create?:
       | XOR<UserAiBotAccessCreateWithoutAiBotInput, UserAiBotAccessUncheckedCreateWithoutAiBotInput>
@@ -29296,6 +30063,33 @@ export namespace Prisma {
       | AiUsageMetricCreateOrConnectWithoutAiBotInput[];
     createMany?: AiUsageMetricCreateManyAiBotInputEnvelope;
     connect?: AiUsageMetricWhereUniqueInput | AiUsageMetricWhereUniqueInput[];
+  };
+
+  export type PaperlessInstanceUncheckedCreateNestedManyWithoutDefaultAiBotInput = {
+    create?:
+      | XOR<
+          PaperlessInstanceCreateWithoutDefaultAiBotInput,
+          PaperlessInstanceUncheckedCreateWithoutDefaultAiBotInput
+        >
+      | PaperlessInstanceCreateWithoutDefaultAiBotInput[]
+      | PaperlessInstanceUncheckedCreateWithoutDefaultAiBotInput[];
+    connectOrCreate?:
+      | PaperlessInstanceCreateOrConnectWithoutDefaultAiBotInput
+      | PaperlessInstanceCreateOrConnectWithoutDefaultAiBotInput[];
+    createMany?: PaperlessInstanceCreateManyDefaultAiBotInputEnvelope;
+    connect?: PaperlessInstanceWhereUniqueInput | PaperlessInstanceWhereUniqueInput[];
+  };
+
+  export type ProcessingQueueUncheckedCreateNestedManyWithoutAiBotInput = {
+    create?:
+      | XOR<ProcessingQueueCreateWithoutAiBotInput, ProcessingQueueUncheckedCreateWithoutAiBotInput>
+      | ProcessingQueueCreateWithoutAiBotInput[]
+      | ProcessingQueueUncheckedCreateWithoutAiBotInput[];
+    connectOrCreate?:
+      | ProcessingQueueCreateOrConnectWithoutAiBotInput
+      | ProcessingQueueCreateOrConnectWithoutAiBotInput[];
+    createMany?: ProcessingQueueCreateManyAiBotInputEnvelope;
+    connect?: ProcessingQueueWhereUniqueInput | ProcessingQueueWhereUniqueInput[];
   };
 
   export type UserUpdateOneRequiredWithoutOwnedAiBotsNestedInput = {
@@ -29370,6 +30164,59 @@ export namespace Prisma {
     deleteMany?: AiUsageMetricScalarWhereInput | AiUsageMetricScalarWhereInput[];
   };
 
+  export type PaperlessInstanceUpdateManyWithoutDefaultAiBotNestedInput = {
+    create?:
+      | XOR<
+          PaperlessInstanceCreateWithoutDefaultAiBotInput,
+          PaperlessInstanceUncheckedCreateWithoutDefaultAiBotInput
+        >
+      | PaperlessInstanceCreateWithoutDefaultAiBotInput[]
+      | PaperlessInstanceUncheckedCreateWithoutDefaultAiBotInput[];
+    connectOrCreate?:
+      | PaperlessInstanceCreateOrConnectWithoutDefaultAiBotInput
+      | PaperlessInstanceCreateOrConnectWithoutDefaultAiBotInput[];
+    upsert?:
+      | PaperlessInstanceUpsertWithWhereUniqueWithoutDefaultAiBotInput
+      | PaperlessInstanceUpsertWithWhereUniqueWithoutDefaultAiBotInput[];
+    createMany?: PaperlessInstanceCreateManyDefaultAiBotInputEnvelope;
+    set?: PaperlessInstanceWhereUniqueInput | PaperlessInstanceWhereUniqueInput[];
+    disconnect?: PaperlessInstanceWhereUniqueInput | PaperlessInstanceWhereUniqueInput[];
+    delete?: PaperlessInstanceWhereUniqueInput | PaperlessInstanceWhereUniqueInput[];
+    connect?: PaperlessInstanceWhereUniqueInput | PaperlessInstanceWhereUniqueInput[];
+    update?:
+      | PaperlessInstanceUpdateWithWhereUniqueWithoutDefaultAiBotInput
+      | PaperlessInstanceUpdateWithWhereUniqueWithoutDefaultAiBotInput[];
+    updateMany?:
+      | PaperlessInstanceUpdateManyWithWhereWithoutDefaultAiBotInput
+      | PaperlessInstanceUpdateManyWithWhereWithoutDefaultAiBotInput[];
+    deleteMany?: PaperlessInstanceScalarWhereInput | PaperlessInstanceScalarWhereInput[];
+  };
+
+  export type ProcessingQueueUpdateManyWithoutAiBotNestedInput = {
+    create?:
+      | XOR<ProcessingQueueCreateWithoutAiBotInput, ProcessingQueueUncheckedCreateWithoutAiBotInput>
+      | ProcessingQueueCreateWithoutAiBotInput[]
+      | ProcessingQueueUncheckedCreateWithoutAiBotInput[];
+    connectOrCreate?:
+      | ProcessingQueueCreateOrConnectWithoutAiBotInput
+      | ProcessingQueueCreateOrConnectWithoutAiBotInput[];
+    upsert?:
+      | ProcessingQueueUpsertWithWhereUniqueWithoutAiBotInput
+      | ProcessingQueueUpsertWithWhereUniqueWithoutAiBotInput[];
+    createMany?: ProcessingQueueCreateManyAiBotInputEnvelope;
+    set?: ProcessingQueueWhereUniqueInput | ProcessingQueueWhereUniqueInput[];
+    disconnect?: ProcessingQueueWhereUniqueInput | ProcessingQueueWhereUniqueInput[];
+    delete?: ProcessingQueueWhereUniqueInput | ProcessingQueueWhereUniqueInput[];
+    connect?: ProcessingQueueWhereUniqueInput | ProcessingQueueWhereUniqueInput[];
+    update?:
+      | ProcessingQueueUpdateWithWhereUniqueWithoutAiBotInput
+      | ProcessingQueueUpdateWithWhereUniqueWithoutAiBotInput[];
+    updateMany?:
+      | ProcessingQueueUpdateManyWithWhereWithoutAiBotInput
+      | ProcessingQueueUpdateManyWithWhereWithoutAiBotInput[];
+    deleteMany?: ProcessingQueueScalarWhereInput | ProcessingQueueScalarWhereInput[];
+  };
+
   export type UserAiBotAccessUncheckedUpdateManyWithoutAiBotNestedInput = {
     create?:
       | XOR<UserAiBotAccessCreateWithoutAiBotInput, UserAiBotAccessUncheckedCreateWithoutAiBotInput>
@@ -29420,6 +30267,59 @@ export namespace Prisma {
     deleteMany?: AiUsageMetricScalarWhereInput | AiUsageMetricScalarWhereInput[];
   };
 
+  export type PaperlessInstanceUncheckedUpdateManyWithoutDefaultAiBotNestedInput = {
+    create?:
+      | XOR<
+          PaperlessInstanceCreateWithoutDefaultAiBotInput,
+          PaperlessInstanceUncheckedCreateWithoutDefaultAiBotInput
+        >
+      | PaperlessInstanceCreateWithoutDefaultAiBotInput[]
+      | PaperlessInstanceUncheckedCreateWithoutDefaultAiBotInput[];
+    connectOrCreate?:
+      | PaperlessInstanceCreateOrConnectWithoutDefaultAiBotInput
+      | PaperlessInstanceCreateOrConnectWithoutDefaultAiBotInput[];
+    upsert?:
+      | PaperlessInstanceUpsertWithWhereUniqueWithoutDefaultAiBotInput
+      | PaperlessInstanceUpsertWithWhereUniqueWithoutDefaultAiBotInput[];
+    createMany?: PaperlessInstanceCreateManyDefaultAiBotInputEnvelope;
+    set?: PaperlessInstanceWhereUniqueInput | PaperlessInstanceWhereUniqueInput[];
+    disconnect?: PaperlessInstanceWhereUniqueInput | PaperlessInstanceWhereUniqueInput[];
+    delete?: PaperlessInstanceWhereUniqueInput | PaperlessInstanceWhereUniqueInput[];
+    connect?: PaperlessInstanceWhereUniqueInput | PaperlessInstanceWhereUniqueInput[];
+    update?:
+      | PaperlessInstanceUpdateWithWhereUniqueWithoutDefaultAiBotInput
+      | PaperlessInstanceUpdateWithWhereUniqueWithoutDefaultAiBotInput[];
+    updateMany?:
+      | PaperlessInstanceUpdateManyWithWhereWithoutDefaultAiBotInput
+      | PaperlessInstanceUpdateManyWithWhereWithoutDefaultAiBotInput[];
+    deleteMany?: PaperlessInstanceScalarWhereInput | PaperlessInstanceScalarWhereInput[];
+  };
+
+  export type ProcessingQueueUncheckedUpdateManyWithoutAiBotNestedInput = {
+    create?:
+      | XOR<ProcessingQueueCreateWithoutAiBotInput, ProcessingQueueUncheckedCreateWithoutAiBotInput>
+      | ProcessingQueueCreateWithoutAiBotInput[]
+      | ProcessingQueueUncheckedCreateWithoutAiBotInput[];
+    connectOrCreate?:
+      | ProcessingQueueCreateOrConnectWithoutAiBotInput
+      | ProcessingQueueCreateOrConnectWithoutAiBotInput[];
+    upsert?:
+      | ProcessingQueueUpsertWithWhereUniqueWithoutAiBotInput
+      | ProcessingQueueUpsertWithWhereUniqueWithoutAiBotInput[];
+    createMany?: ProcessingQueueCreateManyAiBotInputEnvelope;
+    set?: ProcessingQueueWhereUniqueInput | ProcessingQueueWhereUniqueInput[];
+    disconnect?: ProcessingQueueWhereUniqueInput | ProcessingQueueWhereUniqueInput[];
+    delete?: ProcessingQueueWhereUniqueInput | ProcessingQueueWhereUniqueInput[];
+    connect?: ProcessingQueueWhereUniqueInput | ProcessingQueueWhereUniqueInput[];
+    update?:
+      | ProcessingQueueUpdateWithWhereUniqueWithoutAiBotInput
+      | ProcessingQueueUpdateWithWhereUniqueWithoutAiBotInput[];
+    updateMany?:
+      | ProcessingQueueUpdateManyWithWhereWithoutAiBotInput
+      | ProcessingQueueUpdateManyWithWhereWithoutAiBotInput[];
+    deleteMany?: ProcessingQueueScalarWhereInput | ProcessingQueueScalarWhereInput[];
+  };
+
   export type PaperlessDocumentCreatetagIdsInput = {
     set: number[];
   };
@@ -29448,6 +30348,21 @@ export namespace Prisma {
     connect?: DocumentProcessingResultWhereUniqueInput | DocumentProcessingResultWhereUniqueInput[];
   };
 
+  export type ProcessingQueueCreateNestedManyWithoutDocumentInput = {
+    create?:
+      | XOR<
+          ProcessingQueueCreateWithoutDocumentInput,
+          ProcessingQueueUncheckedCreateWithoutDocumentInput
+        >
+      | ProcessingQueueCreateWithoutDocumentInput[]
+      | ProcessingQueueUncheckedCreateWithoutDocumentInput[];
+    connectOrCreate?:
+      | ProcessingQueueCreateOrConnectWithoutDocumentInput
+      | ProcessingQueueCreateOrConnectWithoutDocumentInput[];
+    createMany?: ProcessingQueueCreateManyDocumentInputEnvelope;
+    connect?: ProcessingQueueWhereUniqueInput | ProcessingQueueWhereUniqueInput[];
+  };
+
   export type DocumentProcessingResultUncheckedCreateNestedManyWithoutDocumentInput = {
     create?:
       | XOR<
@@ -29461,6 +30376,21 @@ export namespace Prisma {
       | DocumentProcessingResultCreateOrConnectWithoutDocumentInput[];
     createMany?: DocumentProcessingResultCreateManyDocumentInputEnvelope;
     connect?: DocumentProcessingResultWhereUniqueInput | DocumentProcessingResultWhereUniqueInput[];
+  };
+
+  export type ProcessingQueueUncheckedCreateNestedManyWithoutDocumentInput = {
+    create?:
+      | XOR<
+          ProcessingQueueCreateWithoutDocumentInput,
+          ProcessingQueueUncheckedCreateWithoutDocumentInput
+        >
+      | ProcessingQueueCreateWithoutDocumentInput[]
+      | ProcessingQueueUncheckedCreateWithoutDocumentInput[];
+    connectOrCreate?:
+      | ProcessingQueueCreateOrConnectWithoutDocumentInput
+      | ProcessingQueueCreateOrConnectWithoutDocumentInput[];
+    createMany?: ProcessingQueueCreateManyDocumentInputEnvelope;
+    connect?: ProcessingQueueWhereUniqueInput | ProcessingQueueWhereUniqueInput[];
   };
 
   export type IntFieldUpdateOperationsInput = {
@@ -29482,10 +30412,6 @@ export namespace Prisma {
   export type PaperlessDocumentUpdatetagIdsInput = {
     set?: number[];
     push?: number | number[];
-  };
-
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null;
   };
 
   export type PaperlessInstanceUpdateOneRequiredWithoutDocumentsNestedInput = {
@@ -29537,6 +30463,34 @@ export namespace Prisma {
       | DocumentProcessingResultScalarWhereInput[];
   };
 
+  export type ProcessingQueueUpdateManyWithoutDocumentNestedInput = {
+    create?:
+      | XOR<
+          ProcessingQueueCreateWithoutDocumentInput,
+          ProcessingQueueUncheckedCreateWithoutDocumentInput
+        >
+      | ProcessingQueueCreateWithoutDocumentInput[]
+      | ProcessingQueueUncheckedCreateWithoutDocumentInput[];
+    connectOrCreate?:
+      | ProcessingQueueCreateOrConnectWithoutDocumentInput
+      | ProcessingQueueCreateOrConnectWithoutDocumentInput[];
+    upsert?:
+      | ProcessingQueueUpsertWithWhereUniqueWithoutDocumentInput
+      | ProcessingQueueUpsertWithWhereUniqueWithoutDocumentInput[];
+    createMany?: ProcessingQueueCreateManyDocumentInputEnvelope;
+    set?: ProcessingQueueWhereUniqueInput | ProcessingQueueWhereUniqueInput[];
+    disconnect?: ProcessingQueueWhereUniqueInput | ProcessingQueueWhereUniqueInput[];
+    delete?: ProcessingQueueWhereUniqueInput | ProcessingQueueWhereUniqueInput[];
+    connect?: ProcessingQueueWhereUniqueInput | ProcessingQueueWhereUniqueInput[];
+    update?:
+      | ProcessingQueueUpdateWithWhereUniqueWithoutDocumentInput
+      | ProcessingQueueUpdateWithWhereUniqueWithoutDocumentInput[];
+    updateMany?:
+      | ProcessingQueueUpdateManyWithWhereWithoutDocumentInput
+      | ProcessingQueueUpdateManyWithWhereWithoutDocumentInput[];
+    deleteMany?: ProcessingQueueScalarWhereInput | ProcessingQueueScalarWhereInput[];
+  };
+
   export type DocumentProcessingResultUncheckedUpdateManyWithoutDocumentNestedInput = {
     create?:
       | XOR<
@@ -29567,6 +30521,34 @@ export namespace Prisma {
     deleteMany?:
       | DocumentProcessingResultScalarWhereInput
       | DocumentProcessingResultScalarWhereInput[];
+  };
+
+  export type ProcessingQueueUncheckedUpdateManyWithoutDocumentNestedInput = {
+    create?:
+      | XOR<
+          ProcessingQueueCreateWithoutDocumentInput,
+          ProcessingQueueUncheckedCreateWithoutDocumentInput
+        >
+      | ProcessingQueueCreateWithoutDocumentInput[]
+      | ProcessingQueueUncheckedCreateWithoutDocumentInput[];
+    connectOrCreate?:
+      | ProcessingQueueCreateOrConnectWithoutDocumentInput
+      | ProcessingQueueCreateOrConnectWithoutDocumentInput[];
+    upsert?:
+      | ProcessingQueueUpsertWithWhereUniqueWithoutDocumentInput
+      | ProcessingQueueUpsertWithWhereUniqueWithoutDocumentInput[];
+    createMany?: ProcessingQueueCreateManyDocumentInputEnvelope;
+    set?: ProcessingQueueWhereUniqueInput | ProcessingQueueWhereUniqueInput[];
+    disconnect?: ProcessingQueueWhereUniqueInput | ProcessingQueueWhereUniqueInput[];
+    delete?: ProcessingQueueWhereUniqueInput | ProcessingQueueWhereUniqueInput[];
+    connect?: ProcessingQueueWhereUniqueInput | ProcessingQueueWhereUniqueInput[];
+    update?:
+      | ProcessingQueueUpdateWithWhereUniqueWithoutDocumentInput
+      | ProcessingQueueUpdateWithWhereUniqueWithoutDocumentInput[];
+    updateMany?:
+      | ProcessingQueueUpdateManyWithWhereWithoutDocumentInput
+      | ProcessingQueueUpdateManyWithWhereWithoutDocumentInput[];
+    deleteMany?: ProcessingQueueScalarWhereInput | ProcessingQueueScalarWhereInput[];
   };
 
   export type DocumentProcessingResultCreateoriginalTagsInput = {
@@ -29613,6 +30595,24 @@ export namespace Prisma {
     connect?: PaperlessInstanceWhereUniqueInput;
   };
 
+  export type PaperlessDocumentCreateNestedOneWithoutProcessingQueueItemsInput = {
+    create?: XOR<
+      PaperlessDocumentCreateWithoutProcessingQueueItemsInput,
+      PaperlessDocumentUncheckedCreateWithoutProcessingQueueItemsInput
+    >;
+    connectOrCreate?: PaperlessDocumentCreateOrConnectWithoutProcessingQueueItemsInput;
+    connect?: PaperlessDocumentWhereUniqueInput;
+  };
+
+  export type AiBotCreateNestedOneWithoutProcessingQueueItemsInput = {
+    create?: XOR<
+      AiBotCreateWithoutProcessingQueueItemsInput,
+      AiBotUncheckedCreateWithoutProcessingQueueItemsInput
+    >;
+    connectOrCreate?: AiBotCreateOrConnectWithoutProcessingQueueItemsInput;
+    connect?: AiBotWhereUniqueInput;
+  };
+
   export type PaperlessInstanceUpdateOneRequiredWithoutProcessingQueueNestedInput = {
     create?: XOR<
       PaperlessInstanceCreateWithoutProcessingQueueInput,
@@ -29627,6 +30627,44 @@ export namespace Prisma {
         PaperlessInstanceUpdateWithoutProcessingQueueInput
       >,
       PaperlessInstanceUncheckedUpdateWithoutProcessingQueueInput
+    >;
+  };
+
+  export type PaperlessDocumentUpdateOneWithoutProcessingQueueItemsNestedInput = {
+    create?: XOR<
+      PaperlessDocumentCreateWithoutProcessingQueueItemsInput,
+      PaperlessDocumentUncheckedCreateWithoutProcessingQueueItemsInput
+    >;
+    connectOrCreate?: PaperlessDocumentCreateOrConnectWithoutProcessingQueueItemsInput;
+    upsert?: PaperlessDocumentUpsertWithoutProcessingQueueItemsInput;
+    disconnect?: PaperlessDocumentWhereInput | boolean;
+    delete?: PaperlessDocumentWhereInput | boolean;
+    connect?: PaperlessDocumentWhereUniqueInput;
+    update?: XOR<
+      XOR<
+        PaperlessDocumentUpdateToOneWithWhereWithoutProcessingQueueItemsInput,
+        PaperlessDocumentUpdateWithoutProcessingQueueItemsInput
+      >,
+      PaperlessDocumentUncheckedUpdateWithoutProcessingQueueItemsInput
+    >;
+  };
+
+  export type AiBotUpdateOneWithoutProcessingQueueItemsNestedInput = {
+    create?: XOR<
+      AiBotCreateWithoutProcessingQueueItemsInput,
+      AiBotUncheckedCreateWithoutProcessingQueueItemsInput
+    >;
+    connectOrCreate?: AiBotCreateOrConnectWithoutProcessingQueueItemsInput;
+    upsert?: AiBotUpsertWithoutProcessingQueueItemsInput;
+    disconnect?: AiBotWhereInput | boolean;
+    delete?: AiBotWhereInput | boolean;
+    connect?: AiBotWhereUniqueInput;
+    update?: XOR<
+      XOR<
+        AiBotUpdateToOneWithWhereWithoutProcessingQueueItemsInput,
+        AiBotUpdateWithoutProcessingQueueItemsInput
+      >,
+      AiBotUncheckedUpdateWithoutProcessingQueueItemsInput
     >;
   };
 
@@ -29917,6 +30955,31 @@ export namespace Prisma {
     _max?: NestedEnumPermissionFilter<$PrismaModel>;
   };
 
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null;
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null;
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null;
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null;
+  };
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null;
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null;
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null;
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null;
+    _count?: NestedIntNullableFilter<$PrismaModel>;
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>;
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>;
+  };
+
   export type NestedFloatNullableFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel> | null;
     in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null;
@@ -29942,17 +31005,6 @@ export namespace Prisma {
     _sum?: NestedFloatNullableFilter<$PrismaModel>;
     _min?: NestedFloatNullableFilter<$PrismaModel>;
     _max?: NestedFloatNullableFilter<$PrismaModel>;
-  };
-
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null;
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null;
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null;
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null;
   };
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -29997,20 +31049,6 @@ export namespace Prisma {
     _min?: NestedIntNullableFilter<$PrismaModel>;
     _max?: NestedIntNullableFilter<$PrismaModel>;
   };
-
-  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null;
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null;
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null;
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null;
-    _count?: NestedIntNullableFilter<$PrismaModel>;
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>;
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>;
-  };
   export type NestedJsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<
@@ -30046,6 +31084,16 @@ export namespace Prisma {
     importFilterTags?: PaperlessInstanceCreateimportFilterTagsInput | number[];
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    autoProcessEnabled?: boolean;
+    scanCronExpression?: string;
+    lastScanAt?: Date | string | null;
+    nextScanAt?: Date | string | null;
+    autoApplyTitle?: boolean;
+    autoApplyCorrespondent?: boolean;
+    autoApplyDocumentType?: boolean;
+    autoApplyTags?: boolean;
+    autoApplyDate?: boolean;
+    defaultAiBot?: AiBotCreateNestedOneWithoutDefaultForInstancesInput;
     sharedWith?: UserPaperlessInstanceAccessCreateNestedManyWithoutInstanceInput;
     documents?: PaperlessDocumentCreateNestedManyWithoutPaperlessInstanceInput;
     processingQueue?: ProcessingQueueCreateNestedManyWithoutPaperlessInstanceInput;
@@ -30060,6 +31108,16 @@ export namespace Prisma {
     importFilterTags?: PaperlessInstanceCreateimportFilterTagsInput | number[];
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    autoProcessEnabled?: boolean;
+    scanCronExpression?: string;
+    lastScanAt?: Date | string | null;
+    nextScanAt?: Date | string | null;
+    defaultAiBotId?: string | null;
+    autoApplyTitle?: boolean;
+    autoApplyCorrespondent?: boolean;
+    autoApplyDocumentType?: boolean;
+    autoApplyTags?: boolean;
+    autoApplyDate?: boolean;
     sharedWith?: UserPaperlessInstanceAccessUncheckedCreateNestedManyWithoutInstanceInput;
     documents?: PaperlessDocumentUncheckedCreateNestedManyWithoutPaperlessInstanceInput;
     processingQueue?: ProcessingQueueUncheckedCreateNestedManyWithoutPaperlessInstanceInput;
@@ -30167,6 +31225,8 @@ export namespace Prisma {
     aiModel: AiModelCreateNestedOneWithoutBotsInput;
     sharedWith?: UserAiBotAccessCreateNestedManyWithoutAiBotInput;
     aiUsageMetrics?: AiUsageMetricCreateNestedManyWithoutAiBotInput;
+    defaultForInstances?: PaperlessInstanceCreateNestedManyWithoutDefaultAiBotInput;
+    processingQueueItems?: ProcessingQueueCreateNestedManyWithoutAiBotInput;
   };
 
   export type AiBotUncheckedCreateWithoutOwnerInput = {
@@ -30179,6 +31239,8 @@ export namespace Prisma {
     aiModelId: string;
     sharedWith?: UserAiBotAccessUncheckedCreateNestedManyWithoutAiBotInput;
     aiUsageMetrics?: AiUsageMetricUncheckedCreateNestedManyWithoutAiBotInput;
+    defaultForInstances?: PaperlessInstanceUncheckedCreateNestedManyWithoutDefaultAiBotInput;
+    processingQueueItems?: ProcessingQueueUncheckedCreateNestedManyWithoutAiBotInput;
   };
 
   export type AiBotCreateOrConnectWithoutOwnerInput = {
@@ -30380,6 +31442,16 @@ export namespace Prisma {
     importFilterTags?: IntNullableListFilter<'PaperlessInstance'>;
     createdAt?: DateTimeFilter<'PaperlessInstance'> | Date | string;
     updatedAt?: DateTimeFilter<'PaperlessInstance'> | Date | string;
+    autoProcessEnabled?: BoolFilter<'PaperlessInstance'> | boolean;
+    scanCronExpression?: StringFilter<'PaperlessInstance'> | string;
+    lastScanAt?: DateTimeNullableFilter<'PaperlessInstance'> | Date | string | null;
+    nextScanAt?: DateTimeNullableFilter<'PaperlessInstance'> | Date | string | null;
+    defaultAiBotId?: StringNullableFilter<'PaperlessInstance'> | string | null;
+    autoApplyTitle?: BoolFilter<'PaperlessInstance'> | boolean;
+    autoApplyCorrespondent?: BoolFilter<'PaperlessInstance'> | boolean;
+    autoApplyDocumentType?: BoolFilter<'PaperlessInstance'> | boolean;
+    autoApplyTags?: BoolFilter<'PaperlessInstance'> | boolean;
+    autoApplyDate?: BoolFilter<'PaperlessInstance'> | boolean;
     ownerId?: StringFilter<'PaperlessInstance'> | string;
   };
 
@@ -30728,6 +31800,16 @@ export namespace Prisma {
     importFilterTags?: PaperlessInstanceCreateimportFilterTagsInput | number[];
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    autoProcessEnabled?: boolean;
+    scanCronExpression?: string;
+    lastScanAt?: Date | string | null;
+    nextScanAt?: Date | string | null;
+    autoApplyTitle?: boolean;
+    autoApplyCorrespondent?: boolean;
+    autoApplyDocumentType?: boolean;
+    autoApplyTags?: boolean;
+    autoApplyDate?: boolean;
+    defaultAiBot?: AiBotCreateNestedOneWithoutDefaultForInstancesInput;
     owner: UserCreateNestedOneWithoutOwnedPaperlessInstancesInput;
     documents?: PaperlessDocumentCreateNestedManyWithoutPaperlessInstanceInput;
     processingQueue?: ProcessingQueueCreateNestedManyWithoutPaperlessInstanceInput;
@@ -30742,6 +31824,16 @@ export namespace Prisma {
     importFilterTags?: PaperlessInstanceCreateimportFilterTagsInput | number[];
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    autoProcessEnabled?: boolean;
+    scanCronExpression?: string;
+    lastScanAt?: Date | string | null;
+    nextScanAt?: Date | string | null;
+    defaultAiBotId?: string | null;
+    autoApplyTitle?: boolean;
+    autoApplyCorrespondent?: boolean;
+    autoApplyDocumentType?: boolean;
+    autoApplyTags?: boolean;
+    autoApplyDate?: boolean;
     ownerId: string;
     documents?: PaperlessDocumentUncheckedCreateNestedManyWithoutPaperlessInstanceInput;
     processingQueue?: ProcessingQueueUncheckedCreateNestedManyWithoutPaperlessInstanceInput;
@@ -30842,6 +31934,16 @@ export namespace Prisma {
     importFilterTags?: PaperlessInstanceUpdateimportFilterTagsInput | number[];
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    autoProcessEnabled?: BoolFieldUpdateOperationsInput | boolean;
+    scanCronExpression?: StringFieldUpdateOperationsInput | string;
+    lastScanAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    nextScanAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    autoApplyTitle?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyCorrespondent?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyDocumentType?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyTags?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyDate?: BoolFieldUpdateOperationsInput | boolean;
+    defaultAiBot?: AiBotUpdateOneWithoutDefaultForInstancesNestedInput;
     owner?: UserUpdateOneRequiredWithoutOwnedPaperlessInstancesNestedInput;
     documents?: PaperlessDocumentUpdateManyWithoutPaperlessInstanceNestedInput;
     processingQueue?: ProcessingQueueUpdateManyWithoutPaperlessInstanceNestedInput;
@@ -30856,6 +31958,16 @@ export namespace Prisma {
     importFilterTags?: PaperlessInstanceUpdateimportFilterTagsInput | number[];
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    autoProcessEnabled?: BoolFieldUpdateOperationsInput | boolean;
+    scanCronExpression?: StringFieldUpdateOperationsInput | string;
+    lastScanAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    nextScanAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    defaultAiBotId?: NullableStringFieldUpdateOperationsInput | string | null;
+    autoApplyTitle?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyCorrespondent?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyDocumentType?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyTags?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyDate?: BoolFieldUpdateOperationsInput | boolean;
     ownerId?: StringFieldUpdateOperationsInput | string;
     documents?: PaperlessDocumentUncheckedUpdateManyWithoutPaperlessInstanceNestedInput;
     processingQueue?: ProcessingQueueUncheckedUpdateManyWithoutPaperlessInstanceNestedInput;
@@ -31280,6 +32392,8 @@ export namespace Prisma {
     owner: UserCreateNestedOneWithoutOwnedAiBotsInput;
     aiModel: AiModelCreateNestedOneWithoutBotsInput;
     aiUsageMetrics?: AiUsageMetricCreateNestedManyWithoutAiBotInput;
+    defaultForInstances?: PaperlessInstanceCreateNestedManyWithoutDefaultAiBotInput;
+    processingQueueItems?: ProcessingQueueCreateNestedManyWithoutAiBotInput;
   };
 
   export type AiBotUncheckedCreateWithoutSharedWithInput = {
@@ -31292,6 +32406,8 @@ export namespace Prisma {
     ownerId: string;
     aiModelId: string;
     aiUsageMetrics?: AiUsageMetricUncheckedCreateNestedManyWithoutAiBotInput;
+    defaultForInstances?: PaperlessInstanceUncheckedCreateNestedManyWithoutDefaultAiBotInput;
+    processingQueueItems?: ProcessingQueueUncheckedCreateNestedManyWithoutAiBotInput;
   };
 
   export type AiBotCreateOrConnectWithoutSharedWithInput = {
@@ -31369,6 +32485,8 @@ export namespace Prisma {
     owner?: UserUpdateOneRequiredWithoutOwnedAiBotsNestedInput;
     aiModel?: AiModelUpdateOneRequiredWithoutBotsNestedInput;
     aiUsageMetrics?: AiUsageMetricUpdateManyWithoutAiBotNestedInput;
+    defaultForInstances?: PaperlessInstanceUpdateManyWithoutDefaultAiBotNestedInput;
+    processingQueueItems?: ProcessingQueueUpdateManyWithoutAiBotNestedInput;
   };
 
   export type AiBotUncheckedUpdateWithoutSharedWithInput = {
@@ -31381,6 +32499,44 @@ export namespace Prisma {
     ownerId?: StringFieldUpdateOperationsInput | string;
     aiModelId?: StringFieldUpdateOperationsInput | string;
     aiUsageMetrics?: AiUsageMetricUncheckedUpdateManyWithoutAiBotNestedInput;
+    defaultForInstances?: PaperlessInstanceUncheckedUpdateManyWithoutDefaultAiBotNestedInput;
+    processingQueueItems?: ProcessingQueueUncheckedUpdateManyWithoutAiBotNestedInput;
+  };
+
+  export type AiBotCreateWithoutDefaultForInstancesInput = {
+    id?: string;
+    name: string;
+    systemPrompt: string;
+    responseLanguage?: string;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    owner: UserCreateNestedOneWithoutOwnedAiBotsInput;
+    aiModel: AiModelCreateNestedOneWithoutBotsInput;
+    sharedWith?: UserAiBotAccessCreateNestedManyWithoutAiBotInput;
+    aiUsageMetrics?: AiUsageMetricCreateNestedManyWithoutAiBotInput;
+    processingQueueItems?: ProcessingQueueCreateNestedManyWithoutAiBotInput;
+  };
+
+  export type AiBotUncheckedCreateWithoutDefaultForInstancesInput = {
+    id?: string;
+    name: string;
+    systemPrompt: string;
+    responseLanguage?: string;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    ownerId: string;
+    aiModelId: string;
+    sharedWith?: UserAiBotAccessUncheckedCreateNestedManyWithoutAiBotInput;
+    aiUsageMetrics?: AiUsageMetricUncheckedCreateNestedManyWithoutAiBotInput;
+    processingQueueItems?: ProcessingQueueUncheckedCreateNestedManyWithoutAiBotInput;
+  };
+
+  export type AiBotCreateOrConnectWithoutDefaultForInstancesInput = {
+    where: AiBotWhereUniqueInput;
+    create: XOR<
+      AiBotCreateWithoutDefaultForInstancesInput,
+      AiBotUncheckedCreateWithoutDefaultForInstancesInput
+    >;
   };
 
   export type UserCreateWithoutOwnedPaperlessInstancesInput = {
@@ -31471,6 +32627,7 @@ export namespace Prisma {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     processingResults?: DocumentProcessingResultCreateNestedManyWithoutDocumentInput;
+    processingQueueItems?: ProcessingQueueCreateNestedManyWithoutDocumentInput;
   };
 
   export type PaperlessDocumentUncheckedCreateWithoutPaperlessInstanceInput = {
@@ -31486,6 +32643,7 @@ export namespace Prisma {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     processingResults?: DocumentProcessingResultUncheckedCreateNestedManyWithoutDocumentInput;
+    processingQueueItems?: ProcessingQueueUncheckedCreateNestedManyWithoutDocumentInput;
   };
 
   export type PaperlessDocumentCreateOrConnectWithoutPaperlessInstanceInput = {
@@ -31505,30 +32663,36 @@ export namespace Prisma {
 
   export type ProcessingQueueCreateWithoutPaperlessInstanceInput = {
     id?: string;
-    paperlessId: number;
+    paperlessDocumentId: number;
     status?: string;
     priority?: number;
     attempts?: number;
+    maxAttempts?: number;
     lastError?: string | null;
     scheduledFor?: Date | string;
     startedAt?: Date | string | null;
     completedAt?: Date | string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    document?: PaperlessDocumentCreateNestedOneWithoutProcessingQueueItemsInput;
+    aiBot?: AiBotCreateNestedOneWithoutProcessingQueueItemsInput;
   };
 
   export type ProcessingQueueUncheckedCreateWithoutPaperlessInstanceInput = {
     id?: string;
-    paperlessId: number;
+    paperlessDocumentId: number;
     status?: string;
     priority?: number;
     attempts?: number;
+    maxAttempts?: number;
     lastError?: string | null;
     scheduledFor?: Date | string;
     startedAt?: Date | string | null;
     completedAt?: Date | string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    documentId?: string | null;
+    aiBotId?: string | null;
   };
 
   export type ProcessingQueueCreateOrConnectWithoutPaperlessInstanceInput = {
@@ -31577,6 +32741,54 @@ export namespace Prisma {
       | ImportHistoryCreateManyPaperlessInstanceInput
       | ImportHistoryCreateManyPaperlessInstanceInput[];
     skipDuplicates?: boolean;
+  };
+
+  export type AiBotUpsertWithoutDefaultForInstancesInput = {
+    update: XOR<
+      AiBotUpdateWithoutDefaultForInstancesInput,
+      AiBotUncheckedUpdateWithoutDefaultForInstancesInput
+    >;
+    create: XOR<
+      AiBotCreateWithoutDefaultForInstancesInput,
+      AiBotUncheckedCreateWithoutDefaultForInstancesInput
+    >;
+    where?: AiBotWhereInput;
+  };
+
+  export type AiBotUpdateToOneWithWhereWithoutDefaultForInstancesInput = {
+    where?: AiBotWhereInput;
+    data: XOR<
+      AiBotUpdateWithoutDefaultForInstancesInput,
+      AiBotUncheckedUpdateWithoutDefaultForInstancesInput
+    >;
+  };
+
+  export type AiBotUpdateWithoutDefaultForInstancesInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    name?: StringFieldUpdateOperationsInput | string;
+    systemPrompt?: StringFieldUpdateOperationsInput | string;
+    responseLanguage?: StringFieldUpdateOperationsInput | string;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    owner?: UserUpdateOneRequiredWithoutOwnedAiBotsNestedInput;
+    aiModel?: AiModelUpdateOneRequiredWithoutBotsNestedInput;
+    sharedWith?: UserAiBotAccessUpdateManyWithoutAiBotNestedInput;
+    aiUsageMetrics?: AiUsageMetricUpdateManyWithoutAiBotNestedInput;
+    processingQueueItems?: ProcessingQueueUpdateManyWithoutAiBotNestedInput;
+  };
+
+  export type AiBotUncheckedUpdateWithoutDefaultForInstancesInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    name?: StringFieldUpdateOperationsInput | string;
+    systemPrompt?: StringFieldUpdateOperationsInput | string;
+    responseLanguage?: StringFieldUpdateOperationsInput | string;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    ownerId?: StringFieldUpdateOperationsInput | string;
+    aiModelId?: StringFieldUpdateOperationsInput | string;
+    sharedWith?: UserAiBotAccessUncheckedUpdateManyWithoutAiBotNestedInput;
+    aiUsageMetrics?: AiUsageMetricUncheckedUpdateManyWithoutAiBotNestedInput;
+    processingQueueItems?: ProcessingQueueUncheckedUpdateManyWithoutAiBotNestedInput;
   };
 
   export type UserUpsertWithoutOwnedPaperlessInstancesInput = {
@@ -31744,10 +32956,11 @@ export namespace Prisma {
     OR?: ProcessingQueueScalarWhereInput[];
     NOT?: ProcessingQueueScalarWhereInput | ProcessingQueueScalarWhereInput[];
     id?: StringFilter<'ProcessingQueue'> | string;
-    paperlessId?: IntFilter<'ProcessingQueue'> | number;
+    paperlessDocumentId?: IntFilter<'ProcessingQueue'> | number;
     status?: StringFilter<'ProcessingQueue'> | string;
     priority?: IntFilter<'ProcessingQueue'> | number;
     attempts?: IntFilter<'ProcessingQueue'> | number;
+    maxAttempts?: IntFilter<'ProcessingQueue'> | number;
     lastError?: StringNullableFilter<'ProcessingQueue'> | string | null;
     scheduledFor?: DateTimeFilter<'ProcessingQueue'> | Date | string;
     startedAt?: DateTimeNullableFilter<'ProcessingQueue'> | Date | string | null;
@@ -31755,6 +32968,8 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<'ProcessingQueue'> | Date | string;
     updatedAt?: DateTimeFilter<'ProcessingQueue'> | Date | string;
     paperlessInstanceId?: StringFilter<'ProcessingQueue'> | string;
+    documentId?: StringNullableFilter<'ProcessingQueue'> | string | null;
+    aiBotId?: StringNullableFilter<'ProcessingQueue'> | string | null;
   };
 
   export type ImportHistoryUpsertWithWhereUniqueWithoutPaperlessInstanceInput = {
@@ -32199,6 +33414,8 @@ export namespace Prisma {
     owner: UserCreateNestedOneWithoutOwnedAiBotsInput;
     sharedWith?: UserAiBotAccessCreateNestedManyWithoutAiBotInput;
     aiUsageMetrics?: AiUsageMetricCreateNestedManyWithoutAiBotInput;
+    defaultForInstances?: PaperlessInstanceCreateNestedManyWithoutDefaultAiBotInput;
+    processingQueueItems?: ProcessingQueueCreateNestedManyWithoutAiBotInput;
   };
 
   export type AiBotUncheckedCreateWithoutAiModelInput = {
@@ -32211,6 +33428,8 @@ export namespace Prisma {
     ownerId: string;
     sharedWith?: UserAiBotAccessUncheckedCreateNestedManyWithoutAiBotInput;
     aiUsageMetrics?: AiUsageMetricUncheckedCreateNestedManyWithoutAiBotInput;
+    defaultForInstances?: PaperlessInstanceUncheckedCreateNestedManyWithoutDefaultAiBotInput;
+    processingQueueItems?: ProcessingQueueUncheckedCreateNestedManyWithoutAiBotInput;
   };
 
   export type AiBotCreateOrConnectWithoutAiModelInput = {
@@ -32574,6 +33793,116 @@ export namespace Prisma {
     skipDuplicates?: boolean;
   };
 
+  export type PaperlessInstanceCreateWithoutDefaultAiBotInput = {
+    id?: string;
+    name: string;
+    apiUrl: string;
+    apiToken: string;
+    importFilterTags?: PaperlessInstanceCreateimportFilterTagsInput | number[];
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    autoProcessEnabled?: boolean;
+    scanCronExpression?: string;
+    lastScanAt?: Date | string | null;
+    nextScanAt?: Date | string | null;
+    autoApplyTitle?: boolean;
+    autoApplyCorrespondent?: boolean;
+    autoApplyDocumentType?: boolean;
+    autoApplyTags?: boolean;
+    autoApplyDate?: boolean;
+    owner: UserCreateNestedOneWithoutOwnedPaperlessInstancesInput;
+    sharedWith?: UserPaperlessInstanceAccessCreateNestedManyWithoutInstanceInput;
+    documents?: PaperlessDocumentCreateNestedManyWithoutPaperlessInstanceInput;
+    processingQueue?: ProcessingQueueCreateNestedManyWithoutPaperlessInstanceInput;
+    importHistory?: ImportHistoryCreateNestedManyWithoutPaperlessInstanceInput;
+  };
+
+  export type PaperlessInstanceUncheckedCreateWithoutDefaultAiBotInput = {
+    id?: string;
+    name: string;
+    apiUrl: string;
+    apiToken: string;
+    importFilterTags?: PaperlessInstanceCreateimportFilterTagsInput | number[];
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    autoProcessEnabled?: boolean;
+    scanCronExpression?: string;
+    lastScanAt?: Date | string | null;
+    nextScanAt?: Date | string | null;
+    autoApplyTitle?: boolean;
+    autoApplyCorrespondent?: boolean;
+    autoApplyDocumentType?: boolean;
+    autoApplyTags?: boolean;
+    autoApplyDate?: boolean;
+    ownerId: string;
+    sharedWith?: UserPaperlessInstanceAccessUncheckedCreateNestedManyWithoutInstanceInput;
+    documents?: PaperlessDocumentUncheckedCreateNestedManyWithoutPaperlessInstanceInput;
+    processingQueue?: ProcessingQueueUncheckedCreateNestedManyWithoutPaperlessInstanceInput;
+    importHistory?: ImportHistoryUncheckedCreateNestedManyWithoutPaperlessInstanceInput;
+  };
+
+  export type PaperlessInstanceCreateOrConnectWithoutDefaultAiBotInput = {
+    where: PaperlessInstanceWhereUniqueInput;
+    create: XOR<
+      PaperlessInstanceCreateWithoutDefaultAiBotInput,
+      PaperlessInstanceUncheckedCreateWithoutDefaultAiBotInput
+    >;
+  };
+
+  export type PaperlessInstanceCreateManyDefaultAiBotInputEnvelope = {
+    data:
+      | PaperlessInstanceCreateManyDefaultAiBotInput
+      | PaperlessInstanceCreateManyDefaultAiBotInput[];
+    skipDuplicates?: boolean;
+  };
+
+  export type ProcessingQueueCreateWithoutAiBotInput = {
+    id?: string;
+    paperlessDocumentId: number;
+    status?: string;
+    priority?: number;
+    attempts?: number;
+    maxAttempts?: number;
+    lastError?: string | null;
+    scheduledFor?: Date | string;
+    startedAt?: Date | string | null;
+    completedAt?: Date | string | null;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    paperlessInstance: PaperlessInstanceCreateNestedOneWithoutProcessingQueueInput;
+    document?: PaperlessDocumentCreateNestedOneWithoutProcessingQueueItemsInput;
+  };
+
+  export type ProcessingQueueUncheckedCreateWithoutAiBotInput = {
+    id?: string;
+    paperlessDocumentId: number;
+    status?: string;
+    priority?: number;
+    attempts?: number;
+    maxAttempts?: number;
+    lastError?: string | null;
+    scheduledFor?: Date | string;
+    startedAt?: Date | string | null;
+    completedAt?: Date | string | null;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    paperlessInstanceId: string;
+    documentId?: string | null;
+  };
+
+  export type ProcessingQueueCreateOrConnectWithoutAiBotInput = {
+    where: ProcessingQueueWhereUniqueInput;
+    create: XOR<
+      ProcessingQueueCreateWithoutAiBotInput,
+      ProcessingQueueUncheckedCreateWithoutAiBotInput
+    >;
+  };
+
+  export type ProcessingQueueCreateManyAiBotInputEnvelope = {
+    data: ProcessingQueueCreateManyAiBotInput | ProcessingQueueCreateManyAiBotInput[];
+    skipDuplicates?: boolean;
+  };
+
   export type UserUpsertWithoutOwnedAiBotsInput = {
     update: XOR<UserUpdateWithoutOwnedAiBotsInput, UserUncheckedUpdateWithoutOwnedAiBotsInput>;
     create: XOR<UserCreateWithoutOwnedAiBotsInput, UserUncheckedCreateWithoutOwnedAiBotsInput>;
@@ -32717,6 +34046,62 @@ export namespace Prisma {
     >;
   };
 
+  export type PaperlessInstanceUpsertWithWhereUniqueWithoutDefaultAiBotInput = {
+    where: PaperlessInstanceWhereUniqueInput;
+    update: XOR<
+      PaperlessInstanceUpdateWithoutDefaultAiBotInput,
+      PaperlessInstanceUncheckedUpdateWithoutDefaultAiBotInput
+    >;
+    create: XOR<
+      PaperlessInstanceCreateWithoutDefaultAiBotInput,
+      PaperlessInstanceUncheckedCreateWithoutDefaultAiBotInput
+    >;
+  };
+
+  export type PaperlessInstanceUpdateWithWhereUniqueWithoutDefaultAiBotInput = {
+    where: PaperlessInstanceWhereUniqueInput;
+    data: XOR<
+      PaperlessInstanceUpdateWithoutDefaultAiBotInput,
+      PaperlessInstanceUncheckedUpdateWithoutDefaultAiBotInput
+    >;
+  };
+
+  export type PaperlessInstanceUpdateManyWithWhereWithoutDefaultAiBotInput = {
+    where: PaperlessInstanceScalarWhereInput;
+    data: XOR<
+      PaperlessInstanceUpdateManyMutationInput,
+      PaperlessInstanceUncheckedUpdateManyWithoutDefaultAiBotInput
+    >;
+  };
+
+  export type ProcessingQueueUpsertWithWhereUniqueWithoutAiBotInput = {
+    where: ProcessingQueueWhereUniqueInput;
+    update: XOR<
+      ProcessingQueueUpdateWithoutAiBotInput,
+      ProcessingQueueUncheckedUpdateWithoutAiBotInput
+    >;
+    create: XOR<
+      ProcessingQueueCreateWithoutAiBotInput,
+      ProcessingQueueUncheckedCreateWithoutAiBotInput
+    >;
+  };
+
+  export type ProcessingQueueUpdateWithWhereUniqueWithoutAiBotInput = {
+    where: ProcessingQueueWhereUniqueInput;
+    data: XOR<
+      ProcessingQueueUpdateWithoutAiBotInput,
+      ProcessingQueueUncheckedUpdateWithoutAiBotInput
+    >;
+  };
+
+  export type ProcessingQueueUpdateManyWithWhereWithoutAiBotInput = {
+    where: ProcessingQueueScalarWhereInput;
+    data: XOR<
+      ProcessingQueueUpdateManyMutationInput,
+      ProcessingQueueUncheckedUpdateManyWithoutAiBotInput
+    >;
+  };
+
   export type PaperlessInstanceCreateWithoutDocumentsInput = {
     id?: string;
     name: string;
@@ -32725,6 +34110,16 @@ export namespace Prisma {
     importFilterTags?: PaperlessInstanceCreateimportFilterTagsInput | number[];
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    autoProcessEnabled?: boolean;
+    scanCronExpression?: string;
+    lastScanAt?: Date | string | null;
+    nextScanAt?: Date | string | null;
+    autoApplyTitle?: boolean;
+    autoApplyCorrespondent?: boolean;
+    autoApplyDocumentType?: boolean;
+    autoApplyTags?: boolean;
+    autoApplyDate?: boolean;
+    defaultAiBot?: AiBotCreateNestedOneWithoutDefaultForInstancesInput;
     owner: UserCreateNestedOneWithoutOwnedPaperlessInstancesInput;
     sharedWith?: UserPaperlessInstanceAccessCreateNestedManyWithoutInstanceInput;
     processingQueue?: ProcessingQueueCreateNestedManyWithoutPaperlessInstanceInput;
@@ -32739,6 +34134,16 @@ export namespace Prisma {
     importFilterTags?: PaperlessInstanceCreateimportFilterTagsInput | number[];
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    autoProcessEnabled?: boolean;
+    scanCronExpression?: string;
+    lastScanAt?: Date | string | null;
+    nextScanAt?: Date | string | null;
+    defaultAiBotId?: string | null;
+    autoApplyTitle?: boolean;
+    autoApplyCorrespondent?: boolean;
+    autoApplyDocumentType?: boolean;
+    autoApplyTags?: boolean;
+    autoApplyDate?: boolean;
     ownerId: string;
     sharedWith?: UserPaperlessInstanceAccessUncheckedCreateNestedManyWithoutInstanceInput;
     processingQueue?: ProcessingQueueUncheckedCreateNestedManyWithoutPaperlessInstanceInput;
@@ -32802,6 +34207,53 @@ export namespace Prisma {
     skipDuplicates?: boolean;
   };
 
+  export type ProcessingQueueCreateWithoutDocumentInput = {
+    id?: string;
+    paperlessDocumentId: number;
+    status?: string;
+    priority?: number;
+    attempts?: number;
+    maxAttempts?: number;
+    lastError?: string | null;
+    scheduledFor?: Date | string;
+    startedAt?: Date | string | null;
+    completedAt?: Date | string | null;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    paperlessInstance: PaperlessInstanceCreateNestedOneWithoutProcessingQueueInput;
+    aiBot?: AiBotCreateNestedOneWithoutProcessingQueueItemsInput;
+  };
+
+  export type ProcessingQueueUncheckedCreateWithoutDocumentInput = {
+    id?: string;
+    paperlessDocumentId: number;
+    status?: string;
+    priority?: number;
+    attempts?: number;
+    maxAttempts?: number;
+    lastError?: string | null;
+    scheduledFor?: Date | string;
+    startedAt?: Date | string | null;
+    completedAt?: Date | string | null;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    paperlessInstanceId: string;
+    aiBotId?: string | null;
+  };
+
+  export type ProcessingQueueCreateOrConnectWithoutDocumentInput = {
+    where: ProcessingQueueWhereUniqueInput;
+    create: XOR<
+      ProcessingQueueCreateWithoutDocumentInput,
+      ProcessingQueueUncheckedCreateWithoutDocumentInput
+    >;
+  };
+
+  export type ProcessingQueueCreateManyDocumentInputEnvelope = {
+    data: ProcessingQueueCreateManyDocumentInput | ProcessingQueueCreateManyDocumentInput[];
+    skipDuplicates?: boolean;
+  };
+
   export type PaperlessInstanceUpsertWithoutDocumentsInput = {
     update: XOR<
       PaperlessInstanceUpdateWithoutDocumentsInput,
@@ -32830,6 +34282,16 @@ export namespace Prisma {
     importFilterTags?: PaperlessInstanceUpdateimportFilterTagsInput | number[];
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    autoProcessEnabled?: BoolFieldUpdateOperationsInput | boolean;
+    scanCronExpression?: StringFieldUpdateOperationsInput | string;
+    lastScanAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    nextScanAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    autoApplyTitle?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyCorrespondent?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyDocumentType?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyTags?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyDate?: BoolFieldUpdateOperationsInput | boolean;
+    defaultAiBot?: AiBotUpdateOneWithoutDefaultForInstancesNestedInput;
     owner?: UserUpdateOneRequiredWithoutOwnedPaperlessInstancesNestedInput;
     sharedWith?: UserPaperlessInstanceAccessUpdateManyWithoutInstanceNestedInput;
     processingQueue?: ProcessingQueueUpdateManyWithoutPaperlessInstanceNestedInput;
@@ -32844,6 +34306,16 @@ export namespace Prisma {
     importFilterTags?: PaperlessInstanceUpdateimportFilterTagsInput | number[];
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    autoProcessEnabled?: BoolFieldUpdateOperationsInput | boolean;
+    scanCronExpression?: StringFieldUpdateOperationsInput | string;
+    lastScanAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    nextScanAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    defaultAiBotId?: NullableStringFieldUpdateOperationsInput | string | null;
+    autoApplyTitle?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyCorrespondent?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyDocumentType?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyTags?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyDate?: BoolFieldUpdateOperationsInput | boolean;
     ownerId?: StringFieldUpdateOperationsInput | string;
     sharedWith?: UserPaperlessInstanceAccessUncheckedUpdateManyWithoutInstanceNestedInput;
     processingQueue?: ProcessingQueueUncheckedUpdateManyWithoutPaperlessInstanceNestedInput;
@@ -32899,6 +34371,34 @@ export namespace Prisma {
     documentId?: StringFilter<'DocumentProcessingResult'> | string;
   };
 
+  export type ProcessingQueueUpsertWithWhereUniqueWithoutDocumentInput = {
+    where: ProcessingQueueWhereUniqueInput;
+    update: XOR<
+      ProcessingQueueUpdateWithoutDocumentInput,
+      ProcessingQueueUncheckedUpdateWithoutDocumentInput
+    >;
+    create: XOR<
+      ProcessingQueueCreateWithoutDocumentInput,
+      ProcessingQueueUncheckedCreateWithoutDocumentInput
+    >;
+  };
+
+  export type ProcessingQueueUpdateWithWhereUniqueWithoutDocumentInput = {
+    where: ProcessingQueueWhereUniqueInput;
+    data: XOR<
+      ProcessingQueueUpdateWithoutDocumentInput,
+      ProcessingQueueUncheckedUpdateWithoutDocumentInput
+    >;
+  };
+
+  export type ProcessingQueueUpdateManyWithWhereWithoutDocumentInput = {
+    where: ProcessingQueueScalarWhereInput;
+    data: XOR<
+      ProcessingQueueUpdateManyMutationInput,
+      ProcessingQueueUncheckedUpdateManyWithoutDocumentInput
+    >;
+  };
+
   export type PaperlessDocumentCreateWithoutProcessingResultsInput = {
     id?: string;
     paperlessId: number;
@@ -32912,6 +34412,7 @@ export namespace Prisma {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     paperlessInstance: PaperlessInstanceCreateNestedOneWithoutDocumentsInput;
+    processingQueueItems?: ProcessingQueueCreateNestedManyWithoutDocumentInput;
   };
 
   export type PaperlessDocumentUncheckedCreateWithoutProcessingResultsInput = {
@@ -32927,6 +34428,7 @@ export namespace Prisma {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     paperlessInstanceId: string;
+    processingQueueItems?: ProcessingQueueUncheckedCreateNestedManyWithoutDocumentInput;
   };
 
   export type PaperlessDocumentCreateOrConnectWithoutProcessingResultsInput = {
@@ -32970,6 +34472,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     paperlessInstance?: PaperlessInstanceUpdateOneRequiredWithoutDocumentsNestedInput;
+    processingQueueItems?: ProcessingQueueUpdateManyWithoutDocumentNestedInput;
   };
 
   export type PaperlessDocumentUncheckedUpdateWithoutProcessingResultsInput = {
@@ -32985,6 +34488,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     paperlessInstanceId?: StringFieldUpdateOperationsInput | string;
+    processingQueueItems?: ProcessingQueueUncheckedUpdateManyWithoutDocumentNestedInput;
   };
 
   export type PaperlessInstanceCreateWithoutProcessingQueueInput = {
@@ -32995,6 +34499,16 @@ export namespace Prisma {
     importFilterTags?: PaperlessInstanceCreateimportFilterTagsInput | number[];
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    autoProcessEnabled?: boolean;
+    scanCronExpression?: string;
+    lastScanAt?: Date | string | null;
+    nextScanAt?: Date | string | null;
+    autoApplyTitle?: boolean;
+    autoApplyCorrespondent?: boolean;
+    autoApplyDocumentType?: boolean;
+    autoApplyTags?: boolean;
+    autoApplyDate?: boolean;
+    defaultAiBot?: AiBotCreateNestedOneWithoutDefaultForInstancesInput;
     owner: UserCreateNestedOneWithoutOwnedPaperlessInstancesInput;
     sharedWith?: UserPaperlessInstanceAccessCreateNestedManyWithoutInstanceInput;
     documents?: PaperlessDocumentCreateNestedManyWithoutPaperlessInstanceInput;
@@ -33009,6 +34523,16 @@ export namespace Prisma {
     importFilterTags?: PaperlessInstanceCreateimportFilterTagsInput | number[];
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    autoProcessEnabled?: boolean;
+    scanCronExpression?: string;
+    lastScanAt?: Date | string | null;
+    nextScanAt?: Date | string | null;
+    defaultAiBotId?: string | null;
+    autoApplyTitle?: boolean;
+    autoApplyCorrespondent?: boolean;
+    autoApplyDocumentType?: boolean;
+    autoApplyTags?: boolean;
+    autoApplyDate?: boolean;
     ownerId: string;
     sharedWith?: UserPaperlessInstanceAccessUncheckedCreateNestedManyWithoutInstanceInput;
     documents?: PaperlessDocumentUncheckedCreateNestedManyWithoutPaperlessInstanceInput;
@@ -33020,6 +34544,82 @@ export namespace Prisma {
     create: XOR<
       PaperlessInstanceCreateWithoutProcessingQueueInput,
       PaperlessInstanceUncheckedCreateWithoutProcessingQueueInput
+    >;
+  };
+
+  export type PaperlessDocumentCreateWithoutProcessingQueueItemsInput = {
+    id?: string;
+    paperlessId: number;
+    title: string;
+    content: string;
+    correspondentId?: number | null;
+    tagIds?: PaperlessDocumentCreatetagIdsInput | number[];
+    documentDate?: Date | string | null;
+    paperlessModified?: Date | string | null;
+    importedAt?: Date | string;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    paperlessInstance: PaperlessInstanceCreateNestedOneWithoutDocumentsInput;
+    processingResults?: DocumentProcessingResultCreateNestedManyWithoutDocumentInput;
+  };
+
+  export type PaperlessDocumentUncheckedCreateWithoutProcessingQueueItemsInput = {
+    id?: string;
+    paperlessId: number;
+    title: string;
+    content: string;
+    correspondentId?: number | null;
+    tagIds?: PaperlessDocumentCreatetagIdsInput | number[];
+    documentDate?: Date | string | null;
+    paperlessModified?: Date | string | null;
+    importedAt?: Date | string;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    paperlessInstanceId: string;
+    processingResults?: DocumentProcessingResultUncheckedCreateNestedManyWithoutDocumentInput;
+  };
+
+  export type PaperlessDocumentCreateOrConnectWithoutProcessingQueueItemsInput = {
+    where: PaperlessDocumentWhereUniqueInput;
+    create: XOR<
+      PaperlessDocumentCreateWithoutProcessingQueueItemsInput,
+      PaperlessDocumentUncheckedCreateWithoutProcessingQueueItemsInput
+    >;
+  };
+
+  export type AiBotCreateWithoutProcessingQueueItemsInput = {
+    id?: string;
+    name: string;
+    systemPrompt: string;
+    responseLanguage?: string;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    owner: UserCreateNestedOneWithoutOwnedAiBotsInput;
+    aiModel: AiModelCreateNestedOneWithoutBotsInput;
+    sharedWith?: UserAiBotAccessCreateNestedManyWithoutAiBotInput;
+    aiUsageMetrics?: AiUsageMetricCreateNestedManyWithoutAiBotInput;
+    defaultForInstances?: PaperlessInstanceCreateNestedManyWithoutDefaultAiBotInput;
+  };
+
+  export type AiBotUncheckedCreateWithoutProcessingQueueItemsInput = {
+    id?: string;
+    name: string;
+    systemPrompt: string;
+    responseLanguage?: string;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    ownerId: string;
+    aiModelId: string;
+    sharedWith?: UserAiBotAccessUncheckedCreateNestedManyWithoutAiBotInput;
+    aiUsageMetrics?: AiUsageMetricUncheckedCreateNestedManyWithoutAiBotInput;
+    defaultForInstances?: PaperlessInstanceUncheckedCreateNestedManyWithoutDefaultAiBotInput;
+  };
+
+  export type AiBotCreateOrConnectWithoutProcessingQueueItemsInput = {
+    where: AiBotWhereUniqueInput;
+    create: XOR<
+      AiBotCreateWithoutProcessingQueueItemsInput,
+      AiBotUncheckedCreateWithoutProcessingQueueItemsInput
     >;
   };
 
@@ -33051,6 +34651,16 @@ export namespace Prisma {
     importFilterTags?: PaperlessInstanceUpdateimportFilterTagsInput | number[];
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    autoProcessEnabled?: BoolFieldUpdateOperationsInput | boolean;
+    scanCronExpression?: StringFieldUpdateOperationsInput | string;
+    lastScanAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    nextScanAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    autoApplyTitle?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyCorrespondent?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyDocumentType?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyTags?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyDate?: BoolFieldUpdateOperationsInput | boolean;
+    defaultAiBot?: AiBotUpdateOneWithoutDefaultForInstancesNestedInput;
     owner?: UserUpdateOneRequiredWithoutOwnedPaperlessInstancesNestedInput;
     sharedWith?: UserPaperlessInstanceAccessUpdateManyWithoutInstanceNestedInput;
     documents?: PaperlessDocumentUpdateManyWithoutPaperlessInstanceNestedInput;
@@ -33065,10 +34675,120 @@ export namespace Prisma {
     importFilterTags?: PaperlessInstanceUpdateimportFilterTagsInput | number[];
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    autoProcessEnabled?: BoolFieldUpdateOperationsInput | boolean;
+    scanCronExpression?: StringFieldUpdateOperationsInput | string;
+    lastScanAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    nextScanAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    defaultAiBotId?: NullableStringFieldUpdateOperationsInput | string | null;
+    autoApplyTitle?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyCorrespondent?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyDocumentType?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyTags?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyDate?: BoolFieldUpdateOperationsInput | boolean;
     ownerId?: StringFieldUpdateOperationsInput | string;
     sharedWith?: UserPaperlessInstanceAccessUncheckedUpdateManyWithoutInstanceNestedInput;
     documents?: PaperlessDocumentUncheckedUpdateManyWithoutPaperlessInstanceNestedInput;
     importHistory?: ImportHistoryUncheckedUpdateManyWithoutPaperlessInstanceNestedInput;
+  };
+
+  export type PaperlessDocumentUpsertWithoutProcessingQueueItemsInput = {
+    update: XOR<
+      PaperlessDocumentUpdateWithoutProcessingQueueItemsInput,
+      PaperlessDocumentUncheckedUpdateWithoutProcessingQueueItemsInput
+    >;
+    create: XOR<
+      PaperlessDocumentCreateWithoutProcessingQueueItemsInput,
+      PaperlessDocumentUncheckedCreateWithoutProcessingQueueItemsInput
+    >;
+    where?: PaperlessDocumentWhereInput;
+  };
+
+  export type PaperlessDocumentUpdateToOneWithWhereWithoutProcessingQueueItemsInput = {
+    where?: PaperlessDocumentWhereInput;
+    data: XOR<
+      PaperlessDocumentUpdateWithoutProcessingQueueItemsInput,
+      PaperlessDocumentUncheckedUpdateWithoutProcessingQueueItemsInput
+    >;
+  };
+
+  export type PaperlessDocumentUpdateWithoutProcessingQueueItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    paperlessId?: IntFieldUpdateOperationsInput | number;
+    title?: StringFieldUpdateOperationsInput | string;
+    content?: StringFieldUpdateOperationsInput | string;
+    correspondentId?: NullableIntFieldUpdateOperationsInput | number | null;
+    tagIds?: PaperlessDocumentUpdatetagIdsInput | number[];
+    documentDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    paperlessModified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    importedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    paperlessInstance?: PaperlessInstanceUpdateOneRequiredWithoutDocumentsNestedInput;
+    processingResults?: DocumentProcessingResultUpdateManyWithoutDocumentNestedInput;
+  };
+
+  export type PaperlessDocumentUncheckedUpdateWithoutProcessingQueueItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    paperlessId?: IntFieldUpdateOperationsInput | number;
+    title?: StringFieldUpdateOperationsInput | string;
+    content?: StringFieldUpdateOperationsInput | string;
+    correspondentId?: NullableIntFieldUpdateOperationsInput | number | null;
+    tagIds?: PaperlessDocumentUpdatetagIdsInput | number[];
+    documentDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    paperlessModified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    importedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    paperlessInstanceId?: StringFieldUpdateOperationsInput | string;
+    processingResults?: DocumentProcessingResultUncheckedUpdateManyWithoutDocumentNestedInput;
+  };
+
+  export type AiBotUpsertWithoutProcessingQueueItemsInput = {
+    update: XOR<
+      AiBotUpdateWithoutProcessingQueueItemsInput,
+      AiBotUncheckedUpdateWithoutProcessingQueueItemsInput
+    >;
+    create: XOR<
+      AiBotCreateWithoutProcessingQueueItemsInput,
+      AiBotUncheckedCreateWithoutProcessingQueueItemsInput
+    >;
+    where?: AiBotWhereInput;
+  };
+
+  export type AiBotUpdateToOneWithWhereWithoutProcessingQueueItemsInput = {
+    where?: AiBotWhereInput;
+    data: XOR<
+      AiBotUpdateWithoutProcessingQueueItemsInput,
+      AiBotUncheckedUpdateWithoutProcessingQueueItemsInput
+    >;
+  };
+
+  export type AiBotUpdateWithoutProcessingQueueItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    name?: StringFieldUpdateOperationsInput | string;
+    systemPrompt?: StringFieldUpdateOperationsInput | string;
+    responseLanguage?: StringFieldUpdateOperationsInput | string;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    owner?: UserUpdateOneRequiredWithoutOwnedAiBotsNestedInput;
+    aiModel?: AiModelUpdateOneRequiredWithoutBotsNestedInput;
+    sharedWith?: UserAiBotAccessUpdateManyWithoutAiBotNestedInput;
+    aiUsageMetrics?: AiUsageMetricUpdateManyWithoutAiBotNestedInput;
+    defaultForInstances?: PaperlessInstanceUpdateManyWithoutDefaultAiBotNestedInput;
+  };
+
+  export type AiBotUncheckedUpdateWithoutProcessingQueueItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    name?: StringFieldUpdateOperationsInput | string;
+    systemPrompt?: StringFieldUpdateOperationsInput | string;
+    responseLanguage?: StringFieldUpdateOperationsInput | string;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    ownerId?: StringFieldUpdateOperationsInput | string;
+    aiModelId?: StringFieldUpdateOperationsInput | string;
+    sharedWith?: UserAiBotAccessUncheckedUpdateManyWithoutAiBotNestedInput;
+    aiUsageMetrics?: AiUsageMetricUncheckedUpdateManyWithoutAiBotNestedInput;
+    defaultForInstances?: PaperlessInstanceUncheckedUpdateManyWithoutDefaultAiBotNestedInput;
   };
 
   export type PaperlessInstanceCreateWithoutImportHistoryInput = {
@@ -33079,6 +34799,16 @@ export namespace Prisma {
     importFilterTags?: PaperlessInstanceCreateimportFilterTagsInput | number[];
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    autoProcessEnabled?: boolean;
+    scanCronExpression?: string;
+    lastScanAt?: Date | string | null;
+    nextScanAt?: Date | string | null;
+    autoApplyTitle?: boolean;
+    autoApplyCorrespondent?: boolean;
+    autoApplyDocumentType?: boolean;
+    autoApplyTags?: boolean;
+    autoApplyDate?: boolean;
+    defaultAiBot?: AiBotCreateNestedOneWithoutDefaultForInstancesInput;
     owner: UserCreateNestedOneWithoutOwnedPaperlessInstancesInput;
     sharedWith?: UserPaperlessInstanceAccessCreateNestedManyWithoutInstanceInput;
     documents?: PaperlessDocumentCreateNestedManyWithoutPaperlessInstanceInput;
@@ -33093,6 +34823,16 @@ export namespace Prisma {
     importFilterTags?: PaperlessInstanceCreateimportFilterTagsInput | number[];
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    autoProcessEnabled?: boolean;
+    scanCronExpression?: string;
+    lastScanAt?: Date | string | null;
+    nextScanAt?: Date | string | null;
+    defaultAiBotId?: string | null;
+    autoApplyTitle?: boolean;
+    autoApplyCorrespondent?: boolean;
+    autoApplyDocumentType?: boolean;
+    autoApplyTags?: boolean;
+    autoApplyDate?: boolean;
     ownerId: string;
     sharedWith?: UserPaperlessInstanceAccessUncheckedCreateNestedManyWithoutInstanceInput;
     documents?: PaperlessDocumentUncheckedCreateNestedManyWithoutPaperlessInstanceInput;
@@ -33135,6 +34875,16 @@ export namespace Prisma {
     importFilterTags?: PaperlessInstanceUpdateimportFilterTagsInput | number[];
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    autoProcessEnabled?: BoolFieldUpdateOperationsInput | boolean;
+    scanCronExpression?: StringFieldUpdateOperationsInput | string;
+    lastScanAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    nextScanAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    autoApplyTitle?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyCorrespondent?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyDocumentType?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyTags?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyDate?: BoolFieldUpdateOperationsInput | boolean;
+    defaultAiBot?: AiBotUpdateOneWithoutDefaultForInstancesNestedInput;
     owner?: UserUpdateOneRequiredWithoutOwnedPaperlessInstancesNestedInput;
     sharedWith?: UserPaperlessInstanceAccessUpdateManyWithoutInstanceNestedInput;
     documents?: PaperlessDocumentUpdateManyWithoutPaperlessInstanceNestedInput;
@@ -33149,6 +34899,16 @@ export namespace Prisma {
     importFilterTags?: PaperlessInstanceUpdateimportFilterTagsInput | number[];
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    autoProcessEnabled?: BoolFieldUpdateOperationsInput | boolean;
+    scanCronExpression?: StringFieldUpdateOperationsInput | string;
+    lastScanAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    nextScanAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    defaultAiBotId?: NullableStringFieldUpdateOperationsInput | string | null;
+    autoApplyTitle?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyCorrespondent?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyDocumentType?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyTags?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyDate?: BoolFieldUpdateOperationsInput | boolean;
     ownerId?: StringFieldUpdateOperationsInput | string;
     sharedWith?: UserPaperlessInstanceAccessUncheckedUpdateManyWithoutInstanceNestedInput;
     documents?: PaperlessDocumentUncheckedUpdateManyWithoutPaperlessInstanceNestedInput;
@@ -33285,6 +35045,8 @@ export namespace Prisma {
     owner: UserCreateNestedOneWithoutOwnedAiBotsInput;
     aiModel: AiModelCreateNestedOneWithoutBotsInput;
     sharedWith?: UserAiBotAccessCreateNestedManyWithoutAiBotInput;
+    defaultForInstances?: PaperlessInstanceCreateNestedManyWithoutDefaultAiBotInput;
+    processingQueueItems?: ProcessingQueueCreateNestedManyWithoutAiBotInput;
   };
 
   export type AiBotUncheckedCreateWithoutAiUsageMetricsInput = {
@@ -33297,6 +35059,8 @@ export namespace Prisma {
     ownerId: string;
     aiModelId: string;
     sharedWith?: UserAiBotAccessUncheckedCreateNestedManyWithoutAiBotInput;
+    defaultForInstances?: PaperlessInstanceUncheckedCreateNestedManyWithoutDefaultAiBotInput;
+    processingQueueItems?: ProcessingQueueUncheckedCreateNestedManyWithoutAiBotInput;
   };
 
   export type AiBotCreateOrConnectWithoutAiUsageMetricsInput = {
@@ -33490,6 +35254,8 @@ export namespace Prisma {
     owner?: UserUpdateOneRequiredWithoutOwnedAiBotsNestedInput;
     aiModel?: AiModelUpdateOneRequiredWithoutBotsNestedInput;
     sharedWith?: UserAiBotAccessUpdateManyWithoutAiBotNestedInput;
+    defaultForInstances?: PaperlessInstanceUpdateManyWithoutDefaultAiBotNestedInput;
+    processingQueueItems?: ProcessingQueueUpdateManyWithoutAiBotNestedInput;
   };
 
   export type AiBotUncheckedUpdateWithoutAiUsageMetricsInput = {
@@ -33502,6 +35268,8 @@ export namespace Prisma {
     ownerId?: StringFieldUpdateOperationsInput | string;
     aiModelId?: StringFieldUpdateOperationsInput | string;
     sharedWith?: UserAiBotAccessUncheckedUpdateManyWithoutAiBotNestedInput;
+    defaultForInstances?: PaperlessInstanceUncheckedUpdateManyWithoutDefaultAiBotNestedInput;
+    processingQueueItems?: ProcessingQueueUncheckedUpdateManyWithoutAiBotNestedInput;
   };
 
   export type PaperlessInstanceCreateManyOwnerInput = {
@@ -33512,6 +35280,16 @@ export namespace Prisma {
     importFilterTags?: PaperlessInstanceCreateimportFilterTagsInput | number[];
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    autoProcessEnabled?: boolean;
+    scanCronExpression?: string;
+    lastScanAt?: Date | string | null;
+    nextScanAt?: Date | string | null;
+    defaultAiBotId?: string | null;
+    autoApplyTitle?: boolean;
+    autoApplyCorrespondent?: boolean;
+    autoApplyDocumentType?: boolean;
+    autoApplyTags?: boolean;
+    autoApplyDate?: boolean;
   };
 
   export type AiAccountCreateManyOwnerInput = {
@@ -33598,6 +35376,16 @@ export namespace Prisma {
     importFilterTags?: PaperlessInstanceUpdateimportFilterTagsInput | number[];
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    autoProcessEnabled?: BoolFieldUpdateOperationsInput | boolean;
+    scanCronExpression?: StringFieldUpdateOperationsInput | string;
+    lastScanAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    nextScanAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    autoApplyTitle?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyCorrespondent?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyDocumentType?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyTags?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyDate?: BoolFieldUpdateOperationsInput | boolean;
+    defaultAiBot?: AiBotUpdateOneWithoutDefaultForInstancesNestedInput;
     sharedWith?: UserPaperlessInstanceAccessUpdateManyWithoutInstanceNestedInput;
     documents?: PaperlessDocumentUpdateManyWithoutPaperlessInstanceNestedInput;
     processingQueue?: ProcessingQueueUpdateManyWithoutPaperlessInstanceNestedInput;
@@ -33612,6 +35400,16 @@ export namespace Prisma {
     importFilterTags?: PaperlessInstanceUpdateimportFilterTagsInput | number[];
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    autoProcessEnabled?: BoolFieldUpdateOperationsInput | boolean;
+    scanCronExpression?: StringFieldUpdateOperationsInput | string;
+    lastScanAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    nextScanAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    defaultAiBotId?: NullableStringFieldUpdateOperationsInput | string | null;
+    autoApplyTitle?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyCorrespondent?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyDocumentType?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyTags?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyDate?: BoolFieldUpdateOperationsInput | boolean;
     sharedWith?: UserPaperlessInstanceAccessUncheckedUpdateManyWithoutInstanceNestedInput;
     documents?: PaperlessDocumentUncheckedUpdateManyWithoutPaperlessInstanceNestedInput;
     processingQueue?: ProcessingQueueUncheckedUpdateManyWithoutPaperlessInstanceNestedInput;
@@ -33626,6 +35424,16 @@ export namespace Prisma {
     importFilterTags?: PaperlessInstanceUpdateimportFilterTagsInput | number[];
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    autoProcessEnabled?: BoolFieldUpdateOperationsInput | boolean;
+    scanCronExpression?: StringFieldUpdateOperationsInput | string;
+    lastScanAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    nextScanAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    defaultAiBotId?: NullableStringFieldUpdateOperationsInput | string | null;
+    autoApplyTitle?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyCorrespondent?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyDocumentType?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyTags?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyDate?: BoolFieldUpdateOperationsInput | boolean;
   };
 
   export type AiAccountUpdateWithoutOwnerInput = {
@@ -33719,6 +35527,8 @@ export namespace Prisma {
     aiModel?: AiModelUpdateOneRequiredWithoutBotsNestedInput;
     sharedWith?: UserAiBotAccessUpdateManyWithoutAiBotNestedInput;
     aiUsageMetrics?: AiUsageMetricUpdateManyWithoutAiBotNestedInput;
+    defaultForInstances?: PaperlessInstanceUpdateManyWithoutDefaultAiBotNestedInput;
+    processingQueueItems?: ProcessingQueueUpdateManyWithoutAiBotNestedInput;
   };
 
   export type AiBotUncheckedUpdateWithoutOwnerInput = {
@@ -33731,6 +35541,8 @@ export namespace Prisma {
     aiModelId?: StringFieldUpdateOperationsInput | string;
     sharedWith?: UserAiBotAccessUncheckedUpdateManyWithoutAiBotNestedInput;
     aiUsageMetrics?: AiUsageMetricUncheckedUpdateManyWithoutAiBotNestedInput;
+    defaultForInstances?: PaperlessInstanceUncheckedUpdateManyWithoutDefaultAiBotNestedInput;
+    processingQueueItems?: ProcessingQueueUncheckedUpdateManyWithoutAiBotNestedInput;
   };
 
   export type AiBotUncheckedUpdateManyWithoutOwnerInput = {
@@ -33895,16 +35707,19 @@ export namespace Prisma {
 
   export type ProcessingQueueCreateManyPaperlessInstanceInput = {
     id?: string;
-    paperlessId: number;
+    paperlessDocumentId: number;
     status?: string;
     priority?: number;
     attempts?: number;
+    maxAttempts?: number;
     lastError?: string | null;
     scheduledFor?: Date | string;
     startedAt?: Date | string | null;
     completedAt?: Date | string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    documentId?: string | null;
+    aiBotId?: string | null;
   };
 
   export type ImportHistoryCreateManyPaperlessInstanceInput = {
@@ -33950,6 +35765,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     processingResults?: DocumentProcessingResultUpdateManyWithoutDocumentNestedInput;
+    processingQueueItems?: ProcessingQueueUpdateManyWithoutDocumentNestedInput;
   };
 
   export type PaperlessDocumentUncheckedUpdateWithoutPaperlessInstanceInput = {
@@ -33965,6 +35781,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     processingResults?: DocumentProcessingResultUncheckedUpdateManyWithoutDocumentNestedInput;
+    processingQueueItems?: ProcessingQueueUncheckedUpdateManyWithoutDocumentNestedInput;
   };
 
   export type PaperlessDocumentUncheckedUpdateManyWithoutPaperlessInstanceInput = {
@@ -33983,44 +35800,53 @@ export namespace Prisma {
 
   export type ProcessingQueueUpdateWithoutPaperlessInstanceInput = {
     id?: StringFieldUpdateOperationsInput | string;
-    paperlessId?: IntFieldUpdateOperationsInput | number;
+    paperlessDocumentId?: IntFieldUpdateOperationsInput | number;
     status?: StringFieldUpdateOperationsInput | string;
     priority?: IntFieldUpdateOperationsInput | number;
     attempts?: IntFieldUpdateOperationsInput | number;
+    maxAttempts?: IntFieldUpdateOperationsInput | number;
     lastError?: NullableStringFieldUpdateOperationsInput | string | null;
     scheduledFor?: DateTimeFieldUpdateOperationsInput | Date | string;
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    document?: PaperlessDocumentUpdateOneWithoutProcessingQueueItemsNestedInput;
+    aiBot?: AiBotUpdateOneWithoutProcessingQueueItemsNestedInput;
   };
 
   export type ProcessingQueueUncheckedUpdateWithoutPaperlessInstanceInput = {
     id?: StringFieldUpdateOperationsInput | string;
-    paperlessId?: IntFieldUpdateOperationsInput | number;
+    paperlessDocumentId?: IntFieldUpdateOperationsInput | number;
     status?: StringFieldUpdateOperationsInput | string;
     priority?: IntFieldUpdateOperationsInput | number;
     attempts?: IntFieldUpdateOperationsInput | number;
+    maxAttempts?: IntFieldUpdateOperationsInput | number;
     lastError?: NullableStringFieldUpdateOperationsInput | string | null;
     scheduledFor?: DateTimeFieldUpdateOperationsInput | Date | string;
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    documentId?: NullableStringFieldUpdateOperationsInput | string | null;
+    aiBotId?: NullableStringFieldUpdateOperationsInput | string | null;
   };
 
   export type ProcessingQueueUncheckedUpdateManyWithoutPaperlessInstanceInput = {
     id?: StringFieldUpdateOperationsInput | string;
-    paperlessId?: IntFieldUpdateOperationsInput | number;
+    paperlessDocumentId?: IntFieldUpdateOperationsInput | number;
     status?: StringFieldUpdateOperationsInput | string;
     priority?: IntFieldUpdateOperationsInput | number;
     attempts?: IntFieldUpdateOperationsInput | number;
+    maxAttempts?: IntFieldUpdateOperationsInput | number;
     lastError?: NullableStringFieldUpdateOperationsInput | string | null;
     scheduledFor?: DateTimeFieldUpdateOperationsInput | Date | string;
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    documentId?: NullableStringFieldUpdateOperationsInput | string | null;
+    aiBotId?: NullableStringFieldUpdateOperationsInput | string | null;
   };
 
   export type ImportHistoryUpdateWithoutPaperlessInstanceInput = {
@@ -34255,6 +36081,8 @@ export namespace Prisma {
     owner?: UserUpdateOneRequiredWithoutOwnedAiBotsNestedInput;
     sharedWith?: UserAiBotAccessUpdateManyWithoutAiBotNestedInput;
     aiUsageMetrics?: AiUsageMetricUpdateManyWithoutAiBotNestedInput;
+    defaultForInstances?: PaperlessInstanceUpdateManyWithoutDefaultAiBotNestedInput;
+    processingQueueItems?: ProcessingQueueUpdateManyWithoutAiBotNestedInput;
   };
 
   export type AiBotUncheckedUpdateWithoutAiModelInput = {
@@ -34267,6 +36095,8 @@ export namespace Prisma {
     ownerId?: StringFieldUpdateOperationsInput | string;
     sharedWith?: UserAiBotAccessUncheckedUpdateManyWithoutAiBotNestedInput;
     aiUsageMetrics?: AiUsageMetricUncheckedUpdateManyWithoutAiBotNestedInput;
+    defaultForInstances?: PaperlessInstanceUncheckedUpdateManyWithoutDefaultAiBotNestedInput;
+    processingQueueItems?: ProcessingQueueUncheckedUpdateManyWithoutAiBotNestedInput;
   };
 
   export type AiBotUncheckedUpdateManyWithoutAiModelInput = {
@@ -34346,6 +36176,43 @@ export namespace Prisma {
     aiModelId?: string | null;
   };
 
+  export type PaperlessInstanceCreateManyDefaultAiBotInput = {
+    id?: string;
+    name: string;
+    apiUrl: string;
+    apiToken: string;
+    importFilterTags?: PaperlessInstanceCreateimportFilterTagsInput | number[];
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    autoProcessEnabled?: boolean;
+    scanCronExpression?: string;
+    lastScanAt?: Date | string | null;
+    nextScanAt?: Date | string | null;
+    autoApplyTitle?: boolean;
+    autoApplyCorrespondent?: boolean;
+    autoApplyDocumentType?: boolean;
+    autoApplyTags?: boolean;
+    autoApplyDate?: boolean;
+    ownerId: string;
+  };
+
+  export type ProcessingQueueCreateManyAiBotInput = {
+    id?: string;
+    paperlessDocumentId: number;
+    status?: string;
+    priority?: number;
+    attempts?: number;
+    maxAttempts?: number;
+    lastError?: string | null;
+    scheduledFor?: Date | string;
+    startedAt?: Date | string | null;
+    completedAt?: Date | string | null;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    paperlessInstanceId: string;
+    documentId?: string | null;
+  };
+
   export type UserAiBotAccessUpdateWithoutAiBotInput = {
     id?: StringFieldUpdateOperationsInput | string;
     permission?: EnumPermissionFieldUpdateOperationsInput | $Enums.Permission;
@@ -34412,6 +36279,125 @@ export namespace Prisma {
     aiModelId?: NullableStringFieldUpdateOperationsInput | string | null;
   };
 
+  export type PaperlessInstanceUpdateWithoutDefaultAiBotInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    name?: StringFieldUpdateOperationsInput | string;
+    apiUrl?: StringFieldUpdateOperationsInput | string;
+    apiToken?: StringFieldUpdateOperationsInput | string;
+    importFilterTags?: PaperlessInstanceUpdateimportFilterTagsInput | number[];
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    autoProcessEnabled?: BoolFieldUpdateOperationsInput | boolean;
+    scanCronExpression?: StringFieldUpdateOperationsInput | string;
+    lastScanAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    nextScanAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    autoApplyTitle?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyCorrespondent?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyDocumentType?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyTags?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyDate?: BoolFieldUpdateOperationsInput | boolean;
+    owner?: UserUpdateOneRequiredWithoutOwnedPaperlessInstancesNestedInput;
+    sharedWith?: UserPaperlessInstanceAccessUpdateManyWithoutInstanceNestedInput;
+    documents?: PaperlessDocumentUpdateManyWithoutPaperlessInstanceNestedInput;
+    processingQueue?: ProcessingQueueUpdateManyWithoutPaperlessInstanceNestedInput;
+    importHistory?: ImportHistoryUpdateManyWithoutPaperlessInstanceNestedInput;
+  };
+
+  export type PaperlessInstanceUncheckedUpdateWithoutDefaultAiBotInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    name?: StringFieldUpdateOperationsInput | string;
+    apiUrl?: StringFieldUpdateOperationsInput | string;
+    apiToken?: StringFieldUpdateOperationsInput | string;
+    importFilterTags?: PaperlessInstanceUpdateimportFilterTagsInput | number[];
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    autoProcessEnabled?: BoolFieldUpdateOperationsInput | boolean;
+    scanCronExpression?: StringFieldUpdateOperationsInput | string;
+    lastScanAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    nextScanAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    autoApplyTitle?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyCorrespondent?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyDocumentType?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyTags?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyDate?: BoolFieldUpdateOperationsInput | boolean;
+    ownerId?: StringFieldUpdateOperationsInput | string;
+    sharedWith?: UserPaperlessInstanceAccessUncheckedUpdateManyWithoutInstanceNestedInput;
+    documents?: PaperlessDocumentUncheckedUpdateManyWithoutPaperlessInstanceNestedInput;
+    processingQueue?: ProcessingQueueUncheckedUpdateManyWithoutPaperlessInstanceNestedInput;
+    importHistory?: ImportHistoryUncheckedUpdateManyWithoutPaperlessInstanceNestedInput;
+  };
+
+  export type PaperlessInstanceUncheckedUpdateManyWithoutDefaultAiBotInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    name?: StringFieldUpdateOperationsInput | string;
+    apiUrl?: StringFieldUpdateOperationsInput | string;
+    apiToken?: StringFieldUpdateOperationsInput | string;
+    importFilterTags?: PaperlessInstanceUpdateimportFilterTagsInput | number[];
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    autoProcessEnabled?: BoolFieldUpdateOperationsInput | boolean;
+    scanCronExpression?: StringFieldUpdateOperationsInput | string;
+    lastScanAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    nextScanAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    autoApplyTitle?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyCorrespondent?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyDocumentType?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyTags?: BoolFieldUpdateOperationsInput | boolean;
+    autoApplyDate?: BoolFieldUpdateOperationsInput | boolean;
+    ownerId?: StringFieldUpdateOperationsInput | string;
+  };
+
+  export type ProcessingQueueUpdateWithoutAiBotInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    paperlessDocumentId?: IntFieldUpdateOperationsInput | number;
+    status?: StringFieldUpdateOperationsInput | string;
+    priority?: IntFieldUpdateOperationsInput | number;
+    attempts?: IntFieldUpdateOperationsInput | number;
+    maxAttempts?: IntFieldUpdateOperationsInput | number;
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null;
+    scheduledFor?: DateTimeFieldUpdateOperationsInput | Date | string;
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    paperlessInstance?: PaperlessInstanceUpdateOneRequiredWithoutProcessingQueueNestedInput;
+    document?: PaperlessDocumentUpdateOneWithoutProcessingQueueItemsNestedInput;
+  };
+
+  export type ProcessingQueueUncheckedUpdateWithoutAiBotInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    paperlessDocumentId?: IntFieldUpdateOperationsInput | number;
+    status?: StringFieldUpdateOperationsInput | string;
+    priority?: IntFieldUpdateOperationsInput | number;
+    attempts?: IntFieldUpdateOperationsInput | number;
+    maxAttempts?: IntFieldUpdateOperationsInput | number;
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null;
+    scheduledFor?: DateTimeFieldUpdateOperationsInput | Date | string;
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    paperlessInstanceId?: StringFieldUpdateOperationsInput | string;
+    documentId?: NullableStringFieldUpdateOperationsInput | string | null;
+  };
+
+  export type ProcessingQueueUncheckedUpdateManyWithoutAiBotInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    paperlessDocumentId?: IntFieldUpdateOperationsInput | number;
+    status?: StringFieldUpdateOperationsInput | string;
+    priority?: IntFieldUpdateOperationsInput | number;
+    attempts?: IntFieldUpdateOperationsInput | number;
+    maxAttempts?: IntFieldUpdateOperationsInput | number;
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null;
+    scheduledFor?: DateTimeFieldUpdateOperationsInput | Date | string;
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    paperlessInstanceId?: StringFieldUpdateOperationsInput | string;
+    documentId?: NullableStringFieldUpdateOperationsInput | string | null;
+  };
+
   export type DocumentProcessingResultCreateManyDocumentInput = {
     id?: string;
     processedAt?: Date | string;
@@ -34427,6 +36413,23 @@ export namespace Prisma {
     originalTags?: DocumentProcessingResultCreateoriginalTagsInput | string[];
     createdAt?: Date | string;
     updatedAt?: Date | string;
+  };
+
+  export type ProcessingQueueCreateManyDocumentInput = {
+    id?: string;
+    paperlessDocumentId: number;
+    status?: string;
+    priority?: number;
+    attempts?: number;
+    maxAttempts?: number;
+    lastError?: string | null;
+    scheduledFor?: Date | string;
+    startedAt?: Date | string | null;
+    completedAt?: Date | string | null;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    paperlessInstanceId: string;
+    aiBotId?: string | null;
   };
 
   export type DocumentProcessingResultUpdateWithoutDocumentInput = {
@@ -34478,6 +36481,57 @@ export namespace Prisma {
     originalTags?: DocumentProcessingResultUpdateoriginalTagsInput | string[];
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+  };
+
+  export type ProcessingQueueUpdateWithoutDocumentInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    paperlessDocumentId?: IntFieldUpdateOperationsInput | number;
+    status?: StringFieldUpdateOperationsInput | string;
+    priority?: IntFieldUpdateOperationsInput | number;
+    attempts?: IntFieldUpdateOperationsInput | number;
+    maxAttempts?: IntFieldUpdateOperationsInput | number;
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null;
+    scheduledFor?: DateTimeFieldUpdateOperationsInput | Date | string;
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    paperlessInstance?: PaperlessInstanceUpdateOneRequiredWithoutProcessingQueueNestedInput;
+    aiBot?: AiBotUpdateOneWithoutProcessingQueueItemsNestedInput;
+  };
+
+  export type ProcessingQueueUncheckedUpdateWithoutDocumentInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    paperlessDocumentId?: IntFieldUpdateOperationsInput | number;
+    status?: StringFieldUpdateOperationsInput | string;
+    priority?: IntFieldUpdateOperationsInput | number;
+    attempts?: IntFieldUpdateOperationsInput | number;
+    maxAttempts?: IntFieldUpdateOperationsInput | number;
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null;
+    scheduledFor?: DateTimeFieldUpdateOperationsInput | Date | string;
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    paperlessInstanceId?: StringFieldUpdateOperationsInput | string;
+    aiBotId?: NullableStringFieldUpdateOperationsInput | string | null;
+  };
+
+  export type ProcessingQueueUncheckedUpdateManyWithoutDocumentInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    paperlessDocumentId?: IntFieldUpdateOperationsInput | number;
+    status?: StringFieldUpdateOperationsInput | string;
+    priority?: IntFieldUpdateOperationsInput | number;
+    attempts?: IntFieldUpdateOperationsInput | number;
+    maxAttempts?: IntFieldUpdateOperationsInput | number;
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null;
+    scheduledFor?: DateTimeFieldUpdateOperationsInput | Date | string;
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    paperlessInstanceId?: StringFieldUpdateOperationsInput | string;
+    aiBotId?: NullableStringFieldUpdateOperationsInput | string | null;
   };
 
   /**

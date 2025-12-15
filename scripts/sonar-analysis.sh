@@ -62,8 +62,8 @@ if command -v sonar-scanner &> /dev/null; then
 elif command -v sonar &> /dev/null; then
   SCANNER="sonar"
 else
-  echo "sonar-scanner not found. Using npx sonarqube-scanner..."
-  SCANNER="npx --yes sonarqube-scanner"
+  echo "sonar-scanner not found. Using npx @sonar/scan..."
+  SCANNER="npx --yes @sonar/scan"
 fi
 
 # Run tests with coverage first

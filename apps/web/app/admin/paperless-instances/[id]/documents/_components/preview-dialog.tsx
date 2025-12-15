@@ -73,7 +73,7 @@ export function PreviewDialog({ open, onOpenChange, document, instanceId }: Prev
         blobUrlRef.current = null;
       }
     };
-  }, [open, document?.id, instanceId]);
+  }, [open, document?.id, instanceId, document]);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

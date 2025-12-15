@@ -67,6 +67,16 @@ export type PaperlessInstanceListItem = {
   apiUrl: string;
   apiToken: string;
   importFilterTags?: Array<number>;
+  autoProcessEnabled?: boolean;
+  scanCronExpression?: string;
+  defaultAiBotId?: string | null;
+  lastScanAt?: string | null;
+  nextScanAt?: string | null;
+  autoApplyTitle?: boolean;
+  autoApplyCorrespondent?: boolean;
+  autoApplyDocumentType?: boolean;
+  autoApplyTags?: boolean;
+  autoApplyDate?: boolean;
   createdAt: string;
   updatedAt: string;
 };
@@ -82,6 +92,14 @@ export type UpdatePaperlessInstanceRequest = {
   apiUrl?: string;
   apiToken?: string;
   importFilterTags?: Array<number>;
+  autoProcessEnabled?: boolean;
+  scanCronExpression?: string;
+  defaultAiBotId?: string | null;
+  autoApplyTitle?: boolean;
+  autoApplyCorrespondent?: boolean;
+  autoApplyDocumentType?: boolean;
+  autoApplyTags?: boolean;
+  autoApplyDate?: boolean;
 };
 
 export type ImportDocumentsResponse = {
@@ -360,6 +378,51 @@ export type ApplyFieldResponse = {
   appliedValues: {
     [key: string]: unknown;
   };
+};
+
+export type ProcessingQueueItem = {
+  id: string;
+  paperlessDocumentId: number;
+  status: 'pending' | 'processing' | 'completed' | 'failed';
+  priority: number;
+  attempts: number;
+  maxAttempts: number;
+  lastError: string | null;
+  scheduledFor: string;
+  startedAt: string | null;
+  completedAt: string | null;
+  createdAt: string;
+  updatedAt: string;
+  documentId: string | null;
+  documentTitle: string | null;
+  aiBotId: string | null;
+  aiBotName: string | null;
+};
+
+export type QueueStats = {
+  pending: number;
+  processing: number;
+  completed: number;
+  failed: number;
+};
+
+export type ProcessingQueueListResponse = {
+  items: Array<ProcessingQueueItem>;
+  stats: QueueStats;
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+};
+
+export type AddToQueueRequest = {
+  paperlessDocumentId: number;
+  aiBotId?: string;
+  priority?: number;
+};
+
+export type BulkRetryResponse = {
+  retriedCount: number;
 };
 
 export type ErrorResponse = {
@@ -2227,6 +2290,216 @@ export type PostPaperlessInstancesByIdDocumentsByDocumentIdApplyResponses = {
 
 export type PostPaperlessInstancesByIdDocumentsByDocumentIdApplyResponse =
   PostPaperlessInstancesByIdDocumentsByDocumentIdApplyResponses[keyof PostPaperlessInstancesByIdDocumentsByDocumentIdApplyResponses];
+
+export type GetPaperlessInstancesByIdQueueData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: {
+    status?: 'pending' | 'processing' | 'completed' | 'failed';
+    page?: number;
+    limit?: number;
+  };
+  url: '/paperless-instances/{id}/queue';
+};
+
+export type GetPaperlessInstancesByIdQueueErrors = {
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not found
+   */
+  404: ErrorResponse;
+};
+
+export type GetPaperlessInstancesByIdQueueError =
+  GetPaperlessInstancesByIdQueueErrors[keyof GetPaperlessInstancesByIdQueueErrors];
+
+export type GetPaperlessInstancesByIdQueueResponses = {
+  /**
+   * Queue items list
+   */
+  200: ProcessingQueueListResponse;
+};
+
+export type GetPaperlessInstancesByIdQueueResponse =
+  GetPaperlessInstancesByIdQueueResponses[keyof GetPaperlessInstancesByIdQueueResponses];
+
+export type PostPaperlessInstancesByIdQueueData = {
+  body?: AddToQueueRequest;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/paperless-instances/{id}/queue';
+};
+
+export type PostPaperlessInstancesByIdQueueErrors = {
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not found
+   */
+  404: ErrorResponse;
+  /**
+   * Conflict
+   */
+  409: ErrorResponse;
+};
+
+export type PostPaperlessInstancesByIdQueueError =
+  PostPaperlessInstancesByIdQueueErrors[keyof PostPaperlessInstancesByIdQueueErrors];
+
+export type PostPaperlessInstancesByIdQueueResponses = {
+  /**
+   * Document added to queue
+   */
+  201: ProcessingQueueItem;
+};
+
+export type PostPaperlessInstancesByIdQueueResponse =
+  PostPaperlessInstancesByIdQueueResponses[keyof PostPaperlessInstancesByIdQueueResponses];
+
+export type DeletePaperlessInstancesByIdQueueByQueueIdData = {
+  body?: never;
+  path: {
+    id: string;
+    queueId: string;
+  };
+  query?: never;
+  url: '/paperless-instances/{id}/queue/{queueId}';
+};
+
+export type DeletePaperlessInstancesByIdQueueByQueueIdErrors = {
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not found
+   */
+  404: ErrorResponse;
+};
+
+export type DeletePaperlessInstancesByIdQueueByQueueIdError =
+  DeletePaperlessInstancesByIdQueueByQueueIdErrors[keyof DeletePaperlessInstancesByIdQueueByQueueIdErrors];
+
+export type DeletePaperlessInstancesByIdQueueByQueueIdResponses = {
+  /**
+   * Item removed from queue
+   */
+  204: void;
+};
+
+export type DeletePaperlessInstancesByIdQueueByQueueIdResponse =
+  DeletePaperlessInstancesByIdQueueByQueueIdResponses[keyof DeletePaperlessInstancesByIdQueueByQueueIdResponses];
+
+export type PostPaperlessInstancesByIdQueueByQueueIdRetryData = {
+  body?: never;
+  path: {
+    id: string;
+    queueId: string;
+  };
+  query?: never;
+  url: '/paperless-instances/{id}/queue/{queueId}/retry';
+};
+
+export type PostPaperlessInstancesByIdQueueByQueueIdRetryErrors = {
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not found
+   */
+  404: ErrorResponse;
+};
+
+export type PostPaperlessInstancesByIdQueueByQueueIdRetryError =
+  PostPaperlessInstancesByIdQueueByQueueIdRetryErrors[keyof PostPaperlessInstancesByIdQueueByQueueIdRetryErrors];
+
+export type PostPaperlessInstancesByIdQueueByQueueIdRetryResponses = {
+  /**
+   * Item scheduled for retry
+   */
+  200: ProcessingQueueItem;
+};
+
+export type PostPaperlessInstancesByIdQueueByQueueIdRetryResponse =
+  PostPaperlessInstancesByIdQueueByQueueIdRetryResponses[keyof PostPaperlessInstancesByIdQueueByQueueIdRetryResponses];
+
+export type PostPaperlessInstancesByIdQueueBulkRetryData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/paperless-instances/{id}/queue/bulk/retry';
+};
+
+export type PostPaperlessInstancesByIdQueueBulkRetryErrors = {
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not found
+   */
+  404: ErrorResponse;
+};
+
+export type PostPaperlessInstancesByIdQueueBulkRetryError =
+  PostPaperlessInstancesByIdQueueBulkRetryErrors[keyof PostPaperlessInstancesByIdQueueBulkRetryErrors];
+
+export type PostPaperlessInstancesByIdQueueBulkRetryResponses = {
+  /**
+   * Items scheduled for retry
+   */
+  200: BulkRetryResponse;
+};
+
+export type PostPaperlessInstancesByIdQueueBulkRetryResponse =
+  PostPaperlessInstancesByIdQueueBulkRetryResponses[keyof PostPaperlessInstancesByIdQueueBulkRetryResponses];
+
+export type DeletePaperlessInstancesByIdQueueBulkCompletedData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/paperless-instances/{id}/queue/bulk/completed';
+};
+
+export type DeletePaperlessInstancesByIdQueueBulkCompletedErrors = {
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not found
+   */
+  404: ErrorResponse;
+};
+
+export type DeletePaperlessInstancesByIdQueueBulkCompletedError =
+  DeletePaperlessInstancesByIdQueueBulkCompletedErrors[keyof DeletePaperlessInstancesByIdQueueBulkCompletedErrors];
+
+export type DeletePaperlessInstancesByIdQueueBulkCompletedResponses = {
+  /**
+   * Completed items deleted
+   */
+  200: {
+    deletedCount: number;
+  };
+};
+
+export type DeletePaperlessInstancesByIdQueueBulkCompletedResponse =
+  DeletePaperlessInstancesByIdQueueBulkCompletedResponses[keyof DeletePaperlessInstancesByIdQueueBulkCompletedResponses];
 
 export type ClientOptions = {
   baseUrl: `${string}://${string}/api` | (string & {});
