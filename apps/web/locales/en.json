@@ -22,6 +22,7 @@
     "aiBots": "AI Bots",
     "services": "Services",
     "admin": "Administration",
+    "profile": "Profile",
     "pagination": {
       "showing": "Showing {start} to {end} of {total}",
       "rowsPerPage": "Rows per page",
@@ -581,6 +582,76 @@
       }
     }
   },
+  "profile": {
+    "title": "Profile",
+    "appearance": {
+      "title": "Appearance",
+      "theme": {
+        "title": "Theme",
+        "description": "Customize the look and feel of the application",
+        "mode": {
+          "title": "Color Mode",
+          "description": "Choose between light, dark, or system-based theme",
+          "values": {
+            "light": "Light",
+            "dark": "Dark",
+            "system": "System Default"
+          }
+        }
+      }
+    },
+    "security": {
+      "title": "Security",
+      "changePassword": {
+        "title": "Password",
+        "description": "Change your account password",
+        "currentPassword": "Current Password",
+        "newPassword": "New Password",
+        "confirmPassword": "Confirm Password",
+        "submit": "Change Password",
+        "changing": "Changing...",
+        "success": "Password changed successfully",
+        "error": {
+          "mismatch": "Passwords do not match",
+          "tooShort": "Password must be at least 8 characters",
+          "generic": "Failed to change password"
+        }
+      }
+    },
+    "passkeys": {
+      "title": "Passkeys",
+      "description": "Manage your passkeys for passwordless login",
+      "add": "Add Passkey",
+      "noPasskeys": "No passkeys registered yet. Add one to enable passwordless login.",
+      "defaultName": "Passkey",
+      "createdAt": "Created {date}",
+      "lastUsed": "Last used {date}",
+      "backedUp": "Synced across devices",
+      "rename": "Rename",
+      "delete": "Delete",
+      "renameTitle": "Rename Passkey",
+      "renameDescription": "Enter a new name for this passkey",
+      "nameLabel": "Name",
+      "namePlaceholder": "Enter a name for this passkey",
+      "save": "Save",
+      "saving": "Saving...",
+      "cancel": "Cancel",
+      "renamed": "Passkey renamed successfully",
+      "deleteTitle": "Delete Passkey",
+      "deleteDescription": "Are you sure you want to delete \"{name}\"? You won't be able to use it to sign in anymore.",
+      "deleting": "Deleting...",
+      "deleted": "Passkey deleted successfully",
+      "registered": "Passkey registered successfully",
+      "registering": "Registering...",
+      "error": {
+        "loadFailed": "Failed to load passkeys",
+        "registerFailed": "Failed to register passkey",
+        "renameFailed": "Failed to rename passkey",
+        "deleteFailed": "Failed to delete passkey",
+        "notSupported": "Passkeys are not supported on this device"
+      }
+    }
+  },
   "auth": {
     "login": {
       "title": "Login",
@@ -598,8 +669,13 @@
       "error": {
         "invalidCredentials": "Invalid username or password",
         "accountSuspended": "Your account has been suspended",
-        "generic": "An error occurred during login"
-      }
+        "generic": "An error occurred during login",
+        "passkeyFailed": "Passkey authentication failed",
+        "passkeyNotSupported": "Passkeys are not supported on this device"
+      },
+      "orContinueWith": "Or continue with",
+      "passkey": "Sign in with Passkey",
+      "passkeyLoading": "Authenticating..."
     },
     "changePassword": {
       "title": "Change Password",

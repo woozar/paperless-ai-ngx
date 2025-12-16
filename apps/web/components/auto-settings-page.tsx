@@ -9,7 +9,6 @@ import { toast } from 'sonner';
 import { useState, useMemo, useCallback } from 'react';
 import { z } from 'zod';
 import { GroupCard, type SettingField } from './group-card';
-import { ClientSettings } from './client-settings';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 type FieldType = 'enum' | 'boolean' | 'string';
@@ -160,19 +159,14 @@ export function AutoSettingsPage() {
 
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 ease-out">
-      <Tabs defaultValue="appearance" className="w-full">
+      <Tabs defaultValue={sectionKeys[0]} className="w-full">
         <TabsList>
-          <TabsTrigger value="appearance">{t('admin.settings.appearance.title')}</TabsTrigger>
           {sectionKeys.map((sectionKey) => (
             <TabsTrigger key={sectionKey} value={sectionKey}>
               {t(`admin.settings.${sectionKey}.title`)}
             </TabsTrigger>
           ))}
         </TabsList>
-
-        <TabsContent value="appearance" className="space-y-8">
-          <ClientSettings />
-        </TabsContent>
 
         {Object.entries(groupedFields).map(([sectionKey, groups]) => (
           <TabsContent key={sectionKey} value={sectionKey} className="space-y-8">

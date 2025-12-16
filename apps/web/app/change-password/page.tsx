@@ -1,76 +1,21 @@
 'use client';
 
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { Button } from '@/components/ui/button';
-import { useErrorDisplay } from '@/hooks/use-error-display';
-import { PasswordInput } from '@/components/ui/password-input';
-import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { FileText, Loader2, KeyRound } from 'lucide-react';
+import { FileText, KeyRound } from 'lucide-react';
 import { useAuth } from '@/components/auth-provider';
+import { ChangePasswordForm } from '@/app/profile/_components/change-password-form';
 
 export default function ChangePasswordPage() {
   const t = useTranslations('auth.changePassword');
   const tCommon = useTranslations('common');
-  const { showApiError, showSuccess, showError } = useErrorDisplay('auth.changePassword');
   const router = useRouter();
   const { updateUser } = useAuth();
 
-  const [currentPassword, setCurrentPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // Validate passwords match
-    if (newPassword !== confirmPassword) {
-      showError('mismatch');
-      return;
-    }
-
-    // Validate password length
-    if (newPassword.length < 8) {
-      showError('tooShort');
-      return;
-    }
-
-    setIsLoading(true);
-
-    try {
-      const token = localStorage.getItem('auth_token');
-      const response = await fetch('/api/auth/change-password', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ currentPassword, newPassword }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        showApiError(data);
-        return;
-      }
-
-      // Update user state via AuthContext
-      updateUser({ mustChangePassword: false });
-
-      // Show success message
-      showSuccess('success');
-
-      // Redirect to home
-      router.push('/');
-    } catch {
-      showError('generic');
-    } finally {
-      setIsLoading(false);
-    }
+  const handleSuccess = () => {
+    updateUser({ mustChangePassword: false });
+    router.push('/');
   };
 
   return (
@@ -90,56 +35,7 @@ export default function ChangePasswordPage() {
           <CardDescription>{t('description')}</CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="currentPassword">{t('currentPassword')}</Label>
-              <PasswordInput
-                id="currentPassword"
-                value={currentPassword}
-                onChange={(e) => setCurrentPassword(e.target.value)}
-                disabled={isLoading}
-                required
-                autoComplete="current-password"
-                autoFocus
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="newPassword">{t('newPassword')}</Label>
-              <PasswordInput
-                id="newPassword"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                disabled={isLoading}
-                required
-                autoComplete="new-password"
-                showRules
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="confirmPassword">{t('confirmPassword')}</Label>
-              <PasswordInput
-                id="confirmPassword"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                disabled={isLoading}
-                required
-                autoComplete="new-password"
-              />
-            </div>
-
-            <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  {t('changing')}
-                </>
-              ) : (
-                t('submit')
-              )}
-            </Button>
-          </form>
+          <ChangePasswordForm onSuccess={handleSuccess} translationPrefix="auth.changePassword" />
         </CardContent>
       </Card>
     </div>

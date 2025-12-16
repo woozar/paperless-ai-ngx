@@ -7,10 +7,11 @@ import Image from 'next/image';
 import { useErrorDisplay } from '@/hooks/use-error-display';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { PasswordInput } from '@/components/ui/password-input';
+import { PasswordInput } from '@/components/form-inputs/password-input';
 import { Label } from '@/components/ui/label';
 import { Loader2 } from 'lucide-react';
 import { useAuth } from '@/components/auth-provider';
+import { PasskeyLoginButton } from '@/components/passkey-login-button';
 
 export default function LoginPage() {
   const t = useTranslations('auth.login');
@@ -149,7 +150,12 @@ export default function LoginPage() {
               />
             </div>
 
-            <Button type="submit" className="h-11 w-full text-base" disabled={isLoading}>
+            <Button
+              type="submit"
+              className="h-11 w-full text-base"
+              disabled={isLoading}
+              data-testid="login-submit-button"
+            >
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -159,6 +165,30 @@ export default function LoginPage() {
                 t('submit')
               )}
             </Button>
+
+            <div className="relative my-6">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-background text-muted-foreground px-2">
+                  {t('orContinueWith')}
+                </span>
+              </div>
+            </div>
+
+            <PasskeyLoginButton
+              onSuccess={(token, user) => {
+                login(token, user);
+                if (user.mustChangePassword) {
+                  router.push('/change-password');
+                } else {
+                  const redirect = searchParams.get('redirect') || '/';
+                  router.push(redirect);
+                }
+              }}
+              onError={(message) => showError(message)}
+            />
           </form>
         </div>
       </div>

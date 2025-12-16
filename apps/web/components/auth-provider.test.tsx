@@ -27,7 +27,6 @@ function TestConsumer() {
             username: 'testuser',
             role: 'DEFAULT',
             mustChangePassword: false,
-            createdAt: '2024-01-01T00:00:00Z',
           })
         }
       >
@@ -72,6 +71,18 @@ describe('AuthProvider', () => {
   it('login sets user and stores token', async () => {
     const user = userEvent.setup({ delay: null });
     mockPathname.mockReturnValue('/login'); // On login page to avoid redirect
+    // Mock /api/auth/me response for refreshUser call after login
+    (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValue({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          id: '1',
+          username: 'testuser',
+          role: 'DEFAULT',
+          mustChangePassword: false,
+          createdAt: '2024-01-01T00:00:00Z',
+        }),
+    });
 
     render(
       <AuthProvider>
@@ -85,7 +96,9 @@ describe('AuthProvider', () => {
 
     await user.click(screen.getByText('Login'));
 
-    expect(screen.getByTestId('authenticated')).toHaveTextContent('yes');
+    await waitFor(() => {
+      expect(screen.getByTestId('authenticated')).toHaveTextContent('yes');
+    });
     expect(screen.getByTestId('username')).toHaveTextContent('testuser');
     expect(localStorage.getItem('auth_token')).toBe('test-token');
     expect(localStorage.getItem('auth_user')).toContain('testuser');
@@ -93,7 +106,18 @@ describe('AuthProvider', () => {
 
   it('logout clears user and redirects to login', async () => {
     const user = userEvent.setup({ delay: null });
-    (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValue({ ok: true });
+    // Mock /api/auth/me for refreshUser, then /api/auth/logout for logout
+    (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValue({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          id: '1',
+          username: 'testuser',
+          role: 'DEFAULT',
+          mustChangePassword: false,
+          createdAt: '2024-01-01T00:00:00Z',
+        }),
+    });
     mockPathname.mockReturnValue('/login'); // Start on login page
 
     render(
@@ -107,7 +131,9 @@ describe('AuthProvider', () => {
     });
 
     await user.click(screen.getByText('Login'));
-    expect(screen.getByTestId('authenticated')).toHaveTextContent('yes');
+    await waitFor(() => {
+      expect(screen.getByTestId('authenticated')).toHaveTextContent('yes');
+    });
 
     mockPathname.mockReturnValue('/'); // Now on a protected page
     await user.click(screen.getByText('Logout'));
@@ -122,6 +148,18 @@ describe('AuthProvider', () => {
   it('updateUser updates user state', async () => {
     const user = userEvent.setup({ delay: null });
     mockPathname.mockReturnValue('/login'); // On login page to avoid redirect
+    // Mock /api/auth/me response for refreshUser call after login
+    (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValue({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          id: '1',
+          username: 'testuser',
+          role: 'DEFAULT',
+          mustChangePassword: false,
+          createdAt: '2024-01-01T00:00:00Z',
+        }),
+    });
 
     render(
       <AuthProvider>
@@ -134,7 +172,9 @@ describe('AuthProvider', () => {
     });
 
     await user.click(screen.getByText('Login'));
-    expect(screen.getByTestId('username')).toHaveTextContent('testuser');
+    await waitFor(() => {
+      expect(screen.getByTestId('username')).toHaveTextContent('testuser');
+    });
 
     await user.click(screen.getByText('Update'));
     expect(screen.getByTestId('username')).toHaveTextContent('updated');
@@ -285,7 +325,18 @@ describe('AuthProvider', () => {
 
   it('handles logout fetch error gracefully', async () => {
     const user = userEvent.setup({ delay: null });
-    (global.fetch as ReturnType<typeof vi.fn>).mockRejectedValue(new Error('Network error'));
+    // First mock successful response for refreshUser after login
+    (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValue({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          id: '1',
+          username: 'testuser',
+          role: 'DEFAULT',
+          mustChangePassword: false,
+          createdAt: '2024-01-01T00:00:00Z',
+        }),
+    });
     mockPathname.mockReturnValue('/login'); // Start on login page
 
     render(
@@ -299,7 +350,12 @@ describe('AuthProvider', () => {
     });
 
     await user.click(screen.getByText('Login'));
-    expect(screen.getByTestId('authenticated')).toHaveTextContent('yes');
+    await waitFor(() => {
+      expect(screen.getByTestId('authenticated')).toHaveTextContent('yes');
+    });
+
+    // Now mock a rejected response for logout
+    (global.fetch as ReturnType<typeof vi.fn>).mockRejectedValue(new Error('Network error'));
 
     mockPathname.mockReturnValue('/'); // Now on a protected page
     await user.click(screen.getByText('Logout'));

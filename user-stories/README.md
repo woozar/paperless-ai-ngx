@@ -15,6 +15,7 @@ Each user story is structured so that an E2E test can be created from it.
 - `sharing/` - Resource Sharing stories (US-SHARING-\*)
 - `settings/` - Settings stories (US-SETTINGS-\*)
 - `doc/` - Document Analysis stories (US-DOC-\*)
+- `profile/` - User Profile stories (US-PROFILE-\*)
 
 ## Test Setup Prerequisites
 

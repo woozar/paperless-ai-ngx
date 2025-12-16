@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { AutoFormField, type AutoFormFieldType } from '@/components/ui/auto-form-field';
+import { AutoFormField, type AutoFormFieldType } from '@/components/form-inputs/auto-form-field';
 import {
   Dialog,
   DialogContent,

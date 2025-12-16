@@ -52,6 +52,9 @@ model User {
   // Usage tracking
   aiUsageMetrics AiUsageMetric[]
 
+  // WebAuthn credentials
+  webAuthnCredentials WebAuthnCredential[]
+
   @@index([role])
   @@index([isActive])
 }
@@ -417,4 +420,39 @@ model AiUsageMetric {
   @@index([userId])
   @@index([aiModelId])
   @@index([aiBotId])
+}
+
+// =============================================================================
+// WebAuthn (Passkey) Authentication
+// =============================================================================
+
+model WebAuthnCredential {
+  id           String    @id @default(cuid())
+  credentialId Bytes     @unique // Base64URL decoded credential ID
+  publicKey    Bytes // COSE public key
+  counter      BigInt    @default(0) // Signature counter for replay protection
+  deviceType   String    @default("singleDevice") // "singleDevice" | "multiDevice"
+  backedUp     Boolean   @default(false) // Whether credential is backed up (e.g., iCloud Keychain)
+  transports   String[] // Array of transport hints: "usb", "ble", "nfc", "internal"
+  name         String? // User-friendly name for the passkey (e.g., "MacBook Pro")
+  createdAt    DateTime  @default(now())
+  lastUsedAt   DateTime?
+
+  // Link to User
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  @@index([userId])
+}
+
+model WebAuthnChallenge {
+  id        String   @id @default(cuid())
+  challenge String   @unique // The random challenge string
+  type      String // "registration" | "authentication"
+  userId    String? // For registration challenges, links to user
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([challenge])
+  @@index([expiresAt])
 }

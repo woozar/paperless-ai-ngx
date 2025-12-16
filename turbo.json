@@ -11,7 +11,9 @@
     "LOG_LEVEL",
     "NEXT_RUNTIME",
     "NODE_ENV",
-    "PORT"
+    "PORT",
+    "WEBAUTHN_RP_ID",
+    "WEBAUTHN_ORIGIN"
   ],
   "tasks": {
     "build": {

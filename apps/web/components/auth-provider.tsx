@@ -10,13 +10,16 @@ import {
   type ReactNode,
 } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
-import type { CurrentUser } from '@repo/api-client';
+import type { CurrentUser, LoginResponse } from '@repo/api-client';
+
+// Login returns a minimal user object, refreshUser fetches the full CurrentUser
+type LoginUser = LoginResponse['user'];
 
 interface AuthContextType {
   user: CurrentUser | null;
   isLoading: boolean;
   isAuthenticated: boolean;
-  login: (token: string, user: CurrentUser) => void;
+  login: (token: string, user: LoginUser) => void;
   logout: () => Promise<void>;
   updateUser: (user: Partial<CurrentUser>) => void;
   refreshUser: () => Promise<void>;
@@ -43,42 +46,6 @@ export function AuthProvider({ children }: Readonly<{ children: ReactNode }>) {
   const [isLoading, setIsLoading] = useState(true);
 
   const isAuthenticated = user !== null;
-
-  const login = useCallback((token: string, userData: CurrentUser) => {
-    setCookie('auth_token', token, 7);
-    localStorage.setItem('auth_token', token);
-    localStorage.setItem('auth_user', JSON.stringify(userData));
-    setUser(userData);
-  }, []);
-
-  const logout = useCallback(async () => {
-    try {
-      const token = localStorage.getItem('auth_token');
-      await fetch('/api/auth/logout', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-    } catch {
-      // Ignore errors during logout
-    } finally {
-      deleteCookie('auth_token');
-      localStorage.removeItem('auth_token');
-      localStorage.removeItem('auth_user');
-      setUser(null);
-      router.push('/login');
-    }
-  }, [router]);
-
-  const updateUser = useCallback((updates: Partial<CurrentUser>) => {
-    setUser((prev: CurrentUser | null) => {
-      if (!prev) return null;
-      const updated = { ...prev, ...updates };
-      localStorage.setItem('auth_user', JSON.stringify(updated));
-      return updated;
-    });
-  }, []);
 
   const refreshUser = useCallback(async () => {
     const token = localStorage.getItem('auth_token');
@@ -108,6 +75,52 @@ export function AuthProvider({ children }: Readonly<{ children: ReactNode }>) {
     } catch {
       setUser(null);
     }
+  }, []);
+
+  const login = useCallback(
+    (token: string, userData: LoginUser) => {
+      setCookie('auth_token', token, 7);
+      localStorage.setItem('auth_token', token);
+      // Store minimal user data initially, refreshUser will fetch complete data
+      const minimalUser: CurrentUser = {
+        ...userData,
+        createdAt: new Date().toISOString(), // Placeholder until refreshUser runs
+      };
+      localStorage.setItem('auth_user', JSON.stringify(minimalUser));
+      setUser(minimalUser);
+      // Immediately fetch complete user data in background
+      refreshUser();
+    },
+    [refreshUser]
+  );
+
+  const logout = useCallback(async () => {
+    try {
+      const token = localStorage.getItem('auth_token');
+      await fetch('/api/auth/logout', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } catch {
+      // Ignore errors during logout
+    } finally {
+      deleteCookie('auth_token');
+      localStorage.removeItem('auth_token');
+      localStorage.removeItem('auth_user');
+      setUser(null);
+      router.push('/login');
+    }
+  }, [router]);
+
+  const updateUser = useCallback((updates: Partial<CurrentUser>) => {
+    setUser((prev: CurrentUser | null) => {
+      if (!prev) return null;
+      const updated = { ...prev, ...updates };
+      localStorage.setItem('auth_user', JSON.stringify(updated));
+      return updated;
+    });
   }, []);
 
   // Initialize auth state from localStorage

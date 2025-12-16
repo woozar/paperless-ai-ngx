@@ -89,4 +89,35 @@ export const ApiResponses = {
       { error: 'Settings validation error', message: 'settingsValidationError', params },
       { status: 400 }
     ),
+
+  // WebAuthn errors
+  webauthnNotSupported: () =>
+    NextResponse.json(
+      { error: 'WebAuthn error', message: 'webauthnNotSupported' },
+      { status: 400 }
+    ),
+
+  webauthnChallengeExpired: () =>
+    NextResponse.json(
+      { error: 'WebAuthn error', message: 'webauthnChallengeExpired' },
+      { status: 400 }
+    ),
+
+  webauthnChallengeNotFound: () =>
+    NextResponse.json(
+      { error: 'WebAuthn error', message: 'webauthnChallengeNotFound' },
+      { status: 400 }
+    ),
+
+  webauthnCredentialNotFound: () =>
+    NextResponse.json(
+      { error: 'WebAuthn error', message: 'webauthnCredentialNotFound' },
+      { status: 404 }
+    ),
+
+  webauthnVerificationFailed: () =>
+    NextResponse.json(
+      { error: 'WebAuthn error', message: 'webauthnVerificationFailed' },
+      { status: 400 }
+    ),
 } as const;

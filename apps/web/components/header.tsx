@@ -9,7 +9,14 @@ import { useAuth } from '@/components/auth-provider';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet';
-import { LayoutDashboard, Users, Settings, LogOut, Menu, Layers } from 'lucide-react';
+import { LayoutDashboard, Users, Settings, LogOut, Menu, Layers, User } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { GithubIcon } from '@/components/icons/github';
 import { version } from '@/lib/version';
 
@@ -114,23 +121,34 @@ export function Header() {
               <GithubIcon className="h-4 w-4" />
             </Link>
             <div className="bg-border h-4 w-px" />
-            <div className="flex items-center gap-3">
-              <div className="flex flex-col items-end">
-                <span className="text-sm leading-none font-medium">{user?.username}</span>
-              </div>
-              <div className="bg-muted text-foreground flex h-8 w-8 items-center justify-center rounded-full text-xs font-medium">
-                {user?.username?.substring(0, 2).toUpperCase()}
-              </div>
-            </div>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="text-muted-foreground hover:text-destructive h-8 w-8 shrink-0"
-              onClick={logout}
-              title={tAuth('logout')}
-            >
-              <LogOut className="h-4 w-4" />
-            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="flex items-center gap-3 px-2">
+                  <div className="flex flex-col items-end">
+                    <span className="text-sm leading-none font-medium">{user?.username}</span>
+                  </div>
+                  <div className="bg-muted text-foreground flex h-8 w-8 items-center justify-center rounded-full text-xs font-medium">
+                    {user?.username?.substring(0, 2).toUpperCase()}
+                  </div>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuItem asChild>
+                  <Link href="/profile" className="flex cursor-pointer items-center gap-2">
+                    <User className="h-4 w-4" />
+                    {t('profile')}
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  onClick={logout}
+                  className="text-destructive focus:text-destructive cursor-pointer"
+                >
+                  <LogOut className="mr-2 h-4 w-4" />
+                  {tAuth('logout')}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
 
           {/* Mobile Menu Trigger */}
@@ -176,26 +194,38 @@ export function Header() {
                 </nav>
 
                 <div className="space-y-4">
-                  <div className="border-border flex items-center justify-between border-t pt-4">
-                    <div className="flex items-center gap-2">
-                      <div className="bg-primary text-primary-foreground flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold">
-                        {user?.username?.substring(0, 2).toUpperCase()}
-                      </div>
-                      <div className="flex flex-col text-xs">
-                        <span className="font-medium">{user?.username}</span>
-                        <span className="text-muted-foreground uppercase">
-                          {user?.role?.toLowerCase()}
-                        </span>
+                  <div className="border-border border-t pt-4">
+                    <div className="mb-4 flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className="bg-primary text-primary-foreground flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold">
+                          {user?.username?.substring(0, 2).toUpperCase()}
+                        </div>
+                        <div className="flex flex-col text-xs">
+                          <span className="font-medium">{user?.username}</span>
+                          <span className="text-muted-foreground uppercase">
+                            {user?.role?.toLowerCase()}
+                          </span>
+                        </div>
                       </div>
                     </div>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={logout}
-                      className="hover:bg-destructive/10 hover:text-destructive"
-                    >
-                      <LogOut className="h-4 w-4" />
-                    </Button>
+                    <div className="flex flex-col gap-2">
+                      <Link
+                        href="/profile"
+                        onClick={() => setIsOpen(false)}
+                        className="hover:text-primary text-muted-foreground flex items-center gap-2 text-sm font-medium transition-colors"
+                      >
+                        <User className="h-4 w-4" />
+                        {t('profile')}
+                      </Link>
+                      <Button
+                        variant="ghost"
+                        className="hover:bg-destructive/10 hover:text-destructive justify-start gap-2 px-0"
+                        onClick={logout}
+                      >
+                        <LogOut className="h-4 w-4" />
+                        {tAuth('logout')}
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </div>

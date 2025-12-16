@@ -92,10 +92,13 @@ describe('Header', () => {
 
     renderWithIntl(<Header />);
 
-    // There are two logout buttons (desktop and mobile).
-    // We'll click the first available visible one (likely desktop).
-    const logoutButtons = screen.getAllByTitle('Logout');
-    await user.click(logoutButtons[0]!);
+    // Logout is now in the user dropdown menu, need to open it first
+    const userMenuButton = screen.getByText('testuser');
+    await user.click(userMenuButton);
+
+    // Now click the logout button in the dropdown
+    const logoutButton = screen.getByText('Logout');
+    await user.click(logoutButton);
 
     expect(mockLogout).toHaveBeenCalledTimes(1);
   });
@@ -134,6 +137,36 @@ describe('Header', () => {
       // There should now only be the desktop link visible
       const linksAfterClick = screen.getAllByRole('link', { name: /dashboard/i });
       expect(linksAfterClick.length).toBe(1);
+    });
+  });
+
+  it('closes mobile menu when profile link is clicked', async () => {
+    const user = userEvent.setup({ delay: null });
+    mockUser.mockReturnValue({ id: '1', username: 'testuser', role: 'DEFAULT' });
+
+    renderWithIntl(<Header />);
+
+    // Open the mobile sheet menu
+    const menuButton = screen.getByRole('button', { name: '' }); // Menu icon button
+    await user.click(menuButton);
+
+    // Wait for the sheet content to be rendered - the sheet contains username twice (in header and profile section)
+    await waitFor(() => {
+      const usernames = screen.getAllByText('testuser');
+      expect(usernames.length).toBeGreaterThan(1); // One in desktop, more in mobile sheet
+    });
+
+    // Find the profile link inside the mobile sheet
+    const profileLinks = screen.getAllByRole('link', { name: /profile/i });
+    // Click the profile link in the mobile sheet (should be second one - first is in desktop dropdown)
+    const mobileProfileLink = profileLinks[profileLinks.length - 1]!;
+    await user.click(mobileProfileLink);
+
+    // After clicking, the sheet closes
+    await waitFor(() => {
+      // After the sheet closes, there should be fewer username instances
+      const usernamesAfterClose = screen.getAllByText('testuser');
+      expect(usernamesAfterClose.length).toBe(1);
     });
   });
 });

@@ -18,7 +18,11 @@ vi.mock('@/components/auth-provider', () => ({
 
 vi.mock('@/components/settings-provider', () => ({
   useSettings: () => ({
-    settings: { 'security.sharing.mode': 'BASIC' as const },
+    settings: {
+      'display.general.currency': 'EUR' as const,
+      'ai.context.identity': '',
+      'security.sharing.mode': 'BASIC' as const,
+    },
     isLoading: false,
     updateSetting: vi.fn(),
   }),
@@ -56,12 +60,12 @@ describe('SettingsPage', () => {
     });
   });
 
-  it('renders appearance settings tab by default', async () => {
+  it('renders display settings tab by default', async () => {
     renderWithIntl(<SettingsPage />);
 
     await waitFor(() => {
-      // Appearance is the default tab, check for the theme mode selector
-      expect(screen.getByTestId('setting-appearance.theme.mode')).toBeInTheDocument();
+      // Display is the first/default tab now (appearance removed)
+      expect(screen.getByTestId('setting-display.general.currency')).toBeInTheDocument();
     });
   });
 
@@ -85,7 +89,7 @@ describe('SettingsPage', () => {
     renderWithIntl(<SettingsPage />);
 
     await waitFor(() => {
-      expect(screen.getByTestId('setting-appearance.theme.mode')).toBeInTheDocument();
+      expect(screen.getByTestId('setting-display.general.currency')).toBeInTheDocument();
     });
 
     expect(mockPush).not.toHaveBeenCalled();

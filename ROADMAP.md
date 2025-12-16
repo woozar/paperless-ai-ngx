@@ -200,7 +200,32 @@
 - [x] Import Filter Tags (only process documents with specific tags)
 - [x] Queue UI (`/admin/paperless-instances/[id]/queue`)
 
-## Phase 8: Setup Wizard
+## Phase 8: Passkey Authentication & User Profile ✅
+
+### WebAuthn/Passkey Support
+
+- [x] Database Schema: WebAuthnCredential, WebAuthnChallenge models
+- [x] Dependencies: @simplewebauthn/server, @simplewebauthn/browser
+- [x] WebAuthn Configuration (RP ID, Origin from ENV)
+- [x] API: Registration endpoints (options, verify)
+- [x] API: Authentication endpoints (options, verify)
+- [x] API: Credential management (list, rename, delete)
+- [x] Login Page: "Sign in with Passkey" button
+- [x] Tests for all WebAuthn endpoints
+
+### User Profile Page (`/profile`)
+
+- [x] New route /profile accessible to all authenticated users
+- [x] Appearance section: Theme selector (moved from /admin/settings)
+- [x] Security section: Change password form
+- [x] Passkeys section: List registered passkeys
+- [x] Add Passkey button with registration flow
+- [x] Rename Passkey dialog
+- [x] Delete Passkey dialog
+- [x] Navigation: Profile link in user dropdown
+- [x] Tests for profile page components
+
+## Phase 9: Setup Wizard
 
 - [ ] Setup page (`/setup`)
 - [ ] Paperless-ngx URL + Token entry
@@ -210,7 +235,7 @@
 - [ ] Model selection
 - [ ] Step-by-step creation of PaperlessInstance, AiProvider, AiBot
 
-## Phase 9: Testing & CI/CD
+## Phase 10: Testing & CI/CD
 
 - [ ] Playwright E2E Tests Setup
   - [ ] Implement E2E tests based on USER-STORIES.md
@@ -219,7 +244,7 @@
 - [ ] docker-compose.test.yml for E2E Tests
 - [ ] GitHub Actions CI/CD Pipeline
 
-## Phase 10: Customizable Dashboard System
+## Phase 11: Customizable Dashboard System
 
 ### Database Schema
 
@@ -339,7 +364,7 @@
   - [ ] Reduce chart complexity on mobile (fewer data points)
   - [ ] Skeleton loading for each tile independently
 
-## Phase 11: RAG / Chat Feature
+## Phase 12: RAG / Chat Feature
 
 - [ ] Document Indexing Service
 - [ ] Vector Store Integration (optional)
@@ -347,7 +372,7 @@
 - [ ] Semantic Document Search
 - [ ] Context-aware Q&A
 
-## Phase 12: Advanced Features
+## Phase 13: Advanced Features
 
 - [ ] Configure custom prompts
 - [ ] Rules Engine (which documents to process)
@@ -356,7 +381,7 @@
 - [ ] Multi-User Support
 - [ ] API for external integrations
 
-## Phase 13: Polish & Release
+## Phase 14: Polish & Release
 
 - [ ] Error Handling & Logging
 - [ ] Performance Optimization
@@ -396,7 +421,6 @@
 
 ## Next Steps (Priority)
 
-1. **Scheduled Processing** (Phase 7) - Automatic background processing of new documents
-2. **Setup Wizard** (Phase 8) - Step-by-step wizard to create instances, providers, and bots
-3. **Playwright E2E Tests** (Phase 9) - E2E testing based on USER-STORIES.md
-4. **Customizable Dashboard System** (Phase 10) - Grid-based dashboard with drag & drop tiles
+1. **Setup Wizard** (Phase 9) - Step-by-step wizard to create instances, providers, and bots
+2. **Playwright E2E Tests** (Phase 10) - E2E testing based on USER-STORIES.md
+3. **Customizable Dashboard System** (Phase 11) - Grid-based dashboard with drag & drop tiles

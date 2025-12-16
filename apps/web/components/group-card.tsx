@@ -4,7 +4,7 @@ import { memo, useMemo, useState, useCallback, useEffect, useRef } from 'react';
 import { useTranslations } from 'next-intl';
 import { Card, CardContent } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-import { AutoFormField, type AutoFormFieldType } from '@/components/ui/auto-form-field';
+import { AutoFormField, type AutoFormFieldType } from '@/components/form-inputs/auto-form-field';
 import { Input } from '@/components/ui/input';
 import { Loader2 } from 'lucide-react';
 import type { Settings } from '@/lib/api/schemas/settings';

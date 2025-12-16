@@ -88,6 +88,16 @@ export type ImportHistory = $Result.DefaultSelection<Prisma.$ImportHistoryPayloa
  *
  */
 export type AiUsageMetric = $Result.DefaultSelection<Prisma.$AiUsageMetricPayload>;
+/**
+ * Model WebAuthnCredential
+ *
+ */
+export type WebAuthnCredential = $Result.DefaultSelection<Prisma.$WebAuthnCredentialPayload>;
+/**
+ * Model WebAuthnChallenge
+ *
+ */
+export type WebAuthnChallenge = $Result.DefaultSelection<Prisma.$WebAuthnChallengePayload>;
 
 /**
  * Enums
@@ -416,6 +426,26 @@ export class PrismaClient<
    * ```
    */
   get aiUsageMetric(): Prisma.AiUsageMetricDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.webAuthnCredential`: Exposes CRUD operations for the **WebAuthnCredential** model.
+   * Example usage:
+   * ```ts
+   * // Fetch zero or more WebAuthnCredentials
+   * const webAuthnCredentials = await prisma.webAuthnCredential.findMany()
+   * ```
+   */
+  get webAuthnCredential(): Prisma.WebAuthnCredentialDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.webAuthnChallenge`: Exposes CRUD operations for the **WebAuthnChallenge** model.
+   * Example usage:
+   * ```ts
+   * // Fetch zero or more WebAuthnChallenges
+   * const webAuthnChallenges = await prisma.webAuthnChallenge.findMany()
+   * ```
+   */
+  get webAuthnChallenge(): Prisma.WebAuthnChallengeDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -859,6 +889,8 @@ export namespace Prisma {
     ProcessingQueue: 'ProcessingQueue';
     ImportHistory: 'ImportHistory';
     AiUsageMetric: 'AiUsageMetric';
+    WebAuthnCredential: 'WebAuthnCredential';
+    WebAuthnChallenge: 'WebAuthnChallenge';
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName];
@@ -894,7 +926,9 @@ export namespace Prisma {
         | 'documentProcessingResult'
         | 'processingQueue'
         | 'importHistory'
-        | 'aiUsageMetric';
+        | 'aiUsageMetric'
+        | 'webAuthnCredential'
+        | 'webAuthnChallenge';
       txIsolationLevel: Prisma.TransactionIsolationLevel;
     };
     model: {
@@ -2008,6 +2042,154 @@ export namespace Prisma {
           };
         };
       };
+      WebAuthnCredential: {
+        payload: Prisma.$WebAuthnCredentialPayload<ExtArgs>;
+        fields: Prisma.WebAuthnCredentialFieldRefs;
+        operations: {
+          findUnique: {
+            args: Prisma.WebAuthnCredentialFindUniqueArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$WebAuthnCredentialPayload> | null;
+          };
+          findUniqueOrThrow: {
+            args: Prisma.WebAuthnCredentialFindUniqueOrThrowArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$WebAuthnCredentialPayload>;
+          };
+          findFirst: {
+            args: Prisma.WebAuthnCredentialFindFirstArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$WebAuthnCredentialPayload> | null;
+          };
+          findFirstOrThrow: {
+            args: Prisma.WebAuthnCredentialFindFirstOrThrowArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$WebAuthnCredentialPayload>;
+          };
+          findMany: {
+            args: Prisma.WebAuthnCredentialFindManyArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$WebAuthnCredentialPayload>[];
+          };
+          create: {
+            args: Prisma.WebAuthnCredentialCreateArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$WebAuthnCredentialPayload>;
+          };
+          createMany: {
+            args: Prisma.WebAuthnCredentialCreateManyArgs<ExtArgs>;
+            result: BatchPayload;
+          };
+          createManyAndReturn: {
+            args: Prisma.WebAuthnCredentialCreateManyAndReturnArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$WebAuthnCredentialPayload>[];
+          };
+          delete: {
+            args: Prisma.WebAuthnCredentialDeleteArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$WebAuthnCredentialPayload>;
+          };
+          update: {
+            args: Prisma.WebAuthnCredentialUpdateArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$WebAuthnCredentialPayload>;
+          };
+          deleteMany: {
+            args: Prisma.WebAuthnCredentialDeleteManyArgs<ExtArgs>;
+            result: BatchPayload;
+          };
+          updateMany: {
+            args: Prisma.WebAuthnCredentialUpdateManyArgs<ExtArgs>;
+            result: BatchPayload;
+          };
+          updateManyAndReturn: {
+            args: Prisma.WebAuthnCredentialUpdateManyAndReturnArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$WebAuthnCredentialPayload>[];
+          };
+          upsert: {
+            args: Prisma.WebAuthnCredentialUpsertArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$WebAuthnCredentialPayload>;
+          };
+          aggregate: {
+            args: Prisma.WebAuthnCredentialAggregateArgs<ExtArgs>;
+            result: $Utils.Optional<AggregateWebAuthnCredential>;
+          };
+          groupBy: {
+            args: Prisma.WebAuthnCredentialGroupByArgs<ExtArgs>;
+            result: $Utils.Optional<WebAuthnCredentialGroupByOutputType>[];
+          };
+          count: {
+            args: Prisma.WebAuthnCredentialCountArgs<ExtArgs>;
+            result: $Utils.Optional<WebAuthnCredentialCountAggregateOutputType> | number;
+          };
+        };
+      };
+      WebAuthnChallenge: {
+        payload: Prisma.$WebAuthnChallengePayload<ExtArgs>;
+        fields: Prisma.WebAuthnChallengeFieldRefs;
+        operations: {
+          findUnique: {
+            args: Prisma.WebAuthnChallengeFindUniqueArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$WebAuthnChallengePayload> | null;
+          };
+          findUniqueOrThrow: {
+            args: Prisma.WebAuthnChallengeFindUniqueOrThrowArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$WebAuthnChallengePayload>;
+          };
+          findFirst: {
+            args: Prisma.WebAuthnChallengeFindFirstArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$WebAuthnChallengePayload> | null;
+          };
+          findFirstOrThrow: {
+            args: Prisma.WebAuthnChallengeFindFirstOrThrowArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$WebAuthnChallengePayload>;
+          };
+          findMany: {
+            args: Prisma.WebAuthnChallengeFindManyArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$WebAuthnChallengePayload>[];
+          };
+          create: {
+            args: Prisma.WebAuthnChallengeCreateArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$WebAuthnChallengePayload>;
+          };
+          createMany: {
+            args: Prisma.WebAuthnChallengeCreateManyArgs<ExtArgs>;
+            result: BatchPayload;
+          };
+          createManyAndReturn: {
+            args: Prisma.WebAuthnChallengeCreateManyAndReturnArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$WebAuthnChallengePayload>[];
+          };
+          delete: {
+            args: Prisma.WebAuthnChallengeDeleteArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$WebAuthnChallengePayload>;
+          };
+          update: {
+            args: Prisma.WebAuthnChallengeUpdateArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$WebAuthnChallengePayload>;
+          };
+          deleteMany: {
+            args: Prisma.WebAuthnChallengeDeleteManyArgs<ExtArgs>;
+            result: BatchPayload;
+          };
+          updateMany: {
+            args: Prisma.WebAuthnChallengeUpdateManyArgs<ExtArgs>;
+            result: BatchPayload;
+          };
+          updateManyAndReturn: {
+            args: Prisma.WebAuthnChallengeUpdateManyAndReturnArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$WebAuthnChallengePayload>[];
+          };
+          upsert: {
+            args: Prisma.WebAuthnChallengeUpsertArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$WebAuthnChallengePayload>;
+          };
+          aggregate: {
+            args: Prisma.WebAuthnChallengeAggregateArgs<ExtArgs>;
+            result: $Utils.Optional<AggregateWebAuthnChallenge>;
+          };
+          groupBy: {
+            args: Prisma.WebAuthnChallengeGroupByArgs<ExtArgs>;
+            result: $Utils.Optional<WebAuthnChallengeGroupByOutputType>[];
+          };
+          count: {
+            args: Prisma.WebAuthnChallengeCountArgs<ExtArgs>;
+            result: $Utils.Optional<WebAuthnChallengeCountAggregateOutputType> | number;
+          };
+        };
+      };
     };
   } & {
     other: {
@@ -2119,6 +2301,8 @@ export namespace Prisma {
     processingQueue?: ProcessingQueueOmit;
     importHistory?: ImportHistoryOmit;
     aiUsageMetric?: AiUsageMetricOmit;
+    webAuthnCredential?: WebAuthnCredentialOmit;
+    webAuthnChallenge?: WebAuthnChallengeOmit;
   };
 
   /* Types for Logging */
@@ -2203,6 +2387,7 @@ export namespace Prisma {
     sharedAiModels: number;
     sharedAiBots: number;
     aiUsageMetrics: number;
+    webAuthnCredentials: number;
   };
 
   export type UserCountOutputTypeSelect<
@@ -2217,6 +2402,7 @@ export namespace Prisma {
     sharedAiModels?: boolean | UserCountOutputTypeCountSharedAiModelsArgs;
     sharedAiBots?: boolean | UserCountOutputTypeCountSharedAiBotsArgs;
     aiUsageMetrics?: boolean | UserCountOutputTypeCountAiUsageMetricsArgs;
+    webAuthnCredentials?: boolean | UserCountOutputTypeCountWebAuthnCredentialsArgs;
   };
 
   // Custom InputTypes
@@ -2311,6 +2497,15 @@ export namespace Prisma {
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     where?: AiUsageMetricWhereInput;
+  };
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountWebAuthnCredentialsArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    where?: WebAuthnCredentialWhereInput;
   };
 
   /**
@@ -3936,6 +4131,7 @@ export namespace Prisma {
         sharedAiModels?: boolean | User$sharedAiModelsArgs<ExtArgs>;
         sharedAiBots?: boolean | User$sharedAiBotsArgs<ExtArgs>;
         aiUsageMetrics?: boolean | User$aiUsageMetricsArgs<ExtArgs>;
+        webAuthnCredentials?: boolean | User$webAuthnCredentialsArgs<ExtArgs>;
         _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>;
       },
       ExtArgs['result']['user']
@@ -4006,6 +4202,7 @@ export namespace Prisma {
     sharedAiModels?: boolean | User$sharedAiModelsArgs<ExtArgs>;
     sharedAiBots?: boolean | User$sharedAiBotsArgs<ExtArgs>;
     aiUsageMetrics?: boolean | User$aiUsageMetricsArgs<ExtArgs>;
+    webAuthnCredentials?: boolean | User$webAuthnCredentialsArgs<ExtArgs>;
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>;
   };
   export type UserIncludeCreateManyAndReturn<
@@ -4027,6 +4224,7 @@ export namespace Prisma {
       sharedAiModels: Prisma.$UserAiModelAccessPayload<ExtArgs>[];
       sharedAiBots: Prisma.$UserAiBotAccessPayload<ExtArgs>[];
       aiUsageMetrics: Prisma.$AiUsageMetricPayload<ExtArgs>[];
+      webAuthnCredentials: Prisma.$WebAuthnCredentialPayload<ExtArgs>[];
     };
     scalars: $Extensions.GetPayloadResult<
       {
@@ -4585,6 +4783,17 @@ export namespace Prisma {
       args?: Subset<T, User$aiUsageMetricsArgs<ExtArgs>>
     ): Prisma.PrismaPromise<
       | $Result.GetResult<Prisma.$AiUsageMetricPayload<ExtArgs>, T, 'findMany', GlobalOmitOptions>
+      | Null
+    >;
+    webAuthnCredentials<T extends User$webAuthnCredentialsArgs<ExtArgs> = {}>(
+      args?: Subset<T, User$webAuthnCredentialsArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<
+      | $Result.GetResult<
+          Prisma.$WebAuthnCredentialPayload<ExtArgs>,
+          T,
+          'findMany',
+          GlobalOmitOptions
+        >
       | Null
     >;
     /**
@@ -5273,6 +5482,34 @@ export namespace Prisma {
     take?: number;
     skip?: number;
     distinct?: AiUsageMetricScalarFieldEnum | AiUsageMetricScalarFieldEnum[];
+  };
+
+  /**
+   * User.webAuthnCredentials
+   */
+  export type User$webAuthnCredentialsArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the WebAuthnCredential
+     */
+    select?: WebAuthnCredentialSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the WebAuthnCredential
+     */
+    omit?: WebAuthnCredentialOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebAuthnCredentialInclude<ExtArgs> | null;
+    where?: WebAuthnCredentialWhereInput;
+    orderBy?:
+      | WebAuthnCredentialOrderByWithRelationInput
+      | WebAuthnCredentialOrderByWithRelationInput[];
+    cursor?: WebAuthnCredentialWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?: WebAuthnCredentialScalarFieldEnum | WebAuthnCredentialScalarFieldEnum[];
   };
 
   /**
@@ -23777,6 +24014,2573 @@ export namespace Prisma {
   };
 
   /**
+   * Model WebAuthnCredential
+   */
+
+  export type AggregateWebAuthnCredential = {
+    _count: WebAuthnCredentialCountAggregateOutputType | null;
+    _avg: WebAuthnCredentialAvgAggregateOutputType | null;
+    _sum: WebAuthnCredentialSumAggregateOutputType | null;
+    _min: WebAuthnCredentialMinAggregateOutputType | null;
+    _max: WebAuthnCredentialMaxAggregateOutputType | null;
+  };
+
+  export type WebAuthnCredentialAvgAggregateOutputType = {
+    counter: number | null;
+  };
+
+  export type WebAuthnCredentialSumAggregateOutputType = {
+    counter: bigint | null;
+  };
+
+  export type WebAuthnCredentialMinAggregateOutputType = {
+    id: string | null;
+    credentialId: Bytes | null;
+    publicKey: Bytes | null;
+    counter: bigint | null;
+    deviceType: string | null;
+    backedUp: boolean | null;
+    name: string | null;
+    createdAt: Date | null;
+    lastUsedAt: Date | null;
+    userId: string | null;
+  };
+
+  export type WebAuthnCredentialMaxAggregateOutputType = {
+    id: string | null;
+    credentialId: Bytes | null;
+    publicKey: Bytes | null;
+    counter: bigint | null;
+    deviceType: string | null;
+    backedUp: boolean | null;
+    name: string | null;
+    createdAt: Date | null;
+    lastUsedAt: Date | null;
+    userId: string | null;
+  };
+
+  export type WebAuthnCredentialCountAggregateOutputType = {
+    id: number;
+    credentialId: number;
+    publicKey: number;
+    counter: number;
+    deviceType: number;
+    backedUp: number;
+    transports: number;
+    name: number;
+    createdAt: number;
+    lastUsedAt: number;
+    userId: number;
+    _all: number;
+  };
+
+  export type WebAuthnCredentialAvgAggregateInputType = {
+    counter?: true;
+  };
+
+  export type WebAuthnCredentialSumAggregateInputType = {
+    counter?: true;
+  };
+
+  export type WebAuthnCredentialMinAggregateInputType = {
+    id?: true;
+    credentialId?: true;
+    publicKey?: true;
+    counter?: true;
+    deviceType?: true;
+    backedUp?: true;
+    name?: true;
+    createdAt?: true;
+    lastUsedAt?: true;
+    userId?: true;
+  };
+
+  export type WebAuthnCredentialMaxAggregateInputType = {
+    id?: true;
+    credentialId?: true;
+    publicKey?: true;
+    counter?: true;
+    deviceType?: true;
+    backedUp?: true;
+    name?: true;
+    createdAt?: true;
+    lastUsedAt?: true;
+    userId?: true;
+  };
+
+  export type WebAuthnCredentialCountAggregateInputType = {
+    id?: true;
+    credentialId?: true;
+    publicKey?: true;
+    counter?: true;
+    deviceType?: true;
+    backedUp?: true;
+    transports?: true;
+    name?: true;
+    createdAt?: true;
+    lastUsedAt?: true;
+    userId?: true;
+    _all?: true;
+  };
+
+  export type WebAuthnCredentialAggregateArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Filter which WebAuthnCredential to aggregate.
+     */
+    where?: WebAuthnCredentialWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of WebAuthnCredentials to fetch.
+     */
+    orderBy?:
+      | WebAuthnCredentialOrderByWithRelationInput
+      | WebAuthnCredentialOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the start position
+     */
+    cursor?: WebAuthnCredentialWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` WebAuthnCredentials from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` WebAuthnCredentials.
+     */
+    skip?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Count returned WebAuthnCredentials
+     **/
+    _count?: true | WebAuthnCredentialCountAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to average
+     **/
+    _avg?: WebAuthnCredentialAvgAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to sum
+     **/
+    _sum?: WebAuthnCredentialSumAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to find the minimum value
+     **/
+    _min?: WebAuthnCredentialMinAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to find the maximum value
+     **/
+    _max?: WebAuthnCredentialMaxAggregateInputType;
+  };
+
+  export type GetWebAuthnCredentialAggregateType<T extends WebAuthnCredentialAggregateArgs> = {
+    [P in keyof T & keyof AggregateWebAuthnCredential]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWebAuthnCredential[P]>
+      : GetScalarType<T[P], AggregateWebAuthnCredential[P]>;
+  };
+
+  export type WebAuthnCredentialGroupByArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    where?: WebAuthnCredentialWhereInput;
+    orderBy?:
+      | WebAuthnCredentialOrderByWithAggregationInput
+      | WebAuthnCredentialOrderByWithAggregationInput[];
+    by: WebAuthnCredentialScalarFieldEnum[] | WebAuthnCredentialScalarFieldEnum;
+    having?: WebAuthnCredentialScalarWhereWithAggregatesInput;
+    take?: number;
+    skip?: number;
+    _count?: WebAuthnCredentialCountAggregateInputType | true;
+    _avg?: WebAuthnCredentialAvgAggregateInputType;
+    _sum?: WebAuthnCredentialSumAggregateInputType;
+    _min?: WebAuthnCredentialMinAggregateInputType;
+    _max?: WebAuthnCredentialMaxAggregateInputType;
+  };
+
+  export type WebAuthnCredentialGroupByOutputType = {
+    id: string;
+    credentialId: Bytes;
+    publicKey: Bytes;
+    counter: bigint;
+    deviceType: string;
+    backedUp: boolean;
+    transports: string[];
+    name: string | null;
+    createdAt: Date;
+    lastUsedAt: Date | null;
+    userId: string;
+    _count: WebAuthnCredentialCountAggregateOutputType | null;
+    _avg: WebAuthnCredentialAvgAggregateOutputType | null;
+    _sum: WebAuthnCredentialSumAggregateOutputType | null;
+    _min: WebAuthnCredentialMinAggregateOutputType | null;
+    _max: WebAuthnCredentialMaxAggregateOutputType | null;
+  };
+
+  type GetWebAuthnCredentialGroupByPayload<T extends WebAuthnCredentialGroupByArgs> =
+    Prisma.PrismaPromise<
+      Array<
+        PickEnumerable<WebAuthnCredentialGroupByOutputType, T['by']> & {
+          [P in keyof T & keyof WebAuthnCredentialGroupByOutputType]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], WebAuthnCredentialGroupByOutputType[P]>
+            : GetScalarType<T[P], WebAuthnCredentialGroupByOutputType[P]>;
+        }
+      >
+    >;
+
+  export type WebAuthnCredentialSelect<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = $Extensions.GetSelect<
+    {
+      id?: boolean;
+      credentialId?: boolean;
+      publicKey?: boolean;
+      counter?: boolean;
+      deviceType?: boolean;
+      backedUp?: boolean;
+      transports?: boolean;
+      name?: boolean;
+      createdAt?: boolean;
+      lastUsedAt?: boolean;
+      userId?: boolean;
+      user?: boolean | UserDefaultArgs<ExtArgs>;
+    },
+    ExtArgs['result']['webAuthnCredential']
+  >;
+
+  export type WebAuthnCredentialSelectCreateManyAndReturn<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = $Extensions.GetSelect<
+    {
+      id?: boolean;
+      credentialId?: boolean;
+      publicKey?: boolean;
+      counter?: boolean;
+      deviceType?: boolean;
+      backedUp?: boolean;
+      transports?: boolean;
+      name?: boolean;
+      createdAt?: boolean;
+      lastUsedAt?: boolean;
+      userId?: boolean;
+      user?: boolean | UserDefaultArgs<ExtArgs>;
+    },
+    ExtArgs['result']['webAuthnCredential']
+  >;
+
+  export type WebAuthnCredentialSelectUpdateManyAndReturn<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = $Extensions.GetSelect<
+    {
+      id?: boolean;
+      credentialId?: boolean;
+      publicKey?: boolean;
+      counter?: boolean;
+      deviceType?: boolean;
+      backedUp?: boolean;
+      transports?: boolean;
+      name?: boolean;
+      createdAt?: boolean;
+      lastUsedAt?: boolean;
+      userId?: boolean;
+      user?: boolean | UserDefaultArgs<ExtArgs>;
+    },
+    ExtArgs['result']['webAuthnCredential']
+  >;
+
+  export type WebAuthnCredentialSelectScalar = {
+    id?: boolean;
+    credentialId?: boolean;
+    publicKey?: boolean;
+    counter?: boolean;
+    deviceType?: boolean;
+    backedUp?: boolean;
+    transports?: boolean;
+    name?: boolean;
+    createdAt?: boolean;
+    lastUsedAt?: boolean;
+    userId?: boolean;
+  };
+
+  export type WebAuthnCredentialOmit<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = $Extensions.GetOmit<
+    | 'id'
+    | 'credentialId'
+    | 'publicKey'
+    | 'counter'
+    | 'deviceType'
+    | 'backedUp'
+    | 'transports'
+    | 'name'
+    | 'createdAt'
+    | 'lastUsedAt'
+    | 'userId',
+    ExtArgs['result']['webAuthnCredential']
+  >;
+  export type WebAuthnCredentialInclude<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    user?: boolean | UserDefaultArgs<ExtArgs>;
+  };
+  export type WebAuthnCredentialIncludeCreateManyAndReturn<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    user?: boolean | UserDefaultArgs<ExtArgs>;
+  };
+  export type WebAuthnCredentialIncludeUpdateManyAndReturn<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    user?: boolean | UserDefaultArgs<ExtArgs>;
+  };
+
+  export type $WebAuthnCredentialPayload<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    name: 'WebAuthnCredential';
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>;
+    };
+    scalars: $Extensions.GetPayloadResult<
+      {
+        id: string;
+        credentialId: Prisma.Bytes;
+        publicKey: Prisma.Bytes;
+        counter: bigint;
+        deviceType: string;
+        backedUp: boolean;
+        transports: string[];
+        name: string | null;
+        createdAt: Date;
+        lastUsedAt: Date | null;
+        userId: string;
+      },
+      ExtArgs['result']['webAuthnCredential']
+    >;
+    composites: {};
+  };
+
+  type WebAuthnCredentialGetPayload<
+    S extends boolean | null | undefined | WebAuthnCredentialDefaultArgs,
+  > = $Result.GetResult<Prisma.$WebAuthnCredentialPayload, S>;
+
+  type WebAuthnCredentialCountArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = Omit<WebAuthnCredentialFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+    select?: WebAuthnCredentialCountAggregateInputType | true;
+  };
+
+  export interface WebAuthnCredentialDelegate<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+    GlobalOmitOptions = {},
+  > {
+    [K: symbol]: {
+      types: Prisma.TypeMap<ExtArgs>['model']['WebAuthnCredential'];
+      meta: { name: 'WebAuthnCredential' };
+    };
+    /**
+     * Find zero or one WebAuthnCredential that matches the filter.
+     * @param {WebAuthnCredentialFindUniqueArgs} args - Arguments to find a WebAuthnCredential
+     * @example
+     * // Get one WebAuthnCredential
+     * const webAuthnCredential = await prisma.webAuthnCredential.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends WebAuthnCredentialFindUniqueArgs>(
+      args: SelectSubset<T, WebAuthnCredentialFindUniqueArgs<ExtArgs>>
+    ): Prisma__WebAuthnCredentialClient<
+      $Result.GetResult<
+        Prisma.$WebAuthnCredentialPayload<ExtArgs>,
+        T,
+        'findUnique',
+        GlobalOmitOptions
+      > | null,
+      null,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Find one WebAuthnCredential that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {WebAuthnCredentialFindUniqueOrThrowArgs} args - Arguments to find a WebAuthnCredential
+     * @example
+     * // Get one WebAuthnCredential
+     * const webAuthnCredential = await prisma.webAuthnCredential.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends WebAuthnCredentialFindUniqueOrThrowArgs>(
+      args: SelectSubset<T, WebAuthnCredentialFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__WebAuthnCredentialClient<
+      $Result.GetResult<
+        Prisma.$WebAuthnCredentialPayload<ExtArgs>,
+        T,
+        'findUniqueOrThrow',
+        GlobalOmitOptions
+      >,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Find the first WebAuthnCredential that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebAuthnCredentialFindFirstArgs} args - Arguments to find a WebAuthnCredential
+     * @example
+     * // Get one WebAuthnCredential
+     * const webAuthnCredential = await prisma.webAuthnCredential.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends WebAuthnCredentialFindFirstArgs>(
+      args?: SelectSubset<T, WebAuthnCredentialFindFirstArgs<ExtArgs>>
+    ): Prisma__WebAuthnCredentialClient<
+      $Result.GetResult<
+        Prisma.$WebAuthnCredentialPayload<ExtArgs>,
+        T,
+        'findFirst',
+        GlobalOmitOptions
+      > | null,
+      null,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Find the first WebAuthnCredential that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebAuthnCredentialFindFirstOrThrowArgs} args - Arguments to find a WebAuthnCredential
+     * @example
+     * // Get one WebAuthnCredential
+     * const webAuthnCredential = await prisma.webAuthnCredential.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends WebAuthnCredentialFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, WebAuthnCredentialFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__WebAuthnCredentialClient<
+      $Result.GetResult<
+        Prisma.$WebAuthnCredentialPayload<ExtArgs>,
+        T,
+        'findFirstOrThrow',
+        GlobalOmitOptions
+      >,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Find zero or more WebAuthnCredentials that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebAuthnCredentialFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all WebAuthnCredentials
+     * const webAuthnCredentials = await prisma.webAuthnCredential.findMany()
+     *
+     * // Get first 10 WebAuthnCredentials
+     * const webAuthnCredentials = await prisma.webAuthnCredential.findMany({ take: 10 })
+     *
+     * // Only select the `id`
+     * const webAuthnCredentialWithIdOnly = await prisma.webAuthnCredential.findMany({ select: { id: true } })
+     *
+     */
+    findMany<T extends WebAuthnCredentialFindManyArgs>(
+      args?: SelectSubset<T, WebAuthnCredentialFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<
+      $Result.GetResult<
+        Prisma.$WebAuthnCredentialPayload<ExtArgs>,
+        T,
+        'findMany',
+        GlobalOmitOptions
+      >
+    >;
+
+    /**
+     * Create a WebAuthnCredential.
+     * @param {WebAuthnCredentialCreateArgs} args - Arguments to create a WebAuthnCredential.
+     * @example
+     * // Create one WebAuthnCredential
+     * const WebAuthnCredential = await prisma.webAuthnCredential.create({
+     *   data: {
+     *     // ... data to create a WebAuthnCredential
+     *   }
+     * })
+     *
+     */
+    create<T extends WebAuthnCredentialCreateArgs>(
+      args: SelectSubset<T, WebAuthnCredentialCreateArgs<ExtArgs>>
+    ): Prisma__WebAuthnCredentialClient<
+      $Result.GetResult<Prisma.$WebAuthnCredentialPayload<ExtArgs>, T, 'create', GlobalOmitOptions>,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Create many WebAuthnCredentials.
+     * @param {WebAuthnCredentialCreateManyArgs} args - Arguments to create many WebAuthnCredentials.
+     * @example
+     * // Create many WebAuthnCredentials
+     * const webAuthnCredential = await prisma.webAuthnCredential.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *
+     */
+    createMany<T extends WebAuthnCredentialCreateManyArgs>(
+      args?: SelectSubset<T, WebAuthnCredentialCreateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>;
+
+    /**
+     * Create many WebAuthnCredentials and returns the data saved in the database.
+     * @param {WebAuthnCredentialCreateManyAndReturnArgs} args - Arguments to create many WebAuthnCredentials.
+     * @example
+     * // Create many WebAuthnCredentials
+     * const webAuthnCredential = await prisma.webAuthnCredential.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *
+     * // Create many WebAuthnCredentials and only return the `id`
+     * const webAuthnCredentialWithIdOnly = await prisma.webAuthnCredential.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     *
+     */
+    createManyAndReturn<T extends WebAuthnCredentialCreateManyAndReturnArgs>(
+      args?: SelectSubset<T, WebAuthnCredentialCreateManyAndReturnArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<
+      $Result.GetResult<
+        Prisma.$WebAuthnCredentialPayload<ExtArgs>,
+        T,
+        'createManyAndReturn',
+        GlobalOmitOptions
+      >
+    >;
+
+    /**
+     * Delete a WebAuthnCredential.
+     * @param {WebAuthnCredentialDeleteArgs} args - Arguments to delete one WebAuthnCredential.
+     * @example
+     * // Delete one WebAuthnCredential
+     * const WebAuthnCredential = await prisma.webAuthnCredential.delete({
+     *   where: {
+     *     // ... filter to delete one WebAuthnCredential
+     *   }
+     * })
+     *
+     */
+    delete<T extends WebAuthnCredentialDeleteArgs>(
+      args: SelectSubset<T, WebAuthnCredentialDeleteArgs<ExtArgs>>
+    ): Prisma__WebAuthnCredentialClient<
+      $Result.GetResult<Prisma.$WebAuthnCredentialPayload<ExtArgs>, T, 'delete', GlobalOmitOptions>,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Update one WebAuthnCredential.
+     * @param {WebAuthnCredentialUpdateArgs} args - Arguments to update one WebAuthnCredential.
+     * @example
+     * // Update one WebAuthnCredential
+     * const webAuthnCredential = await prisma.webAuthnCredential.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     *
+     */
+    update<T extends WebAuthnCredentialUpdateArgs>(
+      args: SelectSubset<T, WebAuthnCredentialUpdateArgs<ExtArgs>>
+    ): Prisma__WebAuthnCredentialClient<
+      $Result.GetResult<Prisma.$WebAuthnCredentialPayload<ExtArgs>, T, 'update', GlobalOmitOptions>,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Delete zero or more WebAuthnCredentials.
+     * @param {WebAuthnCredentialDeleteManyArgs} args - Arguments to filter WebAuthnCredentials to delete.
+     * @example
+     * // Delete a few WebAuthnCredentials
+     * const { count } = await prisma.webAuthnCredential.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     *
+     */
+    deleteMany<T extends WebAuthnCredentialDeleteManyArgs>(
+      args?: SelectSubset<T, WebAuthnCredentialDeleteManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>;
+
+    /**
+     * Update zero or more WebAuthnCredentials.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebAuthnCredentialUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many WebAuthnCredentials
+     * const webAuthnCredential = await prisma.webAuthnCredential.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     *
+     */
+    updateMany<T extends WebAuthnCredentialUpdateManyArgs>(
+      args: SelectSubset<T, WebAuthnCredentialUpdateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>;
+
+    /**
+     * Update zero or more WebAuthnCredentials and returns the data updated in the database.
+     * @param {WebAuthnCredentialUpdateManyAndReturnArgs} args - Arguments to update many WebAuthnCredentials.
+     * @example
+     * // Update many WebAuthnCredentials
+     * const webAuthnCredential = await prisma.webAuthnCredential.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *
+     * // Update zero or more WebAuthnCredentials and only return the `id`
+     * const webAuthnCredentialWithIdOnly = await prisma.webAuthnCredential.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     *
+     */
+    updateManyAndReturn<T extends WebAuthnCredentialUpdateManyAndReturnArgs>(
+      args: SelectSubset<T, WebAuthnCredentialUpdateManyAndReturnArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<
+      $Result.GetResult<
+        Prisma.$WebAuthnCredentialPayload<ExtArgs>,
+        T,
+        'updateManyAndReturn',
+        GlobalOmitOptions
+      >
+    >;
+
+    /**
+     * Create or update one WebAuthnCredential.
+     * @param {WebAuthnCredentialUpsertArgs} args - Arguments to update or create a WebAuthnCredential.
+     * @example
+     * // Update or create a WebAuthnCredential
+     * const webAuthnCredential = await prisma.webAuthnCredential.upsert({
+     *   create: {
+     *     // ... data to create a WebAuthnCredential
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the WebAuthnCredential we want to update
+     *   }
+     * })
+     */
+    upsert<T extends WebAuthnCredentialUpsertArgs>(
+      args: SelectSubset<T, WebAuthnCredentialUpsertArgs<ExtArgs>>
+    ): Prisma__WebAuthnCredentialClient<
+      $Result.GetResult<Prisma.$WebAuthnCredentialPayload<ExtArgs>, T, 'upsert', GlobalOmitOptions>,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Count the number of WebAuthnCredentials.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebAuthnCredentialCountArgs} args - Arguments to filter WebAuthnCredentials to count.
+     * @example
+     * // Count the number of WebAuthnCredentials
+     * const count = await prisma.webAuthnCredential.count({
+     *   where: {
+     *     // ... the filter for the WebAuthnCredentials we want to count
+     *   }
+     * })
+     **/
+    count<T extends WebAuthnCredentialCountArgs>(
+      args?: Subset<T, WebAuthnCredentialCountArgs>
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], WebAuthnCredentialCountAggregateOutputType>
+        : number
+    >;
+
+    /**
+     * Allows you to perform aggregations operations on a WebAuthnCredential.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebAuthnCredentialAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+     **/
+    aggregate<T extends WebAuthnCredentialAggregateArgs>(
+      args: Subset<T, WebAuthnCredentialAggregateArgs>
+    ): Prisma.PrismaPromise<GetWebAuthnCredentialAggregateType<T>>;
+
+    /**
+     * Group by WebAuthnCredential.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebAuthnCredentialGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     *
+     **/
+    groupBy<
+      T extends WebAuthnCredentialGroupByArgs,
+      HasSelectOrTake extends Or<Extends<'skip', Keys<T>>, Extends<'take', Keys<T>>>,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: WebAuthnCredentialGroupByArgs['orderBy'] }
+        : { orderBy?: WebAuthnCredentialGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+        ? `Error: "by" must not be empty.`
+        : HavingValid extends False
+          ? {
+              [P in HavingFields]: P extends ByFields
+                ? never
+                : P extends string
+                  ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+                  : [Error, 'Field ', P, ` in "having" needs to be provided in "by"`];
+            }[HavingFields]
+          : 'take' extends Keys<T>
+            ? 'orderBy' extends Keys<T>
+              ? ByValid extends True
+                ? {}
+                : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+                  }[OrderFields]
+              : 'Error: If you provide "take", you also need to provide "orderBy"'
+            : 'skip' extends Keys<T>
+              ? 'orderBy' extends Keys<T>
+                ? ByValid extends True
+                  ? {}
+                  : {
+                      [P in OrderFields]: P extends ByFields
+                        ? never
+                        : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+                    }[OrderFields]
+                : 'Error: If you provide "skip", you also need to provide "orderBy"'
+              : ByValid extends True
+                ? {}
+                : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+                  }[OrderFields],
+    >(
+      args: SubsetIntersection<T, WebAuthnCredentialGroupByArgs, OrderByArg> & InputErrors
+    ): {} extends InputErrors
+      ? GetWebAuthnCredentialGroupByPayload<T>
+      : Prisma.PrismaPromise<InputErrors>;
+    /**
+     * Fields of the WebAuthnCredential model
+     */
+    readonly fields: WebAuthnCredentialFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for WebAuthnCredential.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__WebAuthnCredentialClient<
+    T,
+    Null = never,
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+    GlobalOmitOptions = {},
+  > extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(
+      args?: Subset<T, UserDefaultArgs<ExtArgs>>
+    ): Prisma__UserClient<
+      | $Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findUniqueOrThrow', GlobalOmitOptions>
+      | Null,
+      Null,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(
+      onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null,
+      onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null
+    ): $Utils.JsPromise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(
+      onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null
+    ): $Utils.JsPromise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>;
+  }
+
+  /**
+   * Fields of the WebAuthnCredential model
+   */
+  interface WebAuthnCredentialFieldRefs {
+    readonly id: FieldRef<'WebAuthnCredential', 'String'>;
+    readonly credentialId: FieldRef<'WebAuthnCredential', 'Bytes'>;
+    readonly publicKey: FieldRef<'WebAuthnCredential', 'Bytes'>;
+    readonly counter: FieldRef<'WebAuthnCredential', 'BigInt'>;
+    readonly deviceType: FieldRef<'WebAuthnCredential', 'String'>;
+    readonly backedUp: FieldRef<'WebAuthnCredential', 'Boolean'>;
+    readonly transports: FieldRef<'WebAuthnCredential', 'String[]'>;
+    readonly name: FieldRef<'WebAuthnCredential', 'String'>;
+    readonly createdAt: FieldRef<'WebAuthnCredential', 'DateTime'>;
+    readonly lastUsedAt: FieldRef<'WebAuthnCredential', 'DateTime'>;
+    readonly userId: FieldRef<'WebAuthnCredential', 'String'>;
+  }
+
+  // Custom InputTypes
+  /**
+   * WebAuthnCredential findUnique
+   */
+  export type WebAuthnCredentialFindUniqueArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the WebAuthnCredential
+     */
+    select?: WebAuthnCredentialSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the WebAuthnCredential
+     */
+    omit?: WebAuthnCredentialOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebAuthnCredentialInclude<ExtArgs> | null;
+    /**
+     * Filter, which WebAuthnCredential to fetch.
+     */
+    where: WebAuthnCredentialWhereUniqueInput;
+  };
+
+  /**
+   * WebAuthnCredential findUniqueOrThrow
+   */
+  export type WebAuthnCredentialFindUniqueOrThrowArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the WebAuthnCredential
+     */
+    select?: WebAuthnCredentialSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the WebAuthnCredential
+     */
+    omit?: WebAuthnCredentialOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebAuthnCredentialInclude<ExtArgs> | null;
+    /**
+     * Filter, which WebAuthnCredential to fetch.
+     */
+    where: WebAuthnCredentialWhereUniqueInput;
+  };
+
+  /**
+   * WebAuthnCredential findFirst
+   */
+  export type WebAuthnCredentialFindFirstArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the WebAuthnCredential
+     */
+    select?: WebAuthnCredentialSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the WebAuthnCredential
+     */
+    omit?: WebAuthnCredentialOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebAuthnCredentialInclude<ExtArgs> | null;
+    /**
+     * Filter, which WebAuthnCredential to fetch.
+     */
+    where?: WebAuthnCredentialWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of WebAuthnCredentials to fetch.
+     */
+    orderBy?:
+      | WebAuthnCredentialOrderByWithRelationInput
+      | WebAuthnCredentialOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for searching for WebAuthnCredentials.
+     */
+    cursor?: WebAuthnCredentialWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` WebAuthnCredentials from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` WebAuthnCredentials.
+     */
+    skip?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     *
+     * Filter by unique combinations of WebAuthnCredentials.
+     */
+    distinct?: WebAuthnCredentialScalarFieldEnum | WebAuthnCredentialScalarFieldEnum[];
+  };
+
+  /**
+   * WebAuthnCredential findFirstOrThrow
+   */
+  export type WebAuthnCredentialFindFirstOrThrowArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the WebAuthnCredential
+     */
+    select?: WebAuthnCredentialSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the WebAuthnCredential
+     */
+    omit?: WebAuthnCredentialOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebAuthnCredentialInclude<ExtArgs> | null;
+    /**
+     * Filter, which WebAuthnCredential to fetch.
+     */
+    where?: WebAuthnCredentialWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of WebAuthnCredentials to fetch.
+     */
+    orderBy?:
+      | WebAuthnCredentialOrderByWithRelationInput
+      | WebAuthnCredentialOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for searching for WebAuthnCredentials.
+     */
+    cursor?: WebAuthnCredentialWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` WebAuthnCredentials from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` WebAuthnCredentials.
+     */
+    skip?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     *
+     * Filter by unique combinations of WebAuthnCredentials.
+     */
+    distinct?: WebAuthnCredentialScalarFieldEnum | WebAuthnCredentialScalarFieldEnum[];
+  };
+
+  /**
+   * WebAuthnCredential findMany
+   */
+  export type WebAuthnCredentialFindManyArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the WebAuthnCredential
+     */
+    select?: WebAuthnCredentialSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the WebAuthnCredential
+     */
+    omit?: WebAuthnCredentialOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebAuthnCredentialInclude<ExtArgs> | null;
+    /**
+     * Filter, which WebAuthnCredentials to fetch.
+     */
+    where?: WebAuthnCredentialWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of WebAuthnCredentials to fetch.
+     */
+    orderBy?:
+      | WebAuthnCredentialOrderByWithRelationInput
+      | WebAuthnCredentialOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for listing WebAuthnCredentials.
+     */
+    cursor?: WebAuthnCredentialWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` WebAuthnCredentials from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` WebAuthnCredentials.
+     */
+    skip?: number;
+    distinct?: WebAuthnCredentialScalarFieldEnum | WebAuthnCredentialScalarFieldEnum[];
+  };
+
+  /**
+   * WebAuthnCredential create
+   */
+  export type WebAuthnCredentialCreateArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the WebAuthnCredential
+     */
+    select?: WebAuthnCredentialSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the WebAuthnCredential
+     */
+    omit?: WebAuthnCredentialOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebAuthnCredentialInclude<ExtArgs> | null;
+    /**
+     * The data needed to create a WebAuthnCredential.
+     */
+    data: XOR<WebAuthnCredentialCreateInput, WebAuthnCredentialUncheckedCreateInput>;
+  };
+
+  /**
+   * WebAuthnCredential createMany
+   */
+  export type WebAuthnCredentialCreateManyArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * The data used to create many WebAuthnCredentials.
+     */
+    data: WebAuthnCredentialCreateManyInput | WebAuthnCredentialCreateManyInput[];
+    skipDuplicates?: boolean;
+  };
+
+  /**
+   * WebAuthnCredential createManyAndReturn
+   */
+  export type WebAuthnCredentialCreateManyAndReturnArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the WebAuthnCredential
+     */
+    select?: WebAuthnCredentialSelectCreateManyAndReturn<ExtArgs> | null;
+    /**
+     * Omit specific fields from the WebAuthnCredential
+     */
+    omit?: WebAuthnCredentialOmit<ExtArgs> | null;
+    /**
+     * The data used to create many WebAuthnCredentials.
+     */
+    data: WebAuthnCredentialCreateManyInput | WebAuthnCredentialCreateManyInput[];
+    skipDuplicates?: boolean;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebAuthnCredentialIncludeCreateManyAndReturn<ExtArgs> | null;
+  };
+
+  /**
+   * WebAuthnCredential update
+   */
+  export type WebAuthnCredentialUpdateArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the WebAuthnCredential
+     */
+    select?: WebAuthnCredentialSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the WebAuthnCredential
+     */
+    omit?: WebAuthnCredentialOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebAuthnCredentialInclude<ExtArgs> | null;
+    /**
+     * The data needed to update a WebAuthnCredential.
+     */
+    data: XOR<WebAuthnCredentialUpdateInput, WebAuthnCredentialUncheckedUpdateInput>;
+    /**
+     * Choose, which WebAuthnCredential to update.
+     */
+    where: WebAuthnCredentialWhereUniqueInput;
+  };
+
+  /**
+   * WebAuthnCredential updateMany
+   */
+  export type WebAuthnCredentialUpdateManyArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * The data used to update WebAuthnCredentials.
+     */
+    data: XOR<
+      WebAuthnCredentialUpdateManyMutationInput,
+      WebAuthnCredentialUncheckedUpdateManyInput
+    >;
+    /**
+     * Filter which WebAuthnCredentials to update
+     */
+    where?: WebAuthnCredentialWhereInput;
+    /**
+     * Limit how many WebAuthnCredentials to update.
+     */
+    limit?: number;
+  };
+
+  /**
+   * WebAuthnCredential updateManyAndReturn
+   */
+  export type WebAuthnCredentialUpdateManyAndReturnArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the WebAuthnCredential
+     */
+    select?: WebAuthnCredentialSelectUpdateManyAndReturn<ExtArgs> | null;
+    /**
+     * Omit specific fields from the WebAuthnCredential
+     */
+    omit?: WebAuthnCredentialOmit<ExtArgs> | null;
+    /**
+     * The data used to update WebAuthnCredentials.
+     */
+    data: XOR<
+      WebAuthnCredentialUpdateManyMutationInput,
+      WebAuthnCredentialUncheckedUpdateManyInput
+    >;
+    /**
+     * Filter which WebAuthnCredentials to update
+     */
+    where?: WebAuthnCredentialWhereInput;
+    /**
+     * Limit how many WebAuthnCredentials to update.
+     */
+    limit?: number;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebAuthnCredentialIncludeUpdateManyAndReturn<ExtArgs> | null;
+  };
+
+  /**
+   * WebAuthnCredential upsert
+   */
+  export type WebAuthnCredentialUpsertArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the WebAuthnCredential
+     */
+    select?: WebAuthnCredentialSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the WebAuthnCredential
+     */
+    omit?: WebAuthnCredentialOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebAuthnCredentialInclude<ExtArgs> | null;
+    /**
+     * The filter to search for the WebAuthnCredential to update in case it exists.
+     */
+    where: WebAuthnCredentialWhereUniqueInput;
+    /**
+     * In case the WebAuthnCredential found by the `where` argument doesn't exist, create a new WebAuthnCredential with this data.
+     */
+    create: XOR<WebAuthnCredentialCreateInput, WebAuthnCredentialUncheckedCreateInput>;
+    /**
+     * In case the WebAuthnCredential was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<WebAuthnCredentialUpdateInput, WebAuthnCredentialUncheckedUpdateInput>;
+  };
+
+  /**
+   * WebAuthnCredential delete
+   */
+  export type WebAuthnCredentialDeleteArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the WebAuthnCredential
+     */
+    select?: WebAuthnCredentialSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the WebAuthnCredential
+     */
+    omit?: WebAuthnCredentialOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebAuthnCredentialInclude<ExtArgs> | null;
+    /**
+     * Filter which WebAuthnCredential to delete.
+     */
+    where: WebAuthnCredentialWhereUniqueInput;
+  };
+
+  /**
+   * WebAuthnCredential deleteMany
+   */
+  export type WebAuthnCredentialDeleteManyArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Filter which WebAuthnCredentials to delete
+     */
+    where?: WebAuthnCredentialWhereInput;
+    /**
+     * Limit how many WebAuthnCredentials to delete.
+     */
+    limit?: number;
+  };
+
+  /**
+   * WebAuthnCredential without action
+   */
+  export type WebAuthnCredentialDefaultArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the WebAuthnCredential
+     */
+    select?: WebAuthnCredentialSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the WebAuthnCredential
+     */
+    omit?: WebAuthnCredentialOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebAuthnCredentialInclude<ExtArgs> | null;
+  };
+
+  /**
+   * Model WebAuthnChallenge
+   */
+
+  export type AggregateWebAuthnChallenge = {
+    _count: WebAuthnChallengeCountAggregateOutputType | null;
+    _min: WebAuthnChallengeMinAggregateOutputType | null;
+    _max: WebAuthnChallengeMaxAggregateOutputType | null;
+  };
+
+  export type WebAuthnChallengeMinAggregateOutputType = {
+    id: string | null;
+    challenge: string | null;
+    type: string | null;
+    userId: string | null;
+    expiresAt: Date | null;
+    createdAt: Date | null;
+  };
+
+  export type WebAuthnChallengeMaxAggregateOutputType = {
+    id: string | null;
+    challenge: string | null;
+    type: string | null;
+    userId: string | null;
+    expiresAt: Date | null;
+    createdAt: Date | null;
+  };
+
+  export type WebAuthnChallengeCountAggregateOutputType = {
+    id: number;
+    challenge: number;
+    type: number;
+    userId: number;
+    expiresAt: number;
+    createdAt: number;
+    _all: number;
+  };
+
+  export type WebAuthnChallengeMinAggregateInputType = {
+    id?: true;
+    challenge?: true;
+    type?: true;
+    userId?: true;
+    expiresAt?: true;
+    createdAt?: true;
+  };
+
+  export type WebAuthnChallengeMaxAggregateInputType = {
+    id?: true;
+    challenge?: true;
+    type?: true;
+    userId?: true;
+    expiresAt?: true;
+    createdAt?: true;
+  };
+
+  export type WebAuthnChallengeCountAggregateInputType = {
+    id?: true;
+    challenge?: true;
+    type?: true;
+    userId?: true;
+    expiresAt?: true;
+    createdAt?: true;
+    _all?: true;
+  };
+
+  export type WebAuthnChallengeAggregateArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Filter which WebAuthnChallenge to aggregate.
+     */
+    where?: WebAuthnChallengeWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of WebAuthnChallenges to fetch.
+     */
+    orderBy?:
+      | WebAuthnChallengeOrderByWithRelationInput
+      | WebAuthnChallengeOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the start position
+     */
+    cursor?: WebAuthnChallengeWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` WebAuthnChallenges from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` WebAuthnChallenges.
+     */
+    skip?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Count returned WebAuthnChallenges
+     **/
+    _count?: true | WebAuthnChallengeCountAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to find the minimum value
+     **/
+    _min?: WebAuthnChallengeMinAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to find the maximum value
+     **/
+    _max?: WebAuthnChallengeMaxAggregateInputType;
+  };
+
+  export type GetWebAuthnChallengeAggregateType<T extends WebAuthnChallengeAggregateArgs> = {
+    [P in keyof T & keyof AggregateWebAuthnChallenge]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWebAuthnChallenge[P]>
+      : GetScalarType<T[P], AggregateWebAuthnChallenge[P]>;
+  };
+
+  export type WebAuthnChallengeGroupByArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    where?: WebAuthnChallengeWhereInput;
+    orderBy?:
+      | WebAuthnChallengeOrderByWithAggregationInput
+      | WebAuthnChallengeOrderByWithAggregationInput[];
+    by: WebAuthnChallengeScalarFieldEnum[] | WebAuthnChallengeScalarFieldEnum;
+    having?: WebAuthnChallengeScalarWhereWithAggregatesInput;
+    take?: number;
+    skip?: number;
+    _count?: WebAuthnChallengeCountAggregateInputType | true;
+    _min?: WebAuthnChallengeMinAggregateInputType;
+    _max?: WebAuthnChallengeMaxAggregateInputType;
+  };
+
+  export type WebAuthnChallengeGroupByOutputType = {
+    id: string;
+    challenge: string;
+    type: string;
+    userId: string | null;
+    expiresAt: Date;
+    createdAt: Date;
+    _count: WebAuthnChallengeCountAggregateOutputType | null;
+    _min: WebAuthnChallengeMinAggregateOutputType | null;
+    _max: WebAuthnChallengeMaxAggregateOutputType | null;
+  };
+
+  type GetWebAuthnChallengeGroupByPayload<T extends WebAuthnChallengeGroupByArgs> =
+    Prisma.PrismaPromise<
+      Array<
+        PickEnumerable<WebAuthnChallengeGroupByOutputType, T['by']> & {
+          [P in keyof T & keyof WebAuthnChallengeGroupByOutputType]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], WebAuthnChallengeGroupByOutputType[P]>
+            : GetScalarType<T[P], WebAuthnChallengeGroupByOutputType[P]>;
+        }
+      >
+    >;
+
+  export type WebAuthnChallengeSelect<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = $Extensions.GetSelect<
+    {
+      id?: boolean;
+      challenge?: boolean;
+      type?: boolean;
+      userId?: boolean;
+      expiresAt?: boolean;
+      createdAt?: boolean;
+    },
+    ExtArgs['result']['webAuthnChallenge']
+  >;
+
+  export type WebAuthnChallengeSelectCreateManyAndReturn<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = $Extensions.GetSelect<
+    {
+      id?: boolean;
+      challenge?: boolean;
+      type?: boolean;
+      userId?: boolean;
+      expiresAt?: boolean;
+      createdAt?: boolean;
+    },
+    ExtArgs['result']['webAuthnChallenge']
+  >;
+
+  export type WebAuthnChallengeSelectUpdateManyAndReturn<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = $Extensions.GetSelect<
+    {
+      id?: boolean;
+      challenge?: boolean;
+      type?: boolean;
+      userId?: boolean;
+      expiresAt?: boolean;
+      createdAt?: boolean;
+    },
+    ExtArgs['result']['webAuthnChallenge']
+  >;
+
+  export type WebAuthnChallengeSelectScalar = {
+    id?: boolean;
+    challenge?: boolean;
+    type?: boolean;
+    userId?: boolean;
+    expiresAt?: boolean;
+    createdAt?: boolean;
+  };
+
+  export type WebAuthnChallengeOmit<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = $Extensions.GetOmit<
+    'id' | 'challenge' | 'type' | 'userId' | 'expiresAt' | 'createdAt',
+    ExtArgs['result']['webAuthnChallenge']
+  >;
+
+  export type $WebAuthnChallengePayload<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    name: 'WebAuthnChallenge';
+    objects: {};
+    scalars: $Extensions.GetPayloadResult<
+      {
+        id: string;
+        challenge: string;
+        type: string;
+        userId: string | null;
+        expiresAt: Date;
+        createdAt: Date;
+      },
+      ExtArgs['result']['webAuthnChallenge']
+    >;
+    composites: {};
+  };
+
+  type WebAuthnChallengeGetPayload<
+    S extends boolean | null | undefined | WebAuthnChallengeDefaultArgs,
+  > = $Result.GetResult<Prisma.$WebAuthnChallengePayload, S>;
+
+  type WebAuthnChallengeCountArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = Omit<WebAuthnChallengeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+    select?: WebAuthnChallengeCountAggregateInputType | true;
+  };
+
+  export interface WebAuthnChallengeDelegate<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+    GlobalOmitOptions = {},
+  > {
+    [K: symbol]: {
+      types: Prisma.TypeMap<ExtArgs>['model']['WebAuthnChallenge'];
+      meta: { name: 'WebAuthnChallenge' };
+    };
+    /**
+     * Find zero or one WebAuthnChallenge that matches the filter.
+     * @param {WebAuthnChallengeFindUniqueArgs} args - Arguments to find a WebAuthnChallenge
+     * @example
+     * // Get one WebAuthnChallenge
+     * const webAuthnChallenge = await prisma.webAuthnChallenge.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends WebAuthnChallengeFindUniqueArgs>(
+      args: SelectSubset<T, WebAuthnChallengeFindUniqueArgs<ExtArgs>>
+    ): Prisma__WebAuthnChallengeClient<
+      $Result.GetResult<
+        Prisma.$WebAuthnChallengePayload<ExtArgs>,
+        T,
+        'findUnique',
+        GlobalOmitOptions
+      > | null,
+      null,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Find one WebAuthnChallenge that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {WebAuthnChallengeFindUniqueOrThrowArgs} args - Arguments to find a WebAuthnChallenge
+     * @example
+     * // Get one WebAuthnChallenge
+     * const webAuthnChallenge = await prisma.webAuthnChallenge.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends WebAuthnChallengeFindUniqueOrThrowArgs>(
+      args: SelectSubset<T, WebAuthnChallengeFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__WebAuthnChallengeClient<
+      $Result.GetResult<
+        Prisma.$WebAuthnChallengePayload<ExtArgs>,
+        T,
+        'findUniqueOrThrow',
+        GlobalOmitOptions
+      >,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Find the first WebAuthnChallenge that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebAuthnChallengeFindFirstArgs} args - Arguments to find a WebAuthnChallenge
+     * @example
+     * // Get one WebAuthnChallenge
+     * const webAuthnChallenge = await prisma.webAuthnChallenge.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends WebAuthnChallengeFindFirstArgs>(
+      args?: SelectSubset<T, WebAuthnChallengeFindFirstArgs<ExtArgs>>
+    ): Prisma__WebAuthnChallengeClient<
+      $Result.GetResult<
+        Prisma.$WebAuthnChallengePayload<ExtArgs>,
+        T,
+        'findFirst',
+        GlobalOmitOptions
+      > | null,
+      null,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Find the first WebAuthnChallenge that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebAuthnChallengeFindFirstOrThrowArgs} args - Arguments to find a WebAuthnChallenge
+     * @example
+     * // Get one WebAuthnChallenge
+     * const webAuthnChallenge = await prisma.webAuthnChallenge.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends WebAuthnChallengeFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, WebAuthnChallengeFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__WebAuthnChallengeClient<
+      $Result.GetResult<
+        Prisma.$WebAuthnChallengePayload<ExtArgs>,
+        T,
+        'findFirstOrThrow',
+        GlobalOmitOptions
+      >,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Find zero or more WebAuthnChallenges that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebAuthnChallengeFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all WebAuthnChallenges
+     * const webAuthnChallenges = await prisma.webAuthnChallenge.findMany()
+     *
+     * // Get first 10 WebAuthnChallenges
+     * const webAuthnChallenges = await prisma.webAuthnChallenge.findMany({ take: 10 })
+     *
+     * // Only select the `id`
+     * const webAuthnChallengeWithIdOnly = await prisma.webAuthnChallenge.findMany({ select: { id: true } })
+     *
+     */
+    findMany<T extends WebAuthnChallengeFindManyArgs>(
+      args?: SelectSubset<T, WebAuthnChallengeFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<
+      $Result.GetResult<Prisma.$WebAuthnChallengePayload<ExtArgs>, T, 'findMany', GlobalOmitOptions>
+    >;
+
+    /**
+     * Create a WebAuthnChallenge.
+     * @param {WebAuthnChallengeCreateArgs} args - Arguments to create a WebAuthnChallenge.
+     * @example
+     * // Create one WebAuthnChallenge
+     * const WebAuthnChallenge = await prisma.webAuthnChallenge.create({
+     *   data: {
+     *     // ... data to create a WebAuthnChallenge
+     *   }
+     * })
+     *
+     */
+    create<T extends WebAuthnChallengeCreateArgs>(
+      args: SelectSubset<T, WebAuthnChallengeCreateArgs<ExtArgs>>
+    ): Prisma__WebAuthnChallengeClient<
+      $Result.GetResult<Prisma.$WebAuthnChallengePayload<ExtArgs>, T, 'create', GlobalOmitOptions>,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Create many WebAuthnChallenges.
+     * @param {WebAuthnChallengeCreateManyArgs} args - Arguments to create many WebAuthnChallenges.
+     * @example
+     * // Create many WebAuthnChallenges
+     * const webAuthnChallenge = await prisma.webAuthnChallenge.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *
+     */
+    createMany<T extends WebAuthnChallengeCreateManyArgs>(
+      args?: SelectSubset<T, WebAuthnChallengeCreateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>;
+
+    /**
+     * Create many WebAuthnChallenges and returns the data saved in the database.
+     * @param {WebAuthnChallengeCreateManyAndReturnArgs} args - Arguments to create many WebAuthnChallenges.
+     * @example
+     * // Create many WebAuthnChallenges
+     * const webAuthnChallenge = await prisma.webAuthnChallenge.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *
+     * // Create many WebAuthnChallenges and only return the `id`
+     * const webAuthnChallengeWithIdOnly = await prisma.webAuthnChallenge.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     *
+     */
+    createManyAndReturn<T extends WebAuthnChallengeCreateManyAndReturnArgs>(
+      args?: SelectSubset<T, WebAuthnChallengeCreateManyAndReturnArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<
+      $Result.GetResult<
+        Prisma.$WebAuthnChallengePayload<ExtArgs>,
+        T,
+        'createManyAndReturn',
+        GlobalOmitOptions
+      >
+    >;
+
+    /**
+     * Delete a WebAuthnChallenge.
+     * @param {WebAuthnChallengeDeleteArgs} args - Arguments to delete one WebAuthnChallenge.
+     * @example
+     * // Delete one WebAuthnChallenge
+     * const WebAuthnChallenge = await prisma.webAuthnChallenge.delete({
+     *   where: {
+     *     // ... filter to delete one WebAuthnChallenge
+     *   }
+     * })
+     *
+     */
+    delete<T extends WebAuthnChallengeDeleteArgs>(
+      args: SelectSubset<T, WebAuthnChallengeDeleteArgs<ExtArgs>>
+    ): Prisma__WebAuthnChallengeClient<
+      $Result.GetResult<Prisma.$WebAuthnChallengePayload<ExtArgs>, T, 'delete', GlobalOmitOptions>,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Update one WebAuthnChallenge.
+     * @param {WebAuthnChallengeUpdateArgs} args - Arguments to update one WebAuthnChallenge.
+     * @example
+     * // Update one WebAuthnChallenge
+     * const webAuthnChallenge = await prisma.webAuthnChallenge.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     *
+     */
+    update<T extends WebAuthnChallengeUpdateArgs>(
+      args: SelectSubset<T, WebAuthnChallengeUpdateArgs<ExtArgs>>
+    ): Prisma__WebAuthnChallengeClient<
+      $Result.GetResult<Prisma.$WebAuthnChallengePayload<ExtArgs>, T, 'update', GlobalOmitOptions>,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Delete zero or more WebAuthnChallenges.
+     * @param {WebAuthnChallengeDeleteManyArgs} args - Arguments to filter WebAuthnChallenges to delete.
+     * @example
+     * // Delete a few WebAuthnChallenges
+     * const { count } = await prisma.webAuthnChallenge.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     *
+     */
+    deleteMany<T extends WebAuthnChallengeDeleteManyArgs>(
+      args?: SelectSubset<T, WebAuthnChallengeDeleteManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>;
+
+    /**
+     * Update zero or more WebAuthnChallenges.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebAuthnChallengeUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many WebAuthnChallenges
+     * const webAuthnChallenge = await prisma.webAuthnChallenge.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     *
+     */
+    updateMany<T extends WebAuthnChallengeUpdateManyArgs>(
+      args: SelectSubset<T, WebAuthnChallengeUpdateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>;
+
+    /**
+     * Update zero or more WebAuthnChallenges and returns the data updated in the database.
+     * @param {WebAuthnChallengeUpdateManyAndReturnArgs} args - Arguments to update many WebAuthnChallenges.
+     * @example
+     * // Update many WebAuthnChallenges
+     * const webAuthnChallenge = await prisma.webAuthnChallenge.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *
+     * // Update zero or more WebAuthnChallenges and only return the `id`
+     * const webAuthnChallengeWithIdOnly = await prisma.webAuthnChallenge.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     *
+     */
+    updateManyAndReturn<T extends WebAuthnChallengeUpdateManyAndReturnArgs>(
+      args: SelectSubset<T, WebAuthnChallengeUpdateManyAndReturnArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<
+      $Result.GetResult<
+        Prisma.$WebAuthnChallengePayload<ExtArgs>,
+        T,
+        'updateManyAndReturn',
+        GlobalOmitOptions
+      >
+    >;
+
+    /**
+     * Create or update one WebAuthnChallenge.
+     * @param {WebAuthnChallengeUpsertArgs} args - Arguments to update or create a WebAuthnChallenge.
+     * @example
+     * // Update or create a WebAuthnChallenge
+     * const webAuthnChallenge = await prisma.webAuthnChallenge.upsert({
+     *   create: {
+     *     // ... data to create a WebAuthnChallenge
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the WebAuthnChallenge we want to update
+     *   }
+     * })
+     */
+    upsert<T extends WebAuthnChallengeUpsertArgs>(
+      args: SelectSubset<T, WebAuthnChallengeUpsertArgs<ExtArgs>>
+    ): Prisma__WebAuthnChallengeClient<
+      $Result.GetResult<Prisma.$WebAuthnChallengePayload<ExtArgs>, T, 'upsert', GlobalOmitOptions>,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Count the number of WebAuthnChallenges.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebAuthnChallengeCountArgs} args - Arguments to filter WebAuthnChallenges to count.
+     * @example
+     * // Count the number of WebAuthnChallenges
+     * const count = await prisma.webAuthnChallenge.count({
+     *   where: {
+     *     // ... the filter for the WebAuthnChallenges we want to count
+     *   }
+     * })
+     **/
+    count<T extends WebAuthnChallengeCountArgs>(
+      args?: Subset<T, WebAuthnChallengeCountArgs>
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], WebAuthnChallengeCountAggregateOutputType>
+        : number
+    >;
+
+    /**
+     * Allows you to perform aggregations operations on a WebAuthnChallenge.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebAuthnChallengeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+     **/
+    aggregate<T extends WebAuthnChallengeAggregateArgs>(
+      args: Subset<T, WebAuthnChallengeAggregateArgs>
+    ): Prisma.PrismaPromise<GetWebAuthnChallengeAggregateType<T>>;
+
+    /**
+     * Group by WebAuthnChallenge.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebAuthnChallengeGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     *
+     **/
+    groupBy<
+      T extends WebAuthnChallengeGroupByArgs,
+      HasSelectOrTake extends Or<Extends<'skip', Keys<T>>, Extends<'take', Keys<T>>>,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: WebAuthnChallengeGroupByArgs['orderBy'] }
+        : { orderBy?: WebAuthnChallengeGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+        ? `Error: "by" must not be empty.`
+        : HavingValid extends False
+          ? {
+              [P in HavingFields]: P extends ByFields
+                ? never
+                : P extends string
+                  ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+                  : [Error, 'Field ', P, ` in "having" needs to be provided in "by"`];
+            }[HavingFields]
+          : 'take' extends Keys<T>
+            ? 'orderBy' extends Keys<T>
+              ? ByValid extends True
+                ? {}
+                : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+                  }[OrderFields]
+              : 'Error: If you provide "take", you also need to provide "orderBy"'
+            : 'skip' extends Keys<T>
+              ? 'orderBy' extends Keys<T>
+                ? ByValid extends True
+                  ? {}
+                  : {
+                      [P in OrderFields]: P extends ByFields
+                        ? never
+                        : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+                    }[OrderFields]
+                : 'Error: If you provide "skip", you also need to provide "orderBy"'
+              : ByValid extends True
+                ? {}
+                : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+                  }[OrderFields],
+    >(
+      args: SubsetIntersection<T, WebAuthnChallengeGroupByArgs, OrderByArg> & InputErrors
+    ): {} extends InputErrors
+      ? GetWebAuthnChallengeGroupByPayload<T>
+      : Prisma.PrismaPromise<InputErrors>;
+    /**
+     * Fields of the WebAuthnChallenge model
+     */
+    readonly fields: WebAuthnChallengeFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for WebAuthnChallenge.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__WebAuthnChallengeClient<
+    T,
+    Null = never,
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+    GlobalOmitOptions = {},
+  > extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(
+      onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null,
+      onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null
+    ): $Utils.JsPromise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(
+      onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null
+    ): $Utils.JsPromise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>;
+  }
+
+  /**
+   * Fields of the WebAuthnChallenge model
+   */
+  interface WebAuthnChallengeFieldRefs {
+    readonly id: FieldRef<'WebAuthnChallenge', 'String'>;
+    readonly challenge: FieldRef<'WebAuthnChallenge', 'String'>;
+    readonly type: FieldRef<'WebAuthnChallenge', 'String'>;
+    readonly userId: FieldRef<'WebAuthnChallenge', 'String'>;
+    readonly expiresAt: FieldRef<'WebAuthnChallenge', 'DateTime'>;
+    readonly createdAt: FieldRef<'WebAuthnChallenge', 'DateTime'>;
+  }
+
+  // Custom InputTypes
+  /**
+   * WebAuthnChallenge findUnique
+   */
+  export type WebAuthnChallengeFindUniqueArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the WebAuthnChallenge
+     */
+    select?: WebAuthnChallengeSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the WebAuthnChallenge
+     */
+    omit?: WebAuthnChallengeOmit<ExtArgs> | null;
+    /**
+     * Filter, which WebAuthnChallenge to fetch.
+     */
+    where: WebAuthnChallengeWhereUniqueInput;
+  };
+
+  /**
+   * WebAuthnChallenge findUniqueOrThrow
+   */
+  export type WebAuthnChallengeFindUniqueOrThrowArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the WebAuthnChallenge
+     */
+    select?: WebAuthnChallengeSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the WebAuthnChallenge
+     */
+    omit?: WebAuthnChallengeOmit<ExtArgs> | null;
+    /**
+     * Filter, which WebAuthnChallenge to fetch.
+     */
+    where: WebAuthnChallengeWhereUniqueInput;
+  };
+
+  /**
+   * WebAuthnChallenge findFirst
+   */
+  export type WebAuthnChallengeFindFirstArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the WebAuthnChallenge
+     */
+    select?: WebAuthnChallengeSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the WebAuthnChallenge
+     */
+    omit?: WebAuthnChallengeOmit<ExtArgs> | null;
+    /**
+     * Filter, which WebAuthnChallenge to fetch.
+     */
+    where?: WebAuthnChallengeWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of WebAuthnChallenges to fetch.
+     */
+    orderBy?:
+      | WebAuthnChallengeOrderByWithRelationInput
+      | WebAuthnChallengeOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for searching for WebAuthnChallenges.
+     */
+    cursor?: WebAuthnChallengeWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` WebAuthnChallenges from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` WebAuthnChallenges.
+     */
+    skip?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     *
+     * Filter by unique combinations of WebAuthnChallenges.
+     */
+    distinct?: WebAuthnChallengeScalarFieldEnum | WebAuthnChallengeScalarFieldEnum[];
+  };
+
+  /**
+   * WebAuthnChallenge findFirstOrThrow
+   */
+  export type WebAuthnChallengeFindFirstOrThrowArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the WebAuthnChallenge
+     */
+    select?: WebAuthnChallengeSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the WebAuthnChallenge
+     */
+    omit?: WebAuthnChallengeOmit<ExtArgs> | null;
+    /**
+     * Filter, which WebAuthnChallenge to fetch.
+     */
+    where?: WebAuthnChallengeWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of WebAuthnChallenges to fetch.
+     */
+    orderBy?:
+      | WebAuthnChallengeOrderByWithRelationInput
+      | WebAuthnChallengeOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for searching for WebAuthnChallenges.
+     */
+    cursor?: WebAuthnChallengeWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` WebAuthnChallenges from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` WebAuthnChallenges.
+     */
+    skip?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     *
+     * Filter by unique combinations of WebAuthnChallenges.
+     */
+    distinct?: WebAuthnChallengeScalarFieldEnum | WebAuthnChallengeScalarFieldEnum[];
+  };
+
+  /**
+   * WebAuthnChallenge findMany
+   */
+  export type WebAuthnChallengeFindManyArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the WebAuthnChallenge
+     */
+    select?: WebAuthnChallengeSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the WebAuthnChallenge
+     */
+    omit?: WebAuthnChallengeOmit<ExtArgs> | null;
+    /**
+     * Filter, which WebAuthnChallenges to fetch.
+     */
+    where?: WebAuthnChallengeWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of WebAuthnChallenges to fetch.
+     */
+    orderBy?:
+      | WebAuthnChallengeOrderByWithRelationInput
+      | WebAuthnChallengeOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for listing WebAuthnChallenges.
+     */
+    cursor?: WebAuthnChallengeWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` WebAuthnChallenges from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` WebAuthnChallenges.
+     */
+    skip?: number;
+    distinct?: WebAuthnChallengeScalarFieldEnum | WebAuthnChallengeScalarFieldEnum[];
+  };
+
+  /**
+   * WebAuthnChallenge create
+   */
+  export type WebAuthnChallengeCreateArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the WebAuthnChallenge
+     */
+    select?: WebAuthnChallengeSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the WebAuthnChallenge
+     */
+    omit?: WebAuthnChallengeOmit<ExtArgs> | null;
+    /**
+     * The data needed to create a WebAuthnChallenge.
+     */
+    data: XOR<WebAuthnChallengeCreateInput, WebAuthnChallengeUncheckedCreateInput>;
+  };
+
+  /**
+   * WebAuthnChallenge createMany
+   */
+  export type WebAuthnChallengeCreateManyArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * The data used to create many WebAuthnChallenges.
+     */
+    data: WebAuthnChallengeCreateManyInput | WebAuthnChallengeCreateManyInput[];
+    skipDuplicates?: boolean;
+  };
+
+  /**
+   * WebAuthnChallenge createManyAndReturn
+   */
+  export type WebAuthnChallengeCreateManyAndReturnArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the WebAuthnChallenge
+     */
+    select?: WebAuthnChallengeSelectCreateManyAndReturn<ExtArgs> | null;
+    /**
+     * Omit specific fields from the WebAuthnChallenge
+     */
+    omit?: WebAuthnChallengeOmit<ExtArgs> | null;
+    /**
+     * The data used to create many WebAuthnChallenges.
+     */
+    data: WebAuthnChallengeCreateManyInput | WebAuthnChallengeCreateManyInput[];
+    skipDuplicates?: boolean;
+  };
+
+  /**
+   * WebAuthnChallenge update
+   */
+  export type WebAuthnChallengeUpdateArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the WebAuthnChallenge
+     */
+    select?: WebAuthnChallengeSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the WebAuthnChallenge
+     */
+    omit?: WebAuthnChallengeOmit<ExtArgs> | null;
+    /**
+     * The data needed to update a WebAuthnChallenge.
+     */
+    data: XOR<WebAuthnChallengeUpdateInput, WebAuthnChallengeUncheckedUpdateInput>;
+    /**
+     * Choose, which WebAuthnChallenge to update.
+     */
+    where: WebAuthnChallengeWhereUniqueInput;
+  };
+
+  /**
+   * WebAuthnChallenge updateMany
+   */
+  export type WebAuthnChallengeUpdateManyArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * The data used to update WebAuthnChallenges.
+     */
+    data: XOR<WebAuthnChallengeUpdateManyMutationInput, WebAuthnChallengeUncheckedUpdateManyInput>;
+    /**
+     * Filter which WebAuthnChallenges to update
+     */
+    where?: WebAuthnChallengeWhereInput;
+    /**
+     * Limit how many WebAuthnChallenges to update.
+     */
+    limit?: number;
+  };
+
+  /**
+   * WebAuthnChallenge updateManyAndReturn
+   */
+  export type WebAuthnChallengeUpdateManyAndReturnArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the WebAuthnChallenge
+     */
+    select?: WebAuthnChallengeSelectUpdateManyAndReturn<ExtArgs> | null;
+    /**
+     * Omit specific fields from the WebAuthnChallenge
+     */
+    omit?: WebAuthnChallengeOmit<ExtArgs> | null;
+    /**
+     * The data used to update WebAuthnChallenges.
+     */
+    data: XOR<WebAuthnChallengeUpdateManyMutationInput, WebAuthnChallengeUncheckedUpdateManyInput>;
+    /**
+     * Filter which WebAuthnChallenges to update
+     */
+    where?: WebAuthnChallengeWhereInput;
+    /**
+     * Limit how many WebAuthnChallenges to update.
+     */
+    limit?: number;
+  };
+
+  /**
+   * WebAuthnChallenge upsert
+   */
+  export type WebAuthnChallengeUpsertArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the WebAuthnChallenge
+     */
+    select?: WebAuthnChallengeSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the WebAuthnChallenge
+     */
+    omit?: WebAuthnChallengeOmit<ExtArgs> | null;
+    /**
+     * The filter to search for the WebAuthnChallenge to update in case it exists.
+     */
+    where: WebAuthnChallengeWhereUniqueInput;
+    /**
+     * In case the WebAuthnChallenge found by the `where` argument doesn't exist, create a new WebAuthnChallenge with this data.
+     */
+    create: XOR<WebAuthnChallengeCreateInput, WebAuthnChallengeUncheckedCreateInput>;
+    /**
+     * In case the WebAuthnChallenge was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<WebAuthnChallengeUpdateInput, WebAuthnChallengeUncheckedUpdateInput>;
+  };
+
+  /**
+   * WebAuthnChallenge delete
+   */
+  export type WebAuthnChallengeDeleteArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the WebAuthnChallenge
+     */
+    select?: WebAuthnChallengeSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the WebAuthnChallenge
+     */
+    omit?: WebAuthnChallengeOmit<ExtArgs> | null;
+    /**
+     * Filter which WebAuthnChallenge to delete.
+     */
+    where: WebAuthnChallengeWhereUniqueInput;
+  };
+
+  /**
+   * WebAuthnChallenge deleteMany
+   */
+  export type WebAuthnChallengeDeleteManyArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Filter which WebAuthnChallenges to delete
+     */
+    where?: WebAuthnChallengeWhereInput;
+    /**
+     * Limit how many WebAuthnChallenges to delete.
+     */
+    limit?: number;
+  };
+
+  /**
+   * WebAuthnChallenge without action
+   */
+  export type WebAuthnChallengeDefaultArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the WebAuthnChallenge
+     */
+    select?: WebAuthnChallengeSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the WebAuthnChallenge
+     */
+    omit?: WebAuthnChallengeOmit<ExtArgs> | null;
+  };
+
+  /**
    * Enums
    */
 
@@ -24018,6 +26822,35 @@ export namespace Prisma {
   export type AiUsageMetricScalarFieldEnum =
     (typeof AiUsageMetricScalarFieldEnum)[keyof typeof AiUsageMetricScalarFieldEnum];
 
+  export const WebAuthnCredentialScalarFieldEnum: {
+    id: 'id';
+    credentialId: 'credentialId';
+    publicKey: 'publicKey';
+    counter: 'counter';
+    deviceType: 'deviceType';
+    backedUp: 'backedUp';
+    transports: 'transports';
+    name: 'name';
+    createdAt: 'createdAt';
+    lastUsedAt: 'lastUsedAt';
+    userId: 'userId';
+  };
+
+  export type WebAuthnCredentialScalarFieldEnum =
+    (typeof WebAuthnCredentialScalarFieldEnum)[keyof typeof WebAuthnCredentialScalarFieldEnum];
+
+  export const WebAuthnChallengeScalarFieldEnum: {
+    id: 'id';
+    challenge: 'challenge';
+    type: 'type';
+    userId: 'userId';
+    expiresAt: 'expiresAt';
+    createdAt: 'createdAt';
+  };
+
+  export type WebAuthnChallengeScalarFieldEnum =
+    (typeof WebAuthnChallengeScalarFieldEnum)[keyof typeof WebAuthnChallengeScalarFieldEnum];
+
   export const SortOrder: {
     asc: 'asc';
     desc: 'desc';
@@ -24150,6 +26983,26 @@ export namespace Prisma {
   >;
 
   /**
+   * Reference to a field of type 'Bytes'
+   */
+  export type BytesFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Bytes'>;
+
+  /**
+   * Reference to a field of type 'Bytes[]'
+   */
+  export type ListBytesFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Bytes[]'>;
+
+  /**
+   * Reference to a field of type 'BigInt'
+   */
+  export type BigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt'>;
+
+  /**
+   * Reference to a field of type 'BigInt[]'
+   */
+  export type ListBigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt[]'>;
+
+  /**
    * Deep Input Types
    */
 
@@ -24224,6 +27077,7 @@ export namespace Prisma {
     sharedAiModels?: UserAiModelAccessListRelationFilter;
     sharedAiBots?: UserAiBotAccessListRelationFilter;
     aiUsageMetrics?: AiUsageMetricListRelationFilter;
+    webAuthnCredentials?: WebAuthnCredentialListRelationFilter;
   };
 
   export type UserOrderByWithRelationInput = {
@@ -24244,6 +27098,7 @@ export namespace Prisma {
     sharedAiModels?: UserAiModelAccessOrderByRelationAggregateInput;
     sharedAiBots?: UserAiBotAccessOrderByRelationAggregateInput;
     aiUsageMetrics?: AiUsageMetricOrderByRelationAggregateInput;
+    webAuthnCredentials?: WebAuthnCredentialOrderByRelationAggregateInput;
   };
 
   export type UserWhereUniqueInput = Prisma.AtLeast<
@@ -24268,6 +27123,7 @@ export namespace Prisma {
       sharedAiModels?: UserAiModelAccessListRelationFilter;
       sharedAiBots?: UserAiBotAccessListRelationFilter;
       aiUsageMetrics?: AiUsageMetricListRelationFilter;
+      webAuthnCredentials?: WebAuthnCredentialListRelationFilter;
     },
     'id' | 'username'
   >;
@@ -25526,6 +28382,164 @@ export namespace Prisma {
     aiBotId?: StringNullableWithAggregatesFilter<'AiUsageMetric'> | string | null;
   };
 
+  export type WebAuthnCredentialWhereInput = {
+    AND?: WebAuthnCredentialWhereInput | WebAuthnCredentialWhereInput[];
+    OR?: WebAuthnCredentialWhereInput[];
+    NOT?: WebAuthnCredentialWhereInput | WebAuthnCredentialWhereInput[];
+    id?: StringFilter<'WebAuthnCredential'> | string;
+    credentialId?: BytesFilter<'WebAuthnCredential'> | Bytes;
+    publicKey?: BytesFilter<'WebAuthnCredential'> | Bytes;
+    counter?: BigIntFilter<'WebAuthnCredential'> | bigint | number;
+    deviceType?: StringFilter<'WebAuthnCredential'> | string;
+    backedUp?: BoolFilter<'WebAuthnCredential'> | boolean;
+    transports?: StringNullableListFilter<'WebAuthnCredential'>;
+    name?: StringNullableFilter<'WebAuthnCredential'> | string | null;
+    createdAt?: DateTimeFilter<'WebAuthnCredential'> | Date | string;
+    lastUsedAt?: DateTimeNullableFilter<'WebAuthnCredential'> | Date | string | null;
+    userId?: StringFilter<'WebAuthnCredential'> | string;
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>;
+  };
+
+  export type WebAuthnCredentialOrderByWithRelationInput = {
+    id?: SortOrder;
+    credentialId?: SortOrder;
+    publicKey?: SortOrder;
+    counter?: SortOrder;
+    deviceType?: SortOrder;
+    backedUp?: SortOrder;
+    transports?: SortOrder;
+    name?: SortOrderInput | SortOrder;
+    createdAt?: SortOrder;
+    lastUsedAt?: SortOrderInput | SortOrder;
+    userId?: SortOrder;
+    user?: UserOrderByWithRelationInput;
+  };
+
+  export type WebAuthnCredentialWhereUniqueInput = Prisma.AtLeast<
+    {
+      id?: string;
+      credentialId?: Bytes;
+      AND?: WebAuthnCredentialWhereInput | WebAuthnCredentialWhereInput[];
+      OR?: WebAuthnCredentialWhereInput[];
+      NOT?: WebAuthnCredentialWhereInput | WebAuthnCredentialWhereInput[];
+      publicKey?: BytesFilter<'WebAuthnCredential'> | Bytes;
+      counter?: BigIntFilter<'WebAuthnCredential'> | bigint | number;
+      deviceType?: StringFilter<'WebAuthnCredential'> | string;
+      backedUp?: BoolFilter<'WebAuthnCredential'> | boolean;
+      transports?: StringNullableListFilter<'WebAuthnCredential'>;
+      name?: StringNullableFilter<'WebAuthnCredential'> | string | null;
+      createdAt?: DateTimeFilter<'WebAuthnCredential'> | Date | string;
+      lastUsedAt?: DateTimeNullableFilter<'WebAuthnCredential'> | Date | string | null;
+      userId?: StringFilter<'WebAuthnCredential'> | string;
+      user?: XOR<UserScalarRelationFilter, UserWhereInput>;
+    },
+    'id' | 'credentialId'
+  >;
+
+  export type WebAuthnCredentialOrderByWithAggregationInput = {
+    id?: SortOrder;
+    credentialId?: SortOrder;
+    publicKey?: SortOrder;
+    counter?: SortOrder;
+    deviceType?: SortOrder;
+    backedUp?: SortOrder;
+    transports?: SortOrder;
+    name?: SortOrderInput | SortOrder;
+    createdAt?: SortOrder;
+    lastUsedAt?: SortOrderInput | SortOrder;
+    userId?: SortOrder;
+    _count?: WebAuthnCredentialCountOrderByAggregateInput;
+    _avg?: WebAuthnCredentialAvgOrderByAggregateInput;
+    _max?: WebAuthnCredentialMaxOrderByAggregateInput;
+    _min?: WebAuthnCredentialMinOrderByAggregateInput;
+    _sum?: WebAuthnCredentialSumOrderByAggregateInput;
+  };
+
+  export type WebAuthnCredentialScalarWhereWithAggregatesInput = {
+    AND?:
+      | WebAuthnCredentialScalarWhereWithAggregatesInput
+      | WebAuthnCredentialScalarWhereWithAggregatesInput[];
+    OR?: WebAuthnCredentialScalarWhereWithAggregatesInput[];
+    NOT?:
+      | WebAuthnCredentialScalarWhereWithAggregatesInput
+      | WebAuthnCredentialScalarWhereWithAggregatesInput[];
+    id?: StringWithAggregatesFilter<'WebAuthnCredential'> | string;
+    credentialId?: BytesWithAggregatesFilter<'WebAuthnCredential'> | Bytes;
+    publicKey?: BytesWithAggregatesFilter<'WebAuthnCredential'> | Bytes;
+    counter?: BigIntWithAggregatesFilter<'WebAuthnCredential'> | bigint | number;
+    deviceType?: StringWithAggregatesFilter<'WebAuthnCredential'> | string;
+    backedUp?: BoolWithAggregatesFilter<'WebAuthnCredential'> | boolean;
+    transports?: StringNullableListFilter<'WebAuthnCredential'>;
+    name?: StringNullableWithAggregatesFilter<'WebAuthnCredential'> | string | null;
+    createdAt?: DateTimeWithAggregatesFilter<'WebAuthnCredential'> | Date | string;
+    lastUsedAt?: DateTimeNullableWithAggregatesFilter<'WebAuthnCredential'> | Date | string | null;
+    userId?: StringWithAggregatesFilter<'WebAuthnCredential'> | string;
+  };
+
+  export type WebAuthnChallengeWhereInput = {
+    AND?: WebAuthnChallengeWhereInput | WebAuthnChallengeWhereInput[];
+    OR?: WebAuthnChallengeWhereInput[];
+    NOT?: WebAuthnChallengeWhereInput | WebAuthnChallengeWhereInput[];
+    id?: StringFilter<'WebAuthnChallenge'> | string;
+    challenge?: StringFilter<'WebAuthnChallenge'> | string;
+    type?: StringFilter<'WebAuthnChallenge'> | string;
+    userId?: StringNullableFilter<'WebAuthnChallenge'> | string | null;
+    expiresAt?: DateTimeFilter<'WebAuthnChallenge'> | Date | string;
+    createdAt?: DateTimeFilter<'WebAuthnChallenge'> | Date | string;
+  };
+
+  export type WebAuthnChallengeOrderByWithRelationInput = {
+    id?: SortOrder;
+    challenge?: SortOrder;
+    type?: SortOrder;
+    userId?: SortOrderInput | SortOrder;
+    expiresAt?: SortOrder;
+    createdAt?: SortOrder;
+  };
+
+  export type WebAuthnChallengeWhereUniqueInput = Prisma.AtLeast<
+    {
+      id?: string;
+      challenge?: string;
+      AND?: WebAuthnChallengeWhereInput | WebAuthnChallengeWhereInput[];
+      OR?: WebAuthnChallengeWhereInput[];
+      NOT?: WebAuthnChallengeWhereInput | WebAuthnChallengeWhereInput[];
+      type?: StringFilter<'WebAuthnChallenge'> | string;
+      userId?: StringNullableFilter<'WebAuthnChallenge'> | string | null;
+      expiresAt?: DateTimeFilter<'WebAuthnChallenge'> | Date | string;
+      createdAt?: DateTimeFilter<'WebAuthnChallenge'> | Date | string;
+    },
+    'id' | 'challenge'
+  >;
+
+  export type WebAuthnChallengeOrderByWithAggregationInput = {
+    id?: SortOrder;
+    challenge?: SortOrder;
+    type?: SortOrder;
+    userId?: SortOrderInput | SortOrder;
+    expiresAt?: SortOrder;
+    createdAt?: SortOrder;
+    _count?: WebAuthnChallengeCountOrderByAggregateInput;
+    _max?: WebAuthnChallengeMaxOrderByAggregateInput;
+    _min?: WebAuthnChallengeMinOrderByAggregateInput;
+  };
+
+  export type WebAuthnChallengeScalarWhereWithAggregatesInput = {
+    AND?:
+      | WebAuthnChallengeScalarWhereWithAggregatesInput
+      | WebAuthnChallengeScalarWhereWithAggregatesInput[];
+    OR?: WebAuthnChallengeScalarWhereWithAggregatesInput[];
+    NOT?:
+      | WebAuthnChallengeScalarWhereWithAggregatesInput
+      | WebAuthnChallengeScalarWhereWithAggregatesInput[];
+    id?: StringWithAggregatesFilter<'WebAuthnChallenge'> | string;
+    challenge?: StringWithAggregatesFilter<'WebAuthnChallenge'> | string;
+    type?: StringWithAggregatesFilter<'WebAuthnChallenge'> | string;
+    userId?: StringNullableWithAggregatesFilter<'WebAuthnChallenge'> | string | null;
+    expiresAt?: DateTimeWithAggregatesFilter<'WebAuthnChallenge'> | Date | string;
+    createdAt?: DateTimeWithAggregatesFilter<'WebAuthnChallenge'> | Date | string;
+  };
+
   export type SettingCreateInput = {
     settingKey: string;
     settingValue: string;
@@ -25593,6 +28607,7 @@ export namespace Prisma {
     sharedAiModels?: UserAiModelAccessCreateNestedManyWithoutUserInput;
     sharedAiBots?: UserAiBotAccessCreateNestedManyWithoutUserInput;
     aiUsageMetrics?: AiUsageMetricCreateNestedManyWithoutUserInput;
+    webAuthnCredentials?: WebAuthnCredentialCreateNestedManyWithoutUserInput;
   };
 
   export type UserUncheckedCreateInput = {
@@ -25613,6 +28628,7 @@ export namespace Prisma {
     sharedAiModels?: UserAiModelAccessUncheckedCreateNestedManyWithoutUserInput;
     sharedAiBots?: UserAiBotAccessUncheckedCreateNestedManyWithoutUserInput;
     aiUsageMetrics?: AiUsageMetricUncheckedCreateNestedManyWithoutUserInput;
+    webAuthnCredentials?: WebAuthnCredentialUncheckedCreateNestedManyWithoutUserInput;
   };
 
   export type UserUpdateInput = {
@@ -25633,6 +28649,7 @@ export namespace Prisma {
     sharedAiModels?: UserAiModelAccessUpdateManyWithoutUserNestedInput;
     sharedAiBots?: UserAiBotAccessUpdateManyWithoutUserNestedInput;
     aiUsageMetrics?: AiUsageMetricUpdateManyWithoutUserNestedInput;
+    webAuthnCredentials?: WebAuthnCredentialUpdateManyWithoutUserNestedInput;
   };
 
   export type UserUncheckedUpdateInput = {
@@ -25653,6 +28670,7 @@ export namespace Prisma {
     sharedAiModels?: UserAiModelAccessUncheckedUpdateManyWithoutUserNestedInput;
     sharedAiBots?: UserAiBotAccessUncheckedUpdateManyWithoutUserNestedInput;
     aiUsageMetrics?: AiUsageMetricUncheckedUpdateManyWithoutUserNestedInput;
+    webAuthnCredentials?: WebAuthnCredentialUncheckedUpdateManyWithoutUserNestedInput;
   };
 
   export type UserCreateManyInput = {
@@ -26889,6 +29907,166 @@ export namespace Prisma {
     aiBotId?: NullableStringFieldUpdateOperationsInput | string | null;
   };
 
+  export type WebAuthnCredentialCreateInput = {
+    id?: string;
+    credentialId: Bytes;
+    publicKey: Bytes;
+    counter?: bigint | number;
+    deviceType?: string;
+    backedUp?: boolean;
+    transports?: WebAuthnCredentialCreatetransportsInput | string[];
+    name?: string | null;
+    createdAt?: Date | string;
+    lastUsedAt?: Date | string | null;
+    user: UserCreateNestedOneWithoutWebAuthnCredentialsInput;
+  };
+
+  export type WebAuthnCredentialUncheckedCreateInput = {
+    id?: string;
+    credentialId: Bytes;
+    publicKey: Bytes;
+    counter?: bigint | number;
+    deviceType?: string;
+    backedUp?: boolean;
+    transports?: WebAuthnCredentialCreatetransportsInput | string[];
+    name?: string | null;
+    createdAt?: Date | string;
+    lastUsedAt?: Date | string | null;
+    userId: string;
+  };
+
+  export type WebAuthnCredentialUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    credentialId?: BytesFieldUpdateOperationsInput | Bytes;
+    publicKey?: BytesFieldUpdateOperationsInput | Bytes;
+    counter?: BigIntFieldUpdateOperationsInput | bigint | number;
+    deviceType?: StringFieldUpdateOperationsInput | string;
+    backedUp?: BoolFieldUpdateOperationsInput | boolean;
+    transports?: WebAuthnCredentialUpdatetransportsInput | string[];
+    name?: NullableStringFieldUpdateOperationsInput | string | null;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    lastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    user?: UserUpdateOneRequiredWithoutWebAuthnCredentialsNestedInput;
+  };
+
+  export type WebAuthnCredentialUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    credentialId?: BytesFieldUpdateOperationsInput | Bytes;
+    publicKey?: BytesFieldUpdateOperationsInput | Bytes;
+    counter?: BigIntFieldUpdateOperationsInput | bigint | number;
+    deviceType?: StringFieldUpdateOperationsInput | string;
+    backedUp?: BoolFieldUpdateOperationsInput | boolean;
+    transports?: WebAuthnCredentialUpdatetransportsInput | string[];
+    name?: NullableStringFieldUpdateOperationsInput | string | null;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    lastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    userId?: StringFieldUpdateOperationsInput | string;
+  };
+
+  export type WebAuthnCredentialCreateManyInput = {
+    id?: string;
+    credentialId: Bytes;
+    publicKey: Bytes;
+    counter?: bigint | number;
+    deviceType?: string;
+    backedUp?: boolean;
+    transports?: WebAuthnCredentialCreatetransportsInput | string[];
+    name?: string | null;
+    createdAt?: Date | string;
+    lastUsedAt?: Date | string | null;
+    userId: string;
+  };
+
+  export type WebAuthnCredentialUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    credentialId?: BytesFieldUpdateOperationsInput | Bytes;
+    publicKey?: BytesFieldUpdateOperationsInput | Bytes;
+    counter?: BigIntFieldUpdateOperationsInput | bigint | number;
+    deviceType?: StringFieldUpdateOperationsInput | string;
+    backedUp?: BoolFieldUpdateOperationsInput | boolean;
+    transports?: WebAuthnCredentialUpdatetransportsInput | string[];
+    name?: NullableStringFieldUpdateOperationsInput | string | null;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    lastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+  };
+
+  export type WebAuthnCredentialUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    credentialId?: BytesFieldUpdateOperationsInput | Bytes;
+    publicKey?: BytesFieldUpdateOperationsInput | Bytes;
+    counter?: BigIntFieldUpdateOperationsInput | bigint | number;
+    deviceType?: StringFieldUpdateOperationsInput | string;
+    backedUp?: BoolFieldUpdateOperationsInput | boolean;
+    transports?: WebAuthnCredentialUpdatetransportsInput | string[];
+    name?: NullableStringFieldUpdateOperationsInput | string | null;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    lastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    userId?: StringFieldUpdateOperationsInput | string;
+  };
+
+  export type WebAuthnChallengeCreateInput = {
+    id?: string;
+    challenge: string;
+    type: string;
+    userId?: string | null;
+    expiresAt: Date | string;
+    createdAt?: Date | string;
+  };
+
+  export type WebAuthnChallengeUncheckedCreateInput = {
+    id?: string;
+    challenge: string;
+    type: string;
+    userId?: string | null;
+    expiresAt: Date | string;
+    createdAt?: Date | string;
+  };
+
+  export type WebAuthnChallengeUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    challenge?: StringFieldUpdateOperationsInput | string;
+    type?: StringFieldUpdateOperationsInput | string;
+    userId?: NullableStringFieldUpdateOperationsInput | string | null;
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+  };
+
+  export type WebAuthnChallengeUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    challenge?: StringFieldUpdateOperationsInput | string;
+    type?: StringFieldUpdateOperationsInput | string;
+    userId?: NullableStringFieldUpdateOperationsInput | string | null;
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+  };
+
+  export type WebAuthnChallengeCreateManyInput = {
+    id?: string;
+    challenge: string;
+    type: string;
+    userId?: string | null;
+    expiresAt: Date | string;
+    createdAt?: Date | string;
+  };
+
+  export type WebAuthnChallengeUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    challenge?: StringFieldUpdateOperationsInput | string;
+    type?: StringFieldUpdateOperationsInput | string;
+    userId?: NullableStringFieldUpdateOperationsInput | string | null;
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+  };
+
+  export type WebAuthnChallengeUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    challenge?: StringFieldUpdateOperationsInput | string;
+    type?: StringFieldUpdateOperationsInput | string;
+    userId?: NullableStringFieldUpdateOperationsInput | string | null;
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+  };
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>;
     in?: string[] | ListStringFieldRefInput<$PrismaModel>;
@@ -27034,6 +30212,12 @@ export namespace Prisma {
     none?: AiUsageMetricWhereInput;
   };
 
+  export type WebAuthnCredentialListRelationFilter = {
+    every?: WebAuthnCredentialWhereInput;
+    some?: WebAuthnCredentialWhereInput;
+    none?: WebAuthnCredentialWhereInput;
+  };
+
   export type PaperlessInstanceOrderByRelationAggregateInput = {
     _count?: SortOrder;
   };
@@ -27067,6 +30251,10 @@ export namespace Prisma {
   };
 
   export type AiUsageMetricOrderByRelationAggregateInput = {
+    _count?: SortOrder;
+  };
+
+  export type WebAuthnCredentialOrderByRelationAggregateInput = {
     _count?: SortOrder;
   };
 
@@ -28047,6 +31235,125 @@ export namespace Prisma {
     documentId?: SortOrder;
   };
 
+  export type BytesFilter<$PrismaModel = never> = {
+    equals?: Bytes | BytesFieldRefInput<$PrismaModel>;
+    in?: Bytes[] | ListBytesFieldRefInput<$PrismaModel>;
+    notIn?: Bytes[] | ListBytesFieldRefInput<$PrismaModel>;
+    not?: NestedBytesFilter<$PrismaModel> | Bytes;
+  };
+
+  export type BigIntFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>;
+    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>;
+    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>;
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>;
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>;
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>;
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>;
+    not?: NestedBigIntFilter<$PrismaModel> | bigint | number;
+  };
+
+  export type WebAuthnCredentialCountOrderByAggregateInput = {
+    id?: SortOrder;
+    credentialId?: SortOrder;
+    publicKey?: SortOrder;
+    counter?: SortOrder;
+    deviceType?: SortOrder;
+    backedUp?: SortOrder;
+    transports?: SortOrder;
+    name?: SortOrder;
+    createdAt?: SortOrder;
+    lastUsedAt?: SortOrder;
+    userId?: SortOrder;
+  };
+
+  export type WebAuthnCredentialAvgOrderByAggregateInput = {
+    counter?: SortOrder;
+  };
+
+  export type WebAuthnCredentialMaxOrderByAggregateInput = {
+    id?: SortOrder;
+    credentialId?: SortOrder;
+    publicKey?: SortOrder;
+    counter?: SortOrder;
+    deviceType?: SortOrder;
+    backedUp?: SortOrder;
+    name?: SortOrder;
+    createdAt?: SortOrder;
+    lastUsedAt?: SortOrder;
+    userId?: SortOrder;
+  };
+
+  export type WebAuthnCredentialMinOrderByAggregateInput = {
+    id?: SortOrder;
+    credentialId?: SortOrder;
+    publicKey?: SortOrder;
+    counter?: SortOrder;
+    deviceType?: SortOrder;
+    backedUp?: SortOrder;
+    name?: SortOrder;
+    createdAt?: SortOrder;
+    lastUsedAt?: SortOrder;
+    userId?: SortOrder;
+  };
+
+  export type WebAuthnCredentialSumOrderByAggregateInput = {
+    counter?: SortOrder;
+  };
+
+  export type BytesWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Bytes | BytesFieldRefInput<$PrismaModel>;
+    in?: Bytes[] | ListBytesFieldRefInput<$PrismaModel>;
+    notIn?: Bytes[] | ListBytesFieldRefInput<$PrismaModel>;
+    not?: NestedBytesWithAggregatesFilter<$PrismaModel> | Bytes;
+    _count?: NestedIntFilter<$PrismaModel>;
+    _min?: NestedBytesFilter<$PrismaModel>;
+    _max?: NestedBytesFilter<$PrismaModel>;
+  };
+
+  export type BigIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>;
+    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>;
+    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>;
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>;
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>;
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>;
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>;
+    not?: NestedBigIntWithAggregatesFilter<$PrismaModel> | bigint | number;
+    _count?: NestedIntFilter<$PrismaModel>;
+    _avg?: NestedFloatFilter<$PrismaModel>;
+    _sum?: NestedBigIntFilter<$PrismaModel>;
+    _min?: NestedBigIntFilter<$PrismaModel>;
+    _max?: NestedBigIntFilter<$PrismaModel>;
+  };
+
+  export type WebAuthnChallengeCountOrderByAggregateInput = {
+    id?: SortOrder;
+    challenge?: SortOrder;
+    type?: SortOrder;
+    userId?: SortOrder;
+    expiresAt?: SortOrder;
+    createdAt?: SortOrder;
+  };
+
+  export type WebAuthnChallengeMaxOrderByAggregateInput = {
+    id?: SortOrder;
+    challenge?: SortOrder;
+    type?: SortOrder;
+    userId?: SortOrder;
+    expiresAt?: SortOrder;
+    createdAt?: SortOrder;
+  };
+
+  export type WebAuthnChallengeMinOrderByAggregateInput = {
+    id?: SortOrder;
+    challenge?: SortOrder;
+    type?: SortOrder;
+    userId?: SortOrder;
+    expiresAt?: SortOrder;
+    createdAt?: SortOrder;
+  };
+
   export type StringFieldUpdateOperationsInput = {
     set?: string;
   };
@@ -28177,6 +31484,21 @@ export namespace Prisma {
     connect?: AiUsageMetricWhereUniqueInput | AiUsageMetricWhereUniqueInput[];
   };
 
+  export type WebAuthnCredentialCreateNestedManyWithoutUserInput = {
+    create?:
+      | XOR<
+          WebAuthnCredentialCreateWithoutUserInput,
+          WebAuthnCredentialUncheckedCreateWithoutUserInput
+        >
+      | WebAuthnCredentialCreateWithoutUserInput[]
+      | WebAuthnCredentialUncheckedCreateWithoutUserInput[];
+    connectOrCreate?:
+      | WebAuthnCredentialCreateOrConnectWithoutUserInput
+      | WebAuthnCredentialCreateOrConnectWithoutUserInput[];
+    createMany?: WebAuthnCredentialCreateManyUserInputEnvelope;
+    connect?: WebAuthnCredentialWhereUniqueInput | WebAuthnCredentialWhereUniqueInput[];
+  };
+
   export type PaperlessInstanceUncheckedCreateNestedManyWithoutOwnerInput = {
     create?:
       | XOR<
@@ -28297,6 +31619,21 @@ export namespace Prisma {
       | AiUsageMetricCreateOrConnectWithoutUserInput[];
     createMany?: AiUsageMetricCreateManyUserInputEnvelope;
     connect?: AiUsageMetricWhereUniqueInput | AiUsageMetricWhereUniqueInput[];
+  };
+
+  export type WebAuthnCredentialUncheckedCreateNestedManyWithoutUserInput = {
+    create?:
+      | XOR<
+          WebAuthnCredentialCreateWithoutUserInput,
+          WebAuthnCredentialUncheckedCreateWithoutUserInput
+        >
+      | WebAuthnCredentialCreateWithoutUserInput[]
+      | WebAuthnCredentialUncheckedCreateWithoutUserInput[];
+    connectOrCreate?:
+      | WebAuthnCredentialCreateOrConnectWithoutUserInput
+      | WebAuthnCredentialCreateOrConnectWithoutUserInput[];
+    createMany?: WebAuthnCredentialCreateManyUserInputEnvelope;
+    connect?: WebAuthnCredentialWhereUniqueInput | WebAuthnCredentialWhereUniqueInput[];
   };
 
   export type EnumUserRoleFieldUpdateOperationsInput = {
@@ -28554,6 +31891,34 @@ export namespace Prisma {
     deleteMany?: AiUsageMetricScalarWhereInput | AiUsageMetricScalarWhereInput[];
   };
 
+  export type WebAuthnCredentialUpdateManyWithoutUserNestedInput = {
+    create?:
+      | XOR<
+          WebAuthnCredentialCreateWithoutUserInput,
+          WebAuthnCredentialUncheckedCreateWithoutUserInput
+        >
+      | WebAuthnCredentialCreateWithoutUserInput[]
+      | WebAuthnCredentialUncheckedCreateWithoutUserInput[];
+    connectOrCreate?:
+      | WebAuthnCredentialCreateOrConnectWithoutUserInput
+      | WebAuthnCredentialCreateOrConnectWithoutUserInput[];
+    upsert?:
+      | WebAuthnCredentialUpsertWithWhereUniqueWithoutUserInput
+      | WebAuthnCredentialUpsertWithWhereUniqueWithoutUserInput[];
+    createMany?: WebAuthnCredentialCreateManyUserInputEnvelope;
+    set?: WebAuthnCredentialWhereUniqueInput | WebAuthnCredentialWhereUniqueInput[];
+    disconnect?: WebAuthnCredentialWhereUniqueInput | WebAuthnCredentialWhereUniqueInput[];
+    delete?: WebAuthnCredentialWhereUniqueInput | WebAuthnCredentialWhereUniqueInput[];
+    connect?: WebAuthnCredentialWhereUniqueInput | WebAuthnCredentialWhereUniqueInput[];
+    update?:
+      | WebAuthnCredentialUpdateWithWhereUniqueWithoutUserInput
+      | WebAuthnCredentialUpdateWithWhereUniqueWithoutUserInput[];
+    updateMany?:
+      | WebAuthnCredentialUpdateManyWithWhereWithoutUserInput
+      | WebAuthnCredentialUpdateManyWithWhereWithoutUserInput[];
+    deleteMany?: WebAuthnCredentialScalarWhereInput | WebAuthnCredentialScalarWhereInput[];
+  };
+
   export type PaperlessInstanceUncheckedUpdateManyWithoutOwnerNestedInput = {
     create?:
       | XOR<
@@ -28799,6 +32164,34 @@ export namespace Prisma {
       | AiUsageMetricUpdateManyWithWhereWithoutUserInput
       | AiUsageMetricUpdateManyWithWhereWithoutUserInput[];
     deleteMany?: AiUsageMetricScalarWhereInput | AiUsageMetricScalarWhereInput[];
+  };
+
+  export type WebAuthnCredentialUncheckedUpdateManyWithoutUserNestedInput = {
+    create?:
+      | XOR<
+          WebAuthnCredentialCreateWithoutUserInput,
+          WebAuthnCredentialUncheckedCreateWithoutUserInput
+        >
+      | WebAuthnCredentialCreateWithoutUserInput[]
+      | WebAuthnCredentialUncheckedCreateWithoutUserInput[];
+    connectOrCreate?:
+      | WebAuthnCredentialCreateOrConnectWithoutUserInput
+      | WebAuthnCredentialCreateOrConnectWithoutUserInput[];
+    upsert?:
+      | WebAuthnCredentialUpsertWithWhereUniqueWithoutUserInput
+      | WebAuthnCredentialUpsertWithWhereUniqueWithoutUserInput[];
+    createMany?: WebAuthnCredentialCreateManyUserInputEnvelope;
+    set?: WebAuthnCredentialWhereUniqueInput | WebAuthnCredentialWhereUniqueInput[];
+    disconnect?: WebAuthnCredentialWhereUniqueInput | WebAuthnCredentialWhereUniqueInput[];
+    delete?: WebAuthnCredentialWhereUniqueInput | WebAuthnCredentialWhereUniqueInput[];
+    connect?: WebAuthnCredentialWhereUniqueInput | WebAuthnCredentialWhereUniqueInput[];
+    update?:
+      | WebAuthnCredentialUpdateWithWhereUniqueWithoutUserInput
+      | WebAuthnCredentialUpdateWithWhereUniqueWithoutUserInput[];
+    updateMany?:
+      | WebAuthnCredentialUpdateManyWithWhereWithoutUserInput
+      | WebAuthnCredentialUpdateManyWithWhereWithoutUserInput[];
+    deleteMany?: WebAuthnCredentialScalarWhereInput | WebAuthnCredentialScalarWhereInput[];
   };
 
   export type UserCreateNestedOneWithoutSharedPaperlessInstancesInput = {
@@ -30799,6 +34192,53 @@ export namespace Prisma {
     >;
   };
 
+  export type WebAuthnCredentialCreatetransportsInput = {
+    set: string[];
+  };
+
+  export type UserCreateNestedOneWithoutWebAuthnCredentialsInput = {
+    create?: XOR<
+      UserCreateWithoutWebAuthnCredentialsInput,
+      UserUncheckedCreateWithoutWebAuthnCredentialsInput
+    >;
+    connectOrCreate?: UserCreateOrConnectWithoutWebAuthnCredentialsInput;
+    connect?: UserWhereUniqueInput;
+  };
+
+  export type BytesFieldUpdateOperationsInput = {
+    set?: Bytes;
+  };
+
+  export type BigIntFieldUpdateOperationsInput = {
+    set?: bigint | number;
+    increment?: bigint | number;
+    decrement?: bigint | number;
+    multiply?: bigint | number;
+    divide?: bigint | number;
+  };
+
+  export type WebAuthnCredentialUpdatetransportsInput = {
+    set?: string[];
+    push?: string | string[];
+  };
+
+  export type UserUpdateOneRequiredWithoutWebAuthnCredentialsNestedInput = {
+    create?: XOR<
+      UserCreateWithoutWebAuthnCredentialsInput,
+      UserUncheckedCreateWithoutWebAuthnCredentialsInput
+    >;
+    connectOrCreate?: UserCreateOrConnectWithoutWebAuthnCredentialsInput;
+    upsert?: UserUpsertWithoutWebAuthnCredentialsInput;
+    connect?: UserWhereUniqueInput;
+    update?: XOR<
+      XOR<
+        UserUpdateToOneWithWhereWithoutWebAuthnCredentialsInput,
+        UserUpdateWithoutWebAuthnCredentialsInput
+      >,
+      UserUncheckedUpdateWithoutWebAuthnCredentialsInput
+    >;
+  };
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>;
     in?: string[] | ListStringFieldRefInput<$PrismaModel>;
@@ -31074,6 +34514,50 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>;
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>;
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter;
+  };
+
+  export type NestedBytesFilter<$PrismaModel = never> = {
+    equals?: Bytes | BytesFieldRefInput<$PrismaModel>;
+    in?: Bytes[] | ListBytesFieldRefInput<$PrismaModel>;
+    notIn?: Bytes[] | ListBytesFieldRefInput<$PrismaModel>;
+    not?: NestedBytesFilter<$PrismaModel> | Bytes;
+  };
+
+  export type NestedBigIntFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>;
+    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>;
+    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>;
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>;
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>;
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>;
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>;
+    not?: NestedBigIntFilter<$PrismaModel> | bigint | number;
+  };
+
+  export type NestedBytesWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Bytes | BytesFieldRefInput<$PrismaModel>;
+    in?: Bytes[] | ListBytesFieldRefInput<$PrismaModel>;
+    notIn?: Bytes[] | ListBytesFieldRefInput<$PrismaModel>;
+    not?: NestedBytesWithAggregatesFilter<$PrismaModel> | Bytes;
+    _count?: NestedIntFilter<$PrismaModel>;
+    _min?: NestedBytesFilter<$PrismaModel>;
+    _max?: NestedBytesFilter<$PrismaModel>;
+  };
+
+  export type NestedBigIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>;
+    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>;
+    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>;
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>;
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>;
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>;
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>;
+    not?: NestedBigIntWithAggregatesFilter<$PrismaModel> | bigint | number;
+    _count?: NestedIntFilter<$PrismaModel>;
+    _avg?: NestedFloatFilter<$PrismaModel>;
+    _sum?: NestedBigIntFilter<$PrismaModel>;
+    _min?: NestedBigIntFilter<$PrismaModel>;
+    _max?: NestedBigIntFilter<$PrismaModel>;
   };
 
   export type PaperlessInstanceCreateWithoutOwnerInput = {
@@ -31400,6 +34884,45 @@ export namespace Prisma {
 
   export type AiUsageMetricCreateManyUserInputEnvelope = {
     data: AiUsageMetricCreateManyUserInput | AiUsageMetricCreateManyUserInput[];
+    skipDuplicates?: boolean;
+  };
+
+  export type WebAuthnCredentialCreateWithoutUserInput = {
+    id?: string;
+    credentialId: Bytes;
+    publicKey: Bytes;
+    counter?: bigint | number;
+    deviceType?: string;
+    backedUp?: boolean;
+    transports?: WebAuthnCredentialCreatetransportsInput | string[];
+    name?: string | null;
+    createdAt?: Date | string;
+    lastUsedAt?: Date | string | null;
+  };
+
+  export type WebAuthnCredentialUncheckedCreateWithoutUserInput = {
+    id?: string;
+    credentialId: Bytes;
+    publicKey: Bytes;
+    counter?: bigint | number;
+    deviceType?: string;
+    backedUp?: boolean;
+    transports?: WebAuthnCredentialCreatetransportsInput | string[];
+    name?: string | null;
+    createdAt?: Date | string;
+    lastUsedAt?: Date | string | null;
+  };
+
+  export type WebAuthnCredentialCreateOrConnectWithoutUserInput = {
+    where: WebAuthnCredentialWhereUniqueInput;
+    create: XOR<
+      WebAuthnCredentialCreateWithoutUserInput,
+      WebAuthnCredentialUncheckedCreateWithoutUserInput
+    >;
+  };
+
+  export type WebAuthnCredentialCreateManyUserInputEnvelope = {
+    data: WebAuthnCredentialCreateManyUserInput | WebAuthnCredentialCreateManyUserInput[];
     skipDuplicates?: boolean;
   };
 
@@ -31746,6 +35269,51 @@ export namespace Prisma {
     aiBotId?: StringNullableFilter<'AiUsageMetric'> | string | null;
   };
 
+  export type WebAuthnCredentialUpsertWithWhereUniqueWithoutUserInput = {
+    where: WebAuthnCredentialWhereUniqueInput;
+    update: XOR<
+      WebAuthnCredentialUpdateWithoutUserInput,
+      WebAuthnCredentialUncheckedUpdateWithoutUserInput
+    >;
+    create: XOR<
+      WebAuthnCredentialCreateWithoutUserInput,
+      WebAuthnCredentialUncheckedCreateWithoutUserInput
+    >;
+  };
+
+  export type WebAuthnCredentialUpdateWithWhereUniqueWithoutUserInput = {
+    where: WebAuthnCredentialWhereUniqueInput;
+    data: XOR<
+      WebAuthnCredentialUpdateWithoutUserInput,
+      WebAuthnCredentialUncheckedUpdateWithoutUserInput
+    >;
+  };
+
+  export type WebAuthnCredentialUpdateManyWithWhereWithoutUserInput = {
+    where: WebAuthnCredentialScalarWhereInput;
+    data: XOR<
+      WebAuthnCredentialUpdateManyMutationInput,
+      WebAuthnCredentialUncheckedUpdateManyWithoutUserInput
+    >;
+  };
+
+  export type WebAuthnCredentialScalarWhereInput = {
+    AND?: WebAuthnCredentialScalarWhereInput | WebAuthnCredentialScalarWhereInput[];
+    OR?: WebAuthnCredentialScalarWhereInput[];
+    NOT?: WebAuthnCredentialScalarWhereInput | WebAuthnCredentialScalarWhereInput[];
+    id?: StringFilter<'WebAuthnCredential'> | string;
+    credentialId?: BytesFilter<'WebAuthnCredential'> | Bytes;
+    publicKey?: BytesFilter<'WebAuthnCredential'> | Bytes;
+    counter?: BigIntFilter<'WebAuthnCredential'> | bigint | number;
+    deviceType?: StringFilter<'WebAuthnCredential'> | string;
+    backedUp?: BoolFilter<'WebAuthnCredential'> | boolean;
+    transports?: StringNullableListFilter<'WebAuthnCredential'>;
+    name?: StringNullableFilter<'WebAuthnCredential'> | string | null;
+    createdAt?: DateTimeFilter<'WebAuthnCredential'> | Date | string;
+    lastUsedAt?: DateTimeNullableFilter<'WebAuthnCredential'> | Date | string | null;
+    userId?: StringFilter<'WebAuthnCredential'> | string;
+  };
+
   export type UserCreateWithoutSharedPaperlessInstancesInput = {
     id?: string;
     username: string;
@@ -31763,6 +35331,7 @@ export namespace Prisma {
     sharedAiModels?: UserAiModelAccessCreateNestedManyWithoutUserInput;
     sharedAiBots?: UserAiBotAccessCreateNestedManyWithoutUserInput;
     aiUsageMetrics?: AiUsageMetricCreateNestedManyWithoutUserInput;
+    webAuthnCredentials?: WebAuthnCredentialCreateNestedManyWithoutUserInput;
   };
 
   export type UserUncheckedCreateWithoutSharedPaperlessInstancesInput = {
@@ -31782,6 +35351,7 @@ export namespace Prisma {
     sharedAiModels?: UserAiModelAccessUncheckedCreateNestedManyWithoutUserInput;
     sharedAiBots?: UserAiBotAccessUncheckedCreateNestedManyWithoutUserInput;
     aiUsageMetrics?: AiUsageMetricUncheckedCreateNestedManyWithoutUserInput;
+    webAuthnCredentials?: WebAuthnCredentialUncheckedCreateNestedManyWithoutUserInput;
   };
 
   export type UserCreateOrConnectWithoutSharedPaperlessInstancesInput = {
@@ -31885,6 +35455,7 @@ export namespace Prisma {
     sharedAiModels?: UserAiModelAccessUpdateManyWithoutUserNestedInput;
     sharedAiBots?: UserAiBotAccessUpdateManyWithoutUserNestedInput;
     aiUsageMetrics?: AiUsageMetricUpdateManyWithoutUserNestedInput;
+    webAuthnCredentials?: WebAuthnCredentialUpdateManyWithoutUserNestedInput;
   };
 
   export type UserUncheckedUpdateWithoutSharedPaperlessInstancesInput = {
@@ -31904,6 +35475,7 @@ export namespace Prisma {
     sharedAiModels?: UserAiModelAccessUncheckedUpdateManyWithoutUserNestedInput;
     sharedAiBots?: UserAiBotAccessUncheckedUpdateManyWithoutUserNestedInput;
     aiUsageMetrics?: AiUsageMetricUncheckedUpdateManyWithoutUserNestedInput;
+    webAuthnCredentials?: WebAuthnCredentialUncheckedUpdateManyWithoutUserNestedInput;
   };
 
   export type PaperlessInstanceUpsertWithoutSharedWithInput = {
@@ -31991,6 +35563,7 @@ export namespace Prisma {
     sharedAiModels?: UserAiModelAccessCreateNestedManyWithoutUserInput;
     sharedAiBots?: UserAiBotAccessCreateNestedManyWithoutUserInput;
     aiUsageMetrics?: AiUsageMetricCreateNestedManyWithoutUserInput;
+    webAuthnCredentials?: WebAuthnCredentialCreateNestedManyWithoutUserInput;
   };
 
   export type UserUncheckedCreateWithoutSharedAiAccountsInput = {
@@ -32010,6 +35583,7 @@ export namespace Prisma {
     sharedAiModels?: UserAiModelAccessUncheckedCreateNestedManyWithoutUserInput;
     sharedAiBots?: UserAiBotAccessUncheckedCreateNestedManyWithoutUserInput;
     aiUsageMetrics?: AiUsageMetricUncheckedCreateNestedManyWithoutUserInput;
+    webAuthnCredentials?: WebAuthnCredentialUncheckedCreateNestedManyWithoutUserInput;
   };
 
   export type UserCreateOrConnectWithoutSharedAiAccountsInput = {
@@ -32093,6 +35667,7 @@ export namespace Prisma {
     sharedAiModels?: UserAiModelAccessUpdateManyWithoutUserNestedInput;
     sharedAiBots?: UserAiBotAccessUpdateManyWithoutUserNestedInput;
     aiUsageMetrics?: AiUsageMetricUpdateManyWithoutUserNestedInput;
+    webAuthnCredentials?: WebAuthnCredentialUpdateManyWithoutUserNestedInput;
   };
 
   export type UserUncheckedUpdateWithoutSharedAiAccountsInput = {
@@ -32112,6 +35687,7 @@ export namespace Prisma {
     sharedAiModels?: UserAiModelAccessUncheckedUpdateManyWithoutUserNestedInput;
     sharedAiBots?: UserAiBotAccessUncheckedUpdateManyWithoutUserNestedInput;
     aiUsageMetrics?: AiUsageMetricUncheckedUpdateManyWithoutUserNestedInput;
+    webAuthnCredentials?: WebAuthnCredentialUncheckedUpdateManyWithoutUserNestedInput;
   };
 
   export type AiAccountUpsertWithoutSharedWithInput = {
@@ -32179,6 +35755,7 @@ export namespace Prisma {
     sharedAiAccounts?: UserAiAccountAccessCreateNestedManyWithoutUserInput;
     sharedAiBots?: UserAiBotAccessCreateNestedManyWithoutUserInput;
     aiUsageMetrics?: AiUsageMetricCreateNestedManyWithoutUserInput;
+    webAuthnCredentials?: WebAuthnCredentialCreateNestedManyWithoutUserInput;
   };
 
   export type UserUncheckedCreateWithoutSharedAiModelsInput = {
@@ -32198,6 +35775,7 @@ export namespace Prisma {
     sharedAiAccounts?: UserAiAccountAccessUncheckedCreateNestedManyWithoutUserInput;
     sharedAiBots?: UserAiBotAccessUncheckedCreateNestedManyWithoutUserInput;
     aiUsageMetrics?: AiUsageMetricUncheckedCreateNestedManyWithoutUserInput;
+    webAuthnCredentials?: WebAuthnCredentialUncheckedCreateNestedManyWithoutUserInput;
   };
 
   export type UserCreateOrConnectWithoutSharedAiModelsInput = {
@@ -32277,6 +35855,7 @@ export namespace Prisma {
     sharedAiAccounts?: UserAiAccountAccessUpdateManyWithoutUserNestedInput;
     sharedAiBots?: UserAiBotAccessUpdateManyWithoutUserNestedInput;
     aiUsageMetrics?: AiUsageMetricUpdateManyWithoutUserNestedInput;
+    webAuthnCredentials?: WebAuthnCredentialUpdateManyWithoutUserNestedInput;
   };
 
   export type UserUncheckedUpdateWithoutSharedAiModelsInput = {
@@ -32296,6 +35875,7 @@ export namespace Prisma {
     sharedAiAccounts?: UserAiAccountAccessUncheckedUpdateManyWithoutUserNestedInput;
     sharedAiBots?: UserAiBotAccessUncheckedUpdateManyWithoutUserNestedInput;
     aiUsageMetrics?: AiUsageMetricUncheckedUpdateManyWithoutUserNestedInput;
+    webAuthnCredentials?: WebAuthnCredentialUncheckedUpdateManyWithoutUserNestedInput;
   };
 
   export type AiModelUpsertWithoutSharedWithInput = {
@@ -32356,6 +35936,7 @@ export namespace Prisma {
     sharedAiAccounts?: UserAiAccountAccessCreateNestedManyWithoutUserInput;
     sharedAiModels?: UserAiModelAccessCreateNestedManyWithoutUserInput;
     aiUsageMetrics?: AiUsageMetricCreateNestedManyWithoutUserInput;
+    webAuthnCredentials?: WebAuthnCredentialCreateNestedManyWithoutUserInput;
   };
 
   export type UserUncheckedCreateWithoutSharedAiBotsInput = {
@@ -32375,6 +35956,7 @@ export namespace Prisma {
     sharedAiAccounts?: UserAiAccountAccessUncheckedCreateNestedManyWithoutUserInput;
     sharedAiModels?: UserAiModelAccessUncheckedCreateNestedManyWithoutUserInput;
     aiUsageMetrics?: AiUsageMetricUncheckedCreateNestedManyWithoutUserInput;
+    webAuthnCredentials?: WebAuthnCredentialUncheckedCreateNestedManyWithoutUserInput;
   };
 
   export type UserCreateOrConnectWithoutSharedAiBotsInput = {
@@ -32443,6 +36025,7 @@ export namespace Prisma {
     sharedAiAccounts?: UserAiAccountAccessUpdateManyWithoutUserNestedInput;
     sharedAiModels?: UserAiModelAccessUpdateManyWithoutUserNestedInput;
     aiUsageMetrics?: AiUsageMetricUpdateManyWithoutUserNestedInput;
+    webAuthnCredentials?: WebAuthnCredentialUpdateManyWithoutUserNestedInput;
   };
 
   export type UserUncheckedUpdateWithoutSharedAiBotsInput = {
@@ -32462,6 +36045,7 @@ export namespace Prisma {
     sharedAiAccounts?: UserAiAccountAccessUncheckedUpdateManyWithoutUserNestedInput;
     sharedAiModels?: UserAiModelAccessUncheckedUpdateManyWithoutUserNestedInput;
     aiUsageMetrics?: AiUsageMetricUncheckedUpdateManyWithoutUserNestedInput;
+    webAuthnCredentials?: WebAuthnCredentialUncheckedUpdateManyWithoutUserNestedInput;
   };
 
   export type AiBotUpsertWithoutSharedWithInput = {
@@ -32556,6 +36140,7 @@ export namespace Prisma {
     sharedAiModels?: UserAiModelAccessCreateNestedManyWithoutUserInput;
     sharedAiBots?: UserAiBotAccessCreateNestedManyWithoutUserInput;
     aiUsageMetrics?: AiUsageMetricCreateNestedManyWithoutUserInput;
+    webAuthnCredentials?: WebAuthnCredentialCreateNestedManyWithoutUserInput;
   };
 
   export type UserUncheckedCreateWithoutOwnedPaperlessInstancesInput = {
@@ -32575,6 +36160,7 @@ export namespace Prisma {
     sharedAiModels?: UserAiModelAccessUncheckedCreateNestedManyWithoutUserInput;
     sharedAiBots?: UserAiBotAccessUncheckedCreateNestedManyWithoutUserInput;
     aiUsageMetrics?: AiUsageMetricUncheckedCreateNestedManyWithoutUserInput;
+    webAuthnCredentials?: WebAuthnCredentialUncheckedCreateNestedManyWithoutUserInput;
   };
 
   export type UserCreateOrConnectWithoutOwnedPaperlessInstancesInput = {
@@ -32828,6 +36414,7 @@ export namespace Prisma {
     sharedAiModels?: UserAiModelAccessUpdateManyWithoutUserNestedInput;
     sharedAiBots?: UserAiBotAccessUpdateManyWithoutUserNestedInput;
     aiUsageMetrics?: AiUsageMetricUpdateManyWithoutUserNestedInput;
+    webAuthnCredentials?: WebAuthnCredentialUpdateManyWithoutUserNestedInput;
   };
 
   export type UserUncheckedUpdateWithoutOwnedPaperlessInstancesInput = {
@@ -32847,6 +36434,7 @@ export namespace Prisma {
     sharedAiModels?: UserAiModelAccessUncheckedUpdateManyWithoutUserNestedInput;
     sharedAiBots?: UserAiBotAccessUncheckedUpdateManyWithoutUserNestedInput;
     aiUsageMetrics?: AiUsageMetricUncheckedUpdateManyWithoutUserNestedInput;
+    webAuthnCredentials?: WebAuthnCredentialUncheckedUpdateManyWithoutUserNestedInput;
   };
 
   export type UserPaperlessInstanceAccessUpsertWithWhereUniqueWithoutInstanceInput = {
@@ -33030,6 +36618,7 @@ export namespace Prisma {
     sharedAiModels?: UserAiModelAccessCreateNestedManyWithoutUserInput;
     sharedAiBots?: UserAiBotAccessCreateNestedManyWithoutUserInput;
     aiUsageMetrics?: AiUsageMetricCreateNestedManyWithoutUserInput;
+    webAuthnCredentials?: WebAuthnCredentialCreateNestedManyWithoutUserInput;
   };
 
   export type UserUncheckedCreateWithoutOwnedAiAccountsInput = {
@@ -33049,6 +36638,7 @@ export namespace Prisma {
     sharedAiModels?: UserAiModelAccessUncheckedCreateNestedManyWithoutUserInput;
     sharedAiBots?: UserAiBotAccessUncheckedCreateNestedManyWithoutUserInput;
     aiUsageMetrics?: AiUsageMetricUncheckedCreateNestedManyWithoutUserInput;
+    webAuthnCredentials?: WebAuthnCredentialUncheckedCreateNestedManyWithoutUserInput;
   };
 
   export type UserCreateOrConnectWithoutOwnedAiAccountsInput = {
@@ -33208,6 +36798,7 @@ export namespace Prisma {
     sharedAiModels?: UserAiModelAccessUpdateManyWithoutUserNestedInput;
     sharedAiBots?: UserAiBotAccessUpdateManyWithoutUserNestedInput;
     aiUsageMetrics?: AiUsageMetricUpdateManyWithoutUserNestedInput;
+    webAuthnCredentials?: WebAuthnCredentialUpdateManyWithoutUserNestedInput;
   };
 
   export type UserUncheckedUpdateWithoutOwnedAiAccountsInput = {
@@ -33227,6 +36818,7 @@ export namespace Prisma {
     sharedAiModels?: UserAiModelAccessUncheckedUpdateManyWithoutUserNestedInput;
     sharedAiBots?: UserAiBotAccessUncheckedUpdateManyWithoutUserNestedInput;
     aiUsageMetrics?: AiUsageMetricUncheckedUpdateManyWithoutUserNestedInput;
+    webAuthnCredentials?: WebAuthnCredentialUncheckedUpdateManyWithoutUserNestedInput;
   };
 
   export type UserAiAccountAccessUpsertWithWhereUniqueWithoutAiAccountInput = {
@@ -33318,6 +36910,7 @@ export namespace Prisma {
     sharedAiModels?: UserAiModelAccessCreateNestedManyWithoutUserInput;
     sharedAiBots?: UserAiBotAccessCreateNestedManyWithoutUserInput;
     aiUsageMetrics?: AiUsageMetricCreateNestedManyWithoutUserInput;
+    webAuthnCredentials?: WebAuthnCredentialCreateNestedManyWithoutUserInput;
   };
 
   export type UserUncheckedCreateWithoutOwnedAiModelsInput = {
@@ -33337,6 +36930,7 @@ export namespace Prisma {
     sharedAiModels?: UserAiModelAccessUncheckedCreateNestedManyWithoutUserInput;
     sharedAiBots?: UserAiBotAccessUncheckedCreateNestedManyWithoutUserInput;
     aiUsageMetrics?: AiUsageMetricUncheckedCreateNestedManyWithoutUserInput;
+    webAuthnCredentials?: WebAuthnCredentialUncheckedCreateNestedManyWithoutUserInput;
   };
 
   export type UserCreateOrConnectWithoutOwnedAiModelsInput = {
@@ -33513,6 +37107,7 @@ export namespace Prisma {
     sharedAiModels?: UserAiModelAccessUpdateManyWithoutUserNestedInput;
     sharedAiBots?: UserAiBotAccessUpdateManyWithoutUserNestedInput;
     aiUsageMetrics?: AiUsageMetricUpdateManyWithoutUserNestedInput;
+    webAuthnCredentials?: WebAuthnCredentialUpdateManyWithoutUserNestedInput;
   };
 
   export type UserUncheckedUpdateWithoutOwnedAiModelsInput = {
@@ -33532,6 +37127,7 @@ export namespace Prisma {
     sharedAiModels?: UserAiModelAccessUncheckedUpdateManyWithoutUserNestedInput;
     sharedAiBots?: UserAiBotAccessUncheckedUpdateManyWithoutUserNestedInput;
     aiUsageMetrics?: AiUsageMetricUncheckedUpdateManyWithoutUserNestedInput;
+    webAuthnCredentials?: WebAuthnCredentialUncheckedUpdateManyWithoutUserNestedInput;
   };
 
   export type AiAccountUpsertWithoutModelsInput = {
@@ -33662,6 +37258,7 @@ export namespace Prisma {
     sharedAiModels?: UserAiModelAccessCreateNestedManyWithoutUserInput;
     sharedAiBots?: UserAiBotAccessCreateNestedManyWithoutUserInput;
     aiUsageMetrics?: AiUsageMetricCreateNestedManyWithoutUserInput;
+    webAuthnCredentials?: WebAuthnCredentialCreateNestedManyWithoutUserInput;
   };
 
   export type UserUncheckedCreateWithoutOwnedAiBotsInput = {
@@ -33681,6 +37278,7 @@ export namespace Prisma {
     sharedAiModels?: UserAiModelAccessUncheckedCreateNestedManyWithoutUserInput;
     sharedAiBots?: UserAiBotAccessUncheckedCreateNestedManyWithoutUserInput;
     aiUsageMetrics?: AiUsageMetricUncheckedCreateNestedManyWithoutUserInput;
+    webAuthnCredentials?: WebAuthnCredentialUncheckedCreateNestedManyWithoutUserInput;
   };
 
   export type UserCreateOrConnectWithoutOwnedAiBotsInput = {
@@ -33931,6 +37529,7 @@ export namespace Prisma {
     sharedAiModels?: UserAiModelAccessUpdateManyWithoutUserNestedInput;
     sharedAiBots?: UserAiBotAccessUpdateManyWithoutUserNestedInput;
     aiUsageMetrics?: AiUsageMetricUpdateManyWithoutUserNestedInput;
+    webAuthnCredentials?: WebAuthnCredentialUpdateManyWithoutUserNestedInput;
   };
 
   export type UserUncheckedUpdateWithoutOwnedAiBotsInput = {
@@ -33950,6 +37549,7 @@ export namespace Prisma {
     sharedAiModels?: UserAiModelAccessUncheckedUpdateManyWithoutUserNestedInput;
     sharedAiBots?: UserAiBotAccessUncheckedUpdateManyWithoutUserNestedInput;
     aiUsageMetrics?: AiUsageMetricUncheckedUpdateManyWithoutUserNestedInput;
+    webAuthnCredentials?: WebAuthnCredentialUncheckedUpdateManyWithoutUserNestedInput;
   };
 
   export type AiModelUpsertWithoutBotsInput = {
@@ -34932,6 +38532,7 @@ export namespace Prisma {
     sharedAiAccounts?: UserAiAccountAccessCreateNestedManyWithoutUserInput;
     sharedAiModels?: UserAiModelAccessCreateNestedManyWithoutUserInput;
     sharedAiBots?: UserAiBotAccessCreateNestedManyWithoutUserInput;
+    webAuthnCredentials?: WebAuthnCredentialCreateNestedManyWithoutUserInput;
   };
 
   export type UserUncheckedCreateWithoutAiUsageMetricsInput = {
@@ -34951,6 +38552,7 @@ export namespace Prisma {
     sharedAiAccounts?: UserAiAccountAccessUncheckedCreateNestedManyWithoutUserInput;
     sharedAiModels?: UserAiModelAccessUncheckedCreateNestedManyWithoutUserInput;
     sharedAiBots?: UserAiBotAccessUncheckedCreateNestedManyWithoutUserInput;
+    webAuthnCredentials?: WebAuthnCredentialUncheckedCreateNestedManyWithoutUserInput;
   };
 
   export type UserCreateOrConnectWithoutAiUsageMetricsInput = {
@@ -35105,6 +38707,7 @@ export namespace Prisma {
     sharedAiAccounts?: UserAiAccountAccessUpdateManyWithoutUserNestedInput;
     sharedAiModels?: UserAiModelAccessUpdateManyWithoutUserNestedInput;
     sharedAiBots?: UserAiBotAccessUpdateManyWithoutUserNestedInput;
+    webAuthnCredentials?: WebAuthnCredentialUpdateManyWithoutUserNestedInput;
   };
 
   export type UserUncheckedUpdateWithoutAiUsageMetricsInput = {
@@ -35124,6 +38727,7 @@ export namespace Prisma {
     sharedAiAccounts?: UserAiAccountAccessUncheckedUpdateManyWithoutUserNestedInput;
     sharedAiModels?: UserAiModelAccessUncheckedUpdateManyWithoutUserNestedInput;
     sharedAiBots?: UserAiBotAccessUncheckedUpdateManyWithoutUserNestedInput;
+    webAuthnCredentials?: WebAuthnCredentialUncheckedUpdateManyWithoutUserNestedInput;
   };
 
   export type AiAccountUpsertWithoutAiUsageMetricsInput = {
@@ -35272,6 +38876,114 @@ export namespace Prisma {
     processingQueueItems?: ProcessingQueueUncheckedUpdateManyWithoutAiBotNestedInput;
   };
 
+  export type UserCreateWithoutWebAuthnCredentialsInput = {
+    id?: string;
+    username: string;
+    passwordHash: string;
+    role?: $Enums.UserRole;
+    mustChangePassword?: boolean;
+    isActive?: boolean;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    ownedPaperlessInstances?: PaperlessInstanceCreateNestedManyWithoutOwnerInput;
+    ownedAiAccounts?: AiAccountCreateNestedManyWithoutOwnerInput;
+    ownedAiModels?: AiModelCreateNestedManyWithoutOwnerInput;
+    ownedAiBots?: AiBotCreateNestedManyWithoutOwnerInput;
+    sharedPaperlessInstances?: UserPaperlessInstanceAccessCreateNestedManyWithoutUserInput;
+    sharedAiAccounts?: UserAiAccountAccessCreateNestedManyWithoutUserInput;
+    sharedAiModels?: UserAiModelAccessCreateNestedManyWithoutUserInput;
+    sharedAiBots?: UserAiBotAccessCreateNestedManyWithoutUserInput;
+    aiUsageMetrics?: AiUsageMetricCreateNestedManyWithoutUserInput;
+  };
+
+  export type UserUncheckedCreateWithoutWebAuthnCredentialsInput = {
+    id?: string;
+    username: string;
+    passwordHash: string;
+    role?: $Enums.UserRole;
+    mustChangePassword?: boolean;
+    isActive?: boolean;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    ownedPaperlessInstances?: PaperlessInstanceUncheckedCreateNestedManyWithoutOwnerInput;
+    ownedAiAccounts?: AiAccountUncheckedCreateNestedManyWithoutOwnerInput;
+    ownedAiModels?: AiModelUncheckedCreateNestedManyWithoutOwnerInput;
+    ownedAiBots?: AiBotUncheckedCreateNestedManyWithoutOwnerInput;
+    sharedPaperlessInstances?: UserPaperlessInstanceAccessUncheckedCreateNestedManyWithoutUserInput;
+    sharedAiAccounts?: UserAiAccountAccessUncheckedCreateNestedManyWithoutUserInput;
+    sharedAiModels?: UserAiModelAccessUncheckedCreateNestedManyWithoutUserInput;
+    sharedAiBots?: UserAiBotAccessUncheckedCreateNestedManyWithoutUserInput;
+    aiUsageMetrics?: AiUsageMetricUncheckedCreateNestedManyWithoutUserInput;
+  };
+
+  export type UserCreateOrConnectWithoutWebAuthnCredentialsInput = {
+    where: UserWhereUniqueInput;
+    create: XOR<
+      UserCreateWithoutWebAuthnCredentialsInput,
+      UserUncheckedCreateWithoutWebAuthnCredentialsInput
+    >;
+  };
+
+  export type UserUpsertWithoutWebAuthnCredentialsInput = {
+    update: XOR<
+      UserUpdateWithoutWebAuthnCredentialsInput,
+      UserUncheckedUpdateWithoutWebAuthnCredentialsInput
+    >;
+    create: XOR<
+      UserCreateWithoutWebAuthnCredentialsInput,
+      UserUncheckedCreateWithoutWebAuthnCredentialsInput
+    >;
+    where?: UserWhereInput;
+  };
+
+  export type UserUpdateToOneWithWhereWithoutWebAuthnCredentialsInput = {
+    where?: UserWhereInput;
+    data: XOR<
+      UserUpdateWithoutWebAuthnCredentialsInput,
+      UserUncheckedUpdateWithoutWebAuthnCredentialsInput
+    >;
+  };
+
+  export type UserUpdateWithoutWebAuthnCredentialsInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    username?: StringFieldUpdateOperationsInput | string;
+    passwordHash?: StringFieldUpdateOperationsInput | string;
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
+    mustChangePassword?: BoolFieldUpdateOperationsInput | boolean;
+    isActive?: BoolFieldUpdateOperationsInput | boolean;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    ownedPaperlessInstances?: PaperlessInstanceUpdateManyWithoutOwnerNestedInput;
+    ownedAiAccounts?: AiAccountUpdateManyWithoutOwnerNestedInput;
+    ownedAiModels?: AiModelUpdateManyWithoutOwnerNestedInput;
+    ownedAiBots?: AiBotUpdateManyWithoutOwnerNestedInput;
+    sharedPaperlessInstances?: UserPaperlessInstanceAccessUpdateManyWithoutUserNestedInput;
+    sharedAiAccounts?: UserAiAccountAccessUpdateManyWithoutUserNestedInput;
+    sharedAiModels?: UserAiModelAccessUpdateManyWithoutUserNestedInput;
+    sharedAiBots?: UserAiBotAccessUpdateManyWithoutUserNestedInput;
+    aiUsageMetrics?: AiUsageMetricUpdateManyWithoutUserNestedInput;
+  };
+
+  export type UserUncheckedUpdateWithoutWebAuthnCredentialsInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    username?: StringFieldUpdateOperationsInput | string;
+    passwordHash?: StringFieldUpdateOperationsInput | string;
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
+    mustChangePassword?: BoolFieldUpdateOperationsInput | boolean;
+    isActive?: BoolFieldUpdateOperationsInput | boolean;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    ownedPaperlessInstances?: PaperlessInstanceUncheckedUpdateManyWithoutOwnerNestedInput;
+    ownedAiAccounts?: AiAccountUncheckedUpdateManyWithoutOwnerNestedInput;
+    ownedAiModels?: AiModelUncheckedUpdateManyWithoutOwnerNestedInput;
+    ownedAiBots?: AiBotUncheckedUpdateManyWithoutOwnerNestedInput;
+    sharedPaperlessInstances?: UserPaperlessInstanceAccessUncheckedUpdateManyWithoutUserNestedInput;
+    sharedAiAccounts?: UserAiAccountAccessUncheckedUpdateManyWithoutUserNestedInput;
+    sharedAiModels?: UserAiModelAccessUncheckedUpdateManyWithoutUserNestedInput;
+    sharedAiBots?: UserAiBotAccessUncheckedUpdateManyWithoutUserNestedInput;
+    aiUsageMetrics?: AiUsageMetricUncheckedUpdateManyWithoutUserNestedInput;
+  };
+
   export type PaperlessInstanceCreateManyOwnerInput = {
     id?: string;
     name: string;
@@ -35366,6 +39078,19 @@ export namespace Prisma {
     aiAccountId: string;
     aiModelId?: string | null;
     aiBotId?: string | null;
+  };
+
+  export type WebAuthnCredentialCreateManyUserInput = {
+    id?: string;
+    credentialId: Bytes;
+    publicKey: Bytes;
+    counter?: bigint | number;
+    deviceType?: string;
+    backedUp?: boolean;
+    transports?: WebAuthnCredentialCreatetransportsInput | string[];
+    name?: string | null;
+    createdAt?: Date | string;
+    lastUsedAt?: Date | string | null;
   };
 
   export type PaperlessInstanceUpdateWithoutOwnerInput = {
@@ -35682,6 +39407,45 @@ export namespace Prisma {
     aiAccountId?: StringFieldUpdateOperationsInput | string;
     aiModelId?: NullableStringFieldUpdateOperationsInput | string | null;
     aiBotId?: NullableStringFieldUpdateOperationsInput | string | null;
+  };
+
+  export type WebAuthnCredentialUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    credentialId?: BytesFieldUpdateOperationsInput | Bytes;
+    publicKey?: BytesFieldUpdateOperationsInput | Bytes;
+    counter?: BigIntFieldUpdateOperationsInput | bigint | number;
+    deviceType?: StringFieldUpdateOperationsInput | string;
+    backedUp?: BoolFieldUpdateOperationsInput | boolean;
+    transports?: WebAuthnCredentialUpdatetransportsInput | string[];
+    name?: NullableStringFieldUpdateOperationsInput | string | null;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    lastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+  };
+
+  export type WebAuthnCredentialUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    credentialId?: BytesFieldUpdateOperationsInput | Bytes;
+    publicKey?: BytesFieldUpdateOperationsInput | Bytes;
+    counter?: BigIntFieldUpdateOperationsInput | bigint | number;
+    deviceType?: StringFieldUpdateOperationsInput | string;
+    backedUp?: BoolFieldUpdateOperationsInput | boolean;
+    transports?: WebAuthnCredentialUpdatetransportsInput | string[];
+    name?: NullableStringFieldUpdateOperationsInput | string | null;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    lastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+  };
+
+  export type WebAuthnCredentialUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    credentialId?: BytesFieldUpdateOperationsInput | Bytes;
+    publicKey?: BytesFieldUpdateOperationsInput | Bytes;
+    counter?: BigIntFieldUpdateOperationsInput | bigint | number;
+    deviceType?: StringFieldUpdateOperationsInput | string;
+    backedUp?: BoolFieldUpdateOperationsInput | boolean;
+    transports?: WebAuthnCredentialUpdatetransportsInput | string[];
+    name?: NullableStringFieldUpdateOperationsInput | string | null;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    lastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
   };
 
   export type UserPaperlessInstanceAccessCreateManyInstanceInput = {

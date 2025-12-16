@@ -22,7 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { TagMultiselect, type TagOption } from '@/components/ui/tag-multiselect';
+import { TagMultiselect, type TagOption } from '@/components/form-inputs/tag-multiselect';
 import { useApi } from '@/lib/use-api';
 import { useErrorDisplay } from '@/hooks/use-error-display';
 import {

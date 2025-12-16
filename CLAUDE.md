@@ -188,3 +188,20 @@ To exclude a line from code coverage, use the v8 ignore directive:
 ```ts
 // v8 ignore next -- @preserve
 ```
+
+## Test Execution
+
+When analyzing test output (e.g., checking coverage, finding failures), always write the output to a temp file first if you need to grep multiple times:
+
+```bash
+# ✅ Good - Run once, grep multiple times
+pnpm --filter web test:coverage > /tmp/coverage-output.txt 2>&1
+grep "All files" /tmp/coverage-output.txt
+grep "FAIL" /tmp/coverage-output.txt
+
+# ❌ Bad - Running tests multiple times
+pnpm --filter web test:coverage 2>&1 | grep "All files"
+pnpm --filter web test:coverage 2>&1 | grep "FAIL"
+```
+
+This saves time and avoids unnecessary test re-runs.

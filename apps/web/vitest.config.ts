@@ -9,7 +9,7 @@ export default defineConfig({
     globals: true,
     setupFiles: ['./vitest.setup.ts'],
     include: ['**/*.test.{ts,tsx}'],
-    exclude: ['node_modules', '.next', 'e2e'],
+    exclude: ['node_modules', '.next', 'e2e', 'components/ui'],
     env: {
       LOG_LEVEL: 'none',
     },
@@ -30,8 +30,10 @@ export default defineConfig({
         '**/test-utils/**',
         '**/_components/index.ts',
         '**/lib/api/schemas/index.ts', // Barrel export with side-effects only
+        '**/lib/scheduler/index.ts', // Barrel export only (re-exports)
         '**/instrumentation.ts',
         '**/route-wrapper/types.ts', // Only TypeScript types, no runtime code
+        '**/components/ui/**', // shadcn components - tested through integration
       ],
     },
   },

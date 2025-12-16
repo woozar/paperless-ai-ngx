@@ -28,6 +28,69 @@ export type CurrentUser = {
   createdAt: string;
 };
 
+export type WebAuthnCredential = {
+  id: string;
+  name: string | null;
+  deviceType: string;
+  backedUp: boolean;
+  createdAt: string;
+  lastUsedAt: string | null;
+};
+
+export type WebAuthnRegisterOptionsRequest = {
+  authenticatorType?: 'platform' | 'cross-platform';
+};
+
+export type WebAuthnRegisterOptionsResponse = {
+  /**
+   * PublicKeyCredentialCreationOptionsJSON
+   */
+  options?: unknown;
+  challengeId: string;
+};
+
+export type WebAuthnRegisterVerifyRequest = {
+  /**
+   * RegistrationResponseJSON
+   */
+  response?: unknown;
+  challengeId: string;
+  name?: string;
+};
+
+export type WebAuthnRegisterVerifyResponse = {
+  success: true;
+  credential: WebAuthnCredential;
+};
+
+export type WebAuthnAuthenticateOptionsRequest = {
+  username?: string;
+};
+
+export type WebAuthnAuthenticateOptionsResponse = {
+  /**
+   * PublicKeyCredentialRequestOptionsJSON
+   */
+  options?: unknown;
+  challengeId: string;
+};
+
+export type WebAuthnAuthenticateVerifyRequest = {
+  /**
+   * AuthenticationResponseJSON
+   */
+  response?: unknown;
+  challengeId: string;
+};
+
+export type WebAuthnCredentialListResponse = {
+  credentials: Array<WebAuthnCredential>;
+};
+
+export type WebAuthnCredentialRenameRequest = {
+  name: string;
+};
+
 export type UserRole = 'DEFAULT' | 'ADMIN';
 
 export type UserListItem = {
@@ -533,6 +596,209 @@ export type GetAuthMeResponses = {
 };
 
 export type GetAuthMeResponse = GetAuthMeResponses[keyof GetAuthMeResponses];
+
+export type PostAuthWebauthnRegisterOptionsData = {
+  body?: WebAuthnRegisterOptionsRequest;
+  path?: never;
+  query?: never;
+  url: '/auth/webauthn/register/options';
+};
+
+export type PostAuthWebauthnRegisterOptionsErrors = {
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+};
+
+export type PostAuthWebauthnRegisterOptionsError =
+  PostAuthWebauthnRegisterOptionsErrors[keyof PostAuthWebauthnRegisterOptionsErrors];
+
+export type PostAuthWebauthnRegisterOptionsResponses = {
+  /**
+   * Registration options generated
+   */
+  200: WebAuthnRegisterOptionsResponse;
+};
+
+export type PostAuthWebauthnRegisterOptionsResponse =
+  PostAuthWebauthnRegisterOptionsResponses[keyof PostAuthWebauthnRegisterOptionsResponses];
+
+export type PostAuthWebauthnRegisterVerifyData = {
+  body?: WebAuthnRegisterVerifyRequest;
+  path?: never;
+  query?: never;
+  url: '/auth/webauthn/register/verify';
+};
+
+export type PostAuthWebauthnRegisterVerifyErrors = {
+  /**
+   * Bad request
+   */
+  400: ErrorResponse;
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+};
+
+export type PostAuthWebauthnRegisterVerifyError =
+  PostAuthWebauthnRegisterVerifyErrors[keyof PostAuthWebauthnRegisterVerifyErrors];
+
+export type PostAuthWebauthnRegisterVerifyResponses = {
+  /**
+   * Registration successful
+   */
+  200: WebAuthnRegisterVerifyResponse;
+};
+
+export type PostAuthWebauthnRegisterVerifyResponse =
+  PostAuthWebauthnRegisterVerifyResponses[keyof PostAuthWebauthnRegisterVerifyResponses];
+
+export type PostAuthWebauthnAuthenticateOptionsData = {
+  body?: WebAuthnAuthenticateOptionsRequest;
+  path?: never;
+  query?: never;
+  url: '/auth/webauthn/authenticate/options';
+};
+
+export type PostAuthWebauthnAuthenticateOptionsResponses = {
+  /**
+   * Authentication options generated
+   */
+  200: WebAuthnAuthenticateOptionsResponse;
+};
+
+export type PostAuthWebauthnAuthenticateOptionsResponse =
+  PostAuthWebauthnAuthenticateOptionsResponses[keyof PostAuthWebauthnAuthenticateOptionsResponses];
+
+export type PostAuthWebauthnAuthenticateVerifyData = {
+  body?: WebAuthnAuthenticateVerifyRequest;
+  path?: never;
+  query?: never;
+  url: '/auth/webauthn/authenticate/verify';
+};
+
+export type PostAuthWebauthnAuthenticateVerifyErrors = {
+  /**
+   * Bad request
+   */
+  400: ErrorResponse;
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+};
+
+export type PostAuthWebauthnAuthenticateVerifyError =
+  PostAuthWebauthnAuthenticateVerifyErrors[keyof PostAuthWebauthnAuthenticateVerifyErrors];
+
+export type PostAuthWebauthnAuthenticateVerifyResponses = {
+  /**
+   * Authentication successful
+   */
+  200: LoginResponse;
+};
+
+export type PostAuthWebauthnAuthenticateVerifyResponse =
+  PostAuthWebauthnAuthenticateVerifyResponses[keyof PostAuthWebauthnAuthenticateVerifyResponses];
+
+export type GetAuthWebauthnCredentialsData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/auth/webauthn/credentials';
+};
+
+export type GetAuthWebauthnCredentialsErrors = {
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+};
+
+export type GetAuthWebauthnCredentialsError =
+  GetAuthWebauthnCredentialsErrors[keyof GetAuthWebauthnCredentialsErrors];
+
+export type GetAuthWebauthnCredentialsResponses = {
+  /**
+   * List of credentials
+   */
+  200: WebAuthnCredentialListResponse;
+};
+
+export type GetAuthWebauthnCredentialsResponse =
+  GetAuthWebauthnCredentialsResponses[keyof GetAuthWebauthnCredentialsResponses];
+
+export type DeleteAuthWebauthnCredentialsByIdData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/auth/webauthn/credentials/{id}';
+};
+
+export type DeleteAuthWebauthnCredentialsByIdErrors = {
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not found
+   */
+  404: ErrorResponse;
+};
+
+export type DeleteAuthWebauthnCredentialsByIdError =
+  DeleteAuthWebauthnCredentialsByIdErrors[keyof DeleteAuthWebauthnCredentialsByIdErrors];
+
+export type DeleteAuthWebauthnCredentialsByIdResponses = {
+  /**
+   * Credential deleted
+   */
+  200: SuccessResponse;
+};
+
+export type DeleteAuthWebauthnCredentialsByIdResponse =
+  DeleteAuthWebauthnCredentialsByIdResponses[keyof DeleteAuthWebauthnCredentialsByIdResponses];
+
+export type PatchAuthWebauthnCredentialsByIdData = {
+  body?: WebAuthnCredentialRenameRequest;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/auth/webauthn/credentials/{id}';
+};
+
+export type PatchAuthWebauthnCredentialsByIdErrors = {
+  /**
+   * Bad request
+   */
+  400: ErrorResponse;
+  /**
+   * Not authenticated
+   */
+  401: ErrorResponse;
+  /**
+   * Not found
+   */
+  404: ErrorResponse;
+};
+
+export type PatchAuthWebauthnCredentialsByIdError =
+  PatchAuthWebauthnCredentialsByIdErrors[keyof PatchAuthWebauthnCredentialsByIdErrors];
+
+export type PatchAuthWebauthnCredentialsByIdResponses = {
+  /**
+   * Credential renamed
+   */
+  200: WebAuthnCredential;
+};
+
+export type PatchAuthWebauthnCredentialsByIdResponse =
+  PatchAuthWebauthnCredentialsByIdResponses[keyof PatchAuthWebauthnCredentialsByIdResponses];
 
 export type GetUsersData = {
   body?: never;

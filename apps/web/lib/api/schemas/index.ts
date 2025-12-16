@@ -1,6 +1,7 @@
 // Import all schemas to register them with the OpenAPI registry
 import './common';
 import './auth';
+import './webauthn';
 import './users';
 import './paperless-instances';
 import './ai-accounts';
@@ -12,6 +13,7 @@ import './processing-queue';
 
 export * from './common';
 export * from './auth';
+export * from './webauthn';
 export * from './users';
 export * from './paperless-instances';
 export * from './ai-accounts';

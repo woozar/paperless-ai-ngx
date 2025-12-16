@@ -26,3 +26,18 @@ export function useApi() {
 
   return client;
 }
+
+/**
+ * Creates a public API client without authentication.
+ * Use this for unauthenticated endpoints like login and passkey authentication.
+ */
+export function createPublicClient() {
+  return createClient(
+    createConfig<ClientOptions>({
+      baseUrl: '/api',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+  );
+}

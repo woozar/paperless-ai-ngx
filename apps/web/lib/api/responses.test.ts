@@ -93,4 +93,15 @@ describe('ApiResponses', () => {
       expect(data.params).toEqual({ username: 'testuser' });
     });
   });
+
+  describe('webauthnNotSupported', () => {
+    it('returns 400 with webauthnNotSupported message', async () => {
+      const response = ApiResponses.webauthnNotSupported();
+      const data = await response.json();
+
+      expect(response.status).toBe(400);
+      expect(data.message).toBe('webauthnNotSupported');
+      expect(data.error).toBe('WebAuthn error');
+    });
+  });
 });

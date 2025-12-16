@@ -13,6 +13,26 @@ import type {
   GetAuthMeData,
   GetAuthMeResponses,
   GetAuthMeErrors,
+  PostAuthWebauthnRegisterOptionsData,
+  PostAuthWebauthnRegisterOptionsResponses,
+  PostAuthWebauthnRegisterOptionsErrors,
+  PostAuthWebauthnRegisterVerifyData,
+  PostAuthWebauthnRegisterVerifyResponses,
+  PostAuthWebauthnRegisterVerifyErrors,
+  PostAuthWebauthnAuthenticateOptionsData,
+  PostAuthWebauthnAuthenticateOptionsResponses,
+  PostAuthWebauthnAuthenticateVerifyData,
+  PostAuthWebauthnAuthenticateVerifyResponses,
+  PostAuthWebauthnAuthenticateVerifyErrors,
+  GetAuthWebauthnCredentialsData,
+  GetAuthWebauthnCredentialsResponses,
+  GetAuthWebauthnCredentialsErrors,
+  DeleteAuthWebauthnCredentialsByIdData,
+  DeleteAuthWebauthnCredentialsByIdResponses,
+  DeleteAuthWebauthnCredentialsByIdErrors,
+  PatchAuthWebauthnCredentialsByIdData,
+  PatchAuthWebauthnCredentialsByIdResponses,
+  PatchAuthWebauthnCredentialsByIdErrors,
   GetUsersData,
   GetUsersResponses,
   GetUsersErrors,
@@ -250,6 +270,138 @@ export const getAuthMe = <ThrowOnError extends boolean = false>(
   return (options?.client ?? _heyApiClient).get<GetAuthMeResponses, GetAuthMeErrors, ThrowOnError>({
     url: '/auth/me',
     ...options,
+  });
+};
+
+/**
+ * Generate WebAuthn registration options
+ */
+export const postAuthWebauthnRegisterOptions = <ThrowOnError extends boolean = false>(
+  options?: Options<PostAuthWebauthnRegisterOptionsData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).post<
+    PostAuthWebauthnRegisterOptionsResponses,
+    PostAuthWebauthnRegisterOptionsErrors,
+    ThrowOnError
+  >({
+    url: '/auth/webauthn/register/options',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * Verify WebAuthn registration and store credential
+ */
+export const postAuthWebauthnRegisterVerify = <ThrowOnError extends boolean = false>(
+  options?: Options<PostAuthWebauthnRegisterVerifyData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).post<
+    PostAuthWebauthnRegisterVerifyResponses,
+    PostAuthWebauthnRegisterVerifyErrors,
+    ThrowOnError
+  >({
+    url: '/auth/webauthn/register/verify',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * Generate WebAuthn authentication options
+ */
+export const postAuthWebauthnAuthenticateOptions = <ThrowOnError extends boolean = false>(
+  options?: Options<PostAuthWebauthnAuthenticateOptionsData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).post<
+    PostAuthWebauthnAuthenticateOptionsResponses,
+    unknown,
+    ThrowOnError
+  >({
+    url: '/auth/webauthn/authenticate/options',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * Verify WebAuthn authentication and issue JWT
+ */
+export const postAuthWebauthnAuthenticateVerify = <ThrowOnError extends boolean = false>(
+  options?: Options<PostAuthWebauthnAuthenticateVerifyData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).post<
+    PostAuthWebauthnAuthenticateVerifyResponses,
+    PostAuthWebauthnAuthenticateVerifyErrors,
+    ThrowOnError
+  >({
+    url: '/auth/webauthn/authenticate/verify',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * List registered passkeys for current user
+ */
+export const getAuthWebauthnCredentials = <ThrowOnError extends boolean = false>(
+  options?: Options<GetAuthWebauthnCredentialsData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).get<
+    GetAuthWebauthnCredentialsResponses,
+    GetAuthWebauthnCredentialsErrors,
+    ThrowOnError
+  >({
+    url: '/auth/webauthn/credentials',
+    ...options,
+  });
+};
+
+/**
+ * Delete a passkey
+ */
+export const deleteAuthWebauthnCredentialsById = <ThrowOnError extends boolean = false>(
+  options: Options<DeleteAuthWebauthnCredentialsByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).delete<
+    DeleteAuthWebauthnCredentialsByIdResponses,
+    DeleteAuthWebauthnCredentialsByIdErrors,
+    ThrowOnError
+  >({
+    url: '/auth/webauthn/credentials/{id}',
+    ...options,
+  });
+};
+
+/**
+ * Rename a passkey
+ */
+export const patchAuthWebauthnCredentialsById = <ThrowOnError extends boolean = false>(
+  options: Options<PatchAuthWebauthnCredentialsByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).patch<
+    PatchAuthWebauthnCredentialsByIdResponses,
+    PatchAuthWebauthnCredentialsByIdErrors,
+    ThrowOnError
+  >({
+    url: '/auth/webauthn/credentials/{id}',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
   });
 };
 

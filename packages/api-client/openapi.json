@@ -92,6 +92,135 @@
         },
         "required": ["id", "username", "role", "mustChangePassword", "createdAt"]
       },
+      "WebAuthnCredential": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": ["string", "null"]
+          },
+          "deviceType": {
+            "type": "string"
+          },
+          "backedUp": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "lastUsedAt": {
+            "type": ["string", "null"]
+          }
+        },
+        "required": ["id", "name", "deviceType", "backedUp", "createdAt", "lastUsedAt"]
+      },
+      "WebAuthnRegisterOptionsRequest": {
+        "type": "object",
+        "properties": {
+          "authenticatorType": {
+            "type": "string",
+            "enum": ["platform", "cross-platform"]
+          }
+        }
+      },
+      "WebAuthnRegisterOptionsResponse": {
+        "type": "object",
+        "properties": {
+          "options": {
+            "description": "PublicKeyCredentialCreationOptionsJSON"
+          },
+          "challengeId": {
+            "type": "string"
+          }
+        },
+        "required": ["challengeId"]
+      },
+      "WebAuthnRegisterVerifyRequest": {
+        "type": "object",
+        "properties": {
+          "response": {
+            "description": "RegistrationResponseJSON"
+          },
+          "challengeId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 100
+          }
+        },
+        "required": ["challengeId"]
+      },
+      "WebAuthnRegisterVerifyResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "enum": [true]
+          },
+          "credential": {
+            "$ref": "#/components/schemas/WebAuthnCredential"
+          }
+        },
+        "required": ["success", "credential"]
+      },
+      "WebAuthnAuthenticateOptionsRequest": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          }
+        }
+      },
+      "WebAuthnAuthenticateOptionsResponse": {
+        "type": "object",
+        "properties": {
+          "options": {
+            "description": "PublicKeyCredentialRequestOptionsJSON"
+          },
+          "challengeId": {
+            "type": "string"
+          }
+        },
+        "required": ["challengeId"]
+      },
+      "WebAuthnAuthenticateVerifyRequest": {
+        "type": "object",
+        "properties": {
+          "response": {
+            "description": "AuthenticationResponseJSON"
+          },
+          "challengeId": {
+            "type": "string"
+          }
+        },
+        "required": ["challengeId"]
+      },
+      "WebAuthnCredentialListResponse": {
+        "type": "object",
+        "properties": {
+          "credentials": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WebAuthnCredential"
+            }
+          }
+        },
+        "required": ["credentials"]
+      },
+      "WebAuthnCredentialRenameRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          }
+        },
+        "required": ["name"]
+      },
       "UserRole": {
         "type": "string",
         "enum": ["DEFAULT", "ADMIN"]
@@ -1297,7 +1426,7 @@
             "type": "integer",
             "minimum": 0,
             "maximum": 100,
-            "default": 0
+            "default": 10
           }
         },
         "required": ["paperlessDocumentId"]
@@ -1473,6 +1602,305 @@
           },
           "401": {
             "description": "Not authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/webauthn/register/options": {
+      "post": {
+        "summary": "Generate WebAuthn registration options",
+        "tags": ["WebAuthn"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WebAuthnRegisterOptionsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Registration options generated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebAuthnRegisterOptionsResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/webauthn/register/verify": {
+      "post": {
+        "summary": "Verify WebAuthn registration and store credential",
+        "tags": ["WebAuthn"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WebAuthnRegisterVerifyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Registration successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebAuthnRegisterVerifyResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/webauthn/authenticate/options": {
+      "post": {
+        "summary": "Generate WebAuthn authentication options",
+        "tags": ["WebAuthn"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WebAuthnAuthenticateOptionsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Authentication options generated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebAuthnAuthenticateOptionsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/webauthn/authenticate/verify": {
+      "post": {
+        "summary": "Verify WebAuthn authentication and issue JWT",
+        "tags": ["WebAuthn"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WebAuthnAuthenticateVerifyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Authentication successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/webauthn/credentials": {
+      "get": {
+        "summary": "List registered passkeys for current user",
+        "tags": ["WebAuthn"],
+        "responses": {
+          "200": {
+            "description": "List of credentials",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebAuthnCredentialListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/webauthn/credentials/{id}": {
+      "delete": {
+        "summary": "Delete a passkey",
+        "tags": ["WebAuthn"],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Credential deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Rename a passkey",
+        "tags": ["WebAuthn"],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WebAuthnCredentialRenameRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Credential renamed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebAuthnCredential"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
             "content": {
               "application/json": {
                 "schema": {
