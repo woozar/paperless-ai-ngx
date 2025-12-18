@@ -25,6 +25,8 @@ export const GET = authRoute<never, { id: string }>(
         name: true,
         systemPrompt: true,
         responseLanguage: true,
+        documentMode: true,
+        pdfMaxSizeMb: true,
         aiModelId: true,
         aiModel: {
           select: {
@@ -95,7 +97,7 @@ export const PATCH = authRoute<typeof UpdateAiBotRequestSchema, { id: string }>(
       );
     }
 
-    const { name, aiModelId, systemPrompt, responseLanguage } = body;
+    const { name, aiModelId, systemPrompt, responseLanguage, documentMode, pdfMaxSizeMb } = body;
 
     // Check name uniqueness if changing
     if (name && name !== existingBot.name) {
@@ -154,6 +156,8 @@ export const PATCH = authRoute<typeof UpdateAiBotRequestSchema, { id: string }>(
       aiModelId?: string;
       systemPrompt?: string;
       responseLanguage?: string;
+      documentMode?: string;
+      pdfMaxSizeMb?: number | null;
     };
 
     const updateData: UpdateData = {};
@@ -161,6 +165,8 @@ export const PATCH = authRoute<typeof UpdateAiBotRequestSchema, { id: string }>(
     if (aiModelId !== undefined) updateData.aiModelId = aiModelId;
     if (systemPrompt !== undefined) updateData.systemPrompt = systemPrompt;
     if (responseLanguage !== undefined) updateData.responseLanguage = responseLanguage;
+    if (documentMode !== undefined) updateData.documentMode = documentMode;
+    if (pdfMaxSizeMb !== undefined) updateData.pdfMaxSizeMb = pdfMaxSizeMb;
 
     // Update bot
     const bot = await prisma.aiBot.update({
@@ -171,6 +177,8 @@ export const PATCH = authRoute<typeof UpdateAiBotRequestSchema, { id: string }>(
         name: true,
         systemPrompt: true,
         responseLanguage: true,
+        documentMode: true,
+        pdfMaxSizeMb: true,
         aiModelId: true,
         aiModel: {
           select: {

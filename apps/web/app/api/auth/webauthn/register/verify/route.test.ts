@@ -220,8 +220,7 @@ describe('POST /api/auth/webauthn/register/verify', () => {
     mockedPrisma.webAuthnChallenge.findUnique.mockResolvedValueOnce(validChallenge);
     vi.mocked(verifyRegistrationResponse).mockResolvedValueOnce({
       verified: false,
-      registrationInfo: null,
-    });
+    } as Awaited<ReturnType<typeof verifyRegistrationResponse>>);
 
     const request = new NextRequest('http://localhost/api/auth/webauthn/register/verify', {
       method: 'POST',
@@ -253,8 +252,7 @@ describe('POST /api/auth/webauthn/register/verify', () => {
     mockedPrisma.webAuthnChallenge.findUnique.mockResolvedValueOnce(validChallenge);
     vi.mocked(verifyRegistrationResponse).mockResolvedValueOnce({
       verified: true,
-      registrationInfo: undefined,
-    });
+    } as Awaited<ReturnType<typeof verifyRegistrationResponse>>);
 
     const request = new NextRequest('http://localhost/api/auth/webauthn/register/verify', {
       method: 'POST',
@@ -297,7 +295,7 @@ describe('POST /api/auth/webauthn/register/verify', () => {
         credentialDeviceType: 'multiDevice',
         credentialBackedUp: true,
       },
-    });
+    } as Awaited<ReturnType<typeof verifyRegistrationResponse>>);
 
     mockedPrisma.webAuthnCredential.create.mockResolvedValueOnce({
       id: 'cred-db-id',
@@ -365,7 +363,7 @@ describe('POST /api/auth/webauthn/register/verify', () => {
         credentialDeviceType: 'singleDevice',
         credentialBackedUp: false,
       },
-    });
+    } as Awaited<ReturnType<typeof verifyRegistrationResponse>>);
 
     mockedPrisma.webAuthnCredential.create.mockResolvedValueOnce({
       id: 'cred-db-id',

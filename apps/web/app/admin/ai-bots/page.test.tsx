@@ -40,6 +40,11 @@ vi.mock('@/components/ui/select', async () => {
             <option value="50">50</option>
             <option value="100">100</option>
             <option value="model-1">Model 1</option>
+            <option value="DOCUMENT">Document Language</option>
+            <option value="GERMAN">German</option>
+            <option value="ENGLISH">English</option>
+            <option value="text">Text</option>
+            <option value="pdf">PDF</option>
           </select>
           {children}
         </div>
@@ -138,6 +143,8 @@ const mockBots: AiBotListItem[] = [
     },
     systemPrompt: 'You are a support assistant',
     responseLanguage: 'DOCUMENT',
+    documentMode: 'text',
+    pdfMaxSizeMb: null,
     createdAt: '2024-01-15T10:30:00Z',
     updatedAt: '2024-01-15T10:30:00Z',
   },
@@ -157,6 +164,8 @@ const mockBots: AiBotListItem[] = [
     },
     systemPrompt: 'You help with coding',
     responseLanguage: 'ENGLISH',
+    documentMode: 'text',
+    pdfMaxSizeMb: null,
     createdAt: '2024-02-20T14:00:00Z',
     updatedAt: '2024-02-20T14:00:00Z',
   },
@@ -543,7 +552,7 @@ describe('AiBotsPage', () => {
       // For the model select, we need to trigger the value change
       // Since the dialog uses dynamicOptions from getAiModels response,
       // and we mock the Select component to use native select, we can use fireEvent
-      // There are now multiple selects (aiModelId and responseLanguage), select the first one
+      // There are now multiple selects (aiModelId, responseLanguage, documentMode), set the model in the first one
       const selects = screen.getAllByTestId('select-native');
       if (selects[0]) {
         fireEvent.change(selects[0], { target: { value: 'model-1' } });
@@ -551,7 +560,18 @@ describe('AiBotsPage', () => {
 
       // Submit the form
       const submitButton = screen.getByTestId('create-bot-submit-button');
+
+      // Wait for form to be valid and submit button to be enabled
+      await waitFor(() => {
+        expect(submitButton).not.toBeDisabled();
+      });
+
       await user.click(submitButton);
+
+      // Wait for the API call to be made
+      await waitFor(() => {
+        expect(mockPostAiBots).toHaveBeenCalled();
+      });
 
       // Verify that onSuccess was triggered which calls reloadCurrentPage
       await waitFor(() => {

@@ -10,6 +10,9 @@ export const ResponseLanguageSchema = z
   .enum(['DOCUMENT', 'GERMAN', 'ENGLISH'])
   .openapi('ResponseLanguage');
 
+// Document mode for analysis (text only or full PDF)
+export const DocumentModeSchema = z.enum(['text', 'pdf']).openapi('DocumentMode');
+
 // AiBot in list (with model relation)
 export const AiBotListItemSchema = z
   .object({
@@ -17,6 +20,8 @@ export const AiBotListItemSchema = z
     name: z.string(),
     systemPrompt: z.string(),
     responseLanguage: ResponseLanguageSchema,
+    documentMode: DocumentModeSchema,
+    pdfMaxSizeMb: z.number().nullable(),
     aiModelId: z.string(),
     aiModel: z.object({
       id: z.string(),
@@ -40,6 +45,8 @@ export const CreateAiBotRequestSchema = z
     aiModelId: z.string().min(1, 'AI Model is required'),
     systemPrompt: z.string().min(1, 'System prompt is required'),
     responseLanguage: ResponseLanguageSchema.optional().default('DOCUMENT'),
+    documentMode: DocumentModeSchema.optional().default('text'),
+    pdfMaxSizeMb: z.number().min(1).max(100).nullable().optional(),
   })
   .openapi('CreateAiBotRequest');
 
@@ -50,11 +57,14 @@ export const UpdateAiBotRequestSchema = z
     aiModelId: z.string().min(1).optional(),
     systemPrompt: z.string().min(1).optional(),
     responseLanguage: ResponseLanguageSchema.optional(),
+    documentMode: DocumentModeSchema.optional(),
+    pdfMaxSizeMb: z.number().min(1).max(100).nullable().optional(),
   })
   .openapi('UpdateAiBotRequest');
 
 // Register schemas
 registry.register('ResponseLanguage', ResponseLanguageSchema);
+registry.register('DocumentMode', DocumentModeSchema);
 registry.register('AiBotListItem', AiBotListItemSchema);
 registry.register('CreateAiBotRequest', CreateAiBotRequestSchema);
 registry.register('UpdateAiBotRequest', UpdateAiBotRequestSchema);

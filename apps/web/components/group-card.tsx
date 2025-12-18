@@ -9,7 +9,8 @@ import { Input } from '@/components/ui/input';
 import { Loader2 } from 'lucide-react';
 import type { Settings } from '@/lib/api/schemas/settings';
 
-type FieldType = 'enum' | 'boolean' | 'string';
+type FieldType = 'enum' | 'boolean' | 'string' | 'number';
+type SettingValue = string | boolean | number;
 
 export interface SettingField {
   key: keyof Settings;
@@ -23,8 +24,8 @@ export interface SettingField {
 
 interface SettingControlProps {
   field: SettingField;
-  value: string | boolean;
-  onChange: (value: string | boolean) => void;
+  value: SettingValue;
+  onChange: (value: SettingValue) => void;
   disabled: boolean;
   t: ReturnType<typeof useTranslations>;
 }
@@ -96,13 +97,26 @@ const SettingControl = memo(function SettingControl({
         </div>
       );
 
+    case 'number':
+      return (
+        <StringSettingControl
+          baseKey={baseKey}
+          value={String(value)}
+          onChange={(val) => onChange(Number(val))}
+          disabled={disabled}
+          testId={testId}
+          isNumber
+          t={t}
+        />
+      );
+
     case 'string':
     default:
       return (
         <StringSettingControl
           baseKey={baseKey}
           value={value as string}
-          onChange={onChange}
+          onChange={onChange as (value: string) => void}
           disabled={disabled}
           testId={testId}
           isSecret={field.isSecret}
@@ -117,6 +131,7 @@ interface StringSettingControlProps {
   baseKey: string;
   value: string;
   onChange: (value: string) => void;
+  isNumber?: boolean;
   disabled: boolean;
   testId: string;
   isSecret?: boolean;
@@ -125,10 +140,17 @@ interface StringSettingControlProps {
 
 const DEBOUNCE_DELAY = 2000;
 
+function getInputType(isSecret?: boolean, isNumber?: boolean): 'password' | 'number' | 'text' {
+  if (isSecret) return 'password';
+  if (isNumber) return 'number';
+  return 'text';
+}
+
 const StringSettingControl = memo(function StringSettingControl({
   baseKey,
   value,
   onChange,
+  isNumber,
   disabled,
   testId,
   isSecret,
@@ -209,7 +231,7 @@ const StringSettingControl = memo(function StringSettingControl({
         {isPending && <Loader2 className="text-muted-foreground h-3 w-3 animate-spin" />}
       </div>
       <Input
-        type={isSecret ? 'password' : 'text'}
+        type={getInputType(isSecret, isNumber)}
         value={localValue}
         onChange={handleChange}
         onBlur={handleBlur}
@@ -229,7 +251,7 @@ export interface GroupCardProps {
   fields: SettingField[];
   settings: Settings;
   savingKey: string | null;
-  onFieldChange: (field: SettingField, value: string | boolean) => void;
+  onFieldChange: (field: SettingField, value: SettingValue) => void;
   t: ReturnType<typeof useTranslations>;
 }
 
@@ -246,8 +268,8 @@ export const GroupCard = memo(function GroupCard({
   const fieldChangeHandlers = useMemo(
     () =>
       Object.fromEntries(
-        fields.map((field) => [field.key, (value: string | boolean) => onFieldChange(field, value)])
-      ) as Record<string, (value: string | boolean) => void>,
+        fields.map((field) => [field.key, (value: SettingValue) => onFieldChange(field, value)])
+      ) as Record<string, (value: SettingValue) => void>,
     [fields, onFieldChange]
   );
 

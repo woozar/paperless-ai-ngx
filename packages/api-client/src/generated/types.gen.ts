@@ -251,11 +251,15 @@ export type UpdateAiModelRequest = {
 
 export type ResponseLanguage = 'DOCUMENT' | 'GERMAN' | 'ENGLISH';
 
+export type DocumentMode = 'text' | 'pdf';
+
 export type AiBotListItem = {
   id: string;
   name: string;
   systemPrompt: string;
   responseLanguage: ResponseLanguage;
+  documentMode: DocumentMode;
+  pdfMaxSizeMb: number | null;
   aiModelId: string;
   aiModel: {
     id: string;
@@ -276,6 +280,8 @@ export type CreateAiBotRequest = {
   aiModelId: string;
   systemPrompt: string;
   responseLanguage?: ResponseLanguage & unknown;
+  documentMode?: DocumentMode & unknown;
+  pdfMaxSizeMb?: number | null;
 };
 
 export type UpdateAiBotRequest = {
@@ -283,6 +289,8 @@ export type UpdateAiBotRequest = {
   aiModelId?: string;
   systemPrompt?: string;
   responseLanguage?: ResponseLanguage;
+  documentMode?: DocumentMode;
+  pdfMaxSizeMb?: number | null;
 };
 
 export type Permission = 'READ' | 'WRITE' | 'FULL';

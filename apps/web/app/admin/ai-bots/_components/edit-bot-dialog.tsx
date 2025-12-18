@@ -72,6 +72,8 @@ export function EditBotDialog({ open, onOpenChange, bot, onSuccess }: EditBotDia
         aiModelId: bot.aiModelId,
         systemPrompt: bot.systemPrompt,
         responseLanguage: bot.responseLanguage,
+        documentMode: bot.documentMode,
+        pdfMaxSizeMb: bot.pdfMaxSizeMb,
       }}
       dynamicOptions={{ aiModelId: models }}
     />

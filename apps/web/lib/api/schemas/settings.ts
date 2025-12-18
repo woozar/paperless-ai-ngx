@@ -17,6 +17,14 @@ export const CurrencySchema = z.enum(['EUR', 'USD']).default('EUR').openapi('Cur
 // User identity (for AI context)
 export const UserIdentitySchema = z.string().default('').openapi('UserIdentity');
 
+// PDF max size schema (in MB)
+export const PdfMaxSizeMbSchema = z.coerce
+  .number()
+  .min(1)
+  .max(100)
+  .default(20)
+  .openapi('PdfMaxSizeMb');
+
 // Settings schema with defaults - keys are 3-part: section.group.setting
 // IMPORTANT: All settings MUST have a default value to ensure getSettingsDefaults() works correctly
 export const SettingsSchema = z
@@ -25,6 +33,7 @@ export const SettingsSchema = z
     'display.general.currency': CurrencySchema,
     // AI settings
     'ai.context.identity': UserIdentitySchema,
+    'ai.pdf.maxSizeMb': PdfMaxSizeMbSchema,
     // Security settings
     'security.sharing.mode': SharingModeSchema,
   })

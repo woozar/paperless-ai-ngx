@@ -12,6 +12,8 @@ const mockBot: AiBotListItem = {
   aiModelId: 'model-1',
   systemPrompt: 'You are a helpful assistant',
   responseLanguage: 'DOCUMENT',
+  documentMode: 'text',
+  pdfMaxSizeMb: null,
   createdAt: '2024-01-15T10:30:00Z',
   updatedAt: '2024-01-15T10:30:00Z',
   aiModel: {

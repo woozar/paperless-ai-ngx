@@ -42,10 +42,6 @@ vi.mock('sonner', () => ({
   },
 }));
 
-// Mock TableRow and TableCell from UI components
-const MockTableRow = ({ children }: { children: React.ReactNode }) => <tr>{children}</tr>;
-const MockTableCell = ({ children }: { children: React.ReactNode }) => <td>{children}</td>;
-
 // Mock child components
 vi.mock('./_components', () => ({
   QueueStatsCards: ({ stats }: { stats: Record<string, number> }) => (

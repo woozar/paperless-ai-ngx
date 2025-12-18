@@ -11,6 +11,7 @@ const mockUseSettings = vi.fn(() => ({
     'security.sharing.mode': 'BASIC',
     'display.general.currency': 'EUR',
     'ai.context.identity': '',
+    'ai.pdf.maxSizeMb': 20,
   } as Settings,
   updateSetting: vi.fn(),
 }));
@@ -51,6 +52,8 @@ const mockBot: AiBotListItem = {
   },
   systemPrompt: 'You are a helpful assistant',
   responseLanguage: 'DOCUMENT',
+  documentMode: 'text',
+  pdfMaxSizeMb: null,
   createdAt: '2024-01-15T10:30:00Z',
   updatedAt: '2024-01-15T10:30:00Z',
 };
@@ -131,6 +134,7 @@ describe('BotTableRow', () => {
           'security.sharing.mode': 'BASIC',
           'display.general.currency': 'EUR',
           'ai.context.identity': '',
+          'ai.pdf.maxSizeMb': 20,
         },
         updateSetting: vi.fn(),
       });
@@ -144,6 +148,7 @@ describe('BotTableRow', () => {
           'security.sharing.mode': 'ADVANCED',
           'display.general.currency': 'EUR',
           'ai.context.identity': '',
+          'ai.pdf.maxSizeMb': 20,
         },
         updateSetting: vi.fn(),
       });
@@ -159,6 +164,7 @@ describe('BotTableRow', () => {
           'security.sharing.mode': 'ADVANCED',
           'display.general.currency': 'EUR',
           'ai.context.identity': '',
+          'ai.pdf.maxSizeMb': 20,
         },
         updateSetting: vi.fn(),
       });

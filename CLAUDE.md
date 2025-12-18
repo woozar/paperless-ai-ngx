@@ -191,17 +191,19 @@ To exclude a line from code coverage, use the v8 ignore directive:
 
 ## Test Execution
 
-When analyzing test output (e.g., checking coverage, finding failures), always write the output to a temp file first if you need to grep multiple times:
+When running test coverage, always save the output to a file in the project root using `tee`. This allows you to read the report later without re-running the tests:
 
 ```bash
-# ✅ Good - Run once, grep multiple times
-pnpm --filter web test:coverage > /tmp/coverage-output.txt 2>&1
-grep "All files" /tmp/coverage-output.txt
-grep "FAIL" /tmp/coverage-output.txt
+# ✅ Good - Save output to file, then read it as needed
+pnpm --filter web test:coverage 2>&1 | tee coverage-report.txt
 
-# ❌ Bad - Running tests multiple times
-pnpm --filter web test:coverage 2>&1 | grep "All files"
-pnpm --filter web test:coverage 2>&1 | grep "FAIL"
+# Later, just read the file instead of re-running tests
+cat coverage-report.txt | grep "Uncovered"
+# Or use the Read tool on coverage-report.txt
+
+# ❌ Bad - Re-running tests to see the output again
+pnpm --filter web test:coverage 2>&1 | grep "something"
+pnpm --filter web test:coverage 2>&1 | grep "something-else"
 ```
 
-This saves time and avoids unnecessary test re-runs.
+This saves significant time - test runs can take minutes, but reading a file is instant.

@@ -32,6 +32,8 @@ export const GET = authRoute(
           name: true,
           systemPrompt: true,
           responseLanguage: true,
+          documentMode: true,
+          pdfMaxSizeMb: true,
           aiModelId: true,
           ownerId: true,
           aiModel: {
@@ -78,6 +80,8 @@ export const GET = authRoute(
           name: bot.name,
           systemPrompt: bot.systemPrompt,
           responseLanguage: bot.responseLanguage,
+          documentMode: bot.documentMode,
+          pdfMaxSizeMb: bot.pdfMaxSizeMb,
           aiModelId: bot.aiModelId,
           aiModel: bot.aiModel,
           createdAt: bot.createdAt.toISOString(),
@@ -96,7 +100,7 @@ export const GET = authRoute(
 // POST /api/ai-bots - Create a new AiBot
 export const POST = authRoute(
   async ({ user, body }) => {
-    const { name, aiModelId, systemPrompt, responseLanguage } = body;
+    const { name, aiModelId, systemPrompt, responseLanguage, documentMode, pdfMaxSizeMb } = body;
 
     // Check if name already exists for this owner
     const existing = await prisma.aiBot.findFirst({
@@ -150,6 +154,8 @@ export const POST = authRoute(
         name,
         systemPrompt,
         responseLanguage,
+        documentMode,
+        pdfMaxSizeMb,
         aiModelId,
         ownerId: user.userId,
       },
@@ -158,6 +164,8 @@ export const POST = authRoute(
         name: true,
         systemPrompt: true,
         responseLanguage: true,
+        documentMode: true,
+        pdfMaxSizeMb: true,
         aiModelId: true,
         aiModel: {
           select: {

@@ -1,10 +1,9 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useId } from 'react';
 import { X, ChevronsUpDown, Check, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import {
   Command,
   CommandEmpty,
@@ -43,6 +42,7 @@ export function TagMultiselect({
   testId = 'tag-multiselect',
 }: Readonly<TagMultiselectProps>) {
   const [open, setOpen] = useState(false);
+  const listboxId = useId();
 
   const selectedTags = useMemo(() => {
     return selected
@@ -66,13 +66,23 @@ export function TagMultiselect({
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button
-          variant="outline"
+        <div
           role="combobox"
           aria-expanded={open}
-          className="h-auto min-h-9 w-full justify-between rounded-none border-0 bg-gray-200 px-3 py-1.5 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600"
-          disabled={disabled || isLoading}
+          aria-controls={listboxId}
+          aria-haspopup="listbox"
+          tabIndex={disabled || isLoading ? -1 : 0}
+          className={cn(
+            'flex h-auto min-h-9 w-full cursor-pointer items-center justify-between rounded-none border-0 bg-gray-200 px-3 py-1.5 text-sm hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600',
+            (disabled || isLoading) && 'pointer-events-none opacity-50'
+          )}
           data-testid={testId}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              setOpen(!open);
+            }
+          }}
         >
           <div className="flex flex-1 flex-wrap gap-2">
             {selectedTags.length > 0 ? (
@@ -82,20 +92,14 @@ export function TagMultiselect({
                   {tag.documentCount !== undefined && (
                     <span className="opacity-70">({tag.documentCount})</span>
                   )}
-                  <Button
-                    tabIndex={0}
+                  <button
+                    type="button"
                     onClick={(e) => handleRemove(tag.id, e)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        handleRemove(tag.id, e as unknown as React.MouseEvent);
-                      }
-                    }}
-                    className="h-4 cursor-pointer rounded-full p-0.5 opacity-70 transition-opacity hover:bg-white/20 hover:opacity-100"
+                    className="inline-flex h-4 cursor-pointer items-center justify-center rounded-full p-0.5 opacity-70 transition-opacity hover:bg-white/20 hover:opacity-100"
                     data-testid={`${testId}-remove-${tag.id}`}
                   >
                     <X className="h-3 w-3" />
-                  </Button>
+                  </button>
                 </Badge>
               ))
             ) : (
@@ -107,12 +111,12 @@ export function TagMultiselect({
           ) : (
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           )}
-        </Button>
+        </div>
       </PopoverTrigger>
       <PopoverContent className="w-[--radix-popover-trigger-width] p-0" align="start">
         <Command>
           <CommandInput placeholder={placeholder} data-testid={`${testId}-search`} />
-          <CommandList>
+          <CommandList id={listboxId} role="listbox">
             <CommandEmpty>{emptyMessage}</CommandEmpty>
             <CommandGroup>
               {options.map((tag) => (

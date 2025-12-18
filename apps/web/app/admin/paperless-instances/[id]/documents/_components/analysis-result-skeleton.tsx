@@ -27,15 +27,15 @@ export function AnalysisResultSkeleton() {
           variant="outline"
           className="border-blue-500 bg-blue-500/10 py-1.5 whitespace-nowrap text-blue-700 dark:text-blue-400"
         >
+          <ArrowUp className="h-3 w-3" />
           <Skeleton className="h-3 w-10 bg-blue-500/30" />
-          <ArrowDown className="h-3 w-3" />
         </Badge>
         <Badge
           variant="outline"
           className="border-green-500 bg-green-500/10 py-1.5 whitespace-nowrap text-green-700 dark:text-green-400"
         >
+          <ArrowDown className="h-3 w-3" />
           <Skeleton className="h-3 w-8 bg-green-500/30" />
-          <ArrowUp className="h-3 w-3" />
         </Badge>
         <Badge
           variant="outline"

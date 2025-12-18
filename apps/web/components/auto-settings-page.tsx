@@ -11,7 +11,7 @@ import { z } from 'zod';
 import { GroupCard, type SettingField } from './group-card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-type FieldType = 'enum' | 'boolean' | 'string';
+type FieldType = 'enum' | 'boolean' | 'string' | 'number';
 
 interface FieldMeta {
   inputType?: 'secret';
@@ -112,7 +112,7 @@ export function AutoSettingsPage() {
   const sectionKeys = useMemo(() => Object.keys(groupedFields), [groupedFields]);
 
   const handleChange = useCallback(
-    async (field: SettingField, value: string | boolean) => {
+    async (field: SettingField, value: string | boolean | number) => {
       setSavingKey(field.key);
       try {
         await updateSetting(field.key, value as Settings[typeof field.key]);

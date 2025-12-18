@@ -217,6 +217,7 @@ describe('InstanceTableRow', () => {
           'security.sharing.mode': 'ADVANCED',
           'display.general.currency': 'EUR',
           'ai.context.identity': '',
+          'ai.pdf.maxSizeMb': 20,
         },
         updateSetting: vi.fn(),
       });
@@ -232,6 +233,7 @@ describe('InstanceTableRow', () => {
           'security.sharing.mode': 'ADVANCED',
           'display.general.currency': 'EUR',
           'ai.context.identity': '',
+          'ai.pdf.maxSizeMb': 20,
         },
         updateSetting: vi.fn(),
       });

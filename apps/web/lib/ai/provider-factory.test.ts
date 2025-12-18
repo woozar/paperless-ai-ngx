@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { createAiSdkProvider, type ProviderType } from './provider-factory';
+import { createAiSdkProvider, providerSupportsPdf, type ProviderType } from './provider-factory';
 
 const mockOpenAIProvider = vi.fn();
 const mockAnthropicProvider = vi.fn();
@@ -179,5 +179,31 @@ describe('createAiSdkProvider', () => {
     });
 
     expect(() => createAiSdkProvider(provider)).toThrow('Unsupported provider type: unknown');
+  });
+});
+
+describe('providerSupportsPdf', () => {
+  it('returns true for openai', () => {
+    expect(providerSupportsPdf('openai')).toBe(true);
+  });
+
+  it('returns true for anthropic', () => {
+    expect(providerSupportsPdf('anthropic')).toBe(true);
+  });
+
+  it('returns true for google', () => {
+    expect(providerSupportsPdf('google')).toBe(true);
+  });
+
+  it('returns false for ollama', () => {
+    expect(providerSupportsPdf('ollama')).toBe(false);
+  });
+
+  it('returns false for custom', () => {
+    expect(providerSupportsPdf('custom')).toBe(false);
+  });
+
+  it('returns false for unknown provider', () => {
+    expect(providerSupportsPdf('unknown')).toBe(false);
   });
 });

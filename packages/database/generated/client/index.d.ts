@@ -15322,8 +15322,18 @@ export namespace Prisma {
 
   export type AggregateAiBot = {
     _count: AiBotCountAggregateOutputType | null;
+    _avg: AiBotAvgAggregateOutputType | null;
+    _sum: AiBotSumAggregateOutputType | null;
     _min: AiBotMinAggregateOutputType | null;
     _max: AiBotMaxAggregateOutputType | null;
+  };
+
+  export type AiBotAvgAggregateOutputType = {
+    pdfMaxSizeMb: number | null;
+  };
+
+  export type AiBotSumAggregateOutputType = {
+    pdfMaxSizeMb: number | null;
   };
 
   export type AiBotMinAggregateOutputType = {
@@ -15331,6 +15341,8 @@ export namespace Prisma {
     name: string | null;
     systemPrompt: string | null;
     responseLanguage: string | null;
+    documentMode: string | null;
+    pdfMaxSizeMb: number | null;
     createdAt: Date | null;
     updatedAt: Date | null;
     ownerId: string | null;
@@ -15342,6 +15354,8 @@ export namespace Prisma {
     name: string | null;
     systemPrompt: string | null;
     responseLanguage: string | null;
+    documentMode: string | null;
+    pdfMaxSizeMb: number | null;
     createdAt: Date | null;
     updatedAt: Date | null;
     ownerId: string | null;
@@ -15353,6 +15367,8 @@ export namespace Prisma {
     name: number;
     systemPrompt: number;
     responseLanguage: number;
+    documentMode: number;
+    pdfMaxSizeMb: number;
     createdAt: number;
     updatedAt: number;
     ownerId: number;
@@ -15360,11 +15376,21 @@ export namespace Prisma {
     _all: number;
   };
 
+  export type AiBotAvgAggregateInputType = {
+    pdfMaxSizeMb?: true;
+  };
+
+  export type AiBotSumAggregateInputType = {
+    pdfMaxSizeMb?: true;
+  };
+
   export type AiBotMinAggregateInputType = {
     id?: true;
     name?: true;
     systemPrompt?: true;
     responseLanguage?: true;
+    documentMode?: true;
+    pdfMaxSizeMb?: true;
     createdAt?: true;
     updatedAt?: true;
     ownerId?: true;
@@ -15376,6 +15402,8 @@ export namespace Prisma {
     name?: true;
     systemPrompt?: true;
     responseLanguage?: true;
+    documentMode?: true;
+    pdfMaxSizeMb?: true;
     createdAt?: true;
     updatedAt?: true;
     ownerId?: true;
@@ -15387,6 +15415,8 @@ export namespace Prisma {
     name?: true;
     systemPrompt?: true;
     responseLanguage?: true;
+    documentMode?: true;
+    pdfMaxSizeMb?: true;
     createdAt?: true;
     updatedAt?: true;
     ownerId?: true;
@@ -15434,6 +15464,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      *
+     * Select which fields to average
+     **/
+    _avg?: AiBotAvgAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to sum
+     **/
+    _sum?: AiBotSumAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
      * Select which fields to find the minimum value
      **/
     _min?: AiBotMinAggregateInputType;
@@ -15462,6 +15504,8 @@ export namespace Prisma {
       take?: number;
       skip?: number;
       _count?: AiBotCountAggregateInputType | true;
+      _avg?: AiBotAvgAggregateInputType;
+      _sum?: AiBotSumAggregateInputType;
       _min?: AiBotMinAggregateInputType;
       _max?: AiBotMaxAggregateInputType;
     };
@@ -15471,11 +15515,15 @@ export namespace Prisma {
     name: string;
     systemPrompt: string;
     responseLanguage: string;
+    documentMode: string;
+    pdfMaxSizeMb: number | null;
     createdAt: Date;
     updatedAt: Date;
     ownerId: string;
     aiModelId: string;
     _count: AiBotCountAggregateOutputType | null;
+    _avg: AiBotAvgAggregateOutputType | null;
+    _sum: AiBotSumAggregateOutputType | null;
     _min: AiBotMinAggregateOutputType | null;
     _max: AiBotMaxAggregateOutputType | null;
   };
@@ -15499,6 +15547,8 @@ export namespace Prisma {
         name?: boolean;
         systemPrompt?: boolean;
         responseLanguage?: boolean;
+        documentMode?: boolean;
+        pdfMaxSizeMb?: boolean;
         createdAt?: boolean;
         updatedAt?: boolean;
         ownerId?: boolean;
@@ -15522,6 +15572,8 @@ export namespace Prisma {
       name?: boolean;
       systemPrompt?: boolean;
       responseLanguage?: boolean;
+      documentMode?: boolean;
+      pdfMaxSizeMb?: boolean;
       createdAt?: boolean;
       updatedAt?: boolean;
       ownerId?: boolean;
@@ -15540,6 +15592,8 @@ export namespace Prisma {
       name?: boolean;
       systemPrompt?: boolean;
       responseLanguage?: boolean;
+      documentMode?: boolean;
+      pdfMaxSizeMb?: boolean;
       createdAt?: boolean;
       updatedAt?: boolean;
       ownerId?: boolean;
@@ -15555,6 +15609,8 @@ export namespace Prisma {
     name?: boolean;
     systemPrompt?: boolean;
     responseLanguage?: boolean;
+    documentMode?: boolean;
+    pdfMaxSizeMb?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     ownerId?: boolean;
@@ -15567,6 +15623,8 @@ export namespace Prisma {
       | 'name'
       | 'systemPrompt'
       | 'responseLanguage'
+      | 'documentMode'
+      | 'pdfMaxSizeMb'
       | 'createdAt'
       | 'updatedAt'
       | 'ownerId'
@@ -15611,6 +15669,8 @@ export namespace Prisma {
         name: string;
         systemPrompt: string;
         responseLanguage: string;
+        documentMode: string;
+        pdfMaxSizeMb: number | null;
         createdAt: Date;
         updatedAt: Date;
         ownerId: string;
@@ -16180,6 +16240,8 @@ export namespace Prisma {
     readonly name: FieldRef<'AiBot', 'String'>;
     readonly systemPrompt: FieldRef<'AiBot', 'String'>;
     readonly responseLanguage: FieldRef<'AiBot', 'String'>;
+    readonly documentMode: FieldRef<'AiBot', 'String'>;
+    readonly pdfMaxSizeMb: FieldRef<'AiBot', 'Int'>;
     readonly createdAt: FieldRef<'AiBot', 'DateTime'>;
     readonly updatedAt: FieldRef<'AiBot', 'DateTime'>;
     readonly ownerId: FieldRef<'AiBot', 'String'>;
@@ -26721,6 +26783,8 @@ export namespace Prisma {
     name: 'name';
     systemPrompt: 'systemPrompt';
     responseLanguage: 'responseLanguage';
+    documentMode: 'documentMode';
+    pdfMaxSizeMb: 'pdfMaxSizeMb';
     createdAt: 'createdAt';
     updatedAt: 'updatedAt';
     ownerId: 'ownerId';
@@ -27758,6 +27822,8 @@ export namespace Prisma {
     name?: StringFilter<'AiBot'> | string;
     systemPrompt?: StringFilter<'AiBot'> | string;
     responseLanguage?: StringFilter<'AiBot'> | string;
+    documentMode?: StringFilter<'AiBot'> | string;
+    pdfMaxSizeMb?: IntNullableFilter<'AiBot'> | number | null;
     createdAt?: DateTimeFilter<'AiBot'> | Date | string;
     updatedAt?: DateTimeFilter<'AiBot'> | Date | string;
     ownerId?: StringFilter<'AiBot'> | string;
@@ -27775,6 +27841,8 @@ export namespace Prisma {
     name?: SortOrder;
     systemPrompt?: SortOrder;
     responseLanguage?: SortOrder;
+    documentMode?: SortOrder;
+    pdfMaxSizeMb?: SortOrderInput | SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
     ownerId?: SortOrder;
@@ -27796,6 +27864,8 @@ export namespace Prisma {
       name?: StringFilter<'AiBot'> | string;
       systemPrompt?: StringFilter<'AiBot'> | string;
       responseLanguage?: StringFilter<'AiBot'> | string;
+      documentMode?: StringFilter<'AiBot'> | string;
+      pdfMaxSizeMb?: IntNullableFilter<'AiBot'> | number | null;
       createdAt?: DateTimeFilter<'AiBot'> | Date | string;
       updatedAt?: DateTimeFilter<'AiBot'> | Date | string;
       ownerId?: StringFilter<'AiBot'> | string;
@@ -27815,13 +27885,17 @@ export namespace Prisma {
     name?: SortOrder;
     systemPrompt?: SortOrder;
     responseLanguage?: SortOrder;
+    documentMode?: SortOrder;
+    pdfMaxSizeMb?: SortOrderInput | SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
     ownerId?: SortOrder;
     aiModelId?: SortOrder;
     _count?: AiBotCountOrderByAggregateInput;
+    _avg?: AiBotAvgOrderByAggregateInput;
     _max?: AiBotMaxOrderByAggregateInput;
     _min?: AiBotMinOrderByAggregateInput;
+    _sum?: AiBotSumOrderByAggregateInput;
   };
 
   export type AiBotScalarWhereWithAggregatesInput = {
@@ -27832,6 +27906,8 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<'AiBot'> | string;
     systemPrompt?: StringWithAggregatesFilter<'AiBot'> | string;
     responseLanguage?: StringWithAggregatesFilter<'AiBot'> | string;
+    documentMode?: StringWithAggregatesFilter<'AiBot'> | string;
+    pdfMaxSizeMb?: IntNullableWithAggregatesFilter<'AiBot'> | number | null;
     createdAt?: DateTimeWithAggregatesFilter<'AiBot'> | Date | string;
     updatedAt?: DateTimeWithAggregatesFilter<'AiBot'> | Date | string;
     ownerId?: StringWithAggregatesFilter<'AiBot'> | string;
@@ -29284,6 +29360,8 @@ export namespace Prisma {
     name: string;
     systemPrompt: string;
     responseLanguage?: string;
+    documentMode?: string;
+    pdfMaxSizeMb?: number | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     owner: UserCreateNestedOneWithoutOwnedAiBotsInput;
@@ -29299,6 +29377,8 @@ export namespace Prisma {
     name: string;
     systemPrompt: string;
     responseLanguage?: string;
+    documentMode?: string;
+    pdfMaxSizeMb?: number | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownerId: string;
@@ -29314,6 +29394,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
     responseLanguage?: StringFieldUpdateOperationsInput | string;
+    documentMode?: StringFieldUpdateOperationsInput | string;
+    pdfMaxSizeMb?: NullableIntFieldUpdateOperationsInput | number | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     owner?: UserUpdateOneRequiredWithoutOwnedAiBotsNestedInput;
@@ -29329,6 +29411,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
     responseLanguage?: StringFieldUpdateOperationsInput | string;
+    documentMode?: StringFieldUpdateOperationsInput | string;
+    pdfMaxSizeMb?: NullableIntFieldUpdateOperationsInput | number | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownerId?: StringFieldUpdateOperationsInput | string;
@@ -29344,6 +29428,8 @@ export namespace Prisma {
     name: string;
     systemPrompt: string;
     responseLanguage?: string;
+    documentMode?: string;
+    pdfMaxSizeMb?: number | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownerId: string;
@@ -29355,6 +29441,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
     responseLanguage?: StringFieldUpdateOperationsInput | string;
+    documentMode?: StringFieldUpdateOperationsInput | string;
+    pdfMaxSizeMb?: NullableIntFieldUpdateOperationsInput | number | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
   };
@@ -29364,6 +29452,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
     responseLanguage?: StringFieldUpdateOperationsInput | string;
+    documentMode?: StringFieldUpdateOperationsInput | string;
+    pdfMaxSizeMb?: NullableIntFieldUpdateOperationsInput | number | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownerId?: StringFieldUpdateOperationsInput | string;
@@ -30759,15 +30849,32 @@ export namespace Prisma {
     _max?: NestedFloatNullableFilter<$PrismaModel>;
   };
 
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null;
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null;
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null;
+    lt?: number | IntFieldRefInput<$PrismaModel>;
+    lte?: number | IntFieldRefInput<$PrismaModel>;
+    gt?: number | IntFieldRefInput<$PrismaModel>;
+    gte?: number | IntFieldRefInput<$PrismaModel>;
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null;
+  };
+
   export type AiBotCountOrderByAggregateInput = {
     id?: SortOrder;
     name?: SortOrder;
     systemPrompt?: SortOrder;
     responseLanguage?: SortOrder;
+    documentMode?: SortOrder;
+    pdfMaxSizeMb?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
     ownerId?: SortOrder;
     aiModelId?: SortOrder;
+  };
+
+  export type AiBotAvgOrderByAggregateInput = {
+    pdfMaxSizeMb?: SortOrder;
   };
 
   export type AiBotMaxOrderByAggregateInput = {
@@ -30775,6 +30882,8 @@ export namespace Prisma {
     name?: SortOrder;
     systemPrompt?: SortOrder;
     responseLanguage?: SortOrder;
+    documentMode?: SortOrder;
+    pdfMaxSizeMb?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
     ownerId?: SortOrder;
@@ -30786,10 +30895,32 @@ export namespace Prisma {
     name?: SortOrder;
     systemPrompt?: SortOrder;
     responseLanguage?: SortOrder;
+    documentMode?: SortOrder;
+    pdfMaxSizeMb?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
     ownerId?: SortOrder;
     aiModelId?: SortOrder;
+  };
+
+  export type AiBotSumOrderByAggregateInput = {
+    pdfMaxSizeMb?: SortOrder;
+  };
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null;
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null;
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null;
+    lt?: number | IntFieldRefInput<$PrismaModel>;
+    lte?: number | IntFieldRefInput<$PrismaModel>;
+    gt?: number | IntFieldRefInput<$PrismaModel>;
+    gte?: number | IntFieldRefInput<$PrismaModel>;
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null;
+    _count?: NestedIntNullableFilter<$PrismaModel>;
+    _avg?: NestedFloatNullableFilter<$PrismaModel>;
+    _sum?: NestedIntNullableFilter<$PrismaModel>;
+    _min?: NestedIntNullableFilter<$PrismaModel>;
+    _max?: NestedIntNullableFilter<$PrismaModel>;
   };
 
   export type IntFilter<$PrismaModel = never> = {
@@ -30801,17 +30932,6 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>;
     gte?: number | IntFieldRefInput<$PrismaModel>;
     not?: NestedIntFilter<$PrismaModel> | number;
-  };
-
-  export type IntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null;
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null;
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null;
-    lt?: number | IntFieldRefInput<$PrismaModel>;
-    lte?: number | IntFieldRefInput<$PrismaModel>;
-    gt?: number | IntFieldRefInput<$PrismaModel>;
-    gte?: number | IntFieldRefInput<$PrismaModel>;
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null;
   };
 
   export type DocumentProcessingResultListRelationFilter = {
@@ -30898,22 +31018,6 @@ export namespace Prisma {
     _sum?: NestedIntFilter<$PrismaModel>;
     _min?: NestedIntFilter<$PrismaModel>;
     _max?: NestedIntFilter<$PrismaModel>;
-  };
-
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null;
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null;
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null;
-    lt?: number | IntFieldRefInput<$PrismaModel>;
-    lte?: number | IntFieldRefInput<$PrismaModel>;
-    gt?: number | IntFieldRefInput<$PrismaModel>;
-    gte?: number | IntFieldRefInput<$PrismaModel>;
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null;
-    _count?: NestedIntNullableFilter<$PrismaModel>;
-    _avg?: NestedFloatNullableFilter<$PrismaModel>;
-    _sum?: NestedIntNullableFilter<$PrismaModel>;
-    _min?: NestedIntNullableFilter<$PrismaModel>;
-    _max?: NestedIntNullableFilter<$PrismaModel>;
   };
   export type JsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -33485,6 +33589,14 @@ export namespace Prisma {
     connect?: ProcessingQueueWhereUniqueInput | ProcessingQueueWhereUniqueInput[];
   };
 
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null;
+    increment?: number;
+    decrement?: number;
+    multiply?: number;
+    divide?: number;
+  };
+
   export type UserUpdateOneRequiredWithoutOwnedAiBotsNestedInput = {
     create?: XOR<UserCreateWithoutOwnedAiBotsInput, UserUncheckedCreateWithoutOwnedAiBotsInput>;
     connectOrCreate?: UserCreateOrConnectWithoutOwnedAiBotsInput;
@@ -33788,14 +33900,6 @@ export namespace Prisma {
 
   export type IntFieldUpdateOperationsInput = {
     set?: number;
-    increment?: number;
-    decrement?: number;
-    multiply?: number;
-    divide?: number;
-  };
-
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null;
     increment?: number;
     decrement?: number;
     multiply?: number;
@@ -34447,6 +34551,22 @@ export namespace Prisma {
     _max?: NestedFloatNullableFilter<$PrismaModel>;
   };
 
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null;
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null;
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null;
+    lt?: number | IntFieldRefInput<$PrismaModel>;
+    lte?: number | IntFieldRefInput<$PrismaModel>;
+    gt?: number | IntFieldRefInput<$PrismaModel>;
+    gte?: number | IntFieldRefInput<$PrismaModel>;
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null;
+    _count?: NestedIntNullableFilter<$PrismaModel>;
+    _avg?: NestedFloatNullableFilter<$PrismaModel>;
+    _sum?: NestedIntNullableFilter<$PrismaModel>;
+    _min?: NestedIntNullableFilter<$PrismaModel>;
+    _max?: NestedIntNullableFilter<$PrismaModel>;
+  };
+
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>;
     in?: number[] | ListIntFieldRefInput<$PrismaModel>;
@@ -34472,22 +34592,6 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>;
     gte?: number | FloatFieldRefInput<$PrismaModel>;
     not?: NestedFloatFilter<$PrismaModel> | number;
-  };
-
-  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null;
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null;
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null;
-    lt?: number | IntFieldRefInput<$PrismaModel>;
-    lte?: number | IntFieldRefInput<$PrismaModel>;
-    gt?: number | IntFieldRefInput<$PrismaModel>;
-    gte?: number | IntFieldRefInput<$PrismaModel>;
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null;
-    _count?: NestedIntNullableFilter<$PrismaModel>;
-    _avg?: NestedFloatNullableFilter<$PrismaModel>;
-    _sum?: NestedIntNullableFilter<$PrismaModel>;
-    _min?: NestedIntNullableFilter<$PrismaModel>;
-    _max?: NestedIntNullableFilter<$PrismaModel>;
   };
   export type NestedJsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -34704,6 +34808,8 @@ export namespace Prisma {
     name: string;
     systemPrompt: string;
     responseLanguage?: string;
+    documentMode?: string;
+    pdfMaxSizeMb?: number | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     aiModel: AiModelCreateNestedOneWithoutBotsInput;
@@ -34718,6 +34824,8 @@ export namespace Prisma {
     name: string;
     systemPrompt: string;
     responseLanguage?: string;
+    documentMode?: string;
+    pdfMaxSizeMb?: number | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     aiModelId: string;
@@ -35065,6 +35173,8 @@ export namespace Prisma {
     name?: StringFilter<'AiBot'> | string;
     systemPrompt?: StringFilter<'AiBot'> | string;
     responseLanguage?: StringFilter<'AiBot'> | string;
+    documentMode?: StringFilter<'AiBot'> | string;
+    pdfMaxSizeMb?: IntNullableFilter<'AiBot'> | number | null;
     createdAt?: DateTimeFilter<'AiBot'> | Date | string;
     updatedAt?: DateTimeFilter<'AiBot'> | Date | string;
     ownerId?: StringFilter<'AiBot'> | string;
@@ -35969,6 +36079,8 @@ export namespace Prisma {
     name: string;
     systemPrompt: string;
     responseLanguage?: string;
+    documentMode?: string;
+    pdfMaxSizeMb?: number | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     owner: UserCreateNestedOneWithoutOwnedAiBotsInput;
@@ -35983,6 +36095,8 @@ export namespace Prisma {
     name: string;
     systemPrompt: string;
     responseLanguage?: string;
+    documentMode?: string;
+    pdfMaxSizeMb?: number | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownerId: string;
@@ -36064,6 +36178,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
     responseLanguage?: StringFieldUpdateOperationsInput | string;
+    documentMode?: StringFieldUpdateOperationsInput | string;
+    pdfMaxSizeMb?: NullableIntFieldUpdateOperationsInput | number | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     owner?: UserUpdateOneRequiredWithoutOwnedAiBotsNestedInput;
@@ -36078,6 +36194,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
     responseLanguage?: StringFieldUpdateOperationsInput | string;
+    documentMode?: StringFieldUpdateOperationsInput | string;
+    pdfMaxSizeMb?: NullableIntFieldUpdateOperationsInput | number | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownerId?: StringFieldUpdateOperationsInput | string;
@@ -36092,6 +36210,8 @@ export namespace Prisma {
     name: string;
     systemPrompt: string;
     responseLanguage?: string;
+    documentMode?: string;
+    pdfMaxSizeMb?: number | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     owner: UserCreateNestedOneWithoutOwnedAiBotsInput;
@@ -36106,6 +36226,8 @@ export namespace Prisma {
     name: string;
     systemPrompt: string;
     responseLanguage?: string;
+    documentMode?: string;
+    pdfMaxSizeMb?: number | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownerId: string;
@@ -36354,6 +36476,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
     responseLanguage?: StringFieldUpdateOperationsInput | string;
+    documentMode?: StringFieldUpdateOperationsInput | string;
+    pdfMaxSizeMb?: NullableIntFieldUpdateOperationsInput | number | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     owner?: UserUpdateOneRequiredWithoutOwnedAiBotsNestedInput;
@@ -36368,6 +36492,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
     responseLanguage?: StringFieldUpdateOperationsInput | string;
+    documentMode?: StringFieldUpdateOperationsInput | string;
+    pdfMaxSizeMb?: NullableIntFieldUpdateOperationsInput | number | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownerId?: StringFieldUpdateOperationsInput | string;
@@ -37003,6 +37129,8 @@ export namespace Prisma {
     name: string;
     systemPrompt: string;
     responseLanguage?: string;
+    documentMode?: string;
+    pdfMaxSizeMb?: number | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     owner: UserCreateNestedOneWithoutOwnedAiBotsInput;
@@ -37017,6 +37145,8 @@ export namespace Prisma {
     name: string;
     systemPrompt: string;
     responseLanguage?: string;
+    documentMode?: string;
+    pdfMaxSizeMb?: number | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownerId: string;
@@ -38192,6 +38322,8 @@ export namespace Prisma {
     name: string;
     systemPrompt: string;
     responseLanguage?: string;
+    documentMode?: string;
+    pdfMaxSizeMb?: number | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     owner: UserCreateNestedOneWithoutOwnedAiBotsInput;
@@ -38206,6 +38338,8 @@ export namespace Prisma {
     name: string;
     systemPrompt: string;
     responseLanguage?: string;
+    documentMode?: string;
+    pdfMaxSizeMb?: number | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownerId: string;
@@ -38368,6 +38502,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
     responseLanguage?: StringFieldUpdateOperationsInput | string;
+    documentMode?: StringFieldUpdateOperationsInput | string;
+    pdfMaxSizeMb?: NullableIntFieldUpdateOperationsInput | number | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     owner?: UserUpdateOneRequiredWithoutOwnedAiBotsNestedInput;
@@ -38382,6 +38518,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
     responseLanguage?: StringFieldUpdateOperationsInput | string;
+    documentMode?: StringFieldUpdateOperationsInput | string;
+    pdfMaxSizeMb?: NullableIntFieldUpdateOperationsInput | number | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownerId?: StringFieldUpdateOperationsInput | string;
@@ -38642,6 +38780,8 @@ export namespace Prisma {
     name: string;
     systemPrompt: string;
     responseLanguage?: string;
+    documentMode?: string;
+    pdfMaxSizeMb?: number | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     owner: UserCreateNestedOneWithoutOwnedAiBotsInput;
@@ -38656,6 +38796,8 @@ export namespace Prisma {
     name: string;
     systemPrompt: string;
     responseLanguage?: string;
+    documentMode?: string;
+    pdfMaxSizeMb?: number | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownerId: string;
@@ -38853,6 +38995,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
     responseLanguage?: StringFieldUpdateOperationsInput | string;
+    documentMode?: StringFieldUpdateOperationsInput | string;
+    pdfMaxSizeMb?: NullableIntFieldUpdateOperationsInput | number | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     owner?: UserUpdateOneRequiredWithoutOwnedAiBotsNestedInput;
@@ -38867,6 +39011,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
     responseLanguage?: StringFieldUpdateOperationsInput | string;
+    documentMode?: StringFieldUpdateOperationsInput | string;
+    pdfMaxSizeMb?: NullableIntFieldUpdateOperationsInput | number | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownerId?: StringFieldUpdateOperationsInput | string;
@@ -39032,6 +39178,8 @@ export namespace Prisma {
     name: string;
     systemPrompt: string;
     responseLanguage?: string;
+    documentMode?: string;
+    pdfMaxSizeMb?: number | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     aiModelId: string;
@@ -39247,6 +39395,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
     responseLanguage?: StringFieldUpdateOperationsInput | string;
+    documentMode?: StringFieldUpdateOperationsInput | string;
+    pdfMaxSizeMb?: NullableIntFieldUpdateOperationsInput | number | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     aiModel?: AiModelUpdateOneRequiredWithoutBotsNestedInput;
@@ -39261,6 +39411,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
     responseLanguage?: StringFieldUpdateOperationsInput | string;
+    documentMode?: StringFieldUpdateOperationsInput | string;
+    pdfMaxSizeMb?: NullableIntFieldUpdateOperationsInput | number | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     aiModelId?: StringFieldUpdateOperationsInput | string;
@@ -39275,6 +39427,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
     responseLanguage?: StringFieldUpdateOperationsInput | string;
+    documentMode?: StringFieldUpdateOperationsInput | string;
+    pdfMaxSizeMb?: NullableIntFieldUpdateOperationsInput | number | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     aiModelId?: StringFieldUpdateOperationsInput | string;
@@ -39794,6 +39948,8 @@ export namespace Prisma {
     name: string;
     systemPrompt: string;
     responseLanguage?: string;
+    documentMode?: string;
+    pdfMaxSizeMb?: number | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     ownerId: string;
@@ -39840,6 +39996,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
     responseLanguage?: StringFieldUpdateOperationsInput | string;
+    documentMode?: StringFieldUpdateOperationsInput | string;
+    pdfMaxSizeMb?: NullableIntFieldUpdateOperationsInput | number | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     owner?: UserUpdateOneRequiredWithoutOwnedAiBotsNestedInput;
@@ -39854,6 +40012,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
     responseLanguage?: StringFieldUpdateOperationsInput | string;
+    documentMode?: StringFieldUpdateOperationsInput | string;
+    pdfMaxSizeMb?: NullableIntFieldUpdateOperationsInput | number | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownerId?: StringFieldUpdateOperationsInput | string;
@@ -39868,6 +40028,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string;
     systemPrompt?: StringFieldUpdateOperationsInput | string;
     responseLanguage?: StringFieldUpdateOperationsInput | string;
+    documentMode?: StringFieldUpdateOperationsInput | string;
+    pdfMaxSizeMb?: NullableIntFieldUpdateOperationsInput | number | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     ownerId?: StringFieldUpdateOperationsInput | string;

@@ -28,6 +28,7 @@ vi.mock('@repo/database', () => ({
   Prisma: {},
 }));
 
+const mockGetDocumentPreview = vi.fn();
 vi.mock('@repo/paperless-client', () => ({
   PaperlessClient: class MockPaperlessClient {
     // Return data that matches the AI response for validateAndCorrectIds
@@ -41,6 +42,7 @@ vi.mock('@repo/paperless-client', () => ({
       results: [{ id: 2, name: 'Invoice' }],
     });
     getDocument = vi.fn().mockResolvedValue({ tags: [10] }); // Same as mockDocument.tagIds
+    getDocumentPreview = mockGetDocumentPreview;
   },
 }));
 
@@ -50,9 +52,11 @@ vi.mock('@/lib/crypto/encryption', () => ({
 
 const mockCreateAiSdkProvider = vi.fn().mockReturnValue(() => 'mock-model');
 const mockGetModelId = vi.fn().mockReturnValue('gpt-4');
+const mockProviderSupportsPdf = vi.fn().mockReturnValue(true);
 vi.mock('./provider-factory', () => ({
   createAiSdkProvider: (provider: unknown) => mockCreateAiSdkProvider(provider),
   getModelId: (provider: unknown) => mockGetModelId(provider),
+  providerSupportsPdf: (provider: unknown) => mockProviderSupportsPdf(provider),
 }));
 
 vi.mock('./tools/paperless-tools', () => ({
@@ -94,6 +98,8 @@ const mockBot = {
   name: 'GPT-4 Bot',
   systemPrompt: 'Analyze documents',
   responseLanguage: 'DOCUMENT',
+  documentMode: 'text',
+  pdfMaxSizeMb: null,
   ownerId: 'admin-1',
   aiModelId: 'model-1',
   createdAt: new Date(),
@@ -320,7 +326,7 @@ describe('analyzeDocument', () => {
     );
   });
 
-  it('truncates content if too long', async () => {
+  it('includes full content without truncation', async () => {
     const longContent = 'x'.repeat(10000);
     vi.mocked(prisma.paperlessDocument.findUnique).mockResolvedValue({
       ...mockDocument,
@@ -329,9 +335,10 @@ describe('analyzeDocument', () => {
 
     await analyzeDocument(defaultParams);
 
+    // Verify full content is included (no truncation marker)
     expect(mockGenerateText).toHaveBeenCalledWith(
       expect.objectContaining({
-        prompt: expect.stringContaining('...'),
+        prompt: expect.stringContaining(longContent),
       })
     );
   });
@@ -659,5 +666,128 @@ describe('analyzeDocument', () => {
     // Tag has ID 999 which doesn't exist in Paperless, and no name
     // Since actualName(undefined) === tagName(undefined), tag is kept as-is
     expect(result.result.suggestedTags).toEqual([{ id: 999, isAssigned: false }]);
+  });
+
+  describe('PDF mode', () => {
+    const smallPdfBuffer = Buffer.alloc(1024 * 1024); // 1MB PDF
+    const largePdfBuffer = Buffer.alloc(25 * 1024 * 1024); // 25MB PDF
+
+    beforeEach(() => {
+      // Reset PDF-related mocks
+      mockProviderSupportsPdf.mockReturnValue(true);
+      mockGetDocumentPreview.mockResolvedValue({
+        arrayBuffer: () => Promise.resolve(smallPdfBuffer.buffer),
+      });
+    });
+
+    it('uses PDF mode when documentMode is pdf and provider supports it', async () => {
+      vi.mocked(prisma.aiBot.findUnique).mockResolvedValue({
+        ...mockBot,
+        documentMode: 'pdf',
+      });
+      // Mock the setting for pdf max size
+      vi.mocked(prisma.setting.findUnique).mockImplementation(async ({ where }) => {
+        if (where.settingKey === 'ai.pdf.maxSizeMb') {
+          return {
+            settingKey: 'ai.pdf.maxSizeMb',
+            settingValue: '20',
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          };
+        }
+        return null;
+      });
+
+      await analyzeDocument(defaultParams);
+
+      // Should have called getDocumentPreview
+      expect(mockGetDocumentPreview).toHaveBeenCalledWith(100); // paperlessId
+      // Should have called generateText with messages array (multimodal)
+      expect(mockGenerateText).toHaveBeenCalledWith(
+        expect.objectContaining({
+          messages: expect.arrayContaining([
+            expect.objectContaining({
+              role: 'user',
+              content: expect.arrayContaining([
+                expect.objectContaining({ type: 'text' }),
+                expect.objectContaining({ type: 'file', mediaType: 'application/pdf' }),
+              ]),
+            }),
+          ]),
+        })
+      );
+    });
+
+    it('falls back to text mode when PDF exceeds size limit', async () => {
+      vi.mocked(prisma.aiBot.findUnique).mockResolvedValue({
+        ...mockBot,
+        documentMode: 'pdf',
+        pdfMaxSizeMb: 10, // 10MB limit
+      });
+      mockGetDocumentPreview.mockResolvedValue({
+        arrayBuffer: () => Promise.resolve(largePdfBuffer.buffer), // 25MB
+      });
+
+      const result = await analyzeDocument(defaultParams);
+
+      // Should have called getDocumentPreview
+      expect(mockGetDocumentPreview).toHaveBeenCalledWith(100);
+      // Should have used text mode (prompt instead of messages)
+      expect(mockGenerateText).toHaveBeenCalledWith(
+        expect.objectContaining({
+          prompt: expect.any(String),
+        })
+      );
+      // Should indicate fallback was used
+      expect(result.usedTextFallback).toBe(true);
+      expect(result.fallbackReason).toContain('exceeds limit');
+    });
+
+    it('uses global PDF size limit when bot has no specific limit', async () => {
+      vi.mocked(prisma.aiBot.findUnique).mockResolvedValue({
+        ...mockBot,
+        documentMode: 'pdf',
+        pdfMaxSizeMb: null, // No bot-specific limit
+      });
+      mockGetDocumentPreview.mockResolvedValue({
+        arrayBuffer: () => Promise.resolve(largePdfBuffer.buffer), // 25MB
+      });
+      // Global limit is 20MB (default)
+      vi.mocked(prisma.setting.findUnique).mockImplementation(async ({ where }) => {
+        if (where.settingKey === 'ai.pdf.maxSizeMb') {
+          return {
+            settingKey: 'ai.pdf.maxSizeMb',
+            settingValue: '20',
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          };
+        }
+        return null;
+      });
+
+      const result = await analyzeDocument(defaultParams);
+
+      // 25MB > 20MB global limit, should fallback
+      expect(result.usedTextFallback).toBe(true);
+    });
+
+    it('does not use PDF mode when provider does not support it', async () => {
+      vi.mocked(prisma.aiBot.findUnique).mockResolvedValue({
+        ...mockBot,
+        documentMode: 'pdf',
+      });
+      mockProviderSupportsPdf.mockReturnValue(false);
+
+      await analyzeDocument(defaultParams);
+
+      // Should NOT have called getDocumentPreview
+      expect(mockGetDocumentPreview).not.toHaveBeenCalled();
+      // Should have used text mode
+      expect(mockGenerateText).toHaveBeenCalledWith(
+        expect.objectContaining({
+          prompt: expect.any(String),
+        })
+      );
+    });
   });
 });

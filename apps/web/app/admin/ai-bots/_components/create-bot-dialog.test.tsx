@@ -154,6 +154,8 @@ describe('CreateBotDialog', () => {
             aiModelId: 'model-1',
             systemPrompt: 'Be helpful',
             responseLanguage: 'DOCUMENT',
+            documentMode: 'text',
+            pdfMaxSizeMb: null,
           },
         })
       );

@@ -281,7 +281,15 @@ describe('POST /api/auth/webauthn/authenticate/verify', () => {
     mockedPrisma.webAuthnCredential.findUnique.mockResolvedValueOnce(validCredential);
     vi.mocked(verifyAuthenticationResponse).mockResolvedValueOnce({
       verified: false,
-      authenticationInfo: { newCounter: 1 },
+      authenticationInfo: {
+        credentialID: 'credential-id',
+        newCounter: 1,
+        userVerified: true,
+        credentialDeviceType: 'singleDevice',
+        credentialBackedUp: false,
+        origin: 'http://localhost:3000',
+        rpID: 'localhost',
+      },
     });
 
     const request = new NextRequest('http://localhost/api/auth/webauthn/authenticate/verify', {
@@ -328,7 +336,15 @@ describe('POST /api/auth/webauthn/authenticate/verify', () => {
     mockedPrisma.webAuthnCredential.findUnique.mockResolvedValueOnce(validCredential);
     vi.mocked(verifyAuthenticationResponse).mockResolvedValueOnce({
       verified: true,
-      authenticationInfo: { newCounter: 1 },
+      authenticationInfo: {
+        credentialID: 'credential-id',
+        newCounter: 1,
+        userVerified: true,
+        credentialDeviceType: 'singleDevice',
+        credentialBackedUp: false,
+        origin: 'http://localhost:3000',
+        rpID: 'localhost',
+      },
     });
     mockedPrisma.webAuthnCredential.update.mockResolvedValueOnce({
       ...validCredential,

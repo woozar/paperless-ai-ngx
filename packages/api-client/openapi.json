@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Paperless AI API",
-    "version": "1.14.0",
+    "version": "1.15.0",
     "description": "API for Paperless AI document processing"
   },
   "servers": [
@@ -749,6 +749,10 @@
         "type": "string",
         "enum": ["DOCUMENT", "GERMAN", "ENGLISH"]
       },
+      "DocumentMode": {
+        "type": "string",
+        "enum": ["text", "pdf"]
+      },
       "AiBotListItem": {
         "type": "object",
         "properties": {
@@ -763,6 +767,12 @@
           },
           "responseLanguage": {
             "$ref": "#/components/schemas/ResponseLanguage"
+          },
+          "documentMode": {
+            "$ref": "#/components/schemas/DocumentMode"
+          },
+          "pdfMaxSizeMb": {
+            "type": ["number", "null"]
           },
           "aiModelId": {
             "type": "string"
@@ -811,6 +821,8 @@
           "name",
           "systemPrompt",
           "responseLanguage",
+          "documentMode",
+          "pdfMaxSizeMb",
           "aiModelId",
           "aiModel",
           "createdAt",
@@ -842,6 +854,21 @@
                 "default": "DOCUMENT"
               }
             ]
+          },
+          "documentMode": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DocumentMode"
+              },
+              {
+                "default": "text"
+              }
+            ]
+          },
+          "pdfMaxSizeMb": {
+            "type": ["number", "null"],
+            "minimum": 1,
+            "maximum": 100
           }
         },
         "required": ["name", "aiModelId", "systemPrompt"]
@@ -864,6 +891,14 @@
           },
           "responseLanguage": {
             "$ref": "#/components/schemas/ResponseLanguage"
+          },
+          "documentMode": {
+            "$ref": "#/components/schemas/DocumentMode"
+          },
+          "pdfMaxSizeMb": {
+            "type": ["number", "null"],
+            "minimum": 1,
+            "maximum": 100
           }
         }
       },

@@ -498,6 +498,12 @@
         "GERMAN": "Deutsch",
         "ENGLISH": "Englisch"
       },
+      "documentMode": "Dokumentmodus",
+      "documentModeOptions": {
+        "text": "Nur Text (extrahierter Text)",
+        "pdf": "Vollständiges PDF (teurer)"
+      },
+      "pdfMaxSizeMb": "Max. PDF-Größe (MB)",
       "status": "Status",
       "actions": "Aktionen",
       "active": "Aktiv",
@@ -577,6 +583,14 @@
           "identity": {
             "title": "Eigene Identität",
             "description": "Dein Name oder Firmenname. Hilft der KI z.B. bei Verträgen zu erkennen, wer der Korrespondent ist, wenn du selbst einer der Vertragspartner bist."
+          }
+        },
+        "pdf": {
+          "title": "PDF-Verarbeitung",
+          "description": "Einstellungen für die PDF-Dokumentenanalyse",
+          "maxSizeMb": {
+            "title": "Standard Max. PDF-Größe (MB)",
+            "description": "Standard-Maximalgröße für PDF-Dateien bei der Analyse. Einzelne Bots können diese Einstellung überschreiben."
           }
         }
       }

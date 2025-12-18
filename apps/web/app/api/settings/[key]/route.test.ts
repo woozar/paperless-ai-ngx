@@ -65,6 +65,7 @@ describe('PUT /api/settings/[key]', () => {
       'security.sharing.mode': 'BASIC' as const,
       'display.general.currency': 'EUR' as const,
       'ai.context.identity': '',
+      'ai.pdf.maxSizeMb': 20,
     }));
     vi.mocked(settingsModule.getSettingValueSchema).mockImplementation(
       (key: string) =>

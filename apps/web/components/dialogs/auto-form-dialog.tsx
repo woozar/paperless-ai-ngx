@@ -167,8 +167,21 @@ export function AutoFormDialog<TSchema extends z.ZodObject<z.ZodRawShape>>({
     setIsSubmitting(true);
 
     try {
+      // Filter visible fields based on showWhen conditions (same as isFormValid)
+      const visibleFields = fields.filter((field) => {
+        if (!field.showWhen) return true;
+        const dependentValue = formData[field.showWhen.field];
+        return dependentValue && field.showWhen.values.includes(dependentValue);
+      });
+
+      const visibleFormData = Object.fromEntries(
+        Object.entries(formData).filter(([key]) =>
+          visibleFields.some((field) => field.name === key)
+        )
+      );
+
       // Parse formData through schema to apply transforms (e.g., string -> number for currency)
-      const parsedData = schema.parse(formData) as z.infer<TSchema>;
+      const parsedData = schema.parse(visibleFormData) as z.infer<TSchema>;
       const response = await onSubmit(parsedData);
 
       if (response.error) {
@@ -184,6 +197,7 @@ export function AutoFormDialog<TSchema extends z.ZodObject<z.ZodRawShape>>({
       setIsSubmitting(false);
     }
   }, [
+    fields,
     formData,
     schema,
     onSubmit,

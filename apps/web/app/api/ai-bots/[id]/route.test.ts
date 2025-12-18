@@ -376,6 +376,84 @@ describe('PATCH /api/ai-bots/[id]', () => {
     expect(response.status).toBe(200);
     expect(data.responseLanguage).toBe('GERMAN');
   });
+
+  it('successfully updates bot documentMode', async () => {
+    const mockDate = new Date('2024-01-15T10:00:00Z');
+    mockAdmin();
+    mockedPrisma.aiBot.findFirst.mockResolvedValueOnce({
+      id: 'bot-1',
+      name: 'Support Bot',
+    });
+    mockedPrisma.aiBot.update.mockResolvedValueOnce({
+      id: 'bot-1',
+      name: 'Support Bot',
+      systemPrompt: 'You are helpful',
+      documentMode: 'pdf',
+      aiModelId: 'model-1',
+      aiModel: {
+        id: 'model-1',
+        name: 'GPT-4',
+        modelIdentifier: 'gpt-4',
+        aiAccount: {
+          id: 'account-1',
+          name: 'OpenAI',
+          provider: 'openai',
+        },
+      },
+      isActive: true,
+      createdAt: mockDate,
+      updatedAt: mockDate,
+    });
+
+    const request = new NextRequest('http://localhost/api/ai-bots/bot-1', {
+      method: 'PATCH',
+      body: JSON.stringify({ documentMode: 'pdf' }),
+    });
+    const response = await PATCH(request, mockContext('bot-1'));
+    const data = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(data.documentMode).toBe('pdf');
+  });
+
+  it('successfully updates bot pdfMaxSizeMb', async () => {
+    const mockDate = new Date('2024-01-15T10:00:00Z');
+    mockAdmin();
+    mockedPrisma.aiBot.findFirst.mockResolvedValueOnce({
+      id: 'bot-1',
+      name: 'Support Bot',
+    });
+    mockedPrisma.aiBot.update.mockResolvedValueOnce({
+      id: 'bot-1',
+      name: 'Support Bot',
+      systemPrompt: 'You are helpful',
+      pdfMaxSizeMb: 50,
+      aiModelId: 'model-1',
+      aiModel: {
+        id: 'model-1',
+        name: 'GPT-4',
+        modelIdentifier: 'gpt-4',
+        aiAccount: {
+          id: 'account-1',
+          name: 'OpenAI',
+          provider: 'openai',
+        },
+      },
+      isActive: true,
+      createdAt: mockDate,
+      updatedAt: mockDate,
+    });
+
+    const request = new NextRequest('http://localhost/api/ai-bots/bot-1', {
+      method: 'PATCH',
+      body: JSON.stringify({ pdfMaxSizeMb: 50 }),
+    });
+    const response = await PATCH(request, mockContext('bot-1'));
+    const data = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(data.pdfMaxSizeMb).toBe(50);
+  });
 });
 
 describe('DELETE /api/ai-bots/[id]', () => {

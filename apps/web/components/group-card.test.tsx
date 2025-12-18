@@ -28,6 +28,7 @@ describe('GroupCard', () => {
   const defaultSettings: Settings = {
     'display.general.currency': 'EUR',
     'ai.context.identity': '',
+    'ai.pdf.maxSizeMb': 20,
     'security.sharing.mode': 'BASIC',
   };
 
@@ -372,6 +373,62 @@ describe('GroupCard', () => {
     expect(mockOnFieldChange).toHaveBeenCalledWith(fields[0], 'debounced');
 
     vi.useRealTimers();
+  });
+
+  it('renders number field as number input', () => {
+    const fields: SettingField[] = [
+      {
+        key: 'ai.pdf.maxSizeMb',
+        section: 'ai',
+        group: 'pdf',
+        name: 'maxSizeMb',
+        type: 'number',
+      },
+    ];
+
+    renderWithIntl(
+      <GroupCard
+        {...defaultProps}
+        sectionKey="ai"
+        groupKey="pdf"
+        fields={fields}
+        settings={{ ...defaultSettings, 'ai.pdf.maxSizeMb': 25 }}
+      />
+    );
+
+    const input = screen.getByTestId('setting-ai.pdf.maxSizeMb');
+    expect(input).toHaveAttribute('type', 'number');
+    expect(input).toHaveValue(25);
+  });
+
+  it('calls onFieldChange with number value when number field changes', async () => {
+    const user = userEvent.setup();
+    const fields: SettingField[] = [
+      {
+        key: 'ai.pdf.maxSizeMb',
+        section: 'ai',
+        group: 'pdf',
+        name: 'maxSizeMb',
+        type: 'number',
+      },
+    ];
+
+    renderWithIntl(
+      <GroupCard
+        {...defaultProps}
+        sectionKey="ai"
+        groupKey="pdf"
+        fields={fields}
+        settings={{ ...defaultSettings, 'ai.pdf.maxSizeMb': 20 }}
+      />
+    );
+
+    const input = screen.getByTestId('setting-ai.pdf.maxSizeMb');
+    await user.clear(input);
+    await user.type(input, '30');
+    await user.tab(); // Trigger blur
+
+    expect(mockOnFieldChange).toHaveBeenCalledWith(fields[0], 30);
   });
 
   it('clears timeout on unmount', async () => {

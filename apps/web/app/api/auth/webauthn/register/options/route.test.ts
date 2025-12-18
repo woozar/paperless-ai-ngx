@@ -64,6 +64,7 @@ describe('POST /api/auth/webauthn/register/options', () => {
       challenge: 'test-challenge',
       rp: { name: 'Paperless AI NGX', id: 'localhost' },
       user: { id: 'user-1', name: 'testuser', displayName: 'testuser' },
+      pubKeyCredParams: [{ type: 'public-key' as const, alg: -7 }],
     };
 
     vi.mocked(generateRegistrationOptions).mockResolvedValueOnce(mockOptions);
@@ -108,6 +109,7 @@ describe('POST /api/auth/webauthn/register/options', () => {
       rp: { name: 'Paperless AI NGX', id: 'localhost' },
       user: { id: 'user-1', name: 'testuser', displayName: 'testuser' },
       excludeCredentials: [],
+      pubKeyCredParams: [{ type: 'public-key' as const, alg: -7 }],
     };
 
     vi.mocked(generateRegistrationOptions).mockResolvedValueOnce(mockOptions);
@@ -154,6 +156,7 @@ describe('POST /api/auth/webauthn/register/options', () => {
       challenge: 'test-challenge',
       rp: { name: 'Paperless AI NGX', id: 'localhost' },
       user: { id: 'user-1', name: 'testuser', displayName: 'testuser' },
+      pubKeyCredParams: [{ type: 'public-key' as const, alg: -7 }],
     };
 
     vi.mocked(generateRegistrationOptions).mockResolvedValueOnce(mockOptions);
@@ -191,6 +194,7 @@ describe('POST /api/auth/webauthn/register/options', () => {
       challenge: 'test-challenge',
       rp: { name: 'Paperless AI NGX', id: 'localhost' },
       user: { id: 'user-1', name: 'testuser', displayName: 'testuser' },
+      pubKeyCredParams: [{ type: 'public-key' as const, alg: -7 }],
     };
 
     vi.mocked(generateRegistrationOptions).mockResolvedValueOnce(mockOptions);

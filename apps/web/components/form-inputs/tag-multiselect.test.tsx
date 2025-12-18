@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { screen, waitFor } from '@testing-library/react';
+import { screen, waitFor, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { renderWithIntl } from '@/test-utils/render-with-intl';
 import { TagMultiselect, type TagOption } from './tag-multiselect';
@@ -54,6 +54,41 @@ describe('TagMultiselect', () => {
     await waitFor(() => {
       expect(screen.getByTestId('tag-multiselect-option-1')).toBeInTheDocument();
     });
+  });
+
+  it('opens dropdown when pressing Enter on trigger', async () => {
+    const user = userEvent.setup({ delay: null });
+    renderWithIntl(<TagMultiselect {...defaultProps} />);
+
+    const trigger = screen.getByTestId('tag-multiselect');
+    trigger.focus();
+    await user.keyboard('{Enter}');
+
+    await waitFor(() => {
+      expect(screen.getByTestId('tag-multiselect-option-1')).toBeInTheDocument();
+    });
+  });
+
+  it('opens dropdown when pressing Space on trigger', async () => {
+    renderWithIntl(<TagMultiselect {...defaultProps} />);
+
+    const trigger = screen.getByTestId('tag-multiselect');
+    trigger.focus();
+    fireEvent.keyDown(trigger, { key: ' ' });
+
+    await waitFor(() => {
+      expect(screen.getByTestId('tag-multiselect-option-1')).toBeInTheDocument();
+    });
+  });
+
+  it('does not open dropdown when pressing other keys on trigger', () => {
+    renderWithIntl(<TagMultiselect {...defaultProps} />);
+
+    const trigger = screen.getByTestId('tag-multiselect');
+    trigger.focus();
+    fireEvent.keyDown(trigger, { key: 'Tab' });
+
+    expect(screen.queryByTestId('tag-multiselect-option-1')).not.toBeInTheDocument();
   });
 
   it('displays document count in dropdown options', async () => {
@@ -111,43 +146,13 @@ describe('TagMultiselect', () => {
     expect(onChange).toHaveBeenCalledWith([2]);
   });
 
-  it('removes tag when pressing Enter on remove button', async () => {
-    const onChange = vi.fn();
-    renderWithIntl(<TagMultiselect {...defaultProps} selected={[1, 2]} onChange={onChange} />);
+  it('remove button is a native button element for keyboard accessibility', () => {
+    renderWithIntl(<TagMultiselect {...defaultProps} selected={[1, 2]} />);
 
     const removeButton = screen.getByTestId('tag-multiselect-remove-1');
-    removeButton.focus();
-
-    // Simulate Enter key
-    removeButton.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
-
-    expect(onChange).toHaveBeenCalledWith([2]);
-  });
-
-  it('removes tag when pressing Space on remove button', async () => {
-    const onChange = vi.fn();
-    renderWithIntl(<TagMultiselect {...defaultProps} selected={[1, 2]} onChange={onChange} />);
-
-    const removeButton = screen.getByTestId('tag-multiselect-remove-1');
-    removeButton.focus();
-
-    // Simulate Space key
-    removeButton.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }));
-
-    expect(onChange).toHaveBeenCalledWith([2]);
-  });
-
-  it('does not remove tag for other keys', async () => {
-    const onChange = vi.fn();
-    renderWithIntl(<TagMultiselect {...defaultProps} selected={[1, 2]} onChange={onChange} />);
-
-    const removeButton = screen.getByTestId('tag-multiselect-remove-1');
-    removeButton.focus();
-
-    // Simulate Tab key (should not trigger removal)
-    removeButton.dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab', bubbles: true }));
-
-    expect(onChange).not.toHaveBeenCalled();
+    // Native buttons handle Enter/Space automatically in browsers
+    expect(removeButton.tagName).toBe('BUTTON');
+    expect(removeButton).toHaveAttribute('type', 'button');
   });
 
   it('shows checkmark for selected tags in dropdown', async () => {
@@ -172,13 +177,17 @@ describe('TagMultiselect', () => {
   it('is disabled when disabled prop is true', () => {
     renderWithIntl(<TagMultiselect {...defaultProps} disabled />);
 
-    expect(screen.getByTestId('tag-multiselect')).toBeDisabled();
+    const trigger = screen.getByTestId('tag-multiselect');
+    expect(trigger).toHaveAttribute('tabindex', '-1');
+    expect(trigger).toHaveClass('pointer-events-none', 'opacity-50');
   });
 
   it('is disabled when isLoading prop is true', () => {
     renderWithIntl(<TagMultiselect {...defaultProps} isLoading />);
 
-    expect(screen.getByTestId('tag-multiselect')).toBeDisabled();
+    const trigger = screen.getByTestId('tag-multiselect');
+    expect(trigger).toHaveAttribute('tabindex', '-1');
+    expect(trigger).toHaveClass('pointer-events-none', 'opacity-50');
   });
 
   it('shows loading spinner when isLoading is true', () => {

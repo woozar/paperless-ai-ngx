@@ -498,6 +498,12 @@
         "GERMAN": "German",
         "ENGLISH": "English"
       },
+      "documentMode": "Document Mode",
+      "documentModeOptions": {
+        "text": "Text only (extracted text)",
+        "pdf": "Full PDF (more expensive)"
+      },
+      "pdfMaxSizeMb": "Max PDF Size (MB)",
       "status": "Status",
       "actions": "Actions",
       "active": "Active",
@@ -577,6 +583,14 @@
           "identity": {
             "title": "Your Identity",
             "description": "Your name or company name. Helps the AI identify the correspondent in contracts when you are one of the parties involved."
+          }
+        },
+        "pdf": {
+          "title": "PDF Processing",
+          "description": "Settings for PDF document analysis",
+          "maxSizeMb": {
+            "title": "Default Max PDF Size (MB)",
+            "description": "Default maximum PDF file size for analysis. Individual bots can override this setting."
           }
         }
       }

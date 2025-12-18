@@ -37,9 +37,9 @@ export type AutoFormFieldProps = Readonly<{
   /** Field type determines which input component to render */
   type: AutoFormFieldType;
   /** Current field value */
-  value: string | boolean;
+  value: string | boolean | number;
   /** Change handler - called when value changes */
-  onChange: (value: string | boolean) => void;
+  onChange: (value: string | boolean | number) => void;
   /** HTML id attribute */
   id?: string;
   /** data-testid attribute for testing */

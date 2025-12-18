@@ -222,15 +222,15 @@ export function AnalysisResultContent({
             variant="outline"
             className="border-blue-500 whitespace-nowrap text-blue-700 dark:text-blue-400"
           >
+            <ArrowUp className="h-3 w-3" />
             {metadata.inputTokens.toLocaleString()}
-            <ArrowDown className="h-3 w-3" />
           </Badge>
           <Badge
             variant="outline"
             className="border-green-500 whitespace-nowrap text-green-700 dark:text-green-400"
           >
+            <ArrowDown className="h-3 w-3" />
             {metadata.outputTokens.toLocaleString()}
-            <ArrowUp className="h-3 w-3" />
           </Badge>
           {metadata.estimatedCost != null && (
             <Badge

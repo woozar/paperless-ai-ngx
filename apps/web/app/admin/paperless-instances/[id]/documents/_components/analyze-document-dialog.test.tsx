@@ -53,6 +53,8 @@ const mockBots: AiBotListItem[] = [
     name: 'GPT-4 Bot',
     systemPrompt: 'You are a helpful assistant',
     responseLanguage: 'DOCUMENT',
+    documentMode: 'text',
+    pdfMaxSizeMb: null,
     aiModelId: 'model-1',
     aiModel: {
       id: 'model-1',
@@ -68,6 +70,8 @@ const mockBots: AiBotListItem[] = [
     name: 'Claude Bot',
     systemPrompt: 'You are a helpful assistant',
     responseLanguage: 'DOCUMENT',
+    documentMode: 'text',
+    pdfMaxSizeMb: null,
     aiModelId: 'model-2',
     aiModel: {
       id: 'model-2',

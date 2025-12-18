@@ -12,6 +12,19 @@ const responseLanguageSelectOptions = selectOptions({
   ENGLISH: 'responseLanguageOptions.ENGLISH',
 });
 
+// Document mode options
+const documentModeOptions = ['text', 'pdf'] as const;
+const documentModeSelectOptions = selectOptions({
+  text: 'documentModeOptions.text',
+  pdf: 'documentModeOptions.pdf',
+});
+
+// Optional number field that treats empty string as null
+const optionalNumberSchema = z.preprocess(
+  (val) => (val === '' || val === undefined || val === null ? null : val),
+  z.coerce.number().min(1).max(100).nullable()
+);
+
 // Base fields shared between create and edit
 const baseAiBotFields = {
   name: z
@@ -38,6 +51,16 @@ export const CreateAiBotFormSchema = z.object({
     labelKey: 'responseLanguage',
     options: responseLanguageSelectOptions,
   }),
+  documentMode: z.enum(documentModeOptions).default('text').meta({
+    inputType: 'select',
+    labelKey: 'documentMode',
+    options: documentModeSelectOptions,
+  }),
+  pdfMaxSizeMb: optionalNumberSchema.meta({
+    inputType: 'number',
+    labelKey: 'pdfMaxSizeMb',
+    showWhen: { field: 'documentMode', values: ['pdf'] },
+  }),
 });
 
 // UI-enhanced schema for editing AI bots
@@ -47,6 +70,16 @@ export const EditAiBotFormSchema = z.object({
     inputType: 'select',
     labelKey: 'responseLanguage',
     options: responseLanguageSelectOptions,
+  }),
+  documentMode: z.enum(documentModeOptions).meta({
+    inputType: 'select',
+    labelKey: 'documentMode',
+    options: documentModeSelectOptions,
+  }),
+  pdfMaxSizeMb: optionalNumberSchema.meta({
+    inputType: 'number',
+    labelKey: 'pdfMaxSizeMb',
+    showWhen: { field: 'documentMode', values: ['pdf'] },
   }),
 });
 

@@ -2,7 +2,7 @@ import { generateText, stepCountIs } from 'ai';
 import { prisma, Prisma } from '@repo/database';
 import { PaperlessClient } from '@repo/paperless-client';
 import { decrypt } from '@/lib/crypto/encryption';
-import { createAiSdkProvider } from './provider-factory';
+import { createAiSdkProvider, providerSupportsPdf } from './provider-factory';
 import { createPaperlessTools } from './tools/paperless-tools';
 import {
   DocumentAnalysisResultSchema,
@@ -41,6 +41,8 @@ export interface AnalyzeDocumentResponse {
   inputTokens: number;
   outputTokens: number;
   estimatedCost: number | null;
+  usedTextFallback?: boolean;
+  fallbackReason?: string;
 }
 
 /**
@@ -96,6 +98,34 @@ export async function analyzeDocument(
   // Load user identity from settings
   const userIdentity = await getSetting('ai.context.identity');
 
+  // Check if PDF mode should be used
+  const provider = aiBot.aiModel.aiAccount.provider;
+  // v8 ignore next -- @preserve - defensive fallback, documentMode has DB default
+  const documentMode = (aiBot.documentMode as 'text' | 'pdf') || 'text';
+  const shouldUsePdf = documentMode === 'pdf' && providerSupportsPdf(provider);
+
+  let usedTextFallback = false;
+  let fallbackReason: string | undefined;
+  let pdfBuffer: Buffer | null = null;
+
+  if (shouldUsePdf) {
+    // Fetch PDF from Paperless
+    const pdfResponse = await paperlessClient.getDocumentPreview(document.paperlessId);
+    const arrayBuffer = await pdfResponse.arrayBuffer();
+    pdfBuffer = Buffer.from(arrayBuffer);
+
+    // Check size limit
+    const globalMaxSizeMb = await getSetting('ai.pdf.maxSizeMb');
+    const maxSizeMb = aiBot.pdfMaxSizeMb ?? globalMaxSizeMb;
+    const pdfSizeMb = pdfBuffer.length / (1024 * 1024);
+
+    if (pdfSizeMb > maxSizeMb) {
+      usedTextFallback = true;
+      fallbackReason = `PDF size (${pdfSizeMb.toFixed(1)}MB) exceeds limit (${maxSizeMb}MB)`;
+      pdfBuffer = null;
+    }
+  }
+
   // Build the prompt with document content
   // v8 ignore next -- @preserve - defensive fallback, responseLanguage has DB default
   const responseLanguage = (aiBot.responseLanguage as ResponseLanguage) || 'DOCUMENT';
@@ -107,13 +137,38 @@ export async function analyzeDocument(
   );
 
   // Call the AI with tools enabled
-  const response = await generateText({
-    model: aiSdkProvider(modelId),
-    system: aiBot.systemPrompt,
-    tools,
-    stopWhen: stepCountIs(5), // Allow multiple tool calls (up to 5 steps)
-    prompt,
-  });
+  let response;
+  if (pdfBuffer) {
+    // Use multimodal prompt with PDF
+    response = await generateText({
+      model: aiSdkProvider(modelId),
+      system: aiBot.systemPrompt,
+      tools,
+      stopWhen: stepCountIs(5),
+      messages: [
+        {
+          role: 'user',
+          content: [
+            { type: 'text', text: prompt },
+            {
+              type: 'file',
+              data: pdfBuffer,
+              mediaType: 'application/pdf',
+            },
+          ],
+        },
+      ],
+    });
+  } else {
+    // Use text-only prompt (current behavior)
+    response = await generateText({
+      model: aiSdkProvider(modelId),
+      system: aiBot.systemPrompt,
+      tools,
+      stopWhen: stepCountIs(5),
+      prompt,
+    });
+  }
 
   // Parse the final response to extract structured data
   const rawAnalysisResult = parseAnalysisResponse(response.text);
@@ -189,6 +244,8 @@ export async function analyzeDocument(
     inputTokens,
     outputTokens,
     estimatedCost,
+    usedTextFallback: usedTextFallback || undefined,
+    fallbackReason,
   };
 }
 
@@ -220,11 +277,6 @@ function buildAnalysisPrompt(
   responseLanguage: ResponseLanguage,
   userIdentity: string
 ): string {
-  // Truncate content if too long
-  const maxContentLength = 8000;
-  const truncatedContent =
-    content.length > maxContentLength ? content.substring(0, maxContentLength) + '...' : content;
-
   const languageInstruction = getLanguageInstruction(responseLanguage);
 
   // Build identity context if provided
@@ -254,7 +306,7 @@ FIELD DEFINITIONS:
 Document Title: ${title}
 
 Document Content:
-${truncatedContent}
+${content}
 
 After using the tools, provide your analysis in the following JSON format:
 {

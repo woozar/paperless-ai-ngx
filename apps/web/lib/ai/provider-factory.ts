@@ -8,6 +8,19 @@ type AiAccount = Prisma.AiAccountGetPayload<object>;
 
 export type ProviderType = 'openai' | 'anthropic' | 'google' | 'ollama' | 'custom';
 
+// Providers that support PDF/multimodal input
+const PDF_SUPPORTED_PROVIDERS = new Set<ProviderType>(['openai', 'anthropic', 'google']);
+
+/**
+ * Checks if a provider supports PDF/multimodal input.
+ *
+ * @param provider - The provider type string
+ * @returns true if the provider supports PDF input
+ */
+export function providerSupportsPdf(provider: string): boolean {
+  return PDF_SUPPORTED_PROVIDERS.has(provider as ProviderType);
+}
+
 /**
  * Creates a Vercel AI SDK provider instance based on the AiAccount configuration.
  *

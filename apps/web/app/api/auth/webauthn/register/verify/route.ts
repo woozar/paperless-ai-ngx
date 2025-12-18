@@ -27,7 +27,7 @@ export const POST = authRoute(
       return ApiResponses.webauthnChallengeNotFound();
     }
 
-    let verification;
+    let verification: Awaited<ReturnType<typeof verifyRegistrationResponse>>;
     try {
       verification = await verifyRegistrationResponse({
         response: body.response,

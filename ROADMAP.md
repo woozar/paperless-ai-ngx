@@ -182,6 +182,12 @@
   - [x] Search document types tool
 - [x] Response Language Setting (Document/German/English)
 - [x] Token Usage Tracking
+- [x] PDF Document Mode
+  - [x] Document Mode setting per AI Bot (Text vs PDF)
+  - [x] Provider-based PDF support detection (OpenAI, Anthropic, Google)
+  - [x] Configurable max PDF size per bot (optional, fallback to global setting)
+  - [x] Global setting `ai.pdf.maxSizeMb` (default 20 MB)
+  - [x] Automatic text fallback when PDF exceeds size limit
 - [x] Tag Suggestions UI
   - [x] Existing tags (blue border) vs new tags (green border with +)
   - [x] New correspondents/document types with green "New" badge
