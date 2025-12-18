@@ -22,7 +22,7 @@ describe('DocumentTableSkeleton', () => {
 
     const skeleton = screen.getByTestId('table-skeleton');
     expect(skeleton).toBeInTheDocument();
-    expect(skeleton.dataset.columns).toBe('3');
+    expect(skeleton.dataset.columns).toBe('4');
   });
 
   it('renders TableSkeleton with one action button', () => {
