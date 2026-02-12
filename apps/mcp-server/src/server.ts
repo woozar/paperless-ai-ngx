@@ -20,12 +20,12 @@ import { Logger } from './logger.js';
 import { version } from './version.js';
 
 export class PaperlessMCPServer {
-  private server: McpServer;
-  private sessionManager: SessionManager;
-  private app: express.Application;
-  private config: Config;
+  private readonly server: McpServer;
+  private readonly sessionManager: SessionManager;
+  private readonly app: express.Application;
+  private readonly config: Config;
   private currentSessionId: string | null = null;
-  private logger: Logger;
+  private readonly logger: Logger;
 
   constructor(config: Config) {
     this.config = config;
@@ -96,7 +96,7 @@ export class PaperlessMCPServer {
     error?: string;
   } {
     const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    if (!authHeader?.startsWith('Bearer ')) {
       return { valid: false, error: 'No Bearer token provided' };
     }
 
@@ -219,11 +219,11 @@ export class PaperlessMCPServer {
     // Validate request body
     const parseResult = loginSchema.safeParse(req.body);
     if (!parseResult.success) {
-      this.logger.info('❌ Invalid request body:', parseResult.error.format());
+      this.logger.info('❌ Invalid request body:', parseResult.error.issues);
       res.status(400).json({
         error: 'Invalid request',
         message: 'Invalid request body',
-        details: parseResult.error.format(),
+        details: parseResult.error.issues,
       });
       return;
     }

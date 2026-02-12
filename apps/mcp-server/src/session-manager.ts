@@ -10,7 +10,7 @@ export interface SessionData {
 }
 
 export class SessionManager {
-  private sessions: Map<string, SessionData> = new Map();
+  private readonly sessions: Map<string, SessionData> = new Map();
   private readonly sessionTimeout = 24 * 60 * 60 * 1000; // 24 hours
 
   createSession(paperlessUrl: string, paperlessToken: string): string {

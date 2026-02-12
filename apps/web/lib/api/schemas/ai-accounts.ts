@@ -24,13 +24,20 @@ export const AiAccountListItemSchema = z
   })
   .openapi('AiAccountListItem');
 
+// Helper to transform empty string to undefined for optional URL fields
+const optionalUrlSchema = z
+  .string()
+  .optional()
+  .transform((val) => (val === '' ? undefined : val))
+  .pipe(z.url('Invalid URL format').optional());
+
 // Create AiAccount request
 export const CreateAiAccountRequestSchema = z
   .object({
     name: createNameSchema(),
     provider: AiProviderTypeSchema,
     apiKey: z.string().min(1, 'API key is required'),
-    baseUrl: z.url('Invalid URL format').optional(),
+    baseUrl: optionalUrlSchema,
   })
   .refine(
     (data) => {

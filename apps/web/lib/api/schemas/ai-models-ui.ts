@@ -46,3 +46,24 @@ export const EditAiModelFormSchema = AiModelFormSchema;
 
 export type CreateAiModelFormData = z.infer<typeof CreateAiModelFormSchema>;
 export type EditAiModelFormData = z.infer<typeof EditAiModelFormSchema>;
+
+// Setup wizard schema (without aiAccountId - it's set by the wizard)
+export const SetupAiModelFormSchema = z.object({
+  name: z
+    .string()
+    .trim()
+    .min(1, 'Name is required')
+    .max(100, 'Name must be at most 100 characters')
+    .meta({ inputType: 'text', labelKey: 'name' }),
+  modelIdentifier: z
+    .string()
+    .min(1, 'Model identifier is required')
+    .meta({ inputType: 'text', labelKey: 'modelIdentifier' }),
+  inputTokenPrice: currencyInputSchema.meta({ inputType: 'currency', labelKey: 'inputTokenPrice' }),
+  outputTokenPrice: currencyInputSchema.meta({
+    inputType: 'currency',
+    labelKey: 'outputTokenPrice',
+  }),
+});
+
+export type SetupAiModelFormData = z.infer<typeof SetupAiModelFormSchema>;

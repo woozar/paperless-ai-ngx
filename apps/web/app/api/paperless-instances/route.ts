@@ -101,7 +101,7 @@ export const GET = authRoute(
 // POST /api/paperless-instances - Create a new PaperlessInstance
 export const POST = authRoute(
   async ({ user, body }) => {
-    const { name, apiUrl, apiToken } = body;
+    const { name, apiUrl, apiToken, autoProcessEnabled, scanCronExpression, defaultAiBotId } = body;
 
     // Check if name already exists for this owner
     const existing = await prisma.paperlessInstance.findFirst({
@@ -125,19 +125,26 @@ export const POST = authRoute(
     // Encrypt API token
     const encryptedToken = encrypt(apiToken);
 
-    // Create instance
+    // Create instance with optional scheduler settings
     const instance = await prisma.paperlessInstance.create({
       data: {
         name,
         apiUrl,
         apiToken: encryptedToken,
         ownerId: user.userId,
+        // Optional scheduler settings (from setup wizard)
+        ...(autoProcessEnabled !== undefined && { autoProcessEnabled }),
+        ...(scanCronExpression !== undefined && { scanCronExpression }),
+        ...(defaultAiBotId !== undefined && { defaultAiBotId }),
       },
       select: {
         id: true,
         name: true,
         apiUrl: true,
         importFilterTags: true,
+        autoProcessEnabled: true,
+        scanCronExpression: true,
+        defaultAiBotId: true,
         createdAt: true,
         updatedAt: true,
       },

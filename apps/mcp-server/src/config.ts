@@ -7,7 +7,7 @@ const configSchema = z.object({
   PORT: z
     .string()
     .default('3001')
-    .transform((val) => parseInt(val, 10)),
+    .transform((val) => Number.parseInt(val, 10)),
   HOST: z.string().default('localhost'),
 
   // Authentication
@@ -31,7 +31,7 @@ export function loadConfig(): Config {
 
   if (!result.success) {
     logger.error('Configuration validation failed:');
-    logger.error(result.error.format());
+    logger.error(result.error.issues);
     throw new Error('Invalid configuration');
   }
 

@@ -1,10 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import Home from './page';
 import { renderWithIntl } from '@/test-utils/render-with-intl';
 
 const mockUser = vi.fn();
 const mockPathname = vi.fn(() => '/');
+const mockSetupStatus = vi.fn();
+const mockPush = vi.fn();
 
 vi.mock('@/components/auth-provider', () => ({
   useAuth: () => ({
@@ -13,8 +15,15 @@ vi.mock('@/components/auth-provider', () => ({
   }),
 }));
 
+vi.mock('@/hooks/use-setup-status', () => ({
+  useSetupStatus: () => mockSetupStatus(),
+}));
+
 vi.mock('next/navigation', () => ({
   usePathname: () => mockPathname(),
+  useRouter: () => ({
+    push: mockPush,
+  }),
 }));
 
 vi.mock('next/image', () => ({
@@ -28,6 +37,8 @@ describe('Home Page', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mockUser.mockReturnValue({ id: '1', username: 'testuser', role: 'DEFAULT' });
+    mockSetupStatus.mockReturnValue({ setupNeeded: false, isLoading: false });
+    mockPush.mockClear();
   });
 
   it('renders welcome title', () => {
@@ -60,10 +71,39 @@ describe('Home Page', () => {
     expect(screen.getByText('Configuration')).toBeInTheDocument();
   });
 
-  it('renders complete setup button', () => {
+  it('redirects to setup when setup is needed', async () => {
+    mockSetupStatus.mockReturnValue({ setupNeeded: true, isLoading: false });
+
     renderWithIntl(<Home />);
 
-    expect(screen.getByRole('link', { name: /complete setup/i })).toHaveAttribute('href', '/setup');
+    await waitFor(() => {
+      expect(mockPush).toHaveBeenCalledWith('/setup');
+    });
+  });
+
+  it('shows configured message when setup is complete', () => {
+    mockSetupStatus.mockReturnValue({ setupNeeded: false, isLoading: false });
+
+    renderWithIntl(<Home />);
+
+    expect(screen.getByText(/your paperless ai instance is ready/i)).toBeInTheDocument();
+    expect(mockPush).not.toHaveBeenCalled();
+  });
+
+  it('shows loading skeleton while checking setup status', () => {
+    mockSetupStatus.mockReturnValue({ setupNeeded: false, isLoading: true });
+
+    renderWithIntl(<Home />);
+
+    expect(screen.getByText(/checking/i)).toBeInTheDocument();
+  });
+
+  it('does not redirect while loading', () => {
+    mockSetupStatus.mockReturnValue({ setupNeeded: true, isLoading: true });
+
+    renderWithIntl(<Home />);
+
+    expect(mockPush).not.toHaveBeenCalled();
   });
 
   it('renders within AppShell', () => {

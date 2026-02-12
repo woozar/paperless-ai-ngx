@@ -686,17 +686,22 @@ describe('analyzeDocument', () => {
         documentMode: 'pdf',
       });
       // Mock the setting for pdf max size
-      vi.mocked(prisma.setting.findUnique).mockImplementation(async ({ where }) => {
+      vi.mocked(prisma.setting.findUnique).mockImplementation((({
+        where,
+      }: {
+        where: { settingKey: string };
+      }) => {
         if (where.settingKey === 'ai.pdf.maxSizeMb') {
-          return {
+          return Promise.resolve({
             settingKey: 'ai.pdf.maxSizeMb',
             settingValue: '20',
             createdAt: new Date(),
             updatedAt: new Date(),
-          };
+          });
         }
-        return null;
-      });
+        return Promise.resolve(null);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      }) as any);
 
       await analyzeDocument(defaultParams);
 
@@ -753,17 +758,22 @@ describe('analyzeDocument', () => {
         arrayBuffer: () => Promise.resolve(largePdfBuffer.buffer), // 25MB
       });
       // Global limit is 20MB (default)
-      vi.mocked(prisma.setting.findUnique).mockImplementation(async ({ where }) => {
+      vi.mocked(prisma.setting.findUnique).mockImplementation((({
+        where,
+      }: {
+        where: { settingKey: string };
+      }) => {
         if (where.settingKey === 'ai.pdf.maxSizeMb') {
-          return {
+          return Promise.resolve({
             settingKey: 'ai.pdf.maxSizeMb',
             settingValue: '20',
             createdAt: new Date(),
             updatedAt: new Date(),
-          };
+          });
         }
-        return null;
-      });
+        return Promise.resolve(null);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      }) as any);
 
       const result = await analyzeDocument(defaultParams);
 

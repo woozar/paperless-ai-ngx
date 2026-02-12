@@ -31,8 +31,8 @@ export const CreateAiModelRequestSchema = z
     name: createNameSchema(),
     modelIdentifier: z.string().min(1, 'Model identifier is required'),
     aiAccountId: z.string().min(1, 'AI Account is required'),
-    inputTokenPrice: z.number().positive().nullable().optional(),
-    outputTokenPrice: z.number().positive().nullable().optional(),
+    inputTokenPrice: z.number().nonnegative().nullable().optional(),
+    outputTokenPrice: z.number().nonnegative().nullable().optional(),
   })
   .openapi('CreateAiModelRequest');
 
@@ -42,8 +42,8 @@ export const UpdateAiModelRequestSchema = z
     name: createOptionalNameSchema(),
     modelIdentifier: z.string().min(1).optional(),
     aiAccountId: z.string().min(1).optional(),
-    inputTokenPrice: z.number().positive().nullable().optional(),
-    outputTokenPrice: z.number().positive().nullable().optional(),
+    inputTokenPrice: z.number().nonnegative().nullable().optional(),
+    outputTokenPrice: z.number().nonnegative().nullable().optional(),
     isActive: z.boolean().optional(),
   })
   .openapi('UpdateAiModelRequest');

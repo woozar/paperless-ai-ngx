@@ -31,15 +31,6 @@ export const PaperlessInstanceListItemSchema = z
   })
   .openapi('PaperlessInstanceListItem');
 
-// Create PaperlessInstance request
-export const CreatePaperlessInstanceRequestSchema = z
-  .object({
-    name: createNameSchema(),
-    apiUrl: z.url('Invalid URL format'),
-    apiToken: z.string().min(1, 'API token is required'),
-  })
-  .openapi('CreatePaperlessInstanceRequest');
-
 // Cron expression validation helper
 const cronExpressionSchema = z
   .string()
@@ -52,6 +43,19 @@ const cronExpressionSchema = z
     },
     { message: 'Invalid cron expression format' }
   );
+
+// Create PaperlessInstance request
+export const CreatePaperlessInstanceRequestSchema = z
+  .object({
+    name: createNameSchema(),
+    apiUrl: z.url('Invalid URL format'),
+    apiToken: z.string().min(1, 'API token is required'),
+    // Optional: Auto-processing configuration (can be set during setup wizard)
+    autoProcessEnabled: z.boolean().optional(),
+    scanCronExpression: cronExpressionSchema.optional(),
+    defaultAiBotId: z.string().nullable().optional(),
+  })
+  .openapi('CreatePaperlessInstanceRequest');
 
 // Update PaperlessInstance request (partial)
 export const UpdatePaperlessInstanceRequestSchema = z

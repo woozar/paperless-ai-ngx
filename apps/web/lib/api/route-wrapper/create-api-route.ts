@@ -40,10 +40,12 @@ export function createApiRoute<
         user = await getAuthUser(request);
 
         if (!user) {
+          console.error(`[${errorLogPrefix}] Auth failed: no user`);
           return ApiResponses.unauthorized();
         }
 
         if (auth === 'admin' && user.role !== 'ADMIN') {
+          console.error(`[${errorLogPrefix}] Auth failed: not admin`);
           return ApiResponses.forbidden();
         }
       }
@@ -57,12 +59,14 @@ export function createApiRoute<
           const parsed = bodySchema.safeParse(rawBody);
 
           if (!parsed.success) {
+            console.error(`[${errorLogPrefix}] Validation error:`, parsed.error.issues);
             return ApiResponses.validationError();
           }
 
           body = parsed.data;
-        } catch {
+        } catch (parseError) {
           // JSON parse error
+          console.error(`[${errorLogPrefix}] JSON parse error:`, parseError);
           return ApiResponses.validationError();
         }
       }

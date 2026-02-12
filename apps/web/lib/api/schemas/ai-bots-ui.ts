@@ -85,3 +85,34 @@ export const EditAiBotFormSchema = z.object({
 
 export type CreateAiBotFormData = z.infer<typeof CreateAiBotFormSchema>;
 export type EditAiBotFormData = z.infer<typeof EditAiBotFormSchema>;
+
+// Setup wizard schema (without aiModelId - it's set by the wizard)
+export const SetupAiBotFormSchema = z.object({
+  name: z
+    .string()
+    .trim()
+    .min(1, 'Name is required')
+    .max(100, 'Name must be at most 100 characters')
+    .meta({ inputType: 'text', labelKey: 'name' }),
+  systemPrompt: z
+    .string()
+    .min(1, 'System prompt is required')
+    .meta({ inputType: 'textarea', labelKey: 'systemPrompt' }),
+  responseLanguage: z.enum(responseLanguageOptions).default('DOCUMENT').meta({
+    inputType: 'select',
+    labelKey: 'responseLanguage',
+    options: responseLanguageSelectOptions,
+  }),
+  documentMode: z.enum(documentModeOptions).default('text').meta({
+    inputType: 'select',
+    labelKey: 'documentMode',
+    options: documentModeSelectOptions,
+  }),
+  pdfMaxSizeMb: optionalNumberSchema.meta({
+    inputType: 'number',
+    labelKey: 'pdfMaxSizeMb',
+    showWhen: { field: 'documentMode', values: ['pdf'] },
+  }),
+});
+
+export type SetupAiBotFormData = z.infer<typeof SetupAiBotFormSchema>;

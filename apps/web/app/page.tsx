@@ -1,11 +1,39 @@
+'use client';
+
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { FileText, Settings, Sparkles, ArrowRight } from 'lucide-react';
+import { Skeleton } from '@/components/ui/skeleton';
+import { FileText, Settings, Sparkles } from 'lucide-react';
 import { AppShell } from '@/components/app-shell';
+import { useSetupStatus } from '@/hooks/use-setup-status';
+
+function getConfigurationStatus(
+  isLoading: boolean,
+  setupNeeded: boolean,
+  t: ReturnType<typeof useTranslations>
+): string {
+  if (isLoading) {
+    return t('home.configuration.checking');
+  }
+  if (setupNeeded) {
+    return t('home.configuration.setupRequired');
+  }
+  return t('home.configuration.configured');
+}
 
 export default function Home() {
   const t = useTranslations();
+  const router = useRouter();
+  const { setupNeeded, isLoading } = useSetupStatus();
+
+  // Auto-redirect to setup wizard when setup is needed
+  useEffect(() => {
+    if (!isLoading && setupNeeded) {
+      router.push('/setup');
+    }
+  }, [isLoading, setupNeeded, router]);
 
   return (
     <AppShell>
@@ -58,16 +86,17 @@ export default function Home() {
                 {t('home.configuration.title')}
               </CardTitle>
               <CardDescription className="text-indigo-600/80 dark:text-indigo-400/80">
-                {t('home.configuration.setupRequired')}
+                {getConfigurationStatus(isLoading, setupNeeded, t)}
               </CardDescription>
             </CardHeader>
             <CardContent className="pt-6">
-              <Button className="w-full bg-indigo-600 hover:bg-indigo-700" asChild>
-                <a href="/setup" className="flex items-center justify-center gap-2">
-                  {t('home.configuration.completeSetup')}
-                  <ArrowRight className="h-4 w-4" />
-                </a>
-              </Button>
+              {isLoading ? (
+                <Skeleton className="h-10 w-full" />
+              ) : (
+                <p className="text-muted-foreground text-sm">
+                  {t('home.configuration.configuredMessage')}
+                </p>
+              )}
             </CardContent>
           </Card>
         </div>

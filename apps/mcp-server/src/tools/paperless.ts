@@ -33,7 +33,7 @@ export const searchDocumentTypesSchema = z.object({
 
 // Tool Implementations
 export class PaperlessTools {
-  constructor(private client: PaperlessClient) {}
+  constructor(private readonly client: PaperlessClient) {}
 
   async listDocuments(params: z.infer<typeof listDocumentsSchema>) {
     const response = await this.client.getDocuments({
